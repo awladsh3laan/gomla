@@ -5,71 +5,136 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>أولاد شعلان جملة - المتجر</title>
   
-  <!-- SEO -->
-  <meta name="description" content="متجر أولاد شعلان جملة - أفضل العروض على المنظفات والورقيات بالجملة">
-  <meta name="theme-color" content="#1a3a5c">
+  <meta name="description" content="متجر أولاد شعلان جملة - توريد المنظفات والورقيات بالجملة لتجار المحلات">
+  <meta name="theme-color" content="#f59e0b">
   
-  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  
-  <!-- Tailwind + Style -->
   <link rel="stylesheet" href="assets/css/style.css">
-  
-  <!-- Favicon -->
   <link rel="icon" href="assets/images/favicon.ico">
 </head>
 <body>
 
-  <!-- الهيدر -->
+  <!-- ===== الهيدر ===== -->
   <div id="header-placeholder"></div>
 
-  <!-- المحتوى الرئيسي -->
+  <!-- ===== المحتوى الرئيسي ===== -->
   <main>
-    
-    <!-- البانر -->
+
+    <!-- ===== البانر الترحيبي ===== -->
     <section class="hero-banner">
       <div class="container mx-auto px-4 text-center relative z-10">
-        <h1 class="text-3xl md:text-5xl font-extrabold mb-2 animate-[fadeInUp_0.6s_ease]">
-          مرحباً بكم في <span class="text-yellow-400">أولاد شعلان جملة</span>
+
+        <!-- أيقونة ترحيب -->
+        <div class="text-6xl mb-4 animate-[float_3s_ease-in-out_infinite]">
+          <i class="fas fa-store-alt"></i>
+        </div>
+
+        <h1 class="text-3xl md:text-5xl font-extrabold mb-3 animate-[fadeInUp_0.6s_ease]">
+          أهلاً وسهلاً بك زائرنا العزيز 👋
         </h1>
-        <p class="text-lg md:text-xl opacity-90 mb-6 animate-[fadeInUp_0.8s_ease]">
-          أفضل العروض على المنظفات والورقيات بالجملة
+
+        <p class="text-lg md:text-xl opacity-95 max-w-2xl mx-auto leading-relaxed animate-[fadeInUp_0.8s_ease]">
+          هذه المنطقة تخص <span class="font-bold text-yellow-200">تجار المحلات</span> الذين يعتمدون علينا في توريد 
+          <span class="font-bold text-yellow-200">المنظفات والورقيات</span> لمحلاتهم ومتاجرهم.
         </p>
-        <div class="flex justify-center gap-6 flex-wrap text-sm animate-[fadeInUp_1s_ease]">
-          <span class="bg-white/10 px-4 py-2 rounded-full"><span class="font-bold" id="total-products">0</span> منتج</span>
-          <span class="bg-white/10 px-4 py-2 rounded-full"><span class="font-bold" id="total-categories">0</span> تصنيف</span>
-          <span class="bg-white/10 px-4 py-2 rounded-full"><span class="font-bold" id="total-brands">0</span> براند</span>
+
+        <div class="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto mt-8 text-right animate-[fadeInUp_1s_ease]">
+
+          <!-- بطاقة التاجر -->
+          <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="text-3xl">🛒</span>
+              <h3 class="text-xl font-bold">تاجر معنا؟</h3>
+            </div>
+            <p class="text-sm opacity-90 leading-relaxed">
+              إذا كنت تاجراً ولديك <span class="font-bold text-yellow-200">كود دخول</span> من قبلنا، 
+              يمكنك استخدامه في المربع أعلى الشاشة لعرض بياناتك، فواتيرك، وذمتك المالية.
+            </p>
+            <div class="mt-3 flex items-center gap-2 text-sm bg-yellow-500/20 rounded-full px-4 py-2 inline-block">
+              <i class="fas fa-key text-yellow-200"></i>
+              <span>كود الدخول: <span class="font-mono font-bold">MHL-XXXX</span></span>
+            </div>
+          </div>
+
+          <!-- بطاقة الزائر الجديد -->
+          <div class="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20 hover:bg-white/20 transition">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="text-3xl">📞</span>
+              <h3 class="text-xl font-bold">زائر وترغب بالتسجيل؟</h3>
+            </div>
+            <p class="text-sm opacity-90 leading-relaxed">
+              إذا كنت زائراً وترغب في <span class="font-bold text-yellow-200">التسجيل كتاجر</span>، 
+              يرجى التواصل معنا عبر الأرقام التالية:
+            </p>
+            <div class="mt-3 space-y-2 text-sm">
+              <div class="flex items-center gap-2 bg-green-500/20 rounded-full px-4 py-2">
+                <i class="fas fa-phone text-green-300"></i>
+                <span>محمد شعلان: <span class="font-bold">01068385028</span></span>
+              </div>
+              <div class="flex items-center gap-2 bg-green-500/20 rounded-full px-4 py-2">
+                <i class="fab fa-whatsapp text-green-300"></i>
+                <span>مصطفى علوان: <span class="font-bold">01120282953</span></span>
+              </div>
+            </div>
+          </div>
+
         </div>
+
+        <!-- إحصائيات سريعة -->
+        <div class="flex justify-center gap-6 flex-wrap text-sm mt-8 animate-[fadeInUp_1.2s_ease]">
+          <span class="bg-white/10 px-5 py-2 rounded-full backdrop-blur-sm">
+            <i class="fas fa-boxes text-yellow-200"></i>
+            <span class="font-bold" id="total-products">0</span> منتج
+          </span>
+          <span class="bg-white/10 px-5 py-2 rounded-full backdrop-blur-sm">
+            <i class="fas fa-tags text-yellow-200"></i>
+            <span class="font-bold" id="total-categories">0</span> تصنيف
+          </span>
+          <span class="bg-white/10 px-5 py-2 rounded-full backdrop-blur-sm">
+            <i class="fas fa-copyright text-yellow-200"></i>
+            <span class="font-bold" id="total-brands">0</span> براند
+          </span>
+        </div>
+
       </div>
     </section>
 
-    <!-- التصنيفات -->
-    <section class="py-12">
+    <!-- ===== التصنيفات ===== -->
+    <section class="py-12 bg-white">
       <div class="container mx-auto px-4">
-        <h2 class="text-2xl md:text-3xl font-bold text-center mb-8">
-          <i class="fas fa-tags text-yellow-500"></i> التصنيفات
-        </h2>
+        <div class="flex items-center justify-between mb-8">
+          <h2 class="text-2xl md:text-3xl font-bold">
+            <i class="fas fa-tags text-yellow-500"></i> التصنيفات
+          </h2>
+          <span class="text-sm text-gray-400">اختر تصنيفاً لتصفح منتجاته</span>
+        </div>
         <div class="categories-grid" id="categories-container">
-          <div class="text-center py-8 text-gray-400"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</div>
+          <div class="text-center py-8 text-gray-400 col-span-full">
+            <i class="fas fa-spinner fa-spin text-2xl"></i>
+            <p class="mt-2">جاري تحميل التصنيفات...</p>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- المنتجات -->
-    <section class="py-12 bg-gray-50" id="products">
+    <!-- ===== أحدث المنتجات ===== -->
+    <section class="py-12 bg-gray-50" id="products-section">
       <div class="container mx-auto px-4">
-        <h2 class="text-2xl md:text-3xl font-bold text-center mb-8">
-          <i class="fas fa-boxes text-yellow-500"></i> أحدث المنتجات
-        </h2>
+        <div class="flex items-center justify-between mb-8">
+          <h2 class="text-2xl md:text-3xl font-bold">
+            <i class="fas fa-clock text-yellow-500"></i> أحدث المنتجات المضافة
+          </h2>
+          <span class="text-sm text-gray-400">آخر ما أضفناه لك</span>
+        </div>
         <div class="products-grid" id="products-container">
-          <div class="text-center py-8 text-gray-400"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</div>
+          <!-- سيتم تحميلها عن طريق JavaScript -->
         </div>
       </div>
     </section>
 
   </main>
 
-  <!-- الفوتر -->
+  <!-- ===== الفوتر ===== -->
   <div id="footer-placeholder"></div>
 
   <!-- ===== السلة الجانبية ===== -->
