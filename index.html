@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>أولاد شعلان جملة - المتجر</title>
+  
+  <!-- SEO -->
+  <meta name="description" content="متجر أولاد شعلان جملة - أفضل العروض على المنظفات والورقيات بالجملة">
+  <meta name="theme-color" content="#1a3a5c">
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
+  <!-- Tailwind + Style -->
+  <link rel="stylesheet" href="assets/css/style.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="assets/images/favicon.ico">
+</head>
+<body>
+
+  <!-- الهيدر -->
+  <div id="header-placeholder"></div>
+
+  <!-- المحتوى الرئيسي -->
+  <main>
+    
+    <!-- البانر -->
+    <section class="hero-banner">
+      <div class="container mx-auto px-4 text-center relative z-10">
+        <h1 class="text-3xl md:text-5xl font-extrabold mb-2 animate-[fadeInUp_0.6s_ease]">
+          مرحباً بكم في <span class="text-yellow-400">أولاد شعلان جملة</span>
+        </h1>
+        <p class="text-lg md:text-xl opacity-90 mb-6 animate-[fadeInUp_0.8s_ease]">
+          أفضل العروض على المنظفات والورقيات بالجملة
+        </p>
+        <div class="flex justify-center gap-6 flex-wrap text-sm animate-[fadeInUp_1s_ease]">
+          <span class="bg-white/10 px-4 py-2 rounded-full"><span class="font-bold" id="total-products">0</span> منتج</span>
+          <span class="bg-white/10 px-4 py-2 rounded-full"><span class="font-bold" id="total-categories">0</span> تصنيف</span>
+          <span class="bg-white/10 px-4 py-2 rounded-full"><span class="font-bold" id="total-brands">0</span> براند</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- التصنيفات -->
+    <section class="py-12">
+      <div class="container mx-auto px-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-center mb-8">
+          <i class="fas fa-tags text-yellow-500"></i> التصنيفات
+        </h2>
+        <div class="categories-grid" id="categories-container">
+          <div class="text-center py-8 text-gray-400"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- المنتجات -->
+    <section class="py-12 bg-gray-50" id="products">
+      <div class="container mx-auto px-4">
+        <h2 class="text-2xl md:text-3xl font-bold text-center mb-8">
+          <i class="fas fa-boxes text-yellow-500"></i> أحدث المنتجات
+        </h2>
+        <div class="products-grid" id="products-container">
+          <div class="text-center py-8 text-gray-400"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- الفوتر -->
+  <div id="footer-placeholder"></div>
+
+  <!-- ===== السلة الجانبية ===== -->
+  <div class="cart-sidebar" id="cart-sidebar">
+    <div class="cart-sidebar-header">
+      <h3><i class="fas fa-shopping-cart text-yellow-500"></i> سلة المشتريات</h3>
+      <button onclick="closeCart()" class="text-gray-400 hover:text-red-500 text-xl"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="cart-sidebar-body" id="cart-items-container">
+      <div class="text-center py-10 text-gray-400">
+        <i class="fas fa-cart-plus text-4xl"></i>
+        <p class="mt-2">سلتك فارغة</p>
+      </div>
+    </div>
+    <div class="p-4 border-t">
+      <div class="flex justify-between font-bold text-lg mb-3">
+        <span>الإجمالي</span>
+        <span class="text-yellow-500" id="cart-total-price">0 ج.م</span>
+      </div>
+      <button class="btn btn-primary w-full justify-center" onclick="checkout()">
+        <i class="fas fa-check"></i> إتمام الطلب
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== Toast ===== -->
+  <div id="toast-container"></div>
+
+  <!-- ===== Firebase ===== -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+  <!-- ===== ملفات JS ===== -->
+  <script src="assets/js/firebase-config.js"></script>
+  <script src="assets/js/core.js"></script>
+  <script src="assets/js/public.js"></script>
+
+</body>
+</html>

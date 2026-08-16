@@ -1,0 +1,55 @@
+<header class="smart-header">
+  <div class="container mx-auto px-4">
+    <div class="flex items-center justify-between flex-wrap gap-3">
+      
+      <!-- الشعار -->
+      <div class="flex items-center gap-3">
+        <a href="/gomla/" class="flex items-center gap-2 text-white no-underline">
+          <img src="/gomla/assets/images/logo.png" alt="أولاد شعلان" class="h-10 w-auto" onerror="this.style.display='none'">
+          <span class="text-xl font-extrabold">أولاد شعلان <small class="text-sm font-normal opacity-80">جملة</small></span>
+        </a>
+      </div>
+
+      <!-- وضع الزائر -->
+      <div id="guest-mode" class="flex items-center gap-3 flex-wrap">
+        <div class="flex items-center bg-white/15 rounded-full px-3 py-1 gap-2">
+          <i class="fas fa-key text-white/70"></i>
+          <input type="text" id="customer-code-input" placeholder="سجل دخولك بالكود" 
+                 class="bg-transparent border-none text-white placeholder-white/60 py-2 w-40 focus:outline-none text-sm">
+          <button onclick="loginWithCode()" class="bg-yellow-500 hover:bg-yellow-400 text-primary font-bold px-4 py-1 rounded-full text-sm transition">
+            دخول
+          </button>
+        </div>
+        <a href="/gomla/admin/login.html" class="bg-white/10 hover:bg-white/20 text-white px-4 py-1 rounded-full text-sm transition border border-white/20">
+          <i class="fas fa-user-shield"></i> دخول المديرين
+        </a>
+      </div>
+
+      <!-- وضع العميل -->
+      <div id="customer-mode" class="flex items-center gap-3 flex-wrap" style="display:none;">
+        <div class="flex items-center gap-3 bg-white/10 px-4 py-1 rounded-full">
+          <span class="font-bold"><i class="fas fa-user"></i> <span id="customer-name">أحمد</span></span>
+          <span class="bg-white/20 px-3 py-0.5 rounded-full text-sm flex items-center gap-2">
+            <i class="fas fa-key"></i> <span id="customer-code">MHL-1234</span>
+            <button onclick="copyToClipboard(document.getElementById('customer-code').textContent)" class="hover:text-yellow-400 transition">
+              <i class="fas fa-copy"></i>
+            </button>
+          </span>
+        </div>
+        <a href="/gomla/customer.html" class="text-white hover:text-yellow-400 transition text-sm"><i class="fas fa-user-circle"></i> صفحتي</a>
+        <a href="/gomla/tracking.html" class="text-white hover:text-yellow-400 transition text-sm"><i class="fas fa-box"></i> طلباتي</a>
+        <button onclick="logoutCustomer()" class="text-white hover:text-red-400 transition text-sm"><i class="fas fa-sign-out-alt"></i></button>
+      </div>
+
+      <!-- وضع المدير -->
+      <div id="admin-mode" class="flex items-center gap-3" style="display:none;">
+        <span class="bg-white/10 px-4 py-1 rounded-full text-sm">
+          <i class="fas fa-user-cog"></i> مرحباً <span id="admin-name">مدير</span>
+        </span>
+        <a href="/gomla/admin/dashboard.html" class="text-white hover:text-yellow-400 transition text-sm">لوحة التحكم</a>
+        <button onclick="logoutAdmin()" class="text-white hover:text-red-400 transition text-sm"><i class="fas fa-sign-out-alt"></i></button>
+      </div>
+
+    </div>
+  </div>
+</header>
