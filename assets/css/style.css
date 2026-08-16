@@ -27,8 +27,14 @@ body {
   overflow-x: hidden;
 }
 
-/* ===== المتغيرات ===== */
+
+/* ========================================== */
+/* 🎨 تحديث الألوان - جرايدنت برتقالي/نعناعي  */
+/* ========================================== */
+
 :root {
+  --primary-start: #f59e0b;      /* برتقالي */
+  --primary-end: #10b981;        /* نعناعي */
   --primary: #1a3a5c;
   --secondary: #2d6a9f;
   --accent: #f59e0b;
@@ -47,47 +53,63 @@ body {
   --radius-sm: 10px;
 }
 
-/* ===== أنيميشن ===== */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
+/* ===== أنيميشن الجرايدنت المتحرك ===== */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  50% {
+    background-position: 100% 50%;
   }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
+  100% {
+    background-position: 0% 50%;
   }
 }
 
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
+/* ===== الهيدر والفوتر بجرايدنت متحرك ===== */
+.smart-header {
+  background: linear-gradient(135deg, var(--primary-start), var(--primary-end));
+  background-size: 200% 200%;
+  animation: gradientShift 6s ease-in-out infinite;
+  color: white;
+  padding: 12px 0;
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  transition: all 0.3s ease;
 }
 
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+.smart-footer {
+  background: linear-gradient(135deg, var(--primary-end), var(--primary-start));
+  background-size: 200% 200%;
+  animation: gradientShift 6s ease-in-out infinite reverse;
+  color: rgba(255, 255, 255, 0.9);
+  padding: 24px 0;
+  margin-top: 40px;
+  border-top: 4px solid rgba(255, 255, 255, 0.2);
 }
 
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+/* ===== البانر الرئيسي بنفس الجرايدنت ===== */
+.hero-banner {
+  background: linear-gradient(135deg, var(--primary-start), var(--primary-end));
+  background-size: 200% 200%;
+  animation: gradientShift 8s ease-in-out infinite;
+  color: white;
+  padding: 60px 0 50px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-banner::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  animation: float 8s ease-in-out infinite alternate;
 }
 
 /* ===== المكونات ===== */
