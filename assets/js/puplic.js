@@ -388,3 +388,107 @@ window.updateCartQuantity = updateCartQuantity;
 window.removeFromCart = removeFromCart;
 window.checkout = checkout;
 window.loginWithCode = loginWithCode;
+
+// ============================================
+// 🌐 وظائف الصفحات العامة - أولاد شعلان جملة
+// ============================================
+
+// ===== تحميل المقولات العامة للصفحة الرئيسية =====
+function loadQuotes() {
+  const container = document.getElementById('quotes-container');
+  if (!container) return;
+
+  db.collection('quotes')
+    .where('type', '==', 'general')
+    .where('active', '==', true)
+    .orderBy('order')
+    .get()
+    .then((snapshot) => {
+      if (snapshot.empty) {
+        container.innerHTML = `
+          <div class="quote-text">
+            "مرحباً بك في متجر أولاد شعلان جملة، حيث الجودة والثقة"
+          </div>
+        `;
+        return;
+      }
+
+      const quotes = [];
+      snapshot.forEach((doc) => {
+        quotes.push(doc.data().text);
+      });
+
+      let index = 0;
+      container.innerHTML = `<div class="quote-text">"${quotes[0]}"</div>`;
+
+      // تغيير المقولة كل 5 ثواني
+      setInterval(() => {
+        index = (index + 1) % quotes.length;
+        const textEl = container.querySelector('.quote-text');
+        textEl.style.opacity = '0';
+        setTimeout(() => {
+          textEl.textContent = `"${quotes[index]}"`;
+          textEl.style.opacity = '1';
+        }, 300);
+      }, 5000);
+    })
+    .catch(() => {
+      container.innerHTML = `
+        <div class="quote-text">
+          "مرحباً بك في متجر أولاد شعلان جملة، حيث الجودة والثقة"
+        </div>
+      `;
+    });
+}
+
+// ===== تحميل آخر الأخبار العامة للصفحة الرئيسية =====
+function loadLatestNews() {
+  const container = document.getElementById('news-container');
+  if (!container) return;
+
+  db.collection('news')
+    .where('type', '==', 'general')
+    .where('active', '==', true)
+    .orderBy('createdAt', 'desc')
+    .limit(4)
+    .get()
+    .then((snapshot) => {
+      if (snapshot.empty) {
+        container.innerHTML = `
+          <div class="news-item">
+            <span class="news-dot"></span>
+            <span class="news-text">لا توجد أخبار حالياً</span>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+      snapshot.forEach((doc) => {
+        const news = doc.data();
+        html += `
+          <div class="news-item">
+            <span class="news-dot"></span>
+            <span class="news-text">${news.title}</span>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    })
+    .catch(() => {
+      container.innerHTML = `
+        <div class="news-item">
+          <span class="news-dot"></span>
+          <span class="news-text">جاري تحميل الأخبار...</span>
+        </div>
+      `;
+    });
+}
+
+// ===== تشغيل الدوال عند تحميل الصفحة =====
+document.addEventListener('DOMContentLoaded', function() {
+  loadQuotes();
+  loadLatestNews();
+  // باقي الدوال زي loadCategories, loadProducts, إلخ...
+});
