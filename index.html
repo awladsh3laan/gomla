@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+حج<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
@@ -768,6 +768,162 @@
     right: -320px;
   }
 }
+/* ========================================== */
+/* 📢 سيكشن المقولات والأخبار                  */
+/* ========================================== */
+
+.quotes-news-section {
+  padding: 48px 0;
+  background: var(--gray-50);
+}
+
+.quotes-news-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 28px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ===== صندوق المقولات ===== */
+.quotes-box {
+  background: var(--white);
+  border-radius: var(--radius-md);
+  padding: 28px 24px;
+  box-shadow: var(--shadow-sm);
+  border-right: 5px solid var(--gold);
+  transition: all 0.3s ease;
+}
+
+.quotes-box:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+}
+
+.quotes-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--navy);
+  margin-bottom: 12px;
+}
+
+.quotes-header i {
+  color: var(--gold);
+  font-size: 1.3rem;
+}
+
+.quotes-body {
+  min-height: 70px;
+  display: flex;
+  align-items: center;
+}
+
+.quote-text {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: var(--gray-600);
+  line-height: 1.8;
+  transition: opacity 0.3s ease;
+  font-style: italic;
+}
+
+/* ===== صندوق الأخبار ===== */
+.news-box {
+  background: var(--white);
+  border-radius: var(--radius-md);
+  padding: 28px 24px;
+  box-shadow: var(--shadow-sm);
+  border-right: 5px solid var(--navy);
+  transition: all 0.3s ease;
+}
+
+.news-box:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+}
+
+.news-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--navy);
+  margin-bottom: 12px;
+}
+
+.news-header i {
+  color: var(--gold);
+  font-size: 1.3rem;
+}
+
+.news-view-all {
+  margin-right: auto;
+  font-size: 0.8rem;
+  color: var(--gold);
+  text-decoration: none;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+.news-view-all:hover {
+  color: var(--navy);
+}
+
+.news-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.news-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 0;
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.news-item:last-child {
+  border-bottom: none;
+}
+
+.news-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+
+.news-text {
+  font-size: 0.95rem;
+  color: var(--gray-600);
+}
+
+/* ===== تحسينات للشاشات الصغيرة ===== */
+@media (max-width: 768px) {
+  .quotes-news-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .quotes-box, .news-box {
+    padding: 20px 16px;
+  }
+  
+  .quote-text {
+    font-size: 0.95rem;
+  }
+  
+  .news-text {
+    font-size: 0.85rem;
+  }
+}
   </style>
   
 </head>
@@ -803,6 +959,44 @@
       </p>
     </div>
   </section>
+
+<!-- ========================================== -->
+<!-- 📢 سيكشن المقولات والأخبار                  -->
+<!-- ========================================== -->
+
+<section class="quotes-news-section">
+  <div class="container">
+    <div class="quotes-news-grid">
+      
+      <!-- ===== المقولات ===== -->
+      <div class="quotes-box">
+        <div class="quotes-header">
+          <i class="fas fa-quote-right"></i>
+          <span>مقولات تحفيزية</span>
+        </div>
+        <div class="quotes-body" id="quotes-container">
+          <div class="quote-text">"مرحباً بك في متجر أولاد شعلان جملة"</div>
+        </div>
+      </div>
+      
+      <!-- ===== آخر الأخبار ===== -->
+      <div class="news-box">
+        <div class="news-header">
+          <i class="fas fa-bullhorn"></i>
+          <span>آخر الأخبار</span>
+          <a href="/gomla/customer-news.html" class="news-view-all">عرض الكل <i class="fas fa-arrow-left"></i></a>
+        </div>
+        <div class="news-body" id="news-container">
+          <div class="news-item">
+            <span class="news-dot"></span>
+            <span class="news-text">جاري تحميل الأخبار...</span>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</section>
 
   <!-- ===== الكروت الرئيسية ===== -->
   <section class="cards-section">
