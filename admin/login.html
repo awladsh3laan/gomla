@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>أولاد شعلان جملة - دخول المديرين</title>
+  
+  <meta name="description" content="دخول المديرين - أولاد شعلان جملة">
+  <meta name="theme-color" content="#1a2a4a">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="icon" href="../assets/images/favicon.ico">
+  
+  <style>
+    /* نفس ستايل صفحة دخول العملاء مع تعديلات بسيطة */
+    
+    .login-card .admin-icon {
+      font-size: 3.5rem;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 12px;
+    }
+    
+    .login-card .password-wrapper {
+      position: relative;
+    }
+    
+    .login-card .password-wrapper input {
+      padding-left: 48px;
+    }
+    
+    .login-card .toggle-password {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      color: var(--gray-400);
+      cursor: pointer;
+      font-size: 1.1rem;
+      padding: 4px;
+    }
+    
+    .login-card .toggle-password:hover {
+      color: var(--navy);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== الهيدر ===== -->
+  <header class="smart-header">
+    <div class="container">
+      <a href="/gomla/" class="logo">
+        <img src="../assets/images/logo.png" alt="أولاد شعلان" onerror="this.style.display='none'">
+        <span>أولاد شعلان <small>جملة</small></span>
+        <span class="gold">✦</span>
+      </a>
+      <div class="header-actions">
+        <a href="/gomla/customer-login.html" class="btn btn-gold">
+          <i class="fas fa-key"></i> دخول العملاء
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== صفحة الدخول ===== -->
+  <section class="login-page">
+    <div class="login-card">
+      <span class="admin-icon"><i class="fas fa-user-shield"></i></span>
+      <h1>دخول المديرين</h1>
+      <p class="subtitle">أدخل بياناتك للوصول إلى لوحة التحكم</p>
+      
+      <form id="adminLoginForm">
+        <div class="form-group">
+          <label><i class="fas fa-envelope"></i> البريد الإلكتروني</label>
+          <input type="email" id="adminEmail" placeholder="admin@example.com" required autofocus>
+        </div>
+        
+        <div class="form-group">
+          <label><i class="fas fa-lock"></i> كلمة السر</label>
+          <div class="password-wrapper">
+            <input type="password" id="adminPassword" placeholder="••••••••" required>
+            <button type="button" class="toggle-password" onclick="togglePassword()">
+              <i class="fas fa-eye" id="passwordIcon"></i>
+            </button>
+          </div>
+        </div>
+        
+        <div id="loginError" class="error-msg">
+          <i class="fas fa-exclamation-circle"></i>
+          <span id="errorText">البريد الإلكتروني أو كلمة السر غير صحيحة</span>
+        </div>
+        
+        <button type="submit" class="login-btn" id="loginBtn">
+          <i class="fas fa-sign-in-alt"></i> دخول
+        </button>
+      </form>
+      
+      <a href="/gomla/" class="back-link">
+        <i class="fas fa-arrow-right"></i> العودة للرئيسية
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== الفوتر ===== -->
+  <footer class="smart-footer">
+    <div class="container">
+      <div class="copyright">© 2026 أولاد شعلان جملة - جميع الحقوق محفوظة</div>
+      <div class="footer-links">
+        <a href="/gomla/">الرئيسية</a>
+        <a href="/gomla/customer-login.html">دخول العملاء</a>
+        <a href="/gomla/admin/login.html">دخول المديرين</a>
+      </div>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-whatsapp"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== زر المنيو ===== -->
+  <button class="sidebar-toggle" id="sidebarToggle">
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <!-- ===== Firebase ===== -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+  <!-- ===== ملفات JS ===== -->
+  <script src="../assets/js/firebase-config.js"></script>
+  <script src="../assets/js/core.js"></script>
+  <script src="../assets/js/sidebar.js"></script>
+  <script src="../assets/js/admin.js"></script>
+  
+  <script>
+    // ===== إظهار/إخفاء كلمة السر =====
+    function togglePassword() {
+      const passwordInput = document.getElementById('adminPassword');
+      const icon = document.getElementById('passwordIcon');
+      
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+      } else {
+        passwordInput.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+      }
+    }
+    
+    // ===== تسجيل دخول المدير =====
+    document.getElementById('adminLoginForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const email = document.getElementById('adminEmail').value.trim();
+      const password = document.getElementById('adminPassword').value;
+      const errorDiv = document.getElementById('loginError');
+      const errorText = document.getElementById('errorText');
+      const loginBtn = document.getElementById('loginBtn');
+      
+      if (!email || !password) {
+        errorText.textContent = 'يرجى إدخال البريد الإلكتروني وكلمة السر';
+        errorDiv.classList.add('show');
+        return;
+      }
+      
+      errorDiv.classList.remove('show');
+      loginBtn.disabled = true;
+      loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الدخول...';
+      
+      auth.signInWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          return db.collection('admins').doc(user.uid).get();
+        })
+        .then((doc) => {
+          if (!doc.exists) {
+            auth.signOut();
+            errorText.textContent = 'غير مصرح لك بالدخول إلى لوحة التحكم';
+            errorDiv.classList.add('show');
+            loginBtn.disabled = false;
+            loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> دخول';
+            return;
+          }
+          
+          const adminData = doc.data();
+          adminData.id = doc.id;
+          
+          localStorage.setItem('admin', JSON.stringify(adminData));
+          localStorage.setItem('adminId', doc.id);
+          
+          showToast(`✅ مرحباً ${adminData.name}`, 'success');
+          updateSidebarContent();
+          
+          window.location.href = '/gomla/admin/dashboard.html';
+        })
+        .catch((error) => {
+          console.error('Login error:', error);
+          let message = 'البريد الإلكتروني أو كلمة السر غير صحيحة';
+          if (error.code === 'auth/user-not-found') {
+            message = 'لا يوجد حساب بهذا البريد الإلكتروني';
+          } else if (error.code === 'auth/wrong-password') {
+            message = 'كلمة السر غير صحيحة';
+          } else if (error.code === 'auth/too-many-requests') {
+            message = 'تم تجاوز عدد المحاولات، يرجى المحاولة لاحقاً';
+          }
+          errorText.textContent = message;
+          errorDiv.classList.add('show');
+          loginBtn.disabled = false;
+          loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> دخول';
+        });
+    });
+  </script>
+
+</body>
+</html>
