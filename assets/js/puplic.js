@@ -134,7 +134,6 @@ function loadCategories() {
 
       container.innerHTML = html;
       
-      // تحديث العدد الإجمالي للتصنيفات
       const totalElement = document.getElementById('total-categories');
       if (totalElement) totalElement.textContent = snapshot.size;
     })
@@ -167,7 +166,6 @@ function loadProducts() {
     .limit(12)
     .get()
     .then((snapshot) => {
-      // تحديث عدد المنتجات
       const totalElement = document.getElementById('total-products');
       if (totalElement) totalElement.textContent = snapshot.size;
 
@@ -251,7 +249,6 @@ function loadHomePageContent() {
 
 // ===== تشغيل الصفحة الرئيسية =====
 document.addEventListener('DOMContentLoaded', function() {
-  // إذا كانت الصفحة هي الصفحة الرئيسية (index.html)
   if (document.getElementById('quotes-container') && document.getElementById('news-container')) {
     loadHomePageContent();
   }
