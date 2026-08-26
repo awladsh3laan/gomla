@@ -2,11 +2,11 @@
 // 📊 وظائف لوحة التحكم - أولاد شعلان جملة
 // ============================================
 
-// ===== التحقق من الصلاحية =====
+// ===== التحقق من الصلاحية (لصفحات الإدارة فقط) =====
 function checkAdminAuth() {
-  // ✅ نمنع تشغيل الدالة في صفحة login
+  // ❌ منع التشغيل في صفحة login
   if (window.location.pathname.includes('login.html')) {
-    return true; // نسمح بالمرور عشان الصفحة تفتح عادي
+    return true;
   }
 
   const adminData = localStorage.getItem('admin');
@@ -17,9 +17,16 @@ function checkAdminAuth() {
   return true;
 }
 
-// ===== تحميل لوحة التحكم =====
+// ===== تحميل لوحة التحكم (يشتغل بس في dashboard.html) =====
 function loadDashboard() {
+  // ❌ منع التشغيل في أي صفحة مش dashboard
+  if (!window.location.pathname.includes('dashboard.html')) {
+    return;
+  }
+
   const adminData = JSON.parse(localStorage.getItem('admin'));
+  if (!adminData) return;
+
   const isSuperAdmin = adminData.role === 'super';
 
   const nameElement = document.getElementById('adminName');
@@ -190,18 +197,27 @@ function loadDashboardCards(isSuperAdmin) {
   container.innerHTML = html;
 }
 
-// ===== تشغيل لوحة التحكم (فقط في صفحات الإدارة) =====
+// ============================================
+// 🚀 تشغيل الصفحة
+// ============================================
+
 document.addEventListener('DOMContentLoaded', function() {
-  // ✅ منع تشغيل الـ dashboard في صفحة login
+  // ✅ منع أي تشغيل في صفحة login
   if (window.location.pathname.includes('login.html')) {
     return;
   }
 
+  // ✅ تشغيل التحقق من الصلاحية
   if (!checkAdminAuth()) return;
+
+  // ✅ تشغيل لوحة التحكم
   loadDashboard();
 });
 
-// تصدير الدوال للاستخدام العالمي
+// ============================================
+// 📤 تصدير الدوال للاستخدام العالمي
+// ============================================
+
 window.checkAdminAuth = checkAdminAuth;
 window.loadDashboard = loadDashboard;
 window.loadAdminQuotes = loadAdminQuotes;
