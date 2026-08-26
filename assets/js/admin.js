@@ -140,17 +140,14 @@ function loadDashboardCards(isSuperAdmin) {
   const container = document.getElementById('dashboardCardsContainer');
   if (!container) return;
 
-  // تعريف الكروت حسب الصلاحية
   let cards = [];
 
-  // كروت مشتركة للجميع
   const commonCards = [
     { icon: 'fa-boxes', title: 'المنتجات', url: '/gomla/admin/products.html', desc: 'إدارة المنتجات' },
     { icon: 'fa-users', title: 'العملاء', url: '/gomla/admin/customers.html', desc: isSuperAdmin ? 'تحكم كامل' : 'عرض فقط' },
     { icon: 'fa-file-invoice', title: 'الفواتير والطلبات', url: '/gomla/admin/invoices.html', desc: 'إدارة الفواتير والطلبات' },
   ];
 
-  // كروت السوبر أدمن فقط
   const superCards = [
     { icon: 'fa-file-pdf', title: 'استخراج من PDF', url: '/gomla/admin/extract.html', desc: 'سوبر أدمن فقط' },
     { icon: 'fa-chart-pie', title: 'التقارير والصندوق', url: '/gomla/admin/reports.html', desc: 'تحكم كامل' },
@@ -164,26 +161,22 @@ function loadDashboardCards(isSuperAdmin) {
     { icon: 'fa-quote-right', title: 'إدارة المقولات', url: '/gomla/admin/quotes-management.html', desc: 'سوبر أدمن فقط' },
   ];
 
-  // كروت المشرفين فقط
   const moderatorCards = [
     { icon: 'fa-chart-pie', title: 'التقارير', url: '/gomla/admin/reports.html', desc: 'عرض فقط' },
     { icon: 'fa-user-shield', title: 'المشرفين', url: '/gomla/admin/roles-management.html', desc: 'عرض فقط' },
   ];
 
-  // كروت إضافية للجميع
   const extraCards = [
     { icon: 'fa-history', title: 'سجل النشاط', url: '/gomla/admin/activity.html', desc: 'عرض الكل' },
     { icon: 'fa-user-edit', title: 'البيانات الشخصية', url: '/gomla/admin/profile.html', desc: 'تعديل البيانات' },
   ];
 
-  // تجميع الكروت حسب الصلاحية
   if (isSuperAdmin) {
     cards = [...commonCards, ...superCards, ...extraCards];
   } else {
     cards = [...commonCards, ...moderatorCards, ...extraCards];
   }
 
-  // عرض الكروت
   let html = '';
   cards.forEach((card) => {
     html += `
