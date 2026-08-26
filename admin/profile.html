@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>أولاد شعلان جملة - البيانات الشخصية</title>
+
+  <meta name="description" content="البيانات الشخصية - أولاد شعلان جملة">
+  <meta name="theme-color" content="#1a2a4a">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="icon" href="../assets/images/favicon.ico">
+
+  <style>
+    /* ===== نفس الستايل الموحد ===== */
+    @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --navy: #1a2a4a;
+      --navy-light: #2a3f6a;
+      --navy-dark: #0f1a2e;
+      --gold: #c9a84c;
+      --gold-light: #e8d5a3;
+      --white: #ffffff;
+      --gray-50: #f8fafc;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-400: #94a3b8;
+      --gray-600: #475569;
+      --gray-800: #1e293b;
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.12);
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-full: 9999px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      direction: rtl;
+    }
+
+    body {
+      font-family: 'Tajawal', -apple-system, sans-serif;
+      background: var(--gray-50);
+      color: var(--gray-800);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.96);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* ===== الهيدر ===== */
+    .smart-header {
+      background: var(--navy);
+      color: var(--white);
+      padding: 14px 0;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 3px solid var(--gold);
+    }
+
+    .smart-header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .smart-header .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--white);
+      text-decoration: none;
+    }
+
+    .smart-header .logo img {
+      height: 44px;
+      border-radius: 10px;
+    }
+
+    .smart-header .logo small {
+      font-size: 0.7rem;
+      font-weight: 400;
+      opacity: 0.8;
+    }
+
+    .smart-header .logo .gold {
+      color: var(--gold);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .header-actions .btn {
+      padding: 8px 20px;
+      border-radius: var(--radius-full);
+      font-weight: 700;
+      font-size: 0.85rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .header-actions .btn-gold {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    .header-actions .btn-gold:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(201, 168, 76, 0.35);
+    }
+
+    .header-actions .btn-outline {
+      background: transparent;
+      border: 2px solid var(--gold);
+      color: var(--white);
+    }
+
+    .header-actions .btn-outline:hover {
+      background: var(--gold);
+      color: var(--navy);
+      transform: translateY(-2px);
+    }
+
+    /* ===== المحتوى ===== */
+    .profile-page {
+      flex: 1;
+      padding: 32px 0 48px;
+    }
+
+    .profile-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 32px;
+      max-width: 600px;
+      margin: 0 auto;
+      box-shadow: var(--shadow-md);
+      border-top: 5px solid var(--gold);
+      animation: fadeInUp 0.6s ease both;
+    }
+
+    .profile-card .profile-avatar {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .profile-card .profile-avatar img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--gold);
+    }
+
+    .profile-card .profile-avatar .upload-btn {
+      display: inline-block;
+      margin-top: 8px;
+      background: var(--navy);
+      color: var(--white);
+      padding: 6px 18px;
+      border-radius: var(--radius-full);
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: 0.3s ease;
+      border: none;
+      font-family: inherit;
+    }
+
+    .profile-card .profile-avatar .upload-btn:hover {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    .profile-card .form-group {
+      margin-bottom: 16px;
+    }
+
+    .profile-card .form-group label {
+      display: block;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--gray-600);
+      margin-bottom: 4px;
+    }
+
+    .profile-card .form-group label i {
+      color: var(--gold);
+      margin-left: 4px;
+    }
+
+    .profile-card .form-group input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      font-family: inherit;
+      transition: all 0.3s ease;
+      background: var(--gray-50);
+    }
+
+    .profile-card .form-group input:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.15);
+      background: var(--white);
+    }
+
+    .profile-card .form-group input:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .profile-card .save-btn {
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: var(--radius-full);
+      background: var(--navy);
+      color: var(--white);
+      font-weight: 700;
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .profile-card .save-btn:hover {
+      background: var(--gold);
+      color: var(--navy);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(201, 168, 76, 0.35);
+    }
+
+    .profile-card .role-badge {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--navy);
+      padding: 4px 16px;
+      border-radius: var(--radius-full);
+      font-weight: 700;
+      font-size: 0.8rem;
+      margin-bottom: 16px;
+    }
+
+    /* ===== الفوتر ===== */
+    .smart-footer {
+      background: var(--navy-dark);
+      color: rgba(255, 255, 255, 0.85);
+      padding: 28px 0;
+      margin-top: 0;
+      border-top: 3px solid var(--gold);
+    }
+
+    .smart-footer .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .smart-footer .footer-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .smart-footer .footer-links a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      transition: 0.3s ease;
+    }
+
+    .smart-footer .footer-links a:hover {
+      color: var(--gold);
+    }
+
+    .smart-footer .social-icons {
+      display: flex;
+      gap: 12px;
+    }
+
+    .smart-footer .social-icons a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--white);
+      text-decoration: none;
+      transition: 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .smart-footer .social-icons a:hover {
+      background: var(--gold);
+      color: var(--navy);
+      transform: translateY(-3px);
+    }
+
+    /* ===== السايدبار ===== */
+    .smart-sidebar {
+      position: fixed;
+      top: 0;
+      right: -380px;
+      width: 360px;
+      height: 100%;
+      background: var(--white);
+      z-index: 9999;
+      transition: right 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow: -4px 0 40px rgba(0, 0, 0, 0.12);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    .smart-sidebar.open {
+      right: 0;
+    }
+
+    .sidebar-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 9998;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .sidebar-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .sidebar-header {
+      padding: 20px 24px;
+      background: var(--navy);
+      color: var(--white);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .sidebar-user {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .sidebar-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--gold);
+    }
+
+    .sidebar-username {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .sidebar-user-role {
+      font-size: 0.75rem;
+      opacity: 0.7;
+    }
+
+    .sidebar-close {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: var(--white);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .sidebar-close:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .sidebar-motivational {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      padding: 20px 24px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .motivational-icon {
+      font-size: 1.4rem;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+
+    .motivational-text {
+      font-size: 1rem;
+      font-weight: 500;
+      transition: opacity 0.3s ease;
+      line-height: 1.6;
+    }
+
+    .sidebar-news {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--gray-200);
+      flex-shrink: 0;
+    }
+
+    .news-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+
+    .news-header i {
+      color: var(--gold);
+    }
+
+    .news-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .news-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.85rem;
+      color: var(--gray-600);
+      padding: 4px 0;
+    }
+
+    .news-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 12px 16px;
+      overflow-y: auto;
+    }
+
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 16px;
+      border-radius: var(--radius-sm);
+      color: var(--gray-600);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .sidebar-link:hover {
+      background: var(--gray-100);
+      color: var(--navy);
+    }
+
+    .sidebar-link.active {
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    .sidebar-link i {
+      width: 20px;
+      text-align: center;
+      font-size: 1.05rem;
+    }
+
+    .sidebar-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--gray-200);
+      flex-shrink: 0;
+    }
+
+    .sidebar-action-btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: var(--radius-full);
+      background: var(--gold);
+      color: var(--navy);
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .sidebar-action-btn:hover {
+      background: var(--gold-light);
+      transform: scale(1.02);
+    }
+
+    .sidebar-toggle {
+      position: fixed;
+      left: 20px;
+      bottom: 20px;
+      background: var(--navy);
+      color: var(--white);
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      cursor: pointer;
+      box-shadow: var(--shadow-lg);
+      border: none;
+      z-index: 999;
+      transition: all 0.3s ease;
+    }
+
+    .sidebar-toggle:hover {
+      background: var(--gold);
+      color: var(--navy);
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 768px) {
+      .profile-card {
+        padding: 24px 16px;
+      }
+
+      .smart-sidebar {
+        width: 320px;
+        right: -340px;
+      }
+
+      .smart-header .container {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .header-actions {
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .profile-card {
+        padding: 16px;
+      }
+
+      .profile-card .profile-avatar img {
+        width: 80px;
+        height: 80px;
+      }
+
+      .smart-sidebar {
+        width: 290px;
+        right: -310px;
+      }
+
+      .sidebar-toggle {
+        width: 44px;
+        height: 44px;
+        font-size: 1.2rem;
+        left: 12px;
+        bottom: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== الهيدر ===== -->
+  <header class="smart-header">
+    <div class="container">
+      <a href="/gomla/" class="logo">
+        <img src="../assets/images/logo.png" alt="أولاد شعلان" onerror="this.style.display='none'">
+        <span>أولاد شعلان <small>جملة</small></span>
+        <span class="gold">✦</span>
+      </a>
+      <div class="header-actions">
+        <span class="btn btn-gold" id="adminNameDisplay">
+          <i class="fas fa-user-cog"></i> مرحباً <span id="adminName">مدير</span>
+        </span>
+        <button class="btn btn-outline" onclick="logoutAdmin()">
+          <i class="fas fa-sign-out-alt"></i> خروج
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== عبارات تحفيزية إدارية ===== -->
+  <section class="admin-motivational" style="background:linear-gradient(135deg,var(--navy),var(--navy-light));color:var(--white);padding:12px 0;text-align:center;border-bottom:2px solid var(--gold);">
+    <div class="container">
+      <div class="motivational-text" id="adminMotivationalText">
+        <i class="fas fa-spinner fa-spin"></i> جاري التحميل...
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== آخر الأخبار الإدارية ===== -->
+  <section class="admin-news" style="background:var(--navy-dark);color:rgba(255,255,255,0.85);padding:8px 0;border-bottom:1px solid var(--gold);">
+    <div class="container">
+      <div class="news-list" id="adminNewsList" style="display:flex;gap:20px;overflow-x:auto;padding:4px 0;white-space:nowrap;">
+        <div class="news-item" style="display:flex;align-items:center;gap:8px;font-size:0.85rem;">
+          <span class="news-dot" style="width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0;"></span>
+          <span class="news-text">جاري تحميل الأخبار...</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== البيانات الشخصية ===== -->
+  <section class="profile-page">
+    <div class="container">
+      <div class="profile-card">
+        <div class="profile-avatar">
+          <img src="../assets/images/default-avatar.png" alt="الصورة الشخصية" id="profileAvatar">
+          <button class="upload-btn" onclick="document.getElementById('avatarInput').click()">
+            <i class="fas fa-camera"></i> تغيير الصورة
+          </button>
+          <input type="file" id="avatarInput" accept="image/*" style="display:none;" onchange="uploadAvatar(event)">
+        </div>
+
+        <div style="text-align:center;margin-bottom:16px;">
+          <span class="role-badge" id="profileRoleBadge">🛡️ مشرف</span>
+        </div>
+
+        <form id="profileForm">
+          <div class="form-group">
+            <label><i class="fas fa-user"></i> الاسم</label>
+            <input type="text" id="profileName" required>
+          </div>
+
+          <div class="form-group">
+            <label><i class="fas fa-envelope"></i> البريد الإلكتروني</label>
+            <input type="email" id="profileEmail" disabled>
+          </div>
+
+          <button type="submit" class="save-btn">
+            <i class="fas fa-save"></i> حفظ التغييرات
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== الفوتر ===== -->
+  <footer class="smart-footer">
+    <div class="container">
+      <div class="copyright">© 2026 أولاد شعلان جملة - جميع الحقوق محفوظة</div>
+      <div class="footer-links">
+        <a href="/gomla/">الرئيسية</a>
+        <a href="/gomla/customer-login.html">دخول العملاء</a>
+        <a href="/gomla/admin/login.html">دخول المديرين</a>
+      </div>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-whatsapp"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== زر المنيو ===== -->
+  <button class="sidebar-toggle" id="sidebarToggle">
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <!-- ===== Firebase ===== -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+  <!-- ===== الملفات ===== -->
+  <script src="../assets/js/firebase-config.js"></script>
+  <script src="../assets/js/core.js"></script>
+  <script src="../assets/js/sidebar.js"></script>
+  <script src="../assets/js/admin.js"></script>
+
+  <script>
+    // ===== تحميل بيانات المستخدم =====
+    function loadProfile() {
+      const adminData = JSON.parse(localStorage.getItem('admin'));
+      if (!adminData) {
+        window.location.href = '/gomla/admin/login.html';
+        return;
+      }
+
+      document.getElementById('adminName').textContent = adminData.name || 'مدير';
+      document.getElementById('profileName').value = adminData.name || '';
+      document.getElementById('profileEmail').value = adminData.email || '';
+      document.getElementById('profileRoleBadge').textContent = adminData.role === 'super' ? '👑 سوبر أدمن' : '🛡️ مشرف';
+
+      if (adminData.avatar) {
+        document.getElementById('profileAvatar').src = adminData.avatar;
+      }
+
+      loadAdminQuotes();
+      loadAdminNews();
+    }
+
+    // ===== رفع الصورة =====
+    function uploadAvatar(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      showToast('⏳ جاري رفع الصورة...', 'info');
+
+      const formData = new FormData();
+      formData.append('image', file);
+      formData.append('key', IMGBB_API_KEY);
+
+      fetch('https://api.imgbb.com/1/upload', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          const url = data.data.url;
+          document.getElementById('profileAvatar').src = url;
+          showToast('✅ تم رفع الصورة بنجاح', 'success');
+        } else {
+          showToast('❌ فشل رفع الصورة', 'error');
+        }
+      })
+      .catch(() => {
+        showToast('❌ حدث خطأ', 'error');
+      });
+    }
+
+    // ===== حفظ البيانات =====
+    document.getElementById('profileForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('profileName').value.trim();
+      const avatar = document.getElementById('profileAvatar').src;
+      const adminData = JSON.parse(localStorage.getItem('admin'));
+
+      if (!name) {
+        showToast('⚠️ يرجى إدخال الاسم', 'warning');
+        return;
+      }
+
+      const updateData = {
+        name: name,
+        avatar: avatar
+      };
+
+      db.collection('admins').doc(adminData.id).update(updateData)
+        .then(() => {
+          // تحديث localStorage
+          adminData.name = name;
+          adminData.avatar = avatar;
+          localStorage.setItem('admin', JSON.stringify(adminData));
+
+          showToast('✅ تم تحديث البيانات بنجاح', 'success');
+          document.getElementById('adminName').textContent = name;
+        })
+        .catch((error) => {
+          console.error('Error updating profile:', error);
+          showToast('❌ حدث خطأ', 'error');
+        });
+    });
+
+    // ===== تشغيل الصفحة =====
+    document.addEventListener('DOMContentLoaded', function() {
+      loadProfile();
+    });
+  </script>
+
+</body>
+</html>
