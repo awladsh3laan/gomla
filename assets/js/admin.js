@@ -4,6 +4,11 @@
 
 // ===== التحقق من الصلاحية =====
 function checkAdminAuth() {
+  // ✅ نمنع تشغيل الدالة في صفحة login
+  if (window.location.pathname.includes('login.html')) {
+    return true; // نسمح بالمرور عشان الصفحة تفتح عادي
+  }
+
   const adminData = localStorage.getItem('admin');
   if (!adminData) {
     window.location.href = '/gomla/admin/login.html';
@@ -17,25 +22,18 @@ function loadDashboard() {
   const adminData = JSON.parse(localStorage.getItem('admin'));
   const isSuperAdmin = adminData.role === 'super';
 
-  // عرض اسم المدير الحقيقي
   const nameElement = document.getElementById('adminName');
   if (nameElement) {
     nameElement.textContent = adminData.name || 'مدير';
   }
 
-  // عرض الرتبة الحقيقية
   const badgeElement = document.getElementById('adminRoleBadge');
   if (badgeElement) {
     badgeElement.textContent = isSuperAdmin ? '👑 سوبر أدمن' : '🛡️ مشرف';
   }
 
-  // تحميل العبارات التحفيزية الإدارية
   loadAdminQuotes();
-
-  // تحميل آخر الأخبار الإدارية
   loadAdminNews();
-
-  // تحميل الكروت حسب الصلاحية
   loadDashboardCards(isSuperAdmin);
 }
 
@@ -192,8 +190,13 @@ function loadDashboardCards(isSuperAdmin) {
   container.innerHTML = html;
 }
 
-// ===== تشغيل لوحة التحكم =====
+// ===== تشغيل لوحة التحكم (فقط في صفحات الإدارة) =====
 document.addEventListener('DOMContentLoaded', function() {
+  // ✅ منع تشغيل الـ dashboard في صفحة login
+  if (window.location.pathname.includes('login.html')) {
+    return;
+  }
+
   if (!checkAdminAuth()) return;
   loadDashboard();
 });
