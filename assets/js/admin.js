@@ -17,16 +17,116 @@ function loadDashboard() {
   const adminData = JSON.parse(localStorage.getItem('admin'));
   const isSuperAdmin = adminData.role === 'super';
 
-  // عرض اسم المدير
-  document.getElementById('adminNameDisplay').innerHTML = `
-    <i class="fas fa-user-cog"></i> مرحباً ${adminData.name || 'مدير'}
-  `;
+  // عرض اسم المدير الحقيقي
+  document.getElementById('adminName').textContent = adminData.name || 'مدير';
 
-  // عرض الصلاحية
+  // عرض الرتبة الحقيقية
   document.getElementById('adminRoleBadge').textContent = isSuperAdmin ? '👑 سوبر أدمن' : '🛡️ مشرف';
 
-  // تحميل الكروت
+  // تحميل العبارات التحفيزية من Firebase
+  loadAdminQuotes();
+
+  // تحميل آخر الأخبار من Firebase
+  loadAdminNews();
+
+  // تحميل الكروت حسب الصلاحية
   loadDashboardCards(isSuperAdmin);
+}
+
+// ===== تحميل العبارات التحفيزية (نوع admin) =====
+function loadAdminQuotes() {
+  const container = document.getElementById('adminMotivationalText');
+  if (!container) return;
+
+  db.collection('quotes')
+    .where('type', '==', 'admin')
+    .where('active', '==', true)
+    .orderBy('order')
+    .get()
+    .then((snapshot) => {
+      if (snapshot.empty) {
+        container.innerHTML = `
+          <i class="fas fa-quote-right"></i>
+          "كن قدوة في الإخلاص والتميز، فالقائد الحقيقي هو من يخدم"
+        `;
+        return;
+      }
+
+      const quotes = [];
+      snapshot.forEach((doc) => {
+        quotes.push(doc.data().text);
+      });
+
+      let index = 0;
+      container.innerHTML = `
+        <i class="fas fa-quote-right"></i>
+        "${quotes[0]}"
+      `;
+
+      setInterval(() => {
+        index = (index + 1) % quotes.length;
+        const textEl = container;
+        textEl.style.opacity = '0';
+        setTimeout(() => {
+          textEl.innerHTML = `
+            <i class="fas fa-quote-right"></i>
+            "${quotes[index]}"
+          `;
+          textEl.style.opacity = '1';
+        }, 300);
+      }, 5000);
+    })
+    .catch(() => {
+      container.innerHTML = `
+        <i class="fas fa-quote-right"></i>
+        "كن قدوة في الإخلاص والتميز، فالقائد الحقيقي هو من يخدم"
+      `;
+    });
+}
+
+// ===== تحميل آخر الأخبار (نوع admin) =====
+function loadAdminNews() {
+  const container = document.getElementById('adminNewsList');
+  if (!container) return;
+
+  db.collection('news')
+    .where('type', '==', 'admin')
+    .where('active', '==', true)
+    .orderBy('createdAt', 'desc')
+    .limit(5)
+    .get()
+    .then((snapshot) => {
+      if (snapshot.empty) {
+        container.innerHTML = `
+          <div class="news-item">
+            <span class="news-dot"></span>
+            <span class="news-text">لا توجد أخبار داخلية حالياً</span>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+      snapshot.forEach((doc) => {
+        const news = doc.data();
+        html += `
+          <div class="news-item">
+            <span class="news-dot"></span>
+            <span class="news-text">${news.title}</span>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    })
+    .catch(() => {
+      container.innerHTML = `
+        <div class="news-item">
+          <span class="news-dot"></span>
+          <span class="news-text">جاري تحميل الأخبار...</span>
+        </div>
+      `;
+    });
 }
 
 // ===== تحميل كروت لوحة التحكم =====
@@ -60,15 +160,17 @@ function loadDashboardCards(isSuperAdmin) {
     { icon: 'fa-user-shield', title: 'المشرفين', url: '/gomla/admin/roles-management.html', desc: 'عرض فقط' },
   ];
 
-  // تجميع الكروت
-  if (isSuperAdmin) {
-    cards = [...commonCards, ...superCards];
-  } else {
-    cards = [...commonCards, ...moderatorCards];
-  }
-
   // كروت إضافية للجميع
-  cards.push({ icon: 'fa-history', title: 'سجل النشاط', url: '/gomla/admin/activity.html', desc: 'عرض الكل' });
+  const extraCards = [
+    { icon: 'fa-history', title: 'سجل النشاط', url: '/gomla/admin/activity.html', desc: 'عرض الكل' },
+  ];
+
+  // تجميع الكروت حسب الصلاحية
+  if (isSuperAdmin) {
+    cards = [...commonCards, ...superCards, ...extraCards];
+  } else {
+    cards = [...commonCards, ...moderatorCards, ...extraCards];
+  }
 
   // عرض الكروت
   let html = '';
