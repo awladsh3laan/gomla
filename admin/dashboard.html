@@ -174,7 +174,7 @@
       transform: translateY(-2px);
     }
 
-    /* ===== عبارات تحفيزية أسفل الهيدر ===== */
+    /* ===== عبارات تحفيزية وأخبار (من Firebase) ===== */
     .admin-motivational {
       background: linear-gradient(135deg, var(--navy), var(--navy-light));
       color: var(--white);
@@ -187,11 +187,42 @@
       font-size: 1rem;
       font-weight: 500;
       opacity: 0.9;
+      transition: opacity 0.3s ease;
     }
 
     .admin-motivational .motivational-text i {
       color: var(--gold);
       margin-left: 8px;
+    }
+
+    .admin-news {
+      background: var(--navy-dark);
+      color: rgba(255, 255, 255, 0.85);
+      padding: 8px 0;
+      border-bottom: 1px solid var(--gold);
+    }
+
+    .admin-news .news-list {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      padding: 4px 0;
+      white-space: nowrap;
+    }
+
+    .admin-news .news-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+    }
+
+    .admin-news .news-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
     }
 
     /* ===== صفحة لوحة التحكم ===== */
@@ -282,12 +313,6 @@
       font-weight: 700;
     }
 
-    .dashboard-card.disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      pointer-events: none;
-    }
-
     /* ===== السايدبار ===== */
     .smart-sidebar {
       position: fixed;
@@ -371,70 +396,6 @@
 
     .sidebar-close:hover {
       background: rgba(255, 255, 255, 0.2);
-    }
-
-    .sidebar-motivational {
-      background: linear-gradient(135deg, var(--navy), var(--navy-light));
-      color: var(--white);
-      padding: 20px 24px;
-      text-align: center;
-      flex-shrink: 0;
-    }
-
-    .motivational-icon {
-      font-size: 1.4rem;
-      color: var(--gold);
-      margin-bottom: 6px;
-    }
-
-    .motivational-text {
-      font-size: 1rem;
-      font-weight: 500;
-      transition: opacity 0.3s ease;
-      line-height: 1.6;
-    }
-
-    .sidebar-news {
-      padding: 16px 24px;
-      border-bottom: 1px solid var(--gray-200);
-      flex-shrink: 0;
-    }
-
-    .news-header {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 700;
-      font-size: 0.9rem;
-      color: var(--navy);
-      margin-bottom: 10px;
-    }
-
-    .news-header i {
-      color: var(--gold);
-    }
-
-    .news-list {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-
-    .news-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.85rem;
-      color: var(--gray-600);
-      padding: 4px 0;
-    }
-
-    .news-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--gold);
-      flex-shrink: 0;
     }
 
     .sidebar-nav {
@@ -651,7 +612,7 @@
       </a>
       <div class="header-actions">
         <span class="btn btn-gold" id="adminNameDisplay">
-          <i class="fas fa-user-cog"></i> مرحباً مدير
+          <i class="fas fa-user-cog"></i> مرحباً <span id="adminName">مدير</span>
         </span>
         <button class="btn btn-outline" onclick="logoutAdmin()">
           <i class="fas fa-sign-out-alt"></i> خروج
@@ -660,12 +621,23 @@
     </div>
   </header>
 
-  <!-- ===== عبارات تحفيزية ===== -->
+  <!-- ===== عبارات تحفيزية (من Firebase) ===== -->
   <section class="admin-motivational">
     <div class="container">
       <div class="motivational-text" id="adminMotivationalText">
-        <i class="fas fa-quote-right"></i>
-        "كن قدوة في الإخلاص والتميز، فالقائد الحقيقي هو من يخدم"
+        <i class="fas fa-spinner fa-spin"></i> جاري التحميل...
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== آخر الأخبار (من Firebase) ===== -->
+  <section class="admin-news">
+    <div class="container">
+      <div class="news-list" id="adminNewsList">
+        <div class="news-item">
+          <span class="news-dot"></span>
+          <span class="news-text">جاري تحميل الأخبار...</span>
+        </div>
       </div>
     </div>
   </section>
@@ -681,7 +653,6 @@
 
       <!-- ===== كروت لوحة التحكم ===== -->
       <div class="dashboard-grid" id="dashboardCardsContainer">
-        <!-- سيتم تحميلها عن طريق JavaScript -->
         <div class="text-center py-8 text-gray-400 col-span-full">
           <i class="fas fa-spinner fa-spin text-2xl"></i>
           <p class="mt-2">جاري تحميل الصفحات...</p>
