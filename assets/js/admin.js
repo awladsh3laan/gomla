@@ -18,22 +18,28 @@ function loadDashboard() {
   const isSuperAdmin = adminData.role === 'super';
 
   // عرض اسم المدير الحقيقي
-  document.getElementById('adminName').textContent = adminData.name || 'مدير';
+  const nameElement = document.getElementById('adminName');
+  if (nameElement) {
+    nameElement.textContent = adminData.name || 'مدير';
+  }
 
   // عرض الرتبة الحقيقية
-  document.getElementById('adminRoleBadge').textContent = isSuperAdmin ? '👑 سوبر أدمن' : '🛡️ مشرف';
+  const badgeElement = document.getElementById('adminRoleBadge');
+  if (badgeElement) {
+    badgeElement.textContent = isSuperAdmin ? '👑 سوبر أدمن' : '🛡️ مشرف';
+  }
 
-  // تحميل العبارات التحفيزية من Firebase
+  // تحميل العبارات التحفيزية الإدارية
   loadAdminQuotes();
 
-  // تحميل آخر الأخبار من Firebase
+  // تحميل آخر الأخبار الإدارية
   loadAdminNews();
 
   // تحميل الكروت حسب الصلاحية
   loadDashboardCards(isSuperAdmin);
 }
 
-// ===== تحميل العبارات التحفيزية (نوع admin) =====
+// ===== تحميل الجمل التحفيزية الإدارية =====
 function loadAdminQuotes() {
   const container = document.getElementById('adminMotivationalText');
   if (!container) return;
@@ -47,7 +53,7 @@ function loadAdminQuotes() {
       if (snapshot.empty) {
         container.innerHTML = `
           <i class="fas fa-quote-right"></i>
-          "كن قدوة في الإخلاص والتميز، فالقائد الحقيقي هو من يخدم"
+          لا توجد جمل تحفيزية للمسئولين حالياً
         `;
         return;
       }
@@ -79,12 +85,12 @@ function loadAdminQuotes() {
     .catch(() => {
       container.innerHTML = `
         <i class="fas fa-quote-right"></i>
-        "كن قدوة في الإخلاص والتميز، فالقائد الحقيقي هو من يخدم"
+        جاري تحميل الجمل التحفيزية...
       `;
     });
 }
 
-// ===== تحميل آخر الأخبار (نوع admin) =====
+// ===== تحميل آخر الأخبار الإدارية =====
 function loadAdminNews() {
   const container = document.getElementById('adminNewsList');
   if (!container) return;
@@ -141,17 +147,21 @@ function loadDashboardCards(isSuperAdmin) {
   const commonCards = [
     { icon: 'fa-boxes', title: 'المنتجات', url: '/gomla/admin/products.html', desc: 'إدارة المنتجات' },
     { icon: 'fa-users', title: 'العملاء', url: '/gomla/admin/customers.html', desc: isSuperAdmin ? 'تحكم كامل' : 'عرض فقط' },
-    { icon: 'fa-file-invoice', title: 'الفواتير', url: '/gomla/admin/invoices.html', desc: 'إدارة الفواتير والطلبات' },
+    { icon: 'fa-file-invoice', title: 'الفواتير والطلبات', url: '/gomla/admin/invoices.html', desc: 'إدارة الفواتير والطلبات' },
   ];
 
   // كروت السوبر أدمن فقط
   const superCards = [
     { icon: 'fa-file-pdf', title: 'استخراج من PDF', url: '/gomla/admin/extract.html', desc: 'سوبر أدمن فقط' },
-    { icon: 'fa-chart-pie', title: 'التقارير', url: '/gomla/admin/reports.html', desc: 'تحكم كامل' },
+    { icon: 'fa-chart-pie', title: 'التقارير والصندوق', url: '/gomla/admin/reports.html', desc: 'تحكم كامل' },
     { icon: 'fa-cog', title: 'الإعدادات', url: '/gomla/admin/settings.html', desc: 'سوبر أدمن فقط' },
     { icon: 'fa-key', title: 'توليد الأكواد', url: '/gomla/admin/generate-codes.html', desc: 'سوبر أدمن فقط' },
     { icon: 'fa-user-cog', title: 'إدارة الصلاحيات', url: '/gomla/admin/roles-management.html', desc: 'سوبر أدمن فقط' },
     { icon: 'fa-paint-brush', title: 'إدارة السايدبار', url: '/gomla/admin/sidebar-content.html', desc: 'سوبر أدمن فقط' },
+    { icon: 'fa-newspaper', title: 'إدارة الأخبار', url: '/gomla/admin/news-management.html', desc: 'سوبر أدمن فقط' },
+    { icon: 'fa-lightbulb', title: 'إدارة النصائح', url: '/gomla/admin/tips-management.html', desc: 'سوبر أدمن فقط' },
+    { icon: 'fa-ad', title: 'إدارة الإعلانات', url: '/gomla/admin/ads-management.html', desc: 'سوبر أدمن فقط' },
+    { icon: 'fa-quote-right', title: 'إدارة المقولات', url: '/gomla/admin/quotes-management.html', desc: 'سوبر أدمن فقط' },
   ];
 
   // كروت المشرفين فقط
@@ -163,6 +173,7 @@ function loadDashboardCards(isSuperAdmin) {
   // كروت إضافية للجميع
   const extraCards = [
     { icon: 'fa-history', title: 'سجل النشاط', url: '/gomla/admin/activity.html', desc: 'عرض الكل' },
+    { icon: 'fa-user-edit', title: 'البيانات الشخصية', url: '/gomla/admin/profile.html', desc: 'تعديل البيانات' },
   ];
 
   // تجميع الكروت حسب الصلاحية
@@ -188,15 +199,15 @@ function loadDashboardCards(isSuperAdmin) {
   container.innerHTML = html;
 }
 
-// ============================================
-// 🚀 تشغيل الصفحة
-// ============================================
-
+// ===== تشغيل لوحة التحكم =====
 document.addEventListener('DOMContentLoaded', function() {
   if (!checkAdminAuth()) return;
   loadDashboard();
 });
 
-// تصدير الدوال
-window.logoutAdmin = logoutAdmin;
+// تصدير الدوال للاستخدام العالمي
+window.checkAdminAuth = checkAdminAuth;
 window.loadDashboard = loadDashboard;
+window.loadAdminQuotes = loadAdminQuotes;
+window.loadAdminNews = loadAdminNews;
+window.loadDashboardCards = loadDashboardCards;
