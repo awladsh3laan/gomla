@@ -929,6 +929,27 @@
 </head>
 <body>
 
+<script>
+  // ===== منع الزائر من دخول الصفحة بعد تسجيل الدخول =====
+  (function() {
+    const customerData = localStorage.getItem('customer');
+    const adminData = localStorage.getItem('admin');
+
+    // إذا كان العميل مسجل دخول → يتحول لصفحته
+    if (customerData) {
+      window.location.href = '/gomla/customer-home.html';
+      return;
+    }
+
+    // إذا كان المدير/المشرف مسجل دخول → يتحول لصفحته
+    if (adminData) {
+      window.location.href = '/gomla/admin/home.html';
+      return;
+    }
+
+    // إذا لم يكن هناك أحد مسجل، يستمر عرض الصفحة للزائر
+  })();
+</script>
   <!-- ===== الهيدر ===== -->
   <header class="smart-header">
     <div class="container">
