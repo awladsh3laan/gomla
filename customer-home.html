@@ -1,0 +1,1188 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>أولاد شعلان جملة - الرئيسية</title>
+
+  <meta name="description" content="الصفحة الرئيسية للعميل - أولاد شعلان جملة">
+  <meta name="theme-color" content="#1a2a4a">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="icon" href="assets/images/favicon.ico">
+
+  <style>
+    /* ========================================== */
+    /* 🎨 الألوان الموحدة - أولاد شعلان جملة      */
+    /* ========================================== */
+
+    :root {
+      --navy: #1a2a4a;
+      --navy-light: #2a3f6a;
+      --navy-dark: #0f1a2e;
+      --gold: #c9a84c;
+      --gold-light: #e8d5a3;
+      --gold-dark: #b8942a;
+      --white: #ffffff;
+      --gray-50: #f8fafc;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-300: #cbd5e1;
+      --gray-400: #94a3b8;
+      --gray-500: #64748b;
+      --gray-600: #475569;
+      --gray-700: #334155;
+      --gray-800: #1e293b;
+      --gray-900: #0f172a;
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.12);
+      --shadow-xl: 0 16px 60px rgba(0, 0, 0, 0.16);
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 24px;
+      --radius-full: 9999px;
+      --transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-bounce: 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      direction: rtl;
+    }
+
+    body {
+      font-family: 'Tajawal', -apple-system, sans-serif;
+      background: var(--gray-50);
+      color: var(--gray-800);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ===== أنيميشن ===== */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px) scale(0.96);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes float {
+      0%,
+      100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-12px);
+      }
+    }
+
+    @keyframes pulse {
+      0%,
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.04);
+        opacity: 0.85;
+      }
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: -200% center;
+      }
+      100% {
+        background-position: 200% center;
+      }
+    }
+
+    @keyframes floatSlow {
+      0%,
+      100% {
+        transform: translateY(0px);
+      }
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* ========================================== */
+    /* 🧠 الهيدر - كحلي مع شريط ذهبي            */
+    /* ========================================== */
+
+    .smart-header {
+      background: var(--navy);
+      color: var(--white);
+      padding: 14px 0;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 3px solid var(--gold);
+    }
+
+    .smart-header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .smart-header .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--white);
+      text-decoration: none;
+    }
+
+    .smart-header .logo img {
+      height: 44px;
+      border-radius: 10px;
+    }
+
+    .smart-header .logo small {
+      font-size: 0.7rem;
+      font-weight: 400;
+      opacity: 0.8;
+    }
+
+    .smart-header .logo .gold {
+      color: var(--gold);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .header-actions .btn {
+      padding: 8px 20px;
+      border-radius: var(--radius-full);
+      font-weight: 700;
+      font-size: 0.85rem;
+      border: none;
+      cursor: pointer;
+      transition: var(--transition-base);
+      font-family: inherit;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .header-actions .btn-gold {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    .header-actions .btn-gold:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(201, 168, 76, 0.35);
+    }
+
+    .header-actions .btn-outline {
+      background: transparent;
+      border: 2px solid var(--gold);
+      color: var(--white);
+    }
+
+    .header-actions .btn-outline:hover {
+      background: var(--gold);
+      color: var(--navy);
+      transform: translateY(-2px);
+    }
+
+    /* ========================================== */
+    /* 📢 المساحة الإعلانية                      */
+    /* ========================================== */
+
+    .ad-banner {
+      background: var(--white);
+      padding: 12px 0;
+      border-bottom: 1px solid var(--gray-200);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .ad-banner img {
+      max-width: 100%;
+      max-height: 120px;
+      border-radius: var(--radius-sm);
+      object-fit: cover;
+      cursor: pointer;
+      transition: var(--transition-base);
+    }
+
+    .ad-banner img:hover {
+      transform: scale(1.02);
+      box-shadow: var(--shadow-md);
+    }
+
+    .ad-banner .ad-placeholder {
+      color: var(--gray-400);
+      font-size: 0.9rem;
+      padding: 8px 0;
+      background: var(--gray-100);
+      border-radius: var(--radius-sm);
+    }
+
+    /* ========================================== */
+    /* 🫧 سيكشن 1: الفقاعات                     */
+    /* ========================================== */
+
+    .bubbles-section {
+      margin-bottom: 32px;
+    }
+
+    .bubbles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 16px;
+    }
+
+    .bubble-item {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 20px 12px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      transition: all var(--transition-bounce);
+      border: 2px solid transparent;
+      text-decoration: none;
+      color: var(--gray-800);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      opacity: 0;
+      animation: fadeInUp 0.6s ease forwards;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .bubble-item::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      border-radius: inherit;
+    }
+
+    .bubble-item:hover::before {
+      opacity: 0.06;
+    }
+
+    .bubble-item:nth-child(1) {
+      animation-delay: 0.05s;
+    }
+    .bubble-item:nth-child(2) {
+      animation-delay: 0.1s;
+    }
+    .bubble-item:nth-child(3) {
+      animation-delay: 0.15s;
+    }
+    .bubble-item:nth-child(4) {
+      animation-delay: 0.2s;
+    }
+    .bubble-item:nth-child(5) {
+      animation-delay: 0.25s;
+    }
+    .bubble-item:nth-child(6) {
+      animation-delay: 0.3s;
+    }
+    .bubble-item:nth-child(7) {
+      animation-delay: 0.35s;
+    }
+    .bubble-item:nth-child(8) {
+      animation-delay: 0.4s;
+    }
+
+    .bubble-item:hover {
+      transform: translateY(-8px) scale(1.04);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--gold);
+    }
+
+    .bubble-item .bubble-icon {
+      font-size: 2.4rem;
+      color: var(--gold);
+      position: relative;
+      z-index: 1;
+      transition: transform var(--transition-base);
+    }
+
+    .bubble-item:hover .bubble-icon {
+      transform: scale(1.15) rotate(-6deg);
+    }
+
+    .bubble-item .bubble-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      position: relative;
+      z-index: 1;
+    }
+
+    .bubble-item .bubble-sub {
+      font-size: 0.7rem;
+      color: var(--gray-400);
+      position: relative;
+      z-index: 1;
+    }
+
+    .bubble-item .bubble-badge {
+      position: absolute;
+      top: 6px;
+      left: 6px;
+      background: var(--gold);
+      color: var(--navy);
+      padding: 1px 10px;
+      border-radius: var(--radius-full);
+      font-size: 0.6rem;
+      font-weight: 700;
+      z-index: 2;
+    }
+
+    /* ========================================== */
+    /* 📝 سيكشن 2: النصوص التحفيزية             */
+    /* ========================================== */
+
+    .info-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .info-box {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 28px 24px;
+      box-shadow: var(--shadow-sm);
+      border-right: 4px solid var(--gold);
+      transition: all var(--transition-base);
+      animation: fadeInUp 0.6s ease both;
+    }
+
+    .info-box:nth-child(1) {
+      animation-delay: 0.1s;
+    }
+    .info-box:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+    .info-box:nth-child(3) {
+      animation-delay: 0.3s;
+    }
+
+    .info-box:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .info-box .info-icon {
+      font-size: 2rem;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .info-box .info-greeting {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .info-box .info-greeting .customer-name {
+      color: var(--gold);
+    }
+
+    .info-box p {
+      font-size: 0.95rem;
+      color: var(--gray-600);
+      line-height: 1.8;
+      margin: 0;
+    }
+
+    .info-box .info-highlight {
+      color: var(--gold-dark);
+      font-weight: 700;
+    }
+
+    /* ===== صندوق الخبرة ===== */
+    .experience-box {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      border-radius: var(--radius-md);
+      padding: 32px 28px;
+      text-align: center;
+      color: var(--white);
+      margin-bottom: 32px;
+      animation: fadeInUp 0.8s ease both;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .experience-box::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 70% 30%, rgba(201, 168, 76, 0.08) 0%, transparent 60%);
+      animation: float 8s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+
+    .experience-box * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .experience-box .exp-icon {
+      font-size: 3rem;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .experience-box h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .experience-box h2 .gold {
+      color: var(--gold);
+    }
+
+    .experience-box p {
+      font-size: 1rem;
+      opacity: 0.9;
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.8;
+    }
+
+    .experience-box .exp-years {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--navy);
+      padding: 4px 24px;
+      border-radius: var(--radius-full);
+      font-weight: 800;
+      font-size: 1.1rem;
+      margin-top: 10px;
+    }
+
+    /* ========================================== */
+    /* 👣 الفوتر - كحلي داكن مع شريط ذهبي       */
+    /* ========================================== */
+
+    .smart-footer {
+      background: var(--navy-dark);
+      color: rgba(255, 255, 255, 0.85);
+      padding: 28px 0;
+      margin-top: 0;
+      border-top: 3px solid var(--gold);
+    }
+
+    .smart-footer .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .smart-footer .footer-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .smart-footer .footer-links a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      transition: var(--transition-base);
+    }
+
+    .smart-footer .footer-links a:hover {
+      color: var(--gold);
+    }
+
+    .smart-footer .social-icons {
+      display: flex;
+      gap: 12px;
+    }
+
+    .smart-footer .social-icons a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--white);
+      text-decoration: none;
+      transition: var(--transition-base);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .smart-footer .social-icons a:hover {
+      background: var(--gold);
+      color: var(--navy);
+      transform: translateY(-3px);
+    }
+
+    /* ========================================== */
+    /* 🧠 السايدبار الذكي                       */
+    /* ========================================== */
+
+    .smart-sidebar {
+      position: fixed;
+      top: 0;
+      right: -380px;
+      width: 360px;
+      height: 100%;
+      background: var(--white);
+      z-index: 9999;
+      transition: right 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow: -4px 0 40px rgba(0, 0, 0, 0.12);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    .smart-sidebar.open {
+      right: 0;
+    }
+
+    .sidebar-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 9998;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .sidebar-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .sidebar-header {
+      padding: 20px 24px;
+      background: var(--navy);
+      color: var(--white);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-shrink: 0;
+    }
+
+    .sidebar-user {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .sidebar-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--gold);
+    }
+
+    .sidebar-username {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .sidebar-user-role {
+      font-size: 0.75rem;
+      opacity: 0.7;
+    }
+
+    .sidebar-close {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: var(--white);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: var(--transition-base);
+    }
+
+    .sidebar-close:hover {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .sidebar-motivational {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      padding: 20px 24px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .motivational-icon {
+      font-size: 1.4rem;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+
+    .motivational-text {
+      font-size: 1rem;
+      font-weight: 500;
+      transition: opacity 0.3s ease;
+      line-height: 1.6;
+    }
+
+    .sidebar-news {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--gray-200);
+      flex-shrink: 0;
+    }
+
+    .news-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+
+    .news-header i {
+      color: var(--gold);
+    }
+
+    .news-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .news-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.85rem;
+      color: var(--gray-600);
+      padding: 4px 0;
+    }
+
+    .news-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 12px 16px;
+      overflow-y: auto;
+    }
+
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 10px 16px;
+      border-radius: var(--radius-sm);
+      color: var(--gray-600);
+      text-decoration: none;
+      transition: var(--transition-base);
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .sidebar-link:hover {
+      background: var(--gray-100);
+      color: var(--navy);
+    }
+
+    .sidebar-link.active {
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    .sidebar-link i {
+      width: 20px;
+      text-align: center;
+      font-size: 1.05rem;
+    }
+
+    .sidebar-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--gray-200);
+      flex-shrink: 0;
+    }
+
+    .sidebar-action-btn {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: var(--radius-full);
+      background: var(--gold);
+      color: var(--navy);
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: var(--transition-base);
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .sidebar-action-btn:hover {
+      background: var(--gold-light);
+      transform: scale(1.02);
+    }
+
+    .sidebar-toggle {
+      position: fixed;
+      left: 20px;
+      bottom: 20px;
+      background: var(--navy);
+      color: var(--white);
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      cursor: pointer;
+      box-shadow: var(--shadow-lg);
+      border: none;
+      z-index: 999;
+      transition: var(--transition-base);
+    }
+
+    .sidebar-toggle:hover {
+      background: var(--gold);
+      color: var(--navy);
+      transform: scale(1.05);
+    }
+
+    /* ========================================== */
+    /* 📱 تحسينات الشاشات الصغيرة                */
+    /* ========================================== */
+
+    @media (max-width: 1024px) {
+      .info-section {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .bubbles-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 12px;
+      }
+
+      .bubble-item {
+        padding: 14px 10px;
+      }
+
+      .bubble-item .bubble-icon {
+        font-size: 1.8rem;
+      }
+
+      .bubble-item .bubble-title {
+        font-size: 0.75rem;
+      }
+
+      .info-section {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .info-box {
+        padding: 20px 16px;
+      }
+
+      .experience-box {
+        padding: 24px 16px;
+      }
+
+      .experience-box h2 {
+        font-size: 1.2rem;
+      }
+
+      .smart-sidebar {
+        width: 320px;
+        right: -340px;
+      }
+
+      .smart-header .container {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .header-actions {
+        justify-content: center;
+      }
+
+      .smart-footer .container {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .smart-footer .footer-links {
+        justify-content: center;
+      }
+
+      .ad-banner img {
+        max-height: 80px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .bubbles-grid {
+        grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+        gap: 10px;
+      }
+
+      .bubble-item {
+        padding: 12px 8px;
+      }
+
+      .bubble-item .bubble-icon {
+        font-size: 1.5rem;
+      }
+
+      .bubble-item .bubble-title {
+        font-size: 0.65rem;
+      }
+
+      .bubble-item .bubble-sub {
+        font-size: 0.55rem;
+      }
+
+      .info-box .info-greeting {
+        font-size: 1rem;
+      }
+
+      .info-box p {
+        font-size: 0.85rem;
+      }
+
+      .experience-box p {
+        font-size: 0.9rem;
+      }
+
+      .experience-box .exp-years {
+        font-size: 0.9rem;
+        padding: 2px 16px;
+      }
+
+      .smart-sidebar {
+        width: 290px;
+        right: -310px;
+      }
+
+      .sidebar-toggle {
+        width: 44px;
+        height: 44px;
+        font-size: 1.2rem;
+        left: 12px;
+        bottom: 12px;
+      }
+
+      .ad-banner img {
+        max-height: 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== الهيدر ===== -->
+  <header class="smart-header">
+    <div class="container">
+      <a href="/gomla/customer-home.html" class="logo">
+        <img src="assets/images/logo.png" alt="أولاد شعلان" onerror="this.style.display='none'">
+        <span>أولاد شعلان <small>جملة</small></span>
+        <span class="gold">✦</span>
+      </a>
+      <div class="header-actions">
+        <span class="btn btn-gold" id="customerNameDisplay">
+          <i class="fas fa-user"></i> مرحباً <span id="customerName">عميل</span>
+        </span>
+        <button class="btn btn-outline" onclick="logoutCustomer()">
+          <i class="fas fa-sign-out-alt"></i> خروج
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== المساحة الإعلانية ===== -->
+  <section class="ad-banner" id="adBanner">
+    <div class="container">
+      <!-- سيتم تحميل الإعلان من Firebase -->
+      <div id="adContent">
+        <div class="ad-placeholder">
+          <i class="fas fa-spinner fa-spin"></i> جاري تحميل الإعلان...
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== المحتوى الرئيسي ===== -->
+  <main class="home-page">
+    <div class="container">
+
+      <!-- ===== سيكشن 1: الفقاعات ===== -->
+      <section class="bubbles-section">
+        <div class="bubbles-grid" id="bubblesGrid">
+          <!-- سيتم تحميلها عن طريق JavaScript -->
+          <div class="text-center py-4 text-gray-400 col-span-full">
+            <i class="fas fa-spinner fa-spin text-xl"></i>
+            <p class="mt-1">جاري تحميل الفقاعات...</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== سيكشن 2: النصوص التحفيزية ===== -->
+      <section class="info-section">
+
+        <!-- صندوق 1: الترحيب -->
+        <div class="info-box">
+          <span class="info-icon"><i class="fas fa-handshake"></i></span>
+          <div class="info-greeting">
+            عزيزي <span class="customer-name" id="customerGreetingName">العميل</span>
+          </div>
+          <p>
+            مؤسسة <span class="info-highlight">أولاد شعلان</span> مش مجرد مورد أو تاجر جملة انت بتشتري من عنده وخلاص،
+            لأ انت هتلاقي <span class="info-highlight">دعم</span> في معلومات المنتجات،
+            في طرق استخدامها وأهمية كل منتج،
+            <span class="info-highlight">دعم ومتابعة</span> آخر تحديثات وأخبار عالم المنظفات،
+            نتطور دائماً في <span class="info-highlight">خدمتك</span>.
+          </p>
+        </div>
+
+        <!-- صندوق 2: ليه تتعامل معانا -->
+        <div class="info-box">
+          <span class="info-icon"><i class="fas fa-star"></i></span>
+          <div class="info-greeting" style="font-size:1.1rem;">
+            ليه تتعامل معانا؟
+          </div>
+          <p>
+            <span class="info-highlight">✓</span> جودة المنتجات<br>
+            <span class="info-highlight">✓</span> الأمانة في المعاملة<br>
+            <span class="info-highlight">✓</span> المصداقية<br>
+            <span class="info-highlight">✓</span> تنوع المنتجات والأصناف اللي ممكن تحتاجها لمحلك
+          </p>
+        </div>
+
+        <!-- صندوق 3: سنين الخبرة -->
+        <div class="info-box" style="border-right-color: var(--gold-dark);">
+          <span class="info-icon"><i class="fas fa-medal"></i></span>
+          <div class="info-greeting" style="font-size:1.1rem;">
+            سنين الخبرة
+          </div>
+          <p>
+            تخليك تكون مطمئن لأن جميع منتجاتنا <span class="info-highlight">أصلية</span>
+            ووجودنا في المجال يستمر لأكثر من <span class="info-highlight">١٠ سنوات</span>.
+          </p>
+          <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+            <span style="background:var(--gold);color:var(--navy);padding:4px 16px;border-radius:var(--radius-full);font-weight:700;font-size:0.8rem;">
+              <i class="fas fa-check-circle"></i> خليك مطمئن
+            </span>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ===== الفوتر ===== -->
+  <footer class="smart-footer">
+    <div class="container">
+      <div class="copyright">© 2026 أولاد شعلان جملة - جميع الحقوق محفوظة</div>
+      <div class="footer-links">
+        <a href="/gomla/customer-home.html">الرئيسية</a>
+        <a href="/gomla/store-gomla.html">متجر الجملة</a>
+        <a href="/gomla/customer-dashboard.html">بياناتي</a>
+      </div>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-whatsapp"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== زر المنيو ===== -->
+  <button class="sidebar-toggle" id="sidebarToggle">
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <!-- ===== Firebase ===== -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+  <!-- ===== الملفات ===== -->
+  <script src="assets/js/firebase-config.js"></script>
+  <script src="assets/js/core.js"></script>
+  <script src="assets/js/sidebar.js"></script>
+
+  <script>
+    // ============================================
+    // 🏠 الصفحة الرئيسية للعميل - customer-home.html
+    // ============================================
+
+    // ===== التحقق من صلاحية العميل =====
+    function checkCustomerAuth() {
+      const customerData = localStorage.getItem('customer');
+      if (!customerData) {
+        window.location.href = '/gomla/customer-login.html';
+        return null;
+      }
+      return JSON.parse(customerData);
+    }
+
+    // ===== تحميل بيانات العميل =====
+    function loadCustomerProfile() {
+      const customer = checkCustomerAuth();
+      if (!customer) return;
+
+      // عرض اسم العميل
+      document.getElementById('customerName').textContent = customer.name || 'عميل';
+      document.getElementById('customerGreetingName').textContent = customer.name || 'العميل';
+
+      // تحميل الفقاعات
+      loadBubbles();
+
+      // تحميل الإعلان
+      loadAdBanner();
+    }
+
+    // ===== تحميل الفقاعات =====
+    function loadBubbles() {
+      const container = document.getElementById('bubblesGrid');
+      if (!container) return;
+
+      const bubbles = [
+        { icon: 'fa-store', title: 'متجر الجملة', url: '/gomla/store-gomla.html', sub: 'تسوق الآن', badge: 'جديد' },
+        { icon: 'fa-box', title: 'طلباتي الأخيرة', url: '/gomla/last-orders.html', sub: 'آخر طلب', badge: '' },
+        { icon: 'fa-user', title: 'بياناتي', url: '/gomla/customer-dashboard.html', sub: 'عرض بياناتي', badge: '' },
+        { icon: 'fa-file-invoice', title: 'فواتيري', url: '/gomla/customer-invoices.html', sub: 'عرض الفواتير', badge: '' },
+        { icon: 'fa-truck', title: 'تتبع الطلبات', url: '/gomla/tracking.html', sub: 'متابعة', badge: '' },
+        { icon: 'fa-coins', title: 'الذمة المالية', url: '/gomla/customer-balance.html', sub: 'ما لك و ما عليك', badge: '' },
+        { icon: 'fa-headset', title: 'شكوى واستفسار', url: '/gomla/customer-contact.html', sub: 'تواصل معنا', badge: '' },
+      ];
+
+      let html = '';
+      bubbles.forEach((bubble) => {
+        html += `
+          <a href="${bubble.url}" class="bubble-item">
+            ${bubble.badge ? `<span class="bubble-badge">${bubble.badge}</span>` : ''}
+            <span class="bubble-icon"><i class="fas ${bubble.icon}"></i></span>
+            <span class="bubble-title">${bubble.title}</span>
+            <span class="bubble-sub">${bubble.sub}</span>
+          </a>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    // ===== تحميل الإعلان =====
+    function loadAdBanner() {
+      const container = document.getElementById('adContent');
+      if (!container) return;
+
+      db.collection('ads')
+        .where('active', '==', true)
+        .where('page', '==', 'customer-home')
+        .orderBy('order')
+        .limit(1)
+        .get()
+        .then((snapshot) => {
+          if (snapshot.empty) {
+            container.innerHTML = `
+              <div class="ad-placeholder">
+                <i class="fas fa-info-circle"></i> لا توجد إعلانات حالياً
+              </div>
+            `;
+            return;
+          }
+
+          const ad = snapshot.docs[0].data();
+          if (ad.imageUrl) {
+            container.innerHTML = `
+              <a href="${ad.link || '#'}" target="${ad.target || '_blank'}">
+                <img src="${ad.imageUrl}" alt="${ad.title || 'إعلان'}">
+              </a>
+            `;
+          } else {
+            container.innerHTML = `
+              <div class="ad-placeholder" style="background:var(--gold-light);color:var(--navy);font-weight:700;">
+                ${ad.title || 'إعلان'}
+              </div>
+            `;
+          }
+        })
+        .catch(() => {
+          container.innerHTML = `
+            <div class="ad-placeholder">
+              <i class="fas fa-exclamation-triangle"></i> حدث خطأ في تحميل الإعلان
+            </div>
+          `;
+        });
+    }
+
+    // ============================================
+    // 🚀 تشغيل الصفحة
+    // ============================================
+
+    document.addEventListener('DOMContentLoaded', function() {
+      loadCustomerProfile();
+    });
+  </script>
+
+</body>
+</html>
