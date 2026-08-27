@@ -854,6 +854,17 @@
 </head>
 <body>
 
+<script>
+  // ===== منع أي شخص غير مدير/مشرف من دخول الصفحة =====
+  (function() {
+    const adminData = localStorage.getItem('admin');
+    if (!adminData) {
+      window.location.href = '/gomla/admin/login.html';
+      return;
+    }
+  })();
+</script>
+
   <!-- ===== الهيدر ===== -->
   <header class="smart-header">
     <div class="container">
@@ -1004,7 +1015,7 @@
 
       // كروت مشتركة للجميع
       const commonCards = [
-        { icon: 'fa-store', title: 'متجر الجملة', url: '/gomla/', desc: 'زيارة المتجر', badge: 'زيارة' },
+        { icon: 'fa-store', title: 'متجر الجملة', url: '/gomla/store-gomla.html', desc: 'زيارة المتجر', badge: 'زيارة' },
         { icon: 'fa-tachometer-alt', title: 'لوحة التحكم', url: '/gomla/admin/dashboard.html', desc: 'إدارة النظام', badge: 'دخول' },
         { icon: 'fa-newspaper', title: 'آخر الأخبار', url: '/gomla/admin/news-management.html', desc: 'إدارة الأخبار', badge: isSuperAdmin ? 'تحكم' : 'عرض' },
         { icon: 'fa-chart-line', title: 'عرض الأسعار', url: '/gomla/admin/reports.html', desc: 'مراقبة الأسعار', badge: isSuperAdmin ? 'تحكم' : 'عرض' },
