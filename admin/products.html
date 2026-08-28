@@ -1234,7 +1234,7 @@
     }
 
     /* ========================================== */
-    /* 🧠 السايدبار الذكي                       */
+    /* 🧠 السايدبار الذكي (المنيو)               */
     /* ========================================== */
 
     .smart-sidebar {
@@ -1971,7 +1971,51 @@
     </div>
   </footer>
 
-  <!-- ===== زر المنيو ===== -->
+  <!-- ========================================== -->
+  <!-- 🧠 السايدبار الذكي (ثابت في كل صفحات الإدارة) -->
+  <!-- ========================================== -->
+
+  <div class="smart-sidebar" id="smartSidebar">
+    <!-- ===== رأس السايدبار ===== -->
+    <div class="sidebar-header">
+      <div class="sidebar-user">
+        <img src="../assets/images/default-avatar.png" alt="صورة المستخدم" class="sidebar-avatar" id="sidebarAvatar">
+        <div>
+          <div class="sidebar-username" id="sidebarUsername">زائر عزيز</div>
+          <div class="sidebar-user-role" id="sidebarUserRole">مرحباً بك</div>
+        </div>
+      </div>
+      <button class="sidebar-close" id="sidebarClose"><i class="fas fa-times"></i></button>
+    </div>
+
+    <!-- ===== الجمل التحفيزية ===== -->
+    <div class="sidebar-motivational">
+      <div class="motivational-icon"><i class="fas fa-quote-right"></i></div>
+      <div class="motivational-text" id="motivationalText">"ابتسم فإن الله يراك"</div>
+    </div>
+
+    <!-- ===== الأخبار ===== -->
+    <div class="sidebar-news">
+      <div class="news-header"><i class="fas fa-bullhorn"></i> آخر الأخبار</div>
+      <div class="news-list" id="newsList">
+        <div class="news-item"><span class="news-dot"></span><span class="news-text">جاري التحميل...</span></div>
+      </div>
+    </div>
+
+    <!-- ===== الروابط (تتغير حسب الصلاحية) ===== -->
+    <nav class="sidebar-nav" id="sidebarNav">
+      <!-- سيتم تعبئتها عبر JavaScript -->
+    </nav>
+
+    <!-- ===== زر تسجيل الخروج ===== -->
+    <div class="sidebar-footer">
+      <button class="sidebar-action-btn" onclick="logoutAdmin()">
+        <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== زر المنيو (يظهر في كل الصفحات) ===== -->
   <button class="sidebar-toggle" id="sidebarToggle">
     <i class="fas fa-bars"></i>
   </button>
@@ -2316,18 +2360,25 @@
       const toggleBtn = document.getElementById('sidebarToggle');
       const overlay = document.getElementById('sidebarOverlay');
       const sidebar = document.getElementById('smartSidebar');
+      const closeBtn = document.getElementById('sidebarClose');
 
       if (toggleBtn && sidebar && overlay) {
-        // إزالة أي مستمعين قديمين
-        toggleBtn.onclick = null;
-        overlay.onclick = null;
-
         toggleBtn.onclick = function() {
           sidebar.classList.add('open');
           overlay.classList.add('active');
           document.body.style.overflow = 'hidden';
         };
+      }
 
+      if (closeBtn && sidebar && overlay) {
+        closeBtn.onclick = function() {
+          sidebar.classList.remove('open');
+          overlay.classList.remove('active');
+          document.body.style.overflow = '';
+        };
+      }
+
+      if (overlay) {
         overlay.onclick = function() {
           sidebar.classList.remove('open');
           overlay.classList.remove('active');
