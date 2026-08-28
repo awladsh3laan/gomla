@@ -1011,44 +1011,45 @@
       color: #ef4444;
       transform: rotate(90deg);
     }
-/* ===== تحسين ستايل الأزرار في النوافذ ===== */
-.modal-content .btn-primary,
-.modal-content .btn-outline,
-.modal-content .btn-danger {
-  padding: 10px 24px;
-  font-size: 0.95rem;
-  border-radius: var(--radius-full);
-}
 
-.modal-content .btn-primary {
-  background: var(--navy);
-  color: var(--white);
-}
+    /* ===== تحسين ستايل الأزرار في النوافذ ===== */
+    .modal-content .btn-primary,
+    .modal-content .btn-outline,
+    .modal-content .btn-danger {
+      padding: 10px 24px;
+      font-size: 0.95rem;
+      border-radius: var(--radius-full);
+    }
 
-.modal-content .btn-primary:hover {
-  background: var(--gold);
-  color: var(--navy);
-}
+    .modal-content .btn-primary {
+      background: var(--navy);
+      color: var(--white);
+    }
 
-.modal-content .btn-outline {
-  background: transparent;
-  border: 2px solid var(--navy);
-  color: var(--navy);
-}
+    .modal-content .btn-primary:hover {
+      background: var(--gold);
+      color: var(--navy);
+    }
 
-.modal-content .btn-outline:hover {
-  background: var(--navy);
-  color: var(--white);
-}
+    .modal-content .btn-outline {
+      background: transparent;
+      border: 2px solid var(--navy);
+      color: var(--navy);
+    }
 
-.modal-content .btn-danger {
-  background: #ef4444;
-  color: var(--white);
-}
+    .modal-content .btn-outline:hover {
+      background: var(--navy);
+      color: var(--white);
+    }
 
-.modal-content .btn-danger:hover {
-  background: #dc2626;
-}
+    .modal-content .btn-danger {
+      background: #ef4444;
+      color: var(--white);
+    }
+
+    .modal-content .btn-danger:hover {
+      background: #dc2626;
+    }
 
     /* ========================================== */
     /* 🧊 نافذة التعديل الجانبية                 */
@@ -1994,54 +1995,54 @@
           <input type="text" id="editName" required>
         </div>
 
-<!-- ===== حقول الأسعار والوحدات ===== -->
-<div class="form-row">
-  <div class="form-group">
-    <label><i class="fas fa-dollar-sign"></i> سعر الجملة</label>
-    <input type="number" id="editWholesalePrice" step="0.01" min="0" required>
-  </div>
-  <div class="form-group">
-    <label><i class="fas fa-dollar-sign"></i> سعر القطاعي</label>
-    <input type="number" id="editRetailPrice" step="0.01" min="0" required>
-  </div>
-</div>
+        <!-- ===== حقول الأسعار والوحدات ===== -->
+        <div class="form-row">
+          <div class="form-group">
+            <label><i class="fas fa-dollar-sign"></i> سعر الجملة</label>
+            <input type="number" id="editWholesalePrice" step="0.01" min="0" required>
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-dollar-sign"></i> سعر القطاعي</label>
+            <input type="number" id="editRetailPrice" step="0.01" min="0" required>
+          </div>
+        </div>
 
-<div class="form-row">
-  <div class="form-group">
-    <label><i class="fas fa-cubes"></i> الكمية المتاحة</label>
-    <input type="number" id="editQuantity" min="0" value="0">
-  </div>
-  <div class="form-group">
-    <label><i class="fas fa-box"></i> الوحدة</label>
-    <select id="editUnit" onchange="updateUnitPieces()">
-      <option value="كرتونة">كرتونة</option>
-      <option value="قطعة">قطعة</option>
-      <option value="بالة">بالة</option>
-      <option value="شرنك">شرنك</option>
-    </select>
-  </div>
-</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label><i class="fas fa-cubes"></i> الكمية المتاحة</label>
+            <input type="number" id="editQuantity" min="0" value="0">
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-box"></i> الوحدة</label>
+            <select id="editUnit" onchange="updateUnitPieces()">
+              <option value="كرتونة">كرتونة</option>
+              <option value="قطعة">قطعة</option>
+              <option value="بالة">بالة</option>
+              <option value="شرنك">شرنك</option>
+            </select>
+          </div>
+        </div>
 
-<div class="form-row">
-  <div class="form-group">
-    <label><i class="fas fa-sort-amount-up"></i> عدد القطع داخل الوحدة</label>
-    <div style="display:flex;gap:8px;align-items:center;">
-      <input type="number" id="editUnitPieces" min="1" value="1" style="flex:1;">
-      <span id="unitPiecesLabel" style="font-weight:600;color:var(--gray-500);">قطعة</span>
-    </div>
-  </div>
-  <div class="form-group">
-    <label><i class="fas fa-sort-amount-up"></i> الحد الأدنى للطلب</label>
-    <input type="number" id="editMinOrder" min="1" value="1">
-  </div>
-</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label><i class="fas fa-sort-amount-up"></i> عدد القطع داخل الوحدة</label>
+            <div style="display:flex;gap:8px;align-items:center;">
+              <input type="number" id="editUnitPieces" min="1" value="1" style="flex:1;">
+              <span id="unitPiecesLabel" style="font-weight:600;color:var(--gray-500);">قطعة</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-sort-amount-up"></i> الحد الأدنى للطلب</label>
+            <input type="number" id="editMinOrder" min="1" value="1">
+          </div>
+        </div>
 
-<div class="form-row">
-  <div class="form-group">
-    <label><i class="fas fa-sort-amount-down"></i> الحد الأقصى للطلب</label>
-    <input type="number" id="editMaxOrder" min="1" value="100">
-  </div>
-</div>
+        <div class="form-row">
+          <div class="form-group">
+            <label><i class="fas fa-sort-amount-down"></i> الحد الأقصى للطلب</label>
+            <input type="number" id="editMaxOrder" min="1" value="100">
+          </div>
+        </div>
 
         <div class="form-row">
           <div class="form-group">
@@ -2226,36 +2227,36 @@
   </div>
 
   <!-- ===== نافذة إضافة تصنيف ===== -->
-<div class="modal-overlay" id="addCategoryModal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h3><i class="fas fa-tag"></i> إضافة تصنيف</h3>
-      <button class="modal-close" onclick="closeAddCategoryModal()"><i class="fas fa-times"></i></button>
-    </div>
-    <form id="addCategoryForm" onsubmit="saveCategory(event)">
-      <div class="form-group">
-        <label><i class="fas fa-tag"></i> اسم التصنيف *</label>
-        <input type="text" id="categoryName" required>
+  <div class="modal-overlay" id="addCategoryModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><i class="fas fa-tag"></i> إضافة تصنيف</h3>
+        <button class="modal-close" onclick="closeAddCategoryModal()"><i class="fas fa-times"></i></button>
       </div>
-      <div class="form-group">
-        <label><i class="fas fa-image"></i> صورة التصنيف</label>
-        <div class="file-upload">
-          <input type="file" id="categoryImage" accept="image/*" onchange="handleCategoryImageUpload(event)">
-          <button type="button" class="upload-btn" onclick="document.getElementById('categoryImage').click()">
-            <i class="fas fa-upload"></i> اختيار صورة
-          </button>
-          <span class="file-name" id="categoryImageName">لم يتم اختيار صورة</span>
+      <form id="addCategoryForm" onsubmit="saveCategory(event)">
+        <div class="form-group">
+          <label><i class="fas fa-tag"></i> اسم التصنيف *</label>
+          <input type="text" id="categoryName" required>
         </div>
-        <img id="categoryImagePreview" class="image-preview" style="display:none;">
-        <input type="hidden" id="categoryImageUrl">
-      </div>
-      <div style="display:flex;gap:12px;margin-top:16px;">
-        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> حفظ</button>
-        <button type="button" class="btn btn-outline" onclick="closeAddCategoryModal()">إلغاء</button>
-      </div>
-    </form>
+        <div class="form-group">
+          <label><i class="fas fa-image"></i> صورة التصنيف</label>
+          <div class="file-upload">
+            <input type="file" id="categoryImage" accept="image/*" onchange="handleCategoryImageUpload(event)">
+            <button type="button" class="upload-btn" onclick="document.getElementById('categoryImage').click()">
+              <i class="fas fa-upload"></i> اختيار صورة
+            </button>
+            <span class="file-name" id="categoryImageName">لم يتم اختيار صورة</span>
+          </div>
+          <img id="categoryImagePreview" class="image-preview" style="display:none;">
+          <input type="hidden" id="categoryImageUrl">
+        </div>
+        <div style="display:flex;gap:12px;margin-top:16px;">
+          <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> حفظ</button>
+          <button type="button" class="btn btn-outline" onclick="closeAddCategoryModal()">إلغاء</button>
+        </div>
+      </form>
+    </div>
   </div>
-</div>
 
   <!-- ===== Toast ===== -->
   <div class="toast-container" id="toastContainer"></div>
@@ -2302,101 +2303,132 @@
     }
 
     // ============================================
-    // 🧠 السايدبار
+    // 🧠 السايدبار مع الصلاحيات
     // ============================================
-// استدعاء وظيفة تحديث السايدبار من admin.js
-function initSidebarWithPermissions() {
-  // تحميل السايدبار مع صلاحيات المستخدم
-  if (typeof updateSidebarContent === 'function') {
-    updateSidebarContent();
-  }
-  
-  // ربط زر المنيو
-  const toggleBtn = document.getElementById('sidebarToggle');
-  const overlay = document.getElementById('sidebarOverlay');
-  const sidebar = document.getElementById('smartSidebar');
-  
-  if (toggleBtn && sidebar && overlay) {
-    toggleBtn.onclick = function() {
-      sidebar.classList.add('open');
-      overlay.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    };
-    
-    overlay.onclick = function() {
-      sidebar.classList.remove('open');
-      overlay.classList.remove('active');
-      document.body.style.overflow = '';
-    };
-  }
-}
-    
+
+    function initSidebarWithPermissions() {
+      // تحديث محتوى السايدبار حسب صلاحيات المستخدم
+      if (typeof updateSidebarContent === 'function') {
+        updateSidebarContent();
+      }
+
+      // ربط زر المنيو
+      const toggleBtn = document.getElementById('sidebarToggle');
+      const overlay = document.getElementById('sidebarOverlay');
+      const sidebar = document.getElementById('smartSidebar');
+
+      if (toggleBtn && sidebar && overlay) {
+        // إزالة أي مستمعين قديمين
+        toggleBtn.onclick = null;
+        overlay.onclick = null;
+
+        toggleBtn.onclick = function() {
+          sidebar.classList.add('open');
+          overlay.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        };
+
+        overlay.onclick = function() {
+          sidebar.classList.remove('open');
+          overlay.classList.remove('active');
+          document.body.style.overflow = '';
+        };
+      }
+    }
+
     // ============================================
-    // 📊 تحميل البيانات من Firebase
+    // 📊 تحميل البيانات من Firebase (محسّن)
     // ============================================
 
     function loadAllData() {
-      loadProducts();
-      loadCategories();
-      loadBrands();
-      loadStats();
-      loadTopSellers();
-      loadOffers();
+      // عرض حالة التحميل
+      showLoadingState();
+
+      // تحميل جميع البيانات بالتوازي
+      Promise.all([
+        loadProductsPromise(),
+        loadCategoriesPromise(),
+        loadBrandsPromise()
+      ]).then(([products, categories, brands]) => {
+        allProducts = products;
+        allCategories = categories;
+        allBrands = brands;
+
+        filteredProducts = [...allProducts];
+
+        // تحديث الواجهة بعد تحميل كل البيانات
+        renderProducts();
+        updateStats();
+        populateCategorySelects();
+        populateBrandSelects();
+        renderCategories();
+        renderBrands();
+        loadTopSellers();
+        loadOffers();
+
+        // إخفاء حالة التحميل
+        hideLoadingState();
+      }).catch((error) => {
+        console.error('Error loading data:', error);
+        showToast('❌ حدث خطأ في تحميل البيانات', 'error');
+        hideLoadingState();
+      });
     }
 
-    function loadProducts() {
-      db.collection('products')
+    function loadProductsPromise() {
+      return db.collection('products')
         .orderBy('createdAt', 'desc')
         .get()
         .then((snapshot) => {
-          allProducts = [];
+          const products = [];
           snapshot.forEach((doc) => {
-            allProducts.push({ id: doc.id, ...doc.data() });
+            products.push({ id: doc.id, ...doc.data() });
           });
-          filteredProducts = [...allProducts];
-          renderProducts();
-          updateStats();
-        })
-        .catch((error) => {
-          console.error('Error loading products:', error);
-          showToast('❌ حدث خطأ في تحميل المنتجات', 'error');
+          return products;
         });
     }
 
-    function loadCategories() {
-      db.collection('categories')
+    function loadCategoriesPromise() {
+      return db.collection('categories')
         .orderBy('name')
         .get()
         .then((snapshot) => {
-          allCategories = [];
+          const categories = [];
           snapshot.forEach((doc) => {
-            allCategories.push({ id: doc.id, ...doc.data() });
+            categories.push({ id: doc.id, ...doc.data() });
           });
-          populateCategorySelects();
-          renderCategories();
-        })
-        .catch((error) => {
-          console.error('Error loading categories:', error);
-          showToast('❌ حدث خطأ في تحميل التصنيفات', 'error');
+          return categories;
         });
     }
 
-    function loadBrands() {
-      db.collection('brands')
+    function loadBrandsPromise() {
+      return db.collection('brands')
         .orderBy('name')
         .get()
         .then((snapshot) => {
-          allBrands = [];
+          const brands = [];
           snapshot.forEach((doc) => {
-            allBrands.push({ id: doc.id, ...doc.data() });
+            brands.push({ id: doc.id, ...doc.data() });
           });
-          populateBrandSelects();
-          renderBrands();
-        })
-        .catch((error) => {
-          console.error('Error loading brands:', error);
-          showToast('❌ حدث خطأ في تحميل البراندات', 'error');
+          return brands;
         });
+    }
+
+    // ===== حالة التحميل =====
+    function showLoadingState() {
+      const container = document.getElementById('productsContainer');
+      if (container) {
+        container.innerHTML = `
+          <div class="text-center py-8 text-gray-400 col-span-full">
+            <i class="fas fa-spinner fa-spin text-2xl"></i>
+            <p class="mt-2">جاري تحميل المنتجات...</p>
+          </div>
+        `;
+      }
+    }
+
+    function hideLoadingState() {
+      // سيتم استبدالها عند عرض المنتجات
     }
 
     // ============================================
@@ -2415,42 +2447,34 @@ function initSidebarWithPermissions() {
       document.getElementById('offerProducts').textContent = offers;
     }
 
-    function loadStats() {
-      updateStats();
-    }
-
     // ============================================
     // 🏆 الأكثر مبيعاً
     // ============================================
 
     function loadTopSellers() {
       const container = document.getElementById('topSellersContainer');
-      db.collection('products')
-        .where('published', '==', true)
-        .orderBy('salesCount', 'desc')
-        .limit(10)
-        .get()
-        .then((snapshot) => {
-          if (snapshot.empty) {
-            container.innerHTML = '<div class="empty-message"><i class="fas fa-info-circle"></i> لا توجد بيانات حالياً</div>';
-            return;
-          }
-          let html = '';
-          snapshot.forEach((doc) => {
-            const p = doc.data();
-            html += `
-              <div class="top-seller-item">
-                <img src="${p.imageUrl || '../assets/images/no-image.png'}" alt="${p.name}" onerror="this.src='../assets/images/no-image.png'">
-                <div class="ts-name">${p.name}</div>
-                <div class="ts-sales"><i class="fas fa-shopping-cart"></i> ${p.salesCount || 0}</div>
-              </div>
-            `;
-          });
-          container.innerHTML = html;
-        })
-        .catch(() => {
-          container.innerHTML = '<div class="empty-message"><i class="fas fa-exclamation-triangle"></i> حدث خطأ في التحميل</div>';
-        });
+      // استخدام البيانات المحلية بدلاً من استعلام جديد
+      const topSellers = [...allProducts]
+        .filter(p => p.published !== false)
+        .sort((a, b) => (b.salesCount || 0) - (a.salesCount || 0))
+        .slice(0, 10);
+
+      if (topSellers.length === 0) {
+        container.innerHTML = '<div class="empty-message"><i class="fas fa-info-circle"></i> لا توجد بيانات حالياً</div>';
+        return;
+      }
+
+      let html = '';
+      topSellers.forEach((p) => {
+        html += `
+          <div class="top-seller-item">
+            <img src="${p.imageUrl || '../assets/images/no-image.png'}" alt="${p.name}" onerror="this.src='../assets/images/no-image.png'">
+            <div class="ts-name">${p.name}</div>
+            <div class="ts-sales"><i class="fas fa-shopping-cart"></i> ${p.salesCount || 0}</div>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
     }
 
     // ============================================
@@ -2475,25 +2499,25 @@ function initSidebarWithPermissions() {
       container.innerHTML = html;
     }
 
-   function renderCategories() {
-  const container = document.getElementById('categoriesContainer');
-  if (allCategories.length === 0) {
-    container.innerHTML = '<div class="empty-message"><i class="fas fa-info-circle"></i> لا توجد تصنيفات حالياً</div>';
-    return;
-  }
-  let html = '';
-  allCategories.forEach((cat) => {
-    html += `
-      <div class="category-item" onclick="filterByCategory('${cat.id}')">
-        <div class="category-icon">
-          <img src="${cat.imageUrl || '../assets/images/no-image.png'}" alt="${cat.name}" style="width:60px;height:60px;object-fit:cover;border-radius:var(--radius-sm);">
-        </div>
-        <div class="category-name">${cat.name}</div>
-      </div>
-    `;
-  });
-  container.innerHTML = html;
-}
+    function renderCategories() {
+      const container = document.getElementById('categoriesContainer');
+      if (allCategories.length === 0) {
+        container.innerHTML = '<div class="empty-message"><i class="fas fa-info-circle"></i> لا توجد تصنيفات حالياً</div>';
+        return;
+      }
+      let html = '';
+      allCategories.forEach((cat) => {
+        html += `
+          <div class="category-item" onclick="filterByCategory('${cat.id}')">
+            <div class="category-icon">
+              <img src="${cat.imageUrl || '../assets/images/no-image.png'}" alt="${cat.name}" style="width:60px;height:60px;object-fit:cover;border-radius:var(--radius-sm);">
+            </div>
+            <div class="category-name">${cat.name}</div>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+    }
 
     // ============================================
     // 🎯 العروض
@@ -2501,33 +2525,26 @@ function initSidebarWithPermissions() {
 
     function loadOffers() {
       const container = document.getElementById('offersContainer');
-      db.collection('products')
-        .where('offer.active', '==', true)
-        .limit(10)
-        .get()
-        .then((snapshot) => {
-          if (snapshot.empty) {
-            container.innerHTML = '<div class="empty-message"><i class="fas fa-info-circle"></i> لا توجد عروض حالياً</div>';
-            return;
-          }
-          let html = '';
-          snapshot.forEach((doc) => {
-            const p = doc.data();
-            const originalPrice = p.salePrice || p.price || 0;
-            const offerPrice = p.offer.price || originalPrice * (1 - (p.offer.discount || 0) / 100);
-            html += `
-              <div class="offer-item">
-                <img src="${p.imageUrl || '../assets/images/no-image.png'}" alt="${p.name}" onerror="this.src='../assets/images/no-image.png'">
-                <div class="offer-name">${p.name}</div>
-                <div><span class="offer-price">${offerPrice.toFixed(2)} ج.م</span> <span class="offer-original">${originalPrice.toFixed(2)} ج.م</span></div>
-              </div>
-            `;
-          });
-          container.innerHTML = html;
-        })
-        .catch(() => {
-          container.innerHTML = '<div class="empty-message"><i class="fas fa-exclamation-triangle"></i> حدث خطأ في التحميل</div>';
-        });
+      const offers = allProducts.filter(p => p.offer && p.offer.active).slice(0, 10);
+
+      if (offers.length === 0) {
+        container.innerHTML = '<div class="empty-message"><i class="fas fa-info-circle"></i> لا توجد عروض حالياً</div>';
+        return;
+      }
+
+      let html = '';
+      offers.forEach((p) => {
+        const wholesalePrice = p.wholesalePrice || 0;
+        const offerPrice = p.offer.price || wholesalePrice * (1 - (p.offer.discount || 0) / 100);
+        html += `
+          <div class="offer-item">
+            <img src="${p.imageUrl || '../assets/images/no-image.png'}" alt="${p.name}" onerror="this.src='../assets/images/no-image.png'">
+            <div class="offer-name">${p.name}</div>
+            <div><span class="offer-price">${offerPrice.toFixed(2)} ج.م</span> <span class="offer-original">${wholesalePrice.toFixed(2)} ج.م</span></div>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
     }
 
     // ============================================
@@ -2659,8 +2676,9 @@ function initSidebarWithPermissions() {
     function renderProductCard(product, index) {
       const isPublished = product.published !== false;
       const hasOffer = product.offer && product.offer.active;
-      const originalPrice = product.salePrice || product.price || 0;
-      const offerPrice = hasOffer ? (product.offer.price || originalPrice * (1 - (product.offer.discount || 0) / 100)) : null;
+      const wholesalePrice = product.wholesalePrice || 0;
+      const retailPrice = product.retailPrice || 0;
+      const offerPrice = hasOffer ? (product.offer.price || wholesalePrice * (1 - (product.offer.discount || 0) / 100)) : null;
 
       if (currentView === 'grid') {
         return `
@@ -2672,15 +2690,15 @@ function initSidebarWithPermissions() {
                 <span>${product.brandName || 'بدون براند'}</span>
                 <span>${product.categoryName || 'بدون تصنيف'}</span>
               </div>
-  <div class="product-prices">
-    ${hasOffer ? `
-      <span class="price-sale">${offerPrice.toFixed(2)} ج.م</span>
-      <span class="price-original">${product.wholesalePrice || 0} ج.م</span>
-    ` : `
-      <span class="price-sale">${product.wholesalePrice || 0} ج.م</span>
-    `}
-    <span class="price-wholesale"><i class="fas fa-tag"></i> قطاعي: ${product.retailPrice || 0} ج.م</span>
-  </div>
+              <div class="product-prices">
+                ${hasOffer ? `
+                  <span class="price-sale">${offerPrice.toFixed(2)} ج.م</span>
+                  <span class="price-original">${wholesalePrice.toFixed(2)} ج.م</span>
+                ` : `
+                  <span class="price-sale">${wholesalePrice.toFixed(2)} ج.م</span>
+                `}
+                <span class="price-wholesale"><i class="fas fa-tag"></i> قطاعي: ${retailPrice.toFixed(2)} ج.م</span>
+              </div>
               <div class="product-actions">
                 <div class="toggle-wrapper">
                   <span style="font-size:0.7rem;">${isPublished ? 'منشور' : 'مخفي'}</span>
@@ -2718,7 +2736,7 @@ function initSidebarWithPermissions() {
               <div style="font-weight:600;">${product.name}</div>
               <div style="font-size:0.8rem;color:var(--gray-400);">${product.brandName || 'بدون براند'} | ${product.categoryName || 'بدون تصنيف'}</div>
             </div>
-            <div style="font-weight:700;color:var(--gold);">${(product.salePrice || product.price || 0).toFixed(2)} ج.م</div>
+            <div style="font-weight:700;color:var(--gold);">${wholesalePrice.toFixed(2)} ج.م</div>
             <div class="product-actions" style="margin:0;">
               <button class="btn-icon" onclick="openEditProduct('${product.id}')"><i class="fas fa-edit"></i></button>
               <button class="btn-icon" onclick="previewProduct('${product.id}')"><i class="fas fa-eye"></i></button>
@@ -2736,8 +2754,8 @@ function initSidebarWithPermissions() {
               <div class="product-details-grid">
                 <div class="detail-item"><span class="label">البراند:</span> ${product.brandName || 'بدون براند'}</div>
                 <div class="detail-item"><span class="label">التصنيف:</span> ${product.categoryName || 'بدون تصنيف'}</div>
-                <div class="detail-item"><span class="label">السعر:</span> ${(product.salePrice || product.price || 0).toFixed(2)} ج.م</div>
-                <div class="detail-item"><span class="label">سعر الجملة:</span> ${(product.wholesalePrice || product.price || 0).toFixed(2)} ج.م</div>
+                <div class="detail-item"><span class="label">سعر الجملة:</span> ${wholesalePrice.toFixed(2)} ج.م</div>
+                <div class="detail-item"><span class="label">سعر القطاعي:</span> ${retailPrice.toFixed(2)} ج.م</div>
                 <div class="detail-item"><span class="label">الكمية:</span> ${product.quantity || 0}</div>
                 <div class="detail-item"><span class="label">الوحدة:</span> ${product.unit || 'كرتونة'}</div>
                 ${hasOffer ? `<div class="detail-item"><span class="label">العرض:</span> ${offerPrice.toFixed(2)} ج.م (خصم ${product.offer.discount || 0}%)</div>` : ''}
@@ -2794,7 +2812,7 @@ function initSidebarWithPermissions() {
       pageProducts.forEach((product, index) => {
         html += renderProductCard(product, index);
       });
-      container.innerHTML += html;
+      container.insertAdjacentHTML('beforeend', html);
 
       if (filteredProducts.length > (currentPage + 1) * pageSize) {
         document.getElementById('loadMoreBtn').style.display = 'inline-block';
@@ -2837,12 +2855,11 @@ function initSidebarWithPermissions() {
       document.getElementById('panelTitle').innerHTML = '<i class="fas fa-edit"></i> تعديل المنتج';
       document.getElementById('editProductId').value = productId;
       document.getElementById('editName').value = product.name || '';
-      document.getElementById('editPurchasePrice').value = product.purchasePrice || '';
-      document.getElementById('editSalePrice').value = product.salePrice || product.price || '';
       document.getElementById('editWholesalePrice').value = product.wholesalePrice || '';
       document.getElementById('editRetailPrice').value = product.retailPrice || '';
       document.getElementById('editQuantity').value = product.quantity || 0;
       document.getElementById('editUnit').value = product.unit || 'كرتونة';
+      document.getElementById('editUnitPieces').value = product.unitPieces || 1;
       document.getElementById('editMinOrder').value = product.minOrder || 1;
       document.getElementById('editMaxOrder').value = product.maxOrder || 100;
       document.getElementById('editCategory').value = product.categoryId || '';
@@ -2882,22 +2899,27 @@ function initSidebarWithPermissions() {
       document.getElementById('sidePanel').classList.remove('open');
       document.getElementById('panelOverlay').classList.remove('active');
     }
-function updateUnitPieces() {
-  const unit = document.getElementById('editUnit').value;
-  const piecesInput = document.getElementById('editUnitPieces');
-  const label = document.getElementById('unitPiecesLabel');
-  
-  // القيم الافتراضية حسب الوحدة
-  const defaultPieces = {
-    'كرتونة': 4,
-    'قطعة': 1,
-    'بالة': 12,
-    'شرنك': 6
-  };
-  
-  piecesInput.value = defaultPieces[unit] || 1;
-  label.textContent = unit === 'قطعة' ? 'قطعة' : 'قطعة';
-}
+
+    // ============================================
+    // 📐 تحديث عدد القطع حسب الوحدة
+    // ============================================
+
+    function updateUnitPieces() {
+      const unit = document.getElementById('editUnit').value;
+      const piecesInput = document.getElementById('editUnitPieces');
+      const label = document.getElementById('unitPiecesLabel');
+
+      const defaultPieces = {
+        'كرتونة': 4,
+        'قطعة': 1,
+        'بالة': 12,
+        'شرنك': 6
+      };
+
+      piecesInput.value = defaultPieces[unit] || 1;
+      label.textContent = 'قطعة';
+    }
+
     // ============================================
     // 🔄 التبديل (Toggle)
     // ============================================
@@ -2934,14 +2956,14 @@ function updateUnitPieces() {
       const product = allProducts.find(p => p.id === productId);
       if (!product) return;
       const newStatus = !(product.offer && product.offer.active);
-      const offerData = newStatus ? { active: true, discount: 10, price: (product.salePrice || product.price || 0) * 0.9 } : { active: false };
+      const offerData = newStatus ? { active: true, discount: 10, price: (product.wholesalePrice || 0) * 0.9 } : { active: false };
       db.collection('products').doc(productId).update({ offer: offerData })
         .then(() => {
           if (!product.offer) product.offer = {};
           product.offer.active = newStatus;
           if (newStatus) {
             product.offer.discount = 10;
-            product.offer.price = (product.salePrice || product.price || 0) * 0.9;
+            product.offer.price = (product.wholesalePrice || 0) * 0.9;
           }
           renderProducts();
           updateStats();
@@ -2957,48 +2979,49 @@ function updateUnitPieces() {
     // ============================================
     // 💾 حفظ المنتج
     // ============================================
-function saveProduct() {
-  const id = document.getElementById('editProductId').value;
-  const name = document.getElementById('editName').value.trim();
-  const wholesalePrice = parseFloat(document.getElementById('editWholesalePrice').value) || 0;
-  const retailPrice = parseFloat(document.getElementById('editRetailPrice').value) || 0;
-  const quantity = parseInt(document.getElementById('editQuantity').value) || 0;
-  const unit = document.getElementById('editUnit').value;
-  const unitPieces = parseInt(document.getElementById('editUnitPieces').value) || 1;
-  const minOrder = parseInt(document.getElementById('editMinOrder').value) || 1;
-  const maxOrder = parseInt(document.getElementById('editMaxOrder').value) || 100;
-  const categoryId = document.getElementById('editCategory').value;
-  const brandId = document.getElementById('editBrand').value;
-  const imageUrl = document.getElementById('editImagePreview').src || '';
 
-  if (!name) {
-    showToast('⚠️ يرجى إدخال اسم المنتج', 'warning');
-    return;
-  }
+    function saveProduct() {
+      const id = document.getElementById('editProductId').value;
+      const name = document.getElementById('editName').value.trim();
+      const wholesalePrice = parseFloat(document.getElementById('editWholesalePrice').value) || 0;
+      const retailPrice = parseFloat(document.getElementById('editRetailPrice').value) || 0;
+      const quantity = parseInt(document.getElementById('editQuantity').value) || 0;
+      const unit = document.getElementById('editUnit').value;
+      const unitPieces = parseInt(document.getElementById('editUnitPieces').value) || 1;
+      const minOrder = parseInt(document.getElementById('editMinOrder').value) || 1;
+      const maxOrder = parseInt(document.getElementById('editMaxOrder').value) || 100;
+      const categoryId = document.getElementById('editCategory').value;
+      const brandId = document.getElementById('editBrand').value;
+      const imageUrl = document.getElementById('editImagePreview').src || '';
 
-  const productData = {
-    name: name,
-    wholesalePrice: wholesalePrice,
-    retailPrice: retailPrice,
-    price: wholesalePrice, // للحفاظ على التوافق مع المتجر
-    quantity: quantity,
-    unit: unit,
-    unitPieces: unitPieces,
-    minOrder: minOrder,
-    maxOrder: maxOrder,
-    categoryId: categoryId,
-    brandId: brandId,
-    imageUrl: imageUrl,
-    published: isPublished,
-    offer: {
-      active: isOfferActive,
-      discount: isOfferActive ? parseFloat(document.getElementById('editDiscount').value) || 0 : 0,
-      price: isOfferActive ? parseFloat(document.getElementById('editOfferPrice').value) || 0 : 0,
-      startDate: document.getElementById('editOfferStart').value || '',
-      endDate: document.getElementById('editOfferEnd').value || ''
-    },
-    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-  };
+      if (!name) {
+        showToast('⚠️ يرجى إدخال اسم المنتج', 'warning');
+        return;
+      }
+
+      const productData = {
+        name: name,
+        wholesalePrice: wholesalePrice,
+        retailPrice: retailPrice,
+        price: wholesalePrice,
+        quantity: quantity,
+        unit: unit,
+        unitPieces: unitPieces,
+        minOrder: minOrder,
+        maxOrder: maxOrder,
+        categoryId: categoryId,
+        brandId: brandId,
+        imageUrl: imageUrl,
+        published: isPublished,
+        offer: {
+          active: isOfferActive,
+          discount: isOfferActive ? parseFloat(document.getElementById('editDiscount').value) || 0 : 0,
+          price: isOfferActive ? parseFloat(document.getElementById('editOfferPrice').value) || 0 : 0,
+          startDate: document.getElementById('editOfferStart').value || '',
+          endDate: document.getElementById('editOfferEnd').value || ''
+        },
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
 
       const savePromise = id ?
         db.collection('products').doc(id).update(productData) :
@@ -3218,17 +3241,52 @@ function saveProduct() {
     function openAddCategory() {
       document.getElementById('addCategoryModal').style.display = 'flex';
       document.getElementById('addCategoryForm').reset();
-      document.getElementById('categoryIcon').value = 'fa-tag';
+      document.getElementById('categoryImagePreview').style.display = 'none';
+      document.getElementById('categoryImagePreview').src = '';
+      document.getElementById('categoryImageName').textContent = 'لم يتم اختيار صورة';
+      document.getElementById('categoryImageUrl').value = '';
     }
 
     function closeAddCategoryModal() {
       document.getElementById('addCategoryModal').style.display = 'none';
     }
 
+    function handleCategoryImageUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      showToast('⏳ جاري رفع الصورة...', 'info');
+
+      const formData = new FormData();
+      formData.append('image', file);
+      formData.append('key', IMGBB_API_KEY);
+
+      fetch('https://api.imgbb.com/1/upload', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          const url = data.data.url;
+          document.getElementById('categoryImagePreview').src = url;
+          document.getElementById('categoryImagePreview').style.display = 'block';
+          document.getElementById('categoryImageName').textContent = file.name;
+          document.getElementById('categoryImageUrl').value = url;
+          showToast('✅ تم رفع الصورة', 'success');
+        } else {
+          showToast('❌ فشل رفع الصورة', 'error');
+        }
+      })
+      .catch(() => {
+        showToast('❌ حدث خطأ', 'error');
+      });
+    }
+
     function saveCategory(event) {
       event.preventDefault();
       const name = document.getElementById('categoryName').value.trim();
-      const icon = document.getElementById('categoryIcon').value.trim();
+      const imageUrl = document.getElementById('categoryImageUrl').value;
 
       if (!name) {
         showToast('⚠️ يرجى إدخال اسم التصنيف', 'warning');
@@ -3237,7 +3295,7 @@ function saveProduct() {
 
       db.collection('categories').add({
         name: name,
-        icon: icon || 'fa-tag',
+        imageUrl: imageUrl || '',
         createdAt: firebase.firestore.FieldValue.serverTimestamp()
       })
       .then(() => {
@@ -3251,63 +3309,6 @@ function saveProduct() {
       });
     }
 
-function handleCategoryImageUpload(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-
-  showToast('⏳ جاري رفع الصورة...', 'info');
-
-  const formData = new FormData();
-  formData.append('image', file);
-  formData.append('key', IMGBB_API_KEY);
-
-  fetch('https://api.imgbb.com/1/upload', {
-    method: 'POST',
-    body: formData
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.success) {
-      const url = data.data.url;
-      document.getElementById('categoryImagePreview').src = url;
-      document.getElementById('categoryImagePreview').style.display = 'block';
-      document.getElementById('categoryImageName').textContent = file.name;
-      document.getElementById('categoryImageUrl').value = url;
-      showToast('✅ تم رفع الصورة', 'success');
-    } else {
-      showToast('❌ فشل رفع الصورة', 'error');
-    }
-  })
-  .catch(() => {
-    showToast('❌ حدث خطأ', 'error');
-  });
-}
-
-function saveCategory(event) {
-  event.preventDefault();
-  const name = document.getElementById('categoryName').value.trim();
-  const imageUrl = document.getElementById('categoryImageUrl').value;
-
-  if (!name) {
-    showToast('⚠️ يرجى إدخال اسم التصنيف', 'warning');
-    return;
-  }
-
-  db.collection('categories').add({
-    name: name,
-    imageUrl: imageUrl || '',
-    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-  })
-  .then(() => {
-    showToast('✅ تم إضافة التصنيف', 'success');
-    closeAddCategoryModal();
-    loadAllData();
-  })
-  .catch((error) => {
-    console.error('Error saving category:', error);
-    showToast('❌ حدث خطأ', 'error');
-  });
-}
     // ============================================
     // 📋 تعبئة القوائم المنسدلة
     // ============================================
@@ -3345,6 +3346,7 @@ function saveCategory(event) {
     // ============================================
 
     function openOffersModal() {
+      if (!checkSuperAdmin()) return;
       document.getElementById('offersModal').style.display = 'flex';
       selectedProducts = {};
       renderOffersProductList();
@@ -3367,7 +3369,7 @@ function saveCategory(event) {
           <div style="display:flex;align-items:center;gap:12px;padding:6px 0;border-bottom:1px solid var(--gray-100);">
             <input type="checkbox" id="offerSelect_${p.id}" ${checked} onchange="toggleOfferSelect('${p.id}')">
             <label for="offerSelect_${p.id}" style="flex:1;cursor:pointer;">${p.name}</label>
-            <span style="font-size:0.8rem;color:var(--gray-400);">${(p.salePrice || p.price || 0).toFixed(2)} ج.م</span>
+            <span style="font-size:0.8rem;color:var(--gray-400);">${(p.wholesalePrice || 0).toFixed(2)} ج.م</span>
           </div>
         `;
       });
@@ -3389,6 +3391,8 @@ function saveCategory(event) {
     }
 
     function applyOffersBulk() {
+      if (!checkSuperAdmin()) return;
+
       const discount = parseFloat(document.getElementById('offerDiscountBulk').value) || 0;
       const startDate = document.getElementById('offerStartBulk').value;
       const endDate = document.getElementById('offerEndBulk').value;
@@ -3408,7 +3412,7 @@ function saveCategory(event) {
       selected.forEach(id => {
         const product = allProducts.find(p => p.id === id);
         if (!product) return;
-        const price = product.salePrice || product.price || 0;
+        const price = product.wholesalePrice || 0;
         const offerPrice = price * (1 - discount / 100);
         const ref = db.collection('products').doc(id);
         batch.update(ref, {
@@ -3439,6 +3443,7 @@ function saveCategory(event) {
     // ============================================
 
     function openBulkPriceModal() {
+      if (!checkSuperAdmin()) return;
       document.getElementById('bulkPriceModal').style.display = 'flex';
       selectedBulkProducts = {};
       renderBulkPriceProductList();
@@ -3461,7 +3466,7 @@ function saveCategory(event) {
           <div style="display:flex;align-items:center;gap:12px;padding:6px 0;border-bottom:1px solid var(--gray-100);">
             <input type="checkbox" id="bulkSelect_${p.id}" ${checked} onchange="toggleBulkSelect('${p.id}')">
             <label for="bulkSelect_${p.id}" style="flex:1;cursor:pointer;">${p.name}</label>
-            <span style="font-size:0.8rem;color:var(--gray-400);">${(p.salePrice || p.price || 0).toFixed(2)} ج.م</span>
+            <span style="font-size:0.8rem;color:var(--gray-400);">${(p.wholesalePrice || 0).toFixed(2)} ج.م</span>
           </div>
         `;
       });
@@ -3483,6 +3488,8 @@ function saveCategory(event) {
     }
 
     function applyBulkPrice() {
+      if (!checkSuperAdmin()) return;
+
       const percent = parseFloat(document.getElementById('bulkPricePercent').value) || 0;
 
       if (percent === 0) {
@@ -3500,11 +3507,11 @@ function saveCategory(event) {
       selected.forEach(id => {
         const product = allProducts.find(p => p.id === id);
         if (!product) return;
-        const currentPrice = product.salePrice || product.price || 0;
+        const currentPrice = product.wholesalePrice || 0;
         const newPrice = currentPrice * (1 + percent / 100);
         const ref = db.collection('products').doc(id);
         batch.update(ref, {
-          salePrice: newPrice,
+          wholesalePrice: newPrice,
           price: newPrice
         });
       });
@@ -3519,6 +3526,24 @@ function saveCategory(event) {
           console.error('Error updating prices:', error);
           showToast('❌ حدث خطأ', 'error');
         });
+    }
+
+    // ============================================
+    // 🔐 التحقق من صلاحية السوبر أدمن
+    // ============================================
+
+    function checkSuperAdmin() {
+      const adminData = localStorage.getItem('admin');
+      if (!adminData) {
+        window.location.href = '/gomla/admin/login.html';
+        return false;
+      }
+      const admin = JSON.parse(adminData);
+      if (admin.role !== 'super') {
+        showToast('⚠️ هذه الصفحة مخصصة للسوبر أدمن فقط', 'warning');
+        return false;
+      }
+      return true;
     }
 
     // ============================================
@@ -3537,32 +3562,7 @@ function saveCategory(event) {
         setTimeout(() => toast.remove(), 300);
       }, 3000);
     }
-// ===== التحقق من الصلاحية =====
-function checkAdminAuth() {
-  const adminData = localStorage.getItem('admin');
-  if (!adminData) {
-    window.location.href = '/gomla/admin/login.html';
-    return null;
-  }
-  const admin = JSON.parse(adminData);
-  document.getElementById('adminName').textContent = admin.name || 'مدير';
-  return admin;
-}
 
-// ===== التحقق من صلاحية السوبر أدمن لبعض الوظائف =====
-function checkSuperAdmin() {
-  const adminData = localStorage.getItem('admin');
-  if (!adminData) {
-    window.location.href = '/gomla/admin/login.html';
-    return false;
-  }
-  const admin = JSON.parse(adminData);
-  if (admin.role !== 'super') {
-    showToast('⚠️ هذه الصفحة مخصصة للسوبر أدمن فقط', 'warning');
-    return false;
-  }
-  return true;
-}
     // ============================================
     // 🚀 تشغيل الصفحة
     // ============================================
@@ -3571,7 +3571,7 @@ function checkSuperAdmin() {
       const admin = checkAdminAuth();
       if (!admin) return;
 
-      initSidebar();
+      initSidebarWithPermissions();
       loadAllData();
 
       // Close panels on Escape
@@ -3608,6 +3608,7 @@ function checkSuperAdmin() {
     window.toggleOffer = toggleOffer;
     window.toggleEditPublished = toggleEditPublished;
     window.toggleEditOffer = toggleEditOffer;
+    window.updateUnitPieces = updateUnitPieces;
     window.handleImageUpload = handleImageUpload;
     window.handleSearch = handleSearch;
     window.selectProduct = selectProduct;
@@ -3635,6 +3636,7 @@ function checkSuperAdmin() {
     window.saveBrand = saveBrand;
     window.openAddCategory = openAddCategory;
     window.closeAddCategoryModal = closeAddCategoryModal;
+    window.handleCategoryImageUpload = handleCategoryImageUpload;
     window.saveCategory = saveCategory;
     window.logoutAdmin = logoutAdmin;
   </script>
