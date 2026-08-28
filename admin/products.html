@@ -1011,6 +1011,44 @@
       color: #ef4444;
       transform: rotate(90deg);
     }
+/* ===== تحسين ستايل الأزرار في النوافذ ===== */
+.modal-content .btn-primary,
+.modal-content .btn-outline,
+.modal-content .btn-danger {
+  padding: 10px 24px;
+  font-size: 0.95rem;
+  border-radius: var(--radius-full);
+}
+
+.modal-content .btn-primary {
+  background: var(--navy);
+  color: var(--white);
+}
+
+.modal-content .btn-primary:hover {
+  background: var(--gold);
+  color: var(--navy);
+}
+
+.modal-content .btn-outline {
+  background: transparent;
+  border: 2px solid var(--navy);
+  color: var(--navy);
+}
+
+.modal-content .btn-outline:hover {
+  background: var(--navy);
+  color: var(--white);
+}
+
+.modal-content .btn-danger {
+  background: #ef4444;
+  color: var(--white);
+}
+
+.modal-content .btn-danger:hover {
+  background: #dc2626;
+}
 
     /* ========================================== */
     /* 🧊 نافذة التعديل الجانبية                 */
@@ -1956,54 +1994,54 @@
           <input type="text" id="editName" required>
         </div>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label><i class="fas fa-dollar-sign"></i> سعر الشراء</label>
-            <input type="number" id="editPurchasePrice" step="0.01" min="0">
-          </div>
-          <div class="form-group">
-            <label><i class="fas fa-dollar-sign"></i> سعر البيع</label>
-            <input type="number" id="editSalePrice" step="0.01" min="0">
-          </div>
-        </div>
+<!-- ===== حقول الأسعار والوحدات ===== -->
+<div class="form-row">
+  <div class="form-group">
+    <label><i class="fas fa-dollar-sign"></i> سعر الجملة</label>
+    <input type="number" id="editWholesalePrice" step="0.01" min="0" required>
+  </div>
+  <div class="form-group">
+    <label><i class="fas fa-dollar-sign"></i> سعر القطاعي</label>
+    <input type="number" id="editRetailPrice" step="0.01" min="0" required>
+  </div>
+</div>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label><i class="fas fa-dollar-sign"></i> سعر الجملة</label>
-            <input type="number" id="editWholesalePrice" step="0.01" min="0">
-          </div>
-          <div class="form-group">
-            <label><i class="fas fa-dollar-sign"></i> سعر القطاعي</label>
-            <input type="number" id="editRetailPrice" step="0.01" min="0">
-          </div>
-        </div>
+<div class="form-row">
+  <div class="form-group">
+    <label><i class="fas fa-cubes"></i> الكمية المتاحة</label>
+    <input type="number" id="editQuantity" min="0" value="0">
+  </div>
+  <div class="form-group">
+    <label><i class="fas fa-box"></i> الوحدة</label>
+    <select id="editUnit" onchange="updateUnitPieces()">
+      <option value="كرتونة">كرتونة</option>
+      <option value="قطعة">قطعة</option>
+      <option value="بالة">بالة</option>
+      <option value="شرنك">شرنك</option>
+    </select>
+  </div>
+</div>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label><i class="fas fa-cubes"></i> الكمية المتاحة</label>
-            <input type="number" id="editQuantity" min="0">
-          </div>
-          <div class="form-group">
-            <label><i class="fas fa-box"></i> الوحدة</label>
-            <select id="editUnit">
-              <option value="كرتونة">كرتونة</option>
-              <option value="قطعة">قطعة</option>
-              <option value="بالة">بالة</option>
-              <option value="شرنك">شرنك</option>
-            </select>
-          </div>
-        </div>
+<div class="form-row">
+  <div class="form-group">
+    <label><i class="fas fa-sort-amount-up"></i> عدد القطع داخل الوحدة</label>
+    <div style="display:flex;gap:8px;align-items:center;">
+      <input type="number" id="editUnitPieces" min="1" value="1" style="flex:1;">
+      <span id="unitPiecesLabel" style="font-weight:600;color:var(--gray-500);">قطعة</span>
+    </div>
+  </div>
+  <div class="form-group">
+    <label><i class="fas fa-sort-amount-up"></i> الحد الأدنى للطلب</label>
+    <input type="number" id="editMinOrder" min="1" value="1">
+  </div>
+</div>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label><i class="fas fa-sort-amount-up"></i> الحد الأدنى للطلب</label>
-            <input type="number" id="editMinOrder" min="1" value="1">
-          </div>
-          <div class="form-group">
-            <label><i class="fas fa-sort-amount-down"></i> الحد الأقصى للطلب</label>
-            <input type="number" id="editMaxOrder" min="1" value="100">
-          </div>
-        </div>
+<div class="form-row">
+  <div class="form-group">
+    <label><i class="fas fa-sort-amount-down"></i> الحد الأقصى للطلب</label>
+    <input type="number" id="editMaxOrder" min="1" value="100">
+  </div>
+</div>
 
         <div class="form-row">
           <div class="form-group">
@@ -2188,28 +2226,36 @@
   </div>
 
   <!-- ===== نافذة إضافة تصنيف ===== -->
-  <div class="modal-overlay" id="addCategoryModal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3><i class="fas fa-tag"></i> إضافة تصنيف</h3>
-        <button class="modal-close" onclick="closeAddCategoryModal()"><i class="fas fa-times"></i></button>
-      </div>
-      <form id="addCategoryForm" onsubmit="saveCategory(event)">
-        <div class="form-group">
-          <label><i class="fas fa-tag"></i> اسم التصنيف *</label>
-          <input type="text" id="categoryName" required>
-        </div>
-        <div class="form-group">
-          <label><i class="fas fa-icons"></i> أيقونة (من Font Awesome)</label>
-          <input type="text" id="categoryIcon" placeholder="fa-tag" value="fa-tag">
-        </div>
-        <div style="display:flex;gap:12px;margin-top:16px;">
-          <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> حفظ</button>
-          <button type="button" class="btn btn-outline" onclick="closeAddCategoryModal()">إلغاء</button>
-        </div>
-      </form>
+<div class="modal-overlay" id="addCategoryModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3><i class="fas fa-tag"></i> إضافة تصنيف</h3>
+      <button class="modal-close" onclick="closeAddCategoryModal()"><i class="fas fa-times"></i></button>
     </div>
+    <form id="addCategoryForm" onsubmit="saveCategory(event)">
+      <div class="form-group">
+        <label><i class="fas fa-tag"></i> اسم التصنيف *</label>
+        <input type="text" id="categoryName" required>
+      </div>
+      <div class="form-group">
+        <label><i class="fas fa-image"></i> صورة التصنيف</label>
+        <div class="file-upload">
+          <input type="file" id="categoryImage" accept="image/*" onchange="handleCategoryImageUpload(event)">
+          <button type="button" class="upload-btn" onclick="document.getElementById('categoryImage').click()">
+            <i class="fas fa-upload"></i> اختيار صورة
+          </button>
+          <span class="file-name" id="categoryImageName">لم يتم اختيار صورة</span>
+        </div>
+        <img id="categoryImagePreview" class="image-preview" style="display:none;">
+        <input type="hidden" id="categoryImageUrl">
+      </div>
+      <div style="display:flex;gap:12px;margin-top:16px;">
+        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> حفظ</button>
+        <button type="button" class="btn btn-outline" onclick="closeAddCategoryModal()">إلغاء</button>
+      </div>
+    </form>
   </div>
+</div>
 
   <!-- ===== Toast ===== -->
   <div class="toast-container" id="toastContainer"></div>
@@ -2258,84 +2304,33 @@
     // ============================================
     // 🧠 السايدبار
     // ============================================
-
-    function initSidebar() {
-      const toggleBtn = document.getElementById('sidebarToggle');
-      const overlay = document.getElementById('sidebarOverlay');
-      const sidebar = document.getElementById('smartSidebar');
-
-      if (!sidebar) {
-        // إنشاء السايدبار إذا لم يكن موجوداً
-        const sidebarHTML = `
-          <div class="smart-sidebar" id="smartSidebar">
-            <div class="sidebar-header">
-              <div class="sidebar-user">
-                <img src="../assets/images/default-avatar.png" alt="صورة المستخدم" class="sidebar-avatar" id="sidebarAvatar">
-                <div>
-                  <div class="sidebar-username" id="sidebarUsername">زائر عزيز</div>
-                  <div class="sidebar-user-role" id="sidebarUserRole">مرحباً بك</div>
-                </div>
-              </div>
-              <button class="sidebar-close" id="sidebarClose"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="sidebar-motivational">
-              <div class="motivational-icon"><i class="fas fa-quote-right"></i></div>
-              <div class="motivational-text" id="motivationalText">"ابتسم فإن الله يراك"</div>
-            </div>
-            <div class="sidebar-news">
-              <div class="news-header"><i class="fas fa-bullhorn"></i> آخر الأخبار</div>
-              <div class="news-list" id="newsList">
-                <div class="news-item"><span class="news-dot"></span><span class="news-text">جاري التحميل...</span></div>
-              </div>
-            </div>
-            <nav class="sidebar-nav" id="sidebarNav">
-              <a href="/gomla/admin/home.html" class="sidebar-link"><i class="fas fa-home"></i> الرئيسية</a>
-              <a href="/gomla/admin/dashboard.html" class="sidebar-link"><i class="fas fa-tachometer-alt"></i> لوحة التحكم</a>
-              <a href="/gomla/admin/products.html" class="sidebar-link active"><i class="fas fa-boxes"></i> المنتجات</a>
-              <a href="/gomla/admin/customers.html" class="sidebar-link"><i class="fas fa-users"></i> العملاء</a>
-              <a href="/gomla/admin/invoices.html" class="sidebar-link"><i class="fas fa-file-invoice"></i> الفواتير</a>
-              <a href="/gomla/admin/reports.html" class="sidebar-link"><i class="fas fa-chart-pie"></i> التقارير</a>
-              <a href="/gomla/admin/settings.html" class="sidebar-link"><i class="fas fa-cog"></i> الإعدادات</a>
-              <a href="/gomla/admin/generate-codes.html" class="sidebar-link"><i class="fas fa-key"></i> توليد الأكواد</a>
-            </nav>
-            <div class="sidebar-footer">
-              <button class="sidebar-action-btn" onclick="logoutAdmin()"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
-            </div>
-          </div>
-        `;
-        const container = document.createElement('div');
-        container.innerHTML = sidebarHTML;
-        document.body.appendChild(container.firstElementChild);
-      }
-
-      const sidebarEl = document.getElementById('smartSidebar');
-      const closeBtn = document.getElementById('sidebarClose');
-
-      if (toggleBtn) {
-        toggleBtn.onclick = function() {
-          sidebarEl.classList.add('open');
-          overlay.classList.add('active');
-          document.body.style.overflow = 'hidden';
-        };
-      }
-
-      if (closeBtn) {
-        closeBtn.onclick = function() {
-          sidebarEl.classList.remove('open');
-          overlay.classList.remove('active');
-          document.body.style.overflow = '';
-        };
-      }
-
-      if (overlay) {
-        overlay.onclick = function() {
-          sidebarEl.classList.remove('open');
-          overlay.classList.remove('active');
-          document.body.style.overflow = '';
-        };
-      }
-    }
-
+// استدعاء وظيفة تحديث السايدبار من admin.js
+function initSidebarWithPermissions() {
+  // تحميل السايدبار مع صلاحيات المستخدم
+  if (typeof updateSidebarContent === 'function') {
+    updateSidebarContent();
+  }
+  
+  // ربط زر المنيو
+  const toggleBtn = document.getElementById('sidebarToggle');
+  const overlay = document.getElementById('sidebarOverlay');
+  const sidebar = document.getElementById('smartSidebar');
+  
+  if (toggleBtn && sidebar && overlay) {
+    toggleBtn.onclick = function() {
+      sidebar.classList.add('open');
+      overlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    };
+    
+    overlay.onclick = function() {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('active');
+      document.body.style.overflow = '';
+    };
+  }
+}
+    
     // ============================================
     // 📊 تحميل البيانات من Firebase
     // ============================================
@@ -2480,23 +2475,25 @@
       container.innerHTML = html;
     }
 
-    function renderCategories() {
-      const container = document.getElementById('categoriesContainer');
-      if (allCategories.length === 0) {
-        container.innerHTML = '<div class="empty-message"><i class="fas fa-info-circle"></i> لا توجد تصنيفات حالياً</div>';
-        return;
-      }
-      let html = '';
-      allCategories.forEach((cat) => {
-        html += `
-          <div class="category-item" onclick="filterByCategory('${cat.id}')">
-            <div class="category-icon"><i class="fas ${cat.icon || 'fa-tag'}"></i></div>
-            <div class="category-name">${cat.name}</div>
-          </div>
-        `;
-      });
-      container.innerHTML = html;
-    }
+   function renderCategories() {
+  const container = document.getElementById('categoriesContainer');
+  if (allCategories.length === 0) {
+    container.innerHTML = '<div class="empty-message"><i class="fas fa-info-circle"></i> لا توجد تصنيفات حالياً</div>';
+    return;
+  }
+  let html = '';
+  allCategories.forEach((cat) => {
+    html += `
+      <div class="category-item" onclick="filterByCategory('${cat.id}')">
+        <div class="category-icon">
+          <img src="${cat.imageUrl || '../assets/images/no-image.png'}" alt="${cat.name}" style="width:60px;height:60px;object-fit:cover;border-radius:var(--radius-sm);">
+        </div>
+        <div class="category-name">${cat.name}</div>
+      </div>
+    `;
+  });
+  container.innerHTML = html;
+}
 
     // ============================================
     // 🎯 العروض
@@ -2675,15 +2672,15 @@
                 <span>${product.brandName || 'بدون براند'}</span>
                 <span>${product.categoryName || 'بدون تصنيف'}</span>
               </div>
-              <div class="product-prices">
-                ${hasOffer ? `
-                  <span class="price-sale">${offerPrice.toFixed(2)} ج.م</span>
-                  <span class="price-original">${originalPrice.toFixed(2)} ج.م</span>
-                ` : `
-                  <span class="price-sale">${originalPrice.toFixed(2)} ج.م</span>
-                `}
-                <span class="price-wholesale"><i class="fas fa-tag"></i> جملة: ${product.wholesalePrice || product.price || 0} ج.م</span>
-              </div>
+  <div class="product-prices">
+    ${hasOffer ? `
+      <span class="price-sale">${offerPrice.toFixed(2)} ج.م</span>
+      <span class="price-original">${product.wholesalePrice || 0} ج.م</span>
+    ` : `
+      <span class="price-sale">${product.wholesalePrice || 0} ج.م</span>
+    `}
+    <span class="price-wholesale"><i class="fas fa-tag"></i> قطاعي: ${product.retailPrice || 0} ج.م</span>
+  </div>
               <div class="product-actions">
                 <div class="toggle-wrapper">
                   <span style="font-size:0.7rem;">${isPublished ? 'منشور' : 'مخفي'}</span>
@@ -2885,7 +2882,22 @@
       document.getElementById('sidePanel').classList.remove('open');
       document.getElementById('panelOverlay').classList.remove('active');
     }
-
+function updateUnitPieces() {
+  const unit = document.getElementById('editUnit').value;
+  const piecesInput = document.getElementById('editUnitPieces');
+  const label = document.getElementById('unitPiecesLabel');
+  
+  // القيم الافتراضية حسب الوحدة
+  const defaultPieces = {
+    'كرتونة': 4,
+    'قطعة': 1,
+    'بالة': 12,
+    'شرنك': 6
+  };
+  
+  piecesInput.value = defaultPieces[unit] || 1;
+  label.textContent = unit === 'قطعة' ? 'قطعة' : 'قطعة';
+}
     // ============================================
     // 🔄 التبديل (Toggle)
     // ============================================
@@ -2945,51 +2957,48 @@
     // ============================================
     // 💾 حفظ المنتج
     // ============================================
+function saveProduct() {
+  const id = document.getElementById('editProductId').value;
+  const name = document.getElementById('editName').value.trim();
+  const wholesalePrice = parseFloat(document.getElementById('editWholesalePrice').value) || 0;
+  const retailPrice = parseFloat(document.getElementById('editRetailPrice').value) || 0;
+  const quantity = parseInt(document.getElementById('editQuantity').value) || 0;
+  const unit = document.getElementById('editUnit').value;
+  const unitPieces = parseInt(document.getElementById('editUnitPieces').value) || 1;
+  const minOrder = parseInt(document.getElementById('editMinOrder').value) || 1;
+  const maxOrder = parseInt(document.getElementById('editMaxOrder').value) || 100;
+  const categoryId = document.getElementById('editCategory').value;
+  const brandId = document.getElementById('editBrand').value;
+  const imageUrl = document.getElementById('editImagePreview').src || '';
 
-    function saveProduct() {
-      const id = document.getElementById('editProductId').value;
-      const name = document.getElementById('editName').value.trim();
-      const purchasePrice = parseFloat(document.getElementById('editPurchasePrice').value) || 0;
-      const salePrice = parseFloat(document.getElementById('editSalePrice').value) || 0;
-      const wholesalePrice = parseFloat(document.getElementById('editWholesalePrice').value) || 0;
-      const retailPrice = parseFloat(document.getElementById('editRetailPrice').value) || 0;
-      const quantity = parseInt(document.getElementById('editQuantity').value) || 0;
-      const unit = document.getElementById('editUnit').value;
-      const minOrder = parseInt(document.getElementById('editMinOrder').value) || 1;
-      const maxOrder = parseInt(document.getElementById('editMaxOrder').value) || 100;
-      const categoryId = document.getElementById('editCategory').value;
-      const brandId = document.getElementById('editBrand').value;
-      const imageUrl = document.getElementById('editImagePreview').src || '';
+  if (!name) {
+    showToast('⚠️ يرجى إدخال اسم المنتج', 'warning');
+    return;
+  }
 
-      if (!name) {
-        showToast('⚠️ يرجى إدخال اسم المنتج', 'warning');
-        return;
-      }
-
-      const productData = {
-        name: name,
-        purchasePrice: purchasePrice,
-        salePrice: salePrice,
-        price: salePrice,
-        wholesalePrice: wholesalePrice,
-        retailPrice: retailPrice,
-        quantity: quantity,
-        unit: unit,
-        minOrder: minOrder,
-        maxOrder: maxOrder,
-        categoryId: categoryId,
-        brandId: brandId,
-        imageUrl: imageUrl,
-        published: isPublished,
-        offer: {
-          active: isOfferActive,
-          discount: isOfferActive ? parseFloat(document.getElementById('editDiscount').value) || 0 : 0,
-          price: isOfferActive ? parseFloat(document.getElementById('editOfferPrice').value) || 0 : 0,
-          startDate: document.getElementById('editOfferStart').value || '',
-          endDate: document.getElementById('editOfferEnd').value || ''
-        },
-        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-      };
+  const productData = {
+    name: name,
+    wholesalePrice: wholesalePrice,
+    retailPrice: retailPrice,
+    price: wholesalePrice, // للحفاظ على التوافق مع المتجر
+    quantity: quantity,
+    unit: unit,
+    unitPieces: unitPieces,
+    minOrder: minOrder,
+    maxOrder: maxOrder,
+    categoryId: categoryId,
+    brandId: brandId,
+    imageUrl: imageUrl,
+    published: isPublished,
+    offer: {
+      active: isOfferActive,
+      discount: isOfferActive ? parseFloat(document.getElementById('editDiscount').value) || 0 : 0,
+      price: isOfferActive ? parseFloat(document.getElementById('editOfferPrice').value) || 0 : 0,
+      startDate: document.getElementById('editOfferStart').value || '',
+      endDate: document.getElementById('editOfferEnd').value || ''
+    },
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  };
 
       const savePromise = id ?
         db.collection('products').doc(id).update(productData) :
@@ -3242,6 +3251,63 @@
       });
     }
 
+function handleCategoryImageUpload(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  showToast('⏳ جاري رفع الصورة...', 'info');
+
+  const formData = new FormData();
+  formData.append('image', file);
+  formData.append('key', IMGBB_API_KEY);
+
+  fetch('https://api.imgbb.com/1/upload', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
+      const url = data.data.url;
+      document.getElementById('categoryImagePreview').src = url;
+      document.getElementById('categoryImagePreview').style.display = 'block';
+      document.getElementById('categoryImageName').textContent = file.name;
+      document.getElementById('categoryImageUrl').value = url;
+      showToast('✅ تم رفع الصورة', 'success');
+    } else {
+      showToast('❌ فشل رفع الصورة', 'error');
+    }
+  })
+  .catch(() => {
+    showToast('❌ حدث خطأ', 'error');
+  });
+}
+
+function saveCategory(event) {
+  event.preventDefault();
+  const name = document.getElementById('categoryName').value.trim();
+  const imageUrl = document.getElementById('categoryImageUrl').value;
+
+  if (!name) {
+    showToast('⚠️ يرجى إدخال اسم التصنيف', 'warning');
+    return;
+  }
+
+  db.collection('categories').add({
+    name: name,
+    imageUrl: imageUrl || '',
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  })
+  .then(() => {
+    showToast('✅ تم إضافة التصنيف', 'success');
+    closeAddCategoryModal();
+    loadAllData();
+  })
+  .catch((error) => {
+    console.error('Error saving category:', error);
+    showToast('❌ حدث خطأ', 'error');
+  });
+}
     // ============================================
     // 📋 تعبئة القوائم المنسدلة
     // ============================================
@@ -3471,7 +3537,32 @@
         setTimeout(() => toast.remove(), 300);
       }, 3000);
     }
+// ===== التحقق من الصلاحية =====
+function checkAdminAuth() {
+  const adminData = localStorage.getItem('admin');
+  if (!adminData) {
+    window.location.href = '/gomla/admin/login.html';
+    return null;
+  }
+  const admin = JSON.parse(adminData);
+  document.getElementById('adminName').textContent = admin.name || 'مدير';
+  return admin;
+}
 
+// ===== التحقق من صلاحية السوبر أدمن لبعض الوظائف =====
+function checkSuperAdmin() {
+  const adminData = localStorage.getItem('admin');
+  if (!adminData) {
+    window.location.href = '/gomla/admin/login.html';
+    return false;
+  }
+  const admin = JSON.parse(adminData);
+  if (admin.role !== 'super') {
+    showToast('⚠️ هذه الصفحة مخصصة للسوبر أدمن فقط', 'warning');
+    return false;
+  }
+  return true;
+}
     // ============================================
     // 🚀 تشغيل الصفحة
     // ============================================
