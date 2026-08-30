@@ -5,9 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>أولاد شعلان جملة - إدارة العملاء</title>
 
-  <meta name="description" content="إدارة العملاء - أولاد شعلان جملة">
-  <meta name="theme-color" content="#1a2a4a">
-
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="icon" href="../assets/images/favicon.ico">
@@ -16,7 +13,7 @@
     /* ===== ستايل خاص بالصفحة ===== */
     .customers-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 20px;
     }
 
@@ -61,6 +58,23 @@
       font-size: 0.8rem;
     }
 
+    .customer-card .status-badge {
+      padding: 2px 12px;
+      border-radius: var(--radius-full);
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+
+    .customer-card .status-badge.active {
+      background: rgba(34, 197, 94, 0.15);
+      color: #22c55e;
+    }
+
+    .customer-card .status-badge.suspended {
+      background: rgba(239, 68, 68, 0.15);
+      color: #ef4444;
+    }
+
     .customer-card .customer-info {
       font-size: 0.85rem;
       color: var(--gray-600);
@@ -74,7 +88,7 @@
 
     .customer-card .customer-balance {
       font-weight: 700;
-      font-size: 1.1rem;
+      font-size: 1rem;
       padding: 4px 16px;
       border-radius: var(--radius-full);
       display: inline-block;
@@ -154,6 +168,7 @@
       color: #3b82f6;
     }
 
+    /* ===== البحث والتصفية ===== */
     .search-filter-section {
       display: flex;
       flex-wrap: wrap;
@@ -220,11 +235,39 @@
       border-color: var(--gold);
     }
 
-    /* ===== نافذة العميل ===== */
+    /* ===== نافذة تعديل العميل (Side Panel) ===== */
     .side-panel .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
+    }
+
+    .side-panel .code-generate {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .side-panel .code-generate input {
+      flex: 1;
+    }
+
+    .side-panel .code-generate button {
+      padding: 10px 16px;
+      border: 2px solid var(--gold);
+      border-radius: var(--radius-sm);
+      background: transparent;
+      color: var(--gold);
+      cursor: pointer;
+      font-weight: 600;
+      transition: 0.3s ease;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+
+    .side-panel .code-generate button:hover {
+      background: var(--gold);
+      color: var(--navy);
     }
 
     .side-panel .avatar-upload {
@@ -263,35 +306,7 @@
       display: none;
     }
 
-    .side-panel .code-generate {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-    }
-
-    .side-panel .code-generate input {
-      flex: 1;
-    }
-
-    .side-panel .code-generate button {
-      padding: 10px 16px;
-      border: 2px solid var(--gold);
-      border-radius: var(--radius-sm);
-      background: transparent;
-      color: var(--gold);
-      cursor: pointer;
-      font-weight: 600;
-      transition: 0.3s ease;
-      font-family: inherit;
-      white-space: nowrap;
-    }
-
-    .side-panel .code-generate button:hover {
-      background: var(--gold);
-      color: var(--navy);
-    }
-
-    /* ===== نافذة الذمة المالية ===== */
+    /* ===== نافذة فواتير العميل ===== */
     .balance-summary {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -325,7 +340,7 @@
       color: #ef4444;
     }
 
-    .balance-invoice-item {
+    .invoice-item {
       display: flex;
       justify-content: space-between;
       padding: 8px 0;
@@ -333,7 +348,7 @@
       font-size: 0.9rem;
     }
 
-    .balance-invoice-item:last-child {
+    .invoice-item:last-child {
       border-bottom: none;
     }
 
@@ -478,6 +493,11 @@
             <option value="cash">نقدي</option>
             <option value="credit">تقسيط</option>
           </select>
+          <select id="statusFilter" onchange="applyFilters()">
+            <option value="">كل الحالات</option>
+            <option value="active">مفعل</option>
+            <option value="suspended">معطل</option>
+          </select>
         </div>
       </div>
 
@@ -564,12 +584,12 @@
   <!-- 📚 النوافذ المنبثقة                       -->
   <!-- ========================================== -->
 
-  <!-- ===== نافذة تعديل العميل ===== -->
-  <div class="panel-overlay" id="panelOverlay" onclick="closeSidePanel()"></div>
-  <div class="side-panel" id="sidePanel">
+  <!-- ===== نافذة تعديل العميل (Side Panel) ===== -->
+  <div class="panel-overlay" id="panelOverlay" onclick="closeCustomerPanel()"></div>
+  <div class="side-panel" id="customerPanel">
     <div class="panel-header">
       <h3 id="panelTitle"><i class="fas fa-user-edit"></i> تعديل العميل</h3>
-      <button class="close-btn" onclick="closeSidePanel()"><i class="fas fa-times"></i></button>
+      <button class="close-btn" onclick="closeCustomerPanel()"><i class="fas fa-times"></i></button>
     </div>
     <div class="panel-body">
       <form id="customerForm">
@@ -577,32 +597,31 @@
 
         <div class="form-group">
           <label><i class="fas fa-user"></i> الاسم *</label>
-          <input type="text" id="editName" required>
+          <input type="text" id="editName" placeholder="أدخل اسم العميل" required>
         </div>
 
         <div class="form-group">
           <label><i class="fas fa-store"></i> اسم المحل</label>
-          <input type="text" id="editShop">
+          <input type="text" id="editShop" placeholder="مثال: محل النور">
         </div>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label><i class="fas fa-phone"></i> رقم الهاتف *</label>
-            <input type="tel" id="editPhone" required>
-          </div>
-          <div class="form-group">
-            <label><i class="fas fa-map-marker-alt"></i> المدينة</label>
-            <select id="editCity">
-              <option value="المحلة">المحلة</option>
-              <option value="المنصورة">المنصورة</option>
-              <option value="طنطا">طنطا</option>
-            </select>
-          </div>
+        <div class="form-group">
+          <label><i class="fas fa-phone"></i> رقم الهاتف *</label>
+          <input type="tel" id="editPhone" placeholder="مثال: 01012345678" required>
+        </div>
+
+        <div class="form-group">
+          <label><i class="fas fa-map-marker-alt"></i> المدينة</label>
+          <select id="editCity">
+            <option value="المحلة">المحلة</option>
+            <option value="المنصورة">المنصورة</option>
+            <option value="طنطا">طنطا</option>
+          </select>
         </div>
 
         <div class="form-group">
           <label><i class="fas fa-home"></i> العنوان</label>
-          <input type="text" id="editAddress">
+          <input type="text" id="editAddress" placeholder="العنوان الكامل">
         </div>
 
         <div class="form-row">
@@ -616,11 +635,25 @@
           <div class="form-group">
             <label><i class="fas fa-key"></i> الكود السري</label>
             <div class="code-generate">
-              <input type="text" id="editCode">
-              <button type="button" onclick="generateCustomerCode()">
+              <input type="text" id="editCode" placeholder="MHL-1234" readonly>
+              <button type="button" class="btn btn-sm btn-gold" onclick="generateCustomerCode()">
                 <i class="fas fa-sync"></i> توليد
               </button>
             </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label><i class="fas fa-check-circle"></i> حالة الحساب</label>
+            <select id="editStatus">
+              <option value="active">مفعل</option>
+              <option value="suspended">معطل</option>
+            </select>
+          </div>
+          <div class="form-group" id="suspendReasonGroup">
+            <label><i class="fas fa-comment"></i> سبب التعطيل</label>
+            <input type="text" id="editSuspendReason" placeholder="سبب التعطيل (اختياري)">
           </div>
         </div>
 
@@ -645,29 +678,23 @@
       <button class="btn btn-danger" onclick="deleteCustomer()">
         <i class="fas fa-trash"></i> حذف العميل
       </button>
-      <button class="btn btn-outline" onclick="closeSidePanel()">
+      <button class="btn btn-outline" onclick="closeCustomerPanel()">
         <i class="fas fa-times"></i> إلغاء
       </button>
     </div>
   </div>
 
-  <!-- ===== نافذة الذمة المالية ===== -->
-  <div class="modal-overlay" id="balanceModal">
+  <!-- ===== نافذة فواتير العميل ===== -->
+  <div class="modal-overlay" id="invoicesModal">
     <div class="modal-content">
       <div class="modal-header">
-        <h3><i class="fas fa-coins"></i> الذمة المالية</h3>
-        <button class="modal-close" onclick="closeBalanceModal()"><i class="fas fa-times"></i></button>
+        <h3><i class="fas fa-file-invoice"></i> فواتير العميل</h3>
+        <button class="modal-close" onclick="closeInvoicesModal()"><i class="fas fa-times"></i></button>
       </div>
-      <div id="balanceBody">
+      <div id="invoicesBody">
         <div class="text-center py-4 text-gray-400">
           <i class="fas fa-spinner fa-spin"></i> جاري التحميل...
         </div>
-      </div>
-      <div style="display:flex;gap:12px;margin-top:16px;flex-wrap:wrap;">
-        <button class="btn btn-success" onclick="settleBalance()">
-          <i class="fas fa-check"></i> تسوية الحساب
-        </button>
-        <button class="btn btn-outline" onclick="closeBalanceModal()">إغلاق</button>
       </div>
     </div>
   </div>
@@ -694,11 +721,19 @@
     let currentPage = 0;
     const pageSize = 8;
     let editingCustomerId = null;
-    let viewingCustomerId = null;
 
     // ===== تحميل البيانات =====
     function loadAllData() {
       showLoadingState();
+
+      // جلب الصلاحية الحقيقية من localStorage
+      const adminData = localStorage.getItem('admin');
+      if (adminData) {
+        const admin = JSON.parse(adminData);
+        const isSuperAdmin = admin.role === 'super';
+        document.getElementById('adminRoleBadge').textContent = isSuperAdmin ? '👑 سوبر أدمن' : '🛡️ مشرف';
+        document.getElementById('adminName').textContent = admin.name || 'مدير';
+      }
 
       db.collection('customers')
         .orderBy('name')
@@ -706,7 +741,12 @@
         .then((snapshot) => {
           allCustomers = [];
           snapshot.forEach(doc => {
-            allCustomers.push({ id: doc.id, ...doc.data() });
+            const data = doc.data();
+            // إذا لم يكن هناك حقل status، نضيفه افتراضياً
+            if (!data.status) {
+              data.status = { active: true, reason: '' };
+            }
+            allCustomers.push({ id: doc.id, ...data });
           });
           filteredCustomers = [...allCustomers];
           renderCustomers();
@@ -805,7 +845,6 @@
           <div class="text-center py-12 text-gray-400 col-span-full">
             <i class="fas fa-users-slash text-5xl"></i>
             <p class="mt-3 text-lg">لا توجد عملاء</p>
-            <p class="text-sm">قم بإضافة عميل جديد من خلال توليد كود في صفحة توليد الأكواد</p>
           </div>
         `;
         document.getElementById('loadMoreBtn').style.display = 'none';
@@ -817,6 +856,7 @@
         const balance = customer.balance || 0;
         const balanceClass = balance > 0 ? 'negative' : balance < 0 ? 'positive' : 'zero';
         const balanceLabel = balance > 0 ? `متبقي ${balance} ج.م` : balance < 0 ? `له ${Math.abs(balance)} ج.م` : 'صفر';
+        const isActive = customer.status && customer.status.active !== false;
 
         html += `
           <div class="customer-card" style="animation-delay:${(index % 6) * 0.05}s">
@@ -826,11 +866,15 @@
                 <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
                   <span class="customer-name">${customer.name || 'غير معروف'}</span>
                   <span class="customer-code">${customer.code || '----'}</span>
+                  <span class="status-badge ${isActive ? 'active' : 'suspended'}">
+                    ${isActive ? '✅ مفعل' : '⛔ معطل'}
+                  </span>
                 </div>
                 <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:4px;">
                   <span class="badge-type ${customer.type === 'cash' ? 'cash' : 'credit'}">${customer.type === 'cash' ? 'نقدي' : 'تقسيط'}</span>
                   <span class="badge-city">${customer.city || 'غير محدد'}</span>
                 </div>
+                ${!isActive && customer.status?.reason ? `<div style="font-size:0.75rem;color:#ef4444;margin-top:2px;">⚠️ ${customer.status.reason}</div>` : ''}
               </div>
             </div>
             <div class="customer-info"><i class="fas fa-phone"></i> ${customer.phone || 'لا يوجد'}</div>
@@ -840,10 +884,13 @@
               <span class="customer-balance ${balanceClass}">${balanceLabel}</span>
             </div>
             <div class="customer-actions">
-              <button class="btn-icon" onclick="viewBalance('${customer.id}')" title="الذمة المالية">
-                <i class="fas fa-coins"></i>
+              <button class="btn-icon" onclick="toggleCustomerStatus('${customer.id}')" title="${isActive ? 'تعطيل' : 'تفعيل'} الحساب">
+                <i class="fas ${isActive ? 'fa-pause-circle' : 'fa-play-circle'}"></i>
               </button>
-              <button class="btn-icon" onclick="editCustomer('${customer.id}')" title="تعديل">
+              <button class="btn-icon" onclick="viewCustomerInvoices('${customer.id}')" title="فواتير العميل">
+                <i class="fas fa-file-invoice"></i>
+              </button>
+              <button class="btn-icon" onclick="openEditCustomer('${customer.id}')" title="تعديل">
                 <i class="fas fa-edit"></i>
               </button>
               <button class="btn-icon" onclick="sendCustomerCode('${customer.id}')" title="إرسال الكود">
@@ -877,6 +924,7 @@
       const searchValue = document.getElementById('searchInput').value.trim().toLowerCase();
       const cityFilter = document.getElementById('cityFilter').value;
       const typeFilter = document.getElementById('typeFilter').value;
+      const statusFilter = document.getElementById('statusFilter').value;
 
       filteredCustomers = allCustomers.filter(c => {
         if (searchValue) {
@@ -887,6 +935,8 @@
         }
         if (cityFilter && c.city !== cityFilter) return false;
         if (typeFilter && c.type !== typeFilter) return false;
+        if (statusFilter === 'active' && !(c.status && c.status.active !== false)) return false;
+        if (statusFilter === 'suspended' && (c.status && c.status.active !== false)) return false;
         return true;
       });
 
@@ -894,27 +944,59 @@
       renderCustomers();
     }
 
+    // ===== تبديل حالة العميل (تفعيل/تعطيل) =====
+    function toggleCustomerStatus(customerId) {
+      const customer = allCustomers.find(c => c.id === customerId);
+      if (!customer) return;
+
+      const isActive = customer.status && customer.status.active !== false;
+      const newStatus = !isActive;
+
+      // إذا كان التعطيل، نطلب سبب
+      let reason = '';
+      if (!newStatus) {
+        reason = prompt('⚠️ يرجى إدخال سبب تعطيل العميل:');
+        if (reason === null) return; // إلغاء
+        if (reason.trim() === '') {
+          showToast('⚠️ يرجى إدخال سبب التعطيل', 'warning');
+          return;
+        }
+      }
+
+      const statusData = {
+        active: newStatus,
+        reason: reason || '',
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+
+      db.collection('customers').doc(customerId).update({
+        status: statusData
+      })
+      .then(() => {
+        // تحديث البيانات محلياً
+        if (!customer.status) customer.status = {};
+        customer.status.active = newStatus;
+        customer.status.reason = reason || '';
+        renderCustomers();
+        showToast(`✅ تم ${newStatus ? 'تفعيل' : 'تعطيل'} العميل`, 'success');
+      })
+      .catch(error => {
+        console.error('Error toggling status:', error);
+        showToast('❌ حدث خطأ', 'error');
+      });
+    }
+
     // ===== توليد كود العميل =====
     function generateCustomerCode() {
       const city = document.getElementById('editCity').value;
       const prefixMap = { 'المحلة': 'MHL', 'المنصورة': 'MNS', 'طنطا': 'TNT' };
       const prefix = prefixMap[city] || 'MHL';
-
-      let code;
-      let exists = true;
-      let attempts = 0;
-
-      while (exists && attempts < 20) {
-        const random = Math.floor(1000 + Math.random() * 9000);
-        code = `${prefix}-${random}`;
-        exists = allCustomers.some(c => c.code === code);
-        attempts++;
-      }
-
+      const random = Math.floor(1000 + Math.random() * 9000);
+      const code = `${prefix}-${random}`;
       document.getElementById('editCode').value = code;
     }
 
-    // ===== إضافة/تعديل العميل =====
+    // ===== فتح نافذة إضافة عميل =====
     function openAddCustomer() {
       editingCustomerId = null;
       document.getElementById('panelTitle').innerHTML = '<i class="fas fa-user-plus"></i> إضافة عميل';
@@ -922,12 +1004,15 @@
       document.getElementById('editCustomerId').value = '';
       document.getElementById('editAvatarPreview').src = '../assets/images/default-avatar.png';
       document.getElementById('editAvatarUrl').value = '';
+      document.getElementById('editStatus').value = 'active';
+      document.getElementById('suspendReasonGroup').style.display = 'none';
       generateCustomerCode();
-      document.getElementById('sidePanel').classList.add('open');
+      document.getElementById('customerPanel').classList.add('open');
       document.getElementById('panelOverlay').classList.add('active');
     }
 
-    function editCustomer(customerId) {
+    // ===== فتح نافذة تعديل عميل =====
+    function openEditCustomer(customerId) {
       const customer = allCustomers.find(c => c.id === customerId);
       if (!customer) {
         showToast('❌ العميل غير موجود', 'error');
@@ -947,103 +1032,19 @@
       document.getElementById('editAvatarPreview').src = customer.avatar || '../assets/images/default-avatar.png';
       document.getElementById('editAvatarUrl').value = customer.avatar || '';
 
-      document.getElementById('sidePanel').classList.add('open');
+      const isActive = customer.status && customer.status.active !== false;
+      document.getElementById('editStatus').value = isActive ? 'active' : 'suspended';
+      document.getElementById('editSuspendReason').value = customer.status?.reason || '';
+      document.getElementById('suspendReasonGroup').style.display = isActive ? 'none' : 'block';
+
+      document.getElementById('customerPanel').classList.add('open');
       document.getElementById('panelOverlay').classList.add('active');
     }
 
-    function closeSidePanel() {
-      document.getElementById('sidePanel').classList.remove('open');
+    // ===== إغلاق النافذة =====
+    function closeCustomerPanel() {
+      document.getElementById('customerPanel').classList.remove('open');
       document.getElementById('panelOverlay').classList.remove('active');
-    }
-
-    // ===== حفظ العميل =====
-    function saveCustomer() {
-      const id = document.getElementById('editCustomerId').value;
-      const name = document.getElementById('editName').value.trim();
-      const shop = document.getElementById('editShop').value.trim();
-      const phone = document.getElementById('editPhone').value.trim();
-      const city = document.getElementById('editCity').value;
-      const address = document.getElementById('editAddress').value.trim();
-      const type = document.getElementById('editType').value;
-      const code = document.getElementById('editCode').value.trim();
-      const avatar = document.getElementById('editAvatarUrl').value || '../assets/images/default-avatar.png';
-
-      if (!name) {
-        showToast('⚠️ يرجى إدخال اسم العميل', 'warning');
-        return;
-      }
-
-      if (!phone) {
-        showToast('⚠️ يرجى إدخال رقم الهاتف', 'warning');
-        return;
-      }
-
-      if (!code) {
-        showToast('⚠️ يرجى توليد كود للعميل', 'warning');
-        return;
-      }
-
-      // التحقق من عدم تكرار الكود
-      const codeExists = allCustomers.some(c => c.code === code && c.id !== id);
-      if (codeExists) {
-        showToast('⚠️ هذا الكود مستخدم بالفعل، يرجى توليد كود آخر', 'warning');
-        return;
-      }
-
-      const customerData = {
-        name, shop, phone, city, address, type, code, avatar,
-        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-      };
-
-      const savePromise = id ?
-        db.collection('customers').doc(id).update(customerData) :
-        db.collection('customers').add({
-          ...customerData,
-          balance: 0,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-
-      savePromise
-        .then(() => {
-          showToast(id ? '✅ تم تحديث العميل' : '✅ تم إضافة العميل', 'success');
-          closeSidePanel();
-          loadAllData();
-        })
-        .catch((error) => {
-          console.error('Error saving customer:', error);
-          showToast('❌ حدث خطأ', 'error');
-        });
-    }
-
-    // ===== حذف العميل =====
-    function deleteCustomerConfirm(customerId) {
-      if (!confirm('⚠️ هل أنت متأكد من حذف هذا العميل؟ سيتم حذف جميع بياناته وفواتيره.')) return;
-      deleteCustomer(customerId);
-    }
-
-    function deleteCustomer() {
-      const id = document.getElementById('editCustomerId').value;
-      if (!id) return;
-
-      // حذف الفواتير المرتبطة
-      db.collection('invoices').where('customerId', '==', id).get()
-        .then(snapshot => {
-          const batch = db.batch();
-          snapshot.forEach(doc => batch.delete(doc.ref));
-          return batch.commit();
-        })
-        .then(() => {
-          return db.collection('customers').doc(id).delete();
-        })
-        .then(() => {
-          showToast('✅ تم حذف العميل', 'success');
-          closeSidePanel();
-          loadAllData();
-        })
-        .catch((error) => {
-          console.error('Error deleting customer:', error);
-          showToast('❌ حدث خطأ', 'error');
-        });
     }
 
     // ===== رفع الصورة =====
@@ -1072,6 +1073,99 @@
         .catch(() => showToast('❌ حدث خطأ', 'error'));
     }
 
+    // ===== حفظ العميل =====
+    function saveCustomer() {
+      const id = document.getElementById('editCustomerId').value;
+      const name = document.getElementById('editName').value.trim();
+      const shop = document.getElementById('editShop').value.trim();
+      const phone = document.getElementById('editPhone').value.trim();
+      const city = document.getElementById('editCity').value;
+      const address = document.getElementById('editAddress').value.trim();
+      const type = document.getElementById('editType').value;
+      const code = document.getElementById('editCode').value.trim();
+      const avatar = document.getElementById('editAvatarUrl').value || '../assets/images/default-avatar.png';
+      const statusValue = document.getElementById('editStatus').value;
+      const suspendReason = document.getElementById('editSuspendReason').value.trim();
+
+      if (!name) {
+        showToast('⚠️ يرجى إدخال اسم العميل', 'warning');
+        return;
+      }
+      if (!phone) {
+        showToast('⚠️ يرجى إدخال رقم الهاتف', 'warning');
+        return;
+      }
+      if (!code) {
+        showToast('⚠️ يرجى توليد كود للعميل', 'warning');
+        return;
+      }
+
+      // التحقق من عدم تكرار الكود
+      const codeExists = allCustomers.some(c => c.code === code && c.id !== id);
+      if (codeExists) {
+        showToast('⚠️ هذا الكود مستخدم بالفعل، يرجى توليد كود آخر', 'warning');
+        return;
+      }
+
+      const isActive = statusValue === 'active';
+      const customerData = {
+        name, shop, phone, city, address, type, code, avatar,
+        status: {
+          active: isActive,
+          reason: isActive ? '' : suspendReason || 'تم التعطيل بواسطة الإدارة'
+        },
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+
+      const savePromise = id ?
+        db.collection('customers').doc(id).update(customerData) :
+        db.collection('customers').add({
+          ...customerData,
+          balance: 0,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+      savePromise
+        .then(() => {
+          showToast(id ? '✅ تم تحديث العميل' : '✅ تم إضافة العميل', 'success');
+          closeCustomerPanel();
+          loadAllData();
+        })
+        .catch(error => {
+          console.error('Error saving customer:', error);
+          showToast('❌ حدث خطأ', 'error');
+        });
+    }
+
+    // ===== حذف العميل =====
+    function deleteCustomerConfirm(customerId) {
+      if (!confirm('⚠️ هل أنت متأكد من حذف هذا العميل؟ سيتم حذف جميع بياناته.')) return;
+      deleteCustomer(customerId);
+    }
+
+    function deleteCustomer() {
+      const id = document.getElementById('editCustomerId').value;
+      if (!id) return;
+      if (!confirm('⚠️ هل أنت متأكد من حذف هذا العميل؟')) return;
+
+      db.collection('invoices').where('customerId', '==', id).get()
+        .then(snapshot => {
+          const batch = db.batch();
+          snapshot.forEach(doc => batch.delete(doc.ref));
+          return batch.commit();
+        })
+        .then(() => db.collection('customers').doc(id).delete())
+        .then(() => {
+          showToast('✅ تم حذف العميل', 'success');
+          closeCustomerPanel();
+          loadAllData();
+        })
+        .catch(error => {
+          console.error('Error deleting customer:', error);
+          showToast('❌ حدث خطأ', 'error');
+        });
+    }
+
     // ===== إرسال الكود عبر واتساب =====
     function sendCustomerCode(customerId) {
       const customer = allCustomers.find(c => c.id === customerId);
@@ -1089,23 +1183,27 @@
       if (phone.startsWith('0')) phone = phone.substring(1);
       if (!phone.startsWith('2')) phone = '2' + phone;
 
+      const isActive = customer.status && customer.status.active !== false;
+      const statusMsg = isActive ? '✅ حسابك مفعل' : '⛔ حسابك معطل مؤقتاً';
+      const reasonMsg = !isActive && customer.status?.reason ? `\nسبب التعطيل: ${customer.status.reason}` : '';
+
       const message = `مرحباً ${customer.name} 👋\n\n` +
         `كود الدخول الخاص بك لمتجر أولاد شعلان جملة هو:\n` +
         `🔑 *${customer.code}*\n\n` +
-        `يمكنك استخدام هذا الكود لتسجيل الدخول ومتابعة طلباتك وفواتيرك.\n\n` +
+        `📌 حالة الحساب: ${statusMsg}${reasonMsg}\n\n` +
         `رابط المتجر: https://awladsh3laan.github.io/gomla/`;
 
       const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
       window.open(url, '_blank');
     }
 
-    // ===== الذمة المالية =====
-    let balanceCustomerId = null;
+    // ===== عرض فواتير العميل =====
+    let viewingCustomerId = null;
 
-    function viewBalance(customerId) {
-      balanceCustomerId = customerId;
-      const modal = document.getElementById('balanceModal');
-      const body = document.getElementById('balanceBody');
+    function viewCustomerInvoices(customerId) {
+      viewingCustomerId = customerId;
+      const modal = document.getElementById('invoicesModal');
+      const body = document.getElementById('invoicesBody');
       modal.style.display = 'flex';
       body.innerHTML = '<div class="text-center py-4"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</div>';
 
@@ -1115,109 +1213,51 @@
         return;
       }
 
-      // جلب فواتير العميل
       db.collection('invoices')
         .where('customerId', '==', customerId)
         .orderBy('createdAt', 'desc')
         .get()
         .then(snapshot => {
-          let totalInvoices = 0;
-          let totalPaid = 0;
-          let totalRemaining = 0;
-          let invoicesHtml = '';
-
           if (snapshot.empty) {
-            invoicesHtml = '<p class="text-center text-gray-400">لا توجد فواتير</p>';
-          } else {
-            snapshot.forEach(doc => {
-              const inv = doc.data();
-              totalInvoices += inv.total || 0;
-              totalPaid += inv.paid || 0;
-              totalRemaining += inv.remaining || 0;
-
-              invoicesHtml += `
-                <div class="balance-invoice-item">
-                  <span>فاتورة #${doc.id.slice(0, 8)}</span>
-                  <span>${inv.total || 0} ج.م</span>
-                  <span style="color:${inv.remaining > 0 ? '#ef4444' : '#22c55e'}">
-                    ${inv.remaining > 0 ? `متبقي ${inv.remaining} ج.م` : 'مكتملة ✅'}
-                  </span>
-                </div>
-              `;
-            });
+            body.innerHTML = '<p class="text-center text-gray-400">لا توجد فواتير لهذا العميل</p>';
+            return;
           }
 
-          body.innerHTML = `
-            <div style="margin-bottom:16px;">
-              <h4 style="margin:0 0 8px;">${customer.name}</h4>
-              <p style="color:var(--gray-400);margin:0;">الكود: ${customer.code} | ${customer.city}</p>
-              <p style="color:var(--gray-400);margin:0;">النوع: ${customer.type === 'credit' ? 'تقسيط' : 'نقدي'}</p>
-            </div>
-            <div class="balance-summary">
-              <div class="balance-item">
-                <span class="balance-label">إجمالي المشتريات</span>
-                <span class="balance-value">${totalInvoices} ج.م</span>
-              </div>
-              <div class="balance-item">
-                <span class="balance-label">المدفوع</span>
-                <span class="balance-value green">${totalPaid} ج.م</span>
-              </div>
-              <div class="balance-item">
-                <span class="balance-label">المتبقي</span>
-                <span class="balance-value red">${totalRemaining} ج.م</span>
-              </div>
-            </div>
-            <h5 style="margin:0 0 8px;">الفواتير</h5>
-            <div style="max-height:300px;overflow-y:auto;">
-              ${invoicesHtml}
-            </div>
-          `;
-        })
-        .catch(error => {
-          console.error('Error loading balance:', error);
-          body.innerHTML = '<p class="text-center text-red-500">حدث خطأ في تحميل الذمة المالية</p>';
-        });
-    }
+          let html = `<div style="margin-bottom:16px;">
+            <h4 style="margin:0;">${customer.name}</h4>
+            <p style="color:var(--gray-400);margin:0;">الكود: ${customer.code}</p>
+          </div>`;
 
-    function closeBalanceModal() {
-      document.getElementById('balanceModal').style.display = 'none';
-      balanceCustomerId = null;
-    }
-
-    function settleBalance() {
-      if (!balanceCustomerId) return;
-      if (!confirm('هل أنت متأكد من تسوية حساب هذا العميل؟ سيتم تحديث جميع فواتيره كمدفوعة بالكامل.')) return;
-
-      db.collection('invoices')
-        .where('customerId', '==', balanceCustomerId)
-        .get()
-        .then(snapshot => {
-          const batch = db.batch();
+          html += `<div style="max-height:400px;overflow-y:auto;">`;
           snapshot.forEach(doc => {
             const inv = doc.data();
-            const remaining = inv.remaining || 0;
-            if (remaining > 0) {
-              batch.update(doc.ref, {
-                paid: (inv.paid || 0) + remaining,
-                remaining: 0,
-                settled: true
-              });
-            }
+            const dateStr = inv.createdAt ? formatDate(inv.createdAt) : 'تاريخ غير محدد';
+            html += `
+              <div class="invoice-item">
+                <span>فاتورة #${doc.id.slice(0, 8)}</span>
+                <span>${dateStr}</span>
+                <span>${inv.total || 0} ج.م</span>
+                <span style="color:${inv.remaining > 0 ? '#ef4444' : '#22c55e'}">
+                  ${inv.remaining > 0 ? `متبقي ${inv.remaining} ج.م` : '✅ مكتملة'}
+                </span>
+                <a href="/gomla/invoice.html?id=${doc.id}" target="_blank" class="btn btn-sm btn-outline">
+                  <i class="fas fa-eye"></i>
+                </a>
+              </div>
+            `;
           });
-          return batch.commit();
-        })
-        .then(() => {
-          return db.collection('customers').doc(balanceCustomerId).update({ balance: 0 });
-        })
-        .then(() => {
-          showToast('✅ تم تسوية الحساب بنجاح', 'success');
-          closeBalanceModal();
-          loadAllData();
+          html += `</div>`;
+          body.innerHTML = html;
         })
         .catch(error => {
-          console.error('Error settling balance:', error);
-          showToast('❌ حدث خطأ', 'error');
+          console.error('Error loading invoices:', error);
+          body.innerHTML = '<p class="text-center text-red-500">حدث خطأ في تحميل الفواتير</p>';
         });
+    }
+
+    function closeInvoicesModal() {
+      document.getElementById('invoicesModal').style.display = 'none';
+      viewingCustomerId = null;
     }
 
     // ============================================
@@ -1264,25 +1304,25 @@
       // إغلاق النوافذ بالضغط على Escape
       document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
-          closeSidePanel();
-          closeBalanceModal();
+          closeCustomerPanel();
+          closeInvoicesModal();
         }
       });
     });
 
     // تصدير الدوال
     window.openAddCustomer = openAddCustomer;
-    window.editCustomer = editCustomer;
-    window.closeSidePanel = closeSidePanel;
+    window.openEditCustomer = openEditCustomer;
+    window.closeCustomerPanel = closeCustomerPanel;
     window.saveCustomer = saveCustomer;
     window.deleteCustomer = deleteCustomer;
     window.deleteCustomerConfirm = deleteCustomerConfirm;
     window.generateCustomerCode = generateCustomerCode;
     window.handleAvatarUpload = handleAvatarUpload;
     window.sendCustomerCode = sendCustomerCode;
-    window.viewBalance = viewBalance;
-    window.closeBalanceModal = closeBalanceModal;
-    window.settleBalance = settleBalance;
+    window.viewCustomerInvoices = viewCustomerInvoices;
+    window.closeInvoicesModal = closeInvoicesModal;
+    window.toggleCustomerStatus = toggleCustomerStatus;
     window.applyFilters = applyFilters;
     window.loadMoreCustomers = loadMoreCustomers;
   </script>
