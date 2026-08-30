@@ -441,6 +441,9 @@
       <div class="page-header">
         <h1><i class="fas fa-users"></i> إدارة العملاء</h1>
         <span class="admin-badge" id="adminRoleBadge">🛡️ مشرف</span>
+        <button class="btn btn-gold" onclick="openAddCustomer()">
+          <i class="fas fa-plus"></i> إضافة عميل
+        </button>
       </div>
 
       <!-- ===== إحصائيات ===== -->
@@ -715,12 +718,57 @@
     // 👥 إدارة العملاء - admin/customers.html
     // ============================================
 
+    // ===== تعريف IMGBB_API_KEY =====
+    const IMGBB_API_KEY = '99506f7c2987acaf6709c7fb0e978298';
+
     // ===== متغيرات عامة =====
     let allCustomers = [];
     let filteredCustomers = [];
     let currentPage = 0;
     const pageSize = 8;
     let editingCustomerId = null;
+
+    // ===== دالة تنسيق التاريخ =====
+    function formatDate(timestamp) {
+      if (!timestamp) return 'غير محدد';
+      try {
+        const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+        return date.toLocaleDateString('ar-EG', { 
+          year: 'numeric', 
+          month: 'short', 
+          day: 'numeric' 
+        });
+      } catch {
+        return 'تاريخ غير محدد';
+      }
+    }
+
+    // ===== التحقق من صلاحية المدير =====
+    function checkAdminAuth() {
+      const adminData = localStorage.getItem('admin');
+      if (!adminData) {
+        window.location.href = '/gomla/admin/login.html';
+        return false;
+      }
+      try {
+        const admin = JSON.parse(adminData);
+        if (!admin.role || !['admin', 'super', 'super_admin'].includes(admin.role)) {
+          window.location.href = '/gomla/admin/login.html';
+          return false;
+        }
+        return true;
+      } catch {
+        window.location.href = '/gomla/admin/login.html';
+        return false;
+      }
+    }
+
+    // ===== تسجيل الخروج =====
+    function logoutAdmin() {
+      localStorage.removeItem('admin');
+      localStorage.removeItem('adminId');
+      window.location.href = '/gomla/';
+    }
 
     // ===== تحميل البيانات =====
     function loadAllData() {
@@ -730,7 +778,7 @@
       const adminData = localStorage.getItem('admin');
       if (adminData) {
         const admin = JSON.parse(adminData);
-        const isSuperAdmin = admin.role === 'super';
+        const isSuperAdmin = admin.role === 'super' || admin.role === 'super_admin';
         document.getElementById('adminRoleBadge').textContent = isSuperAdmin ? '👑 سوبر أدمن' : '🛡️ مشرف';
         document.getElementById('adminName').textContent = admin.name || 'مدير';
       }
@@ -933,7 +981,7 @@
           const phoneMatch = c.phone && c.phone.includes(searchValue);
           if (!nameMatch && !codeMatch && !phoneMatch) return false;
         }
-        if (cityFilter && c.city !== cityFilter) return false;
+        if (cityFilter && (c.city || '') !== cityFilter) return false;
         if (typeFilter && c.type !== typeFilter) return false;
         if (statusFilter === 'active' && !(c.status && c.status.active !== false)) return false;
         if (statusFilter === 'suspended' && (c.status && c.status.active !== false)) return false;
@@ -974,7 +1022,7 @@
       })
       .then(() => {
         // تحديث البيانات محلياً
-        if (!customer.status) customer.status = {};
+        if (!customer.status) customer.status = { active: true, reason: '' };
         customer.status.active = newStatus;
         customer.status.reason = reason || '';
         renderCustomers();
@@ -1101,7 +1149,7 @@
       }
 
       // التحقق من عدم تكرار الكود
-      const codeExists = allCustomers.some(c => c.code === code && c.id !== id);
+      const codeExists = allCustomers.some(c => c.code && c.code === code && c.id !== id);
       if (codeExists) {
         showToast('⚠️ هذا الكود مستخدم بالفعل، يرجى توليد كود آخر', 'warning');
         return;
@@ -1231,7 +1279,7 @@
           html += `<div style="max-height:400px;overflow-y:auto;">`;
           snapshot.forEach(doc => {
             const inv = doc.data();
-            const dateStr = inv.createdAt ? formatDate(inv.createdAt) : 'تاريخ غير محدد';
+            const dateStr = formatDate(inv.createdAt);
             html += `
               <div class="invoice-item">
                 <span>فاتورة #${doc.id.slice(0, 8)}</span>
