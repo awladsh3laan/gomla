@@ -11,30 +11,11 @@ function showToast(message, type = 'info', duration = 3000) {
     div.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:99999;display:flex;flex-direction:column;gap:8px;max-width:90%;';
     document.body.appendChild(div);
   }
-
-  const colors = {
-    success: '#22c55e',
-    error: '#ef4444',
-    warning: '#f59e0b',
-    info: '#3b82f6'
-  };
-
+  const colors = { success: '#22c55e', error: '#ef4444', warning: '#f59e0b', info: '#3b82f6' };
   const toast = document.createElement('div');
-  toast.style.cssText = `
-    padding: 12px 24px;
-    border-radius: 10px;
-    color: white;
-    font-weight: 600;
-    font-size: 0.95rem;
-    background: ${colors[type] || colors.info};
-    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
-    animation: slideIn 0.3s ease;
-    direction: rtl;
-    font-family: 'Tajawal', sans-serif;
-  `;
+  toast.className = `toast toast-${type}`;
   toast.textContent = message;
   document.getElementById('toast-container').appendChild(toast);
-
   setTimeout(() => {
     toast.style.opacity = '0';
     toast.style.transition = 'opacity 0.3s ease';
@@ -46,9 +27,7 @@ function showToast(message, type = 'info', duration = 3000) {
 function formatDate(date, format = 'short') {
   if (!date) return '---';
   const d = date.toDate ? date.toDate() : new Date(date);
-  if (format === 'short') {
-    return d.toLocaleDateString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric' });
-  }
+  if (format === 'short') return d.toLocaleDateString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric' });
   return d.toLocaleDateString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
 }
 
@@ -56,9 +35,7 @@ function formatDate(date, format = 'short') {
 function generateCode(prefix = '', length = 4) {
   const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   let result = prefix;
-  for (let i = 0; i < length; i++) {
-    result += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
+  for (let i = 0; i < length; i++) result += chars.charAt(Math.floor(Math.random() * chars.length));
   return result;
 }
 
@@ -110,57 +87,65 @@ function checkAdminAuth() {
   return true;
 }
 
-// ===== التحقق من صلاحية العميل =====
-function checkCustomerAuth() {
-  const customerData = localStorage.getItem('customer');
-  if (!customerData) {
-    window.location.href = '/gomla/customer-login.html';
-    return false;
-  }
-  return true;
-}
-
-// ===== تحميل الهيدر =====
-function loadHeader() {
-  fetch('/gomla/assets/components/header.html')
-    .then(res => res.text())
-    .then(html => {
-      const placeholder = document.getElementById('header-placeholder');
-      if (placeholder) placeholder.innerHTML = html;
+// ===== تحميل الجمل التحفيزية الإدارية =====
+function loadAdminQuotes() {
+  const container = document.getElementById('adminMotivationalText');
+  if (!container) return;
+  db.collection('quotes')
+    .where('type', '==', 'admin')
+    .where('active', '==', true)
+    .orderBy('order')
+    .get()
+    .then(snapshot => {
+      if (snapshot.empty) {
+        container.innerHTML = '<i class="fas fa-quote-right"></i> كن قدوة في الإخلاص والتميز';
+        return;
+      }
+      const quotes = [];
+      snapshot.forEach(doc => quotes.push(doc.data().text));
+      let index = 0;
+      container.innerHTML = `<i class="fas fa-quote-right"></i> "${quotes[0]}"`;
+      setInterval(() => {
+        index = (index + 1) % quotes.length;
+        container.style.opacity = '0';
+        setTimeout(() => {
+          container.innerHTML = `<i class="fas fa-quote-right"></i> "${quotes[index]}"`;
+          container.style.opacity = '1';
+        }, 300);
+      }, 5000);
     })
     .catch(() => {
-      const placeholder = document.getElementById('header-placeholder');
-      if (placeholder) {
-        placeholder.innerHTML = `
-          <header style="background:#1a2a4a;color:white;padding:12px;text-align:center;">
-            <h3>أولاد شعلان جملة</h3>
-          </header>
-        `;
-      }
+      container.innerHTML = '<i class="fas fa-quote-right"></i> كن قدوة في الإخلاص والتميز';
     });
 }
 
-// ===== تحميل الفوتر =====
-function loadFooter() {
-  fetch('/gomla/assets/components/footer.html')
-    .then(res => res.text())
-    .then(html => {
-      const placeholder = document.getElementById('footer-placeholder');
-      if (placeholder) placeholder.innerHTML = html;
+// ===== تحميل الأخبار الإدارية =====
+function loadAdminNews() {
+  const container = document.getElementById('adminNewsList');
+  if (!container) return;
+  db.collection('news')
+    .where('type', '==', 'admin')
+    .where('active', '==', true)
+    .orderBy('createdAt', 'desc')
+    .limit(5)
+    .get()
+    .then(snapshot => {
+      if (snapshot.empty) {
+        container.innerHTML = '<div class="news-item"><span class="news-dot"></span><span class="news-text">لا توجد أخبار داخلية</span></div>';
+        return;
+      }
+      let html = '';
+      snapshot.forEach(doc => {
+        html += `<div class="news-item"><span class="news-dot"></span><span class="news-text">${doc.data().title}</span></div>`;
+      });
+      container.innerHTML = html;
     })
     .catch(() => {
-      const placeholder = document.getElementById('footer-placeholder');
-      if (placeholder) {
-        placeholder.innerHTML = `
-          <footer style="background:#0f1a2e;color:white;padding:12px;text-align:center;">
-            <p>© 2026 أولاد شعلان جملة</p>
-          </footer>
-        `;
-      }
+      container.innerHTML = '<div class="news-item"><span class="news-dot"></span><span class="news-text">جاري التحميل...</span></div>';
     });
 }
 
-// ===== السايدبار الذكي =====
+// ===== السايدبار =====
 function updateSidebarContent() {
   const adminData = localStorage.getItem('admin');
   const customerData = localStorage.getItem('customer');
@@ -168,7 +153,6 @@ function updateSidebarContent() {
   const isCustomer = customerData !== null;
   const isSuperAdmin = isAdmin && JSON.parse(adminData).role === 'super';
 
-  // تحديث الصورة والاسم
   const avatar = document.getElementById('sidebarAvatar');
   const username = document.getElementById('sidebarUsername');
   const userRole = document.getElementById('sidebarUserRole');
@@ -189,12 +173,9 @@ function updateSidebarContent() {
     avatar.src = '/gomla/assets/images/default-avatar.png';
   }
 
-  // تحديث الروابط
   const nav = document.getElementById('sidebarNav');
   if (!nav) return;
-
   let links = [];
-
   if (isAdmin) {
     links.push({ icon: 'fa-home', text: 'الرئيسية', url: '/gomla/admin/home.html' });
     links.push({ icon: 'fa-tachometer-alt', text: 'لوحة التحكم', url: '/gomla/admin/dashboard.html' });
@@ -223,18 +204,11 @@ function updateSidebarContent() {
   let html = '';
   links.forEach(link => {
     const isActive = window.location.pathname === link.url;
-    html += `
-      <a href="${link.url}" class="sidebar-link ${isActive ? 'active' : ''}">
-        <i class="fas ${link.icon}"></i>
-        <span>${link.text}</span>
-      </a>
-    `;
+    html += `<a href="${link.url}" class="sidebar-link ${isActive ? 'active' : ''}"><i class="fas ${link.icon}"></i><span>${link.text}</span></a>`;
   });
-
   nav.innerHTML = html;
 }
 
-// ===== تشغيل السايدبار =====
 function initSidebar() {
   const toggleBtn = document.getElementById('sidebarToggle');
   const overlay = document.getElementById('sidebarOverlay');
@@ -248,7 +222,6 @@ function initSidebar() {
       document.body.style.overflow = 'hidden';
     };
   }
-
   if (closeBtn && sidebar && overlay) {
     closeBtn.onclick = function() {
       sidebar.classList.remove('open');
@@ -256,7 +229,6 @@ function initSidebar() {
       document.body.style.overflow = '';
     };
   }
-
   if (overlay) {
     overlay.onclick = function() {
       sidebar.classList.remove('open');
@@ -264,27 +236,12 @@ function initSidebar() {
       document.body.style.overflow = '';
     };
   }
-
   updateSidebarContent();
 }
 
-// ===== تشغيل عند تحميل الصفحة =====
+// ===== تشغيل =====
 document.addEventListener('DOMContentLoaded', function() {
-  loadHeader();
-  loadFooter();
   initSidebar();
+  loadAdminQuotes();
+  loadAdminNews();
 });
-
-// تصدير الدوال
-window.showToast = showToast;
-window.formatDate = formatDate;
-window.generateCode = generateCode;
-window.copyToClipboard = copyToClipboard;
-window.logoutAdmin = logoutAdmin;
-window.logoutCustomer = logoutCustomer;
-window.checkAdminAuth = checkAdminAuth;
-window.checkCustomerAuth = checkCustomerAuth;
-window.loadHeader = loadHeader;
-window.loadFooter = loadFooter;
-window.updateSidebarContent = updateSidebarContent;
-window.initSidebar = initSidebar;
