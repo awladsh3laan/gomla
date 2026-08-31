@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+Bu<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
@@ -2100,7 +2100,7 @@
 
       db.collection('customers').doc(customerId).update({ status: statusData })
         .then(() => {
-          if (!customer.status) customer.status = { active: true, reason: '' };
+          xxxxxxxxx
           customer.status.active = newStatus;
           customer.status.reason = reason || '';
           renderCustomers();
@@ -2116,7 +2116,35 @@
     // 📱 إرسال الكود عبر واتساب
     // ============================================
 
-}
+    function sendCustomerCode(customerId) {
+      const customer = allCustomers.find(c => c.id === customerId);
+      if (!customer) {
+        showToast('❌ العميل غير موجود', 'error');
+        return;
+      }
+
+      if (!customer.phone) {
+        showToast('⚠️ العميل ليس لديه رقم هاتف مسجل', 'warning');
+        return;
+      }
+
+      let phone = customer.phone.replace(/[^0-9]/g, '');
+      if (phone.startsWith('0')) phone = phone.substring(1);
+      if (!phone.startsWith('2')) phone = '2' + phone;
+
+      const isActive = customer.status && customer.status.active !== false;
+      const statusMsg = isActive ? '✅ حسابك مفعل' : '⛔ حسابك معطل مؤقتاً';
+      const reasonMsg = !isActive && customer.status?.reason ? `\nسبب التعطيل: ${customer.status.reason}` : '';
+
+      const message = `مرحباً ${customer.name} 👋\n\n` +
+        `كود الدخول الخاص بك لمتجر أولاد شعلان جملة هو:\n` +
+        `🔑 *${customer.code}*\n\n` +
+        `📌 حالة الحساب: ${statusMsg}${reasonMsg}\n\n` +
+        `رابط المتجر: https://awladsh3laan.github.io/gomla/`;
+
+      const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+      window.open(url, '_blank');
+    }
 
     // ============================================
     // 📄 عرض فواتير العميل
