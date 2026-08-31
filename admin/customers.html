@@ -1516,12 +1516,8 @@
     // 👥 صفحة العملاء - admin/customers.html
     // ============================================
 
-    // ===== التحقق من Firebase =====
-    console.log('Firebase loaded:', typeof firebase !== 'undefined');
-    console.log('Firestore loaded:', typeof db !== 'undefined');
-
-    // ===== تعريف IMGBB_API_KEY =====
-    const IMGBB_API_KEY = '99506f7c2987acaf6709c7fb0e978298';
+    // ===== تعريف IMGBB_API_KEY (من window) =====
+    const IMGBB_API_KEY = window.IMGBB_API_KEY || '99506f7c2987acaf6709c7fb0e978298';
 
     // ============================================
     // 👤 إدارة المستخدم والصلاحيات
@@ -1610,7 +1606,7 @@
     function loadSidebarLinks() {
       const roleInfo = getRoleInfo();
       const navContainer = document.getElementById('sidebarNav');
-      
+
       let links = [
         { icon: 'fa-home', text: 'الرئيسية', url: '/gomla/admin/home.html' },
         { icon: 'fa-tachometer-alt', text: 'لوحة التحكم', url: '/gomla/admin/dashboard.html' },
@@ -1649,6 +1645,8 @@
     async function loadMotivationalQuote() {
       const container = document.getElementById('motivationalText');
       try {
+        // ✅ استخدام آمن لـ db
+        const db = window.db || firebase.firestore();
         const quotesRef = db.collection('sidebar_content').doc('quotes');
         const doc = await quotesRef.get();
         if (doc.exists && doc.data().quotes && doc.data().quotes.length > 0) {
@@ -1659,6 +1657,7 @@
           container.textContent = '"النجاح ليس نهاية الطريق، بل هو بداية جديدة"';
         }
       } catch (error) {
+        console.warn('Error loading quote:', error);
         container.textContent = '"النجاح ليس نهاية الطريق، بل هو بداية جديدة"';
       }
     }
@@ -1666,6 +1665,8 @@
     async function loadSidebarNews() {
       const container = document.getElementById('newsList');
       try {
+        // ✅ استخدام آمن لـ db
+        const db = window.db || firebase.firestore();
         const snapshot = await db.collection('news')
           .where('active', '==', true)
           .orderBy('createdAt', 'desc')
@@ -1690,6 +1691,7 @@
 
         container.innerHTML = html;
       } catch (error) {
+        console.warn('Error loading news:', error);
         container.innerHTML = '<div class="news-item">تعذر تحميل الأخبار</div>';
       }
     }
@@ -1741,10 +1743,8 @@
       document.getElementById('adminRoleBadge').textContent = `${roleInfo.icon} ${roleInfo.text}`;
       document.getElementById('adminName').textContent = roleInfo.name || 'مدير';
 
-      if (typeof db === 'undefined') {
-        showToast('❌ خطأ في الاتصال بقاعدة البيانات', 'error');
-        return;
-      }
+      // ✅ استخدام آمن لـ db
+      const db = window.db || firebase.firestore();
 
       db.collection('customers')
         .orderBy('name')
@@ -1762,7 +1762,7 @@
         })
         .catch(error => {
           console.error('Error loading customers:', error);
-          showToast('❌ حدث خطأ في تحميل العملاء', 'error');
+          showToast('❌ حدث خطأ في تحميل العملاء: ' + error.message, 'error');
         });
     }
 
@@ -2013,6 +2013,9 @@
         updatedAt: firebase.firestore.FieldValue.serverTimestamp()
       };
 
+      // ✅ استخدام آمن لـ db
+      const db = window.db || firebase.firestore();
+
       const savePromise = id ?
         db.collection('customers').doc(id).update(customerData) :
         db.collection('customers').add({
@@ -2029,7 +2032,7 @@
         })
         .catch(error => {
           console.error('Error saving customer:', error);
-          showToast('❌ حدث خطأ', 'error');
+          showToast('❌ حدث خطأ: ' + error.message, 'error');
         });
     }
 
@@ -2042,6 +2045,9 @@
       const id = document.getElementById('editCustomerId').value;
       if (!id) return;
       if (!confirm('⚠️ هل أنت متأكد من حذف هذا العميل؟')) return;
+
+      // ✅ استخدام آمن لـ db
+      const db = window.db || firebase.firestore();
 
       db.collection('invoices').where('customerId', '==', id).get()
         .then(snapshot => {
@@ -2057,7 +2063,7 @@
         })
         .catch(error => {
           console.error('Error deleting customer:', error);
-          showToast('❌ حدث خطأ', 'error');
+          showToast('❌ حدث خطأ: ' + error.message, 'error');
         });
     }
 
@@ -2088,6 +2094,9 @@
         updatedAt: firebase.firestore.FieldValue.serverTimestamp()
       };
 
+      // ✅ استخدام آمن لـ db
+      const db = window.db || firebase.firestore();
+
       db.collection('customers').doc(customerId).update({ status: statusData })
         .then(() => {
           if (!customer.status) customer.status = { active: true, reason: '' };
@@ -2098,7 +2107,7 @@
         })
         .catch(error => {
           console.error('Error toggling status:', error);
-          showToast('❌ حدث خطأ', 'error');
+          showToast('❌ حدث خطأ: ' + error.message, 'error');
         });
     }
 
@@ -2152,6 +2161,9 @@
         return;
       }
 
+      // ✅ استخدام آمن لـ db
+      const db = window.db || firebase.firestore();
+
       db.collection('invoices')
         .where('customerId', '==', customerId)
         .orderBy('createdAt', 'desc')
@@ -2203,6 +2215,8 @@
     // ============================================
 
     document.addEventListener('DOMContentLoaded', function() {
+      console.log('✅ customers.html loaded');
+      
       if (!protectPage()) return;
 
       initSidebar();
