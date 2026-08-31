@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>أولاد شعلان جملة - إدارة الفواتير</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="icon" href="../assets/images/favicon.ico">
+
+  <style>
+    /* ===== ستايل خاص بالصفحة ===== */
+    .page-header .btn {
+      padding: 10px 20px;
+    }
+
+    .filter-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 20px;
+      background: var(--white);
+      padding: 16px 20px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      align-items: center;
+    }
+
+    .filter-section select,
+    .filter-section input {
+      padding: 10px 14px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.9rem;
+      background: var(--gray-50);
+      min-width: 140px;
+    }
+
+    .filter-section select:focus,
+    .filter-section input:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.15);
+      background: var(--white);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: var(--transition-base);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .stat-card .stat-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .stat-card .stat-icon.gold { background: rgba(201, 168, 76, 0.15); color: var(--gold); }
+    .stat-card .stat-icon.green { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
+    .stat-card .stat-icon.red { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+    .stat-card .stat-icon.blue { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+
+    .stat-card .stat-info .stat-value {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--navy);
+      display: block;
+      line-height: 1.2;
+    }
+
+    .stat-card .stat-info .stat-label {
+      font-size: 0.75rem;
+      color: var(--gray-400);
+    }
+
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--white);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .admin-table th {
+      background: var(--navy);
+      color: var(--white);
+      padding: 12px 16px;
+      text-align: right;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    .admin-table td {
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--gray-200);
+      font-size: 0.9rem;
+    }
+
+    .admin-table tr:hover td {
+      background: var(--gray-50);
+    }
+
+    .admin-table .actions-cell {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .admin-table .btn-icon {
+      width: 32px;
+      height: 32px;
+      border: none;
+      border-radius: 50%;
+      background: var(--gray-100);
+      color: var(--gray-600);
+      cursor: pointer;
+      transition: 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .admin-table .btn-icon:hover {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    .admin-table .btn-icon.danger:hover {
+      background: #ef4444;
+      color: var(--white);
+    }
+
+    .status-badge {
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .status-badge.paid {
+      background: rgba(34, 197, 94, 0.15);
+      color: #22c55e;
+    }
+
+    .status-badge.unpaid {
+      background: rgba(239, 68, 68, 0.15);
+      color: #ef4444;
+    }
+
+    .status-badge.cancelled {
+      background: rgba(148, 163, 184, 0.15);
+      color: var(--gray-400);
+    }
+
+    /* ===== نافذة الفاتورة الجانبية ===== */
+    .side-panel .form-group .item-row {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 0.5fr;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .side-panel .form-group .item-row select,
+    .side-panel .form-group .item-row input {
+      padding: 6px 10px;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.9rem;
+    }
+
+    .side-panel .form-group .item-row .remove-item {
+      background: transparent;
+      border: none;
+      color: var(--gray-400);
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+
+    .side-panel .form-group .item-row .remove-item:hover {
+      color: #ef4444;
+    }
+
+    .invoice-summary {
+      background: var(--gray-50);
+      padding: 16px;
+      border-radius: var(--radius-sm);
+      margin-top: 12px;
+    }
+
+    .invoice-summary .row {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+    }
+
+    .invoice-summary .row.grand-total {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--gold);
+      border-top: 2px solid var(--gold);
+      padding-top: 8px;
+      margin-top: 4px;
+    }
+
+    @media (max-width: 768px) {
+      .filter-section {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .side-panel .form-group .item-row {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== الهيدر ===== -->
+  <header class="smart-header">
+    <div class="container">
+      <a href="/gomla/admin/home.html" class="logo">
+        <img src="../assets/images/logo.png" alt="أولاد شعلان" onerror="this.style.display='none'">
+        <span>أولاد شعلان <small>جملة</small></span>
+        <span class="gold">✦</span>
+      </a>
+      <div class="header-actions">
+        <span class="btn btn-gold" id="adminNameDisplay">
+          <i class="fas fa-user-cog"></i> مرحباً <span id="adminName">مدير</span>
+        </span>
+        <a href="/gomla/admin/dashboard.html" class="btn btn-outline">
+          <i class="fas fa-th-large"></i> لوحة التحكم
+        </a>
+        <button class="btn btn-outline" onclick="logoutAdmin()">
+          <i class="fas fa-sign-out-alt"></i> خروج
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== عبارات تحفيزية ===== -->
+  <section class="admin-motivational">
+    <div class="container">
+      <div class="motivational-text" id="adminMotivationalText">
+        <i class="fas fa-spinner fa-spin"></i> جاري التحميل...
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== آخر الأخبار ===== -->
+  <section class="admin-news">
+    <div class="container">
+      <div class="news-list" id="adminNewsList">
+        <div class="news-item">
+          <span class="news-dot"></span>
+          <span class="news-text">جاري تحميل الأخبار...</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== المحتوى الرئيسي ===== -->
+  <section class="page-content">
+    <div class="container">
+
+      <div class="page-header">
+        <h1><i class="fas fa-file-invoice"></i> إدارة الفواتير</h1>
+        <button class="btn btn-primary" onclick="openAddInvoice()">
+          <i class="fas fa-plus"></i> فاتورة جديدة
+        </button>
+      </div>
+
+      <!-- ===== الإحصائيات ===== -->
+      <div class="stats-grid" id="statsGrid">
+        <div class="stat-card">
+          <div class="stat-icon gold"><i class="fas fa-file-invoice"></i></div>
+          <div class="stat-info">
+            <span class="stat-value" id="totalInvoices">0</span>
+            <span class="stat-label">إجمالي الفواتير</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green"><i class="fas fa-money-bill-wave"></i></div>
+          <div class="stat-info">
+            <span class="stat-value" id="totalAmount">0 ج.م</span>
+            <span class="stat-label">إجمالي المبالغ</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon blue"><i class="fas fa-check-circle"></i></div>
+          <div class="stat-info">
+            <span class="stat-value" id="paidAmount">0 ج.م</span>
+            <span class="stat-label">المدفوع</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon red"><i class="fas fa-clock"></i></div>
+          <div class="stat-info">
+            <span class="stat-value" id="remainingAmount">0 ج.م</span>
+            <span class="stat-label">المتبقي</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== البحث والتصفية ===== -->
+      <div class="filter-section">
+        <input type="text" id="searchInput" placeholder="بحث عن فاتورة..." oninput="applyFilters()">
+        <select id="customerFilter" onchange="applyFilters()">
+          <option value="">كل العملاء</option>
+        </select>
+        <select id="paymentFilter" onchange="applyFilters()">
+          <option value="">طريقة الدفع</option>
+          <option value="cash">نقدي</option>
+          <option value="credit">تقسيط</option>
+        </select>
+        <select id="statusFilter" onchange="applyFilters()">
+          <option value="">الحالة</option>
+          <option value="paid">مدفوعة</option>
+          <option value="unpaid">غير مدفوعة</option>
+          <option value="cancelled">ملغاة</option>
+        </select>
+      </div>
+
+      <!-- ===== جدول الفواتير ===== -->
+      <div class="table-wrapper">
+        <table class="admin-table" id="invoicesTable">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>العميل</th>
+              <th>التاريخ</th>
+              <th>المبلغ</th>
+              <th>الدفع</th>
+              <th>الحالة</th>
+              <th>الإجراءات</th>
+            </tr>
+          </thead>
+          <tbody id="invoicesTableBody">
+            <tr>
+              <td colspan="7" style="text-align:center;padding:20px;color:var(--gray-400);">
+                <i class="fas fa-spinner fa-spin"></i> جاري تحميل الفواتير...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== الفوتر ===== -->
+  <footer class="smart-footer">
+    <div class="container">
+      <div class="copyright">© 2026 أولاد شعلان جملة - جميع الحقوق محفوظة</div>
+      <div class="footer-links">
+        <a href="/gomla/admin/home.html">الرئيسية</a>
+        <a href="/gomla/admin/dashboard.html">لوحة التحكم</a>
+        <a href="/gomla/admin/invoices.html">الفواتير</a>
+      </div>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-whatsapp"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== السايدبار ===== -->
+  <button class="sidebar-toggle" id="sidebarToggle">
+    <i class="fas fa-bars"></i>
+  </button>
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="smart-sidebar" id="smartSidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-user">
+        <img src="../assets/images/default-avatar.png" alt="صورة المستخدم" class="sidebar-avatar" id="sidebarAvatar">
+        <div>
+          <div class="sidebar-username" id="sidebarUsername">مدير النظام</div>
+          <div class="sidebar-user-role" id="sidebarUserRole">مشرف</div>
+        </div>
+      </div>
+      <button class="sidebar-close" id="sidebarClose"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="sidebar-motivational">
+      <div class="motivational-icon">💡</div>
+      <div class="motivational-text" id="motivationalText">"النجاح ليس نهاية الطريق، بل هو بداية جديدة"</div>
+    </div>
+    <div class="sidebar-news">
+      <div class="news-header"><i class="fas fa-bullhorn"></i> آخر الأخبار</div>
+      <div class="news-list" id="newsList">
+        <div class="news-item"><span class="news-dot"></span><span>جاري التحميل...</span></div>
+      </div>
+    </div>
+    <nav class="sidebar-nav" id="sidebarNav"></nav>
+    <div class="sidebar-footer">
+      <button class="sidebar-action-btn" onclick="logoutAdmin()"><i class="fas fa-sign-out-alt"></i> تسجيل الخروج</button>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 🍞 Toast                                   -->
+  <!-- ========================================== -->
+
+  <div id="toast-container"></div>
+
+  <!-- ========================================== -->
+  <!-- 📚 النوافذ المنبثقة                        -->
+  <!-- ========================================== -->
+
+  <!-- ===== نافذة إنشاء/تعديل الفاتورة (Side Panel) ===== -->
+  <div class="panel-overlay" id="panelOverlay" onclick="closeInvoicePanel()"></div>
+  <div class="side-panel" id="invoicePanel">
+    <div class="panel-header">
+      <h3 id="panelTitle"><i class="fas fa-file-invoice"></i> إنشاء فاتورة</h3>
+      <button class="close-btn" onclick="closeInvoicePanel()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="panel-body">
+      <form id="invoiceForm">
+        <input type="hidden" id="editInvoiceId">
+
+        <!-- العميل -->
+        <div class="form-group">
+          <label><i class="fas fa-user"></i> العميل *</label>
+          <select id="invoiceCustomer" required>
+            <option value="">اختر عميل...</option>
+          </select>
+        </div>
+
+        <!-- طريقة الدفع -->
+        <div class="form-group">
+          <label><i class="fas fa-credit-card"></i> طريقة الدفع</label>
+          <select id="invoicePayment">
+            <option value="cash">نقدي</option>
+            <option value="credit">تقسيط</option>
+          </select>
+        </div>
+
+        <!-- المنتجات -->
+        <div class="form-group">
+          <label><i class="fas fa-boxes"></i> المنتجات</label>
+          <div id="invoiceItemsContainer">
+            <div class="item-row">
+              <select class="item-product" onchange="updateItemPrice(this)">
+                <option value="">اختر منتج...</option>
+              </select>
+              <input type="number" class="item-qty" placeholder="الكمية" min="1" value="1" onchange="updateItemTotal(this)">
+              <input type="number" class="item-price" placeholder="السعر" step="0.01" onchange="updateItemTotal(this)">
+              <button type="button" class="remove-item" onclick="removeItem(this)"><i class="fas fa-times"></i></button>
+            </div>
+          </div>
+          <button type="button" class="btn btn-sm btn-outline" onclick="addItemRow()">
+            <i class="fas fa-plus"></i> إضافة منتج
+          </button>
+        </div>
+
+        <!-- الخصم والدفع -->
+        <div class="form-row">
+          <div class="form-group">
+            <label><i class="fas fa-percent"></i> الخصم (ج.م)</label>
+            <input type="number" id="invoiceDiscount" min="0" step="0.01" value="0" onchange="updateTotals()">
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-money-bill-wave"></i> المدفوع (ج.م)</label>
+            <input type="number" id="invoicePaid" min="0" step="0.01" value="0" onchange="updateTotals()">
+          </div>
+        </div>
+
+        <!-- الإجماليات -->
+        <div class="invoice-summary">
+          <div class="row"><span>الإجمالي الفرعي</span><span id="subtotalDisplay">0 ج.م</span></div>
+          <div class="row"><span>الخصم</span><span id="discountDisplay">0 ج.م</span></div>
+          <div class="row grand-total"><span>الإجمالي النهائي</span><span id="totalDisplay">0 ج.م</span></div>
+          <div class="row"><span>المتبقي</span><span id="remainingDisplay">0 ج.م</span></div>
+        </div>
+
+      </form>
+    </div>
+    <div class="panel-footer">
+      <button class="btn btn-primary" onclick="saveInvoice()"><i class="fas fa-save"></i> حفظ</button>
+      <button class="btn btn-outline" onclick="closeInvoicePanel()"><i class="fas fa-times"></i> إلغاء</button>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- 📚 Firebase & JavaScript                   -->
+  <!-- ========================================== -->
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+  <script src="../assets/js/firebase-config.js"></script>
+  <script src="../assets/js/main.js"></script>
+
+  <script>
+    // ============================================
+    // 📄 إدارة الفواتير - admin/invoices.html
+    // ============================================
+
+    // ===== استخدام آمن لـ db =====
+    const db = window.db || firebase.firestore();
+
+    // ===== متغيرات عامة =====
+    let allInvoices = [];
+    let filteredInvoices = [];
+    let allCustomers = [];
+    let allProducts = [];
+    let editingInvoiceId = null;
+
+    // ===== تحميل البيانات =====
+    function loadAllData() {
+      loadCustomers();
+      loadProducts();
+      loadInvoices();
+      loadAdminQuotes();
+      loadAdminNews();
+      loadSidebarContent();
+    }
+
+    function loadCustomers() {
+      db.collection('customers')
+        .orderBy('name')
+        .get()
+        .then(snapshot => {
+          allCustomers = [];
+          snapshot.forEach(doc => {
+            allCustomers.push({ id: doc.id, ...doc.data() });
+          });
+          populateCustomerSelects();
+        })
+        .catch(error => console.error('Error loading customers:', error));
+    }
+
+    function loadProducts() {
+      db.collection('products')
+        .where('available', '==', true)
+        .orderBy('name')
+        .get()
+        .then(snapshot => {
+          allProducts = [];
+          snapshot.forEach(doc => {
+            allProducts.push({ id: doc.id, ...doc.data() });
+          });
+          populateProductSelects();
+        })
+        .catch(error => console.error('Error loading products:', error));
+    }
+
+    function loadInvoices() {
+      db.collection('invoices')
+        .orderBy('createdAt', 'desc')
+        .get()
+        .then(snapshot => {
+          allInvoices = [];
+          snapshot.forEach(doc => {
+            allInvoices.push({ id: doc.id, ...doc.data() });
+          });
+          filteredInvoices = [...allInvoices];
+          renderInvoices();
+          updateStats();
+        })
+        .catch(error => {
+          console.error('Error loading invoices:', error);
+          document.getElementById('invoicesTableBody').innerHTML = `
+            <tr><td colspan="7" style="text-align:center;padding:20px;color:#ef4444;">
+              <i class="fas fa-exclamation-triangle"></i> حدث خطأ في تحميل الفواتير
+            </td></tr>
+          `;
+        });
+    }
+
+    // ===== تعبئة القوائم المنسدلة =====
+    function populateCustomerSelects() {
+      const select = document.getElementById('invoiceCustomer');
+      const filter = document.getElementById('customerFilter');
+      [select, filter].forEach(el => {
+        if (!el) return;
+        const currentValue = el.value;
+        el.innerHTML = '<option value="">اختر عميل...</option>';
+        allCustomers.forEach(c => {
+          el.innerHTML += `<option value="${c.id}">${c.name} (${c.code || 'بدون كود'})</option>`;
+        });
+        if (currentValue) el.value = currentValue;
+      });
+    }
+
+    function populateProductSelects() {
+      document.querySelectorAll('.item-product').forEach(select => {
+        if (select.dataset.loaded) return;
+        select.dataset.loaded = 'true';
+        const currentValue = select.value;
+        select.innerHTML = '<option value="">اختر منتج...</option>';
+        allProducts.forEach(p => {
+          select.innerHTML += `<option value="${p.id}" data-price="${p.wholesalePrice || p.price || 0}">${p.name} - ${p.wholesalePrice || p.price || 0} ج.م</option>`;
+        });
+        if (currentValue) select.value = currentValue;
+      });
+    }
+
+    // ===== عرض الفواتير =====
+    function renderInvoices() {
+      const tbody = document.getElementById('invoicesTableBody');
+      if (!tbody) return;
+
+      if (filteredInvoices.length === 0) {
+        tbody.innerHTML = `
+          <tr><td colspan="7" style="text-align:center;padding:20px;color:var(--gray-400);">
+            <i class="fas fa-info-circle"></i> لا توجد فواتير
+          </td></tr>
+        `;
+        return;
+      }
+
+      let html = '';
+      filteredInvoices.forEach((invoice, index) => {
+        const statusLabels = { paid: 'مدفوعة', unpaid: 'غير مدفوعة', cancelled: 'ملغاة' };
+        const statusClass = invoice.status || 'unpaid';
+        const dateStr = invoice.date || (invoice.createdAt ? formatDate(invoice.createdAt) : '');
+        const paymentLabel = invoice.paymentMethod === 'cash' ? 'نقدي' : 'تقسيط';
+
+        html += `
+          <tr>
+            <td>${index + 1}</td>
+            <td>${invoice.customerName || 'عميل'}</td>
+            <td>${dateStr}</td>
+            <td>${(invoice.total || 0).toFixed(2)} ج.م</td>
+            <td>${paymentLabel}</td>
+            <td><span class="status-badge ${statusClass}">${statusLabels[statusClass] || 'غير مدفوعة'}</span></td>
+            <td class="actions-cell">
+              <button class="btn-icon" onclick="viewInvoice('${invoice.id}')" title="عرض">
+                <i class="fas fa-eye"></i>
+              </button>
+              <button class="btn-icon" onclick="openEditInvoice('${invoice.id}')" title="تعديل">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn-icon" onclick="printInvoice('${invoice.id}')" title="طباعة">
+                <i class="fas fa-print"></i>
+              </button>
+              <button class="btn-icon danger" onclick="deleteInvoice('${invoice.id}')" title="حذف">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          </tr>
+        `;
+      });
+
+      tbody.innerHTML = html;
+    }
+
+    // ===== الإحصائيات =====
+    function updateStats() {
+      const total = allInvoices.length;
+      let totalAmount = 0;
+      let paidAmount = 0;
+      let remainingAmount = 0;
+
+      allInvoices.forEach(inv => {
+        totalAmount += inv.total || 0;
+        paidAmount += inv.paid || 0;
+        remainingAmount += inv.remaining || 0;
+      });
+
+      document.getElementById('totalInvoices').textContent = total;
+      document.getElementById('totalAmount').textContent = totalAmount.toFixed(2) + ' ج.م';
+      document.getElementById('paidAmount').textContent = paidAmount.toFixed(2) + ' ج.م';
+      document.getElementById('remainingAmount').textContent = remainingAmount.toFixed(2) + ' ج.م';
+    }
+
+    // ===== البحث والتصفية =====
+    function applyFilters() {
+      const search = document.getElementById('searchInput').value.trim().toLowerCase();
+      const customerId = document.getElementById('customerFilter').value;
+      const payment = document.getElementById('paymentFilter').value;
+      const status = document.getElementById('statusFilter').value;
+
+      filteredInvoices = allInvoices.filter(inv => {
+        if (search && !inv.customerName?.toLowerCase().includes(search) && !inv.id?.toLowerCase().includes(search)) return false;
+        if (customerId && inv.customerId !== customerId) return false;
+        if (payment && inv.paymentMethod !== payment) return false;
+        if (status && inv.status !== status) return false;
+        return true;
+      });
+
+      renderInvoices();
+    }
+
+    // ===== إدارة الفاتورة (إضافة/تعديل) =====
+    function openAddInvoice() {
+      editingInvoiceId = null;
+      document.getElementById('panelTitle').innerHTML = '<i class="fas fa-plus"></i> إنشاء فاتورة';
+      document.getElementById('invoiceForm').reset();
+      document.getElementById('editInvoiceId').value = '';
+      document.getElementById('invoiceItemsContainer').innerHTML = '';
+      document.getElementById('invoiceDiscount').value = '0';
+      document.getElementById('invoicePaid').value = '0';
+      addItemRow();
+      updateTotals();
+      populateCustomerSelects();
+      populateProductSelects();
+      document.getElementById('invoicePanel').classList.add('open');
+      document.getElementById('panelOverlay').classList.add('active');
+    }
+
+    function openEditInvoice(invoiceId) {
+      const invoice = allInvoices.find(i => i.id === invoiceId);
+      if (!invoice) {
+        showToast('❌ الفاتورة غير موجودة', 'error');
+        return;
+      }
+
+      editingInvoiceId = invoiceId;
+      document.getElementById('panelTitle').innerHTML = '<i class="fas fa-edit"></i> تعديل الفاتورة';
+      document.getElementById('editInvoiceId').value = invoiceId;
+      document.getElementById('invoiceCustomer').value = invoice.customerId || '';
+      document.getElementById('invoicePayment').value = invoice.paymentMethod || 'cash';
+      document.getElementById('invoiceDiscount').value = invoice.discount || 0;
+      document.getElementById('invoicePaid').value = invoice.paid || 0;
+
+      // إضافة المنتجات
+      const container = document.getElementById('invoiceItemsContainer');
+      container.innerHTML = '';
+      if (invoice.items && invoice.items.length > 0) {
+        invoice.items.forEach(item => {
+          addItemRow(item);
+        });
+      } else {
+        addItemRow();
+      }
+
+      populateCustomerSelects();
+      populateProductSelects();
+      updateTotals();
+
+      document.getElementById('invoicePanel').classList.add('open');
+      document.getElementById('panelOverlay').classList.add('active');
+    }
+
+    function closeInvoicePanel() {
+      document.getElementById('invoicePanel').classList.remove('open');
+      document.getElementById('panelOverlay').classList.remove('active');
+    }
+
+    // ===== إدارة عناصر المنتج =====
+    function addItemRow(data = null) {
+      const container = document.getElementById('invoiceItemsContainer');
+      const row = document.createElement('div');
+      row.className = 'item-row';
+
+      const select = document.createElement('select');
+      select.className = 'item-product';
+      select.innerHTML = '<option value="">اختر منتج...</option>';
+      allProducts.forEach(p => {
+        select.innerHTML += `<option value="${p.id}" data-price="${p.wholesalePrice || p.price || 0}">${p.name} - ${p.wholesalePrice || p.price || 0} ج.م</option>`;
+      });
+      select.onchange = function() { updateItemPrice(this); };
+      if (data) {
+        for (let opt of select.options) {
+          if (opt.value === data.productId) {
+            select.value = data.productId;
+            break;
+          }
+        }
+      }
+
+      const qty = document.createElement('input');
+      qty.type = 'number';
+      qty.className = 'item-qty';
+      qty.placeholder = 'الكمية';
+      qty.min = '1';
+      qty.value = data ? data.quantity : 1;
+      qty.onchange = function() { updateItemTotal(this); };
+
+      const price = document.createElement('input');
+      price.type = 'number';
+      price.className = 'item-price';
+      price.placeholder = 'السعر';
+      price.step = '0.01';
+      price.value = data ? data.price : 0;
+      price.onchange = function() { updateItemTotal(this); };
+
+      const removeBtn = document.createElement('button');
+      removeBtn.type = 'button';
+      removeBtn.className = 'remove-item';
+      removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+      removeBtn.onclick = function() { removeItem(this); };
+
+      row.appendChild(select);
+      row.appendChild(qty);
+      row.appendChild(price);
+      row.appendChild(removeBtn);
+      container.appendChild(row);
+
+      if (data) {
+        updateItemTotal(row);
+      }
+      updateTotals();
+    }
+
+    function removeItem(btn) {
+      const row = btn.closest('.item-row');
+      const container = document.getElementById('invoiceItemsContainer');
+      if (container.children.length <= 1) {
+        showToast('⚠️ يجب أن يكون هناك منتج واحد على الأقل', 'warning');
+        return;
+      }
+      row.remove();
+      updateTotals();
+    }
+
+    function updateItemPrice(select) {
+      const row = select.closest('.item-row');
+      const priceInput = row.querySelector('.item-price');
+      const selectedOption = select.options[select.selectedIndex];
+      if (selectedOption && selectedOption.dataset.price) {
+        priceInput.value = selectedOption.dataset.price;
+      }
+      updateItemTotal(row);
+    }
+
+    function updateItemTotal(element) {
+      const row = element.closest('.item-row');
+      const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
+      const price = parseFloat(row.querySelector('.item-price').value) || 0;
+      row.dataset.total = qty * price;
+      updateTotals();
+    }
+
+    function updateTotals() {
+      const rows = document.querySelectorAll('.item-row');
+      let subtotal = 0;
+
+      rows.forEach(row => {
+        const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
+        const price = parseFloat(row.querySelector('.item-price').value) || 0;
+        subtotal += qty * price;
+      });
+
+      const discount = parseFloat(document.getElementById('invoiceDiscount').value) || 0;
+      const paid = parseFloat(document.getElementById('invoicePaid').value) || 0;
+      const total = subtotal - discount;
+      const remaining = total - paid;
+
+      document.getElementById('subtotalDisplay').textContent = subtotal.toFixed(2) + ' ج.م';
+      document.getElementById('discountDisplay').textContent = discount.toFixed(2) + ' ج.م';
+      document.getElementById('totalDisplay').textContent = total.toFixed(2) + ' ج.م';
+      document.getElementById('remainingDisplay').textContent = remaining.toFixed(2) + ' ج.م';
+    }
+
+    // ===== حفظ الفاتورة =====
+    function saveInvoice() {
+      const id = document.getElementById('editInvoiceId').value;
+      const customerId = document.getElementById('invoiceCustomer').value;
+      const paymentMethod = document.getElementById('invoicePayment').value;
+      const discount = parseFloat(document.getElementById('invoiceDiscount').value) || 0;
+      const paid = parseFloat(document.getElementById('invoicePaid').value) || 0;
+
+      if (!customerId) {
+        showToast('⚠️ يرجى اختيار عميل', 'warning');
+        return;
+      }
+
+      const rows = document.querySelectorAll('.item-row');
+      const items = [];
+      let subtotal = 0;
+
+      rows.forEach(row => {
+        const select = row.querySelector('.item-product');
+        const qty = parseFloat(row.querySelector('.item-qty').value) || 0;
+        const price = parseFloat(row.querySelector('.item-price').value) || 0;
+
+        if (select.value && qty > 0 && price > 0) {
+          const product = allProducts.find(p => p.id === select.value);
+          items.push({
+            productId: select.value,
+            name: product ? product.name : 'منتج',
+            quantity: qty,
+            price: price,
+            total: qty * price
+          });
+          subtotal += qty * price;
+        }
+      });
+
+      if (items.length === 0) {
+        showToast('⚠️ يرجى إضافة منتج واحد على الأقل', 'warning');
+        return;
+      }
+
+      const total = subtotal - discount;
+      const remaining = total - paid;
+      const customer = allCustomers.find(c => c.id === customerId);
+
+      const invoiceData = {
+        customerId: customerId,
+        customerName: customer ? customer.name : 'عميل',
+        customerCode: customer ? customer.code : '',
+        items: items,
+        subtotal: subtotal,
+        discount: discount,
+        total: total,
+        paid: paid,
+        remaining: remaining,
+        paymentMethod: paymentMethod,
+        status: remaining > 0 ? 'unpaid' : 'paid',
+        date: new Date().toLocaleDateString('ar-EG'),
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
+
+      const savePromise = id ?
+        db.collection('invoices').doc(id).update(invoiceData) :
+        db.collection('invoices').add({
+          ...invoiceData,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+      savePromise
+        .then(() => {
+          // تحديث رصيد العميل
+          if (customerId && remaining !== 0) {
+            const currentBalance = customer?.balance || 0;
+            const newBalance = currentBalance + remaining;
+            return db.collection('customers').doc(customerId).update({ balance: newBalance });
+          }
+        })
+        .then(() => {
+          showToast(id ? '✅ تم تحديث الفاتورة' : '✅ تم إنشاء الفاتورة', 'success');
+          closeInvoicePanel();
+          loadInvoices();
+        })
+        .catch(error => {
+          console.error('Error saving invoice:', error);
+          showToast('❌ حدث خطأ: ' + error.message, 'error');
+        });
+    }
+
+    // ===== عرض/طباعة/حذف الفاتورة =====
+    function viewInvoice(invoiceId) {
+      window.open(`/gomla/invoice.html?id=${invoiceId}`, '_blank');
+    }
+
+    function printInvoice(invoiceId) {
+      viewInvoice(invoiceId);
+    }
+
+    function deleteInvoice(invoiceId) {
+      if (!confirm('⚠️ هل أنت متأكد من حذف هذه الفاتورة؟')) return;
+
+      db.collection('invoices').doc(invoiceId).delete()
+        .then(() => {
+          // تحديث رصيد العميل
+          const invoice = allInvoices.find(i => i.id === invoiceId);
+          if (invoice && invoice.customerId && invoice.remaining) {
+            return db.collection('customers').doc(invoice.customerId).update({
+              balance: firebase.firestore.FieldValue.increment(-invoice.remaining)
+            });
+          }
+        })
+        .then(() => {
+          showToast('✅ تم حذف الفاتورة', 'success');
+          loadInvoices();
+        })
+        .catch(error => {
+          console.error('Error deleting invoice:', error);
+          showToast('❌ حدث خطأ: ' + error.message, 'error');
+        });
+    }
+
+    // ===== تحميل محتوى السايدبار =====
+    function loadAdminQuotes() {
+      const container = document.getElementById('adminMotivationalText');
+      if (!container) return;
+      db.collection('quotes').where('type', '==', 'admin').where('active', '==', true).orderBy('order').get()
+        .then(snapshot => {
+          if (snapshot.empty) {
+            container.innerHTML = '<i class="fas fa-quote-right"></i> كن قدوة في الإخلاص والتميز';
+            return;
+          }
+          const quotes = [];
+          snapshot.forEach(doc => quotes.push(doc.data().text));
+          let index = 0;
+          container.innerHTML = `<i class="fas fa-quote-right"></i> "${quotes[0]}"`;
+          setInterval(() => {
+            index = (index + 1) % quotes.length;
+            container.style.opacity = '0';
+            setTimeout(() => {
+              container.innerHTML = `<i class="fas fa-quote-right"></i> "${quotes[index]}"`;
+              container.style.opacity = '1';
+            }, 300);
+          }, 5000);
+        }).catch(() => {
+          container.innerHTML = '<i class="fas fa-quote-right"></i> كن قدوة في الإخلاص والتميز';
+        });
+    }
+
+    function loadAdminNews() {
+      const container = document.getElementById('adminNewsList');
+      if (!container) return;
+      db.collection('news').where('type', '==', 'admin').where('active', '==', true).orderBy('createdAt', 'desc').limit(5).get()
+        .then(snapshot => {
+          if (snapshot.empty) {
+            container.innerHTML = '<div class="news-item"><span class="news-dot"></span><span class="news-text">لا توجد أخبار داخلية</span></div>';
+            return;
+          }
+          let html = '';
+          snapshot.forEach(doc => {
+            html += `<div class="news-item"><span class="news-dot"></span><span class="news-text">${doc.data().title}</span></div>`;
+          });
+          container.innerHTML = html;
+        }).catch(() => {
+          container.innerHTML = '<div class="news-item"><span class="news-dot"></span><span class="news-text">جاري التحميل...</span></div>';
+        });
+    }
+
+    function loadSidebarContent() {
+      // تحديث السايدبار
+      const adminData = JSON.parse(localStorage.getItem('admin'));
+      if (adminData) {
+        document.getElementById('sidebarUsername').textContent = adminData.name || 'مدير النظام';
+        document.getElementById('sidebarUserRole').textContent = adminData.role === 'super' ? '👑 سوبر أدمن' : '🛡️ مشرف';
+        if (adminData.avatar) {
+          document.getElementById('sidebarAvatar').src = adminData.avatar;
+        }
+      }
+      // تحديث الروابط
+      const nav = document.getElementById('sidebarNav');
+      if (nav) {
+        const isSuper = adminData?.role === 'super';
+        let links = [
+          { icon: 'fa-home', text: 'الرئيسية', url: '/gomla/admin/home.html' },
+          { icon: 'fa-tachometer-alt', text: 'لوحة التحكم', url: '/gomla/admin/dashboard.html' },
+          { icon: 'fa-boxes', text: 'المنتجات', url: '/gomla/admin/products.html' },
+          { icon: 'fa-users', text: 'العملاء', url: '/gomla/admin/customers.html' },
+          { icon: 'fa-file-invoice', text: 'الفواتير', url: '/gomla/admin/invoices.html' },
+        ];
+        if (isSuper) {
+          links.push({ icon: 'fa-key', text: 'توليد الأكواد', url: '/gomla/admin/generate-codes.html' });
+        }
+        let html = '';
+        links.forEach(link => {
+          const isActive = window.location.pathname.includes(link.url.split('/').pop());
+          html += `<a href="${link.url}" class="sidebar-link ${isActive ? 'active' : ''}"><i class="fas ${link.icon}"></i><span>${link.text}</span></a>`;
+        });
+        nav.innerHTML = html;
+      }
+    }
+
+    // ============================================
+    // 🚀 تشغيل الصفحة
+    // ============================================
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // التحقق من صلاحية المدير
+      if (typeof protectPage === 'function') {
+        if (!protectPage()) return;
+      }
+
+      loadAllData();
+
+      // السايدبار
+      const toggleBtn = document.getElementById('sidebarToggle');
+      const overlay = document.getElementById('sidebarOverlay');
+      const sidebar = document.getElementById('smartSidebar');
+      const closeBtn = document.getElementById('sidebarClose');
+
+      if (toggleBtn && sidebar && overlay) {
+        toggleBtn.onclick = function() {
+          sidebar.classList.add('open');
+          overlay.classList.add('active');
+          document.body.style.overflow = 'hidden';
+        };
+      }
+      if (closeBtn && sidebar && overlay) {
+        closeBtn.onclick = function() {
+          sidebar.classList.remove('open');
+          overlay.classList.remove('active');
+          document.body.style.overflow = '';
+        };
+      }
+      if (overlay) {
+        overlay.onclick = function() {
+          sidebar.classList.remove('open');
+          overlay.classList.remove('active');
+          document.body.style.overflow = '';
+        };
+      }
+
+      // إغلاق النوافذ بالضغط على Escape
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+          closeInvoicePanel();
+        }
+      });
+    });
+
+    // تصدير الدوال
+    window.openAddInvoice = openAddInvoice;
+    window.openEditInvoice = openEditInvoice;
+    window.closeInvoicePanel = closeInvoicePanel;
+    window.addItemRow = addItemRow;
+    window.removeItem = removeItem;
+    window.updateItemPrice = updateItemPrice;
+    window.updateItemTotal = updateItemTotal;
+    window.updateTotals = updateTotals;
+    window.saveInvoice = saveInvoice;
+    window.viewInvoice = viewInvoice;
+    window.printInvoice = printInvoice;
+    window.deleteInvoice = deleteInvoice;
+    window.applyFilters = applyFilters;
+    window.logoutAdmin = logoutAdmin;
+  </script>
+
+</body>
+</html>
