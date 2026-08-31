@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+Fa<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
@@ -2215,14 +2215,7 @@
     // 🚀 تشغيل الصفحة
     // ============================================
 
-    document.addEventListener('DOMContentLoaded', function() {
-      console.log('✅ customers.html loaded');
-      
-      if (!protectPage()) return;
-
-      initSidebar();
-      loadAllData();
-
+    
       // ربط Enter للبحث
       document.getElementById('searchInput').addEventListener('keypress', function(e) {
         if (e.key === 'Enter') applyFilters();
@@ -2248,7 +2241,21 @@
     });
 
     // تصدير الدوال
-    
+    window.openAddCustomer = openAddCustomer;
+    window.openEditCustomer = openEditCustomer;
+    window.closeCustomerPanel = closeCustomerPanel;
+    window.saveCustomer = saveCustomer;
+    window.deleteCustomer = deleteCustomer;
+    window.deleteCustomerConfirm = deleteCustomerConfirm;
+    window.generateCustomerCode = generateCustomerCode;
+    window.handleAvatarUpload = handleAvatarUpload;
+    window.sendCustomerCode = sendCustomerCode;
+    window.viewCustomerInvoices = viewCustomerInvoices;
+    window.closeInvoicesModal = closeInvoicesModal;
+    window.toggleCustomerStatus = toggleCustomerStatus;
+    window.applyFilters = applyFilters;
+    window.loadMoreCustomers = loadMoreCustomers;
+    window.logoutAdmin = logoutAdmin;
   </script>
 
 </body>
