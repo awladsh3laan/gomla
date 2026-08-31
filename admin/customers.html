@@ -1,4 +1,4 @@
-Bu<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
@@ -2100,7 +2100,7 @@ Bu<!DOCTYPE html>
 
       db.collection('customers').doc(customerId).update({ status: statusData })
         .then(() => {
-          xxxxxxxxx
+         if (!customer.status) customer.status = { active: true, reason: '' };
           customer.status.active = newStatus;
           customer.status.reason = reason || '';
           renderCustomers();
@@ -2267,3 +2267,4 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </body>
 </html>
+XxxxxxxXxxxxxxxX
