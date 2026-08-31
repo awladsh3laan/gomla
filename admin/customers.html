@@ -34,12 +34,7 @@
       --radius-full: 9999px;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; direction: rtl; }
 
     body {
@@ -928,14 +923,13 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 
   <script src="../assets/js/firebase-config.js"></script>
-  <script src="../assets/js/main.js"></script>
 
   <script>
     // ============================================
     // 👥 إدارة العملاء - admin/customers.html
     // ============================================
 
-    // ===== التحقق من تحميل Firebase =====
+    // ===== التحقق من وجود Firebase =====
     console.log('Firebase loaded:', typeof firebase !== 'undefined');
     console.log('Firestore loaded:', typeof db !== 'undefined');
 
@@ -948,7 +942,6 @@
     let currentPage = 0;
     const pageSize = 8;
     let editingCustomerId = null;
-    let viewingCustomerId = null;
 
     // ===== دوال مساعدة =====
     function formatDate(timestamp) {
@@ -978,7 +971,6 @@
     function logoutAdmin() {
       localStorage.removeItem('admin');
       localStorage.removeItem('adminId');
-      auth.signOut().catch(() => {});
       window.location.href = '/gomla/';
     }
 
@@ -988,41 +980,26 @@
         window.location.href = '/gomla/admin/login.html';
         return false;
       }
-      try {
-        const admin = JSON.parse(adminData);
-        if (!admin.role || !['admin', 'super', 'super_admin'].includes(admin.role)) {
-          window.location.href = '/gomla/admin/login.html';
-          return false;
-        }
-        return true;
-      } catch {
-        window.location.href = '/gomla/admin/login.html';
-        return false;
-      }
+      return true;
     }
 
-    // ===== ربط السايدبار والمنيو =====
+    // ===== ربط السايدبار =====
     function initSidebar() {
       const toggleBtn = document.getElementById('sidebarToggle');
       const overlay = document.getElementById('sidebarOverlay');
       const sidebar = document.getElementById('smartSidebar');
       const closeBtn = document.getElementById('sidebarClose');
 
-      console.log('Sidebar elements:', { toggleBtn, overlay, sidebar, closeBtn });
-
       if (toggleBtn && sidebar && overlay) {
-        toggleBtn.onclick = function(e) {
-          e.preventDefault();
-          console.log('Toggle clicked');
-          sidebar.classList.add('open');
-          overlay.classList.add('active');
-          document.body.style.overflow = 'hidden';
+        toggleBtn.onclick = function() {
+          sidebar.classList.toggle('open');
+          overlay.classList.toggle('active');
+          document.body.style.overflow = sidebar.classList.contains('open') ? 'hidden' : '';
         };
       }
 
       if (closeBtn && sidebar && overlay) {
         closeBtn.onclick = function() {
-          console.log('Close clicked');
           sidebar.classList.remove('open');
           overlay.classList.remove('active');
           document.body.style.overflow = '';
@@ -1031,7 +1008,6 @@
 
       if (overlay) {
         overlay.onclick = function() {
-          console.log('Overlay clicked');
           sidebar.classList.remove('open');
           overlay.classList.remove('active');
           document.body.style.overflow = '';
@@ -1042,7 +1018,6 @@
     // ===== تحميل البيانات =====
     function loadAllData() {
       showLoadingState();
-      console.log('Loading customers data...');
 
       // جلب الصلاحية الحقيقية من localStorage
       const adminData = localStorage.getItem('admin');
@@ -1065,7 +1040,6 @@
         .orderBy('name')
         .get()
         .then((snapshot) => {
-          console.log('Customers loaded:', snapshot.size);
           allCustomers = [];
           snapshot.forEach(doc => {
             const data = doc.data();
@@ -1268,44 +1242,6 @@
 
       currentPage = 0;
       renderCustomers();
-    }
-
-    // ===== تبديل حالة العميل =====
-    function toggleCustomerStatus(customerId) {
-      const customer = allCustomers.find(c => c.id === customerId);
-      if (!customer) return;
-
-      const isActive = customer.status && customer.status.active !== false;
-      const newStatus = !isActive;
-
-      let reason = '';
-      if (!newStatus) {
-        reason = prompt('⚠️ يرجى إدخال سبب تعطيل العميل:');
-        if (reason === null) return;
-        if (reason.trim() === '') {
-          showToast('⚠️ يرجى إدخال سبب التعطيل', 'warning');
-          return;
-        }
-      }
-
-      const statusData = {
-        active: newStatus,
-        reason: reason || '',
-        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-      };
-
-      db.collection('customers').doc(customerId).update({ status: statusData })
-        .then(() => {
-          if (!customer.status) customer.status = { active: true, reason: '' };
-          customer.status.active = newStatus;
-          customer.status.reason = reason || '';
-          renderCustomers();
-          showToast(`✅ تم ${newStatus ? 'تفعيل' : 'تعطيل'} العميل`, 'success');
-        })
-        .catch(error => {
-          console.error('Error toggling status:', error);
-          showToast('❌ حدث خطأ', 'error');
-        });
     }
 
     // ===== توليد كود العميل =====
@@ -1520,7 +1456,6 @@
 
     // ===== عرض فواتير العميل =====
     function viewCustomerInvoices(customerId) {
-      viewingCustomerId = customerId;
       const modal = document.getElementById('invoicesModal');
       const body = document.getElementById('invoicesBody');
       modal.style.display = 'flex';
@@ -1576,7 +1511,6 @@
 
     function closeInvoicesModal() {
       document.getElementById('invoicesModal').style.display = 'none';
-      viewingCustomerId = null;
     }
 
     // ============================================
@@ -1584,8 +1518,6 @@
     // ============================================
 
     document.addEventListener('DOMContentLoaded', function() {
-      console.log('Page loaded - customers.html');
-
       if (!checkAdminAuth()) return;
 
       // تهيئة السايدبار
@@ -1617,8 +1549,6 @@
           }
         });
       });
-
-      console.log('Initialization complete');
     });
 
     // تصدير الدوال
