@@ -527,14 +527,7 @@ Wezza
     }
 
     // ===== 2. تشغيل المنيو والسايدبار =====
-    function toggleSidebarMenu() {
-      if (typeof Sidebar !== 'undefined' && Sidebar.toggle) {
-        Sidebar.toggle();
-      } else {
-        const sidebar = document.getElementById('sidebarContainer');
-        if (sidebar) sidebar.classList.toggle('active');
-      }
-    }
+    
 
     // ===== 3. جلب بيانات العملاء =====
     function loadCustomers() {
