@@ -1,4 +1,4 @@
-QQ// ============================================
+// ============================================
 // 🧠 الوظائف الموحدة - أولاد شعلان جملة
 // ============================================
 
@@ -238,44 +238,10 @@ function initSidebar() {
   }
   updateSidebarContent();
 }
-    // ===== تحميل بيانات المستخدم =====
-    function loadAdminProfile() {
-      const adminData = JSON.parse(localStorage.getItem('admin'));
-      if (!adminData) {
-        window.location.href = '/gomla/admin/login.html';
-        return;
-      }
 
-      const isSuperAdmin = adminData.role === 'super';
-
-      // عرض الاسم
-      document.getElementById('adminName').textContent = adminData.name || 'مدير';
-      document.getElementById('profileName').textContent = adminData.name || 'مدير النظام';
-
-      // عرض الرتبة
-      const roleText = isSuperAdmin ? 'سوبر أدمن' : 'مشرف';
-      const roleIcon = isSuperAdmin ? '👑' : '🛡️';
-      document.getElementById('profileRole').textContent = roleText;
-      document.getElementById('profileBadge').textContent = `${roleIcon} ${roleText}`;
-
-      // عرض الصورة
-      if (adminData.avatar) {
-        document.getElementById('profileAvatar').src = adminData.avatar;
-      }
-    // ============================================
-    // 🚀 تشغيل الصفحة
-    // ============================================
-      
 // ===== تشغيل =====
 document.addEventListener('DOMContentLoaded', function() {
   initSidebar();
   loadAdminQuotes();
   loadAdminNews();
- // التحقق من الصلاحية
-      const adminData = localStorage.getItem('admin');
-      if (!adminData) {
-        window.location.href = '/gomla/admin/login.html';
-        return;
-      }
-loadAdminProfile();
 });
