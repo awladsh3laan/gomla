@@ -1,357 +1,557 @@
-SD
+SDD
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إدارة العملاء - أولاد شعلان جملة</title>
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Style الموحد -->
-    <link rel="stylesheet" href="../assets/css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>أولاد شعلان جملة - إدارة العملاء</title>
+
+  <meta name="description" content="إدارة العملاء والذمم المالية - أولاد شعلان جملة">
+  <meta name="theme-color" content="#1a2a4a">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="icon" href="../assets/images/favicon.ico">
+
+  <style>
+    /* ===== ستايل مخصص لصفحة العملاء ===== */
+    .customers-header-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+    }
+
+    .search-filter-box {
+      display: flex;
+      gap: 12px;
+      flex: 1;
+      min-width: 280px;
+    }
+
+    .search-input-wrapper {
+      position: relative;
+      flex: 1;
+    }
+
+    .search-input-wrapper input {
+      width: 100%;
+      padding: 10px 40px 10px 16px;
+      border: 1px solid var(--gray-300);
+      border-radius: var(--radius-sm);
+      outline: none;
+      font-family: inherit;
+    }
+
+    .search-input-wrapper i {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray-400);
+    }
+
+    .stats-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--white);
+      padding: 20px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--navy-light);
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+    }
+
+    .stat-info h4 {
+      font-size: 0.85rem;
+      color: var(--gray-600);
+      margin-bottom: 4px;
+    }
+
+    .stat-info p {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--navy);
+    }
+
+    /* Modal Styling */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(15, 26, 46, 0.7);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      padding: 16px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: var(--white);
+      width: 100%;
+      max-width: 550px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      animation: slideIn 0.3s ease;
+    }
+
+    .modal-header {
+      background: var(--navy);
+      color: var(--white);
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 3px solid var(--gold);
+    }
+
+    .modal-body {
+      padding: 24px;
+      max-height: 75vh;
+      overflow-y: auto;
+    }
+
+    .modal-footer {
+      padding: 16px 24px;
+      background: var(--gray-50);
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      border-top: 1px solid var(--gray-200);
+    }
+
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+      font-size: 0.9rem;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--gray-300);
+      border-radius: var(--radius-sm);
+      outline: none;
+      font-family: inherit;
+    }
+
+    .form-control:focus {
+      border-color: var(--navy);
+    }
+  </style>
 </head>
 <body>
 
-    <!-- الهيدر والسايدبار الديناميكي -->
-    <div id="header-container"></div>
-    <div id="sidebar-container"></div>
+  <div id="header-placeholder"></div>
 
-    <main class="page-content">
-        <div class="container">
-            
-            <!-- عنوان الصفحة والأزرار -->
-            <div class="page-header">
-                <h1><i class="fa-solid fa-users"></i> إدارة العملاء</h1>
-                <div class="header-actions">
-                    <button class="btn btn-gold" onclick="openAddCustomerModal()">
-                        <i class="fa-solid fa-user-plus"></i> إضافة عميل جديد
-                    </button>
-                    <a href="generate-codes.html" class="btn btn-outline">
-                        <i class="fa-solid fa-key"></i> توليد الأكواد
-                    </a>
-                </div>
-            </div>
+  <main class="main-content">
+    <div class="container">
+      
+      <div class="page-header" style="margin-bottom: 20px;">
+        <h1 style="color: var(--navy); font-size: 1.8rem; font-weight: 800;">
+          <i class="fas fa-users-cog" style="color: var(--gold);"></i> إدارة العملاء والذمم المالية
+        </h1>
+        <p style="color: var(--gray-600); font-size: 0.95rem;">عرض بيانات العملاء، تعديل الأكواد، التحكم بالحالة، ومتابعة الأرصدة والديون.</p>
+      </div>
 
-            <!-- إحصائيات سريعة للعملاء -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon blue"><i class="fa-solid fa-users"></i></div>
-                    <div class="stat-info">
-                        <span class="stat-value" id="total-customers-count">0</span>
-                        <span class="stat-label">إجمالي العملاء</span>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon green"><i class="fa-solid fa-user-check"></i></div>
-                    <div class="stat-info">
-                        <span class="stat-value" id="active-customers-count">0</span>
-                        <span class="stat-label">حسابات نشطة</span>
-                    </div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-icon red"><i class="fa-solid fa-user-slash"></i></div>
-                    <div class="stat-info">
-                        <span class="stat-value" id="inactive-customers-count">0</span>
-                        <span class="stat-label">حسابات معطلة</span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- أشرطة البحث والفلترة -->
-            <div style="background: var(--white); padding: 16px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); margin-bottom: 24px; display: flex; gap: 12px; flex-wrap: wrap;">
-                <input type="text" id="search-customer-input" placeholder="بحث باسم العميل، الهاتف، أو الكود..." style="flex: 1; min-width: 240px; padding: 10px 16px; border: 1px solid var(--gray-200); border-radius: var(--radius-sm); font-family: inherit;">
-                <select id="filter-status-select" style="padding: 10px 16px; border: 1px solid var(--gray-200); border-radius: var(--radius-sm); font-family: inherit; background: var(--white);">
-                    <option value="all">كل الحالات</option>
-                    <option value="active">نشط فقط</option>
-                    <option value="inactive">معطل فقط</option>
-                </select>
-            </div>
-
-            <!-- جدول العملاء -->
-            <div style="background: var(--white); border-radius: var(--radius-md); box-shadow: var(--shadow-sm); overflow-x: auto;">
-                <table style="width: 100%; border-collapse: collapse; text-align: right;">
-                    <thead>
-                        <tr style="background: var(--navy); color: var(--white);">
-                            <th style="padding: 14px 16px;">الكود</th>
-                            <th style="padding: 14px 16px;">اسم العميل</th>
-                            <th style="padding: 14px 16px;">رقم الهاتف</th>
-                            <th style="padding: 14px 16px;">المنطقة / العنوان</th>
-                            <th style="padding: 14px 16px;">الحالة</th>
-                            <th style="padding: 14px 16px; text-align: center;">إجراءات</th>
-                        </tr>
-                    </thead>
-                    <tbody id="customers-table-body">
-                        <tr>
-                            <td colspan="6" style="text-align: center; padding: 24px; color: var(--gray-400);">جاري تحميل بيانات العملاء...</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-
+      <div class="stats-cards">
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-users"></i></div>
+          <div class="stat-info">
+            <h4>إجمالي العملاء</h4>
+            <p id="totalCustomersCount">0</p>
+          </div>
         </div>
-    </main>
-
-    <!-- مودال إضافة / تعديل عميل -->
-    <div id="customer-modal" style="display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 10000; align-items: center; justify-content: center; padding: 20px;">
-        <div style="background: var(--white); border-radius: var(--radius-md); max-width: 500px; width: 100%; padding: 24px; box-shadow: var(--shadow-lg);">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid var(--gold); padding-bottom: 10px;">
-                <h3 id="modal-title" style="color: var(--navy);"><i class="fa-solid fa-user-plus"></i> إضافة عميل جديد</h3>
-                <button onclick="closeCustomerModal()" style="background: transparent; border: none; font-size: 1.2rem; cursor: pointer; color: var(--gray-600);">&times;</button>
-            </div>
-            
-            <form id="customer-form" onsubmit="handleCustomerSubmit(event)">
-                <input type="hidden" id="customer-doc-id">
-                
-                <div style="margin-bottom: 14px;">
-                    <label style="display: block; font-weight: 700; margin-bottom: 6px; color: var(--navy);">اسم العميل بالكامل</label>
-                    <input type="text" id="customer-name" required placeholder="مثال: أحمد محمود" style="width: 100%; padding: 10px; border: 1px solid var(--gray-200); border-radius: var(--radius-sm); font-family: inherit;">
-                </div>
-
-                <div style="margin-bottom: 14px;">
-                    <label style="display: block; font-weight: 700; margin-bottom: 6px; color: var(--navy);">رقم الهاتف (للدخول وتلقي الإشعارات)</label>
-                    <input type="tel" id="customer-phone" required placeholder="01xxxxxxxxx" style="width: 100%; padding: 10px; border: 1px solid var(--gray-200); border-radius: var(--radius-sm); font-family: inherit;">
-                </div>
-
-                <div style="margin-bottom: 14px;">
-                    <label style="display: block; font-weight: 700; margin-bottom: 6px; color: var(--navy);">كود الدخول السري</label>
-                    <div style="display: flex; gap: 8px;">
-                        <input type="text" id="customer-code" required placeholder="مثال: SH-1020" style="flex: 1; padding: 10px; border: 1px solid var(--gray-200); border-radius: var(--radius-sm); font-family: inherit;">
-                        <button type="button" class="btn btn-outline btn-sm" onclick="generateRandomCodeInput()">توليد</button>
-                    </div>
-                </div>
-
-                <div style="margin-bottom: 14px;">
-                    <label style="display: block; font-weight: 700; margin-bottom: 6px; color: var(--navy);">العنوان / المحل</label>
-                    <input type="text" id="customer-address" placeholder="المحلة الكبرى - شارع ..." style="width: 100%; padding: 10px; border: 1px solid var(--gray-200); border-radius: var(--radius-sm); font-family: inherit;">
-                </div>
-
-                <div style="margin-bottom: 20px;">
-                    <label style="display: block; font-weight: 700; margin-bottom: 6px; color: var(--navy);">حالة الحساب</label>
-                    <select id="customer-status" style="width: 100%; padding: 10px; border: 1px solid var(--gray-200); border-radius: var(--radius-sm); font-family: inherit; background: var(--white);">
-                        <option value="active">نشط (يمكنه الدخول لمتجر الجملة)</option>
-                        <option value="inactive">معطل (موقوف مؤقتاً)</option>
-                    </select>
-                </div>
-
-                <div style="display: flex; justify-content: flex-end; gap: 10px;">
-                    <button type="button" class="btn btn-outline" onclick="closeCustomerModal()">إلغاء</button>
-                    <button type="submit" class="btn btn-gold" id="save-customer-btn">حفظ البيانات</button>
-                </div>
-            </form>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-user-check"></i></div>
+          <div class="stat-info">
+            <h4>الحسابات النشطة</h4>
+            <p id="activeCustomersCount">0</p>
+          </div>
         </div>
+        <div class="stat-card">
+          <div class="stat-icon"><i class="fas fa-wallet"></i></div>
+          <div class="stat-info">
+            <h4>إجمالي المديونيات</h4>
+            <p id="totalDebts">0 ج.م</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="customers-header-actions">
+        <div class="search-filter-box">
+          <div class="search-input-wrapper">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="ابحث باسم العميل، الهواتف، أو الكود السرّي..." oninput="handleSearch()">
+          </div>
+          <select id="statusFilter" class="form-control" style="width: 140px;" onchange="applyFilters()">
+            <option value="all">كل الحالات</option>
+            <option value="active">نشط فقط</option>
+            <option value="inactive">معطل فقط</option>
+          </select>
+        </div>
+
+        <button class="btn btn-primary" onclick="openAddCustomerModal()">
+          <i class="fas fa-user-plus"></i> إضافة عميل جديد
+        </button>
+      </div>
+
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>اسم العميل</th>
+              <th>كود الدخول</th>
+              <th>الهاتف</th>
+              <th>العنوان / المنطقة</th>
+              <th>الرصيد / المديونية</th>
+              <th>الحالة</th>
+              <th>الإجراءات</th>
+            </tr>
+          </thead>
+          <tbody id="customersTableBody">
+            <tr>
+              <td colspan="8" style="text-align: center; padding: 40px; color: var(--gray-600);">
+                <i class="fas fa-spinner fa-spin text-2xl" style="font-size: 1.8rem; color: var(--gold);"></i>
+                <p style="margin-top: 10px;">جاري تحميل بيانات العملاء من Firebase...</p>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
     </div>
+  </main>
 
-    <!-- الفوتر الموحد -->
-    <div id="footer-container"></div>
+  <div class="modal-overlay" id="customerModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalTitle" style="font-size: 1.1rem;"><i class="fas fa-user-edit"></i> بيانات العميل</h3>
+        <button onclick="closeCustomerModal()" style="background:none; border:none; color:white; font-size:1.2rem; cursor:pointer;"><i class="fas fa-times"></i></button>
+      </div>
+      <form id="customerForm" onsubmit="saveCustomer(event)">
+        <div class="modal-body">
+          <input type="hidden" id="customerId">
+          
+          <div class="form-group">
+            <label>اسم العميل / المحل <span style="color:red;">*</span></label>
+            <input type="text" id="custName" class="form-control" placeholder="مثال: محلات البركة - المحلة" required>
+          </div>
 
-    <!-- Firebase JS (SDKs) -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+          <div class="form-group">
+            <label>رقم الهاتف <span style="color:red;">*</span></label>
+            <input type="tel" id="custPhone" class="form-control" placeholder="01xxxxxxxxx" required>
+          </div>
 
-    <!-- ملفات النظام الموحدة -->
-    <script src="../assets/js/firebase-config.js"></script>
-    <script src="../assets/js/core.js"></script>
-    <script src="../assets/js/main.js"></script>
+          <div class="form-group">
+            <label>كود الدخول السرّي <span style="color:red;">*</span></label>
+            <div style="display:flex; gap:8px;">
+              <input type="text" id="custCode" class="form-control" placeholder="مثال: MHL-8821" required>
+              <button type="button" class="btn btn-gold" onclick="generateRandomCodeInput()" style="white-space:nowrap;">
+                <i class="fas fa-magic"></i> توليد
+              </button>
+            </div>
+          </div>
 
-    <!-- السكربت التشغيلي لصفحة العملاء -->
-    <script>
-        let allCustomers = [];
+          <div class="form-group">
+            <label>العنوان / المنطقة</label>
+            <input type="text" id="custAddress" class="form-control" placeholder="مثال: المحلة الكبرى - شارع البحر">
+          </div>
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            // حماية الصفحة للمسئولين فقط
-            if (typeof protectPage === 'function') {
-                await protectPage(['admin', 'superadmin']);
-            }
-            
-            // تحميل المكونات الهيكلية
-            loadComponent('../assets/components/header.html', 'header-container');
-            loadComponent('../assets/components/sidebar.html', 'sidebar-container');
-            loadComponent('../assets/components/footer.html', 'footer-container');
+          <div class="form-group">
+            <label>الرصيد الابتدائي / المديونية (ج.م)</label>
+            <input type="number" id="custBalance" class="form-control" value="0" step="any" placeholder="0 = لا يوجد ديون، القيمة الموجبة تعني مديونية عليه">
+          </div>
 
-            // جلب العملاء من Firestore
-            fetchCustomers();
+          <div class="form-group">
+            <label>حالة الحساب</label>
+            <select id="custStatus" class="form-control">
+              <option value="true">نشط (يمكنه الدخول للمتجر)</option>
+              <option value="false">معطل (موقوف مؤقتاً)</option>
+            </select>
+          </div>
+        </div>
 
-            // إعداد أسرعة البحث والفلترة
-            document.getElementById('search-customer-input').addEventListener('input', filterAndRenderCustomers);
-            document.getElementById('filter-status-select').addEventListener('change', filterAndRenderCustomers);
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeCustomerModal()">إلغاء</button>
+          <button type="submit" class="btn btn-primary" id="saveCustBtn">
+            <i class="fas fa-save"></i> حفظ البيانات
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="footer-placeholder"></div>
+
+  <button class="sidebar-toggle" id="sidebarToggle" title="القائمة الجانبية">
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+  <script src="../assets/js/firebase-config.js"></script>
+  <script src="../assets/js/core.js"></script>
+  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/sidebar.js"></script>
+  <script src="../assets/js/admin.js"></script>
+
+  <script>
+    let allCustomers = [];
+    let filteredCustomers = [];
+
+    // ===== جلب العملاء من Firebase =====
+    function fetchCustomers() {
+      const tbody = document.getElementById('customersTableBody');
+      
+      db.collection('customers')
+        .get()
+        .then((snapshot) => {
+          allCustomers = [];
+          let totalDebts = 0;
+          let activeCount = 0;
+
+          snapshot.forEach((doc) => {
+            const data = doc.data();
+            data.id = doc.id;
+            allCustomers.push(data);
+
+            if (data.active !== false) activeCount++;
+            if (data.balance) totalDebts += Number(data.balance) || 0;
+          });
+
+          // تحديث الإحصائيات
+          document.getElementById('totalCustomersCount').textContent = allCustomers.length;
+          document.getElementById('activeCustomersCount').textContent = activeCount;
+          document.getElementById('totalDebts').textContent = `${totalDebts.toLocaleString('ar-EG')} ج.م`;
+
+          applyFilters();
+        })
+        .catch((error) => {
+          console.error('Error fetching customers:', error);
+          tbody.innerHTML = `
+            <tr>
+              <td colspan="8" style="text-align: center; color: var(--danger); padding: 30px;">
+                <i class="fas fa-exclamation-triangle text-2xl"></i>
+                <p style="margin-top: 8px;">حدث خطأ أثناء تحميل البيانات من الفايربيس!</p>
+              </td>
+            </tr>
+          `;
         });
+    }
 
-        // جلب قائمة العملاء
-        async function fetchCustomers() {
-            try {
-                const snapshot = await db.collection('users').where('role', '==', 'customer').get();
-                allCustomers = [];
-                snapshot.forEach(doc => {
-                    allCustomers.push({ id: doc.id, ...doc.data() });
-                });
-                renderCustomers(allCustomers);
-                updateStats(allCustomers);
-            } catch (error) {
-                console.error("خطأ في جلب العملاء:", error);
-                showToast("فشل في تحميل بيانات العملاء", "error");
-            }
-        }
+    // ===== عرض الجدول =====
+    function renderTable(data) {
+      const tbody = document.getElementById('customersTableBody');
 
-        // تحديث الإحصائيات
-        function updateStats(customers) {
-            document.getElementById('total-customers-count').textContent = customers.length;
-            const active = customers.filter(c => c.status !== 'inactive').length;
-            const inactive = customers.length - active;
-            document.getElementById('active-customers-count').textContent = active;
-            document.getElementById('inactive-customers-count').textContent = inactive;
-        }
+      if (!data || data.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="8" style="text-align: center; color: var(--gray-600); padding: 30px;">
+              لا يوجد عملاء مطابقين للبحث حالياً.
+            </td>
+          </tr>
+        `;
+        return;
+      }
 
-        // عرض العملاء في الجدول
-        function renderCustomers(customers) {
-            const tbody = document.getElementById('customers-table-body');
-            tbody.innerHTML = '';
+      let html = '';
+      data.forEach((cust, index) => {
+        const isActive = cust.active !== false;
+        const balance = Number(cust.balance) || 0;
+        
+        html += `
+          <tr>
+            <td>${index + 1}</td>
+            <td style="font-weight: 700; color: var(--navy);">${cust.name || 'بدون اسم'}</td>
+            <td>
+              <span style="background: var(--gray-100); padding: 4px 8px; border-radius: 4px; font-family: monospace; font-weight: bold; border: 1px dashed var(--navy-light);">
+                ${cust.code || '---'}
+              </span>
+            </td>
+            <td><a href="tel:${cust.phone}" style="color: var(--navy); text-decoration: none;"><i class="fas fa-phone-alt" style="font-size:0.8rem; color:var(--gold);"></i> ${cust.phone || '---'}</a></td>
+            <td>${cust.address || 'غير محدد'}</td>
+            <td style="font-weight: 700; color: ${balance > 0 ? '#ef4444' : '#22c55e'};">
+              ${balance.toLocaleString('ar-EG')} ج.م
+            </td>
+            <td>
+              <span class="badge ${isActive ? 'badge-success' : 'badge-danger'}" style="padding: 4px 10px; border-radius: 20px; font-size: 0.8rem; background: ${isActive ? '#dcfce7; color: #15803d;' : '#fee2e2; color: #b91c1c;'}" >
+                ${isActive ? 'نشط' : 'معطل'}
+              </span>
+            </td>
+            <td>
+              <div style="display: flex; gap: 6px;">
+                <button class="btn btn-sm btn-outline" title="تعديل" onclick="editCustomer('${cust.id}')" style="padding: 4px 8px;">
+                  <i class="fas fa-edit" style="color: var(--navy);"></i>
+                </button>
+                <button class="btn btn-sm btn-outline" title="تغيير الحالة" onclick="toggleCustomerStatus('${cust.id}', ${isActive})" style="padding: 4px 8px;">
+                  <i class="fas ${isActive ? 'fa-ban' : 'fa-check-circle'}" style="color: ${isActive ? '#ef4444' : '#22c55e'};"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
 
-            if (customers.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" style="text-align: center; padding: 24px; color: var(--gray-400);">لا يوجد عملاء مطابقون للبحث.</td></tr>`;
-                return;
-            }
+      tbody.innerHTML = html;
+    }
 
-            customers.forEach(customer => {
-                const isActive = customer.status !== 'inactive';
-                const statusBadge = isActive 
-                    ? `<span style="background: rgba(34,197,94,0.15); color: #22c55e; padding: 4px 12px; border-radius: var(--radius-full); font-weight: 700; font-size: 0.8rem;">نشط</span>`
-                    : `<span style="background: rgba(239,68,68,0.15); color: #ef4444; padding: 4px 12px; border-radius: var(--radius-full); font-weight: 700; font-size: 0.8rem;">معطل</span>`;
+    // ===== البحث والفلترة =====
+    function applyFilters() {
+      const query = document.getElementById('searchInput').value.trim().toLowerCase();
+      const status = document.getElementById('statusFilter').value;
 
-                const tr = document.createElement('tr');
-                tr.style.borderBottom = '1px solid var(--gray-100)';
-                tr.innerHTML = `
-                    <td style="padding: 12px 16px; font-weight: 700; color: var(--navy);"><i class="fa-solid fa-key" style="color: var(--gold); font-size: 0.8rem;"></i> ${customer.code || 'بدون كود'}</td>
-                    <td style="padding: 12px 16px; font-weight: 700;">${customer.name || 'بدون اسم'}</td>
-                    <td style="padding: 12px 16px; direction: ltr; text-align: right;">${customer.phone || '-'}</td>
-                    <td style="padding: 12px 16px; color: var(--gray-600);">${customer.address || 'غير محدد'}</td>
-                    <td style="padding: 12px 16px;">${statusBadge}</td>
-                    <td style="padding: 12px 16px; text-align: center;">
-                        <button class="btn btn-outline btn-sm" onclick="editCustomer('${customer.id}')" title="تعديل"><i class="fa-solid fa-pen"></i></button>
-                        <button class="btn btn-sm ${isActive ? 'btn-danger' : 'btn-success'}" onclick="toggleCustomerStatus('${customer.id}', '${customer.status}')" title="${isActive ? 'تعطيل' : 'تفعيل'}">
-                            <i class="fa-solid ${isActive ? 'fa-user-slash' : 'fa-user-check'}"></i>
-                        </button>
-                    </td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
+      filteredCustomers = allCustomers.filter(cust => {
+        const matchesQuery = (cust.name && cust.name.toLowerCase().includes(query)) ||
+                             (cust.phone && cust.phone.includes(query)) ||
+                             (cust.code && cust.code.toLowerCase().includes(query));
 
-        // فلترة القائمة
-        function filterAndRenderCustomers() {
-            const searchValue = document.getElementById('search-customer-input').value.toLowerCase().trim();
-            const statusFilter = document.getElementById('filter-status-select').value;
+        const isActive = cust.active !== false;
+        const matchesStatus = (status === 'all') || 
+                              (status === 'active' && isActive) || 
+                              (status === 'inactive' && !isActive);
 
-            const filtered = allCustomers.filter(c => {
-                const matchesSearch = (c.name && c.name.toLowerCase().includes(searchValue)) ||
-                                      (c.phone && c.phone.includes(searchValue)) ||
-                                      (c.code && c.code.toLowerCase().includes(searchValue));
-                
-                let matchesStatus = true;
-                if (statusFilter === 'active') matchesStatus = c.status !== 'inactive';
-                if (statusFilter === 'inactive') matchesStatus = c.status === 'inactive';
+        return matchesQuery && matchesStatus;
+      });
 
-                return matchesSearch && matchesStatus;
-            });
+      renderTable(filteredCustomers);
+    }
 
-            renderCustomers(filtered);
-        }
+    function handleSearch() {
+      applyFilters();
+    }
 
-        // فتح مودال إضافة عميل
-        function openAddCustomerModal() {
-            document.getElementById('customer-doc-id').value = '';
-            document.getElementById('customer-form').reset();
-            document.getElementById('modal-title').innerHTML = `<i class="fa-solid fa-user-plus"></i> إضافة عميل جديد`;
-            generateRandomCodeInput();
-            document.getElementById('customer-modal').style.display = 'flex';
-        }
+    // ===== إدارة المودال =====
+    function openAddCustomerModal() {
+      document.getElementById('customerForm').reset();
+      document.getElementById('customerId').value = '';
+      document.getElementById('modalTitle').innerHTML = '<i class="fas fa-user-plus"></i> إضافة عميل جديد';
+      document.getElementById('custCode').value = generateRandomCode();
+      document.getElementById('customerModal').classList.add('active');
+    }
 
-        // فتح مودال تعديل عميل
-        function editCustomer(id) {
-            const customer = allCustomers.find(c => c.id === id);
-            if (!customer) return;
+    function closeCustomerModal() {
+      document.getElementById('customerModal').classList.remove('active');
+    }
 
-            document.getElementById('customer-doc-id').value = customer.id;
-            document.getElementById('customer-name').value = customer.name || '';
-            document.getElementById('customer-phone').value = customer.phone || '';
-            document.getElementById('customer-code').value = customer.code || '';
-            document.getElementById('customer-address').value = customer.address || '';
-            document.getElementById('customer-status').value = customer.status || 'active';
+    function generateRandomCodeInput() {
+      document.getElementById('custCode').value = generateRandomCode();
+    }
 
-            document.getElementById('modal-title').innerHTML = `<i class="fa-solid fa-user-pen"></i> تعديل بيانات العميل`;
-            document.getElementById('customer-modal').style.display = 'flex';
-        }
+    // ===== تعديل العميل =====
+    function editCustomer(id) {
+      const cust = allCustomers.find(c => c.id === id);
+      if (!cust) return;
 
-        function closeCustomerModal() {
-            document.getElementById('customer-modal').style.display = 'none';
-        }
+      document.getElementById('customerId').value = cust.id;
+      document.getElementById('custName').value = cust.name || '';
+      document.getElementById('custPhone').value = cust.phone || '';
+      document.getElementById('custCode').value = cust.code || '';
+      document.getElementById('custAddress').value = cust.address || '';
+      document.getElementById('custBalance').value = cust.balance || 0;
+      document.getElementById('custStatus').value = (cust.active !== false).toString();
 
-        // توليد كود سري عشوائي
-        function generateRandomCodeInput() {
-            if (typeof generateRandomCode === 'function') {
-                document.getElementById('customer-code').value = generateRandomCode(6);
-            } else {
-                document.getElementById('customer-code').value = 'SH-' + Math.floor(1000 + Math.random() * 9000);
-            }
-        }
+      document.getElementById('modalTitle').innerHTML = '<i class="fas fa-user-edit"></i> تعديل بيانات العميل';
+      document.getElementById('customerModal').classList.add('active');
+    }
 
-        // تقديم نموذج العميل (إضافة / تعديل)
-        async function handleCustomerSubmit(e) {
-            e.preventDefault();
-            const btn = document.getElementById('save-customer-btn');
-            btn.disabled = true;
-            btn.textContent = 'جاري الحفظ...';
+    // ===== حفظ العميل (إضافة / تعديل) =====
+    function saveCustomer(e) {
+      e.preventDefault();
 
-            const docId = document.getElementById('customer-doc-id').value;
-            const customerData = {
-                name: document.getElementById('customer-name').value.trim(),
-                phone: document.getElementById('customer-phone').value.trim(),
-                code: document.getElementById('customer-code').value.trim().toUpperCase(),
-                address: document.getElementById('customer-address').value.trim(),
-                status: document.getElementById('customer-status').value,
-                role: 'customer',
-                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-            };
+      const btn = document.getElementById('saveCustBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الحفظ...';
 
-            try {
-                if (docId) {
-                    await db.collection('users').doc(docId).update(customerData);
-                    showToast("تم تحديث بيانات العميل بنجاح", "success");
-                } else {
-                    customerData.createdAt = firebase.firestore.FieldValue.serverTimestamp();
-                    await db.collection('users').add(customerData);
-                    showToast("تم إضافة العميل بنجاح", "success");
-                }
-                closeCustomerModal();
-                fetchCustomers();
-            } catch (err) {
-                console.error("خطأ في حفظ العميل:", err);
-                showToast("حدث خطأ أثناء حفظ البيانات", "error");
-            } finally {
-                btn.disabled = false;
-                btn.textContent = 'حفظ البيانات';
-            }
-        }
+      const id = document.getElementById('customerId').value;
+      const data = {
+        name: document.getElementById('custName').value.trim(),
+        phone: document.getElementById('custPhone').value.trim(),
+        code: document.getElementById('custCode').value.trim(),
+        address: document.getElementById('custAddress').value.trim(),
+        balance: Number(document.getElementById('custBalance').value) || 0,
+        active: document.getElementById('custStatus').value === 'true',
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+      };
 
-        // تفعيل / تعطيل العميل
-        async function toggleCustomerStatus(id, currentStatus) {
-            const newStatus = currentStatus === 'inactive' ? 'active' : 'inactive';
-            const actionText = newStatus === 'active' ? 'تفعيل' : 'تعطيل';
-            
-            if (!confirm(`هل أنت تأكد من ${actionText} هذا العميل؟`)) return;
+      const promise = id 
+        ? db.collection('customers').doc(id).update(data)
+        : db.collection('customers').add({ ...data, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
 
-            try {
-                await db.collection('users').doc(id).update({
-                    status: newStatus,
-                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
-                showToast(`تم ${actionText} العميل بنجاح`, "success");
-                fetchCustomers();
-            } catch (err) {
-                console.error("خطأ تغيير حالة العميل:", err);
-                showToast("فشل في تغيير حالة العميل", "error");
-            }
-        }
-    </script>
+      promise
+        .then(() => {
+          showToast(id ? '✅ تم تحديث بيانات العميل بنجاح' : '✅ تم إضافة العميل بنجاح', 'success');
+          closeCustomerModal();
+          fetchCustomers();
+        })
+        .catch((err) => {
+          console.error(err);
+          showToast('❌ حدث خطأ أثناء الحفظ', 'error');
+        })
+        .finally(() => {
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fas fa-save"></i> حفظ البيانات';
+        });
+    }
+
+    // ===== تغيير حالة العميل (تفعيل/إيقاف) =====
+    function toggleCustomerStatus(id, currentActiveStatus) {
+      const newStatus = !currentActiveStatus;
+      const confirmMsg = newStatus ? 'هل ترغب بتفعيل حساب هذا العميل؟' : 'هل ترغب بتعطيل حساب هذا العميل؟';
+
+      if (confirm(confirmMsg)) {
+        db.collection('customers').doc(id).update({
+          active: newStatus
+        })
+        .then(() => {
+          showToast(newStatus ? '✅ تم تفعيل العميل' : '⚠️ تم تعطيل حساب العميل', 'info');
+          fetchCustomers();
+        })
+        .catch(() => showToast('❌ حدث خطأ في العملية', 'error'));
+      }
+    }
+
+    // ===== تشغيل الصفحة =====
+    document.addEventListener('DOMContentLoaded', function() {
+      fetchCustomers();
+    });
+  </script>
 </body>
 </html>
