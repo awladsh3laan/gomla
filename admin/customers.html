@@ -1,4 +1,4 @@
-Kosmk
+Wezza
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -18,6 +18,43 @@ Kosmk
       padding: 24px 0;
     }
     
+    /* ستايل الهيدر ومعلومات المسجل */
+    .smart-header .user-profile-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 4px 12px;
+      border-radius: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .smart-header .user-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid var(--gold);
+    }
+
+    .smart-header .user-details {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.2;
+    }
+
+    .smart-header .user-name {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--white);
+    }
+
+    .smart-header .user-role {
+      font-size: 0.7rem;
+      color: var(--gold);
+      font-weight: 600;
+    }
+
     .toolbar-card {
       background: var(--white);
       border-radius: var(--radius-md);
@@ -62,6 +99,7 @@ Kosmk
       color: var(--gray-400);
     }
 
+    /* جدول الكمبيوتر */
     .table-container {
       background: var(--white);
       border-radius: var(--radius-md);
@@ -95,6 +133,67 @@ Kosmk
       background: var(--gray-50);
     }
 
+    /* كروت الموبايل */
+    .mobile-cards-container {
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .customer-card-mobile {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      border: 1px solid var(--gray-200);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .customer-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--gray-100);
+      padding-bottom: 8px;
+    }
+
+    .customer-card-body {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 0.88rem;
+    }
+
+    .customer-card-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .customer-card-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed var(--gray-200);
+    }
+
+    .customer-card-actions button {
+      flex: 1;
+    }
+
+    /* التجاوب مع الموبايل */
+    @media (max-width: 768px) {
+      .table-container {
+        display: none;
+      }
+      .mobile-cards-container {
+        display: flex;
+      }
+    }
+
     .code-badge {
       background: var(--navy-light);
       color: var(--gold);
@@ -115,7 +214,7 @@ Kosmk
     .badge-active { background: rgba(34, 197, 94, 0.15); color: #16a34a; }
     .badge-disabled { background: rgba(239, 68, 68, 0.15); color: #dc2626; }
 
-    /* Modal */
+    /* المودال */
     .modal-backdrop {
       position: fixed;
       inset: 0;
@@ -176,28 +275,34 @@ Kosmk
 
   <!-- ===== الهيدر ===== -->
   <header class="smart-header">
-    <div class="container">
+    <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
       <a href="dashboard.html" class="logo">
         <i class="fas fa-boxes-packing gold"></i>
         <span>أولاد شعلان <small class="gold">جملة</small></span>
       </a>
 
+      <!-- بيانات المستخدم المسجل -->
+      <div class="user-profile-info" id="userHeaderProfile">
+        <img src="../assets/images/default-avatar.png" alt="User" class="user-avatar" id="headerUserAvatar" onerror="this.src='https://ui-avatars.com/api/?name=User&background=1a2a4a&color=d4af37'">
+        <div class="user-details">
+          <span class="user-name" id="headerUserName">جاري التحميل...</span>
+          <span class="user-role" id="headerUserRole">---</span>
+        </div>
+      </div>
+
       <div class="header-actions">
-        <!-- زر فتح السايدبار المعرف في main.js / sidebar.js -->
-        <button type="button" class="btn btn-gold btn-sm" id="sidebarToggleBtn" onclick="Sidebar.toggle()">
+        <!-- زر فتح السايدبار -->
+        <button type="button" class="btn btn-gold btn-sm" id="sidebarToggleBtn" onclick="toggleSidebarMenu()">
           <i class="fas fa-bars"></i> القائمة
         </button>
-        <a href="dashboard.html" class="btn btn-outline btn-sm" style="color:var(--white); border-color:var(--white);">
-          <i class="fas fa-home"></i> الرئيسية
-        </a>
       </div>
     </div>
   </header>
 
-  <!-- ===== السايدبار ===== -->
+  <!-- ===== حاوية السايدبار ===== -->
   <div id="sidebarContainer"></div>
 
-  <!-- ===== المحتوى ===== -->
+  <!-- ===== المحتوى الرئيسي ===== -->
   <main class="page-content customers-page">
     <div class="container">
       
@@ -207,7 +312,7 @@ Kosmk
         <span class="admin-badge"><i class="fas fa-shield-halved"></i> لوحة الإدارة</span>
       </div>
 
-      <!-- الإحصائيات -->
+      <!-- الإحصائيات السريعة -->
       <div class="stats-grid">
         <div class="stat-card">
           <div class="stat-icon gold"><i class="fas fa-users"></i></div>
@@ -232,12 +337,12 @@ Kosmk
         </div>
       </div>
 
-      <!-- شريط الأدوات والبحث -->
+      <!-- شريط البحث والأزرار -->
       <div class="toolbar-card">
         <div class="search-box">
           <div class="search-input-group">
             <i class="fas fa-search"></i>
-            <input type="text" id="searchInput" placeholder="ابحث باسم العميل، الهاتف، أو كود الدخول..." oninput="filterData()">
+            <input type="text" id="searchInput" placeholder="ابحث باسم العميل، الهاتف، أو الكود..." oninput="filterData()">
           </div>
           <select id="statusFilter" class="field-control" style="width: auto;" onchange="filterData()">
             <option value="all">كل الحالات</option>
@@ -246,12 +351,12 @@ Kosmk
           </select>
         </div>
 
-        <button type="button" class="btn btn-primary" onclick="openModal()">
+        <button type="button" class="btn btn-primary" onclick="openCustomerModal()">
           <i class="fas fa-user-plus"></i> إضافة عميل جديد
         </button>
       </div>
 
-      <!-- الجدول -->
+      <!-- 1. عرض جدول للكمبيوتر -->
       <div class="table-container">
         <div style="overflow-x: auto;">
           <table class="custom-table">
@@ -271,12 +376,17 @@ Kosmk
               <tr>
                 <td colspan="8" style="text-align: center; padding: 30px; color: var(--gray-600);">
                   <i class="fas fa-spinner fa-spin" style="color: var(--gold); font-size: 1.5rem;"></i>
-                  <p style="margin-top: 8px;">جاري جلب العملاء من Firebase...</p>
+                  <p style="margin-top: 8px;">جاري جلب العملاء...</p>
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
+      </div>
+
+      <!-- 2. عرض كروت للموبايل -->
+      <div class="mobile-cards-container" id="mobileCardsContainer">
+        <p style="text-align: center; padding: 20px; color: var(--gray-600);">جاري التحميل...</p>
       </div>
 
     </div>
@@ -286,8 +396,8 @@ Kosmk
   <div class="modal-backdrop" id="customerModal">
     <div class="modal-card">
       <div class="modal-header-custom">
-        <h3 id="modalTitle" style="font-size: 1.05rem;"><i class="fas fa-user-plus"></i> إضافة عميل</h3>
-        <button type="button" class="btn btn-danger btn-sm" onclick="closeModal()"><i class="fas fa-times"></i></button>
+        <h3 id="modalTitle" style="font-size: 1.05rem;"><i class="fas fa-user-plus"></i> إضافة عميل جديد</h3>
+        <button type="button" class="btn btn-danger btn-sm" onclick="closeCustomerModal()"><i class="fas fa-times"></i></button>
       </div>
       
       <form id="customerForm" onsubmit="handleSave(event)">
@@ -295,8 +405,8 @@ Kosmk
           <input type="hidden" id="custDocId">
           
           <div class="field-group">
-            <label>اسم العميل / المكان *</label>
-            <input type="text" id="custName" class="field-control" required placeholder="أدخل اسم العميل">
+            <label>اسم العميل / المحل *</label>
+            <input type="text" id="custName" class="field-control" required placeholder="مثال: محلات البركة">
           </div>
 
           <div class="field-group">
@@ -305,9 +415,9 @@ Kosmk
           </div>
 
           <div class="field-group">
-            <label>كود السر الخاص بالدخول *</label>
+            <label>كود الدخول السرّي *</label>
             <div style="display: flex; gap: 8px;">
-              <input type="text" id="custCode" class="field-control" required placeholder="الكود السري">
+              <input type="text" id="custCode" class="field-control" required placeholder="الكود">
               <button type="button" class="btn btn-gold btn-sm" onclick="generateCodeBtn()">
                 <i class="fas fa-wand-magic-sparkles"></i> توليد
               </button>
@@ -315,8 +425,8 @@ Kosmk
           </div>
 
           <div class="field-group">
-            <label>العنوان</label>
-            <input type="text" id="custAddress" class="field-control" placeholder="المنطقة أو العنوان">
+            <label>العنوان / المنطقة</label>
+            <input type="text" id="custAddress" class="field-control" placeholder="مثال: المحلة الكبرى">
           </div>
 
           <div class="field-group">
@@ -334,7 +444,7 @@ Kosmk
         </div>
 
         <div style="padding: 16px 20px; background: var(--gray-50); display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid var(--gray-200);">
-          <button type="button" class="btn btn-outline btn-sm" onclick="closeModal()">إلغاء</button>
+          <button type="button" class="btn btn-outline btn-sm" onclick="closeCustomerModal()">إلغاء</button>
           <button type="submit" class="btn btn-primary btn-sm" id="submitBtn">
             <i class="fas fa-save"></i> حفظ البيانات
           </button>
@@ -347,15 +457,11 @@ Kosmk
   <footer class="smart-footer">
     <div class="container">
       <p>© 2026 أولاد شعلان جملة - جميع الحقوق محفوظة</p>
-      <div class="footer-links">
-        <a href="dashboard.html">الرئيسية</a>
-        <a href="products.html">المنتجات</a>
-      </div>
     </div>
   </footer>
 
-  <!-- ===== زر السايدبار عائم للموبايل ===== -->
-  <button type="button" class="sidebar-toggle" onclick="Sidebar.toggle()" title="القائمة">
+  <!-- ===== زر السايدبار العائم للموبايل ===== -->
+  <button type="button" class="sidebar-toggle" onclick="toggleSidebarMenu()" title="القائمة">
     <i class="fas fa-bars"></i>
   </button>
 
@@ -368,12 +474,69 @@ Kosmk
   <script src="../assets/js/firebase-config.js"></script>
   <script src="../assets/js/core.js"></script>
   <script src="../assets/js/main.js"></script>
-  <script src="../assets/js/sidebar.js"></script>
 
   <script>
     let customersData = [];
 
-    // تحميل البيانات من الفايربيس
+    // ===== 1. قراءة وتحديث معلومات الهيدر للمستخدم الحالي =====
+    function initHeaderUserInfo() {
+      const nameEl = document.getElementById('headerUserName');
+      const roleEl = document.getElementById('headerUserRole');
+      const avatarEl = document.getElementById('headerUserAvatar');
+
+      // المحاولة من localStorage أولاً أو Auth
+      const currentUser = JSON.parse(localStorage.getItem('user_info') || '{}');
+
+      if (currentUser && currentUser.name) {
+        nameEl.textContent = currentUser.name;
+        roleEl.textContent = getRoleLabel(currentUser.role);
+        if (currentUser.avatar) avatarEl.src = currentUser.avatar;
+      } else {
+        // فحص حالة الفايربيس
+        auth.onAuthStateChanged((user) => {
+          if (user) {
+            db.collection('users').doc(user.uid).get().then(doc => {
+              if (doc.exists) {
+                const data = doc.data();
+                nameEl.textContent = data.name || user.displayName || 'مستخدم';
+                roleEl.textContent = getRoleLabel(data.role);
+                if (data.avatar) avatarEl.src = data.avatar;
+              } else {
+                setVisitorHeader();
+              }
+            }).catch(() => setVisitorHeader());
+          } else {
+            setVisitorHeader();
+          }
+        });
+      }
+    }
+
+    function getRoleLabel(role) {
+      switch (role) {
+        case 'super_admin': return 'سوبر أدمن';
+        case 'admin': return 'مشرف';
+        case 'customer': return 'عميل';
+        default: return 'زائر';
+      }
+    }
+
+    function setVisitorHeader() {
+      document.getElementById('headerUserName').textContent = 'زائر';
+      document.getElementById('headerUserRole').textContent = 'غير مسجل';
+    }
+
+    // ===== 2. تشغيل المنيو والسايدبار =====
+    function toggleSidebarMenu() {
+      if (typeof Sidebar !== 'undefined' && Sidebar.toggle) {
+        Sidebar.toggle();
+      } else {
+        const sidebar = document.getElementById('sidebarContainer');
+        if (sidebar) sidebar.classList.toggle('active');
+      }
+    }
+
+    // ===== 3. جلب بيانات العملاء =====
     function loadCustomers() {
       db.collection('customers').get().then((snapshot) => {
         customersData = [];
@@ -400,20 +563,27 @@ Kosmk
       });
     }
 
-    // عرض البيانات في الجدول
-    function renderTable(list) {
+    // ===== 4. عرض البيانات (جدول + كروت للموبايل) =====
+    function renderData(list) {
       const tbody = document.getElementById('customersTbody');
+      const mobileContainer = document.getElementById('mobileCardsContainer');
+
       if (!list.length) {
-        tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding: 24px;">لا يوجد عملاء مطبقين للفلتر.</td></tr>`;
+        const emptyHtml = `<div style="text-align:center; padding: 24px; color:var(--gray-600);">لا يوجد عملاء مطبقين للفلتر.</div>`;
+        tbody.innerHTML = `<tr><td colspan="8">${emptyHtml}</td></tr>`;
+        mobileContainer.innerHTML = emptyHtml;
         return;
       }
 
-      let html = '';
+      let tableHtml = '';
+      let cardsHtml = '';
+
       list.forEach((c, idx) => {
         const isActive = c.active !== false;
         const bal = Number(c.balance) || 0;
 
-        html += `
+        // صف الجدول للكمبيوتر
+        tableHtml += `
           <tr>
             <td>${idx + 1}</td>
             <td style="font-weight:700; color:var(--navy);">${c.name || '---'}</td>
@@ -444,8 +614,52 @@ Kosmk
             </td>
           </tr>
         `;
+
+        // كارت الموبايل
+        cardsHtml += `
+          <div class="customer-card-mobile">
+            <div class="customer-card-header">
+              <strong style="color:var(--navy); font-size:1rem;">${c.name || '---'}</strong>
+              <span class="badge-status ${isActive ? 'badge-active' : 'badge-disabled'}">
+                ${isActive ? 'نشط' : 'معطل'}
+              </span>
+            </div>
+            <div class="customer-card-body">
+              <div class="customer-card-row">
+                <span>كود الدخول:</span>
+                <span class="code-badge">${c.code || '---'}</span>
+              </div>
+              <div class="customer-card-row">
+                <span>الهاتف:</span>
+                <a href="tel:${c.phone}" style="color:var(--navy); text-decoration:none; font-weight:bold;">
+                  <i class="fas fa-phone text-gold"></i> ${c.phone || '---'}
+                </a>
+              </div>
+              <div class="customer-card-row">
+                <span>العنوان:</span>
+                <span>${c.address || '---'}</span>
+              </div>
+              <div class="customer-card-row">
+                <span>المديونية:</span>
+                <strong style="color: ${bal > 0 ? '#ef4444' : '#22c55e'};">
+                  ${bal.toLocaleString('ar-EG')} ج.م
+                </strong>
+              </div>
+            </div>
+            <div class="customer-card-actions">
+              <button type="button" class="btn btn-gold btn-sm" onclick="editCust('${c.id}')">
+                <i class="fas fa-pen"></i> تعديل
+              </button>
+              <button type="button" class="btn ${isActive ? 'btn-danger' : 'btn-success'} btn-sm" onclick="toggleStatus('${c.id}', ${isActive})">
+                <i class="fas ${isActive ? 'fa-ban' : 'fa-check'}"></i> ${isActive ? 'إيقاف' : 'تفعيل'}
+              </button>
+            </div>
+          </div>
+        `;
       });
-      tbody.innerHTML = html;
+
+      tbody.innerHTML = tableHtml;
+      mobileContainer.innerHTML = cardsHtml;
     }
 
     function filterData() {
@@ -465,11 +679,15 @@ Kosmk
         return matchText && matchStatus;
       });
 
-      renderTable(res);
+      renderData(res);
     }
 
-    // فتح وإغلاق المودال
-    function openModal() {
+    // ===== 5. إدارة المودال والأكواد =====
+    function generateRandomCode() {
+      return 'SH-' + Math.floor(1000 + Math.random() * 9000);
+    }
+
+    function openCustomerModal() {
       document.getElementById('customerForm').reset();
       document.getElementById('custDocId').value = '';
       document.getElementById('modalTitle').innerHTML = '<i class="fas fa-user-plus"></i> إضافة عميل جديد';
@@ -477,7 +695,7 @@ Kosmk
       document.getElementById('customerModal').classList.add('open');
     }
 
-    function closeModal() {
+    function closeCustomerModal() {
       document.getElementById('customerModal').classList.remove('open');
     }
 
@@ -521,11 +739,12 @@ Kosmk
         : db.collection('customers').add({ ...payload, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
 
       req.then(() => {
-        showToast(id ? 'تم تعديل العميل' : 'تمت إضافة العميل', 'success');
-        closeModal();
+        showToast(id ? 'تم تعديل بيانات العميل' : 'تمت إضافة العميل بنجاح', 'success');
+        closeCustomerModal();
         loadCustomers();
       }).catch(err => {
-        showToast('حدث خطأ أثناء الحفظ', 'error');
+        console.error(err);
+        showToast('حدث خطأ أثناء حفظ البيانات', 'error');
       }).finally(() => {
         btn.disabled = false;
       });
@@ -533,12 +752,16 @@ Kosmk
 
     function toggleStatus(id, currentActive) {
       db.collection('customers').doc(id).update({ active: !currentActive }).then(() => {
-        showToast(!currentActive ? 'تم تفعيل الحساب' : 'تم تعطيل الحساب', 'info');
+        showToast(!currentActive ? 'تم تفعيل حساب العميل' : 'تم تعطيل حساب العميل', 'info');
         loadCustomers();
       });
     }
 
-    document.addEventListener('DOMContentLoaded', loadCustomers);
+    // ===== التشغيل الفوري عند تحميل الصفحة =====
+    document.addEventListener('DOMContentLoaded', function() {
+      initHeaderUserInfo();
+      loadCustomers();
+    });
   </script>
 </body>
 </html>
