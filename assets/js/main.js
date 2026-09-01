@@ -262,79 +262,20 @@ function initSidebar() {
       if (adminData.avatar) {
         document.getElementById('profileAvatar').src = adminData.avatar;
       }
-
-      // تحميل الكروت حسب الصلاحية
-      loadHomeCards(isSuperAdmin);
-    }
-
-    // ===== تحميل كروت الصفحة الرئيسية =====
-    function loadHomeCards(isSuperAdmin) {
-      const container = document.getElementById('cardsGrid');
-      if (!container) return;
-
-      // تعريف الكروت
-      let cards = [];
-
-      // كروت مشتركة للجميع
-      const commonCards = [
-        { icon: 'fa-store', title: 'متجر الجملة', url: '/gomla/store-gomla.html', desc: 'زيارة المتجر', badge: 'زيارة' },
-        { icon: 'fa-tachometer-alt', title: 'لوحة التحكم', url: '/gomla/admin/dashboard.html', desc: 'إدارة النظام', badge: 'دخول' },
-        { icon: 'fa-newspaper', title: 'آخر الأخبار', url: '/gomla/admin/news-management.html', desc: 'إدارة الأخبار', badge: isSuperAdmin ? 'تحكم' : 'عرض' },
-        { icon: 'fa-chart-line', title: 'عرض الأسعار', url: '/gomla/admin/reports.html', desc: 'مراقبة الأسعار', badge: isSuperAdmin ? 'تحكم' : 'عرض' },
-        { icon: 'fa-tags', title: 'العروض', url: '/gomla/admin/products.html', desc: 'إدارة العروض', badge: 'إدارة' },
-        { icon: 'fa-lightbulb', title: 'النصائح والمعلومات', url: '/gomla/admin/tips-management.html', desc: 'إدارة النصائح', badge: isSuperAdmin ? 'تحكم' : 'عرض' },
-      ];
-
-      // كروت إضافية للسوبر أدمن
-      const superCards = [
-        { icon: 'fa-users-cog', title: 'إدارة الصلاحيات', url: '/gomla/admin/roles-management.html', desc: 'تعديل صلاحيات المشرفين', badge: 'تحكم' },
-        { icon: 'fa-key', title: 'توليد الأكواد', url: '/gomla/admin/generate-codes.html', desc: 'توليد أكواد العملاء', badge: 'سوبر أدمن' },
-        { icon: 'fa-paint-brush', title: 'إدارة السايدبار', url: '/gomla/admin/sidebar-content.html', desc: 'تعديل محتوى السايدبار', badge: 'سوبر أدمن' },
-        { icon: 'fa-ad', title: 'إدارة الإعلانات', url: '/gomla/admin/ads-management.html', desc: 'إضافة بانرات إعلانية', badge: 'سوبر أدمن' },
-        { icon: 'fa-quote-right', title: 'إدارة المقولات', url: '/gomla/admin/quotes-management.html', desc: 'إضافة مقولات وحكم', badge: 'سوبر أدمن' },
-      ];
-
-      // تجميع الكروت
-      if (isSuperAdmin) {
-        cards = [...commonCards, ...superCards];
-      } else {
-        cards = [...commonCards];
-      }
-
-      // عرض الكروت
-      let html = '';
-      cards.forEach((card) => {
-        html += `
-          <a href="${card.url}" class="card-item">
-            <span class="card-icon"><i class="fas ${card.icon}"></i></span>
-            <span class="card-title">${card.title}</span>
-            <span class="card-sub">${card.desc}</span>
-            <span class="card-badge">${card.badge}</span>
-          </a>
-        `;
-      });
-
-      container.innerHTML = html;
-    }
-
     // ============================================
     // 🚀 تشغيل الصفحة
     // ============================================
-
-    document.addEventListener('DOMContentLoaded', function() {
-      // التحقق من الصلاحية
-      const adminData = localStorage.getItem('admin');
-      if (!adminData) {
-        window.location.href = '/gomla/admin/login.html';
-        return;
-      }
-
-      loadAdminProfile();
-    });
-
+      
 // ===== تشغيل =====
 document.addEventListener('DOMContentLoaded', function() {
   initSidebar();
   loadAdminQuotes();
   loadAdminNews();
+ // التحقق من الصلاحية
+      const adminData = localStorage.getItem('admin');
+      if (!adminData) {
+        window.location.href = '/gomla/admin/login.html';
+        return;
+      }
+loadAdminProfile();
 });
