@@ -1,60 +1,310 @@
-Wezza
+WEZZZZZA
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>إدارة العملاء والذمم المالية - أولاد شعلان جملة</title>
+  <title>أولاد شعلان جملة - إدارة العملاء والذمم المالية</title>
 
-  <!-- Font Awesome Icons -->
+  <meta name="description" content="لوحة تحكم المديرين - أولاد شعلان جملة">
+  <meta name="theme-color" content="#1a2a4a">
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  
-  <!-- CSS الموحد -->
-  <link rel="stylesheet" href="../assets/css/style.css">
   <link rel="icon" href="../assets/images/favicon.ico">
 
   <style>
-    .customers-page {
-      padding: 24px 0;
+    /* ===== نفس الستايل الموحد ===== */
+    @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    
-    /* ستايل الهيدر ومعلومات المسجل */
-    .smart-header .user-profile-info {
+
+    :root {
+      --navy: #1a2a4a;
+      --navy-light: #2a3f6a;
+      --navy-dark: #0f1a2e;
+      --gold: #c9a84c;
+      --gold-light: #e8d5a3;
+      --white: #ffffff;
+      --gray-50: #f8fafc;
+      --gray-100: #f1f5f9;
+      --gray-200: #e2e8f0;
+      --gray-400: #94a3b8;
+      --gray-600: #475569;
+      --gray-800: #1e293b;
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.12);
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-full: 9999px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      direction: rtl;
+    }
+
+    body {
+      font-family: 'Tajawal', -apple-system, sans-serif;
+      background: var(--gray-50);
+      color: var(--gray-800);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ===== أنيميشن ===== */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.96);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* ===== الهيدر ===== */
+    .smart-header {
+      background: var(--navy);
+      color: var(--white);
+      padding: 14px 0;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 3px solid var(--gold);
+    }
+
+    .smart-header .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .smart-header .logo {
       display: flex;
       align-items: center;
       gap: 10px;
-      background: rgba(255, 255, 255, 0.1);
-      padding: 4px 12px;
-      border-radius: 30px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--white);
+      text-decoration: none;
     }
 
-    .smart-header .user-avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid var(--gold);
+    .smart-header .logo img {
+      height: 44px;
+      border-radius: 10px;
     }
 
-    .smart-header .user-details {
+    .smart-header .logo small {
+      font-size: 0.7rem;
+      font-weight: 400;
+      opacity: 0.8;
+    }
+
+    .smart-header .logo .gold {
+      color: var(--gold);
+    }
+
+    .header-actions {
       display: flex;
-      flex-direction: column;
-      line-height: 1.2;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
-    .smart-header .user-name {
-      font-size: 0.85rem;
+    .header-actions .btn {
+      padding: 8px 20px;
+      border-radius: var(--radius-full);
       font-weight: 700;
+      font-size: 0.85rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .header-actions .btn-gold {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    .header-actions .btn-gold:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(201, 168, 76, 0.35);
+    }
+
+    .header-actions .btn-outline {
+      background: transparent;
+      border: 2px solid var(--gold);
       color: var(--white);
     }
 
-    .smart-header .user-role {
-      font-size: 0.7rem;
-      color: var(--gold);
-      font-weight: 600;
+    .header-actions .btn-outline:hover {
+      background: var(--gold);
+      color: var(--navy);
+      transform: translateY(-2px);
     }
 
+    /* ===== عبارات تحفيزية وأخبار ===== */
+    .admin-motivational {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      padding: 12px 0;
+      text-align: center;
+      border-bottom: 2px solid var(--gold);
+    }
+
+    .admin-motivational .motivational-text {
+      font-size: 1rem;
+      font-weight: 500;
+      opacity: 0.9;
+      transition: opacity 0.3s ease;
+    }
+
+    .admin-motivational .motivational-text i {
+      color: var(--gold);
+      margin-left: 8px;
+    }
+
+    .admin-news {
+      background: var(--navy-dark);
+      color: rgba(255, 255, 255, 0.85);
+      padding: 8px 0;
+      border-bottom: 1px solid var(--gold);
+    }
+
+    .admin-news .news-list {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      padding: 4px 0;
+      white-space: nowrap;
+    }
+
+    .admin-news .news-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+    }
+
+    .admin-news .news-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      flex-shrink: 0;
+    }
+
+    /* ===== صفحة العملاء والذمم المالية ===== */
+    .dashboard-page {
+      flex: 1;
+      padding: 32px 0 48px;
+    }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .dashboard-header h1 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--navy);
+    }
+
+    .dashboard-header h1 i {
+      color: var(--gold);
+      margin-left: 8px;
+    }
+
+    .dashboard-header .admin-badge {
+      background: var(--gold);
+      color: var(--navy);
+      padding: 6px 18px;
+      border-radius: var(--radius-full);
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    /* كروت الإحصائيات السريعة */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .stat-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      border: 1px solid var(--gray-200);
+    }
+
+    .stat-card .stat-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+    .stat-icon.gold { background: rgba(201, 168, 76, 0.15); color: var(--gold); }
+    .stat-icon.green { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
+    .stat-icon.red { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+
+    .stat-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .stat-value {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--navy);
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--gray-600);
+    }
+
+    /* شريط البحث والأزرار */
     .toolbar-card {
       background: var(--white);
       border-radius: var(--radius-md);
@@ -66,6 +316,7 @@ Wezza
       justify-content: space-between;
       align-items: center;
       gap: 16px;
+      border: 1px solid var(--gray-200);
     }
 
     .search-box {
@@ -184,16 +435,6 @@ Wezza
       flex: 1;
     }
 
-    /* التجاوب مع الموبايل */
-    @media (max-width: 768px) {
-      .table-container {
-        display: none;
-      }
-      .mobile-cards-container {
-        display: flex;
-      }
-    }
-
     .code-badge {
       background: var(--navy-light);
       color: var(--gold);
@@ -269,47 +510,214 @@ Wezza
       outline: none;
       font-family: inherit;
     }
+
+    /* ===== السايدبار ===== */
+    .smart-sidebar {
+      position: fixed;
+      top: 0;
+      right: -380px;
+      width: 360px;
+      height: 100%;
+      background: var(--white);
+      z-index: 9999;
+      transition: right 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow: -4px 0 40px rgba(0, 0, 0, 0.12);
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+
+    .smart-sidebar.open {
+      right: 0;
+    }
+
+    .sidebar-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 9998;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .sidebar-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .sidebar-toggle {
+      position: fixed;
+      left: 20px;
+      bottom: 20px;
+      background: var(--navy);
+      color: var(--white);
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      cursor: pointer;
+      box-shadow: var(--shadow-lg);
+      border: none;
+      z-index: 999;
+      transition: all 0.3s ease;
+    }
+
+    .sidebar-toggle:hover {
+      background: var(--gold);
+      color: var(--navy);
+      transform: scale(1.05);
+    }
+
+    /* ===== الفوتر ===== */
+    .smart-footer {
+      background: var(--navy-dark);
+      color: rgba(255, 255, 255, 0.85);
+      padding: 28px 0;
+      margin-top: 0;
+      border-top: 3px solid var(--gold);
+    }
+
+    .smart-footer .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .smart-footer .footer-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .smart-footer .footer-links a {
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      transition: 0.3s ease;
+    }
+
+    .smart-footer .footer-links a:hover {
+      color: var(--gold);
+    }
+
+    .smart-footer .social-icons {
+      display: flex;
+      gap: 12px;
+    }
+
+    .smart-footer .social-icons a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--white);
+      text-decoration: none;
+      transition: 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .smart-footer .social-icons a:hover {
+      background: var(--gold);
+      color: var(--navy);
+      transform: translateY(-3px);
+    }
+
+    /* ===== تحسينات الشاشات الصغيرة ===== */
+    @media (max-width: 768px) {
+      .table-container { display: none; }
+      .mobile-cards-container { display: flex; }
+
+      .smart-sidebar {
+        width: 320px;
+        right: -340px;
+      }
+
+      .smart-header .container {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .header-actions {
+        justify-content: center;
+      }
+
+      .dashboard-header h1 {
+        font-size: 1.4rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .smart-sidebar {
+        width: 290px;
+        right: -310px;
+      }
+
+      .sidebar-toggle {
+        width: 44px;
+        height: 44px;
+        font-size: 1.2rem;
+        left: 12px;
+        bottom: 12px;
+      }
+    }
   </style>
 </head>
 <body>
 
   <!-- ===== الهيدر ===== -->
   <header class="smart-header">
-    <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
-      <a href="dashboard.html" class="logo">
-        <i class="fas fa-boxes-packing gold"></i>
-        <span>أولاد شعلان <small class="gold">جملة</small></span>
+    <div class="container">
+      <a href="/gomla/" class="logo">
+        <img src="../assets/images/logo.png" alt="أولاد شعلان" onerror="this.style.display='none'">
+        <span>أولاد شعلان <small>جملة</small></span>
+        <span class="gold">✦</span>
       </a>
-
-      <!-- بيانات المستخدم المسجل -->
-      <div class="user-profile-info" id="userHeaderProfile">
-        <img src="../assets/images/default-avatar.png" alt="User" class="user-avatar" id="headerUserAvatar" onerror="this.src='https://ui-avatars.com/api/?name=User&background=1a2a4a&color=d4af37'">
-        <div class="user-details">
-          <span class="user-name" id="headerUserName">جاري التحميل...</span>
-          <span class="user-role" id="headerUserRole">---</span>
-        </div>
-      </div>
-
       <div class="header-actions">
-        <!-- زر فتح السايدبار -->
-        <button type="button" class="btn btn-gold btn-sm" id="sidebarToggleBtn" onclick="toggleSidebarMenu()">
-          <i class="fas fa-bars"></i> القائمة
+        <span class="btn btn-gold" id="adminNameDisplay">
+          <i class="fas fa-user-cog"></i> مرحباً <span id="adminName">مصطفى</span>
+        </span>
+        <button class="btn btn-outline" onclick="logoutAdmin()">
+          <i class="fas fa-sign-out-alt"></i> خروج
         </button>
       </div>
     </div>
   </header>
 
-  <!-- ===== حاوية السايدبار ===== -->
-  <div id="sidebarContainer"></div>
-
-  <!-- ===== المحتوى الرئيسي ===== -->
-  <main class="page-content customers-page">
+  <!-- ===== عبارات تحفيزية (من Firebase) ===== -->
+  <section class="admin-motivational">
     <div class="container">
-      
-      <!-- الهيدر الداخلي -->
-      <div class="page-header">
+      <div class="motivational-text" id="adminMotivationalText">
+        <i class="fas fa-spinner fa-spin"></i> جاري التحميل...
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== آخر الأخبار (من Firebase) ===== -->
+  <section class="admin-news">
+    <div class="container">
+      <div class="news-list" id="adminNewsList">
+        <div class="news-item">
+          <span class="news-dot"></span>
+          <span class="news-text">جاري تحميل الأخبار...</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== قسم إدارة العملاء والذمم المالية ===== -->
+  <section class="dashboard-page">
+    <div class="container">
+
+      <div class="dashboard-header">
         <h1><i class="fas fa-users-gear"></i> إدارة العملاء والذمم المالية</h1>
-        <span class="admin-badge"><i class="fas fa-shield-halved"></i> لوحة الإدارة</span>
+        <span class="admin-badge" id="adminRoleBadge">🛡️ لوحة الإدارة</span>
       </div>
 
       <!-- الإحصائيات السريعة -->
@@ -351,7 +759,7 @@ Wezza
           </select>
         </div>
 
-        <button type="button" class="btn btn-primary" onclick="openCustomerModal()">
+        <button type="button" class="btn btn-gold" style="padding: 10px 20px; border-radius: var(--radius-full);" onclick="openCustomerModal()">
           <i class="fas fa-user-plus"></i> إضافة عميل جديد
         </button>
       </div>
@@ -390,14 +798,14 @@ Wezza
       </div>
 
     </div>
-  </main>
+  </section>
 
   <!-- ===== مودال الإضافة والتعديل ===== -->
   <div class="modal-backdrop" id="customerModal">
     <div class="modal-card">
       <div class="modal-header-custom">
         <h3 id="modalTitle" style="font-size: 1.05rem;"><i class="fas fa-user-plus"></i> إضافة عميل جديد</h3>
-        <button type="button" class="btn btn-danger btn-sm" onclick="closeCustomerModal()"><i class="fas fa-times"></i></button>
+        <button type="button" class="btn btn-outline" style="padding: 4px 10px; border:none;" onclick="closeCustomerModal()"><i class="fas fa-times"></i></button>
       </div>
       
       <form id="customerForm" onsubmit="handleSave(event)">
@@ -418,7 +826,7 @@ Wezza
             <label>كود الدخول السرّي *</label>
             <div style="display: flex; gap: 8px;">
               <input type="text" id="custCode" class="field-control" required placeholder="الكود">
-              <button type="button" class="btn btn-gold btn-sm" onclick="generateCodeBtn()">
+              <button type="button" class="btn btn-gold" style="padding: 6px 14px; border-radius: var(--radius-sm); font-size: 0.85rem;" onclick="generateCodeBtn()">
                 <i class="fas fa-wand-magic-sparkles"></i> توليد
               </button>
             </div>
@@ -444,8 +852,8 @@ Wezza
         </div>
 
         <div style="padding: 16px 20px; background: var(--gray-50); display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid var(--gray-200);">
-          <button type="button" class="btn btn-outline btn-sm" onclick="closeCustomerModal()">إلغاء</button>
-          <button type="submit" class="btn btn-primary btn-sm" id="submitBtn">
+          <button type="button" class="btn btn-outline" style="color:var(--gray-800); border-color:var(--gray-400);" onclick="closeCustomerModal()">إلغاء</button>
+          <button type="submit" class="btn btn-gold" id="submitBtn">
             <i class="fas fa-save"></i> حفظ البيانات
           </button>
         </div>
@@ -456,80 +864,41 @@ Wezza
   <!-- ===== الفوتر ===== -->
   <footer class="smart-footer">
     <div class="container">
-      <p>© 2026 أولاد شعلان جملة - جميع الحقوق محفوظة</p>
+      <div class="copyright">© 2026 أولاد شعلان جملة - جميع الحقوق محفوظة</div>
+      <div class="footer-links">
+        <a href="/gomla/">الرئيسية</a>
+        <a href="/gomla/customer-login.html">دخول العملاء</a>
+        <a href="/gomla/admin/login.html">دخول المديرين</a>
+      </div>
+      <div class="social-icons">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-whatsapp"></i></a>
+        <a href="#"><i class="fab fa-youtube"></i></a>
+      </div>
     </div>
   </footer>
 
-  <!-- ===== زر السايدبار العائم للموبايل ===== -->
-  <button type="button" class="sidebar-toggle" onclick="toggleSidebarMenu()" title="القائمة">
+  <!-- ===== زر المنيو ===== -->
+  <button class="sidebar-toggle" id="sidebarToggle">
     <i class="fas fa-bars"></i>
   </button>
 
-  <!-- Firebase SDKs -->
+  <!-- ===== Firebase ===== -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 
-  <!-- السكربتات الموحدة -->
+  <!-- ===== الملفات ===== -->
   <script src="../assets/js/firebase-config.js"></script>
   <script src="../assets/js/core.js"></script>
-  <script src="../assets/js/main.js"></script>
+  <script src="../assets/js/sidebar.js"></script>
+  <script src="../assets/js/admin.js"></script>
 
+  <!-- ===== منطق جلب وإدارة العملاء ===== -->
   <script>
     let customersData = [];
 
-    // ===== 1. قراءة وتحديث معلومات الهيدر للمستخدم الحالي =====
-    function initHeaderUserInfo() {
-      const nameEl = document.getElementById('headerUserName');
-      const roleEl = document.getElementById('headerUserRole');
-      const avatarEl = document.getElementById('headerUserAvatar');
-
-      // المحاولة من localStorage أولاً أو Auth
-      const currentUser = JSON.parse(localStorage.getItem('user_info') || '{}');
-
-      if (currentUser && currentUser.name) {
-        nameEl.textContent = currentUser.name;
-        roleEl.textContent = getRoleLabel(currentUser.role);
-        if (currentUser.avatar) avatarEl.src = currentUser.avatar;
-      } else {
-        // فحص حالة الفايربيس
-        auth.onAuthStateChanged((user) => {
-          if (user) {
-            db.collection('users').doc(user.uid).get().then(doc => {
-              if (doc.exists) {
-                const data = doc.data();
-                nameEl.textContent = data.name || user.displayName || 'مستخدم';
-                roleEl.textContent = getRoleLabel(data.role);
-                if (data.avatar) avatarEl.src = data.avatar;
-              } else {
-                setVisitorHeader();
-              }
-            }).catch(() => setVisitorHeader());
-          } else {
-            setVisitorHeader();
-          }
-        });
-      }
-    }
-
-    function getRoleLabel(role) {
-      switch (role) {
-        case 'super_admin': return 'سوبر أدمن';
-        case 'admin': return 'مشرف';
-        case 'customer': return 'عميل';
-        default: return 'زائر';
-      }
-    }
-
-    function setVisitorHeader() {
-      document.getElementById('headerUserName').textContent = 'زائر';
-      document.getElementById('headerUserRole').textContent = 'غير مسجل';
-    }
-
-    // ===== 2. تشغيل المنيو والسايدبار =====
-    
-
-    // ===== 3. جلب بيانات العملاء =====
     function loadCustomers() {
       db.collection('customers').get().then((snapshot) => {
         customersData = [];
@@ -552,11 +921,10 @@ Wezza
         filterData();
       }).catch(err => {
         console.error(err);
-        showToast('فشل في تحميل بيانات العملاء', 'error');
+        if (typeof showToast === 'function') showToast('فشل في تحميل بيانات العملاء', 'error');
       });
     }
 
-    // ===== 4. عرض البيانات (جدول + كروت للموبايل) =====
     function renderData(list) {
       const tbody = document.getElementById('customersTbody');
       const mobileContainer = document.getElementById('mobileCardsContainer');
@@ -575,15 +943,15 @@ Wezza
         const isActive = c.active !== false;
         const bal = Number(c.balance) || 0;
 
-        // صف الجدول للكمبيوتر
+        // الجدول للكمبيوتر
         tableHtml += `
           <tr>
             <td>${idx + 1}</td>
             <td style="font-weight:700; color:var(--navy);">${c.name || '---'}</td>
             <td><span class="code-badge">${c.code || '---'}</span></td>
             <td>
-              <a href="tel:${c.phone}" class="btn btn-outline btn-sm" style="padding: 2px 10px; font-size: 0.8rem;">
-                <i class="fas fa-phone"></i> ${c.phone || '---'}
+              <a href="tel:${c.phone}" style="color:var(--navy); text-decoration:none;">
+                <i class="fas fa-phone text-gold"></i> ${c.phone || '---'}
               </a>
             </td>
             <td>${c.address || '---'}</td>
@@ -597,10 +965,10 @@ Wezza
             </td>
             <td style="text-align: center;">
               <div style="display:inline-flex; gap:6px;">
-                <button type="button" class="btn btn-gold btn-sm" onclick="editCust('${c.id}')" title="تعديل">
+                <button type="button" class="btn btn-gold" style="padding: 4px 10px; font-size: 0.8rem;" onclick="editCust('${c.id}')" title="تعديل">
                   <i class="fas fa-pen"></i>
                 </button>
-                <button type="button" class="btn ${isActive ? 'btn-danger' : 'btn-success'} btn-sm" onclick="toggleStatus('${c.id}', ${isActive})" title="${isActive ? 'إيقاف' : 'تفعيل'}">
+                <button type="button" class="btn" style="padding: 4px 10px; font-size: 0.8rem; background:${isActive ? '#ef4444' : '#22c55e'}; color:#fff;" onclick="toggleStatus('${c.id}', ${isActive})" title="${isActive ? 'إيقاف' : 'تفعيل'}">
                   <i class="fas ${isActive ? 'fa-ban' : 'fa-check'}"></i>
                 </button>
               </div>
@@ -608,7 +976,7 @@ Wezza
           </tr>
         `;
 
-        // كارت الموبايل
+        // كروت للموبايل
         cardsHtml += `
           <div class="customer-card-mobile">
             <div class="customer-card-header">
@@ -640,10 +1008,10 @@ Wezza
               </div>
             </div>
             <div class="customer-card-actions">
-              <button type="button" class="btn btn-gold btn-sm" onclick="editCust('${c.id}')">
+              <button type="button" class="btn btn-gold" style="padding: 6px; font-size: 0.85rem;" onclick="editCust('${c.id}')">
                 <i class="fas fa-pen"></i> تعديل
               </button>
-              <button type="button" class="btn ${isActive ? 'btn-danger' : 'btn-success'} btn-sm" onclick="toggleStatus('${c.id}', ${isActive})">
+              <button type="button" class="btn" style="padding: 6px; font-size: 0.85rem; background:${isActive ? '#ef4444' : '#22c55e'}; color:#fff;" onclick="toggleStatus('${c.id}', ${isActive})">
                 <i class="fas ${isActive ? 'fa-ban' : 'fa-check'}"></i> ${isActive ? 'إيقاف' : 'تفعيل'}
               </button>
             </div>
@@ -675,7 +1043,6 @@ Wezza
       renderData(res);
     }
 
-    // ===== 5. إدارة المودال والأكواد =====
     function generateRandomCode() {
       return 'SH-' + Math.floor(1000 + Math.random() * 9000);
     }
@@ -732,12 +1099,12 @@ Wezza
         : db.collection('customers').add({ ...payload, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
 
       req.then(() => {
-        showToast(id ? 'تم تعديل بيانات العميل' : 'تمت إضافة العميل بنجاح', 'success');
+        if (typeof showToast === 'function') showToast(id ? 'تم تعديل بيانات العميل' : 'تمت إضافة العميل بنجاح', 'success');
         closeCustomerModal();
         loadCustomers();
       }).catch(err => {
         console.error(err);
-        showToast('حدث خطأ أثناء حفظ البيانات', 'error');
+        if (typeof showToast === 'function') showToast('حدث خطأ أثناء حفظ البيانات', 'error');
       }).finally(() => {
         btn.disabled = false;
       });
@@ -745,16 +1112,15 @@ Wezza
 
     function toggleStatus(id, currentActive) {
       db.collection('customers').doc(id).update({ active: !currentActive }).then(() => {
-        showToast(!currentActive ? 'تم تفعيل حساب العميل' : 'تم تعطيل حساب العميل', 'info');
+        if (typeof showToast === 'function') showToast(!currentActive ? 'تم تفعيل حساب العميل' : 'تم تعطيل حساب العميل', 'info');
         loadCustomers();
       });
     }
 
-    // ===== التشغيل الفوري عند تحميل الصفحة =====
     document.addEventListener('DOMContentLoaded', function() {
-      initHeaderUserInfo();
       loadCustomers();
     });
   </script>
+
 </body>
 </html>
