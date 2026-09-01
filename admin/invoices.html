@@ -10,41 +10,9 @@
   <link rel="icon" href="../assets/images/favicon.ico">
 
   <style>
-    /* ===== ستايل خاص بالصفحة ===== */
-    .page-header .btn {
-      padding: 10px 20px;
-    }
-
-    .filter-section {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      margin-bottom: 20px;
-      background: var(--white);
-      padding: 16px 20px;
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-sm);
-      align-items: center;
-    }
-
-    .filter-section select,
-    .filter-section input {
-      padding: 10px 14px;
-      border: 2px solid var(--gray-200);
-      border-radius: var(--radius-sm);
-      font-family: inherit;
-      font-size: 0.9rem;
-      background: var(--gray-50);
-      min-width: 140px;
-    }
-
-    .filter-section select:focus,
-    .filter-section input:focus {
-      outline: none;
-      border-color: var(--gold);
-      box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.15);
-      background: var(--white);
-    }
+    /* ========================================== */
+    /* 📄 ستايل خاص بالصفحة                      */
+    /* ========================================== */
 
     .stats-grid {
       display: grid;
@@ -80,10 +48,10 @@
       flex-shrink: 0;
     }
 
-    .stat-card .stat-icon.gold { background: rgba(201, 168, 76, 0.15); color: var(--gold); }
-    .stat-card .stat-icon.green { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
-    .stat-card .stat-icon.red { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
-    .stat-card .stat-icon.blue { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+    .stat-card .stat-icon.gold { background: rgba(201,168,76,0.15); color: var(--gold); }
+    .stat-card .stat-icon.green { background: rgba(34,197,94,0.15); color: #22c55e; }
+    .stat-card .stat-icon.red { background: rgba(239,68,68,0.15); color: #ef4444; }
+    .stat-card .stat-icon.blue { background: rgba(59,130,246,0.15); color: #3b82f6; }
 
     .stat-card .stat-info .stat-value {
       font-size: 1.3rem;
@@ -96,6 +64,37 @@
     .stat-card .stat-info .stat-label {
       font-size: 0.75rem;
       color: var(--gray-400);
+    }
+
+    .filter-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 20px;
+      background: var(--white);
+      padding: 16px 20px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      align-items: center;
+    }
+
+    .filter-section input,
+    .filter-section select {
+      padding: 10px 14px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.9rem;
+      background: var(--gray-50);
+      min-width: 140px;
+    }
+
+    .filter-section input:focus,
+    .filter-section select:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 4px rgba(201,168,76,0.15);
+      background: var(--white);
     }
 
     .admin-table {
@@ -164,22 +163,22 @@
     }
 
     .status-badge.paid {
-      background: rgba(34, 197, 94, 0.15);
+      background: rgba(34,197,94,0.15);
       color: #22c55e;
     }
 
     .status-badge.unpaid {
-      background: rgba(239, 68, 68, 0.15);
+      background: rgba(239,68,68,0.15);
       color: #ef4444;
     }
 
     .status-badge.cancelled {
-      background: rgba(148, 163, 184, 0.15);
+      background: rgba(148,163,184,0.15);
       color: var(--gray-400);
     }
 
     /* ===== نافذة الفاتورة الجانبية ===== */
-    .side-panel .form-group .item-row {
+    .side-panel .item-row {
       display: grid;
       grid-template-columns: 2fr 1fr 1fr 0.5fr;
       gap: 8px;
@@ -187,8 +186,8 @@
       margin-bottom: 6px;
     }
 
-    .side-panel .form-group .item-row select,
-    .side-panel .form-group .item-row input {
+    .side-panel .item-row select,
+    .side-panel .item-row input {
       padding: 6px 10px;
       border: 1px solid var(--gray-200);
       border-radius: var(--radius-sm);
@@ -196,7 +195,7 @@
       font-size: 0.9rem;
     }
 
-    .side-panel .form-group .item-row .remove-item {
+    .side-panel .item-row .remove-item {
       background: transparent;
       border: none;
       color: var(--gray-400);
@@ -204,7 +203,7 @@
       font-size: 1.1rem;
     }
 
-    .side-panel .form-group .item-row .remove-item:hover {
+    .side-panel .item-row .remove-item:hover {
       color: #ef4444;
     }
 
@@ -231,13 +230,18 @@
     }
 
     @media (max-width: 768px) {
+      .side-panel .item-row {
+        grid-template-columns: 1fr 1fr;
+      }
+
       .filter-section {
         flex-direction: column;
         align-items: stretch;
       }
 
-      .side-panel .form-group .item-row {
-        grid-template-columns: 1fr 1fr;
+      .filter-section input,
+      .filter-section select {
+        min-width: auto;
       }
     }
   </style>
@@ -437,7 +441,7 @@
   <!-- 📚 النوافذ المنبثقة                        -->
   <!-- ========================================== -->
 
-  <!-- ===== نافذة إنشاء/تعديل الفاتورة (Side Panel) ===== -->
+  <!-- ===== نافذة إنشاء/تعديل الفاتورة ===== -->
   <div class="panel-overlay" id="panelOverlay" onclick="closeInvoicePanel()"></div>
   <div class="side-panel" id="invoicePanel">
     <div class="panel-header">
@@ -448,7 +452,6 @@
       <form id="invoiceForm">
         <input type="hidden" id="editInvoiceId">
 
-        <!-- العميل -->
         <div class="form-group">
           <label><i class="fas fa-user"></i> العميل *</label>
           <select id="invoiceCustomer" required>
@@ -456,7 +459,6 @@
           </select>
         </div>
 
-        <!-- طريقة الدفع -->
         <div class="form-group">
           <label><i class="fas fa-credit-card"></i> طريقة الدفع</label>
           <select id="invoicePayment">
@@ -465,7 +467,6 @@
           </select>
         </div>
 
-        <!-- المنتجات -->
         <div class="form-group">
           <label><i class="fas fa-boxes"></i> المنتجات</label>
           <div id="invoiceItemsContainer">
@@ -483,7 +484,6 @@
           </button>
         </div>
 
-        <!-- الخصم والدفع -->
         <div class="form-row">
           <div class="form-group">
             <label><i class="fas fa-percent"></i> الخصم (ج.م)</label>
@@ -495,7 +495,6 @@
           </div>
         </div>
 
-        <!-- الإجماليات -->
         <div class="invoice-summary">
           <div class="row"><span>الإجمالي الفرعي</span><span id="subtotalDisplay">0 ج.م</span></div>
           <div class="row"><span>الخصم</span><span id="discountDisplay">0 ج.م</span></div>
@@ -542,8 +541,6 @@
       loadCustomers();
       loadProducts();
       loadInvoices();
-      loadAdminQuotes();
-      loadAdminNews();
       loadSidebarContent();
     }
 
@@ -553,9 +550,7 @@
         .get()
         .then(snapshot => {
           allCustomers = [];
-          snapshot.forEach(doc => {
-            allCustomers.push({ id: doc.id, ...doc.data() });
-          });
+          snapshot.forEach(doc => allCustomers.push({ id: doc.id, ...doc.data() }));
           populateCustomerSelects();
         })
         .catch(error => console.error('Error loading customers:', error));
@@ -568,9 +563,7 @@
         .get()
         .then(snapshot => {
           allProducts = [];
-          snapshot.forEach(doc => {
-            allProducts.push({ id: doc.id, ...doc.data() });
-          });
+          snapshot.forEach(doc => allProducts.push({ id: doc.id, ...doc.data() }));
           populateProductSelects();
         })
         .catch(error => console.error('Error loading products:', error));
@@ -582,20 +575,14 @@
         .get()
         .then(snapshot => {
           allInvoices = [];
-          snapshot.forEach(doc => {
-            allInvoices.push({ id: doc.id, ...doc.data() });
-          });
+          snapshot.forEach(doc => allInvoices.push({ id: doc.id, ...doc.data() }));
           filteredInvoices = [...allInvoices];
           renderInvoices();
           updateStats();
         })
         .catch(error => {
           console.error('Error loading invoices:', error);
-          document.getElementById('invoicesTableBody').innerHTML = `
-            <tr><td colspan="7" style="text-align:center;padding:20px;color:#ef4444;">
-              <i class="fas fa-exclamation-triangle"></i> حدث خطأ في تحميل الفواتير
-            </td></tr>
-          `;
+          showToast('❌ حدث خطأ في تحميل الفواتير', 'error');
         });
     }
 
@@ -714,62 +701,6 @@
       renderInvoices();
     }
 
-    // ===== إدارة الفاتورة (إضافة/تعديل) =====
-    function openAddInvoice() {
-      editingInvoiceId = null;
-      document.getElementById('panelTitle').innerHTML = '<i class="fas fa-plus"></i> إنشاء فاتورة';
-      document.getElementById('invoiceForm').reset();
-      document.getElementById('editInvoiceId').value = '';
-      document.getElementById('invoiceItemsContainer').innerHTML = '';
-      document.getElementById('invoiceDiscount').value = '0';
-      document.getElementById('invoicePaid').value = '0';
-      addItemRow();
-      updateTotals();
-      populateCustomerSelects();
-      populateProductSelects();
-      document.getElementById('invoicePanel').classList.add('open');
-      document.getElementById('panelOverlay').classList.add('active');
-    }
-
-    function openEditInvoice(invoiceId) {
-      const invoice = allInvoices.find(i => i.id === invoiceId);
-      if (!invoice) {
-        showToast('❌ الفاتورة غير موجودة', 'error');
-        return;
-      }
-
-      editingInvoiceId = invoiceId;
-      document.getElementById('panelTitle').innerHTML = '<i class="fas fa-edit"></i> تعديل الفاتورة';
-      document.getElementById('editInvoiceId').value = invoiceId;
-      document.getElementById('invoiceCustomer').value = invoice.customerId || '';
-      document.getElementById('invoicePayment').value = invoice.paymentMethod || 'cash';
-      document.getElementById('invoiceDiscount').value = invoice.discount || 0;
-      document.getElementById('invoicePaid').value = invoice.paid || 0;
-
-      // إضافة المنتجات
-      const container = document.getElementById('invoiceItemsContainer');
-      container.innerHTML = '';
-      if (invoice.items && invoice.items.length > 0) {
-        invoice.items.forEach(item => {
-          addItemRow(item);
-        });
-      } else {
-        addItemRow();
-      }
-
-      populateCustomerSelects();
-      populateProductSelects();
-      updateTotals();
-
-      document.getElementById('invoicePanel').classList.add('open');
-      document.getElementById('panelOverlay').classList.add('active');
-    }
-
-    function closeInvoicePanel() {
-      document.getElementById('invoicePanel').classList.remove('open');
-      document.getElementById('panelOverlay').classList.remove('active');
-    }
-
     // ===== إدارة عناصر المنتج =====
     function addItemRow(data = null) {
       const container = document.getElementById('invoiceItemsContainer');
@@ -876,6 +807,59 @@
       document.getElementById('remainingDisplay').textContent = remaining.toFixed(2) + ' ج.م';
     }
 
+    // ===== فتح/إغلاق نافذة الفاتورة =====
+    function openAddInvoice() {
+      editingInvoiceId = null;
+      document.getElementById('panelTitle').innerHTML = '<i class="fas fa-plus"></i> إنشاء فاتورة';
+      document.getElementById('invoiceForm').reset();
+      document.getElementById('editInvoiceId').value = '';
+      document.getElementById('invoiceItemsContainer').innerHTML = '';
+      document.getElementById('invoiceDiscount').value = '0';
+      document.getElementById('invoicePaid').value = '0';
+      addItemRow();
+      updateTotals();
+      populateCustomerSelects();
+      populateProductSelects();
+      document.getElementById('invoicePanel').classList.add('open');
+      document.getElementById('panelOverlay').classList.add('active');
+    }
+
+    function openEditInvoice(invoiceId) {
+      const invoice = allInvoices.find(i => i.id === invoiceId);
+      if (!invoice) {
+        showToast('❌ الفاتورة غير موجودة', 'error');
+        return;
+      }
+
+      editingInvoiceId = invoiceId;
+      document.getElementById('panelTitle').innerHTML = '<i class="fas fa-edit"></i> تعديل الفاتورة';
+      document.getElementById('editInvoiceId').value = invoiceId;
+      document.getElementById('invoiceCustomer').value = invoice.customerId || '';
+      document.getElementById('invoicePayment').value = invoice.paymentMethod || 'cash';
+      document.getElementById('invoiceDiscount').value = invoice.discount || 0;
+      document.getElementById('invoicePaid').value = invoice.paid || 0;
+
+      const container = document.getElementById('invoiceItemsContainer');
+      container.innerHTML = '';
+      if (invoice.items && invoice.items.length > 0) {
+        invoice.items.forEach(item => addItemRow(item));
+      } else {
+        addItemRow();
+      }
+
+      populateCustomerSelects();
+      populateProductSelects();
+      updateTotals();
+
+      document.getElementById('invoicePanel').classList.add('open');
+      document.getElementById('panelOverlay').classList.add('active');
+    }
+
+    function closeInvoicePanel() {
+      document.getElementById('invoicePanel').classList.remove('open');
+      document.getElementById('panelOverlay').classList.remove('active');
+    }
+
     // ===== حفظ الفاتورة =====
     function saveInvoice() {
       const id = document.getElementById('editInvoiceId').value;
@@ -945,7 +929,6 @@
 
       savePromise
         .then(() => {
-          // تحديث رصيد العميل
           if (customerId && remaining !== 0) {
             const currentBalance = customer?.balance || 0;
             const newBalance = currentBalance + remaining;
@@ -975,10 +958,9 @@
     function deleteInvoice(invoiceId) {
       if (!confirm('⚠️ هل أنت متأكد من حذف هذه الفاتورة؟')) return;
 
+      const invoice = allInvoices.find(i => i.id === invoiceId);
       db.collection('invoices').doc(invoiceId).delete()
         .then(() => {
-          // تحديث رصيد العميل
-          const invoice = allInvoices.find(i => i.id === invoiceId);
           if (invoice && invoice.customerId && invoice.remaining) {
             return db.collection('customers').doc(invoice.customerId).update({
               balance: firebase.firestore.FieldValue.increment(-invoice.remaining)
@@ -996,53 +978,7 @@
     }
 
     // ===== تحميل محتوى السايدبار =====
-    function loadAdminQuotes() {
-      const container = document.getElementById('adminMotivationalText');
-      if (!container) return;
-      db.collection('quotes').where('type', '==', 'admin').where('active', '==', true).orderBy('order').get()
-        .then(snapshot => {
-          if (snapshot.empty) {
-            container.innerHTML = '<i class="fas fa-quote-right"></i> كن قدوة في الإخلاص والتميز';
-            return;
-          }
-          const quotes = [];
-          snapshot.forEach(doc => quotes.push(doc.data().text));
-          let index = 0;
-          container.innerHTML = `<i class="fas fa-quote-right"></i> "${quotes[0]}"`;
-          setInterval(() => {
-            index = (index + 1) % quotes.length;
-            container.style.opacity = '0';
-            setTimeout(() => {
-              container.innerHTML = `<i class="fas fa-quote-right"></i> "${quotes[index]}"`;
-              container.style.opacity = '1';
-            }, 300);
-          }, 5000);
-        }).catch(() => {
-          container.innerHTML = '<i class="fas fa-quote-right"></i> كن قدوة في الإخلاص والتميز';
-        });
-    }
-
-    function loadAdminNews() {
-      const container = document.getElementById('adminNewsList');
-      if (!container) return;
-      db.collection('news').where('type', '==', 'admin').where('active', '==', true).orderBy('createdAt', 'desc').limit(5).get()
-        .then(snapshot => {
-          if (snapshot.empty) {
-            container.innerHTML = '<div class="news-item"><span class="news-dot"></span><span class="news-text">لا توجد أخبار داخلية</span></div>';
-            return;
-          }
-          let html = '';
-          snapshot.forEach(doc => {
-            html += `<div class="news-item"><span class="news-dot"></span><span class="news-text">${doc.data().title}</span></div>`;
-          });
-          container.innerHTML = html;
-        }).catch(() => {
-          container.innerHTML = '<div class="news-item"><span class="news-dot"></span><span class="news-text">جاري التحميل...</span></div>';
-        });
-    }
-
     function loadSidebarContent() {
-      // تحديث السايدبار
       const adminData = JSON.parse(localStorage.getItem('admin'));
       if (adminData) {
         document.getElementById('sidebarUsername').textContent = adminData.name || 'مدير النظام';
@@ -1051,7 +987,7 @@
           document.getElementById('sidebarAvatar').src = adminData.avatar;
         }
       }
-      // تحديث الروابط
+
       const nav = document.getElementById('sidebarNav');
       if (nav) {
         const isSuper = adminData?.role === 'super';
@@ -1079,11 +1015,7 @@
     // ============================================
 
     document.addEventListener('DOMContentLoaded', function() {
-      // التحقق من صلاحية المدير
-      if (typeof protectPage === 'function') {
-        if (!protectPage()) return;
-      }
-
+      if (!protectPage()) return;
       loadAllData();
 
       // السايدبار
@@ -1114,7 +1046,6 @@
         };
       }
 
-      // إغلاق النوافذ بالضغط على Escape
       document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
           closeInvoicePanel();
