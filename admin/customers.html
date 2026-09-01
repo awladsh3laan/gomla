@@ -1,4 +1,4 @@
-WEZZZZZA
+WEZZZZZAkok
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -13,7 +13,7 @@ WEZZZZZA
   <link rel="icon" href="../assets/images/favicon.ico">
 
   <style>
-    /* ===== نفس الستايل الموحد ===== */
+    /* ===== نفس الستايل الموحد الأصلي ===== */
     @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap');
 
     * {
@@ -57,27 +57,11 @@ WEZZZZZA
       flex-direction: column;
     }
 
-    /* ===== أنيميشن ===== */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px) scale(0.96);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-10px); }
-    }
-
     .container {
       max-width: 1280px;
       margin: 0 auto;
       padding: 0 20px;
+      width: 100%;
     }
 
     /* ===== الهيدر ===== */
@@ -183,7 +167,6 @@ WEZZZZZA
       font-size: 1rem;
       font-weight: 500;
       opacity: 0.9;
-      transition: opacity 0.3s ease;
     }
 
     .admin-motivational .motivational-text i {
@@ -221,10 +204,10 @@ WEZZZZZA
       flex-shrink: 0;
     }
 
-    /* ===== صفحة العملاء والذمم المالية ===== */
+    /* ===== المحتوى الرئيسي وحاوية العملاء ===== */
     .dashboard-page {
       flex: 1;
-      padding: 32px 0 48px;
+      padding: 24px 0 40px;
     }
 
     .dashboard-header {
@@ -233,11 +216,11 @@ WEZZZZZA
       align-items: center;
       flex-wrap: wrap;
       gap: 12px;
-      margin-bottom: 24px;
+      margin-bottom: 20px;
     }
 
     .dashboard-header h1 {
-      font-size: 1.8rem;
+      font-size: 1.6rem;
       font-weight: 800;
       color: var(--navy);
     }
@@ -250,7 +233,7 @@ WEZZZZZA
     .dashboard-header .admin-badge {
       background: var(--gold);
       color: var(--navy);
-      padding: 6px 18px;
+      padding: 6px 16px;
       border-radius: var(--radius-full);
       font-weight: 700;
       font-size: 0.85rem;
@@ -267,7 +250,7 @@ WEZZZZZA
     .stat-card {
       background: var(--white);
       border-radius: var(--radius-md);
-      padding: 20px;
+      padding: 16px 20px;
       box-shadow: var(--shadow-sm);
       display: flex;
       align-items: center;
@@ -276,17 +259,18 @@ WEZZZZZA
     }
 
     .stat-card .stat-icon {
-      width: 50px;
-      height: 50px;
+      width: 48px;
+      height: 48px;
       border-radius: var(--radius-sm);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.5rem;
+      font-size: 1.4rem;
+      flex-shrink: 0;
     }
     .stat-icon.gold { background: rgba(201, 168, 76, 0.15); color: var(--gold); }
-    .stat-icon.green { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
-    .stat-icon.red { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+    .stat-icon.green { background: rgba(34, 197, 94, 0.15); color: #16a34a; }
+    .stat-icon.red { background: rgba(239, 68, 68, 0.15); color: #dc2626; }
 
     .stat-info {
       display: flex;
@@ -294,34 +278,36 @@ WEZZZZZA
     }
 
     .stat-value {
-      font-size: 1.4rem;
+      font-size: 1.3rem;
       font-weight: 800;
       color: var(--navy);
+      line-height: 1.2;
     }
 
     .stat-label {
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       color: var(--gray-600);
+      margin-top: 2px;
     }
 
     /* شريط البحث والأزرار */
     .toolbar-card {
       background: var(--white);
       border-radius: var(--radius-md);
-      padding: 16px 20px;
+      padding: 16px;
       box-shadow: var(--shadow-sm);
       margin-bottom: 24px;
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
-      gap: 16px;
+      gap: 14px;
       border: 1px solid var(--gray-200);
     }
 
     .search-box {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       flex: 1;
       min-width: 280px;
     }
@@ -333,13 +319,14 @@ WEZZZZZA
 
     .search-input-group input {
       width: 100%;
-      padding: 10px 40px 10px 14px;
+      padding: 10px 38px 10px 14px;
       border: 1px solid var(--gray-200);
       border-radius: var(--radius-full);
       outline: none;
       font-family: inherit;
       background: var(--gray-50);
       font-size: 0.9rem;
+      color: var(--gray-800);
     }
 
     .search-input-group i {
@@ -348,6 +335,39 @@ WEZZZZZA
       top: 50%;
       transform: translateY(-50%);
       color: var(--gray-400);
+    }
+
+    .field-control-select {
+      padding: 10px 14px;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-full);
+      outline: none;
+      font-family: inherit;
+      background: var(--gray-50);
+      font-size: 0.88rem;
+      color: var(--gray-800);
+      cursor: pointer;
+    }
+
+    .btn-add-customer {
+      background: var(--gold);
+      color: var(--navy);
+      padding: 10px 22px;
+      border-radius: var(--radius-full);
+      font-weight: 700;
+      font-size: 0.9rem;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .btn-add-customer:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(201, 168, 76, 0.3);
     }
 
     /* جدول الكمبيوتر */
@@ -369,14 +389,14 @@ WEZZZZZA
       background: var(--navy);
       color: var(--white);
       padding: 14px 16px;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 700;
     }
 
     .custom-table td {
-      padding: 14px 16px;
+      padding: 12px 16px;
       border-bottom: 1px solid var(--gray-100);
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       vertical-align: middle;
     }
 
@@ -384,11 +404,11 @@ WEZZZZZA
       background: var(--gray-50);
     }
 
-    /* كروت الموبايل */
+    /* كروت الموبايل المتجاوبة */
     .mobile-cards-container {
       display: none;
       flex-direction: column;
-      gap: 12px;
+      gap: 14px;
     }
 
     .customer-card-mobile {
@@ -407,13 +427,13 @@ WEZZZZZA
       justify-content: space-between;
       align-items: center;
       border-bottom: 1px solid var(--gray-100);
-      padding-bottom: 8px;
+      padding-bottom: 10px;
     }
 
     .customer-card-body {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 8px;
       font-size: 0.88rem;
     }
 
@@ -426,55 +446,68 @@ WEZZZZZA
     .customer-card-actions {
       display: flex;
       gap: 8px;
-      margin-top: 8px;
-      padding-top: 8px;
+      margin-top: 6px;
+      padding-top: 10px;
       border-top: 1px dashed var(--gray-200);
     }
 
     .customer-card-actions button {
       flex: 1;
+      padding: 8px;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      font-size: 0.82rem;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
     }
 
     .code-badge {
-      background: var(--navy-light);
+      background: var(--navy);
       color: var(--gold);
-      padding: 4px 10px;
-      border-radius: var(--radius-sm);
+      padding: 3px 8px;
+      border-radius: 6px;
       font-family: monospace;
       font-weight: 700;
+      font-size: 0.85rem;
       display: inline-block;
     }
 
     .badge-status {
-      padding: 4px 12px;
+      padding: 3px 10px;
       border-radius: var(--radius-full);
       font-weight: 700;
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       display: inline-block;
     }
     .badge-active { background: rgba(34, 197, 94, 0.15); color: #16a34a; }
     .badge-disabled { background: rgba(239, 68, 68, 0.15); color: #dc2626; }
 
-    /* المودال */
+    /* المودال الشفاف والمحسّن */
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(15, 26, 46, 0.7);
+      background: rgba(15, 26, 46, 0.75);
       display: none;
       align-items: center;
       justify-content: center;
       z-index: 10000;
       padding: 16px;
+      backdrop-filter: blur(4px);
     }
     .modal-backdrop.open { display: flex; }
     
     .modal-card {
       background: var(--white);
       width: 100%;
-      max-width: 520px;
+      max-width: 480px;
       border-radius: var(--radius-md);
       overflow: hidden;
       box-shadow: var(--shadow-lg);
+      animation: fadeInUp 0.3s ease;
     }
 
     .modal-header-custom {
@@ -504,11 +537,18 @@ WEZZZZZA
 
     .field-control {
       width: 100%;
-      padding: 10px 14px;
+      padding: 10px 12px;
       border: 1px solid var(--gray-200);
       border-radius: var(--radius-sm);
       outline: none;
       font-family: inherit;
+      font-size: 0.9rem;
+      background: var(--gray-50);
+    }
+
+    .field-control:focus {
+      border-color: var(--gold);
+      background: var(--white);
     }
 
     /* ===== السايدبار ===== */
@@ -552,16 +592,16 @@ WEZZZZZA
       bottom: 20px;
       background: var(--navy);
       color: var(--white);
-      width: 52px;
-      height: 52px;
+      width: 50px;
+      height: 50px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.4rem;
+      font-size: 1.3rem;
       cursor: pointer;
       box-shadow: var(--shadow-lg);
-      border: none;
+      border: 2px solid var(--gold);
       z-index: 999;
       transition: all 0.3s ease;
     }
@@ -576,8 +616,8 @@ WEZZZZZA
     .smart-footer {
       background: var(--navy-dark);
       color: rgba(255, 255, 255, 0.85);
-      padding: 28px 0;
-      margin-top: 0;
+      padding: 24px 0;
+      margin-top: auto;
       border-top: 3px solid var(--gold);
     }
 
@@ -598,6 +638,7 @@ WEZZZZZA
       color: rgba(255, 255, 255, 0.7);
       text-decoration: none;
       transition: 0.3s ease;
+      font-size: 0.88rem;
     }
 
     .smart-footer .footer-links a:hover {
@@ -613,8 +654,8 @@ WEZZZZZA
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 40px;
-      height: 40px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.06);
       color: var(--white);
@@ -629,42 +670,60 @@ WEZZZZZA
       transform: translateY(-3px);
     }
 
-    /* ===== تحسينات الشاشات الصغيرة ===== */
+    /* ===== التحويل للموبايل والـ Redmi 9 ===== */
     @media (max-width: 768px) {
       .table-container { display: none; }
       .mobile-cards-container { display: flex; }
 
-      .smart-sidebar {
-        width: 320px;
-        right: -340px;
-      }
-
       .smart-header .container {
         flex-direction: column;
-        align-items: stretch;
+        align-items: center;
+        text-align: center;
       }
 
       .header-actions {
         justify-content: center;
+        width: 100%;
       }
 
-      .dashboard-header h1 {
-        font-size: 1.4rem;
+      .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .toolbar-card {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .search-box {
+        flex-direction: column;
+        width: 100%;
+        min-width: 100%;
+      }
+
+      .btn-add-customer {
+        justify-content: center;
+        width: 100%;
+      }
+
+      .smart-sidebar {
+        width: 300px;
+        right: -320px;
       }
     }
 
     @media (max-width: 480px) {
-      .smart-sidebar {
-        width: 290px;
-        right: -310px;
-      }
-
       .sidebar-toggle {
         width: 44px;
         height: 44px;
-        font-size: 1.2rem;
-        left: 12px;
-        bottom: 12px;
+        font-size: 1.1rem;
+        left: 14px;
+        bottom: 14px;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -752,14 +811,14 @@ WEZZZZZA
             <i class="fas fa-search"></i>
             <input type="text" id="searchInput" placeholder="ابحث باسم العميل، الهاتف، أو الكود..." oninput="filterData()">
           </div>
-          <select id="statusFilter" class="field-control" style="width: auto;" onchange="filterData()">
+          <select id="statusFilter" class="field-control-select" onchange="filterData()">
             <option value="all">كل الحالات</option>
             <option value="active">نشط</option>
             <option value="disabled">معطل</option>
           </select>
         </div>
 
-        <button type="button" class="btn btn-gold" style="padding: 10px 20px; border-radius: var(--radius-full);" onclick="openCustomerModal()">
+        <button type="button" class="btn-add-customer" onclick="openCustomerModal()">
           <i class="fas fa-user-plus"></i> إضافة عميل جديد
         </button>
       </div>
@@ -804,8 +863,8 @@ WEZZZZZA
   <div class="modal-backdrop" id="customerModal">
     <div class="modal-card">
       <div class="modal-header-custom">
-        <h3 id="modalTitle" style="font-size: 1.05rem;"><i class="fas fa-user-plus"></i> إضافة عميل جديد</h3>
-        <button type="button" class="btn btn-outline" style="padding: 4px 10px; border:none;" onclick="closeCustomerModal()"><i class="fas fa-times"></i></button>
+        <h3 id="modalTitle" style="font-size: 1rem;"><i class="fas fa-user-plus"></i> إضافة عميل جديد</h3>
+        <button type="button" style="background:transparent; border:none; color:white; font-size:1.1rem; cursor:pointer;" onclick="closeCustomerModal()"><i class="fas fa-times"></i></button>
       </div>
       
       <form id="customerForm" onsubmit="handleSave(event)">
@@ -826,7 +885,7 @@ WEZZZZZA
             <label>كود الدخول السرّي *</label>
             <div style="display: flex; gap: 8px;">
               <input type="text" id="custCode" class="field-control" required placeholder="الكود">
-              <button type="button" class="btn btn-gold" style="padding: 6px 14px; border-radius: var(--radius-sm); font-size: 0.85rem;" onclick="generateCodeBtn()">
+              <button type="button" style="background:var(--gold); color:var(--navy); border:none; border-radius:var(--radius-sm); padding:0 14px; font-weight:bold; cursor:pointer; flex-shrink:0;" onclick="generateCodeBtn()">
                 <i class="fas fa-wand-magic-sparkles"></i> توليد
               </button>
             </div>
@@ -851,9 +910,9 @@ WEZZZZZA
           </div>
         </div>
 
-        <div style="padding: 16px 20px; background: var(--gray-50); display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid var(--gray-200);">
-          <button type="button" class="btn btn-outline" style="color:var(--gray-800); border-color:var(--gray-400);" onclick="closeCustomerModal()">إلغاء</button>
-          <button type="submit" class="btn btn-gold" id="submitBtn">
+        <div style="padding: 14px 20px; background: var(--gray-50); display: flex; justify-content: flex-end; gap: 10px; border-top: 1px solid var(--gray-200);">
+          <button type="button" style="background:transparent; border:1px solid var(--gray-400); padding:8px 16px; border-radius:var(--radius-full); cursor:pointer; font-family:inherit; font-weight:500;" onclick="closeCustomerModal()">إلغاء</button>
+          <button type="submit" class="btn-add-customer" style="padding:8px 20px;" id="submitBtn">
             <i class="fas fa-save"></i> حفظ البيانات
           </button>
         </div>
@@ -950,12 +1009,12 @@ WEZZZZZA
             <td style="font-weight:700; color:var(--navy);">${c.name || '---'}</td>
             <td><span class="code-badge">${c.code || '---'}</span></td>
             <td>
-              <a href="tel:${c.phone}" style="color:var(--navy); text-decoration:none;">
-                <i class="fas fa-phone text-gold"></i> ${c.phone || '---'}
+              <a href="tel:${c.phone}" style="color:var(--navy); text-decoration:none; font-weight:600;">
+                <i class="fas fa-phone" style="color:var(--gold);"></i> ${c.phone || '---'}
               </a>
             </td>
             <td>${c.address || '---'}</td>
-            <td style="font-weight:700; color: ${bal > 0 ? '#ef4444' : '#22c55e'};">
+            <td style="font-weight:700; color: ${bal > 0 ? '#dc2626' : '#16a34a'};">
               ${bal.toLocaleString('ar-EG')} ج.م
             </td>
             <td>
@@ -965,10 +1024,10 @@ WEZZZZZA
             </td>
             <td style="text-align: center;">
               <div style="display:inline-flex; gap:6px;">
-                <button type="button" class="btn btn-gold" style="padding: 4px 10px; font-size: 0.8rem;" onclick="editCust('${c.id}')" title="تعديل">
+                <button type="button" style="background:var(--gold); color:var(--navy); border:none; padding:4px 10px; border-radius:6px; cursor:pointer;" onclick="editCust('${c.id}')" title="تعديل">
                   <i class="fas fa-pen"></i>
                 </button>
-                <button type="button" class="btn" style="padding: 4px 10px; font-size: 0.8rem; background:${isActive ? '#ef4444' : '#22c55e'}; color:#fff;" onclick="toggleStatus('${c.id}', ${isActive})" title="${isActive ? 'إيقاف' : 'تفعيل'}">
+                <button type="button" style="background:${isActive ? '#dc2626' : '#16a34a'}; color:#fff; border:none; padding:4px 10px; border-radius:6px; cursor:pointer;" onclick="toggleStatus('${c.id}', ${isActive})" title="${isActive ? 'إيقاف' : 'تفعيل'}">
                   <i class="fas ${isActive ? 'fa-ban' : 'fa-check'}"></i>
                 </button>
               </div>
@@ -980,38 +1039,38 @@ WEZZZZZA
         cardsHtml += `
           <div class="customer-card-mobile">
             <div class="customer-card-header">
-              <strong style="color:var(--navy); font-size:1rem;">${c.name || '---'}</strong>
+              <strong style="color:var(--navy); font-size:0.98rem;">${c.name || '---'}</strong>
               <span class="badge-status ${isActive ? 'badge-active' : 'badge-disabled'}">
                 ${isActive ? 'نشط' : 'معطل'}
               </span>
             </div>
             <div class="customer-card-body">
               <div class="customer-card-row">
-                <span>كود الدخول:</span>
+                <span style="color:var(--gray-600);">كود الدخول:</span>
                 <span class="code-badge">${c.code || '---'}</span>
               </div>
               <div class="customer-card-row">
-                <span>الهاتف:</span>
+                <span style="color:var(--gray-600);">الهاتف:</span>
                 <a href="tel:${c.phone}" style="color:var(--navy); text-decoration:none; font-weight:bold;">
-                  <i class="fas fa-phone text-gold"></i> ${c.phone || '---'}
+                  <i class="fas fa-phone" style="color:var(--gold);"></i> ${c.phone || '---'}
                 </a>
               </div>
               <div class="customer-card-row">
-                <span>العنوان:</span>
+                <span style="color:var(--gray-600);">العنوان:</span>
                 <span>${c.address || '---'}</span>
               </div>
               <div class="customer-card-row">
-                <span>المديونية:</span>
-                <strong style="color: ${bal > 0 ? '#ef4444' : '#22c55e'};">
+                <span style="color:var(--gray-600);">المديونية:</span>
+                <strong style="color: ${bal > 0 ? '#dc2626' : '#16a34a'};">
                   ${bal.toLocaleString('ar-EG')} ج.م
                 </strong>
               </div>
             </div>
             <div class="customer-card-actions">
-              <button type="button" class="btn btn-gold" style="padding: 6px; font-size: 0.85rem;" onclick="editCust('${c.id}')">
+              <button type="button" style="background:var(--gold); color:var(--navy);" onclick="editCust('${c.id}')">
                 <i class="fas fa-pen"></i> تعديل
               </button>
-              <button type="button" class="btn" style="padding: 6px; font-size: 0.85rem; background:${isActive ? '#ef4444' : '#22c55e'}; color:#fff;" onclick="toggleStatus('${c.id}', ${isActive})">
+              <button type="button" style="background:${isActive ? '#dc2626' : '#16a34a'}; color:#fff;" onclick="toggleStatus('${c.id}', ${isActive})">
                 <i class="fas ${isActive ? 'fa-ban' : 'fa-check'}"></i> ${isActive ? 'إيقاف' : 'تفعيل'}
               </button>
             </div>
