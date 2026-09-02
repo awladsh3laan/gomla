@@ -3,1122 +3,123 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>أولاد شعلان جملة - متجر الجملة</title>
-  
-  <!-- SEO -->
-  <meta name="description" content="متجر أولاد شعلان جملة - توريد المنظفات والورقيات بالجملة">
+  <title>متجر أولاد شعلان للمنظفات و الورقيات</title>
+
+  <!-- ===== SEO ===== -->
+  <meta name="description" content="متجر أولاد شعلان جملة - أفضل العروض على المنظفات والورقيات بالجملة والقطاعي">
   <meta name="theme-color" content="#1a2a4a">
-  
-  <!-- Font Awesome -->
+
+  <!-- ===== Font Awesome ===== -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  
-  <!-- Favicon -->
+
+  <!-- ===== Google Font ===== -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- ===== الستايل الموحد ===== -->
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- ===== Favicon ===== -->
   <link rel="icon" href="assets/images/favicon.ico">
-  
-  <!-- ===== الستايل المدمج ===== -->
-  <style>
-    /* ========================================== */
-    /* 🎨 أولاد شعلان جملة - الستايل الكامل      */
-    /* ========================================== */
-    
-    /* ===== الخطوط ===== */
-    @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap');
-    
-    /* ===== Reset ===== */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    :root {
-      --navy: #1a2a4a;
-      --navy-light: #2a3f6a;
-      --navy-dark: #0f1a2e;
-      --gold: #c9a84c;
-      --gold-light: #e8d5a3;
-      --white: #ffffff;
-      --gray-50: #f8fafc;
-      --gray-100: #f1f5f9;
-      --gray-200: #e2e8f0;
-      --gray-400: #94a3b8;
-      --gray-600: #475569;
-      --gray-800: #1e293b;
-      --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
-      --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
-      --shadow-lg: 0 8px 40px rgba(0,0,0,0.12);
-      --shadow-xl: 0 16px 60px rgba(0,0,0,0.16);
-      --radius-sm: 10px;
-      --radius-md: 16px;
-      --radius-lg: 24px;
-      --radius-full: 9999px;
-    }
-    
-    html {
-      scroll-behavior: smooth;
-      direction: rtl;
-    }
-    
-    body {
-      font-family: 'Tajawal', -apple-system, sans-serif;
-      background: var(--gray-50);
-      color: var(--gray-800);
-      min-height: 100vh;
-      overflow-x: hidden;
-      line-height: 1.7;
-    }
-    
-    /* ===== أنيميشن ===== */
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(40px) scale(0.96); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    
-    @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-12px); }
-    }
-    
-    @keyframes shimmer {
-      0% { background-position: -200% center; }
-      100% { background-position: 200% center; }
-    }
-    
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.04); }
-    }
-    
-    /* ===== الحاوية ===== */
-    .container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-    
-    /* ===== الهيدر ===== */
-    .smart-header {
-      background: var(--navy);
-      color: var(--white);
-      padding: 14px 0;
-      box-shadow: 0 4px 30px rgba(0,0,0,0.15);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      border-bottom: 3px solid var(--gold);
-    }
-    
-    .smart-header .container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-    
-    .smart-header .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 1.5rem;
-      font-weight: 900;
-      color: var(--white);
-      text-decoration: none;
-    }
-    
-    .smart-header .logo img {
-      height: 44px;
-      border-radius: 10px;
-    }
-    
-    .smart-header .logo small {
-      font-size: 0.7rem;
-      font-weight: 400;
-      opacity: 0.8;
-    }
-    
-    .smart-header .logo .gold {
-      color: var(--gold);
-    }
-    
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    
-    .header-actions .btn {
-      padding: 8px 20px;
-      border-radius: var(--radius-full);
-      font-weight: 700;
-      font-size: 0.85rem;
-      border: none;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      font-family: inherit;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    
-    .header-actions .btn-gold {
-      background: var(--gold);
-      color: var(--navy);
-    }
-    
-    .header-actions .btn-gold:hover {
-      background: var(--gold-light);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 16px rgba(201, 168, 76, 0.35);
-    }
-    
-    .header-actions .btn-outline {
-      background: transparent;
-      border: 2px solid var(--gold);
-      color: var(--white);
-    }
-    
-    .header-actions .btn-outline:hover {
-      background: var(--gold);
-      color: var(--navy);
-      transform: translateY(-2px);
-    }
-    
-    /* ===== الفوتر ===== */
-    .smart-footer {
-      background: var(--navy-dark);
-      color: rgba(255,255,255,0.85);
-      padding: 28px 0;
-      margin-top: 48px;
-      border-top: 3px solid var(--gold);
-    }
-    
-    .smart-footer .container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-    
-    .smart-footer .footer-links {
-      display: flex;
-      gap: 20px;
-    }
-    
-    .smart-footer .footer-links a {
-      color: rgba(255,255,255,0.7);
-      text-decoration: none;
-      transition: 0.3s ease;
-    }
-    
-    .smart-footer .footer-links a:hover {
-      color: var(--gold);
-    }
-    
-    .smart-footer .social-icons {
-      display: flex;
-      gap: 12px;
-    }
-    
-    .smart-footer .social-icons a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.06);
-      color: var(--white);
-      text-decoration: none;
-      transition: 0.3s ease;
-      border: 1px solid rgba(255,255,255,0.05);
-    }
-    
-    .smart-footer .social-icons a:hover {
-      background: var(--gold);
-      color: var(--navy);
-      transform: translateY(-3px);
-    }
-    
-    /* ===== البانر الرئيسي ===== */
-    .hero-banner {
-      background: linear-gradient(135deg, var(--navy), var(--navy-light));
-      color: var(--white);
-      padding: 60px 0 50px;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .hero-banner::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 70% 30%, rgba(201, 168, 76, 0.08) 0%, transparent 60%);
-      animation: float 8s ease-in-out infinite alternate;
-      pointer-events: none;
-    }
-    
-    .hero-banner * {
-      position: relative;
-      z-index: 1;
-    }
-    
-    .hero-banner .hero-icon {
-      font-size: 4rem;
-      display: inline-block;
-      margin-bottom: 16px;
-      animation: float 3s ease-in-out infinite;
-      color: var(--gold);
-    }
-    
-    .hero-banner h1 {
-      font-size: 2.6rem;
-      font-weight: 900;
-      margin-bottom: 12px;
-    }
-    
-    .hero-banner h1 .gold {
-      color: var(--gold);
-    }
-    
-    .hero-banner p {
-      font-size: 1.1rem;
-      opacity: 0.9;
-      max-width: 700px;
-      margin: 0 auto 20px;
-      line-height: 1.9;
-    }
-    
-    /* ===== الكروت الرئيسية ===== */
-    .cards-section {
-      padding: 48px 0;
-      background: var(--gray-50);
-    }
-    
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 28px;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-    
-    .main-card {
-      background: var(--white);
-      border-radius: var(--radius-md);
-      padding: 32px 24px 28px;
-      text-align: center;
-      box-shadow: var(--shadow-sm);
-      transition: all 0.4s ease;
-      border: 2px solid transparent;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .main-card:hover {
-      transform: translateY(-8px);
-      box-shadow: var(--shadow-xl);
-      border-color: var(--gold);
-    }
-    
-    .main-card .card-icon {
-      font-size: 3.5rem;
-      color: var(--gold);
-      display: block;
-      margin-bottom: 16px;
-    }
-    
-    .main-card h3 {
-      font-size: 1.3rem;
-      font-weight: 800;
-      color: var(--navy);
-      margin-bottom: 8px;
-    }
-    
-    .main-card p {
-      color: var(--gray-600);
-      font-size: 0.95rem;
-      margin-bottom: 16px;
-    }
-    
-    .main-card .card-btn {
-      display: inline-block;
-      padding: 10px 28px;
-      border-radius: var(--radius-full);
-      background: var(--navy);
-      color: var(--white);
-      font-weight: 700;
-      text-decoration: none;
-      transition: 0.3s ease;
-    }
-    
-    .main-card .card-btn:hover {
-      background: var(--gold);
-      color: var(--navy);
-      transform: scale(1.04);
-    }
-    
-    .main-card .coming-soon {
-      display: inline-block;
-      background: var(--gray-200);
-      padding: 6px 20px;
-      border-radius: var(--radius-full);
-      font-weight: 700;
-      color: var(--gray-600);
-      font-size: 0.85rem;
-    }
-    
-    .main-card .badge-gold {
-      position: absolute;
-      top: 12px;
-      left: 12px;
-      background: var(--gold);
-      color: var(--navy);
-      padding: 4px 14px;
-      border-radius: var(--radius-full);
-      font-size: 0.7rem;
-      font-weight: 700;
-    }
-    
-    /* ===== النصوص التعريفية ===== */
-    .info-section {
-      padding: 48px 0;
-      background: var(--white);
-    }
-    
-    .info-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 28px;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-    
-    .info-item {
-      text-align: center;
-      padding: 20px;
-    }
-    
-    .info-item i {
-      font-size: 2.5rem;
-      color: var(--gold);
-      display: block;
-      margin-bottom: 12px;
-    }
-    
-    .info-item h4 {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--navy);
-      margin-bottom: 6px;
-    }
-    
-    .info-item p {
-      color: var(--gray-600);
-      font-size: 0.95rem;
-    }
-    
-    /* ===== السايدبار (سيتم تفعيله لاحقاً) ===== */
-    .sidebar-toggle {
-      position: fixed;
-      left: 20px;
-      bottom: 20px;
-      background: var(--navy);
-      color: var(--white);
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-      cursor: pointer;
-      box-shadow: var(--shadow-lg);
-      border: none;
-      z-index: 999;
-      transition: 0.3s ease;
-    }
-    
-    .sidebar-toggle:hover {
-      background: var(--gold);
-      color: var(--navy);
-      transform: scale(1.05);
-    }
-    
-    /* ===== الميديا كويري ===== */
-    @media (max-width: 1024px) {
-      .cards-grid, .info-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-    
-    @media (max-width: 768px) {
-      .smart-header .container {
-        flex-direction: column;
-        align-items: stretch;
-      }
-      
-      .header-actions {
-        justify-content: center;
-      }
-      
-      .hero-banner h1 {
-        font-size: 1.8rem;
-      }
-      
-      .cards-grid, .info-grid {
-        grid-template-columns: 1fr;
-        max-width: 500px;
-      }
-      
-      .main-card {
-        padding: 24px 16px 20px;
-      }
-      
-      .smart-footer .container {
-        flex-direction: column;
-        text-align: center;
-      }
-    }
-    
-    @media (max-width: 480px) {
-      .hero-banner {
-        padding: 32px 0 24px;
-      }
-      
-      .hero-banner h1 {
-        font-size: 1.4rem;
-      }
-      
-      .hero-banner p {
-        font-size: 0.95rem;
-      }
-      
-      .hero-banner .hero-icon {
-        font-size: 3rem;
-      }
-      
-      .main-card .card-icon {
-        font-size: 2.8rem;
-      }
-    }
-/* ========================================== */
-/* 🧠 السايدبار الذكي                        */
-/* ========================================== */
-
-/* ===== السايدبار ===== */
-.smart-sidebar {
-  position: fixed;
-  top: 0;
-  right: -380px;
-  width: 360px;
-  height: 100%;
-  background: var(--white);
-  z-index: 9999;
-  transition: right 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-  box-shadow: -4px 0 40px rgba(0,0,0,0.12);
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-}
-
-.smart-sidebar.open {
-  right: 0;
-}
-
-/* ===== طبقة التعتيم ===== */
-.sidebar-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.4);
-  z-index: 9998;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.3s ease;
-}
-
-.sidebar-overlay.active {
-  opacity: 1;
-  visibility: visible;
-}
-
-/* ===== رأس السايدبار ===== */
-.sidebar-header {
-  padding: 20px 24px;
-  background: var(--navy);
-  color: var(--white);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-shrink: 0;
-}
-
-.sidebar-user {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.sidebar-avatar {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid var(--gold);
-}
-
-.sidebar-user-info {
-  display: flex;
-  flex-direction: column;
-}
-
-.sidebar-username {
-  font-weight: 700;
-  font-size: 1rem;
-}
-
-.sidebar-user-role {
-  font-size: 0.75rem;
-  opacity: 0.7;
-}
-
-.sidebar-close {
-  background: rgba(255,255,255,0.1);
-  border: none;
-  color: var(--white);
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  font-size: 1.1rem;
-  cursor: pointer;
-  transition: 0.3s ease;
-}
-
-.sidebar-close:hover {
-  background: rgba(255,255,255,0.2);
-}
-
-/* ===== الجمل التحفيزية ===== */
-.sidebar-motivational {
-  background: linear-gradient(135deg, var(--navy), var(--navy-light));
-  color: var(--white);
-  padding: 20px 24px;
-  text-align: center;
-  flex-shrink: 0;
-}
-
-.motivational-icon {
-  font-size: 1.4rem;
-  color: var(--gold);
-  margin-bottom: 6px;
-}
-
-.motivational-text {
-  font-size: 1rem;
-  font-weight: 500;
-  transition: opacity 0.3s ease;
-  line-height: 1.6;
-}
-
-/* ===== الأخبار ===== */
-.sidebar-news {
-  padding: 16px 24px;
-  border-bottom: 1px solid var(--gray-200);
-  flex-shrink: 0;
-}
-
-.news-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 700;
-  font-size: 0.9rem;
-  color: var(--navy);
-  margin-bottom: 10px;
-}
-
-.news-header i {
-  color: var(--gold);
-}
-
-.news-list {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.news-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 0.85rem;
-  color: var(--gray-600);
-  padding: 4px 0;
-}
-
-.news-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--gold);
-  flex-shrink: 0;
-}
-
-/* ===== الروابط ===== */
-.sidebar-nav {
-  flex: 1;
-  padding: 12px 16px;
-  overflow-y: auto;
-}
-
-.sidebar-link {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 10px 16px;
-  border-radius: var(--radius-sm);
-  color: var(--gray-600);
-  text-decoration: none;
-  transition: all 0.3s ease;
-  font-size: 0.95rem;
-  font-weight: 500;
-}
-
-.sidebar-link:hover {
-  background: var(--gray-100);
-  color: var(--navy);
-}
-
-.sidebar-link.active {
-  background: var(--navy);
-  color: var(--white);
-}
-
-.sidebar-link i {
-  width: 20px;
-  text-align: center;
-  font-size: 1.05rem;
-}
-
-/* ===== زر الدخول/الخروج ===== */
-.sidebar-footer {
-  padding: 16px 24px;
-  border-top: 1px solid var(--gray-200);
-  flex-shrink: 0;
-}
-
-.sidebar-action-btn {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: var(--radius-full);
-  background: var(--gold);
-  color: var(--navy);
-  font-weight: 700;
-  font-size: 0.95rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-family: inherit;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.sidebar-action-btn:hover {
-  background: var(--gold-light);
-  transform: scale(1.02);
-}
-
-/* ===== زر المنيو ===== */
-.sidebar-toggle {
-  position: fixed;
-  left: 20px;
-  bottom: 20px;
-  background: var(--navy);
-  color: var(--white);
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.4rem;
-  cursor: pointer;
-  box-shadow: var(--shadow-lg);
-  border: none;
-  z-index: 999;
-  transition: all 0.3s ease;
-}
-
-.sidebar-toggle:hover {
-  background: var(--gold);
-  color: var(--navy);
-  transform: scale(1.05);
-}
-
-/* ===== تحسينات للشاشات الصغيرة ===== */
-@media (max-width: 480px) {
-  .smart-sidebar {
-    width: 300px;
-    right: -320px;
-  }
-}
-/* ========================================== */
-/* 📢 سيكشن المقولات والأخبار                  */
-/* ========================================== */
-
-.quotes-news-section {
-  padding: 48px 0;
-  background: var(--gray-50);
-}
-
-.quotes-news-grid {
-  display: grid;
-  grid-template-columns: 1fr 1.5fr;
-  gap: 28px;
-  max-width: 1100px;
-  margin: 0 auto;
-}
-
-/* ===== صندوق المقولات ===== */
-.quotes-box {
-  background: var(--white);
-  border-radius: var(--radius-md);
-  padding: 28px 24px;
-  box-shadow: var(--shadow-sm);
-  border-right: 5px solid var(--gold);
-  transition: all 0.3s ease;
-}
-
-.quotes-box:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-3px);
-}
-
-.quotes-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 700;
-  font-size: 1rem;
-  color: var(--navy);
-  margin-bottom: 12px;
-}
-
-.quotes-header i {
-  color: var(--gold);
-  font-size: 1.3rem;
-}
-
-.quotes-body {
-  min-height: 70px;
-  display: flex;
-  align-items: center;
-}
-
-.quote-text {
-  font-size: 1.1rem;
-  font-weight: 500;
-  color: var(--gray-600);
-  line-height: 1.8;
-  transition: opacity 0.3s ease;
-  font-style: italic;
-}
-
-/* ===== صندوق الأخبار ===== */
-.news-box {
-  background: var(--white);
-  border-radius: var(--radius-md);
-  padding: 28px 24px;
-  box-shadow: var(--shadow-sm);
-  border-right: 5px solid var(--navy);
-  transition: all 0.3s ease;
-}
-
-.news-box:hover {
-  box-shadow: var(--shadow-md);
-  transform: translateY(-3px);
-}
-
-.news-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-weight: 700;
-  font-size: 1rem;
-  color: var(--navy);
-  margin-bottom: 12px;
-}
-
-.news-header i {
-  color: var(--gold);
-  font-size: 1.3rem;
-}
-
-.news-view-all {
-  margin-right: auto;
-  font-size: 0.8rem;
-  color: var(--gold);
-  text-decoration: none;
-  font-weight: 600;
-  transition: 0.3s ease;
-}
-
-.news-view-all:hover {
-  color: var(--navy);
-}
-
-.news-body {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.news-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 6px 0;
-  border-bottom: 1px solid var(--gray-100);
-}
-
-.news-item:last-child {
-  border-bottom: none;
-}
-
-.news-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--gold);
-  flex-shrink: 0;
-}
-
-.news-text {
-  font-size: 0.95rem;
-  color: var(--gray-600);
-}
-
-/* ===== تحسينات للشاشات الصغيرة ===== */
-@media (max-width: 768px) {
-  .quotes-news-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 480px) {
-  .quotes-box, .news-box {
-    padding: 20px 16px;
-  }
-  
-  .quote-text {
-    font-size: 0.95rem;
-  }
-  
-  .news-text {
-    font-size: 0.85rem;
-  }
-}
-  </style>
-  
 </head>
 <body>
 
-<script>
-  // ===== منع الزائر من دخول الصفحة بعد تسجيل الدخول =====
-  (function() {
-    const customerData = localStorage.getItem('customer');
-    const adminData = localStorage.getItem('admin');
+  <!-- ========================================== -->
+  <!-- 🧠 الهيدر (يتم تحميله من main.js)          -->
+  <!-- ========================================== -->
+  <div id="header-placeholder"></div>
 
-    // إذا كان العميل مسجل دخول → يتحول لصفحته
-    if (customerData) {
-      window.location.href = '/gomla/customer-home.html';
-      return;
-    }
-
-    // إذا كان المدير/المشرف مسجل دخول → يتحول لصفحته
-    if (adminData) {
-      window.location.href = '/gomla/admin/home.html';
-      return;
-    }
-
-    // إذا لم يكن هناك أحد مسجل، يستمر عرض الصفحة للزائر
-  })();
-</script>
-  <!-- ===== الهيدر ===== -->
-  <header class="smart-header">
+  <!-- ========================================== -->
+  <!-- 📢 منطقة العروض والإعلانات والمقولات        -->
+  <!-- ========================================== -->
+  <section class="promo-section">
     <div class="container">
-      <a href="/gomla/" class="logo">
-        <img src="assets/images/logo.png" alt="أولاد شعلان" onerror="this.style.display='none'">
-        <span>أولاد شعلان <small>جملة</small></span>
-        <span class="gold">✦</span>
-      </a>
-      <div class="header-actions">
-        <a href="/gomla/customer-login.html" class="btn btn-gold">
-          <i class="fas fa-key"></i> دخول العملاء
-        </a>
-        <a href="/gomla/admin/login.html" class="btn btn-outline">
-          <i class="fas fa-user-shield"></i> دخول المديرين
-        </a>
+      <!-- ===== سلايدر العروض ===== -->
+      <div class="slider-container" id="sliderContainer">
+        <div class="slider-track" id="sliderTrack">
+          <!-- سيتم تحميل الصور من Firebase -->
+        </div>
+        <button class="slider-btn prev" onclick="slidePrev()"><i class="fas fa-chevron-right"></i></button>
+        <button class="slider-btn next" onclick="slideNext()"><i class="fas fa-chevron-left"></i></button>
+        <div class="slider-dots" id="sliderDots"></div>
       </div>
-    </div>
-  </header>
 
-  <!-- ===== البانر الترحيبي ===== -->
-  <section class="hero-banner">
-    <div class="container">
-      <span class="hero-icon"><i class="fas fa-store-alt"></i></span>
-      <h1>أهلاً بك في <span class="gold">أولاد شعلان جملة</span></h1>
-      <p>
-        وجهتك الموثوقة لتوريد <strong>المنظفات والورقيات</strong> بالجملة لتجار المحلات.
-        نقدم لك نظاماً متكاملاً لإدارة فواتيرك وعملاءك بكل سهولة واحترافية.
-      </p>
-    </div>
-  </section>
-
-<!-- ========================================== -->
-<!-- 📢 سيكشن المقولات والأخبار                  -->
-<!-- ========================================== -->
-
-<section class="quotes-news-section">
-  <div class="container">
-    <div class="quotes-news-grid">
-      
-      <!-- ===== المقولات ===== -->
-      <div class="quotes-box">
-        <div class="quotes-header">
-          <i class="fas fa-quote-right"></i>
-          <span>مقولات تحفيزية</span>
-        </div>
-        <div class="quotes-body" id="quotes-container">
-          <div class="quote-text">"مرحباً بك في متجر أولاد شعلان جملة"</div>
-        </div>
+      <!-- ===== شريط المقولات ===== -->
+      <div class="quotes-bar" id="quotesBar">
+        <i class="fas fa-quote-right"></i>
+        <span id="quoteText">جاري تحميل المقولات...</span>
       </div>
-      
-      <!-- ===== آخر الأخبار ===== -->
-      <div class="news-box">
-        <div class="news-header">
-          <i class="fas fa-bullhorn"></i>
-          <span>آخر الأخبار</span>
-          <a href="/gomla/customer-news.html" class="news-view-all">عرض الكل <i class="fas fa-arrow-left"></i></a>
-        </div>
-        <div class="news-body" id="news-container">
-          <div class="news-item">
-            <span class="news-dot"></span>
-            <span class="news-text">جاري تحميل الأخبار...</span>
-          </div>
-        </div>
-      </div>
-      
-    </div>
-  </div>
-</section>
 
-  <!-- ===== الكروت الرئيسية ===== -->
-  <section class="cards-section">
-    <div class="container">
-      <div class="cards-grid">
-        
-        <!-- كارت 1: دخول -->
-        <div class="main-card">
-          <span class="badge-gold"><i class="fas fa-star"></i> رئيسي</span>
-          <span class="card-icon"><i class="fas fa-sign-in-alt"></i></span>
-          <h3>دخول</h3>
-          <p>قم بتسجيل الدخول باستخدام كود العميل الخاص بك، أو ادخل إلى لوحة التحكم كمدير.</p>
-          <a href="/gomla/customer-login.html" class="card-btn">
-            <i class="fas fa-arrow-left"></i> دخول
-          </a>
-        </div>
-        
-        <!-- كارت 2: متجر الجملة -->
-        <div class="main-card">
-          <span class="badge-gold"><i class="fas fa-bolt"></i> نشط</span>
-          <span class="card-icon"><i class="fas fa-shopping-cart"></i></span>
-          <h3>متجر الجملة</h3>
-          <p>تصفح منتجاتنا بالجملة، واستمتع بأسعار تنافسية وعروض حصرية لتجار المحلات.</p>
-          <a href="/gomla/" class="card-btn">
-            <i class="fas fa-arrow-left"></i> تسوق الآن
-          </a>
-        </div>
-        
-        <!-- كارت 3: متجر قطاعي -->
-        <div class="main-card">
-          <span class="card-icon"><i class="fas fa-store"></i></span>
-          <h3>متجر قطاعي</h3>
-          <p>منصة مخصصة للبيع بالتجزئة، لتلبية احتياجات المستهلكين النهائيين.</p>
-          <span class="coming-soon"><i class="fas fa-clock"></i> قريباً</span>
-        </div>
-        
+      <!-- ===== شريط الأخبار ===== -->
+      <div class="news-bar" id="newsBar">
+        <i class="fas fa-bullhorn"></i>
+        <span id="newsText">جاري تحميل الأخبار...</span>
+      </div>
+
+      <!-- ===== الإعلانات (بنرات) ===== -->
+      <div class="ads-grid" id="adsGrid">
+        <!-- سيتم تحميل الإعلانات من Firebase -->
       </div>
     </div>
   </section>
 
-  <!-- ===== النصوص التعريفية ===== -->
-  <section class="info-section">
+  <!-- ========================================== -->
+  <!-- 🛒 المحتوى الرئيسي (المتجر القطاعي)        -->
+  <!-- ========================================== -->
+  <main class="main-content">
     <div class="container">
-      <div class="info-grid">
-        
-        <div class="info-item">
-          <i class="fas fa-handshake"></i>
-          <h4>ثقة وشراكة</h4>
-          <p>نؤمن بأن النجاح يبدأ بتوفير منتجات عالية الجودة بأسعار تنافسية. شراكتنا معك هي أساس نجاحنا.</p>
+
+      <!-- ===== التصنيفات ===== -->
+      <section class="categories-section">
+        <h2 class="section-title"><i class="fas fa-tags"></i> التصنيفات</h2>
+        <div class="categories-grid" id="categoriesContainer">
+          <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</div>
         </div>
-        
-        <div class="info-item">
-          <i class="fas fa-file-invoice"></i>
-          <h4>نظام فوترة ذكي</h4>
-          <p>استخراج الفواتير من ملفات PDF، إدارة العملاء، تتبع الطلبات، وتقارير مالية دقيقة.</p>
+      </section>
+
+      <!-- ===== المنتجات ===== -->
+      <section class="products-section">
+        <h2 class="section-title"><i class="fas fa-boxes"></i> أحدث المنتجات</h2>
+        <div class="products-grid" id="productsContainer">
+          <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</div>
         </div>
-        
-        <div class="info-item">
-          <i class="fas fa-users"></i>
-          <h4>خدمة عملاء مميزة</h4>
-          <p>فريق متخصص لدعمك في كل خطوة. تواصل معنا وسنكون سعداء بمساعدتك.</p>
+      </section>
+
+      <!-- ===== العروض ===== -->
+      <section class="offers-section">
+        <h2 class="section-title"><i class="fas fa-percent"></i> عروض حصرية</h2>
+        <div class="products-grid" id="offersContainer">
+          <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</div>
         </div>
-        
-      </div>
+      </section>
+
     </div>
-  </section>
+  </main>
 
-  <!-- ===== الفوتر ===== -->
-  <footer class="smart-footer">
-    <div class="container">
-      <div class="copyright">
-        © 2026 أولاد شعلان جملة - جميع الحقوق محفوظة
-      </div>
-      <div class="footer-links">
-        <a href="/gomla/">الرئيسية</a>
-        <a href="/gomla/customer-login.html">دخول العملاء</a>
-        <a href="/gomla/admin/login.html">دخول المديرين</a>
-      </div>
-      <div class="social-icons">
-        <a href="#"><i class="fab fa-facebook-f"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-whatsapp"></i></a>
-        <a href="#"><i class="fab fa-youtube"></i></a>
-      </div>
-    </div>
-  </footer>
+  <!-- ========================================== -->
+  <!-- 👣 الفوتر (يتم تحميله من main.js)          -->
+  <!-- ========================================== -->
+  <div id="footer-placeholder"></div>
 
-  <!-- ===== زر السايدبار (سيتم تفعيله لاحقاً) ===== -->
-  <button class="sidebar-toggle" id="sidebarToggle">
-    <i class="fas fa-bars"></i>
-  </button>
+  <!-- ========================================== -->
+  <!-- 🧠 السايدبار (يتم تحميله من main.js)       -->
+  <!-- ========================================== -->
+  <div id="sidebar-placeholder"></div>
 
-  <!-- ===== Firebase ===== -->
+  <!-- ========================================== -->
+  <!-- 🍞 Toast Notifications                     -->
+  <!-- ========================================== -->
+  <div id="toast-container"></div>
+
+  <!-- ========================================== -->
+  <!-- 📚 Firebase & JavaScript                   -->
+  <!-- ========================================== -->
+
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 
-  <!-- ===== الملفات ===== -->
   <script src="assets/js/firebase-config.js"></script>
-  <script src="assets/js/core.js"></script>
-  <script src="assets/js/sidebar.js"></script>
+  <script src="assets/js/main.js"></script>
   <script src="assets/js/public.js"></script>
 
 </body>
