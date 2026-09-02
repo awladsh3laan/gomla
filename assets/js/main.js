@@ -2,20 +2,29 @@
 // 🧠 الوظائف الموحدة - أولاد شعلان جملة
 // ============================================
 
-// ===== Toast Notifications =====
+// ===== استخدام آمن لـ db =====
+const db = window.db || firebase.firestore();
+
+// ============================================
+// 🍞 Toast Notifications
+// ============================================
+
 function showToast(message, type = 'info', duration = 3000) {
   const container = document.getElementById('toast-container');
-  if (!container) {
-    const div = document.createElement('div');
-    div.id = 'toast-container';
-    div.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:99999;display:flex;flex-direction:column;gap:8px;max-width:90%;';
-    document.body.appendChild(div);
-  }
-  const colors = { success: '#22c55e', error: '#ef4444', warning: '#f59e0b', info: '#3b82f6' };
+  if (!container) return;
+
+  const colors = {
+    success: '#22c55e',
+    error: '#ef4444',
+    warning: '#f59e0b',
+    info: '#3b82f6'
+  };
+
   const toast = document.createElement('div');
   toast.className = `toast toast-${type}`;
   toast.textContent = message;
-  document.getElementById('toast-container').appendChild(toast);
+  container.appendChild(toast);
+
   setTimeout(() => {
     toast.style.opacity = '0';
     toast.style.transition = 'opacity 0.3s ease';
@@ -23,193 +32,223 @@ function showToast(message, type = 'info', duration = 3000) {
   }, duration);
 }
 
-// ===== تنسيق التاريخ =====
-function formatDate(date, format = 'short') {
-  if (!date) return '---';
-  const d = date.toDate ? date.toDate() : new Date(date);
-  if (format === 'short') return d.toLocaleDateString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric' });
-  return d.toLocaleDateString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-}
+// ============================================
+// 👤 إدارة المستخدمين والصلاحيات
+// ============================================
 
-// ===== توليد كود عشوائي =====
-function generateCode(prefix = '', length = 4) {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  let result = prefix;
-  for (let i = 0; i < length; i++) result += chars.charAt(Math.floor(Math.random() * chars.length));
-  return result;
-}
-
-// ===== نسخ النص =====
-function copyToClipboard(text) {
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(text)
-      .then(() => showToast('✅ تم النسخ بنجاح', 'success'))
-      .catch(() => showToast('❌ فشل النسخ', 'error'));
-  } else {
-    const textarea = document.createElement('textarea');
-    textarea.value = text;
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand('copy');
-    textarea.remove();
-    showToast('✅ تم النسخ بنجاح', 'success');
-  }
-}
-
-// ===== تسجيل الخروج =====
-function logoutAdmin() {
-  auth.signOut()
-    .then(() => {
-      localStorage.removeItem('admin');
-      localStorage.removeItem('adminId');
-      window.location.href = '/gomla/';
-    })
-    .catch(() => {
-      localStorage.removeItem('admin');
-      localStorage.removeItem('adminId');
-      window.location.href = '/gomla/';
-    });
-}
-
-function logoutCustomer() {
-  localStorage.removeItem('customer');
-  localStorage.removeItem('customerCode');
-  window.location.href = '/gomla/';
-}
-
-// ===== التحقق من صلاحية المدير =====
-function checkAdminAuth() {
+function getCurrentUser() {
   const adminData = localStorage.getItem('admin');
-  if (!adminData) {
+  const customerData = localStorage.getItem('customer');
+  if (adminData) return { type: 'admin', data: JSON.parse(adminData) };
+  if (customerData) return { type: 'customer', data: JSON.parse(customerData) };
+  return null;
+}
+
+function getUserRole() {
+  const user = getCurrentUser();
+  if (!user) return 'guest';
+  if (user.type === 'admin') return user.data.role || 'admin';
+  return 'customer';
+}
+
+function protectPage() {
+  const user = getCurrentUser();
+  if (!user) {
+    window.location.href = '/gomla/customer-login.html';
+    return false;
+  }
+  return true;
+}
+
+function protectSuperAdminPage() {
+  const user = getCurrentUser();
+  if (!user || user.type !== 'admin' || user.data.role !== 'super') {
     window.location.href = '/gomla/admin/login.html';
     return false;
   }
   return true;
 }
 
-// ===== تحميل الجمل التحفيزية الإدارية =====
-function loadAdminQuotes() {
-  const container = document.getElementById('adminMotivationalText');
-  if (!container) return;
-  db.collection('quotes')
-    .where('type', '==', 'admin')
-    .where('active', '==', true)
-    .orderBy('order')
-    .get()
-    .then(snapshot => {
-      if (snapshot.empty) {
-        container.innerHTML = '<i class="fas fa-quote-right"></i> كن قدوة في الإخلاص والتميز';
-        return;
-      }
-      const quotes = [];
-      snapshot.forEach(doc => quotes.push(doc.data().text));
-      let index = 0;
-      container.innerHTML = `<i class="fas fa-quote-right"></i> "${quotes[0]}"`;
-      setInterval(() => {
-        index = (index + 1) % quotes.length;
-        container.style.opacity = '0';
-        setTimeout(() => {
-          container.innerHTML = `<i class="fas fa-quote-right"></i> "${quotes[index]}"`;
-          container.style.opacity = '1';
-        }, 300);
-      }, 5000);
+function logoutUser() {
+  localStorage.removeItem('admin');
+  localStorage.removeItem('customer');
+  window.location.href = '/gomla/';
+}
+
+// ============================================
+// 🧠 تحميل الهيدر والفوتر والسايدبار
+// ============================================
+
+function loadHeader() {
+  fetch('/gomla/assets/components/header.html')
+    .then(res => res.text())
+    .then(html => {
+      const placeholder = document.getElementById('header-placeholder');
+      if (placeholder) placeholder.innerHTML = html;
+      updateHeader();
     })
     .catch(() => {
-      container.innerHTML = '<i class="fas fa-quote-right"></i> كن قدوة في الإخلاص والتميز';
+      const placeholder = document.getElementById('header-placeholder');
+      if (placeholder) {
+        placeholder.innerHTML = `
+          <header class="smart-header">
+            <div class="container">
+              <a href="/gomla/" class="logo">
+                <span>أولاد شعلان <small>جملة</small></span>
+              </a>
+            </div>
+          </header>
+        `;
+      }
     });
 }
 
-// ===== تحميل الأخبار الإدارية =====
-function loadAdminNews() {
-  const container = document.getElementById('adminNewsList');
-  if (!container) return;
-  db.collection('news')
-    .where('type', '==', 'admin')
-    .where('active', '==', true)
-    .orderBy('createdAt', 'desc')
-    .limit(5)
-    .get()
-    .then(snapshot => {
-      if (snapshot.empty) {
-        container.innerHTML = '<div class="news-item"><span class="news-dot"></span><span class="news-text">لا توجد أخبار داخلية</span></div>';
-        return;
-      }
-      let html = '';
-      snapshot.forEach(doc => {
-        html += `<div class="news-item"><span class="news-dot"></span><span class="news-text">${doc.data().title}</span></div>`;
-      });
-      container.innerHTML = html;
+function loadFooter() {
+  fetch('/gomla/assets/components/footer.html')
+    .then(res => res.text())
+    .then(html => {
+      const placeholder = document.getElementById('footer-placeholder');
+      if (placeholder) placeholder.innerHTML = html;
     })
     .catch(() => {
-      container.innerHTML = '<div class="news-item"><span class="news-dot"></span><span class="news-text">جاري التحميل...</span></div>';
+      const placeholder = document.getElementById('footer-placeholder');
+      if (placeholder) {
+        placeholder.innerHTML = `
+          <footer class="smart-footer">
+            <div class="container">
+              <div class="copyright">© 2026 أولاد شعلان جملة</div>
+            </div>
+          </footer>
+        `;
+      }
     });
 }
 
-// ===== السايدبار =====
-function updateSidebarContent() {
-  const adminData = localStorage.getItem('admin');
-  const customerData = localStorage.getItem('customer');
-  const isAdmin = adminData !== null;
-  const isCustomer = customerData !== null;
-  const isSuperAdmin = isAdmin && JSON.parse(adminData).role === 'super';
+function loadSidebar() {
+  fetch('/gomla/assets/components/sidebar.html')
+    .then(res => res.text())
+    .then(html => {
+      const placeholder = document.getElementById('sidebar-placeholder');
+      if (placeholder) placeholder.innerHTML = html;
+      updateSidebar();
+    })
+    .catch(() => {
+      const placeholder = document.getElementById('sidebar-placeholder');
+      if (placeholder) {
+        placeholder.innerHTML = `
+          <div class="smart-sidebar" id="smartSidebar">
+            <div class="sidebar-header">
+              <div class="sidebar-user">
+                <span>مرحباً بك</span>
+              </div>
+            </div>
+            <nav class="sidebar-nav">
+              <a href="/gomla/">الرئيسية</a>
+            </nav>
+          </div>
+        `;
+      }
+    });
+}
 
-  const avatar = document.getElementById('sidebarAvatar');
-  const username = document.getElementById('sidebarUsername');
-  const userRole = document.getElementById('sidebarUserRole');
+// ============================================
+// 🔄 تحديث الهيدر حسب المستخدم
+// ============================================
 
-  if (isAdmin) {
-    const admin = JSON.parse(adminData);
-    username.textContent = admin.name || 'مشرف';
-    userRole.textContent = isSuperAdmin ? '👑 سوبر أدمن' : '🛡️ مشرف';
-    if (admin.avatar) avatar.src = admin.avatar;
-  } else if (isCustomer) {
-    const customer = JSON.parse(customerData);
-    username.textContent = customer.name || 'عميل';
-    userRole.textContent = `🔑 ${customer.code || 'عميل'}`;
-    if (customer.avatar) avatar.src = customer.avatar;
+function updateHeader() {
+  const user = getCurrentUser();
+  const guestMode = document.getElementById('guest-mode');
+  const customerMode = document.getElementById('customer-mode');
+  const adminMode = document.getElementById('admin-mode');
+  const adminName = document.getElementById('adminName');
+  const customerName = document.getElementById('customerName');
+
+  if (!guestMode || !customerMode || !adminMode) return;
+
+  if (user && user.type === 'admin') {
+    guestMode.style.display = 'none';
+    customerMode.style.display = 'none';
+    adminMode.style.display = 'flex';
+    if (adminName) adminName.textContent = user.data.name || 'مدير';
+  } else if (user && user.type === 'customer') {
+    guestMode.style.display = 'none';
+    customerMode.style.display = 'flex';
+    adminMode.style.display = 'none';
+    if (customerName) customerName.textContent = user.data.name || 'عميل';
   } else {
-    username.textContent = 'زائر عزيز';
-    userRole.textContent = 'مرحباً بك';
-    avatar.src = '/gomla/assets/images/default-avatar.png';
+    guestMode.style.display = 'flex';
+    customerMode.style.display = 'none';
+    adminMode.style.display = 'none';
   }
+}
 
+// ============================================
+// 🧠 تحديث السايدبار حسب المستخدم
+// ============================================
+
+function updateSidebar() {
+  const user = getCurrentUser();
   const nav = document.getElementById('sidebarNav');
   if (!nav) return;
+
   let links = [];
-  if (isAdmin) {
-    links.push({ icon: 'fa-home', text: 'الرئيسية', url: '/gomla/admin/home.html' });
-    links.push({ icon: 'fa-tachometer-alt', text: 'لوحة التحكم', url: '/gomla/admin/dashboard.html' });
-    links.push({ icon: 'fa-boxes', text: 'المنتجات', url: '/gomla/admin/products.html' });
-    links.push({ icon: 'fa-users', text: 'العملاء', url: '/gomla/admin/customers.html' });
-    links.push({ icon: 'fa-file-invoice', text: 'الفواتير', url: '/gomla/admin/invoices.html' });
-    links.push({ icon: 'fa-chart-pie', text: 'التقارير', url: '/gomla/admin/reports.html' });
-    links.push({ icon: 'fa-cog', text: 'الإعدادات', url: '/gomla/admin/settings.html' });
-    links.push({ icon: 'fa-history', text: 'سجل النشاط', url: '/gomla/admin/activity.html' });
-    if (isSuperAdmin) {
-      links.push({ icon: 'fa-key', text: 'توليد الأكواد', url: '/gomla/admin/generate-codes.html' });
-      links.push({ icon: 'fa-user-cog', text: 'إدارة الصلاحيات', url: '/gomla/admin/roles-management.html' });
-      links.push({ icon: 'fa-paint-brush', text: 'إدارة السايدبار', url: '/gomla/admin/sidebar-content.html' });
+
+  if (user && user.type === 'admin') {
+    const isSuper = user.data.role === 'super';
+    links = [
+      { icon: 'fa-home', text: 'الرئيسية', url: '/gomla/admin/home.html' },
+      { icon: 'fa-tachometer-alt', text: 'لوحة التحكم', url: '/gomla/admin/dashboard.html' },
+      { icon: 'fa-boxes', text: 'المنتجات', url: '/gomla/admin/products.html' },
+      { icon: 'fa-users', text: 'العملاء', url: '/gomla/admin/customers.html' },
+      { icon: 'fa-file-invoice', text: 'الفواتير', url: '/gomla/admin/invoices.html' },
+    ];
+    if (isSuper) {
+      links.push(
+        { icon: 'fa-key', text: 'توليد الأكواد', url: '/gomla/admin/generate-codes.html' },
+        { icon: 'fa-cog', text: 'الإعدادات', url: '/gomla/admin/settings.html' }
+      );
     }
-  } else if (isCustomer) {
-    links.push({ icon: 'fa-home', text: 'الرئيسية', url: '/gomla/customer-home.html' });
-    links.push({ icon: 'fa-user', text: 'صفحتي الشخصية', url: '/gomla/customer-dashboard.html' });
-    links.push({ icon: 'fa-file-invoice', text: 'فواتيري', url: '/gomla/customer-invoices.html' });
-    links.push({ icon: 'fa-box', text: 'تتبع طلباتي', url: '/gomla/tracking.html' });
+  } else if (user && user.type === 'customer') {
+    links = [
+      { icon: 'fa-home', text: 'الرئيسية', url: '/gomla/customer-home.html' },
+      { icon: 'fa-user', text: 'بياناتي', url: '/gomla/customer-profile.html' },
+      { icon: 'fa-box', text: 'تتبع الطلبات', url: '/gomla/tracking.html' },
+      { icon: 'fa-file-invoice', text: 'فواتيري', url: '/gomla/customer-invoices.html' },
+      { icon: 'fa-sign-out-alt', text: 'تسجيل خروج', url: '#', onclick: 'logoutUser()' }
+    ];
   } else {
-    links.push({ icon: 'fa-home', text: 'الرئيسية', url: '/gomla/' });
-    links.push({ icon: 'fa-key', text: 'دخول العملاء', url: '/gomla/customer-login.html' });
-    links.push({ icon: 'fa-user-shield', text: 'دخول المديرين', url: '/gomla/admin/login.html' });
+    links = [
+      { icon: 'fa-home', text: 'الرئيسية', url: '/gomla/' },
+      { icon: 'fa-store', text: 'المتجر القطاعي', url: '/gomla/' },
+      { icon: 'fa-key', text: 'دخول العملاء', url: '/gomla/customer-login.html' },
+      { icon: 'fa-user-shield', text: 'دخول المديرين', url: '/gomla/admin/login.html' }
+    ];
   }
 
   let html = '';
   links.forEach(link => {
     const isActive = window.location.pathname === link.url;
-    html += `<a href="${link.url}" class="sidebar-link ${isActive ? 'active' : ''}"><i class="fas ${link.icon}"></i><span>${link.text}</span></a>`;
+    html += `
+      <a href="${link.url}" class="sidebar-link ${isActive ? 'active' : ''}" ${link.onclick ? `onclick="${link.onclick}"` : ''}>
+        <i class="fas ${link.icon}"></i>
+        <span>${link.text}</span>
+      </a>
+    `;
   });
+
   nav.innerHTML = html;
 }
 
-function initSidebar() {
+// ============================================
+// 🚀 تشغيل عند تحميل الصفحة
+// ============================================
+
+document.addEventListener('DOMContentLoaded', function() {
+  loadHeader();
+  loadFooter();
+  loadSidebar();
+
+  // زر المنيو
   const toggleBtn = document.getElementById('sidebarToggle');
   const overlay = document.getElementById('sidebarOverlay');
   const sidebar = document.getElementById('smartSidebar');
@@ -222,6 +261,7 @@ function initSidebar() {
       document.body.style.overflow = 'hidden';
     };
   }
+
   if (closeBtn && sidebar && overlay) {
     closeBtn.onclick = function() {
       sidebar.classList.remove('open');
@@ -229,6 +269,7 @@ function initSidebar() {
       document.body.style.overflow = '';
     };
   }
+
   if (overlay) {
     overlay.onclick = function() {
       sidebar.classList.remove('open');
@@ -236,12 +277,10 @@ function initSidebar() {
       document.body.style.overflow = '';
     };
   }
-  updateSidebarContent();
-}
 
-// ===== تشغيل =====
-document.addEventListener('DOMContentLoaded', function() {
-  initSidebar();
-  loadAdminQuotes();
-  loadAdminNews();
+  // Toast
+  window.showToast = showToast;
+  window.logoutUser = logoutUser;
+  window.protectPage = protectPage;
+  window.protectSuperAdminPage = protectSuperAdminPage;
 });
