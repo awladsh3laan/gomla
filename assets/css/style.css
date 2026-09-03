@@ -89,7 +89,7 @@ body {
 }
 
 .btn-primary {
-  background: var(--navy);
+  background: var(--gray);
   color: var(--white);
 }
 
@@ -112,8 +112,8 @@ body {
 
 .btn-outline {
   background: transparent;
-  border: 2px solid var(--navy);
-  color: var(--navy);
+  border: 2px solid var(--navy-light);
+  color: var(--red);
 }
 
 .btn-outline:hover {
