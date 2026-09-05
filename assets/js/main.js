@@ -430,7 +430,7 @@ function getAdminSidebarLinks(isSuper) {
     { icon: 'fa-shopping-cart', text: 'الطلبات', url: '/gomla/admin/orders.html' },
     { icon: 'fa-percent', text: 'العروض', url: '/gomla/admin/offers.html' },
   ];
-
+}
   if (isSuper) {
     links = links.concat([
       { icon: 'fa-key', text: 'توليد الأكواد', url: '/gomla/admin/generate-codes.html' },
@@ -458,7 +458,7 @@ function getCustomerSidebarLinks(type) {
     { icon: 'fa-percent', text: 'العروض', url: '/gomla/offers.html' },
     { icon: 'fa-headset', text: 'الشكاوى', url: '/gomla/customer/support.html' },
   ];
-
+}
   if (type === 'wholesale') {
     links.push({ icon: 'fa-coins', text: 'الذمة المالية', url: '/gomla/customer/balance.html' });
     links.push({ icon: 'fa-store', text: 'متجر الجملة', url: '/gomla/store-wholesale.html' });
