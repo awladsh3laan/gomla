@@ -428,9 +428,9 @@ function getAdminSidebarLinks(isSuper) {
     { icon: 'fa-users', text: 'العملاء', url: '/gomla/admin/customers.html' },
     { icon: 'fa-file-invoice', text: 'الفواتير', url: '/gomla/admin/invoices.html' },
     { icon: 'fa-shopping-cart', text: 'الطلبات', url: '/gomla/admin/orders.html' },
-    { icon: 'fa-percent', text: 'العروض', url: '/gomla/admin/offers.html' },
+    { icon: 'fa-percent', text: 'العروض', url: '/gomla/admin/offers.html' }
   ];
-}
+  
   if (isSuper) {
     links = links.concat([
       { icon: 'fa-key', text: 'توليد الأكواد', url: '/gomla/admin/generate-codes.html' },
@@ -440,15 +440,18 @@ function getAdminSidebarLinks(isSuper) {
       { icon: 'fa-ad', text: 'الإعلانات', url: '/gomla/admin/ads.html' },
       { icon: 'fa-newspaper', text: 'الأخبار', url: '/gomla/admin/news.html' },
       { icon: 'fa-quote-right', text: 'المقولات', url: '/gomla/admin/quotes.html' },
-      { icon: 'fa-download', text: 'نسخ احتياطي', url: '/gomla/admin/backup.html' },
+      { icon: 'fa-download', text: 'نسخ احتياطي', url: '/gomla/admin/backup.html' }
     ]);
   }
+  
+  return links;
+}
 
 /**
  * روابط السايدبار للعملاء
  */
 function getCustomerSidebarLinks(type) {
-  const links = [
+  let links = [
     { icon: 'fa-home', text: 'الرئيسية', url: '/gomla/customer/home.html' },
     { icon: 'fa-user', text: 'بياناتي', url: '/gomla/customer/profile.html' },
     { icon: 'fa-box', text: 'طلباتي', url: '/gomla/customer/orders.html' },
@@ -456,15 +459,18 @@ function getCustomerSidebarLinks(type) {
     { icon: 'fa-file-invoice', text: 'فواتيري', url: '/gomla/customer/invoices.html' },
     { icon: 'fa-heart', text: 'المفضلة', url: '/gomla/customer/wishlist.html' },
     { icon: 'fa-percent', text: 'العروض', url: '/gomla/offers.html' },
-    { icon: 'fa-headset', text: 'الشكاوى', url: '/gomla/customer/support.html' },
+    { icon: 'fa-headset', text: 'الشكاوى', url: '/gomla/customer/support.html' }
   ];
-}
+  
   if (type === 'wholesale') {
     links.push({ icon: 'fa-coins', text: 'الذمة المالية', url: '/gomla/customer/balance.html' });
     links.push({ icon: 'fa-store', text: 'متجر الجملة', url: '/gomla/store-wholesale.html' });
   } else {
     links.push({ icon: 'fa-store', text: 'متجر القطاعي', url: '/gomla/store-retail.html' });
   }
+  
+  return links;
+}
 
 /**
  * روابط السايدبار للزوار
@@ -477,7 +483,7 @@ function getGuestSidebarLinks() {
     { icon: 'fa-info-circle', text: 'تعرف علينا', url: '/gomla/about.html' },
     { icon: 'fa-question-circle', text: 'أسئلة شائعة', url: '/gomla/faq-visitor.html' },
     { icon: 'fa-key', text: 'دخول العملاء', url: '/gomla/customer-login.html' },
-    { icon: 'fa-user-shield', text: 'دخول المديرين', url: '/gomla/admin/login.html' },
+    { icon: 'fa-user-shield', text: 'دخول المديرين', url: '/gomla/admin/login.html' }
   ];
 }
 
@@ -526,12 +532,13 @@ function initSidebarToggle() {
  * @param {number} duration - مدة الظهور بالمللي ثانية
  */
 function showToast(message, type = 'info', duration = 3000) {
-  const container = document.getElementById('toast-container');
+  let container = document.getElementById('toast-container');
   if (!container) {
     const div = document.createElement('div');
     div.id = 'toast-container';
     div.style.cssText = 'position:fixed;bottom:24px;right:24px;z-index:99999;display:flex;flex-direction:column;gap:8px;max-width:90%;';
     document.body.appendChild(div);
+    container = div;
   }
 
   const colors = {
@@ -544,7 +551,7 @@ function showToast(message, type = 'info', duration = 3000) {
   const toast = document.createElement('div');
   toast.className = `toast toast-${type}`;
   toast.textContent = message;
-  document.getElementById('toast-container').appendChild(toast);
+  container.appendChild(toast);
 
   setTimeout(() => {
     toast.style.opacity = '0';
@@ -884,7 +891,7 @@ function displayBarcode(elementId, data) {
 }
 
 // ============================================================
-//# 📦 نظام الشحن (يتم تفعيله عند إنشاء المتاجر)
+// 📦 نظام الشحن (يتم تفعيله عند إنشاء المتاجر)
 // ============================================================
 
 /**
@@ -943,7 +950,10 @@ document.addEventListener('DOMContentLoaded', function() {
   console.log('✅ main.js loaded successfully!');
 });
 
+// ============================================================
 // تصدير الدوال للاستخدام العالمي
+// ============================================================
+
 window.getCurrentUser = getCurrentUser;
 window.getUserRole = getUserRole;
 window.protectPage = protectPage;
