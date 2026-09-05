@@ -927,7 +927,37 @@ function formatDate(timestamp) {
     minute: '2-digit'
   });
 }
+// ============================================================
+// 🔐 دوال التحقق من الصلاحيات (للتوافق مع الصفحات القديمة)
+// ============================================================
 
+/**
+ * التحقق من مصادقة المدير
+ */
+function checkAdminAuth() {
+    const user = getCurrentUser();
+    if (!user || user.type !== 'admin') {
+        window.location.href = '/gomla/admin/login.html';
+        return false;
+    }
+    return true;
+}
+
+/**
+ * التحقق من مصادقة السوبر أدمن
+ */
+function checkSuperAdminAuth() {
+    const user = getCurrentUser();
+    if (!user || user.type !== 'admin' || user.data.role !== 'super') {
+        window.location.href = '/gomla/admin/login.html';
+        return false;
+    }
+    return true;
+}
+
+// تصدير للاستخدام العالمي
+window.checkAdminAuth = checkAdminAuth;
+window.checkSuperAdminAuth = checkSuperAdminAuth;
 // ============================================================
 // 🚀 تشغيل عند تحميل الصفحة
 // ============================================================
