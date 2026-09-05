@@ -639,6 +639,12 @@
           <button class="btn btn-primary" onclick="openAddModal()">
             <i class="fas fa-plus"></i> إضافة منتج
           </button>
+    <button class="btn btn-outline" onclick="openCategoryModal()">
+      <i class="fas fa-tags"></i> إضافة تصنيف
+    </button>
+    <button class="btn btn-outline" onclick="openBrandModal()">
+      <i class="fas fa-copyright"></i> إضافة براند
+    </button>
           <button class="btn btn-outline" onclick="exportProducts()">
             <i class="fas fa-file-export"></i> تصدير
           </button>
@@ -921,7 +927,126 @@
       </form>
     </div>
   </div>
+<!-- ===== نافذة إضافة تصنيف ===== -->
+<div class="modal-overlay" id="categoryModal">
+  <div class="modal-content" style="max-width:500px;">
+    <div class="modal-header">
+      <h2><i class="fas fa-tags"></i> إضافة تصنيف جديد</h2>
+      <button class="modal-close" onclick="document.getElementById('categoryModal').classList.remove('show')">&times;</button>
+    </div>
+    <form id="categoryForm" onsubmit="saveCategory(event)">
+      <div class="form-group">
+        <label>اسم التصنيف <span class="required">*</span></label>
+        <input type="text" id="categoryName" required placeholder="مثال: إلكترونيات">
+      </div>
+      <div class="form-group">
+        <label>رابط الصورة (اختياري)</label>
+        <input type="url" id="categoryImage" placeholder="https://example.com/image.jpg">
+        <div class="help-text"><i class="fas fa-info-circle"></i> صورة تعبر عن التصنيف</div>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-outline" onclick="document.getElementById('categoryModal').classList.remove('show')">إلغاء</button>
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-save"></i> حفظ التصنيف
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
 
+  <!-- ===== نافذة إضافة براند ===== -->
+<div class="modal-overlay" id="brandModal">
+  <div class="modal-content" style="max-width:500px;">
+    <div class="modal-header">
+      <h2><i class="fas fa-copyright"></i> إضافة براند جديد</h2>
+      <button class="modal-close" onclick="document.getElementById('brandModal').classList.remove('show')">&times;</button>
+    </div>
+    <form id="brandForm" onsubmit="saveBrand(event)">
+      <div class="form-group">
+        <label>اسم البراند <span class="required">*</span></label>
+        <input type="text" id="brandName" required placeholder="مثال: سامسونج">
+      </div>
+      <div class="form-group">
+        <label>رابط الصورة (اختياري)</label>
+        <input type="url" id="brandImage" placeholder="https://example.com/logo.jpg">
+        <div class="help-text"><i class="fas fa-info-circle"></i> شعار البراند</div>
+      </div>
+      <div class="form-group">
+        <label>الوصف (اختياري)</label>
+        <textarea id="brandDescription" rows="3" placeholder="وصف مختصر عن البراند"></textarea>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn btn-outline" onclick="document.getElementById('brandModal').classList.remove('show')">إلغاء</button>
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-save"></i> حفظ البراند
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+  <!-- ===== عرض التصنيفات ===== -->
+<div style="margin-top:40px;">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+    <h2 style="font-size:1.3rem;font-weight:800;color:var(--navy);">
+      <i class="fas fa-tags" style="color:var(--gold);"></i> التصنيفات
+    </h2>
+    <button class="btn btn-primary btn-sm" onclick="openCategoryModal()">
+      <i class="fas fa-plus"></i> إضافة تصنيف
+    </button>
+  </div>
+  <div class="table-container">
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>الصورة</th>
+            <th>الاسم</th>
+            <th>عدد المنتجات</th>
+            <th>الإجراءات</th>
+          </tr>
+        </thead>
+        <tbody id="categoriesTableBody">
+          <tr><td colspan="5" class="loading-container"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ===== عرض البراندات ===== -->
+<div style="margin-top:40px;">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+    <h2 style="font-size:1.3rem;font-weight:800;color:var(--navy);">
+      <i class="fas fa-copyright" style="color:var(--gold);"></i> البراندات
+    </h2>
+    <button class="btn btn-primary btn-sm" onclick="openBrandModal()">
+      <i class="fas fa-plus"></i> إضافة براند
+    </button>
+  </div>
+  <div class="table-container">
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>الشعار</th>
+            <th>الاسم</th>
+            <th>الوصف</th>
+            <th>عدد المنتجات</th>
+            <th>الإجراءات</th>
+          </tr>
+        </thead>
+        <tbody id="brandsTableBody">
+          <tr><td colspan="6" class="loading-container"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</i></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+  
   <!-- ============================================================ -->
   <!-- 📚 Firebase & JavaScript                                      -->
   <!-- ============================================================ -->
@@ -1731,7 +1856,285 @@
 
       showToast('✅ تم تصدير المنتجات بنجاح', 'success');
     }
+// ============================================================
+// 📂 إدارة التصنيفات
+// ============================================================
 
+function loadCategoriesTable() {
+  const tbody = document.getElementById('categoriesTableBody');
+  if (!tbody) return;
+
+  db.collection('categories')
+    .orderBy('name')
+    .get()
+    .then(snapshot => {
+      if (snapshot.empty) {
+        tbody.innerHTML = `<tr><td colspan="5" class="empty-state">لا توجد تصنيفات</td></tr>`;
+        return;
+      }
+
+      let html = '';
+      let index = 1;
+      snapshot.forEach(doc => {
+        const cat = doc.data();
+        const imageUrl = cat.imageUrl || '../assets/images/no-image.png';
+        
+        html += `
+          <tr>
+            <td>${index++}</td>
+            <td><img src="${imageUrl}" alt="${cat.name}" class="product-thumb" onerror="this.src='../assets/images/no-image.png'"></td>
+            <td><strong>${cat.name}</strong></td>
+            <td>${cat.productCount || 0}</td>
+            <td>
+              <div class="action-buttons">
+                <button class="btn-edit" onclick="editCategory('${doc.id}')" title="تعديل">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn-delete" onclick="deleteCategory('${doc.id}')" title="حذف">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+
+      tbody.innerHTML = html;
+    })
+    .catch(error => {
+      console.error('Error loading categories:', error);
+      tbody.innerHTML = `<tr><td colspan="5" class="empty-state">حدث خطأ في تحميل التصنيفات</td></tr>`;
+    });
+}
+
+function openCategoryModal() {
+  document.getElementById('categoryModal').classList.add('show');
+  document.getElementById('categoryForm').reset();
+}
+
+function saveCategory(event) {
+  event.preventDefault();
+
+  const name = document.getElementById('categoryName').value.trim();
+  const imageUrl = document.getElementById('categoryImage').value.trim();
+
+  if (!name) {
+    showToast('⚠️ يرجى إدخال اسم التصنيف', 'warning');
+    return;
+  }
+
+  const data = {
+    name: name,
+    imageUrl: imageUrl || '',
+    productCount: 0,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  };
+
+  db.collection('categories').add(data)
+    .then(() => {
+      showToast('✅ تم إضافة التصنيف بنجاح', 'success');
+      document.getElementById('categoryModal').classList.remove('show');
+      loadCategoriesTable();
+      loadCategories(); // تحديث القائمة المنسدلة في نافذة إضافة المنتج
+      loadFilterCategories(); // تحديث فلتر التصنيف
+    })
+    .catch(error => {
+      console.error('Error adding category:', error);
+      showToast('❌ حدث خطأ في إضافة التصنيف', 'error');
+    });
+}
+
+function editCategory(categoryId) {
+  // فتح نافذة تعديل التصنيف
+  const newName = prompt('أدخل الاسم الجديد للتصنيف:');
+  if (!newName) return;
+
+  db.collection('categories').doc(categoryId).update({
+    name: newName.trim(),
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  })
+  .then(() => {
+    showToast('✅ تم تحديث التصنيف بنجاح', 'success');
+    loadCategoriesTable();
+    loadCategories();
+    loadFilterCategories();
+  })
+  .catch(error => {
+    console.error('Error updating category:', error);
+    showToast('❌ حدث خطأ في تحديث التصنيف', 'error');
+  });
+}
+
+function deleteCategory(categoryId) {
+  if (!confirm('⚠️ هل أنت متأكد من حذف هذا التصنيف؟ سيتم حذف جميع المنتجات المرتبطة به!')) return;
+
+  // حذف التصنيف
+  db.collection('categories').doc(categoryId).delete()
+    .then(() => {
+      // حذف جميع المنتجات المرتبطة بهذا التصنيف
+      return db.collection('products')
+        .where('categoryId', '==', categoryId)
+        .get()
+        .then(snapshot => {
+          const batch = db.batch();
+          snapshot.forEach(doc => {
+            batch.delete(doc.ref);
+          });
+          return batch.commit();
+        });
+    })
+    .then(() => {
+      showToast('✅ تم حذف التصنيف والمنتجات المرتبطة به', 'success');
+      loadCategoriesTable();
+      loadCategories();
+      loadFilterCategories();
+      loadProducts(); // تحديث قائمة المنتجات
+    })
+    .catch(error => {
+      console.error('Error deleting category:', error);
+      showToast('❌ حدث خطأ في حذف التصنيف', 'error');
+    });
+}
+
+// ============================================================
+// 📂 إدارة البراندات
+// ============================================================
+
+function loadBrandsTable() {
+  const tbody = document.getElementById('brandsTableBody');
+  if (!tbody) return;
+
+  db.collection('brands')
+    .orderBy('name')
+    .get()
+    .then(snapshot => {
+      if (snapshot.empty) {
+        tbody.innerHTML = `<tr><td colspan="6" class="empty-state">لا توجد براندات</td></tr>`;
+        return;
+      }
+
+      let html = '';
+      let index = 1;
+      snapshot.forEach(doc => {
+        const brand = doc.data();
+        const imageUrl = brand.imageUrl || '../assets/images/no-image.png';
+        
+        html += `
+          <tr>
+            <td>${index++}</td>
+            <td><img src="${imageUrl}" alt="${brand.name}" class="product-thumb" onerror="this.src='../assets/images/no-image.png'"></td>
+            <td><strong>${brand.name}</strong></td>
+            <td>${brand.description || '-'}</td>
+            <td>${brand.productCount || 0}</td>
+            <td>
+              <div class="action-buttons">
+                <button class="btn-edit" onclick="editBrand('${doc.id}')" title="تعديل">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn-delete" onclick="deleteBrand('${doc.id}')" title="حذف">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+
+      tbody.innerHTML = html;
+    })
+    .catch(error => {
+      console.error('Error loading brands:', error);
+      tbody.innerHTML = `<tr><td colspan="6" class="empty-state">حدث خطأ في تحميل البراندات</td></tr>`;
+    });
+}
+
+function openBrandModal() {
+  document.getElementById('brandModal').classList.add('show');
+  document.getElementById('brandForm').reset();
+}
+
+function saveBrand(event) {
+  event.preventDefault();
+
+  const name = document.getElementById('brandName').value.trim();
+  const imageUrl = document.getElementById('brandImage').value.trim();
+  const description = document.getElementById('brandDescription').value.trim();
+
+  if (!name) {
+    showToast('⚠️ يرجى إدخال اسم البراند', 'warning');
+    return;
+  }
+
+  const data = {
+    name: name,
+    imageUrl: imageUrl || '',
+    description: description || '',
+    productCount: 0,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  };
+
+  db.collection('brands').add(data)
+    .then(() => {
+      showToast('✅ تم إضافة البراند بنجاح', 'success');
+      document.getElementById('brandModal').classList.remove('show');
+      loadBrandsTable();
+      loadBrands(); // تحديث القائمة المنسدلة في نافذة إضافة المنتج
+      loadFilterBrands(); // تحديث فلتر البراند
+    })
+    .catch(error => {
+      console.error('Error adding brand:', error);
+      showToast('❌ حدث خطأ في إضافة البراند', 'error');
+    });
+}
+
+function editBrand(brandId) {
+  const newName = prompt('أدخل الاسم الجديد للبراند:');
+  if (!newName) return;
+
+  db.collection('brands').doc(brandId).update({
+    name: newName.trim(),
+    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+  })
+  .then(() => {
+    showToast('✅ تم تحديث البراند بنجاح', 'success');
+    loadBrandsTable();
+    loadBrands();
+    loadFilterBrands();
+  })
+  .catch(error => {
+    console.error('Error updating brand:', error);
+    showToast('❌ حدث خطأ في تحديث البراند', 'error');
+  });
+}
+
+function deleteBrand(brandId) {
+  if (!confirm('⚠️ هل أنت متأكد من حذف هذا البراند؟ سيتم حذف جميع المنتجات المرتبطة به!')) return;
+
+  db.collection('brands').doc(brandId).delete()
+    .then(() => {
+      return db.collection('products')
+        .where('brandId', '==', brandId)
+        .get()
+        .then(snapshot => {
+          const batch = db.batch();
+          snapshot.forEach(doc => {
+            batch.delete(doc.ref);
+          });
+          return batch.commit();
+        });
+    })
+    .then(() => {
+      showToast('✅ تم حذف البراند والمنتجات المرتبطة به', 'success');
+      loadBrandsTable();
+      loadBrands();
+      loadFilterBrands();
+      loadProducts();
+    })
+    .catch(error => {
+      console.error('Error deleting brand:', error);
+      showToast('❌ حدث خطأ في حذف البراند', 'error');
+    });
+}
     // ============================================================
     // 🛠️ دوال مساعدة
     // ============================================================
