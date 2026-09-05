@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>أولاد شعلان جملة - سلة المشتريات</title>
+
+  <!-- ===== SEO ===== -->
+  <meta name="description" content="سلة المشتريات - أولاد شعلان جملة">
+  <meta name="theme-color" content="#1a2a4a">
+
+  <!-- ===== Font Awesome ===== -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- ===== Google Font ===== -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- ===== الستايل الموحد ===== -->
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- ===== Favicon ===== -->
+  <link rel="icon" href="assets/images/favicon.ico">
+
+  <!-- ============================================================ -->
+  <!-- 🎨 ستايل خاص بالصفحة                                          -->
+  <!-- ============================================================ -->
+  <style>
+    .cart-page-title {
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .cart-page-title h1 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: var(--navy);
+    }
+
+    .cart-page-title h1 i {
+      color: var(--gold);
+    }
+
+    .cart-page-title .cart-count {
+      font-size: 0.95rem;
+      color: var(--gray-500);
+      background: var(--gray-100);
+      padding: 4px 16px;
+      border-radius: 20px;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--gray-500);
+      margin-bottom: 16px;
+    }
+
+    .breadcrumb a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    /* ===== تخطيط السلة ===== */
+    .cart-layout {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 24px;
+      align-items: start;
+    }
+
+    /* ===== قائمة المنتجات ===== */
+    .cart-items {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .cart-items-header {
+      display: grid;
+      grid-template-columns: 3fr 1fr 1fr 0.5fr;
+      padding: 12px 16px;
+      background: var(--gray-50);
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--gray-600);
+      border-bottom: 2px solid var(--gray-200);
+      gap: 12px;
+    }
+
+    .cart-items-header span:last-child {
+      text-align: center;
+    }
+
+    .cart-item {
+      display: grid;
+      grid-template-columns: 3fr 1fr 1fr 0.5fr;
+      padding: 16px;
+      border-bottom: 1px solid var(--gray-100);
+      align-items: center;
+      gap: 12px;
+      transition: var(--transition);
+    }
+
+    .cart-item:last-child {
+      border-bottom: none;
+    }
+
+    .cart-item:hover {
+      background: var(--gray-50);
+    }
+
+    .cart-item .product-info {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .cart-item .product-info img {
+      width: 64px;
+      height: 64px;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--gray-200);
+    }
+
+    .cart-item .product-info .details {
+      flex: 1;
+    }
+
+    .cart-item .product-info .details .name {
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin: 0 0 2px;
+    }
+
+    .cart-item .product-info .details .unit {
+      font-size: 0.8rem;
+      color: var(--gray-500);
+    }
+
+    .cart-item .product-info .details .price {
+      font-size: 0.9rem;
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    .cart-item .product-info .details .max-order-note {
+      font-size: 0.7rem;
+      color: var(--gray-400);
+      display: block;
+      margin-top: 2px;
+    }
+
+    .cart-item .item-price {
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .cart-item .quantity-control {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cart-item .quantity-control button {
+      width: 32px;
+      height: 32px;
+      border: none;
+      border-radius: 50%;
+      background: var(--gray-100);
+      color: var(--navy);
+      font-size: 1rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .cart-item .quantity-control button:hover {
+      background: var(--gold);
+      color: var(--white);
+    }
+
+    .cart-item .quantity-control button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .cart-item .quantity-control .qty {
+      font-weight: 700;
+      font-size: 1rem;
+      min-width: 30px;
+      text-align: center;
+    }
+
+    .cart-item .item-total {
+      font-weight: 800;
+      color: var(--gold);
+      text-align: center;
+    }
+
+    .cart-item .remove-btn {
+      background: none;
+      border: none;
+      color: var(--danger);
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: center;
+    }
+
+    .cart-item .remove-btn:hover {
+      transform: scale(1.2);
+      color: #c0392b;
+    }
+
+    /* ===== الملخص الجانبي ===== */
+    .cart-summary {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      padding: 24px;
+      position: sticky;
+      top: 20px;
+    }
+
+    .cart-summary h3 {
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+      color: var(--navy);
+      border-bottom: 2px solid var(--gray-100);
+      padding-bottom: 12px;
+    }
+
+    .cart-summary .summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      font-size: 0.95rem;
+    }
+
+    .cart-summary .summary-row.total {
+      font-size: 1.2rem;
+      font-weight: 800;
+      border-top: 2px solid var(--gray-200);
+      padding-top: 16px;
+      margin-top: 8px;
+      color: var(--navy);
+    }
+
+    .cart-summary .summary-row .label {
+      color: var(--gray-600);
+    }
+
+    .cart-summary .summary-row .value {
+      font-weight: 700;
+    }
+
+    .cart-summary .summary-row .value.gold {
+      color: var(--gold);
+    }
+
+    .cart-summary .shipping-note {
+      font-size: 0.8rem;
+      color: var(--gray-400);
+      margin: 12px 0;
+      padding: 10px;
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
+      text-align: center;
+    }
+
+    .cart-summary .shipping-note i {
+      color: var(--gold);
+    }
+
+    .cart-summary .checkout-btn {
+      width: 100%;
+      padding: 14px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-top: 12px;
+    }
+
+    .cart-summary .checkout-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .cart-summary .continue-shopping {
+      display: block;
+      text-align: center;
+      margin-top: 12px;
+      color: var(--gray-500);
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+
+    .cart-summary .continue-shopping:hover {
+      color: var(--gold);
+    }
+
+    /* ===== الحالة الفارغة ===== */
+    .empty-cart {
+      text-align: center;
+      padding: 60px 20px;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .empty-cart i {
+      font-size: 4rem;
+      color: var(--gray-300);
+      margin-bottom: 16px;
+    }
+
+    .empty-cart h3 {
+      font-size: 1.5rem;
+      color: var(--gray-600);
+      margin-bottom: 8px;
+    }
+
+    .empty-cart p {
+      color: var(--gray-400);
+      margin-bottom: 20px;
+    }
+
+    /* ===== التحميل ===== */
+    .loading-cart {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--gray-400);
+    }
+
+    .loading-cart i {
+      font-size: 2rem;
+    }
+
+    /* ===== عروض خاصة في السلة ===== */
+    .cart-item .offer-badge-small {
+      font-size: 0.65rem;
+      background: #e74c3c;
+      color: var(--white);
+      padding: 1px 8px;
+      border-radius: 10px;
+      margin-right: 6px;
+      display: inline-block;
+    }
+
+    /* ===== التجاوب ===== */
+    @media (max-width: 992px) {
+      .cart-layout {
+        grid-template-columns: 1fr;
+      }
+      .cart-summary {
+        position: static;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .cart-items-header {
+        display: none;
+      }
+      .cart-item {
+        grid-template-columns: 1fr;
+        gap: 8px;
+        padding: 12px;
+        border-bottom: 2px solid var(--gray-200);
+      }
+      .cart-item .product-info {
+        flex-direction: column;
+        text-align: center;
+      }
+      .cart-item .product-info img {
+        width: 80px;
+        height: 80px;
+      }
+      .cart-item .item-price,
+      .cart-item .item-total {
+        text-align: center;
+      }
+      .cart-item .quantity-control {
+        justify-content: center;
+      }
+      .cart-item .remove-btn {
+        text-align: center;
+      }
+      .cart-page-title h1 {
+        font-size: 1.4rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .cart-summary {
+        padding: 16px;
+      }
+      .cart-item .product-info img {
+        width: 60px;
+        height: 60px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================ -->
+  <!-- 🧠 الهيدر (يتم تحميله من main.js)                            -->
+  <!-- ============================================================ -->
+  <div id="header-placeholder"></div>
+
+  <!-- ============================================================ -->
+  <!-- 📄 محتوى الصفحة                                              -->
+  <!-- ============================================================ -->
+  <main class="page-content">
+    <div class="container">
+
+      <!-- ===== مسار التنقل (Breadcrumb) ===== -->
+      <div class="breadcrumb">
+        <a href="/gomla/">الرئيسية</a>
+        <span>›</span>
+        <span>سلة المشتريات</span>
+      </div>
+
+      <!-- ===== عنوان الصفحة ===== -->
+      <div class="cart-page-title">
+        <h1><i class="fas fa-shopping-cart"></i> سلة المشتريات</h1>
+        <span class="cart-count" id="cartCount">0 منتج</span>
+      </div>
+
+      <!-- ===== محتوى السلة ===== -->
+      <div id="cartContainer">
+        <div class="loading-cart">
+          <i class="fas fa-spinner fa-spin"></i>
+          <p>جاري تحميل السلة...</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ============================================================ -->
+  <!-- 👣 الفوتر (يتم تحميله من main.js)                            -->
+  <!-- ============================================================ -->
+  <div id="footer-placeholder"></div>
+
+  <!-- ============================================================ -->
+  <!-- 🧠 السايدبار (يتم تحميله من main.js)                         -->
+  <!-- ============================================================ -->
+  <div id="sidebar-placeholder"></div>
+
+  <!-- ============================================================ -->
+  <!-- 🍞 Toast Container                                            -->
+  <!-- ============================================================ -->
+  <div id="toast-container"></div>
+
+  <!-- ============================================================ -->
+  <!-- 📚 Firebase & JavaScript                                      -->
+  <!-- ============================================================ -->
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+  <script src="assets/js/firebase-config.js"></script>
+  <script src="assets/js/main.js"></script>
+
+  <!-- ============================================================ -->
+  <!-- 📝 كود الصفحة الخاص                                           -->
+  <!-- ============================================================ -->
+  <script>
+    // ============================================================
+    // 📂 صفحة السلة - cart.html
+    // ============================================================
+
+    // ===== متغيرات عامة =====
+    let cartItems = [];
+    let storeType = 'wholesale';
+    let userId = null;
+    let isGuest = false;
+
+    // ============================================================
+    // 🚀 تحميل السلة
+    // ============================================================
+
+    function loadCart() {
+      const container = document.getElementById('cartContainer');
+      if (!container) return;
+
+      // تحديد نوع المستخدم
+      const user = getCurrentUser();
+      if (user) {
+        userId = user.data.id || user.data.uid;
+        isGuest = false;
+      } else {
+        // زائر - نستخدم LocalStorage
+        isGuest = true;
+        userId = 'guest_' + Date.now();
+        loadGuestCart();
+        return;
+      }
+
+      // جلب السلة من Firestore
+      db.collection('cart')
+        .where('userId', '==', userId)
+        .get()
+        .then(snapshot => {
+          if (snapshot.empty) {
+            renderEmptyCart();
+            return;
+          }
+
+          cartItems = [];
+          snapshot.forEach(doc => {
+            cartItems.push({ id: doc.id, ...doc.data() });
+          });
+
+          renderCart();
+        })
+        .catch(error => {
+          console.error('Error loading cart:', error);
+          container.innerHTML = `
+            <div class="empty-cart">
+              <i class="fas fa-exclamation-triangle"></i>
+              <h3>حدث خطأ</h3>
+              <p>لم نتمكن من تحميل سلة المشتريات</p>
+              <a href="/gomla/" class="btn btn-primary">العودة للرئيسية</a>
+            </div>
+          `;
+        });
+    }
+
+    // ===== تحميل سلة الزائر من LocalStorage =====
+    function loadGuestCart() {
+      const saved = localStorage.getItem('guest_cart');
+      if (saved) {
+        try {
+          cartItems = JSON.parse(saved);
+        } catch {
+          cartItems = [];
+        }
+      }
+
+      if (cartItems.length === 0) {
+        renderEmptyCart();
+      } else {
+        renderCart();
+      }
+    }
+
+    // ============================================================
+    // 📦 عرض السلة
+    // ============================================================
+
+    function renderCart() {
+      const container = document.getElementById('cartContainer');
+      if (!container) return;
+
+      if (cartItems.length === 0) {
+        renderEmptyCart();
+        return;
+      }
+
+      // حساب الإجماليات
+      let subtotal = 0;
+      let totalItems = 0;
+
+      cartItems.forEach(item => {
+        const qty = item.quantity || 1;
+        const price = item.price || 0;
+        subtotal += price * qty;
+        totalItems += qty;
+      });
+
+      // تحديث عداد السلة
+      document.getElementById('cartCount').textContent = `${totalItems} منتج`;
+
+      // بناء HTML
+      let html = `
+        <div class="cart-layout">
+          <div class="cart-items">
+            <div class="cart-items-header">
+              <span>المنتج</span>
+              <span>سعر الوحدة</span>
+              <span>الكمية</span>
+              <span>الإجمالي</span>
+            </div>
+      `;
+
+      cartItems.forEach((item, index) => {
+        const qty = item.quantity || 1;
+        const price = item.price || 0;
+        const total = price * qty;
+        const unit = item.unit || 'قطعة';
+        const maxOrder = item.maxOrder || null;
+        const isOffer = item.isOffer || false;
+
+        html += `
+          <div class="cart-item" data-index="${index}">
+            <div class="product-info">
+              <img src="${item.imageUrl || 'assets/images/no-image.png'}" alt="${item.productName || 'منتج'}" onerror="this.src='assets/images/no-image.png'">
+              <div class="details">
+                <div class="name">${item.productName || 'منتج'}</div>
+                <div class="unit">${unit}</div>
+                <div class="price">${price.toFixed(2)} ج.م</div>
+                ${isOffer ? '<span class="offer-badge-small"><i class="fas fa-percent"></i> عرض</span>' : ''}
+                ${maxOrder ? `<span class="max-order-note">الحد الأقصى: ${maxOrder}</span>` : ''}
+              </div>
+            </div>
+            <div class="item-price">${price.toFixed(2)} ج.م</div>
+            <div class="quantity-control">
+              <button onclick="updateQuantity(${index}, -1)" ${qty <= 1 ? 'disabled' : ''}>
+                <i class="fas fa-minus"></i>
+              </button>
+              <span class="qty" id="qty-${index}">${qty}</span>
+              <button onclick="updateQuantity(${index}, 1)" ${maxOrder && qty >= maxOrder ? 'disabled' : ''}>
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+            <div class="item-total">${total.toFixed(2)} ج.م</div>
+          </div>
+        `;
+      });
+
+      html += `
+          </div>
+          <div class="cart-summary">
+            <h3>ملخص الطلب</h3>
+            <div class="summary-row">
+              <span class="label">إجمالي المنتجات</span>
+              <span class="value">${totalItems} منتج</span>
+            </div>
+            <div class="summary-row">
+              <span class="label">المجموع الفرعي</span>
+              <span class="value gold">${subtotal.toFixed(2)} ج.م</span>
+            </div>
+            <div class="shipping-note">
+              <i class="fas fa-truck"></i>
+              سيتم حساب تكلفة الشحن في صفحة إتمام الطلب
+            </div>
+            <button class="btn btn-primary checkout-btn" onclick="proceedToCheckout()">
+              <i class="fas fa-arrow-left"></i> إتمام الطلب
+            </button>
+            <a href="/gomla/store-${storeType}.html" class="continue-shopping">
+              <i class="fas fa-arrow-right"></i> متابعة التسوق
+            </a>
+          </div>
+        </div>
+      `;
+
+      container.innerHTML = html;
+    }
+
+    // ===== عرض سلة فارغة =====
+    function renderEmptyCart() {
+      const container = document.getElementById('cartContainer');
+      if (!container) return;
+
+      container.innerHTML = `
+        <div class="empty-cart">
+          <i class="fas fa-shopping-cart"></i>
+          <h3>سلة المشتريات فارغة</h3>
+          <p>لم تقم بإضافة أي منتجات بعد</p>
+          <a href="/gomla/store-${storeType}.html" class="btn btn-primary">
+            <i class="fas fa-arrow-right"></i> التسوق الآن
+          </a>
+        </div>
+      `;
+      document.getElementById('cartCount').textContent = '0 منتج';
+    }
+
+    // ============================================================
+    // 🔄 تحديث الكمية
+    // ============================================================
+
+    function updateQuantity(index, change) {
+      const item = cartItems[index];
+      if (!item) return;
+
+      const newQty = (item.quantity || 1) + change;
+      if (newQty < 1) return;
+      if (item.maxOrder && newQty > item.maxOrder) {
+        showToast(`⚠️ الحد الأقصى للطلب هو ${item.maxOrder}`, 'warning');
+        return;
+      }
+
+      item.quantity = newQty;
+
+      if (isGuest) {
+        // حفظ في LocalStorage
+        saveGuestCart();
+        renderCart();
+        updateCartBadge();
+      } else {
+        // تحديث في Firestore
+        db.collection('cart').doc(item.id).update({
+          quantity: newQty
+        })
+        .then(() => {
+          renderCart();
+          updateCartBadge();
+        })
+        .catch(error => {
+          console.error('Error updating quantity:', error);
+          showToast('❌ حدث خطأ في تحديث الكمية', 'error');
+        });
+      }
+    }
+
+    // ============================================================
+    // 🗑️ حذف منتج من السلة
+    // ============================================================
+
+    function removeItem(index) {
+      const item = cartItems[index];
+      if (!item) return;
+
+      if (!confirm('هل أنت متأكد من حذف هذا المنتج من السلة؟')) return;
+
+      if (isGuest) {
+        cartItems.splice(index, 1);
+        saveGuestCart();
+        renderCart();
+        updateCartBadge();
+        showToast('✅ تم حذف المنتج من السلة', 'success');
+      } else {
+        db.collection('cart').doc(item.id).delete()
+          .then(() => {
+            cartItems.splice(index, 1);
+            renderCart();
+            updateCartBadge();
+            showToast('✅ تم حذف المنتج من السلة', 'success');
+          })
+          .catch(error => {
+            console.error('Error removing item:', error);
+            showToast('❌ حدث خطأ في حذف المنتج', 'error');
+          });
+      }
+    }
+
+    // ============================================================
+    // 💾 حفظ سلة الزائر في LocalStorage
+    // ============================================================
+
+    function saveGuestCart() {
+      localStorage.setItem('guest_cart', JSON.stringify(cartItems));
+    }
+
+    // ============================================================
+    // 🚀 التوجه لصفحة إتمام الطلب
+    // ============================================================
+
+    function proceedToCheckout() {
+      if (cartItems.length === 0) {
+        showToast('⚠️ السلة فارغة', 'warning');
+        return;
+      }
+
+      // حفظ السلة في localStorage مؤقتاً للزائر
+      if (isGuest) {
+        saveGuestCart();
+      }
+
+      window.location.href = `/gomla/checkout.html?type=${storeType}`;
+    }
+
+    // ============================================================
+    // 🔍 تحديد نوع المتجر
+    // ============================================================
+
+    function getStoreType() {
+      const user = getCurrentUser();
+      if (user) {
+        // لو المستخدم تاجر -> جملة، غير كده قطاعي
+        const role = user.data.role || 'customer';
+        return (role === 'admin' || role === 'superadmin' || role === 'wholesale') ? 'wholesale' : 'retail';
+      }
+      // الزائر -> قطاعي
+      return 'retail';
+    }
+
+    // ============================================================
+    // 🚀 تشغيل الصفحة
+    // ============================================================
+
+    document.addEventListener('DOMContentLoaded', function() {
+      storeType = getStoreType();
+      loadCart();
+
+      // إضافة دالة removeItem للنافذة
+      window.removeItem = removeItem;
+      window.updateQuantity = updateQuantity;
+      window.proceedToCheckout = proceedToCheckout;
+    });
+  </script>
+
+</body>
+</html>
