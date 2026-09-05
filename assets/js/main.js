@@ -444,10 +444,6 @@ function getAdminSidebarLinks(isSuper) {
     ]);
   }
 
-  links.push({ icon: 'fa-sign-out-alt', text: 'تسجيل خروج', url: '#', onclick: 'logoutUser()' });
-  return links;
-}
-
 /**
  * روابط السايدبار للعملاء
  */
@@ -469,10 +465,6 @@ function getCustomerSidebarLinks(type) {
   } else {
     links.push({ icon: 'fa-store', text: 'متجر القطاعي', url: '/gomla/store-retail.html' });
   }
-
-  links.push({ icon: 'fa-sign-out-alt', text: 'تسجيل خروج', url: '#', onclick: 'logoutUser()' });
-  return links;
-}
 
 /**
  * روابط السايدبار للزوار
