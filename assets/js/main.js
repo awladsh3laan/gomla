@@ -56,6 +56,30 @@ function protectSuperAdminPage() {
 }
 
 /**
+ * التحقق من مصادقة المدير (للتوافق مع الصفحات القديمة)
+ */
+function checkAdminAuth() {
+  const user = getCurrentUser();
+  if (!user || user.type !== 'admin') {
+    window.location.href = '/gomla/admin/login.html';
+    return false;
+  }
+  return true;
+}
+
+/**
+ * التحقق من مصادقة السوبر أدمن (للتوافق مع الصفحات القديمة)
+ */
+function checkSuperAdminAuth() {
+  const user = getCurrentUser();
+  if (!user || user.type !== 'admin' || user.data.role !== 'super') {
+    window.location.href = '/gomla/admin/login.html';
+    return false;
+  }
+  return true;
+}
+
+/**
  * تسجيل الخروج
  */
 function logoutUser() {
@@ -927,37 +951,7 @@ function formatDate(timestamp) {
     minute: '2-digit'
   });
 }
-// ============================================================
-// 🔐 دوال التحقق من الصلاحيات (للتوافق مع الصفحات القديمة)
-// ============================================================
 
-/**
- * التحقق من مصادقة المدير
- */
-function checkAdminAuth() {
-    const user = getCurrentUser();
-    if (!user || user.type !== 'admin') {
-        window.location.href = '/gomla/admin/login.html';
-        return false;
-    }
-    return true;
-}
-
-/**
- * التحقق من مصادقة السوبر أدمن
- */
-function checkSuperAdminAuth() {
-    const user = getCurrentUser();
-    if (!user || user.type !== 'admin' || user.data.role !== 'super') {
-        window.location.href = '/gomla/admin/login.html';
-        return false;
-    }
-    return true;
-}
-
-// تصدير للاستخدام العالمي
-window.checkAdminAuth = checkAdminAuth;
-window.checkSuperAdminAuth = checkSuperAdminAuth;
 // ============================================================
 // 🚀 تشغيل عند تحميل الصفحة
 // ============================================================
@@ -988,6 +982,8 @@ window.getCurrentUser = getCurrentUser;
 window.getUserRole = getUserRole;
 window.protectPage = protectPage;
 window.protectSuperAdminPage = protectSuperAdminPage;
+window.checkAdminAuth = checkAdminAuth;
+window.checkSuperAdminAuth = checkSuperAdminAuth;
 window.logoutUser = logoutUser;
 window.showToast = showToast;
 window.loadNotifications = loadNotifications;
