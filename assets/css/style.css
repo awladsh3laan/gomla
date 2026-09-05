@@ -90,7 +90,7 @@ body {
 }
 
 .btn-primary {
-  background: var(--gray);
+  background: var(--navy-dark);
   color: var(--white);
 }
 
