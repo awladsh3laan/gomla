@@ -968,7 +968,7 @@
       }
 
       const role = user.data.role || 'customer';
-      if (role !== 'admin' && role !== 'superadmin') {
+      if (role !== 'admin' && role !== 'super') {
         showToast('⚠️ غير مصرح لك بالدخول لهذه الصفحة', 'error');
         window.location.href = '/gomla/';
         return false;
