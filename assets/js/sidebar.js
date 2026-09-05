@@ -88,9 +88,9 @@ function updateUserInfo(isCustomer, isAdmin, isSuperAdmin) {
     userRole.textContent = `🔑 ${customer.code || 'عميل'}`;
     if (customer.avatar) avatar.src = customer.avatar;
   } else {
-    username.textContent = 'زائر عزيز';
-    userRole.textContent = 'مرحباً بك';
-    avatar.src = 'assets/images/default-avatar.png';
+    username.textContent = 'مرحبا بك في أولاد شعلان ';
+    userRole.textContent = 'زائر';
+    avatar.src = 'https://i.ibb.co/GfK22yd4/Gemini-Generated-Image-76zms776zms776zm.png';
   }
 }
 
@@ -287,7 +287,7 @@ function updateActionButton(isCustomer, isAdmin) {
     btn.onclick = function() {
       if (isAdmin) {
         logoutAdmin();
-      } else {
+      } if (isCustomer) {
         logoutCustomer();
       }
     };
