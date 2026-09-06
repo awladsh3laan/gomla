@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>أولاد شعلان جملة - منتجات التصنيف</title>
+
+  <!-- ===== SEO ===== -->
+  <meta name="description" content="عرض منتجات التصنيف - أولاد شعلان جملة">
+  <meta name="theme-color" content="#1a2a4a">
+
+  <!-- ===== Font Awesome ===== -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- ===== Google Font ===== -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- ===== الستايل الموحد ===== -->
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- ===== Favicon ===== -->
+  <link rel="icon" href="assets/images/favicon.ico">
+
+  <!-- ============================================================ -->
+  <!-- 🎨 ستايل خاص بالصفحة                                          -->
+  <!-- ============================================================ -->
+  <style>
+    .page-header-custom {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      padding: 30px 0 24px;
+      border-radius: var(--radius-md);
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .page-header-custom h1 {
+      font-size: 1.8rem;
+      font-weight: 800;
+    }
+
+    .page-header-custom .category-image {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 12px;
+      display: block;
+      border: 3px solid var(--gold);
+    }
+
+    .page-header-custom .category-count {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      color: var(--gray-500);
+      margin-bottom: 16px;
+    }
+
+    .breadcrumb a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    .breadcrumb a:hover {
+      text-decoration: underline;
+    }
+
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 20px;
+      background: var(--white);
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow-sm);
+      align-items: center;
+    }
+
+    .filter-bar select,
+    .filter-bar input {
+      padding: 8px 14px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.9rem;
+      background: var(--gray-50);
+      min-width: 120px;
+    }
+
+    .filter-bar select:focus,
+    .filter-bar input:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.15);
+      background: var(--white);
+    }
+
+    .filter-bar .filter-label {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--gray-600);
+    }
+
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--gray-400);
+    }
+
+    .empty-state i {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    @media (max-width: 768px) {
+      .filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .filter-bar select,
+      .filter-bar input {
+        width: 100%;
+        min-width: auto;
+      }
+      .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      }
+      .page-header-custom h1 {
+        font-size: 1.4rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      }
+      .page-header-custom {
+        padding: 20px 0 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================ -->
+  <!-- 🧠 الهيدر (يتم تحميله من main.js)                            -->
+  <!-- ============================================================ -->
+  <div id="header-placeholder"></div>
+
+  <!-- ============================================================ -->
+  <!-- 📄 محتوى الصفحة                                              -->
+  <!-- ============================================================ -->
+  <main class="page-content">
+    <div class="container">
+
+      <!-- ===== مسار التنقل (Breadcrumb) ===== -->
+      <div class="breadcrumb">
+        <a href="/gomla/">الرئيسية</a>
+        <span>›</span>
+        <span id="breadcrumbCategory">التصنيف</span>
+      </div>
+
+      <!-- ===== رأس الصفحة ===== -->
+      <div class="page-header-custom" id="categoryHeader">
+        <div class="container">
+          <img src="assets/images/no-image.png" alt="صورة التصنيف" class="category-image" id="categoryImage" onerror="this.style.display='none'">
+          <h1 id="categoryName">تحميل التصنيف...</h1>
+          <div class="category-count" id="categoryCount">0 منتج</div>
+        </div>
+      </div>
+
+      <!-- ===== شريط التصفية ===== -->
+      <div class="filter-bar" id="filterBar">
+        <span class="filter-label"><i class="fas fa-sliders-h"></i> تصفية:</span>
+        <select id="sortFilter" onchange="applyFilters()">
+          <option value="newest">الأحدث</option>
+          <option value="price-low">السعر: من الأقل للأعلى</option>
+          <option value="price-high">السعر: من الأعلى للأقل</option>
+          <option value="popular">الأكثر مبيعاً</option>
+        </select>
+        <select id="brandFilter" onchange="applyFilters()">
+          <option value="">كل البراندات</option>
+        </select>
+        <input type="text" id="searchFilter" placeholder="بحث داخل التصنيف..." oninput="applyFilters()">
+      </div>
+
+      <!-- ===== شبكة المنتجات ===== -->
+      <div class="products-grid" id="productsContainer">
+        <div class="loading-spinner" style="grid-column:1/-1;"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</div>
+      </div>
+
+      <!-- ===== تحميل المزيد ===== -->
+      <div style="text-align:center;margin-top:20px;">
+        <button class="btn btn-outline" id="loadMoreBtn" onclick="loadMoreProducts()" style="display:none;">
+          <i class="fas fa-chevron-down"></i> تحميل المزيد
+        </button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ============================================================ -->
+  <!-- 👣 الفوتر (يتم تحميله من main.js)                            -->
+  <!-- ============================================================ -->
+  <div id="footer-placeholder"></div>
+
+  <!-- ============================================================ -->
+  <!-- 🧠 السايدبار (يتم تحميله من main.js)                         -->
+  <!-- ============================================================ -->
+  <div id="sidebar-placeholder"></div>
+
+  <!-- ============================================================ -->
+  <!-- 🍞 Toast Container                                            -->
+  <!-- ============================================================ -->
+  <div id="toast-container"></div>
+
+  <!-- ============================================================ -->
+  <!-- 📚 Firebase & JavaScript                                      -->
+  <!-- ============================================================ -->
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+  <script src="assets/js/firebase-config.js"></script>
+  <script src="assets/js/main.js"></script>
+
+  <!-- ============================================================ -->
+  <!-- 📝 كود الصفحة الخاص                                           -->
+  <!-- ============================================================ -->
+  <script>
+    // ============================================================
+    // 📂 صفحة عرض منتجات التصنيف - category-products.html
+    // ============================================================
+
+    // ===== استخدام آمن لـ db =====
+    const db = window.db || firebase.firestore();
+
+    // ===== متغيرات عامة =====
+    let categoryId = null;
+    let categoryData = null;
+    let allProducts = [];
+    let filteredProducts = [];
+    let currentPage = 0;
+    const pageSize = 12;
+    let storeType = 'wholesale'; // wholesale أو retail
+
+    // ============================================================
+    // 🚀 تحميل البيانات
+    // ============================================================
+
+    function loadPageData() {
+      // جلب parameters من الرابط
+      const urlParams = new URLSearchParams(window.location.search);
+      categoryId = urlParams.get('id');
+      storeType = urlParams.get('type') || 'wholesale';
+
+      if (!categoryId) {
+        document.getElementById('productsContainer').innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p>لم يتم تحديد تصنيف</p>
+            <a href="/gomla/" class="btn btn-primary">العودة للرئيسية</a>
+          </div>
+        `;
+        return;
+      }
+
+      loadCategoryInfo();
+      loadBrands();
+      loadProducts();
+    }
+
+    // ===== تحميل معلومات التصنيف =====
+    function loadCategoryInfo() {
+      db.collection('categories').doc(categoryId).get()
+        .then(doc => {
+          if (!doc.exists) {
+            document.getElementById('categoryName').textContent = 'تصنيف غير موجود';
+            return;
+          }
+
+          categoryData = doc.data();
+          document.getElementById('categoryName').textContent = categoryData.name || 'تصنيف';
+          document.getElementById('breadcrumbCategory').textContent = categoryData.name || 'تصنيف';
+          document.getElementById('categoryCount').textContent = `${categoryData.productCount || 0} منتج`;
+
+          if (categoryData.imageUrl) {
+            document.getElementById('categoryImage').src = categoryData.imageUrl;
+            document.getElementById('categoryImage').style.display = 'block';
+          }
+
+          document.title = `أولاد شعلان جملة - ${categoryData.name || 'تصنيف'}`;
+        })
+        .catch(error => {
+          console.error('Error loading category:', error);
+          document.getElementById('categoryName').textContent = 'حدث خطأ في تحميل التصنيف';
+        });
+    }
+
+    // ===== تحميل البراندات للتصفية =====
+    function loadBrands() {
+      const select = document.getElementById('brandFilter');
+      if (!select) return;
+
+      db.collection('brands')
+        .orderBy('name')
+        .get()
+        .then(snapshot => {
+          select.innerHTML = '<option value="">كل البراندات</option>';
+          snapshot.forEach(doc => {
+            const brand = doc.data();
+            select.innerHTML += `<option value="${doc.id}">${brand.name}</option>`;
+          });
+        })
+        .catch(error => console.error('Error loading brands:', error));
+    }
+
+    // ============================================================
+    // 📦 تحميل وعرض المنتجات
+    // ============================================================
+
+    function loadProducts() {
+      const container = document.getElementById('productsContainer');
+      if (!container) return;
+
+      container.innerHTML = '<div class="loading-spinner" style="grid-column:1/-1;"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</div>';
+
+      db.collection('products')
+        .where('available', '==', true)
+        .where('categoryId', '==', categoryId)
+        .orderBy('createdAt', 'desc')
+        .limit(pageSize)
+        .get()
+        .then(snapshot => {
+          allProducts = [];
+          snapshot.forEach(doc => {
+            allProducts.push({ id: doc.id, ...doc.data() });
+          });
+          filteredProducts = [...allProducts];
+          renderProducts();
+          if (allProducts.length >= pageSize) {
+            document.getElementById('loadMoreBtn').style.display = 'inline-block';
+          }
+        })
+        .catch(error => {
+          console.error('Error loading products:', error);
+          container.innerHTML = `
+            <div class="empty-state">
+              <i class="fas fa-exclamation-triangle"></i>
+              <p>حدث خطأ في تحميل المنتجات</p>
+            </div>
+          `;
+        });
+    }
+
+    function renderProducts() {
+      const container = document.getElementById('productsContainer');
+      if (!container) return;
+
+      const start = currentPage * pageSize;
+      const end = start + pageSize;
+      const pageProducts = filteredProducts.slice(start, end);
+
+      if (pageProducts.length === 0 && currentPage === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-box-open"></i>
+            <p>لا توجد منتجات في هذا التصنيف</p>
+          </div>
+        `;
+        document.getElementById('loadMoreBtn').style.display = 'none';
+        return;
+      }
+
+      let html = '';
+      const isWholesale = storeType === 'wholesale';
+
+      pageProducts.forEach(product => {
+        const price = isWholesale ? (product.wholesalePrice || product.price || 0) : (product.retailPrice || product.price || 0);
+        const unit = product.unit || (isWholesale ? 'كرتونة' : 'قطعة');
+        const brandName = product.brandName || '';
+
+        html += `
+          <div class="product-card" onclick="openProductModal('${product.id}')">
+            <img src="${product.imageUrl || 'assets/images/no-image.png'}" alt="${product.name}" class="product-image" onerror="this.src='assets/images/no-image.png'">
+            <div class="product-body">
+              <h4 class="product-name">${product.name}</h4>
+              ${brandName ? `<p class="product-brand">${brandName}</p>` : ''}
+              <div class="product-price">${price.toFixed(2)} ج.م <small>/ ${unit}</small></div>
+              <button class="btn btn-primary btn-sm" onclick="event.stopPropagation();addToCart('${product.id}')">
+                <i class="fas fa-cart-plus"></i> أضف للسلة
+              </button>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+
+      if (filteredProducts.length > (currentPage + 1) * pageSize) {
+        document.getElementById('loadMoreBtn').style.display = 'inline-block';
+      } else {
+        document.getElementById('loadMoreBtn').style.display = 'none';
+      }
+    }
+
+    function loadMoreProducts() {
+      currentPage++;
+      renderProducts();
+    }
+
+    // ============================================================
+    // 🔍 التصفية والبحث
+    // ============================================================
+
+    function applyFilters() {
+      const sortValue = document.getElementById('sortFilter').value;
+      const brandId = document.getElementById('brandFilter').value;
+      const searchTerm = document.getElementById('searchFilter').value.trim().toLowerCase();
+
+      filteredProducts = [...allProducts];
+
+      // فلتر البراند
+      if (brandId) {
+        filteredProducts = filteredProducts.filter(p => p.brandId === brandId);
+      }
+
+      // فلتر البحث
+      if (searchTerm) {
+        filteredProducts = filteredProducts.filter(p =>
+          p.name.toLowerCase().includes(searchTerm) ||
+          (p.brandName && p.brandName.toLowerCase().includes(searchTerm))
+        );
+      }
+
+      // ترتيب
+      switch (sortValue) {
+        case 'price-low':
+          filteredProducts.sort((a, b) => (a.wholesalePrice || a.price || 0) - (b.wholesalePrice || b.price || 0));
+          break;
+        case 'price-high':
+          filteredProducts.sort((a, b) => (b.wholesalePrice || b.price || 0) - (a.wholesalePrice || a.price || 0));
+          break;
+        case 'popular':
+          filteredProducts.sort((a, b) => (b.salesCount || 0) - (a.salesCount || 0));
+          break;
+        default: // newest
+          filteredProducts.sort((a, b) => b.createdAt?.toMillis() - a.createdAt?.toMillis());
+      }
+
+      currentPage = 0;
+      renderProducts();
+
+      // تحديث عدد المنتجات
+      document.getElementById('categoryCount').textContent = `${filteredProducts.length} منتج`;
+    }
+
+    // ============================================================
+    // 🛒 إضافة للسلة
+    // ============================================================
+
+    function addToCart(productId) {
+      const user = getCurrentUser();
+      if (!user) {
+        showToast('⚠️ يرجى تسجيل الدخول أولاً', 'warning');
+        return;
+      }
+
+      db.collection('products').doc(productId).get()
+        .then(doc => {
+          if (!doc.exists) {
+            showToast('❌ المنتج غير موجود', 'error');
+            return;
+          }
+
+          const product = doc.data();
+          const userId = user.data.id || user.data.uid;
+          const isWholesale = storeType === 'wholesale';
+          const price = isWholesale ? (product.wholesalePrice || product.price || 0) : (product.retailPrice || product.price || 0);
+
+          return db.collection('cart')
+            .where('userId', '==', userId)
+            .where('productId', '==', productId)
+            .get()
+            .then(snapshot => {
+              const existingQty = snapshot.empty ? 0 : (snapshot.docs[0].data().quantity || 0);
+              if (product.maxOrder && existingQty >= product.maxOrder) {
+                showToast(`⚠️ الحد الأقصى للطلب هو ${product.maxOrder}`, 'warning');
+                return;
+              }
+
+              if (snapshot.empty) {
+                return db.collection('cart').add({
+                  userId: userId,
+                  productId: productId,
+                  quantity: 1,
+                  unit: product.unit || (isWholesale ? 'كرتونة' : 'قطعة'),
+                  price: price,
+                  createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+              } else {
+                const doc = snapshot.docs[0];
+                return db.collection('cart').doc(doc.id).update({
+                  quantity: (doc.data().quantity || 0) + 1
+                });
+              }
+            });
+        })
+        .then(() => {
+          showToast('✅ تم إضافة المنتج للسلة', 'success');
+          updateCartBadge();
+        })
+        .catch(error => {
+          console.error('Error adding to cart:', error);
+          showToast('❌ حدث خطأ', 'error');
+        });
+    }
+
+    // ============================================================
+    // 📦 فتح نافذة المنتج
+    // ============================================================
+
+    function openProductModal(productId) {
+      window.location.href = `/gomla/product-details.html?id=${productId}&type=${storeType}`;
+    }
+
+    // ============================================================
+    // 🚀 تشغيل الصفحة
+    // ============================================================
+
+    document.addEventListener('DOMContentLoaded', function() {
+      loadPageData();
+    });
+
+    // تصدير الدوال
+    window.applyFilters = applyFilters;
+    window.loadMoreProducts = loadMoreProducts;
+    window.addToCart = addToCart;
+    window.openProductModal = openProductModal;
+  </script>
+
+</body>
+</html>
