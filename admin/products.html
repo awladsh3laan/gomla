@@ -1558,7 +1558,7 @@
         const user = getCurrentUser();
         if (!user) return 'customer';
 
-        const doc = await db.collection('users').doc(user.uid).get();
+        const doc = await db.collection('admins').doc(user.uid).get();
         if (doc.exists) {
           const data = doc.data();
           currentUserRole = data.role || 'customer';
@@ -1581,7 +1581,7 @@
       const role = currentUserRole;
       if (role !== 'admin' && role !== 'super') {
         showToast('⚠️ غير مصرح لك بالدخول لهذه الصفحة', 'error');
-        window.location.href = '/gomla/';
+        window.location.href = '/gomla/admin/dashboard.html';
         return false;
       }
 
