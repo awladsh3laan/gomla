@@ -1545,57 +1545,75 @@
     let categoryImageFile = null;
     let brandImageFile = null;
 
-    // ============================================================
-    // 🔐 التحقق من الصلاحيات وجلب المستخدم
-    // ============================================================
+   // ============================================================
+// 🔐 التحقق من الصلاحيات وجلب المستخدم
+// ============================================================
 
-    function getCurrentUser() {
-      return firebase.auth().currentUser;
-    }
+function getCurrentUser() {
+  return firebase.auth().currentUser;
+}
 
-    async function getUserRole() {
-      try {
-        const user = getCurrentUser();
-        if (!user) return 'customer';
+async function getUserRole() {
+  try {
+    const user = getCurrentUser();
+    if (!user) return 'customer';
 
-        const doc = await db.collection('admins').doc(user.uid).get();
-        if (doc.exists) {
-          const data = doc.data();
-          currentUserRole = data.role || 'customer';
-          return currentUserRole;
-        }
-        return 'customer';
-      } catch (error) {
-        console.error('Error getting user role:', error);
-        return 'customer';
+    console.log('🔍 جلب بيانات المستخدم:', user.uid);
+    
+    // 🔥 البحث في مجموعة admins
+    const doc = await db.collection('admins').doc(user.uid).get();
+    
+    if (doc.exists) {
+      const data = doc.data();
+      console.log('✅ بيانات الأدمن:', data);
+      currentUserRole = data.role || 'customer';
+      return currentUserRole;
+    } else {
+      console.warn('⚠️ المستخدم غير موجود في مجموعة admins');
+      
+      // محاولة البحث في users كـ fallback
+      const userDoc = await db.collection('users').doc(user.uid).get();
+      if (userDoc.exists) {
+        const data = userDoc.data();
+        currentUserRole = data.role || 'customer';
+        return currentUserRole;
       }
     }
+    
+    return 'customer';
+  } catch (error) {
+    console.error('❌ خطأ في جلب دور المستخدم:', error);
+    return 'customer';
+  }
+}
 
-    function checkAdminAccess() {
-      const user = getCurrentUser();
-      if (!user) {
-        window.location.href = '/gomla/admin/login.html';
-        return false;
-      }
+function checkAdminAccess() {
+  const user = getCurrentUser();
+  if (!user) {
+    console.warn('⚠️ لا يوجد مستخدم، توجيه إلى تسجيل الدخول');
+    window.location.href = 'login.html';
+    return false;
+  }
 
-      const role = currentUserRole;
-      if (role !== 'admin' && role !== 'super') {
-        showToast('⚠️ غير مصرح لك بالدخول لهذه الصفحة', 'error');
-        window.location.href = '/gomla/admin/dashboard.html';
-        return false;
-      }
+  const role = currentUserRole;
+  console.log('🔍 دور المستخدم في checkAdminAccess:', role);
+  
+  if (role !== 'admin' && role !== 'super') {
+    showToast('⚠️ غير مصرح لك بالدخول لهذه الصفحة', 'error');
+    window.location.href = '../index.html';
+    return false;
+  }
 
-      return true;
-    }
+  return true;
+}
 
-    function isAdmin() {
-      return currentUserRole === 'admin' || currentUserRole === 'super';
-    }
+function isAdmin() {
+  return currentUserRole === 'admin' || currentUserRole === 'super';
+}
 
-    function isMerchant() {
-      return currentUserRole === 'merchant' || currentUserRole === 'admin' || currentUserRole === 'super';
-    }
-
+function isMerchant() {
+  return currentUserRole === 'merchant' || currentUserRole === 'admin' || currentUserRole === 'super';
+}
     // ============================================================
     // 🖼️ رفع الصور على ImgBB (بدون Firebase Storage)
     // ============================================================
