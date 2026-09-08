@@ -24,7 +24,7 @@
 
   <!-- ===== Favicon ===== -->
   <link rel="icon" href="../assets/images/favicon.ico">
-<meta name="google-site-verification" content="eaN3dVnBTBHPYHYlyf5n2PQJ1xbmgLVB6euhe022NlI" />
+
   <style>
     /* ===== الأزرار ===== */
     .btn {
@@ -72,6 +72,50 @@
       background: #f39c12;
       color: white;
     }
+    .btn-view {
+      background: #e8f0fe;
+      color: #1a73e8;
+    }
+    .btn-view:hover {
+      background: #1a73e8;
+      color: white;
+    }
+    .btn-edit {
+      background: #dbeafe;
+      color: #2563eb;
+    }
+    .btn-edit:hover {
+      background: #2563eb;
+      color: var(--white);
+    }
+    .btn-delete {
+      background: #fde8e8;
+      color: #e74c3c;
+    }
+    .btn-delete:hover {
+      background: #e74c3c;
+      color: var(--white);
+    }
+    .btn-offer {
+      background: #fef9e7;
+      color: #f39c12;
+    }
+    .btn-offer:hover {
+      background: #f39c12;
+      color: var(--white);
+    }
+    .btn-offer.active {
+      background: #e74c3c;
+      color: var(--white);
+    }
+    .btn-toggle {
+      background: var(--gray-200);
+      color: var(--gray-600);
+    }
+    .btn-toggle:hover {
+      background: var(--navy);
+      color: var(--white);
+    }
 
     /* ===== تبويبات ===== */
     .tabs-container {
@@ -118,8 +162,6 @@
       font-size: 0.7rem;
       margin-right: 4px;
     }
-
-    /* ===== أقسام التبويبات ===== */
     .tab-content {
       display: none;
     }
@@ -128,8 +170,14 @@
       animation: fadeIn 0.3s ease;
     }
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     /* ===== رأس الصفحة ===== */
@@ -178,11 +226,18 @@
       font-size: 0.85rem;
       color: var(--gray-500);
     }
-    .stat-card .stat-number.gold { color: var(--gold); }
-    .stat-card .stat-number.green { color: #27ae60; }
-    .stat-card .stat-number.red { color: var(--danger); }
-    .stat-card .stat-number.orange { color: #f39c12; }
-    .stat-card .stat-number.blue { color: #2980b9; }
+    .stat-card .stat-number.gold {
+      color: var(--gold);
+    }
+    .stat-card .stat-number.green {
+      color: #27ae60;
+    }
+    .stat-card .stat-number.red {
+      color: var(--danger);
+    }
+    .stat-card .stat-number.orange {
+      color: #f39c12;
+    }
 
     /* ===== شريط التصفية ===== */
     .filter-bar {
@@ -271,12 +326,6 @@
       border-radius: var(--radius-sm);
       border: 1px solid var(--gray-200);
     }
-    .product-thumb-lg {
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-      border-radius: var(--radius-sm);
-    }
 
     /* ===== الحالة ===== */
     .status-badge {
@@ -320,50 +369,6 @@
       cursor: pointer;
       transition: var(--transition);
     }
-    .action-buttons .btn-edit {
-      background: #dbeafe;
-      color: #2563eb;
-    }
-    .action-buttons .btn-edit:hover {
-      background: #2563eb;
-      color: var(--white);
-    }
-    .action-buttons .btn-delete {
-      background: #fde8e8;
-      color: #e74c3c;
-    }
-    .action-buttons .btn-delete:hover {
-      background: #e74c3c;
-      color: var(--white);
-    }
-    .action-buttons .btn-offer {
-      background: #fef9e7;
-      color: #f39c12;
-    }
-    .action-buttons .btn-offer:hover {
-      background: #f39c12;
-      color: var(--white);
-    }
-    .action-buttons .btn-offer.active {
-      background: #e74c3c;
-      color: var(--white);
-    }
-    .action-buttons .btn-toggle {
-      background: var(--gray-200);
-      color: var(--gray-600);
-    }
-    .action-buttons .btn-toggle:hover {
-      background: var(--navy);
-      color: var(--white);
-    }
-    .action-buttons .btn-view {
-      background: #e8f0fe;
-      color: #1a73e8;
-    }
-    .action-buttons .btn-view:hover {
-      background: #1a73e8;
-      color: white;
-    }
 
     /* ===== تحميل المزيد ===== */
     .load-more-container {
@@ -401,14 +406,20 @@
       animation: slideDown 0.3s ease;
     }
     .modal-content.small {
-      max-width: 550px;
+      max-width: 500px;
     }
     .modal-content.large {
       max-width: 900px;
     }
     @keyframes slideDown {
-      from { transform: translateY(-30px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+      from {
+        transform: translateY(-30px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
     .modal-content .modal-header {
       display: flex;
@@ -615,7 +626,7 @@
       margin-bottom: 12px;
     }
 
-    /* ===== عرض التفاصيل (لمحة سريعة) ===== */
+    /* ===== عرض التفاصيل ===== */
     .product-detail-grid {
       display: grid;
       grid-template-columns: 1fr 2fr;
@@ -668,7 +679,6 @@
         flex-wrap: wrap;
         justify-content: center;
       }
-
       .admin-header {
         flex-direction: column;
         align-items: stretch;
@@ -682,7 +692,6 @@
         font-size: 0.8rem;
         padding: 8px 12px;
       }
-
       .modal-content {
         padding: 16px;
         margin: 10px;
@@ -700,11 +709,9 @@
       .stat-card .stat-number {
         font-size: 1.4rem;
       }
-
       .product-detail-grid {
         grid-template-columns: 1fr;
       }
-
       .tabs-container {
         justify-content: center;
       }
@@ -1283,7 +1290,7 @@
             <div class="form-group" id="piecesPerUnitGroup" style="display:none;">
               <label>عدد القطع في الوحدة <span class="required">*</span></label>
               <input type="number" id="piecesPerUnit" min="1" oninput="updateUnitCalculations()">
-              <div class="help-text"><i class="fas fa-info-circle"></i> مثال: إذا كانت الوحدة كرتونة وفيها 12 قطعة، أدخل 12</div>
+              <div class="help-text"><i class="fas fa-info-circle"></i> مثال: كرتونة بها 12 قطعة ← أدخل 12</div>
             </div>
           </div>
           <div class="form-row">
@@ -1401,7 +1408,7 @@
   </div>
 
   <!-- ============================================================ -->
-  <!-- 👁️ نافذة عرض تفاصيل المنتج (للتاجر والعميل)                 -->
+  <!-- 👁️ نافذة عرض تفاصيل المنتج                                   -->
   <!-- ============================================================ -->
   <div class="modal-overlay" id="viewProductModal">
     <div class="modal-content">
@@ -1537,7 +1544,6 @@
     let filteredProducts = [];
     let currentPage = 0;
     const pageSize = 20;
-    let currentUser = null;
     let currentUserRole = 'customer';
 
     // متغيرات رفع الصور
@@ -1545,21 +1551,62 @@
     let categoryImageFile = null;
     let brandImageFile = null;
 
-     // ============================================================
-    // 🔐 التحقق من الصلاحيات
     // ============================================================
+    // 🔐 التحقق من الصلاحيات (معرفة قبل الاستخدام)
+    // ============================================================
+
+    function getCurrentUser() {
+      return firebase.auth().currentUser;
+    }
+
+    function isAdmin() {
+      return currentUserRole === 'admin' || currentUserRole === 'super' || currentUserRole === 'superadmin';
+    }
+
+    function isMerchant() {
+      return currentUserRole === 'merchant' || currentUserRole === 'admin' || currentUserRole === 'super' || currentUserRole ===
+        'superadmin';
+    }
+
+    async function getUserRole() {
+      try {
+        const user = getCurrentUser();
+        if (!user) return 'customer';
+
+        // 🔥 البحث في مجموعة admins
+        const doc = await db.collection('admins').doc(user.uid).get();
+
+        if (doc.exists) {
+          const data = doc.data();
+          currentUserRole = data.role || 'customer';
+          return currentUserRole;
+        } else {
+          // محاولة البحث في users كـ fallback
+          const userDoc = await db.collection('users').doc(user.uid).get();
+          if (userDoc.exists) {
+            const data = userDoc.data();
+            currentUserRole = data.role || 'customer';
+            return currentUserRole;
+          }
+        }
+
+        return 'customer';
+      } catch (error) {
+        console.error('❌ خطأ في جلب دور المستخدم:', error);
+        return 'customer';
+      }
+    }
 
     function checkAdminAccess() {
       const user = getCurrentUser();
       if (!user) {
-        window.location.href = '/gomla/admin/login.html';
+        window.location.href = 'login.html';
         return false;
       }
 
-      const role = user.data.role || 'customer';
-      if (role !== 'admin' && role !== 'super') {
+      if (!isAdmin()) {
         showToast('⚠️ غير مصرح لك بالدخول لهذه الصفحة', 'error');
-        window.location.href = '/gomla/';
+        window.location.href = '../index.html';
         return false;
       }
 
@@ -1567,7 +1614,7 @@
     }
 
     // ============================================================
-    // 🖼️ رفع الصور على ImgBB (بدون Firebase Storage)
+    // 🖼️ رفع الصور على ImgBB
     // ============================================================
 
     async function uploadToImgBB(file, onProgress) {
@@ -1593,7 +1640,6 @@
         const formData = new FormData();
         formData.append('image', compressedFile);
 
-        // محاكاة تقدم الرفع
         if (onProgress) {
           let progress = 0;
           const interval = setInterval(() => {
@@ -1652,7 +1698,6 @@
       const file = event.target.files[0];
       if (!file) return;
 
-      // إظهار مؤشر التحميل
       const progressElements = getProgressElements(type);
       if (progressElements) {
         progressElements.container.style.display = 'block';
@@ -1663,7 +1708,6 @@
       try {
         showToast('⏳ جاري ضغط الصورة...', 'info');
 
-        // تحديث التقدم
         const updateProgress = (percent) => {
           if (progressElements) {
             progressElements.fill.style.width = percent + '%';
@@ -1674,9 +1718,8 @@
         const imageUrl = await uploadToImgBB(file, updateProgress);
 
         if (imageUrl) {
-          // تخزين الرابط حسب النوع
           if (type === 'product') {
-            productImageFile = imageUrl; // تخزين الرابط مباشرة
+            productImageFile = imageUrl;
             showPreview('product', imageUrl);
           } else if (type === 'category') {
             categoryImageFile = imageUrl;
@@ -1686,7 +1729,6 @@
             showPreview('brand', imageUrl);
           }
 
-          // إخفاء مؤشر التحميل بعد النجاح
           if (progressElements) {
             setTimeout(() => {
               progressElements.container.style.display = 'none';
@@ -1713,7 +1755,6 @@
         fill = document.getElementById('progressFill');
         text = document.getElementById('progressText');
       } else {
-        // للتصنيفات والبراندات ليس لدينا مؤشر تقدم حالياً
         return null;
       }
       return { container, fill, text };
@@ -1797,7 +1838,6 @@
       const unitPiecePriceInput = document.getElementById('unitPiecePrice');
       const profitMarginInput = document.getElementById('profitMargin');
 
-      // إظهار/إخفاء حقل عدد القطع
       if (unit === 'قطعة') {
         piecesPerUnitGroup.style.display = 'none';
         piecesInput.value = 1;
@@ -1807,13 +1847,11 @@
 
       const pieces = parseInt(piecesInput.value) || 1;
 
-      // حساب سعر القطعة جملة
       if (pieces > 0 && wholesalePrice > 0) {
         const unitPrice = wholesalePrice / pieces;
         unitPiecePriceInput.value = unitPrice.toFixed(2) + ' ج.م';
         unitPiecePriceInput.style.color = '#27ae60';
 
-        // حساب هامش الربح
         if (retailPrice > 0) {
           const profit = retailPrice - unitPrice;
           profitMarginInput.value = profit.toFixed(2) + ' ج.م';
@@ -1972,6 +2010,7 @@
 
       let html = '';
       const startNumber = start + 1;
+      const isAdminUser = isAdmin();
 
       pageProducts.forEach((product, index) => {
         const isAvailable = product.available !== false;
@@ -2009,7 +2048,7 @@
             <td data-label="الحالة"><span class="status-badge ${statusClass}">${statusText}</span></td>
             <td>
               <div class="action-buttons">
-                ${isAdmin() ? `
+                ${isAdminUser ? `
                   <button class="btn-edit" onclick="openEditModal('${product.id}')" title="تعديل">
                     <i class="fas fa-edit"></i>
                   </button>
@@ -2328,15 +2367,12 @@
     // ============================================================
 
     function switchTab(tabName) {
-      // إخفاء كل التبويبات
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
       document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
 
-      // إظهار التبويب المطلوب
       document.getElementById('tab-' + tabName).classList.add('active');
       document.querySelector(`.tab-btn[data-tab="${tabName}"]`).classList.add('active');
 
-      // تحميل البيانات حسب التبويب
       if (tabName === 'offers') {
         renderOffersTable();
       }
@@ -2412,7 +2448,6 @@
           document.getElementById('productKeywords').value = product.keywords || '';
           document.getElementById('piecesPerUnit').value = product.piecesPerUnit || 1;
 
-          // تحديث الحسابات
           updateUnitCalculations();
 
           if (product.imageUrl) {
@@ -2430,7 +2465,6 @@
             document.getElementById('offerDateRow').style.display = 'grid';
           }
 
-          // إظهار حقل عدد القطع إذا كانت الوحدة ليست قطعة
           if (product.unit && product.unit !== 'قطعة') {
             document.getElementById('piecesPerUnitGroup').style.display = 'block';
           }
@@ -2444,7 +2478,7 @@
     }
 
     // ============================================================
-    // 👁️ عرض تفاصيل المنتج (للتاجر والعميل)
+    // 👁️ عرض تفاصيل المنتج
     // ============================================================
 
     function viewProduct(productId) {
@@ -2455,7 +2489,6 @@
       }
 
       const content = document.getElementById('viewProductContent');
-      const isAdminUser = isAdmin();
       const isMerchantUser = isMerchant();
 
       const imageUrl = product.imageUrl || '../assets/images/no-image.png';
@@ -2482,12 +2515,10 @@
             <div class="detail-row"><span class="label">📊 المخزون المتاح</span><span class="value">${stock} ${unit}</span></div>
       `;
 
-      // إضافة حد أقصى للطلب
       if (product.maxOrder) {
         detailsHTML += `<div class="detail-row"><span class="label">🔢 أقصى حد للطلب</span><span class="value">${product.maxOrder} ${unit}</span></div>`;
       }
 
-      // عرض الوصف
       if (product.description) {
         detailsHTML += `<div class="detail-row" style="flex-direction:column;align-items:stretch;gap:4px;">
           <span class="label">📝 الوصف</span>
@@ -2495,7 +2526,6 @@
         </div>`;
       }
 
-      // عرض الملاحظات (للمشرفين والتجار فقط)
       if (product.notes && isMerchantUser) {
         detailsHTML += `<div class="detail-row" style="flex-direction:column;align-items:stretch;gap:4px;background:#fef9e7;padding:8px;border-radius:var(--radius-sm);">
           <span class="label">📌 ملاحظات</span>
@@ -2503,9 +2533,7 @@
         </div>`;
       }
 
-      // عرض الأسعار حسب الصلاحية
       if (isMerchantUser) {
-        // التاجر والمشرف: عرض كل الأسعار
         detailsHTML += `
           <div class="detail-row"><span class="label">💰 سعر الجملة (للوحدة)</span><span class="value price">${wholesalePrice.toFixed(2)} ج.م</span></div>
           <div class="detail-row"><span class="label">💰 سعر القطاعي (للقطعة)</span><span class="value price">${retailPrice.toFixed(2)} ج.م</span></div>
@@ -2516,13 +2544,11 @@
           ` : ''}
         `;
       } else {
-        // العميل: عرض سعر القطاعي فقط
         detailsHTML += `
           <div class="detail-row"><span class="label">💰 السعر</span><span class="value price" style="font-size:1.3rem;">${retailPrice.toFixed(2)} ج.م</span></div>
         `;
       }
 
-      // عرض سعر العرض إذا كان موجوداً
       if (product.hasOffer && product.available) {
         detailsHTML += `
           <div class="detail-row" style="background:#fef9e7;padding:8px;border-radius:var(--radius-sm);">
@@ -2597,7 +2623,6 @@
           return;
         }
 
-        // جلب أسماء التصنيف والبراند
         let categoryName = '';
         let brandName = '';
 
@@ -2649,10 +2674,8 @@
           productData.offerEndDate = null;
         }
 
-        // ===== معالجة الصورة =====
         const imageUrlInput = document.getElementById('imageUrl').value.trim();
         if (productImageFile && typeof productImageFile === 'string') {
-          // الرابط من ImgBB
           productData.imageUrl = productImageFile;
           productImageFile = null;
         } else if (imageUrlInput) {
@@ -2677,7 +2700,6 @@
 
         closeModal('productModal');
         await loadAllData();
-        updateCartBadge();
 
       } catch (error) {
         console.error('Error saving product:', error);
@@ -2704,7 +2726,6 @@
         .then(() => {
           showToast('✅ تم حذف المنتج بنجاح', 'success');
           loadAllData();
-          updateCartBadge();
         })
         .catch(error => {
           console.error('Error deleting product:', error);
@@ -2876,7 +2897,6 @@
         updatedAt: firebase.firestore.FieldValue.serverTimestamp()
       };
 
-      // معالجة الصورة
       const imageUrlInput = document.getElementById('categoryImageUrl').value.trim();
       if (categoryImageFile && typeof categoryImageFile === 'string') {
         data.imageUrl = categoryImageFile;
@@ -3156,22 +3176,12 @@
       }, 3000);
     }
 
-    function updateCartBadge() {
-      // تحديث عربة التسوق إذا كانت موجودة
-      const cartBadge = document.getElementById('cartBadge');
-      if (cartBadge) {
-        const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-        cartBadge.textContent = cart.length;
-      }
-    }
-
     // ============================================================
     // 🚀 تشغيل الصفحة
     // ============================================================
 
     document.addEventListener('DOMContentLoaded', async function() {
       try {
-        // جلب المستخدم والدور
         const user = getCurrentUser();
         if (!user) {
           window.location.href = '/gomla/admin/login.html';
@@ -3182,13 +3192,9 @@
 
         if (!checkAdminAccess()) return;
 
-        // تحميل البيانات
         await loadAllData();
-
-        // التبديل إلى تبويب المنتجات افتراضياً
         switchTab('products');
 
-        // إغلاق النوافذ عند الضغط خارجها
         document.querySelectorAll('.modal-overlay').forEach(modal => {
           modal.addEventListener('click', function(e) {
             if (e.target === this) {
