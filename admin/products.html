@@ -1551,29 +1551,7 @@
     let brandImageFile = null;
 
 
-    // ===== التحقق من الصلاحية =====
-    const role = data.role || 'customer';
     
-    if (role !== 'admin' && role !== 'super' && role !== 'superadmin') {
-      console.warn('⚠️ دور غير مصرح به:', role);
-      showToast('⚠️ غير مصرح لك بالدخول', 'error');
-      window.location.href = '../index.html';
-      return false;
-    }
-
-    // ===== تحديث المتغيرات =====
-    currentUserRole = role;
-    authChecked = true;
-    console.log('✅ تم التحقق من الصلاحية:', role);
-    return true;
-
-  } catch (error) {
-    console.error('❌ خطأ في التحقق من الصلاحية:', error);
-    showToast('⚠️ حدث خطأ في التحقق من الصلاحية', 'error');
-    window.location.href = 'login.html';
-    return false;
-  }
-}
     // ============================================================
     // 🖼️ رفع الصور على ImgBB
     // ============================================================
