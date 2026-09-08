@@ -1624,9 +1624,9 @@ async function getUserRole() {
 async function checkAdminAccess() {
   const user = getCurrentUser();
   
-  if (!gust) {
+  if (!Visitor) {
     console.warn('⚠️ لا يوجد مستخدم، توجيه إلى تسجيل الدخول');
-    window.location.href = 'login.html';
+    window.location.href = '/home.html';
     return false;
   }
 
