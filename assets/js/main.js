@@ -66,7 +66,21 @@ function checkAdminAuth() {
   }
   return true;
 }
+/**
+ * التحقق المباشر من صلاحيات المدير (للصفحات اللي بتستخدمها)
+ * @returns {boolean} true إذا كان مدير
+ */
+function checkAdminAccessDirect() {
+    const user = getCurrentUser();
+    if (!user || user.type !== 'admin') {
+        window.location.href = '/gomla/admin/login.html';
+        return false;
+    }
+    return true;
+}
 
+// تصدير للاستخدام العالمي
+window.checkAdminAccessDirect = checkAdminAccessDirect;
 /**
  * التحقق من مصادقة السوبر أدمن (للتوافق مع الصفحات القديمة)
  */
