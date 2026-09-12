@@ -1553,7 +1553,8 @@
     let productImageFile = null;
     let categoryImageFile = null;
     let brandImageFile = null;
-
+    let isAdmin = false;    // ✅ أضف
+    let isSuper = false;    // ✅ أضف
 
     
     // ============================================================
@@ -3126,6 +3127,20 @@
 document.addEventListener('DOMContentLoaded', async function() {
   try {
     console.log('🚀 بدء تحميل الصفحة...');
+    // ✅ تعيين دور المستخدم
+    const user = getCurrentUser();
+    if (user && user.type === 'admin') {
+        currentUserRole = user.data.role || 'admin';
+        isAdmin = true;                             // ✅ المدير
+        isSuper = (currentUserRole === 'super');    // ✅ السوبر أدمن
+    } else {
+        currentUserRole = 'guest';
+        isAdmin = false;
+        isSuper = false;
+    }
+    
+    console.log('✅ تم التحقق من الصلاحية بنجاح، الدور:', currentUserRole);
+    console.log('👤 isAdmin:', isAdmin, '| isSuper:', isSuper);
     
     // ===== استخدام التحقق المباشر =====
     const hasAccess = await checkAdminAccessDirect();
@@ -3136,9 +3151,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     console.log('✅ تم التحقق من الصلاحية بنجاح، الدور:', currentUserRole);
-//==== تظبيط التحقق =====
-    const user = getCurrentUser();
-    currentUserRole = user ? (user.data.role || 'admin') : 'guest';
+
     // ===== تحميل البيانات =====
     await loadAllData();
     switchTab('products');
