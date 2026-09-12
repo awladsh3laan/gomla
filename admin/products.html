@@ -1544,7 +1544,11 @@
     let filteredProducts = [];
     let currentPage = 0;
     const pageSize = 20;
-
+    let isEditing = false;
+    let selectedFile = null;
+    let galleryFiles = [];
+    let galleryUrls = [];
+    let currentUserRole = null;  // ✅ أضف هذا السطر
     // متغيرات رفع الصور
     let productImageFile = null;
     let categoryImageFile = null;
@@ -3132,7 +3136,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 
     console.log('✅ تم التحقق من الصلاحية بنجاح، الدور:', currentUserRole);
-
+//==== تظبيط التحقق =====
+    const user = getCurrentUser();
+    currentUserRole = user ? (user.data.role || 'admin') : 'guest';
     // ===== تحميل البيانات =====
     await loadAllData();
     switchTab('products');
