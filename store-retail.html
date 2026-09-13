@@ -714,7 +714,7 @@
       let html = '';
       products.forEach(product => {
         const price = product.retailPrice || product.price || 0;
-        const unit = product.unit || 'قطعة';
+        const unit = product.retailunit || 'قطعة';
         const brandName = product.brandName || '';
 
         html += `
