@@ -12,7 +12,7 @@ const firebaseConfig = {
 };
 
 // ===== المفاتيح =====
-const IMGBB_API_KEY = "99506f7c2987acaf6709c7fb0e978298";
+const IMGBB_API_KEY = "cb056b7fd83c81129d5468c5d03287b4";
 const GEMINI_API_KEY = "AQ.Ab8RN6J_44fbv2fdP2YWWxwq0aNnG7DXJnSv3O8whicffxAj_g";
 const WHATSAPP_NUMBER = "01120282953";
 
