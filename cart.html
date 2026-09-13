@@ -738,49 +738,56 @@
             </div>
       `;
 
-      cartItems.forEach((item, index) => {
-        const qty = item.quantity || 1;
-        const price = item.price || 0;
-        const total = price * qty;
-        const unit = item.unit || 'قطعة';
-        const maxOrder = item.maxOrder || null;
-        const isOffer = item.isOffer || false;
-        const productName = item.productName || 'منتج';
-        const productImage = item.productImageUrl || 'assets/images/no-image.png';
-        const productId = item.productId || '';
+cartItems.forEach((item, index) => {
+  const qty = item.quantity || 1;
+  const price = item.price || 0;
+  const total = price * qty;
+  const unit = item.unit || 'قطعة';
+  const maxOrder = item.maxOrder || null;
+  const isOffer = item.isOffer || false;
+  const productName = item.productName || item.name || 'منتج';
+  
+  // 🔥 التعامل مع كل الاحتمالات لاسم حقل الصورة
+  const productImage = item.imageUrl 
+    || item.productImageUrl 
+    || item.productImage 
+    || item.image 
+    || 'assets/images/no-image.png';
+  
+  const productId = item.productId || item.id || '';
 
-        html += `
-          <div class="cart-item" data-index="${index}">
-            <div class="product-info">
-              <img src="${productImage}" 
-                   alt="${productName}" 
-                   onerror="this.src='assets/images/no-image.png'"
-                   onclick="openProductDetails('${productId}')">
-              <div class="details">
-                <div class="name" onclick="openProductDetails('${productId}')">${productName}</div>
-                <div class="unit">${unit}</div>
-                <div class="price">${price.toFixed(2)} ج.م</div>
-                ${isOffer ? '<span class="offer-badge-small"><i class="fas fa-percent"></i> عرض</span>' : ''}
-                ${maxOrder ? `<span class="max-order-note">الحد الأقصى: ${maxOrder}</span>` : ''}
-              </div>
-            </div>
-            <div class="item-price">${price.toFixed(2)} ج.م</div>
-            <div class="quantity-control">
-              <button onclick="updateQuantity(${index}, -1)" ${qty <= 1 ? 'disabled' : ''}>
-                <i class="fas fa-minus"></i>
-              </button>
-              <span class="qty" id="qty-${index}">${qty}</span>
-              <button onclick="updateQuantity(${index}, 1)" ${maxOrder && qty >= maxOrder ? 'disabled' : ''}>
-                <i class="fas fa-plus"></i>
-              </button>
-            </div>
-            <div class="item-total">${total.toFixed(2)} ج.م</div>
-            <button class="remove-btn" onclick="removeItem(${index})" title="حذف من السلة">
-              <i class="fas fa-times-circle"></i>
-            </button>
-          </div>
-        `;
-      });
+  html += `
+    <div class="cart-item" data-index="${index}">
+      <div class="product-info">
+        <img src="${productImage}" 
+             alt="${productName}" 
+             onerror="this.src='assets/images/no-image.png'"
+             onclick="openProductDetails('${productId}')">
+        <div class="details">
+          <div class="name" onclick="openProductDetails('${productId}')">${productName}</div>
+          <div class="unit">${unit}</div>
+          <div class="price">${price.toFixed(2)} ج.م</div>
+          ${isOffer ? '<span class="offer-badge-small"><i class="fas fa-percent"></i> عرض</span>' : ''}
+          ${maxOrder ? `<span class="max-order-note">الحد الأقصى: ${maxOrder}</span>` : ''}
+        </div>
+      </div>
+      <div class="item-price">${price.toFixed(2)} ج.م</div>
+      <div class="quantity-control">
+        <button onclick="updateQuantity(${index}, -1)" ${qty <= 1 ? 'disabled' : ''}>
+          <i class="fas fa-minus"></i>
+        </button>
+        <span class="qty" id="qty-${index}">${qty}</span>
+        <button onclick="updateQuantity(${index}, 1)" ${maxOrder && qty >= maxOrder ? 'disabled' : ''}>
+          <i class="fas fa-plus"></i>
+        </button>
+      </div>
+      <div class="item-total">${total.toFixed(2)} ج.م</div>
+      <button class="remove-btn" onclick="removeItem(${index})" title="حذف من السلة">
+        <i class="fas fa-times-circle"></i>
+      </button>
+    </div>
+  `;
+});
 
       html += `
           </div>
