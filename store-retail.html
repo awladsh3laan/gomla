@@ -857,7 +857,7 @@
           let html = '';
           snapshot.forEach(doc => {
             const brand = doc.data();
-            const logo = brand.logo || '';
+            const logo = brand.logo || brand.imageUrl || '';
             html += `
               <div class="brand-card" onclick="filterByBrand('${doc.id}')">
                 <img src="${logo}" alt="${brand.name}" onerror="this.src=''">
