@@ -1945,7 +1945,7 @@
           <tr><td colspan="10" class="empty-state">
             <i class="fas fa-box-open"></i>
             <p>لا توجد منتجات</p>
-            ${isAdmin() ? '<button class="btn btn-primary" onclick="openAddModal()">إضافة منتج جديد</button>' : ''}
+            ${(isAdmin) ? '<button class="btn btn-primary" onclick="openAddModal()">إضافة منتج جديد</button>' : ''}
           </td></tr>
         `;
         document.getElementById('loadMoreBtn').style.display = 'none';
@@ -2286,7 +2286,7 @@
             <td data-label="مدة العرض">${startDate} - ${endDate}</td>
             <td>
               <div class="action-buttons">
-                ${isAdmin() ? `
+                ${(isAdmin) ? `
                   <button class="btn-edit" onclick="openEditModal('${product.id}')" title="تعديل">
                     <i class="fas fa-edit"></i>
                   </button>
@@ -2351,7 +2351,7 @@
     // ============================================================
 
     function openEditModal(productId) {
-      if (!isAdmin()) {
+      if (!isAdmin) {
         showToast('⚠️ غير مصرح لك بتعديل المنتجات', 'error');
         return;
       }
@@ -2521,7 +2521,7 @@
     async function saveProduct(event) {
       event.preventDefault();
 
-      if (!isAdmin()) {
+      if (!isAdmin) {
         showToast('⚠️ غير مصرح لك بحفظ المنتجات', 'error');
         return;
       }
@@ -2659,7 +2659,7 @@
     // ============================================================
 
     function deleteProduct(productId) {
-      if (!isAdmin()) {
+      if (!isAdmin) {
         showToast('⚠️ غير مصرح لك بحذف المنتجات', 'error');
         return;
       }
@@ -2682,7 +2682,7 @@
     // ============================================================
 
     function toggleOffer(productId) {
-      if (!isAdmin()) {
+      if (!isAdmin) {
         showToast('⚠️ غير مصرح لك بهذا الإجراء', 'error');
         return;
       }
@@ -2707,7 +2707,7 @@
     }
 
     function toggleAvailability(productId) {
-      if (!isAdmin()) {
+      if (!isAdmin) {
         showToast('⚠️ غير مصرح لك بهذا الإجراء', 'error');
         return;
       }
@@ -2762,7 +2762,7 @@
     // ============================================================
 
     function openCategoryModal() {
-      if (!isAdmin()) {
+      if (!isAdmin) {
         showToast('⚠️ غير مصرح لك بإضافة تصنيفات', 'error');
         return;
       }
@@ -2776,7 +2776,7 @@
     }
 
     function openEditCategoryModal(categoryId) {
-      if (!isAdmin()) {
+      if (!isAdmin) {
         showToast('⚠️ غير مصرح لك بتعديل التصنيفات', 'error');
         return;
       }
@@ -2817,7 +2817,7 @@
     function saveCategory(event) {
       event.preventDefault();
 
-      if (!isAdmin()) {
+      if (!isAdmin) {
         showToast('⚠️ غير مصرح لك بهذا الإجراء', 'error');
         return;
       }
@@ -2870,7 +2870,7 @@
     }
 
     function deleteCategory(categoryId) {
-      if (!isAdmin()) {
+      if (!isAdmin) {
         showToast('⚠️ غير مصرح لك بحذف التصنيفات', 'error');
         return;
       }
@@ -2905,7 +2905,7 @@
     // ============================================================
 
     function openBrandModal() {
-      if (!isAdmin()) {
+      if (!isAdmin) {
         showToast('⚠️ غير مصرح لك بإضافة براندات', 'error');
         return;
       }
@@ -2919,7 +2919,7 @@
     }
 
     function openEditBrandModal(brandId) {
-      if (!isAdmin()) {
+      if (!isAdmin) {
         showToast('⚠️ غير مصرح لك بتعديل البراندات', 'error');
         return;
       }
@@ -2961,7 +2961,7 @@
     function saveBrand(event) {
       event.preventDefault();
 
-      if (!isAdmin()) {
+      if (!isAdmin) {
         showToast('⚠️ غير مصرح لك بهذا الإجراء', 'error');
         return;
       }
@@ -3016,7 +3016,7 @@
     }
 
     function deleteBrand(brandId) {
-      if (!isAdmin()) {
+      if (!isAdmin) {
         showToast('⚠️ غير مصرح لك بحذف البراندات', 'error');
         return;
       }
