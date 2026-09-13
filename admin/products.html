@@ -2327,7 +2327,7 @@
     // ============================================================
 
     function openAddModal() {
-      if (!isAdmin()) {
+      if (!isAdmin) {
         showToast('⚠️ غير مصرح لك بإضافة منتجات', 'error');
         return;
       }
