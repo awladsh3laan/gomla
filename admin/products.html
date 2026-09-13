@@ -1954,7 +1954,7 @@
 
       let html = '';
       const startNumber = start + 1;
-      const isAdminUser = isAdmin();
+      const isAdminUser = (isAdmin);
 
       pageProducts.forEach((product, index) => {
         const isAvailable = product.available !== false;
@@ -2183,7 +2183,7 @@
             <td data-label="عدد المنتجات">${productCount}</td>
             <td>
               <div class="action-buttons">
-                ${isAdmin() ? `
+                ${(isAdmin) ? `
                   <button class="btn-edit" onclick="openEditCategoryModal('${cat.id}')" title="تعديل">
                     <i class="fas fa-edit"></i>
                   </button>
@@ -2227,7 +2227,7 @@
             <td data-label="عدد المنتجات">${productCount}</td>
             <td>
               <div class="action-buttons">
-                ${isAdmin() ? `
+                ${(isAdmin) ? `
                   <button class="btn-edit" onclick="openEditBrandModal('${brand.id}')" title="تعديل">
                     <i class="fas fa-edit"></i>
                   </button>
