@@ -2547,7 +2547,7 @@ if (retailUnitEl) {
         const notes = document.getElementById('productNotes').value.trim();
         const wholesalePrice = parseFloat(document.getElementById('wholesalePrice').value) || 0;
         const retailPrice = parseFloat(document.getElementById('retailPrice').value) || 0;
-        const retailunit = parseFloat(document.getElementById('productretailunit').value);
+        const retailUnit = document.getElementById('retailUnit')?.value || 'قطعة';   
         const unit = document.getElementById('productUnit').value;
         const piecesPerUnit = parseInt(document.getElementById('piecesPerUnit').value) || 1;
         const offerPrice = parseFloat(document.getElementById('offerPrice').value) || 0;
