@@ -2395,7 +2395,7 @@
           document.getElementById('productSku').value = product.sku || '';
           document.getElementById('productKeywords').value = product.keywords || '';
           document.getElementById('piecesPerUnit').value = product.piecesPerUnit || 1;
-          document.getElementById('retailUnit')?.value || '',  // ✅ .value
+          document.getElementById('retailUnit').value = product.retailunit || 'قطعة';  // ✅ .value
           updateUnitCalculations();
 
           if (product.imageUrl) {
@@ -2543,7 +2543,7 @@
         const notes = document.getElementById('productNotes').value.trim();
         const wholesalePrice = parseFloat(document.getElementById('wholesalePrice').value) || 0;
         const retailPrice = parseFloat(document.getElementById('retailPrice').value) || 0;
-        const retailunit = parseFloat(document.getElementById('retailunit').value);
+        const retailunit = parseFloat(document.getElementById('productretailunit').value;
         const unit = document.getElementById('productUnit').value;
         const piecesPerUnit = parseInt(document.getElementById('piecesPerUnit').value) || 1;
         const offerPrice = parseFloat(document.getElementById('offerPrice').value) || 0;
