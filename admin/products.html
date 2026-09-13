@@ -2397,8 +2397,10 @@
           document.getElementById('productSku').value = product.sku || '';
           document.getElementById('productKeywords').value = product.keywords || '';
           document.getElementById('piecesPerUnit').value = product.piecesPerUnit || 1;
-          document.getElementById('retailUnit').value = product.retailunit || 'قطعة';  // ✅ .value
-          updateUnitCalculations();
+const retailUnitEl = document.getElementById('retailUnit');
+if (retailUnitEl) {
+    retailUnitEl.value = product.retailunit || 'قطعة';
+}          updateUnitCalculations();
 
           if (product.imageUrl) {
             const preview = document.getElementById('imagePreview');
