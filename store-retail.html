@@ -860,7 +860,7 @@
             const logo = brand.logo || 'assets/images/no-image.png';
             html += `
               <div class="brand-card" onclick="filterByBrand('${doc.id}')">
-                <img src="${logo}" alt="${brand.name}" onerror="this.src='assets/images/no-image.png'">
+                <img src="${logo}" alt="${brand.name}" onerror="this.src=''">
                 <div class="brand-name">${brand.name}</div>
               </div>
             `;
