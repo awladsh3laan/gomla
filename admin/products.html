@@ -2617,7 +2617,12 @@
           productData.offerStartDate = null;
           productData.offerEndDate = null;
         }
-
+// ✅ تنظيف البيانات من undefined
+Object.keys(productData).forEach(key => {
+    if (productData[key] === undefined) {
+        delete productData[key];
+    }
+});
         const imageUrlInput = document.getElementById('imageUrl').value.trim();
         if (productImageFile && typeof productImageFile === 'string') {
           productData.imageUrl = productImageFile;
@@ -2626,10 +2631,14 @@
           productData.imageUrl = imageUrlInput;
         }
 
-        const user = getCurrentUser();
-        if (user) {
-          productData.updatedBy = user.uid;
-        }
+      // ✅ إضافة updatedBy بشكل آمن
+const user = getCurrentUser();
+if (user && user.data) {
+    const userId = user.data.id || user.data.uid || user.data.email;
+    if (userId) {
+        productData.updatedBy = userId;
+    }
+}
 
         if (productId) {
           await db.collection('products').doc(productId).update(productData);
