@@ -44,12 +44,45 @@
       color: var(--gold);
     }
 
+    .cart-page-title .cart-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
     .cart-page-title .cart-count {
       font-size: 0.95rem;
       color: var(--gray-500);
       background: var(--gray-100);
       padding: 4px 16px;
       border-radius: 20px;
+    }
+
+    .cart-page-title .clear-cart-btn {
+      background: #fde8e8;
+      color: #e74c3c;
+      border: none;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .cart-page-title .clear-cart-btn:hover {
+      background: #e74c3c;
+      color: white;
+    }
+
+    .cart-page-title .clear-cart-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
     }
 
     .breadcrumb {
@@ -88,7 +121,7 @@
 
     .cart-items-header {
       display: grid;
-      grid-template-columns: 3fr 1fr 1fr 0.5fr;
+      grid-template-columns: 3fr 1fr 1fr 0.5fr 0.4fr;
       padding: 12px 16px;
       background: var(--gray-50);
       font-weight: 700;
@@ -96,6 +129,7 @@
       color: var(--gray-600);
       border-bottom: 2px solid var(--gray-200);
       gap: 12px;
+      align-items: center;
     }
 
     .cart-items-header span:last-child {
@@ -104,7 +138,7 @@
 
     .cart-item {
       display: grid;
-      grid-template-columns: 3fr 1fr 1fr 0.5fr;
+      grid-template-columns: 3fr 1fr 1fr 0.5fr 0.4fr;
       padding: 16px;
       border-bottom: 1px solid var(--gray-100);
       align-items: center;
@@ -132,16 +166,26 @@
       object-fit: cover;
       border-radius: var(--radius-sm);
       border: 1px solid var(--gray-200);
+      cursor: pointer;
     }
 
     .cart-item .product-info .details {
       flex: 1;
+      min-width: 0;
     }
 
     .cart-item .product-info .details .name {
       font-weight: 700;
       font-size: 0.95rem;
       margin: 0 0 2px;
+      cursor: pointer;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .cart-item .product-info .details .name:hover {
+      color: var(--gold);
     }
 
     .cart-item .product-info .details .unit {
@@ -215,14 +259,21 @@
       background: none;
       border: none;
       color: var(--danger);
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       cursor: pointer;
       transition: var(--transition);
       text-align: center;
+      padding: 6px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto;
     }
 
     .cart-item .remove-btn:hover {
-      transform: scale(1.2);
+      transform: scale(1.15);
+      background: #fde8e8;
       color: #c0392b;
     }
 
@@ -361,6 +412,29 @@
       display: inline-block;
     }
 
+    /* ===== شارة نوع المستخدم ===== */
+    .user-type-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      background: #e8f0fe;
+      color: #1a73e8;
+    }
+
+    .user-type-badge.wholesale {
+      background: #fef9e7;
+      color: #f39c12;
+    }
+
+    .user-type-badge.retail {
+      background: #eafaf1;
+      color: #27ae60;
+    }
+
     /* ===== التجاوب ===== */
     @media (max-width: 992px) {
       .cart-layout {
@@ -376,31 +450,65 @@
         display: none;
       }
       .cart-item {
-        grid-template-columns: 1fr;
-        gap: 8px;
-        padding: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 14px;
         border-bottom: 2px solid var(--gray-200);
+        position: relative;
       }
       .cart-item .product-info {
-        flex-direction: column;
-        text-align: center;
+        width: 100%;
+        flex-direction: row;
+        text-align: right;
+        align-items: flex-start;
+        gap: 12px;
       }
       .cart-item .product-info img {
         width: 80px;
         height: 80px;
+        flex-shrink: 0;
       }
-      .cart-item .item-price,
+      .cart-item .product-info .details {
+        flex: 1;
+      }
+      .cart-item .product-info .details .name {
+        white-space: normal;
+        font-size: 0.9rem;
+      }
+      .cart-item .item-price {
+        display: none;
+      }
       .cart-item .item-total {
         text-align: center;
+        font-size: 1.1rem;
+        border-top: 1px solid var(--gray-100);
+        padding-top: 8px;
+        width: 100%;
+      }
+      .cart-item .item-total::before {
+        content: "الإجمالي: ";
+        font-size: 0.8rem;
+        color: var(--gray-500);
+        font-weight: 400;
       }
       .cart-item .quantity-control {
         justify-content: center;
+        width: 100%;
       }
       .cart-item .remove-btn {
-        text-align: center;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: #fde8e8;
+        padding: 6px;
       }
       .cart-page-title h1 {
-        font-size: 1.4rem;
+        font-size: 1.3rem;
+      }
+      .cart-page-title .clear-cart-btn {
+        font-size: 0.75rem;
+        padding: 6px 12px;
       }
     }
 
@@ -409,8 +517,11 @@
         padding: 16px;
       }
       .cart-item .product-info img {
-        width: 60px;
-        height: 60px;
+        width: 70px;
+        height: 70px;
+      }
+      .cart-item {
+        padding: 12px;
       }
     }
   </style>
@@ -438,7 +549,13 @@
       <!-- ===== عنوان الصفحة ===== -->
       <div class="cart-page-title">
         <h1><i class="fas fa-shopping-cart"></i> سلة المشتريات</h1>
-        <span class="cart-count" id="cartCount">0 منتج</span>
+        <div class="cart-actions">
+          <span class="cart-count" id="cartCount">0 منتج</span>
+          <span class="user-type-badge" id="userTypeBadge" style="display:none;"></span>
+          <button class="clear-cart-btn" id="clearCartBtn" onclick="clearCart()" style="display:none;">
+            <i class="fas fa-trash-alt"></i> تفريغ السلة
+          </button>
+        </div>
       </div>
 
       <!-- ===== محتوى السلة ===== -->
@@ -488,9 +605,10 @@
 
     // ===== متغيرات عامة =====
     let cartItems = [];
-    let storeType = 'wholesale';
+    let storeType = 'retail';
     let userId = null;
-    let isGuest = false;
+    let isGuest = true;
+    let currentUserRole = 'guest';
 
     // ============================================================
     // 🚀 تحميل السلة
@@ -501,19 +619,31 @@
       if (!container) return;
 
       // تحديد نوع المستخدم
-      const user = getCurrentUser();
+      const user = typeof getCurrentUser === 'function' ? getCurrentUser() : null;
+      
       if (user) {
-        userId = user.data.id || user.data.uid;
+        // مستخدم مسجل
+        userId = user.data?.id || user.data?.uid || user.uid;
         isGuest = false;
+        currentUserRole = user.data?.role || 'customer';
+        storeType = getStoreType(currentUserRole);
+        updateUserTypeBadge(currentUserRole);
+        loadUserCart();
       } else {
-        // زائر - نستخدم LocalStorage
+        // زائر
         isGuest = true;
         userId = 'guest_' + Date.now();
+        currentUserRole = 'guest';
+        storeType = 'retail';
+        updateUserTypeBadge('guest');
         loadGuestCart();
-        return;
       }
+    }
 
-      // جلب السلة من Firestore
+    // ===== تحميل سلة المستخدم المسجل =====
+    function loadUserCart() {
+      const container = document.getElementById('cartContainer');
+
       db.collection('cart')
         .where('userId', '==', userId)
         .get()
@@ -549,9 +679,12 @@
       if (saved) {
         try {
           cartItems = JSON.parse(saved);
-        } catch {
+        } catch (e) {
+          console.error('Error parsing guest cart:', e);
           cartItems = [];
         }
+      } else {
+        cartItems = [];
       }
 
       if (cartItems.length === 0) {
@@ -587,6 +720,10 @@
 
       // تحديث عداد السلة
       document.getElementById('cartCount').textContent = `${totalItems} منتج`;
+      document.getElementById('clearCartBtn').style.display = 'inline-flex';
+
+      // تحديد نوع السعر المعروض حسب صلاحية المستخدم
+      const isWholesale = storeType === 'wholesale';
 
       // بناء HTML
       let html = `
@@ -597,6 +734,7 @@
               <span>سعر الوحدة</span>
               <span>الكمية</span>
               <span>الإجمالي</span>
+              <span>حذف</span>
             </div>
       `;
 
@@ -607,13 +745,19 @@
         const unit = item.unit || 'قطعة';
         const maxOrder = item.maxOrder || null;
         const isOffer = item.isOffer || false;
+        const productName = item.productName || 'منتج';
+        const productImage = item.productImageUrl || 'assets/images/no-image.png';
+        const productId = item.productId || '';
 
         html += `
           <div class="cart-item" data-index="${index}">
             <div class="product-info">
-              <img src="${item.productImageUrl || 'assets/images/no-image.png'}" alt="${item.productName || 'منتج'}" onerror="this.src='assets/images/no-image.png'">
+              <img src="${productImage}" 
+                   alt="${productName}" 
+                   onerror="this.src='assets/images/no-image.png'"
+                   onclick="openProductDetails('${productId}')">
               <div class="details">
-                <div class="name">${item.productName || 'منتج'}</div>
+                <div class="name" onclick="openProductDetails('${productId}')">${productName}</div>
                 <div class="unit">${unit}</div>
                 <div class="price">${price.toFixed(2)} ج.م</div>
                 ${isOffer ? '<span class="offer-badge-small"><i class="fas fa-percent"></i> عرض</span>' : ''}
@@ -631,6 +775,9 @@
               </button>
             </div>
             <div class="item-total">${total.toFixed(2)} ج.م</div>
+            <button class="remove-btn" onclick="removeItem(${index})" title="حذف من السلة">
+              <i class="fas fa-times-circle"></i>
+            </button>
           </div>
         `;
       });
@@ -680,6 +827,7 @@
         </div>
       `;
       document.getElementById('cartCount').textContent = '0 منتج';
+      document.getElementById('clearCartBtn').style.display = 'none';
     }
 
     // ============================================================
@@ -692,6 +840,7 @@
 
       const newQty = (item.quantity || 1) + change;
       if (newQty < 1) return;
+      
       if (item.maxOrder && newQty > item.maxOrder) {
         showToast(`⚠️ الحد الأقصى للطلب هو ${item.maxOrder}`, 'warning');
         return;
@@ -700,18 +849,16 @@
       item.quantity = newQty;
 
       if (isGuest) {
-        // حفظ في LocalStorage
         saveGuestCart();
         renderCart();
-        updateCartBadge();
+        if (typeof updateCartBadge === 'function') updateCartBadge();
       } else {
-        // تحديث في Firestore
         db.collection('cart').doc(item.id).update({
           quantity: newQty
         })
         .then(() => {
           renderCart();
-          updateCartBadge();
+          if (typeof updateCartBadge === 'function') updateCartBadge();
         })
         .catch(error => {
           console.error('Error updating quantity:', error);
@@ -734,19 +881,73 @@
         cartItems.splice(index, 1);
         saveGuestCart();
         renderCart();
-        updateCartBadge();
+        if (typeof updateCartBadge === 'function') updateCartBadge();
         showToast('✅ تم حذف المنتج من السلة', 'success');
       } else {
         db.collection('cart').doc(item.id).delete()
           .then(() => {
             cartItems.splice(index, 1);
             renderCart();
-            updateCartBadge();
+            if (typeof updateCartBadge === 'function') updateCartBadge();
             showToast('✅ تم حذف المنتج من السلة', 'success');
           })
           .catch(error => {
             console.error('Error removing item:', error);
             showToast('❌ حدث خطأ في حذف المنتج', 'error');
+          });
+      }
+    }
+
+    // ============================================================
+    // 🗑️ تفريغ السلة بالكامل
+    // ============================================================
+
+    function clearCart() {
+      if (cartItems.length === 0) {
+        showToast('⚠️ السلة فارغة بالفعل', 'warning');
+        return;
+      }
+
+      if (!confirm('⚠️ هل أنت متأكد من تفريغ السلة بالكامل؟ لا يمكن التراجع عن هذا الإجراء!')) return;
+
+      const clearBtn = document.getElementById('clearCartBtn');
+      clearBtn.disabled = true;
+      clearBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التفريغ...';
+
+      if (isGuest) {
+        // زائر - حذف من LocalStorage
+        cartItems = [];
+        localStorage.removeItem('guest_cart');
+        renderCart();
+        if (typeof updateCartBadge === 'function') updateCartBadge();
+        showToast('✅ تم تفريغ السلة بنجاح', 'success');
+        clearBtn.disabled = false;
+        clearBtn.innerHTML = '<i class="fas fa-trash-alt"></i> تفريغ السلة';
+      } else {
+        // مستخدم مسجل - حذف من Firestore
+        db.collection('cart')
+          .where('userId', '==', userId)
+          .get()
+          .then(snapshot => {
+            const batch = db.batch();
+            snapshot.forEach(doc => {
+              batch.delete(doc.ref);
+            });
+            return batch.commit();
+          })
+          .then(() => {
+            cartItems = [];
+            renderCart();
+            if (typeof updateCartBadge === 'function') updateCartBadge();
+            showToast('✅ تم تفريغ السلة بنجاح', 'success');
+          })
+          .catch(error => {
+            console.error('Error clearing cart:', error);
+            showToast('❌ حدث خطأ في تفريغ السلة', 'error');
+          })
+          .finally(() => {
+            clearBtn.disabled = false;
+            clearBtn.innerHTML = '<i class="fas fa-trash-alt"></i> تفريغ السلة';
           });
       }
     }
@@ -769,7 +970,6 @@
         return;
       }
 
-      // حفظ السلة في localStorage مؤقتاً للزائر
       if (isGuest) {
         saveGuestCart();
       }
@@ -778,18 +978,53 @@
     }
 
     // ============================================================
-    // 🔍 تحديد نوع المتجر
+    // 📦 فتح تفاصيل المنتج
     // ============================================================
 
-    function getStoreType() {
-      const user = getCurrentUser();
-      if (user) {
-        // لو المستخدم تاجر -> جملة، غير كده قطاعي
-        const role = user.data.role || 'customer';
-        return (role === 'admin' || role === 'superadmin' || role === 'wholesale') ? 'wholesale' : 'retail';
+    function openProductDetails(productId) {
+      if (!productId) return;
+      window.location.href = `/gomla/product-details.html?id=${productId}&type=${storeType}`;
+    }
+
+    // ============================================================
+    // 🏷️ تحديد نوع المتجر حسب دور المستخدم
+    // ============================================================
+
+    function getStoreType(role) {
+      if (role === 'wholesale' || role === 'merchant') {
+        return 'wholesale';
       }
-      // الزائر -> قطاعي
+      if (role === 'admin' || role === 'super' || role === 'superadmin') {
+        return 'wholesale';
+      }
       return 'retail';
+    }
+
+    // ============================================================
+    // 🏷️ تحديث شارة نوع المستخدم
+    // ============================================================
+
+    function updateUserTypeBadge(role) {
+      const badge = document.getElementById('userTypeBadge');
+      if (!badge) return;
+
+      if (role === 'guest') {
+        badge.className = 'user-type-badge';
+        badge.innerHTML = '<i class="fas fa-user"></i> زائر (قطاعي)';
+        badge.style.display = 'inline-flex';
+      } else if (role === 'wholesale' || role === 'merchant') {
+        badge.className = 'user-type-badge wholesale';
+        badge.innerHTML = '<i class="fas fa-store"></i> تاجر (جملة)';
+        badge.style.display = 'inline-flex';
+      } else if (role === 'admin' || role === 'super' || role === 'superadmin') {
+        badge.className = 'user-type-badge wholesale';
+        badge.innerHTML = '<i class="fas fa-user-shield"></i> مشرف (جملة)';
+        badge.style.display = 'inline-flex';
+      } else {
+        badge.className = 'user-type-badge retail';
+        badge.innerHTML = '<i class="fas fa-user"></i> عميل (قطاعي)';
+        badge.style.display = 'inline-flex';
+      }
     }
 
     // ============================================================
@@ -797,14 +1032,18 @@
     // ============================================================
 
     document.addEventListener('DOMContentLoaded', function() {
-      storeType = getStoreType();
-      loadCart();
-
-      // إضافة دالة removeItem للنافذة
-      window.removeItem = removeItem;
-      window.updateQuantity = updateQuantity;
-      window.proceedToCheckout = proceedToCheckout;
+      // انتظار بسيط لتحميل main.js
+      setTimeout(() => {
+        loadCart();
+      }, 500);
     });
+
+    // تصدير الدوال للنافذة
+    window.removeItem = removeItem;
+    window.updateQuantity = updateQuantity;
+    window.proceedToCheckout = proceedToCheckout;
+    window.clearCart = clearCart;
+    window.openProductDetails = openProductDetails;
   </script>
 
 </body>
