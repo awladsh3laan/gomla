@@ -759,7 +759,7 @@
             let html = container.innerHTML;
             additional.forEach(product => {
               const price = product.retailPrice || product.price || 0;
-              const unit = product.unit || 'قطعة';
+              const unit = product.retailunit || 'قطعة';
               const brandName = product.brandName || '';
               html += `
                 <div class="product-card" onclick="openProductModal('${product.id}')">
