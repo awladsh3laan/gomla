@@ -1,7 +1,9 @@
 <!-- ============================================================
-# 🧠 السايدبار الذكي - أولاد شعلان جملة
-# 📌 يتم تحميله عبر main.js في كل الصفحات
-# ============================================================ -->
+🧠 السايدبار الذكي - أولاد شعلان للمنظفات والورقيات
+📌 يتم تحميله عبر main.js في كل الصفحات
+💻 يظهر على كل الأجهزة (كمبيوتر + تابلت + موبايل)
+📱 على الموبايل يُفتح عبر زر القائمة في التبويبات السفلى
+============================================================ -->
 
 <!-- ===== طبقة التعتيم ===== -->
 <div class="sidebar-overlay" id="sidebarOverlay"></div>
@@ -12,25 +14,31 @@
   <!-- ===== رأس السايدبار ===== -->
   <div class="sidebar-header">
     <div class="sidebar-user">
-      <img src="assets/images/default-avatar.png" alt="صورة المستخدم" id="sidebarAvatar" class="sidebar-avatar">
+      <img src="/gomla/assets/images/default-avatar.png" 
+           alt="صورة المستخدم" 
+           id="sidebarAvatar" 
+           class="sidebar-avatar"
+           onerror="this.src='/gomla/assets/images/default-avatar.png'">
       <div>
         <div class="sidebar-username" id="sidebarUsername">زائر عزيز</div>
         <div class="sidebar-user-role" id="sidebarUserRole">مرحباً بك</div>
       </div>
     </div>
-    <button class="sidebar-close" id="sidebarClose">
+    <button class="sidebar-close" id="sidebarClose" aria-label="إغلاق">
       <i class="fas fa-times"></i>
     </button>
   </div>
 
   <!-- ===== الجمل التحفيزية ===== -->
   <div class="sidebar-motivational">
-    <div class="motivational-icon"><i class="fas fa-quote-right"></i></div>
+    <div class="motivational-icon">
+      <i class="fas fa-quote-right"></i>
+    </div>
     <div class="motivational-text" id="sidebarMotivationalText">
       "النجاح ليس نهاية الطريق، بل هو بداية جديدة"
     </div>
-    <button class="refresh-quote-btn" onclick="refreshMotivationalQuote()">
-      <i class="fas fa-sync-alt"></i>
+    <button class="refresh-quote-btn" onclick="refreshMotivationalQuote()" aria-label="تحديث">
+      <i class="fas fa-sync-alt"></i> تحديث
     </button>
   </div>
 
@@ -50,19 +58,24 @@
 
   <!-- ===== الروابط (تتغير حسب الصلاحية) ===== -->
   <nav class="sidebar-nav" id="sidebarNav">
-    <!-- سيتم تعبئتها عبر JavaScript -->
+    <!-- سيتم تعبئتها عبر main.js -->
+    <div style="text-align:center;padding:20px;color:var(--gray-400);">
+      <i class="fas fa-spinner fa-spin"></i>
+      <p style="margin-top:8px;">جاري التحميل...</p>
+    </div>
   </nav>
 
   <!-- ===== زر تسجيل الخروج ===== -->
   <div class="sidebar-footer">
     <button class="sidebar-action-btn" onclick="logoutUser()">
-      <i class="fas fa-sign-out-alt"></i> تسجيل الخروج
+      <i class="fas fa-sign-out-alt"></i>
+      تسجيل الخروج
     </button>
   </div>
 
 </aside>
 
-<!-- ===== زر فتح السايدبار (عائم) ===== -->
-<button class="sidebar-toggle" id="sidebarToggle">
+<!-- ===== زر فتح السايدبار (عائم - للكمبيوتر فقط) ===== -->
+<button class="sidebar-toggle" id="sidebarToggle" aria-label="القائمة">
   <i class="fas fa-bars"></i>
 </button>
