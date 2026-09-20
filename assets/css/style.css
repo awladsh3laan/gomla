@@ -2078,6 +2078,323 @@ input, select, textarea {
 }
 
 /* ============================================================
+📱 Media Queries الذكية (تشتغل في كل الحالات)
+============================================================ */
+
+/* ===== إخفاء مكونات الموبايل افتراضياً ===== */
+#mobile-top-bar,
+#mobile-top-tabs,
+#mobile-bottom-tabs,
+#mobile-copyright {
+  display: none;
+}
+
+/* ============================================================
+🎯 الحالة 1: موبايل حقيقي (شاشة صغيرة + لمس)
+============================================================ */
+@media (max-width: 768px) and (pointer: coarse) {
+  
+  /* إخفاء الهيدر والفوتر */
+  .smart-header,
+  .smart-footer {
+    display: none !important;
+  }
+  
+  /* إظهار مكونات الموبايل */
+  #mobile-top-bar {
+    display: block !important;
+  }
+  
+  #mobile-top-tabs {
+    display: block !important;
+  }
+  
+  #mobile-bottom-tabs {
+    display: flex !important;
+  }
+  
+  #mobile-copyright {
+    display: block !important;
+  }
+  
+  /* إضافة مساحة أسفل الصفحة */
+  body {
+    padding-bottom: calc(var(--mobile-bottom-tabs-height) + var(--mobile-copyright-height) + 8px);
+  }
+  
+  /* إخفاء زر القائمة العائم */
+  .sidebar-toggle {
+    display: none !important;
+  }
+  
+  /* السايدبار يتحول لعرض كامل */
+  .smart-sidebar {
+    width: 85vw;
+    max-width: 340px;
+    right: -100vw;
+  }
+  
+  /* تحسينات إضافية */
+  .container {
+    padding: 0 12px;
+  }
+  
+  .page-content,
+  .home-page,
+  .dashboard-page {
+    padding: 16px 0 20px;
+  }
+  
+  /* السلايدر */
+  .slider-item img {
+    height: 200px;
+  }
+  
+  .slider-placeholder,
+  .slide-placeholder {
+    height: 200px;
+  }
+  
+  .slider-btn {
+    width: 34px;
+    height: 34px;
+    font-size: 0.9rem;
+  }
+  
+  /* المنتجات */
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+  }
+  
+  .product-card .product-image {
+    height: 150px;
+  }
+  
+  .horizontal-scroll .product-card {
+    min-width: 160px;
+    max-width: 180px;
+  }
+  
+  /* كروت المتاجر */
+  .stores-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  /* التصنيفات */
+  .categories-grid {
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 10px;
+  }
+  
+  /* الفقاعات */
+  .bubbles-grid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 12px;
+  }
+  
+  /* البحث */
+  .search-wrapper {
+    padding: 2px 16px 2px 2px;
+  }
+  
+  .search-wrapper input {
+    padding: 12px 0;
+    font-size: 0.95rem;
+  }
+  
+  /* العناوين */
+  .section-title {
+    font-size: 1.15rem;
+  }
+  
+  /* Toast */
+  #toast-container {
+    bottom: calc(var(--mobile-bottom-tabs-height) + var(--mobile-copyright-height) + 12px);
+    right: 12px;
+    left: 12px;
+    max-width: none;
+  }
+  
+  /* الجداول تتحول لكروت */
+  .admin-table thead,
+  .custom-table thead {
+    display: none;
+  }
+  
+  .admin-table tbody tr,
+  .custom-table tbody tr {
+    display: block;
+    border: 1px solid var(--gray-200);
+    border-radius: var(--radius-md);
+    margin-bottom: 12px;
+    padding: 14px;
+    background: var(--white);
+  }
+  
+  .admin-table tbody tr td,
+  .custom-table tbody tr td {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border: none;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  
+  .admin-table tbody tr td::before,
+  .custom-table tbody tr td::before {
+    content: attr(data-label);
+    font-weight: 700;
+    color: var(--gray-500);
+    font-size: 0.75rem;
+  }
+  
+  /* النماذج */
+  .form-row,
+  .form-row-3 {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Modal */
+  .modal-content {
+    margin: 10px;
+    max-height: 95vh;
+  }
+  
+  .modal-actions,
+  .modal-footer {
+    flex-direction: column-reverse;
+  }
+  
+  .modal-actions .btn,
+  .modal-footer .btn {
+    width: 100%;
+  }
+  
+  /* Stats */
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
+  
+  /* الفلاتر */
+  .filter-bar,
+  .filter-section {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .filter-bar input,
+  .filter-bar select,
+  .filter-section input,
+  .filter-section select {
+    width: 100%;
+  }
+  
+  /* التبويبات */
+  .tabs-container {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+  }
+  
+  /* Header */
+  .admin-header,
+  .dashboard-header,
+  .page-header {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+}
+
+/* ============================================================
+🎯 الحالة 2: موبايل في Desktop Mode (شاشة كبيرة + لمس)
+   → يظهر هيدر الكمبيوتر لكن بتعديلات للمس
+============================================================ */
+@media (min-width: 769px) and (pointer: coarse) {
+  
+  /* الهيدر يظهر */
+  .smart-header {
+    display: block;
+  }
+  
+  .smart-footer {
+    display: block;
+  }
+  
+  /* إخفاء مكونات الموبايل */
+  #mobile-top-bar,
+  #mobile-top-tabs,
+  #mobile-bottom-tabs,
+  #mobile-copyright {
+    display: none !important;
+  }
+  
+  /* تصغير أزرار الهيدر */
+  .smart-header .header-center .btn-sm,
+  .smart-header .header-right .btn-sm {
+    padding: 6px 10px;
+    font-size: 0.75rem;
+    min-height: 34px;
+  }
+  
+  /* تكبير الأزرار للمس */
+  .smart-header .btn-sm {
+    min-width: 40px;
+    min-height: 40px;
+  }
+  
+  /* تصغير الصورة الشخصية */
+  .smart-header .user-avatar,
+  #userAvatar {
+    width: 34px !important;
+    height: 34px !important;
+  }
+  
+  /* تكبير زر القائمة العائم */
+  .sidebar-toggle {
+    width: 56px;
+    height: 56px;
+    font-size: 1.5rem;
+  }
+}
+
+/* ============================================================
+🎯 الحالة 3: شاشات صغيرة جداً (بأي جهاز)
+============================================================ */
+@media (max-width: 480px) {
+  
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+  }
+  
+  .categories-grid {
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 8px;
+  }
+  
+  .bubbles-grid {
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 8px;
+  }
+  
+  .slider-item img {
+    height: 150px;
+  }
+  
+  .container {
+    padding: 0 10px;
+  }
+  
+  .stats-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+}
+
+/* ============================================================
 2️⃣6️⃣ 📱 Media Queries (الموبايل)
 ============================================================ */
 @media (max-width: 768px) {
