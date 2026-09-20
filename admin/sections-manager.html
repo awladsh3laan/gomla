@@ -1,0 +1,1591 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>إدارة السيكشنات - أولاد شعلان</title>
+
+  <meta name="theme-color" content="#1a2a4a">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Style -->
+  <link rel="stylesheet" href="/gomla/assets/css/style.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="/gomla/assets/images/favicon.ico">
+  
+  <!-- مكتبة ضغط الصور -->
+  <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.0/dist/browser-image-compression.js"></script>
+
+  <style>
+    /* ===== ستايل خاص بصفحة السيكشنات ===== */
+    .sections-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .section-item-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: var(--transition);
+      border: 2px solid var(--gray-200);
+    }
+    
+    .section-item-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: var(--gold);
+    }
+    
+    .section-item-card.inactive {
+      opacity: 0.5;
+      background: var(--gray-50);
+    }
+    
+    .section-item-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--gold);
+      font-size: 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    
+    .section-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+    
+    .section-item-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 4px;
+    }
+    
+    .section-item-meta {
+      font-size: 0.8rem;
+      color: var(--gray-500);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    
+    .section-item-meta i {
+      color: var(--gold);
+      margin-left: 4px;
+    }
+    
+    .section-item-actions {
+      display: flex;
+      gap: 6px;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+    
+    .type-badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: var(--radius-full);
+      font-size: 0.7rem;
+      font-weight: 700;
+    }
+    
+    .type-badge.banner { background: rgba(59, 130, 246, 0.15); color: #2563eb; }
+    .type-badge.products { background: rgba(34, 197, 94, 0.15); color: #16a34a; }
+    .type-badge.cards { background: rgba(201, 168, 76, 0.15); color: var(--gold-dark); }
+    .type-badge.videos { background: rgba(139, 92, 246, 0.15); color: #7c3aed; }
+    .type-badge.images { background: rgba(245, 158, 11, 0.15); color: #d97706; }
+    
+    .icon-picker {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+      gap: 8px;
+      margin-top: 8px;
+      max-height: 200px;
+      overflow-y: auto;
+      padding: 8px;
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--gray-200);
+    }
+    
+    .icon-option {
+      width: 100%;
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--white);
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: var(--gray-600);
+      transition: var(--transition);
+    }
+    
+    .icon-option:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    
+    .icon-option.selected {
+      background: var(--gold);
+      color: var(--navy);
+      border-color: var(--gold);
+    }
+    
+    .items-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 12px;
+      max-height: 400px;
+      overflow-y: auto;
+      padding: 4px;
+    }
+    
+    .item-row-card {
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    
+    .item-row-card img {
+      width: 60px;
+      height: 60px;
+      border-radius: var(--radius-sm);
+      object-fit: cover;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      flex-shrink: 0;
+    }
+    
+    .item-row-info {
+      flex: 1;
+      min-width: 0;
+    }
+    
+    .item-row-title {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--navy);
+      margin-bottom: 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    
+    .item-row-sub {
+      font-size: 0.75rem;
+      color: var(--gray-500);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    
+    .empty-sections {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--gray-400);
+    }
+    
+    .empty-sections i {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 12px;
+      color: var(--gray-300);
+    }
+    
+    .type-info-box {
+      background: var(--gray-50);
+      padding: 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      color: var(--gray-600);
+      margin-bottom: 16px;
+      border-right: 3px solid var(--gold);
+      line-height: 1.6;
+    }
+    
+    .type-info-box i {
+      color: var(--gold);
+      margin-left: 4px;
+    }
+    
+    .products-picker {
+      max-height: 300px;
+      overflow-y: auto;
+      padding: 8px;
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--gray-200);
+    }
+    
+    .product-pick-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition-fast);
+      background: var(--white);
+      margin-bottom: 6px;
+      border: 2px solid transparent;
+    }
+    
+    .product-pick-item:hover {
+      border-color: var(--gold);
+    }
+    
+    .product-pick-item.selected {
+      background: rgba(201, 168, 76, 0.1);
+      border-color: var(--gold);
+    }
+    
+    .product-pick-item img {
+      width: 44px;
+      height: 44px;
+      border-radius: 6px;
+      object-fit: cover;
+      background: var(--white);
+      flex-shrink: 0;
+    }
+    
+    .product-pick-info {
+      flex: 1;
+      min-width: 0;
+    }
+    
+    .product-pick-name {
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--navy);
+    }
+    
+    .product-pick-price {
+      font-size: 0.75rem;
+      color: var(--gold);
+      font-weight: 700;
+    }
+    
+    .product-pick-checkbox {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--gray-300);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: transparent;
+      transition: var(--transition-fast);
+      flex-shrink: 0;
+    }
+    
+    .product-pick-item.selected .product-pick-checkbox {
+      background: var(--gold);
+      border-color: var(--gold);
+      color: var(--navy);
+    }
+    
+    @media (max-width: 768px) {
+      .section-item-card {
+        flex-wrap: wrap;
+      }
+      
+      .section-item-actions {
+        width: 100%;
+        justify-content: flex-end;
+      }
+      
+      .section-item-actions button {
+        flex: 1;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- مكونات الموبايل -->
+  <div id="mobile-top-bar"></div>
+  <div id="mobile-top-tabs"></div>
+
+  <!-- الهيدر -->
+  <div id="header-placeholder"></div>
+
+  <!-- المحتوى الرئيسي -->
+  <main class="page-content">
+    <div class="container">
+
+      <!-- مسار التنقل -->
+      <div class="breadcrumb">
+        <a href="/gomla/admin/dashboard.html">لوحة التحكم</a>
+        <span>›</span>
+        <span>إدارة السيكشنات</span>
+      </div>
+
+      <!-- رأس الصفحة -->
+      <div class="page-header">
+        <h1><i class="fas fa-layer-group"></i> إدارة سيكشنات الصفحة الرئيسية</h1>
+        <div class="header-actions">
+          <button class="btn btn-primary" onclick="openAddSectionModal()">
+            <i class="fas fa-plus"></i> إضافة سيكشن جديد
+          </button>
+          <button class="btn btn-outline" onclick="loadSections()">
+            <i class="fas fa-sync-alt"></i> تحديث
+          </button>
+        </div>
+      </div>
+
+      <!-- معلومات -->
+      <div class="type-info-box">
+        <i class="fas fa-info-circle"></i>
+        <strong>ملاحظة:</strong> 
+        السيكشنات دي هتظهر في الصفحة الرئيسية بالترتيب المحدد. 
+        استخدم أسهم الترتيب (⬆️⬇️) لتغيير الترتيب.
+      </div>
+
+      <!-- الإحصائيات -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon gold">
+            <i class="fas fa-layer-group"></i>
+          </div>
+          <div class="stat-info">
+            <span class="stat-number" id="totalSectionsCount">0</span>
+            <span class="stat-label">إجمالي السيكشنات</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <div class="stat-info">
+            <span class="stat-number" id="activeSectionsCount">0</span>
+            <span class="stat-label">نشطة</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon red">
+            <i class="fas fa-eye-slash"></i>
+          </div>
+          <div class="stat-info">
+            <span class="stat-number" id="inactiveSectionsCount">0</span>
+            <span class="stat-label">مخفية</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- قائمة السيكشنات -->
+      <div id="sectionsContainer" class="sections-list">
+        <div class="loading-spinner">
+          <i class="fas fa-spinner fa-spin"></i>
+          جاري التحميل...
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- الموبايل السفلي -->
+  <div id="mobile-bottom-tabs"></div>
+  <div id="mobile-copyright"></div>
+
+  <!-- الفوتر -->
+  <div id="footer-placeholder"></div>
+
+  <!-- السايدبار -->
+  <div id="sidebar-placeholder"></div>
+
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
+
+  <!-- ============================================================ -->
+  <!-- Modal: إضافة / تعديل سيكشن                                    -->
+  <!-- ============================================================ -->
+  <div class="modal-overlay" id="sectionModal">
+    <div class="modal-content medium">
+      
+      <div class="modal-header">
+        <h2 id="sectionModalTitle">
+          <i class="fas fa-plus"></i>
+          إضافة سيكشن جديد
+        </h2>
+        <button class="modal-close" onclick="closeModal('sectionModal')">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <form id="sectionForm" onsubmit="saveSection(event)">
+          <input type="hidden" id="sectionId">
+
+          <!-- النوع -->
+          <div class="form-group">
+            <label>
+              نوع السيكشن
+              <span class="required">*</span>
+            </label>
+            <select id="sectionType" required onchange="handleTypeChange()">
+              <option value="">-- اختر النوع --</option>
+              <option value="banner">🖼️ إعلانات بنرات</option>
+              <option value="products">📦 عرض منتجات معينة</option>
+              <option value="cards">🎴 كروت بروابط</option>
+              <option value="videos">🎬 فيديوهات</option>
+              <option value="images">📷 صور</option>
+            </select>
+          </div>
+
+          <!-- العنوان -->
+          <div class="form-group">
+            <label>
+              <i class="fas fa-heading"></i>
+              عنوان السيكشن
+            </label>
+            <input type="text" 
+                   id="sectionTitle" 
+                   placeholder="مثال: عروض خاصة"
+                   maxlength="100">
+          </div>
+
+          <!-- الأيقونة -->
+          <div class="form-group">
+            <label>
+              <i class="fas fa-icons"></i>
+              أيقونة السيكشن
+            </label>
+            <input type="text" 
+                   id="sectionIcon" 
+                   placeholder="fa-star"
+                   readonly
+                   style="cursor:pointer;background:var(--gray-100);"
+                   onclick="document.getElementById('iconPicker').scrollIntoView({behavior:'smooth'});">
+            <div class="help-text">
+              <i class="fas fa-info-circle"></i>
+              اضغط على الأيقونة لاختيارها
+            </div>
+            
+            <div class="icon-picker" id="iconPicker">
+              <!-- يتم تعبئتها بـ JavaScript -->
+            </div>
+          </div>
+
+          <!-- الترتيب -->
+          <div class="form-group">
+            <label>
+              <i class="fas fa-sort-numeric-down"></i>
+              ترتيب الظهور
+            </label>
+            <input type="number" 
+                   id="sectionOrder" 
+                   value="0" 
+                   min="0"
+                   step="1">
+            <div class="help-text">
+              <i class="fas fa-info-circle"></i>
+              الرقم الأصغر يظهر أولاً
+            </div>
+          </div>
+
+          <!-- الحالة -->
+          <div class="form-group">
+            <label>
+              <i class="fas fa-toggle-on"></i>
+              حالة السيكشن
+            </label>
+            <select id="sectionActive">
+              <option value="true">✅ نشط (يظهر في الصفحة)</option>
+              <option value="false">🔴 مخفي</option>
+            </select>
+          </div>
+
+        </form>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-outline" onclick="closeModal('sectionModal')">
+          إلغاء
+        </button>
+        <button class="btn btn-primary" onclick="document.getElementById('sectionForm').dispatchEvent(new Event('submit'))">
+          <i class="fas fa-save"></i>
+          حفظ
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- Modal: إدارة عناصر السيكشن                                    -->
+  <!-- ============================================================ -->
+  <div class="modal-overlay" id="itemsModal">
+    <div class="modal-content large">
+      
+      <div class="modal-header">
+        <h2>
+          <i class="fas fa-list"></i>
+          إدارة عناصر السيكشن
+          <span id="itemsModalSectionTitle" style="font-size:0.9rem;color:var(--gray-500);"></span>
+        </h2>
+        <button class="modal-close" onclick="closeModal('itemsModal')">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <input type="hidden" id="itemsSectionId">
+
+        <!-- معلومات النوع -->
+        <div class="type-info-box" id="itemsTypeInfo"></div>
+
+        <!-- زر الإضافة -->
+        <button class="btn btn-primary" onclick="openAddItemModal()" style="margin-bottom:12px;">
+          <i class="fas fa-plus"></i>
+          إضافة عنصر
+        </button>
+
+        <!-- قائمة العناصر -->
+        <div class="items-list" id="itemsList"></div>
+
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-outline" onclick="closeModal('itemsModal')">
+          إغلاق
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- Modal: إضافة / تعديل عنصر                                    -->
+  <!-- ============================================================ -->
+  <div class="modal-overlay" id="itemModal">
+    <div class="modal-content medium">
+      
+      <div class="modal-header">
+        <h2 id="itemModalTitle">
+          <i class="fas fa-plus"></i>
+          إضافة عنصر
+        </h2>
+        <button class="modal-close" onclick="closeModal('itemModal')">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <form id="itemForm" onsubmit="saveItem(event)">
+          <input type="hidden" id="itemIndex">
+
+          <!-- الحقول الديناميكية -->
+          <div id="itemFieldsContainer"></div>
+
+        </form>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn btn-outline" onclick="closeModal('itemModal')">
+          إلغاء
+        </button>
+        <button class="btn btn-primary" onclick="document.getElementById('itemForm').dispatchEvent(new Event('submit'))">
+          <i class="fas fa-save"></i>
+          حفظ العنصر
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- Firebase & Scripts                                            -->
+  <!-- ============================================================ -->
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+  <script src="/gomla/assets/js/firebase-config.js"></script>
+  <script src="/gomla/assets/js/main.js"></script>
+
+  <script>
+    // ============================================================
+    // 📄 sections-manager.html - إدارة سيكشنات الصفحة الرئيسية
+    // ============================================================
+
+    // ===== المتغيرات العامة =====
+    let allSections = [];
+    let allProducts = [];
+    let currentSectionForItems = null;
+
+    // ===== قائمة الأيقونات المتاحة =====
+    const AVAILABLE_ICONS = [
+      'fa-star', 'fa-fire', 'fa-gift', 'fa-percent', 'fa-tag',
+      'fa-shopping-bag', 'fa-shopping-cart', 'fa-store', 'fa-box',
+      'fa-boxes', 'fa-image', 'fa-images', 'fa-video', 'fa-play',
+      'fa-headset', 'fa-phone', 'fa-envelope', 'fa-comments',
+      'fa-bullhorn', 'fa-newspaper', 'fa-award', 'fa-medal',
+      'fa-crown', 'fa-heart', 'fa-thumbs-up', 'fa-handshake',
+      'fa-truck', 'fa-rocket', 'fa-lightbulb', 'fa-cog',
+      'fa-users', 'fa-user-friends', 'fa-building', 'fa-landmark',
+      'fa-clock', 'fa-calendar', 'fa-chart-line', 'fa-chart-pie'
+    ];
+
+    // ===== أنواع السيكشنات =====
+    const SECTION_TYPES = {
+      banner: {
+        name: 'إعلانات بنرات',
+        icon: 'fa-image',
+        color: 'banner',
+        description: 'بنرات كبيرة للعروض والإعلانات (صورة + عنوان + رابط)',
+        fields: [
+          { key: 'imageUrl', label: 'صورة البنر', type: 'image', required: true },
+          { key: 'title', label: 'العنوان', type: 'text', required: false },
+          { key: 'link', label: 'الرابط', type: 'text', required: false, placeholder: '/gomla/offers.html' }
+        ]
+      },
+      products: {
+        name: 'عرض منتجات معينة',
+        icon: 'fa-box',
+        color: 'products',
+        description: 'اختر منتجات معينة لعرضها في سيكشن خاص',
+        fields: [
+          { key: 'productIds', label: 'اختر المنتجات', type: 'products_picker', required: true }
+        ]
+      },
+      cards: {
+        name: 'كروت بروابط',
+        icon: 'fa-th-large',
+        color: 'cards',
+        description: 'كروت مخصصة (صورة/أيقونة + عنوان + وصف + رابط)',
+        fields: [
+          { key: 'imageUrl', label: 'الصورة (اختياري)', type: 'image', required: false },
+          { key: 'icon', label: 'أو أيقونة (اختياري)', type: 'icon_picker', required: false },
+          { key: 'title', label: 'العنوان', type: 'text', required: true },
+          { key: 'description', label: 'الوصف', type: 'textarea', required: false },
+          { key: 'link', label: 'الرابط', type: 'text', required: true }
+        ]
+      },
+      videos: {
+        name: 'فيديوهات',
+        icon: 'fa-video',
+        color: 'videos',
+        description: 'فيديوهات يوتيوب أو روابط مباشرة',
+        fields: [
+          { key: 'videoUrl', label: 'رابط الفيديو', type: 'text', required: true, placeholder: 'https://www.youtube.com/watch?v=...' },
+          { key: 'title', label: 'عنوان الفيديو', type: 'text', required: false }
+        ]
+      },
+      images: {
+        name: 'صور',
+        icon: 'fa-images',
+        color: 'images',
+        description: 'معرض صور عادية',
+        fields: [
+          { key: 'imageUrl', label: 'الصورة', type: 'image', required: true },
+          { key: 'title', label: 'العنوان (اختياري)', type: 'text', required: false }
+        ]
+      }
+    };
+
+    // ============================================================
+    // 🚀 تحميل البيانات
+    // ============================================================
+
+    async function loadSections() {
+      const container = document.getElementById('sectionsContainer');
+      if (!container) return;
+
+      try {
+        // تحميل السيكشنات
+        const snapshot = await db.collection('custom_sections')
+          .orderBy('order', 'asc')
+          .get();
+
+        allSections = [];
+        snapshot.forEach(doc => {
+          allSections.push({ id: doc.id, ...doc.data() });
+        });
+
+        // تحميل المنتجات للاختيار
+        const productsSnapshot = await db.collection(COLLECTIONS.PRODUCTS)
+          .where('available', '==', true)
+          .orderBy('name')
+          .get();
+
+        allProducts = [];
+        productsSnapshot.forEach(doc => {
+          allProducts.push({ id: doc.id, ...doc.data() });
+        });
+
+        // عرض
+        renderSections();
+        updateStats();
+
+      } catch (error) {
+        console.error('Error loading sections:', error);
+        container.innerHTML = `
+          <div class="empty-sections">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p>حدث خطأ في تحميل السيكشنات</p>
+            <button class="btn btn-primary" onclick="loadSections()">
+              <i class="fas fa-sync-alt"></i> إعادة المحاولة
+            </button>
+          </div>
+        `;
+      }
+    }
+
+    function updateStats() {
+      const total = allSections.length;
+      const active = allSections.filter(s => s.active !== false).length;
+      const inactive = total - active;
+
+      document.getElementById('totalSectionsCount').textContent = total;
+      document.getElementById('activeSectionsCount').textContent = active;
+      document.getElementById('inactiveSectionsCount').textContent = inactive;
+    }
+
+    // ============================================================
+    // 🎨 عرض السيكشنات
+    // ============================================================
+
+    function renderSections() {
+      const container = document.getElementById('sectionsContainer');
+
+      if (allSections.length === 0) {
+        container.innerHTML = `
+          <div class="empty-sections">
+            <i class="fas fa-layer-group"></i>
+            <h3>لا توجد سيكشنات مخصصة</h3>
+            <p>ابدأ بإضافة سيكشن جديد لعرضه في الصفحة الرئيسية</p>
+            <button class="btn btn-primary" onclick="openAddSectionModal()">
+              <i class="fas fa-plus"></i> إضافة أول سيكشن
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+
+      allSections.forEach((section, index) => {
+        const typeInfo = SECTION_TYPES[section.type] || { name: 'غير معروف', color: 'banner' };
+        const isActive = section.active !== false;
+        const itemsCount = section.items?.length || 0;
+        const productCount = section.type === 'products' ? (section.productIds?.length || 0) : 0;
+        const displayCount = section.type === 'products' ? productCount : itemsCount;
+
+        html += `
+          <div class="section-item-card ${isActive ? '' : 'inactive'}" data-id="${section.id}">
+            
+            <div class="section-item-icon">
+              <i class="fas ${section.icon || typeInfo.icon}"></i>
+            </div>
+
+            <div class="section-item-info">
+              <div class="section-item-title">
+                ${section.title || '(بدون عنوان)'}
+                <span class="type-badge ${typeInfo.color}">${typeInfo.name}</span>
+              </div>
+              <div class="section-item-meta">
+                <span><i class="fas fa-list-ol"></i> الترتيب: ${section.order || index + 1}</span>
+                <span><i class="fas fa-cubes"></i> ${displayCount} عنصر</span>
+                <span>
+                  <i class="fas ${isActive ? 'fa-check-circle' : 'fa-eye-slash'}"></i>
+                  ${isActive ? 'نشط' : 'مخفي'}
+                </span>
+              </div>
+            </div>
+
+            <div class="section-item-actions">
+              <!-- ترتيب -->
+              <button class="btn-icon" 
+                      onclick="moveSection('${section.id}', -1)" 
+                      title="تحريك للأعلى"
+                      ${index === 0 ? 'disabled' : ''}>
+                <i class="fas fa-chevron-up"></i>
+              </button>
+              <button class="btn-icon" 
+                      onclick="moveSection('${section.id}', 1)" 
+                      title="تحريك للأسفل"
+                      ${index === allSections.length - 1 ? 'disabled' : ''}>
+                <i class="fas fa-chevron-down"></i>
+              </button>
+
+              <!-- إدارة العناصر -->
+              <button class="btn-icon" 
+                      onclick="openItemsModal('${section.id}')" 
+                      title="إدارة العناصر">
+                <i class="fas fa-list"></i>
+              </button>
+
+              <!-- تعديل -->
+              <button class="btn-icon" 
+                      onclick="openEditSectionModal('${section.id}')" 
+                      title="تعديل">
+                <i class="fas fa-edit"></i>
+              </button>
+
+              <!-- إظهار/إخفاء -->
+              <button class="btn-icon" 
+                      onclick="toggleSection('${section.id}')" 
+                      title="${isActive ? 'إخفاء' : 'إظهار'}">
+                <i class="fas ${isActive ? 'fa-eye' : 'fa-eye-slash'}"></i>
+              </button>
+
+              <!-- حذف -->
+              <button class="btn-icon danger" 
+                      onclick="deleteSection('${section.id}')" 
+                      title="حذف">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    // ============================================================
+    // ➕ إضافة / تعديل سيكشن
+    // ============================================================
+
+    function openAddSectionModal() {
+      document.getElementById('sectionModalTitle').innerHTML = '<i class="fas fa-plus"></i> إضافة سيكشن جديد';
+      document.getElementById('sectionForm').reset();
+      document.getElementById('sectionId').value = '';
+      document.getElementById('sectionType').disabled = false;
+      document.getElementById('sectionOrder').value = allSections.length + 1;
+      document.getElementById('sectionIcon').value = 'fa-star';
+      document.getElementById('sectionActive').value = 'true';
+
+      // بناء قائمة الأيقونات
+      buildIconPicker();
+
+      // إزالة التحديد عن الأيقونات
+      document.querySelectorAll('.icon-option').forEach(el => {
+        el.classList.toggle('selected', el.dataset.icon === 'fa-star');
+      });
+
+      document.getElementById('sectionModal').classList.add('show');
+    }
+
+    function openEditSectionModal(sectionId) {
+      const section = allSections.find(s => s.id === sectionId);
+      if (!section) return;
+
+      document.getElementById('sectionModalTitle').innerHTML = '<i class="fas fa-edit"></i> تعديل السيكشن';
+      document.getElementById('sectionId').value = sectionId;
+      document.getElementById('sectionType').value = section.type || '';
+      document.getElementById('sectionType').disabled = true;
+      document.getElementById('sectionTitle').value = section.title || '';
+      document.getElementById('sectionIcon').value = section.icon || 'fa-star';
+      document.getElementById('sectionOrder').value = section.order || 0;
+      document.getElementById('sectionActive').value = section.active !== false ? 'true' : 'false';
+
+      // بناء قائمة الأيقونات
+      buildIconPicker();
+
+      // تحديد الأيقونة الحالية
+      document.querySelectorAll('.icon-option').forEach(el => {
+        el.classList.toggle('selected', el.dataset.icon === (section.icon || 'fa-star'));
+      });
+
+      document.getElementById('sectionModal').classList.add('show');
+    }
+
+    function buildIconPicker() {
+      const container = document.getElementById('iconPicker');
+      let html = '';
+
+      AVAILABLE_ICONS.forEach(icon => {
+        html += `
+          <div class="icon-option" 
+               data-icon="${icon}"
+               onclick="selectIcon('${icon}')">
+            <i class="fas ${icon}"></i>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    function selectIcon(icon) {
+      document.getElementById('sectionIcon').value = icon;
+      document.querySelectorAll('.icon-option').forEach(el => {
+        el.classList.toggle('selected', el.dataset.icon === icon);
+      });
+    }
+
+    async function saveSection(event) {
+      event.preventDefault();
+
+      const sectionId = document.getElementById('sectionId').value;
+      const type = document.getElementById('sectionType').value;
+      const title = document.getElementById('sectionTitle').value.trim();
+      const icon = document.getElementById('sectionIcon').value;
+      const order = parseInt(document.getElementById('sectionOrder').value) || 0;
+      const active = document.getElementById('sectionActive').value === 'true';
+
+      if (!type) {
+        showToast('⚠️ اختر نوع السيكشن', 'warning');
+        return;
+      }
+
+      try {
+        if (sectionId) {
+          // تعديل
+          await db.collection('custom_sections').doc(sectionId).update({
+            title, icon, order, active,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+          showToast('✅ تم تحديث السيكشن', 'success');
+        } else {
+          // إضافة جديدة
+          await db.collection('custom_sections').add({
+            type, title, icon, order, active,
+            items: [],
+            productIds: [],
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+          showToast('✅ تم إضافة السيكشن', 'success');
+        }
+
+        closeModal('sectionModal');
+        loadSections();
+
+      } catch (error) {
+        console.error('Error saving section:', error);
+        showToast('❌ حدث خطأ: ' + error.message, 'error');
+      }
+    }
+
+    // ============================================================
+    // 🔄 عمليات السيكشن
+    // ============================================================
+
+    async function toggleSection(sectionId) {
+      const section = allSections.find(s => s.id === sectionId);
+      if (!section) return;
+
+      const newActive = section.active === false;
+
+      try {
+        await db.collection('custom_sections').doc(sectionId).update({
+          active: newActive,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        showToast(newActive ? '✅ تم إظهار السيكشن' : '✅ تم إخفاء السيكشن', 'success');
+        loadSections();
+      } catch (error) {
+        console.error('Error toggling section:', error);
+        showToast('❌ حدث خطأ', 'error');
+      }
+    }
+
+    async function moveSection(sectionId, direction) {
+      const index = allSections.findIndex(s => s.id === sectionId);
+      if (index === -1) return;
+
+      const newIndex = index + direction;
+      if (newIndex < 0 || newIndex >= allSections.length) return;
+
+      // تبديل الترتيب
+      const currentOrder = allSections[index].order || (index + 1);
+      const otherOrder = allSections[newIndex].order || (newIndex + 1);
+
+      try {
+        const batch = db.batch();
+        batch.update(db.collection('custom_sections').doc(allSections[index].id), { order: otherOrder });
+        batch.update(db.collection('custom_sections').doc(allSections[newIndex].id), { order: currentOrder });
+        await batch.commit();
+
+        loadSections();
+      } catch (error) {
+        console.error('Error moving section:', error);
+        showToast('❌ حدث خطأ', 'error');
+      }
+    }
+
+    async function deleteSection(sectionId) {
+      const section = allSections.find(s => s.id === sectionId);
+      if (!section) return;
+
+      if (!confirm(`⚠️ هل أنت متأكد من حذف سيكشن "${section.title || 'بدون عنوان'}"؟`)) return;
+
+      try {
+        await db.collection('custom_sections').doc(sectionId).delete();
+        showToast('✅ تم حذف السيكشن', 'success');
+        loadSections();
+      } catch (error) {
+        console.error('Error deleting section:', error);
+        showToast('❌ حدث خطأ', 'error');
+      }
+    }
+
+    // ============================================================
+    // 📋 إدارة عناصر السيكشن
+    // ============================================================
+
+    function openItemsModal(sectionId) {
+      const section = allSections.find(s => s.id === sectionId);
+      if (!section) return;
+
+      currentSectionForItems = section;
+
+      const typeInfo = SECTION_TYPES[section.type];
+      if (!typeInfo) {
+        showToast('❌ نوع السيكشن غير معروف', 'error');
+        return;
+      }
+
+      document.getElementById('itemsSectionId').value = sectionId;
+      document.getElementById('itemsModalSectionTitle').textContent = ` - ${section.title || '(بدون عنوان)'}`;
+      document.getElementById('itemsTypeInfo').innerHTML = `
+        <i class="fas fa-info-circle"></i>
+        <strong>${typeInfo.name}:</strong> ${typeInfo.description}
+      `;
+
+      renderItems();
+
+      document.getElementById('itemsModal').classList.add('show');
+    }
+
+    function renderItems() {
+      const section = currentSectionForItems;
+      if (!section) return;
+
+      const container = document.getElementById('itemsList');
+      const type = section.type;
+
+      if (type === 'products') {
+        // عرض المنتجات المختارة
+        const productIds = section.productIds || [];
+        
+        if (productIds.length === 0) {
+          container.innerHTML = `
+            <div class="empty-sections" style="padding:30px;">
+              <i class="fas fa-box-open"></i>
+              <p>لم تختر أي منتجات بعد</p>
+              <button class="btn btn-primary" onclick="openAddItemModal()">
+                <i class="fas fa-plus"></i> اختر منتجات
+              </button>
+            </div>
+          `;
+          return;
+        }
+
+        let html = '';
+        productIds.forEach((productId, index) => {
+          const product = allProducts.find(p => p.id === productId);
+          if (!product) return;
+
+          html += `
+            <div class="item-row-card">
+              <img src="${product.imageUrl || '/gomla/assets/images/no-image.png'}"
+                   onerror="this.src='/gomla/assets/images/no-image.png'">
+              <div class="item-row-info">
+                <div class="item-row-title">${product.name}</div>
+                <div class="item-row-sub">
+                  ${product.wholesalePrice ? `جملة: ${product.wholesalePrice} ج.م` : ''}
+                  ${product.retailPrice ? ` | قطاعي: ${product.retailPrice} ج.م` : ''}
+                </div>
+              </div>
+              <button class="btn-icon danger" onclick="removeProductFromSection('${productId}')">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          `;
+        });
+        container.innerHTML = html;
+        return;
+      }
+
+      // باقي الأنواع - items array
+      const items = section.items || [];
+
+      if (items.length === 0) {
+        container.innerHTML = `
+          <div class="empty-sections" style="padding:30px;">
+            <i class="fas fa-list"></i>
+            <p>لا توجد عناصر بعد</p>
+            <button class="btn btn-primary" onclick="openAddItemModal()">
+              <i class="fas fa-plus"></i> إضافة أول عنصر
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+      items.forEach((item, index) => {
+        const imageUrl = item.imageUrl || '';
+        const title = item.title || '(بدون عنوان)';
+        const sub = item.link || item.videoUrl || item.description || '';
+
+        html += `
+          <div class="item-row-card">
+            ${imageUrl ? `
+              <img src="${imageUrl}" onerror="this.src='/gomla/assets/images/no-image.png'">
+            ` : `
+              <div style="width:60px;height:60px;border-radius:10px;background:var(--gray-200);display:flex;align-items:center;justify-content:center;color:var(--gray-400);flex-shrink:0;">
+                <i class="fas ${item.icon || 'fa-star'}"></i>
+              </div>
+            `}
+            <div class="item-row-info">
+              <div class="item-row-title">${title}</div>
+              ${sub ? `<div class="item-row-sub">${sub}</div>` : ''}
+            </div>
+            <div style="display:flex;gap:4px;flex-shrink:0;">
+              <button class="btn-icon" onclick="moveItem(${index}, -1)" ${index === 0 ? 'disabled' : ''}>
+                <i class="fas fa-chevron-up"></i>
+              </button>
+              <button class="btn-icon" onclick="moveItem(${index}, 1)" ${index === items.length - 1 ? 'disabled' : ''}>
+                <i class="fas fa-chevron-down"></i>
+              </button>
+              <button class="btn-icon" onclick="openEditItemModal(${index})">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn-icon danger" onclick="deleteItem(${index})">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    // ============================================================
+    // ➕ إضافة / تعديل عنصر
+    // ============================================================
+
+    function openAddItemModal() {
+      const section = currentSectionForItems;
+      if (!section) return;
+
+      const typeInfo = SECTION_TYPES[section.type];
+      if (!typeInfo) return;
+
+      document.getElementById('itemModalTitle').innerHTML = '<i class="fas fa-plus"></i> إضافة عنصر';
+      document.getElementById('itemIndex').value = '';
+      document.getElementById('itemFieldsContainer').innerHTML = '';
+
+      // بناء الحقول حسب النوع
+      buildItemFields(typeInfo.fields, {});
+
+      document.getElementById('itemModal').classList.add('show');
+    }
+
+    function openEditItemModal(index) {
+      const section = currentSectionForItems;
+      if (!section) return;
+
+      if (section.type === 'products') return;
+
+      const typeInfo = SECTION_TYPES[section.type];
+      const item = section.items[index];
+      if (!item) return;
+
+      document.getElementById('itemModalTitle').innerHTML = '<i class="fas fa-edit"></i> تعديل العنصر';
+      document.getElementById('itemIndex').value = index;
+      document.getElementById('itemFieldsContainer').innerHTML = '';
+
+      buildItemFields(typeInfo.fields, item);
+
+      document.getElementById('itemModal').classList.add('show');
+    }
+
+    function buildItemFields(fields, values) {
+      const container = document.getElementById('itemFieldsContainer');
+      let html = '';
+
+      fields.forEach(field => {
+        const value = values[field.key] || '';
+        const required = field.required ? '<span class="required">*</span>' : '';
+
+        html += `<div class="form-group">
+          <label>${field.label} ${required}</label>`;
+
+        switch (field.type) {
+          case 'text':
+            html += `
+              <input type="text" 
+                     id="field_${field.key}" 
+                     value="${value}" 
+                     ${field.required ? 'required' : ''}
+                     placeholder="${field.placeholder || ''}">
+            `;
+            break;
+
+          case 'textarea':
+            html += `
+              <textarea id="field_${field.key}" 
+                        rows="3"
+                        ${field.required ? 'required' : ''}>${value}</textarea>
+            `;
+            break;
+
+          case 'image':
+            html += `
+              <input type="hidden" id="field_${field.key}" value="${value}">
+              <div class="image-upload-area" onclick="document.getElementById('field_${field.key}_input').click()">
+                <img id="field_${field.key}_preview" 
+                     src="${value || ''}" 
+                     class="preview-image"
+                     style="${value ? 'display:block' : ''}"
+                     onerror="this.style.display='none'">
+                <i class="fas fa-cloud-upload-alt upload-icon" 
+                   style="${value ? 'display:none' : ''}"></i>
+                <div class="upload-text">اضغط لاختيار صورة</div>
+                <div class="compress-info">
+                  <i class="fas fa-compress-arrows-alt"></i>
+                  سيتم ضغط الصورة تلقائياً
+                </div>
+                <input type="file" 
+                       id="field_${field.key}_input" 
+                       accept="image/*"
+                       style="display:none;"
+                       onchange="handleFieldImageUpload(event, '${field.key}')">
+              </div>
+            `;
+            break;
+
+          case 'icon_picker':
+            html += `
+              <input type="text" 
+                     id="field_${field.key}" 
+                     value="${value || ''}" 
+                     readonly
+                     style="cursor:pointer;background:var(--gray-100);"
+                     placeholder="اضغط للاختيار">
+              <div class="icon-picker" id="field_${field.key}_picker">
+                ${AVAILABLE_ICONS.map(icon => `
+                  <div class="icon-option ${value === icon ? 'selected' : ''}" 
+                       data-icon="${icon}"
+                       onclick="document.getElementById('field_${field.key}').value='${icon}';
+                                document.querySelectorAll('#field_${field.key}_picker .icon-option').forEach(el => el.classList.remove('selected'));
+                                this.classList.add('selected');">
+                    <i class="fas ${icon}"></i>
+                  </div>
+                `).join('')}
+              </div>
+            `;
+            break;
+
+          case 'products_picker':
+            html += `
+              <input type="text" 
+                     id="field_${field.key}_search" 
+                     placeholder="🔍 بحث في المنتجات..."
+                     oninput="filterProductsPicker(this.value)"
+                     style="margin-bottom:8px;">
+              <div class="products-picker" id="field_${field.key}_picker">
+                ${buildProductsPickerHTML(section => {})}
+              </div>
+            `;
+            // تعبئة المنتجات المختارة
+            setTimeout(() => {
+              const selected = values[field.key] || [];
+              selected.forEach(id => {
+                const el = document.querySelector(`#field_${field.key}_picker .product-pick-item[data-id="${id}"]`);
+                if (el) {
+                  el.classList.add('selected');
+                  el.dataset.selected = 'true';
+                }
+              });
+            }, 100);
+            break;
+        }
+
+        html += `</div>`;
+      });
+
+      container.innerHTML = html;
+    }
+
+    function buildProductsPickerHTML() {
+      let html = '';
+      allProducts.forEach(product => {
+        html += `
+          <div class="product-pick-item" 
+               data-id="${product.id}"
+               data-name="${(product.name || '').toLowerCase()}"
+               onclick="toggleProductPick(this)">
+            <img src="${product.imageUrl || '/gomla/assets/images/no-image.png'}"
+                 onerror="this.src='/gomla/assets/images/no-image.png'">
+            <div class="product-pick-info">
+              <div class="product-pick-name">${product.name}</div>
+              <div class="product-pick-price">
+                ${product.wholesalePrice ? `${product.wholesalePrice} ج.م` : ''}
+                ${product.retailPrice ? ` / ${product.retailPrice} ج.م` : ''}
+              </div>
+            </div>
+            <div class="product-pick-checkbox">
+              <i class="fas fa-check"></i>
+            </div>
+          </div>
+        `;
+      });
+      return html;
+    }
+
+    function toggleProductPick(el) {
+      el.classList.toggle('selected');
+      el.dataset.selected = el.classList.contains('selected') ? 'true' : 'false';
+    }
+
+    function filterProductsPicker(searchTerm) {
+      const term = searchTerm.toLowerCase().trim();
+      document.querySelectorAll('.product-pick-item').forEach(el => {
+        const name = el.dataset.name || '';
+        el.style.display = !term || name.includes(term) ? 'flex' : 'none';
+      });
+    }
+
+    async function handleFieldImageUpload(event, fieldKey) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      try {
+        showToast('⏳ جاري رفع الصورة...', 'info');
+        const url = await uploadImage(file);
+        if (!url) throw new Error('فشل الرفع');
+
+        document.getElementById(`field_${fieldKey}`).value = url;
+        const preview = document.getElementById(`field_${fieldKey}_preview`);
+        preview.src = url;
+        preview.style.display = 'block';
+        
+        // إخفاء الأيقونة
+        const icon = preview.parentElement.querySelector('.upload-icon');
+        if (icon) icon.style.display = 'none';
+
+        showToast('✅ تم رفع الصورة', 'success');
+      } catch (error) {
+        console.error('Error uploading image:', error);
+        showToast('❌ فشل رفع الصورة', 'error');
+      }
+    }
+
+    async function saveItem(event) {
+      event.preventDefault();
+
+      const section = currentSectionForItems;
+      if (!section) return;
+
+      const typeInfo = SECTION_TYPES[section.type];
+      if (!typeInfo) return;
+
+      const index = document.getElementById('itemIndex').value;
+
+      try {
+        if (section.type === 'products') {
+          // حفظ المنتجات المختارة
+          const selected = [];
+          document.querySelectorAll('.product-pick-item.selected').forEach(el => {
+            selected.push(el.dataset.id);
+          });
+
+          await db.collection('custom_sections').doc(section.id).update({
+            productIds: selected,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+
+          showToast('✅ تم حفظ المنتجات', 'success');
+        } else {
+          // بناء كائن العنصر
+          const item = {};
+          typeInfo.fields.forEach(field => {
+            const el = document.getElementById(`field_${field.key}`);
+            if (el) {
+              item[field.key] = el.value.trim();
+            }
+          });
+
+          const items = section.items || [];
+
+          if (index === '') {
+            // إضافة جديدة
+            items.push(item);
+          } else {
+            // تعديل
+            items[parseInt(index)] = item;
+          }
+
+          await db.collection('custom_sections').doc(section.id).update({
+            items: items,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+
+          showToast('✅ تم حفظ العنصر', 'success');
+        }
+
+        closeModal('itemModal');
+
+        // إعادة تحميل السيكشنات
+        await loadSections();
+        currentSectionForItems = allSections.find(s => s.id === section.id);
+        renderItems();
+
+      } catch (error) {
+        console.error('Error saving item:', error);
+        showToast('❌ حدث خطأ: ' + error.message, 'error');
+      }
+    }
+
+    async function deleteItem(index) {
+      const section = currentSectionForItems;
+      if (!section) return;
+
+      if (!confirm('⚠️ هل أنت متأكد من حذف هذا العنصر؟')) return;
+
+      try {
+        const items = section.items || [];
+        items.splice(index, 1);
+
+        await db.collection('custom_sections').doc(section.id).update({
+          items: items,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        showToast('✅ تم حذف العنصر', 'success');
+        await loadSections();
+        currentSectionForItems = allSections.find(s => s.id === section.id);
+        renderItems();
+      } catch (error) {
+        console.error('Error deleting item:', error);
+        showToast('❌ حدث خطأ', 'error');
+      }
+    }
+
+    async function moveItem(index, direction) {
+      const section = currentSectionForItems;
+      if (!section) return;
+
+      const items = section.items || [];
+      const newIndex = index + direction;
+      if (newIndex < 0 || newIndex >= items.length) return;
+
+      // تبديل
+      [items[index], items[newIndex]] = [items[newIndex], items[index]];
+
+      try {
+        await db.collection('custom_sections').doc(section.id).update({
+          items: items
+        });
+
+        await loadSections();
+        currentSectionForItems = allSections.find(s => s.id === section.id);
+        renderItems();
+      } catch (error) {
+        console.error('Error moving item:', error);
+        showToast('❌ حدث خطأ', 'error');
+      }
+    }
+
+    async function removeProductFromSection(productId) {
+      const section = currentSectionForItems;
+      if (!section) return;
+
+      const productIds = (section.productIds || []).filter(id => id !== productId);
+
+      try {
+        await db.collection('custom_sections').doc(section.id).update({
+          productIds: productIds,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        showToast('✅ تم حذف المنتج', 'success');
+        await loadSections();
+        currentSectionForItems = allSections.find(s => s.id === section.id);
+        renderItems();
+      } catch (error) {
+        console.error('Error removing product:', error);
+        showToast('❌ حدث خطأ', 'error');
+      }
+    }
+
+    // ============================================================
+    // 🛠️ دوال مساعدة
+    // ============================================================
+
+    function closeModal(modalId) {
+      document.getElementById(modalId)?.classList.remove('show');
+    }
+
+    // إغلاق المودالات عند الضغط خارجها
+    document.addEventListener('click', function(e) {
+      if (e.target.classList.contains('modal-overlay')) {
+        e.target.classList.remove('show');
+      }
+    });
+
+    // ESC لإغلاق المودال
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-overlay.show').forEach(m => m.classList.remove('show'));
+      }
+    });
+
+    // ============================================================
+    // 🚀 تشغيل الصفحة
+    // ============================================================
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // التحقق من الصلاحية - سوبر أدمن فقط
+      if (!protectSuperAdminPage()) return;
+
+      loadSections();
+
+      console.log('✅ sections-manager.html loaded successfully');
+    });
+
+    // تصدير الدوال
+    window.loadSections = loadSections;
+    window.openAddSectionModal = openAddSectionModal;
+    window.openEditSectionModal = openEditSectionModal;
+    window.saveSection = saveSection;
+    window.toggleSection = toggleSection;
+    window.moveSection = moveSection;
+    window.deleteSection = deleteSection;
+    window.openItemsModal = openItemsModal;
+    window.openAddItemModal = openAddItemModal;
+    window.openEditItemModal = openEditItemModal;
+    window.saveItem = saveItem;
+    window.deleteItem = deleteItem;
+    window.moveItem = moveItem;
+    window.removeProductFromSection = removeProductFromSection;
+    window.handleFieldImageUpload = handleFieldImageUpload;
+    window.toggleProductPick = toggleProductPick;
+    window.filterProductsPicker = filterProductsPicker;
+    window.selectIcon = selectIcon;
+    window.closeModal = closeModal;
+  </script>
+
+</body>
+</html>
