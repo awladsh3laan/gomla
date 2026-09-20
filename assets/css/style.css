@@ -3857,6 +3857,602 @@ input, select, textarea {
   font-size: 0.9rem;
 }
 
+/* ═══════════════════════════════════════════════════════════════
+   ═══════════════════════════════════════════════════════════════
+   
+   🆕 الإضافات النهائية - المرحلة 1
+   📅 آخر تحديث: 2026-09-19
+   
+═══════════════════════════════════════════════════════════════
+   ═══════════════════════════════════════════════════════════════ */
+
+
+/* ═══════════════════════════════════════════════════════════════
+   🏢 1. سيكشن "نبذة عن أولاد شعلان"
+   ═══════════════════════════════════════════════════════════════ */
+
+.about-section {
+  margin-bottom: 40px;
+}
+
+.about-card {
+  background: linear-gradient(135deg, var(--white) 0%, #fcf9f0 100%);
+  border-radius: var(--radius-md);
+  padding: 40px 32px;
+  text-align: center;
+  box-shadow: var(--shadow-md);
+  border: 2px solid var(--gold-light);
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition);
+}
+
+/* شريط ذهبي في الأعلى */
+.about-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light), var(--gold), var(--gold-dark));
+  background-size: 200% 100%;
+  animation: shimmer 3s linear infinite;
+}
+
+/* أيقونة الشركة */
+.about-card .about-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  color: var(--gold);
+  font-size: 2.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  box-shadow: 0 8px 24px rgba(26, 42, 74, 0.25);
+  animation: float 3s ease-in-out infinite;
+}
+
+/* عنوان النبذة */
+.about-card .about-title {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--navy);
+  margin-bottom: 20px;
+  position: relative;
+  display: inline-block;
+  padding-bottom: 12px;
+}
+
+.about-card .about-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: var(--gold);
+  border-radius: 3px;
+}
+
+/* محتوى النبذة */
+.about-card .about-content {
+  font-size: 1rem;
+  line-height: 1.9;
+  color: var(--gray-700);
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: right;
+}
+
+.about-card .about-content p {
+  margin-bottom: 12px;
+}
+
+.about-card .about-content strong {
+  color: var(--gold-dark);
+  font-weight: 800;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   📞 2. سيكشن "تواصل معنا"
+   ═══════════════════════════════════════════════════════════════ */
+
+.contact-section {
+  margin-bottom: 40px;
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* كارت التواصل */
+.contact-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  color: var(--white);
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.contact-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  transition: transform 0.6s ease;
+  transform: scale(0);
+}
+
+.contact-card:hover::before {
+  transform: scale(1);
+}
+
+.contact-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* كارت واتساب */
+.contact-card.whatsapp-card {
+  background: linear-gradient(135deg, #25D366, #128C7E);
+}
+
+/* كارت الإيميل */
+.contact-card.email-card {
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+}
+
+/* أيقونة الكارت */
+.contact-card .contact-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  color: var(--white);
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+  transition: var(--transition);
+}
+
+.contact-card:hover .contact-icon {
+  transform: scale(1.1) rotate(-8deg);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+/* معلومات الكارت */
+.contact-card .contact-info {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.contact-card .contact-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.contact-card .contact-sub {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+/* سهم الكارت */
+.contact-card .contact-arrow {
+  font-size: 1.2rem;
+  opacity: 0.7;
+  transition: var(--transition);
+  position: relative;
+  z-index: 1;
+}
+
+.contact-card:hover .contact-arrow {
+  transform: translateX(-6px);
+  opacity: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🆕 3. السيكشنات المخصصة (من لوحة التحكم)
+   ═══════════════════════════════════════════════════════════════ */
+
+.custom-section {
+  margin-bottom: 40px;
+  animation: fadeInUp 0.6s ease both;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🖼️ 3.1. سيكشن البنرات (Banners)
+   ═══════════════════════════════════════════════════════════════ */
+
+.banners-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.banner-item {
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  text-decoration: none;
+  display: block;
+  background: var(--gray-100);
+}
+
+.banner-item:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.banner-item img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+  transition: var(--transition);
+}
+
+.banner-item:hover img {
+  transform: scale(1.05);
+}
+
+.banner-item .banner-title {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  color: var(--white);
+  padding: 30px 16px 12px;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🎴 3.2. سيكشن الكروت (Cards)
+   ═══════════════════════════════════════════════════════════════ */
+
+.custom-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.custom-card {
+  background: var(--white);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  text-decoration: none;
+  color: var(--gray-800);
+  border: 2px solid transparent;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.custom-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--gold);
+}
+
+.custom-card .custom-card-image {
+  width: 100%;
+  height: 140px;
+  overflow: hidden;
+  background: var(--gray-100);
+}
+
+.custom-card .custom-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: var(--transition);
+}
+
+.custom-card:hover .custom-card-image img {
+  transform: scale(1.05);
+}
+
+.custom-card .custom-card-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  color: var(--gold);
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px auto 0;
+}
+
+.custom-card .custom-card-body {
+  padding: 16px;
+  text-align: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.custom-card .custom-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+
+.custom-card .custom-card-desc {
+  font-size: 0.85rem;
+  color: var(--gray-500);
+  line-height: 1.6;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🎬 3.3. سيكشن الفيديوهات (Videos)
+   ═══════════════════════════════════════════════════════════════ */
+
+.videos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.video-item {
+  background: var(--white);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+}
+
+.video-item:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.video-item .video-wrapper {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 ratio */
+  background: var(--gray-900);
+  overflow: hidden;
+}
+
+.video-item .video-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.video-item .video-title {
+  padding: 12px 16px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--navy);
+  text-align: center;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   📷 3.4. سيكشن الصور (Images Gallery)
+   ═══════════════════════════════════════════════════════════════ */
+
+.images-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.image-item {
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+  aspect-ratio: 1;
+}
+
+.image-item:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.image-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: var(--transition);
+  display: block;
+}
+
+.image-item:hover img {
+  transform: scale(1.08);
+}
+
+.image-item .image-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  color: var(--white);
+  padding: 24px 12px 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+  transform: translateY(100%);
+  transition: var(--transition);
+}
+
+.image-item:hover .image-caption {
+  transform: translateY(0);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🖼️ 4. Modal عرض الصور
+   ═══════════════════════════════════════════════════════════════ */
+
+.modal-overlay.show img[style*="zoom-out"] {
+  animation: fadeIn 0.3s ease;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   📱 5. Responsive - الموبايل
+   ═══════════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) and (pointer: coarse) {
+
+  /* نبذة عن الشركة */
+  .about-card {
+    padding: 24px 16px;
+  }
+
+  .about-card .about-icon {
+    width: 64px;
+    height: 64px;
+    font-size: 1.8rem;
+  }
+
+  .about-card .about-title {
+    font-size: 1.2rem;
+  }
+
+  .about-card .about-content {
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  /* تواصل معنا */
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .contact-card {
+    padding: 16px 20px;
+  }
+
+  .contact-card .contact-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+  }
+
+  .contact-card .contact-title {
+    font-size: 1rem;
+  }
+
+  /* البنرات */
+  .banners-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .banner-item img {
+    height: 150px;
+  }
+
+  /* الكروت */
+  .custom-cards-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+  }
+
+  .custom-card .custom-card-image {
+    height: 100px;
+  }
+
+  .custom-card .custom-card-icon {
+    width: 55px;
+    height: 55px;
+    font-size: 1.4rem;
+    margin: 14px auto 0;
+  }
+
+  .custom-card .custom-card-body {
+    padding: 12px 10px;
+  }
+
+  .custom-card .custom-card-title {
+    font-size: 0.85rem;
+  }
+
+  .custom-card .custom-card-desc {
+    font-size: 0.75rem;
+  }
+
+  /* الفيديوهات */
+  .videos-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* الصور */
+  .images-gallery {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 8px;
+  }
+
+  .image-item .image-caption {
+    transform: translateY(0);
+    font-size: 0.75rem;
+    padding: 16px 8px 6px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .about-card {
+    padding: 20px 12px;
+  }
+
+  .contact-card {
+    padding: 14px 16px;
+  }
+
+  .custom-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .images-gallery {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+
+/* ═══════════════════════════════════════════════════════════════
+   ✅ نهاية الإضافات النهائية - المرحلة 1
+   ═══════════════════════════════════════════════════════════════ */
+
 /* ============================================================
 ✅ نهاية الملف - style.css v6.0
 ============================================================ */
