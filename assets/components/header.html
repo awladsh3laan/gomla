@@ -1,78 +1,92 @@
 <!-- ============================================================
-# 🧠 الهيدر الذكي - أولاد شعلان جملة
-# 📌 يتم تحميله عبر main.js في كل الصفحات
-# ============================================================ -->
+🧠 الهيدر الذكي - أولاد شعلان للمنظفات والورقيات
+📌 يتم تحميله عبر main.js في كل الصفحات
+📱 يظهر فقط على الأجهزة الكبيرة (كمبيوتر/تابلت)
+📱 على الموبايل يظهر بدلاً منه mobile-top-bar
+============================================================ -->
 
 <header class="smart-header">
   <div class="container">
     
-    <!-- ===== الجزء الأيسر: اللوجو + اسم الشركة ===== -->
+    <!-- ===== الجزء الأيمن: اللوجو ===== -->
     <div class="header-left">
       <a href="/gomla/" class="logo">
-        <img src="assets/images/logo.png" alt="أولاد شعلان" onerror="this.style.display='none'">
+        <img src="/gomla/assets/images/logo.png" alt="أولاد شعلان" onerror="this.style.display='none'">
         <span>أولاد شعلان <small>للمنظفات والورقيات</small></span>
       </a>
     </div>
 
     <!-- ===== الجزء الأوسط: أزرار حسب الصلاحية ===== -->
     <div class="header-center" id="header-center-buttons">
-      <!-- سيتم تعبئتها عبر JavaScript حسب المستخدم -->
+      <!-- يتم تعبئتها عبر main.js حسب الصلاحية -->
     </div>
 
-    <!-- ===== الجزء الأيمن: صورة المستخدم + اسمه + رتبته / قائمة الدخول ===== -->
+    <!-- ===== الجزء الأيسر: المستخدم والإشعارات والسلة ===== -->
     <div class="header-right">
       
       <!-- ===== وضع الزائر ===== -->
       <div id="guest-mode" class="header-guest">
-        <div class="dropdown">
-          <button class="btn btn-gold dropdown-toggle">
-            <i class="fas fa-user"></i> تسجيل الدخول ▾
+        <div class="dropdown-wrapper">
+          <button class="btn btn-sm btn-gold">
+            <i class="fas fa-user"></i> تسجيل الدخول
+            <i class="fas fa-chevron-down" style="font-size:0.7rem;"></i>
           </button>
           <div class="dropdown-menu">
-            <a href="/gomla/trader-login.html"><i class="fas fa-store"></i> الدخول كتاجر</a>
-            <a href="/gomla/customer-login.html"><i class="fas fa-user"></i> الدخول كعميل</a>
-            <a href="/gomla/admin/login.html"><i class="fas fa-user-shield"></i> الدخول كمسؤول</a>
+            <a href="/gomla/customer-login.html">
+              <i class="fas fa-user"></i> دخول العملاء
+            </a>
+            <a href="/gomla/trader-login.html">
+              <i class="fas fa-store"></i> دخول التجار
+            </a>
+            <a href="/gomla/cashier-login.html">
+              <i class="fas fa-cash-register"></i> دخول الكاشير
+            </a>
+            <a href="/gomla/admin/login.html">
+              <i class="fas fa-user-shield"></i> دخول الإدارة
+            </a>
           </div>
         </div>
       </div>
 
-      <!-- ===== وضع العميل / المدير ===== -->
+      <!-- ===== وضع المستخدم المسجل ===== -->
       <div id="user-mode" style="display:none;">
-        <div class="user-info">
-          <img src="assets/images/default-avatar.png" alt="صورة المستخدم" id="userAvatar" class="user-avatar">
-          <div class="user-details">
-            <span class="user-name" id="userName">مستخدم</span>
-            <span class="user-role" id="userRole">عميل</span>
+        <div class="user-info" style="display:flex;align-items:center;gap:10px;">
+          <img src="/gomla/assets/images/default-avatar.png" 
+               alt="صورة المستخدم" 
+               id="userAvatar" 
+               class="user-avatar"
+               style="width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid var(--gold);cursor:pointer;"
+               onclick="openProfile()">
+          <div class="user-details" style="display:flex;flex-direction:column;line-height:1.2;">
+            <span class="user-name" id="userName" style="font-weight:700;font-size:0.9rem;color:var(--white);">مستخدم</span>
+            <span class="user-role" id="userRole" style="font-size:0.7rem;opacity:0.8;">عميل</span>
           </div>
-          <button class="btn btn-sm btn-danger" onclick="logoutUser()">
+          <button class="btn btn-sm btn-danger" onclick="logoutUser()" title="خروج">
             <i class="fas fa-sign-out-alt"></i>
           </button>
         </div>
       </div>
 
       <!-- ===== زر الإشعارات ===== -->
-      <div class="notification-badge" id="notification-container">
-        <button class="btn btn-sm btn-outline" onclick="toggleNotifications()">
+      <div class="notification-badge">
+        <button class="btn btn-sm btn-outline" onclick="toggleNotifications()" title="الإشعارات">
           <i class="fas fa-bell"></i>
-          <span class="badge-count" id="notification-badge">0</span>
         </button>
+        <span class="badge-count" id="notification-badge">0</span>
         <div class="notifications-dropdown" id="notifications-dropdown">
-          <div class="notification-empty">لا توجد إشعارات</div>
+          <div class="notification-empty">
+            <i class="fas fa-bell-slash"></i>
+            لا توجد إشعارات
+          </div>
         </div>
       </div>
 
       <!-- ===== زر السلة ===== -->
-      <a href="/gomla/cart.html" class="btn btn-sm btn-outline cart-btn">
+      <a href="/gomla/cart.html" class="btn btn-sm btn-outline" title="السلة" style="position:relative;">
         <i class="fas fa-shopping-cart"></i>
-        <span class="badge-count" id="cart-badge">0</span>
+        <span class="badge-count" id="cart-badge" style="position:absolute;top:-8px;right:-8px;background:var(--danger);color:white;font-size:0.6rem;font-weight:700;padding:2px 6px;border-radius:9999px;min-width:18px;text-align:center;display:none;">0</span>
       </a>
 
     </div>
-
-    <!-- ===== زر المنيو للهاتف ===== -->
-    <button class="mobile-menu-btn" id="mobileMenuBtn">
-      <i class="fas fa-bars"></i>
-    </button>
-
   </div>
 </header>
