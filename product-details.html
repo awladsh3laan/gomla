@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تفاصيل المنتج - أولاد شعلان</title>
+
+  <!-- ===== SEO ===== -->
+  <meta name="description" content="تفاصيل المنتج - أولاد شعلان للمنظفات والورقيات">
+  <meta name="theme-color" content="#1a2a4a">
+
+  <!-- ===== Font Awesome ===== -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- ===== Google Font ===== -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- ===== الستايل الموحد ===== -->
+  <link rel="stylesheet" href="/gomla/assets/css/style.css">
+
+  <!-- ===== Favicon ===== -->
+  <link rel="icon" href="/gomla/assets/images/favicon.ico">
+
+  <style>
+    /* ============================================================
+       🎨 ستايل صفحة تفاصيل المنتج
+       ============================================================ */
+    
+    .product-details-page {
+      padding: 16px 0 40px;
+    }
+
+    /* ===== التخطيط ===== */
+    .product-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 24px;
+    }
+
+    /* ===== معرض الصور ===== */
+    .product-gallery {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .main-image-wrapper {
+      position: relative;
+      background: var(--gray-100);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .main-image-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      cursor: zoom-in;
+      transition: var(--transition);
+    }
+
+    .main-image-wrapper img:hover {
+      transform: scale(1.02);
+    }
+
+    .main-image-wrapper .discount-badge {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: var(--danger);
+      color: white;
+      padding: 8px 18px;
+      border-radius: var(--radius-full);
+      font-size: 0.9rem;
+      font-weight: 800;
+      z-index: 5;
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+    }
+
+    .main-image-wrapper .availability-badge {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 0.8rem;
+      font-weight: 700;
+      z-index: 5;
+    }
+
+    .main-image-wrapper .availability-badge.available {
+      background: var(--success);
+      color: white;
+    }
+
+    .main-image-wrapper .availability-badge.unavailable {
+      background: var(--danger);
+      color: white;
+    }
+
+    /* ===== التفاصيل ===== */
+    .product-details-info {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .product-name-lg {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--navy);
+      line-height: 1.4;
+    }
+
+    /* شارات البراند والتصنيف */
+    .product-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .product-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: var(--gray-100);
+      color: var(--gray-700);
+      border-radius: var(--radius-full);
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .product-tag:hover {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    .product-tag i {
+      color: var(--gold);
+    }
+
+    .product-tag:hover i {
+      color: var(--navy);
+    }
+
+    /* ===== السعر ===== */
+    .price-section {
+      background: var(--gray-50);
+      padding: 16px;
+      border-radius: var(--radius-md);
+      border: 2px solid var(--gold-light);
+    }
+
+    .price-main {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+
+    .price-main .price-value {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--gold);
+    }
+
+    .price-main .price-unit {
+      font-size: 1rem;
+      color: var(--gray-600);
+      font-weight: 600;
+    }
+
+    .price-main .price-before {
+      font-size: 1.1rem;
+      color: var(--gray-400);
+      text-decoration: line-through;
+      font-weight: 500;
+    }
+
+    .price-regular {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--gold);
+    }
+
+    /* ===== تفاصيل الأسعار للتاجر ===== */
+    .wholesale-prices-box {
+      background: linear-gradient(135deg, #fcf9f0 0%, #f8f4e8 100%);
+      border: 2px solid var(--gold);
+      padding: 16px;
+      border-radius: var(--radius-md);
+      margin-top: 8px;
+    }
+
+    .wholesale-prices-box h4 {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .wholesale-prices-box h4 i {
+      color: var(--gold);
+    }
+
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px dashed rgba(201, 168, 76, 0.3);
+      font-size: 0.9rem;
+    }
+
+    .price-row:last-child {
+      border-bottom: none;
+    }
+
+    .price-row .label {
+      color: var(--gray-600);
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .price-row .label i {
+      color: var(--gold);
+    }
+
+    .price-row .value {
+      font-weight: 800;
+      color: var(--navy);
+      font-size: 1rem;
+    }
+
+    .price-row.highlight {
+      background: rgba(34, 197, 94, 0.08);
+      padding: 10px;
+      border-radius: var(--radius-sm);
+      margin-top: 6px;
+      border: 1px solid rgba(34, 197, 94, 0.2);
+    }
+
+    .price-row.highlight .value {
+      color: var(--success);
+      font-size: 1.05rem;
+    }
+
+    /* ===== معلومات المخزون ===== */
+    .stock-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      flex-wrap: wrap;
+    }
+
+    .stock-info i {
+      color: var(--gold);
+      font-size: 1.1rem;
+    }
+
+    .stock-info .stock-value {
+      font-weight: 800;
+      color: var(--navy);
+    }
+
+    .stock-info .stock-value.low {
+      color: var(--warning);
+    }
+
+    .stock-info .stock-value.out {
+      color: var(--danger);
+    }
+
+    /* ===== الملاحظات ===== */
+    .product-notes {
+      background: #fef9e7;
+      border-right: 4px solid var(--gold);
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      color: var(--gray-700);
+      line-height: 1.7;
+    }
+
+    .product-notes .notes-title {
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .product-notes .notes-title i {
+      color: var(--gold);
+    }
+
+    /* ===== التحكم بالكمية ===== */
+    .quantity-section {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .quantity-section label {
+      font-weight: 700;
+      color: var(--navy);
+      font-size: 0.95rem;
+    }
+
+    .quantity-control {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gray-50);
+      padding: 4px;
+      border-radius: var(--radius-full);
+      border: 2px solid var(--gray-200);
+    }
+
+    .quantity-control button {
+      width: 38px;
+      height: 38px;
+      border: none;
+      border-radius: 50%;
+      background: var(--white);
+      color: var(--navy);
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .quantity-control button:hover:not(:disabled) {
+      background: var(--gold);
+      color: var(--navy);
+      transform: scale(1.05);
+    }
+
+    .quantity-control button:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .quantity-control .qty-display {
+      min-width: 50px;
+      text-align: center;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--navy);
+    }
+
+    /* ===== أزرار الإجراءات ===== */
+    .action-buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .action-buttons .btn {
+      flex: 1;
+      min-width: 160px;
+      padding: 14px 24px;
+      font-size: 1rem;
+    }
+
+    .wishlist-btn {
+      width: 54px;
+      height: 54px;
+      padding: 0;
+      flex: 0 0 auto !important;
+      min-width: 54px !important;
+      background: var(--white) !important;
+      border: 2px solid var(--gray-200) !important;
+      color: var(--gray-500) !important;
+      font-size: 1.3rem;
+    }
+
+    .wishlist-btn:hover {
+      border-color: var(--danger) !important;
+      color: var(--danger) !important;
+      background: #fef2f2 !important;
+    }
+
+    .wishlist-btn.active {
+      background: #fef2f2 !important;
+      border-color: var(--danger) !important;
+      color: var(--danger) !important;
+    }
+
+    /* ===== الوصف ===== */
+    .description-section {
+      background: var(--white);
+      padding: 24px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 24px;
+    }
+
+    .description-section h3 {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding-bottom: 12px;
+      border-bottom: 2px solid var(--gray-100);
+    }
+
+    .description-section h3 i {
+      color: var(--gold);
+    }
+
+    .description-content {
+      font-size: 0.95rem;
+      line-height: 1.9;
+      color: var(--gray-700);
+      white-space: pre-wrap;
+    }
+
+    /* ===== منتجات مشابهة ===== */
+    .related-section {
+      margin-bottom: 24px;
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 16px;
+    }
+
+    /* ===== التحميل ===== */
+    .loading-container {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--gray-400);
+    }
+
+    .loading-container i {
+      font-size: 3rem;
+      display: block;
+      margin-bottom: 12px;
+      color: var(--gold);
+    }
+
+    /* ===== الخطأ ===== */
+    .error-container {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--gray-500);
+    }
+
+    .error-container i {
+      font-size: 4rem;
+      display: block;
+      margin-bottom: 16px;
+      color: var(--danger);
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 992px) {
+      .product-layout {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+    }
+
+    @media (max-width: 768px) and (pointer: coarse) {
+      .product-details-page {
+        padding: 12px 0 24px;
+      }
+
+      .product-layout {
+        padding: 16px;
+        gap: 16px;
+      }
+
+      .product-name-lg {
+        font-size: 1.2rem;
+      }
+
+      .price-main .price-value {
+        font-size: 1.6rem;
+      }
+
+      .price-main .price-before {
+        font-size: 0.9rem;
+      }
+
+      .action-buttons .btn {
+        min-width: 100%;
+        padding: 12px 20px;
+        font-size: 0.95rem;
+      }
+
+      .wishlist-btn {
+        min-width: 100% !important;
+        width: 100%;
+        height: 48px;
+      }
+
+      .related-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 10px;
+      }
+
+      .description-section {
+        padding: 16px;
+      }
+
+      .description-section h3 {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================ -->
+  <!-- 📱 مكونات الموبايل                                            -->
+  <!-- ============================================================ -->
+  <div id="mobile-top-bar"></div>
+  <div id="mobile-top-tabs"></div>
+
+  <!-- ============================================================ -->
+  <!-- 🧠 الهيدر (يتم تحميله من main.js)                             -->
+  <!-- ============================================================ -->
+  <div id="header-placeholder"></div>
+
+  <!-- ============================================================ -->
+  <!-- 📄 محتوى الصفحة                                              -->
+  <!-- ============================================================ -->
+  <main class="page-content">
+    <div class="container">
+
+      <!-- مسار التنقل -->
+      <div class="breadcrumb" id="breadcrumb">
+        <a href="/gomla/">الرئيسية</a>
+        <span>›</span>
+        <span id="breadcrumbName">جاري التحميل...</span>
+      </div>
+
+      <!-- محتوى المنتج -->
+      <div id="productContainer">
+        <div class="loading-container">
+          <i class="fas fa-spinner fa-spin"></i>
+          <p>جاري تحميل تفاصيل المنتج...</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ============================================================ -->
+  <!-- 📱 التبويبات السفلى + شريط الحقوق                              -->
+  <!-- ============================================================ -->
+  <div id="mobile-bottom-tabs"></div>
+  <div id="mobile-copyright"></div>
+
+  <!-- ============================================================ -->
+  <!-- 👣 الفوتر (يتم تحميله من main.js)                             -->
+  <!-- ============================================================ -->
+  <div id="footer-placeholder"></div>
+
+  <!-- ============================================================ -->
+  <!-- 🧠 السايدبار (يتم تحميله من main.js)                          -->
+  <!-- ============================================================ -->
+  <div id="sidebar-placeholder"></div>
+
+  <!-- ============================================================ -->
+  <!-- 🍞 Toast Container                                            -->
+  <!-- ============================================================ -->
+  <div id="toast-container"></div>
+
+  <!-- ============================================================ -->
+  <!-- 📚 Firebase & JavaScript                                      -->
+  <!-- ============================================================ -->
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+  <script src="/gomla/assets/js/firebase-config.js"></script>
+  <script src="/gomla/assets/js/main.js"></script>
+
+  <!-- ============================================================ -->
+  <!-- 📝 كود الصفحة الخاص                                           -->
+  <!-- ============================================================ -->
+  <script>
+    // ============================================================
+    // 📄 product-details.html - صفحة تفاصيل المنتج
+    // ============================================================
+
+    // ===== المتغيرات العامة =====
+    let currentProduct = null;
+    let quantity = 1;
+    let isInWishlistFlag = false;
+
+    // ============================================================
+    // 🚀 تحميل الصفحة
+    // ============================================================
+
+    async function loadProductDetails() {
+      const container = document.getElementById('productContainer');
+      if (!container) return;
+
+      // جلب معرّف المنتج من الرابط
+      const urlParams = new URLSearchParams(window.location.search);
+      const productId = urlParams.get('id');
+
+      if (!productId) {
+        container.innerHTML = renderError('لم يتم تحديد منتج');
+        return;
+      }
+
+      try {
+        // جلب المنتج من Firestore
+        const doc = await db.collection(COLLECTIONS.PRODUCTS).doc(productId).get();
+        
+        if (!doc.exists) {
+          container.innerHTML = renderError('المنتج غير موجود');
+          return;
+        }
+
+        currentProduct = { id: doc.id, ...doc.data() };
+
+        // التحقق من التوفّر
+        if (currentProduct.available === false) {
+          container.innerHTML = renderError('هذا المنتج غير متوفر حالياً');
+          return;
+        }
+
+        // تحديث عنوان الصفحة
+        document.title = `${currentProduct.name} - أولاد شعلان`;
+
+        // تحديث مسار التنقل
+        document.getElementById('breadcrumbName').textContent = currentProduct.name;
+
+        // رسم الصفحة حسب الصلاحية
+        renderProductPage();
+
+        // تحميل المنتجات المشابهة
+        loadRelatedProducts();
+
+      } catch (error) {
+        console.error('Error loading product:', error);
+        container.innerHTML = renderError('حدث خطأ في تحميل المنتج');
+      }
+    }
+
+    // ============================================================
+    // 🎨 رسم الصفحة
+    // ============================================================
+
+    function renderProductPage() {
+      const container = document.getElementById('productContainer');
+      const user = getCurrentUser();
+      const role = user ? user.data.role : ROLES.GUEST;
+      
+      const isSuperAdmin = role === ROLES.SUPER;
+      const isAdminUser = role === ROLES.ADMIN || role === ROLES.SUPER;
+      const isWholesaleUser = role === ROLES.WHOLESALE;
+      const isRetailUser = role === ROLES.RETAIL || !user;
+      
+      const p = currentProduct;
+      
+      // ===== حساب الأسعار =====
+      const purchasePrice = p.purchasePrice || 0;
+      const wholesalePrice = p.wholesalePrice || 0;
+      const retailPrice = p.retailPrice || 0;
+      const offerPrice = p.offerPrice || 0;
+      const hasOffer = p.hasOffer === true && offerPrice > 0;
+      
+      const piecesPerUnit = p.piecesPerUnit || 1;
+      const unit = p.unit || 'كرتونة';
+      const retailUnit = p.retailUnit || 'قطعة';
+      
+      // سعر القطعة من الجملة
+      const wholesalePiecePrice = piecesPerUnit > 0 ? (wholesalePrice / piecesPerUnit) : 0;
+      
+      // هامش الربح
+      const profitPerUnit = wholesalePrice > 0 ? (retailPrice * piecesPerUnit - wholesalePrice) : 0;
+      const profitPerPiece = piecesPerUnit > 0 ? (profitPerUnit / piecesPerUnit) : 0;
+      const profitMarginPercent = wholesalePrice > 0 ? ((profitPerUnit / wholesalePrice) * 100) : 0;
+      
+      // المخزون
+      const stock = p.stockQuantity || 0;
+      const maxOrder = p.maxOrder || 0;
+      const isAvailable = stock > 0;
+      const isLowStock = isAvailable && stock <= 5;
+      
+      // شارات الحالة
+      let availabilityBadge = '';
+      if (!isAvailable) {
+        availabilityBadge = `<span class="availability-badge unavailable"><i class="fas fa-times-circle"></i> غير متوفر</span>`;
+      } else {
+        availabilityBadge = `<span class="availability-badge available"><i class="fas fa-check-circle"></i> متوفر</span>`;
+      }
+      
+      // شارة العرض
+      let discountBadge = '';
+      if (hasOffer && isRetailUser) {
+        const discount = retailPrice > 0 ? Math.round(((retailPrice - offerPrice) / retailPrice) * 100) : 0;
+        discountBadge = `<div class="discount-badge"><i class="fas fa-percent"></i> خصم ${discount}%</div>`;
+      }
+      
+      // ===== بناء HTML حسب الصلاحية =====
+      let priceSectionHTML = '';
+      
+      if (isWholesaleUser || isAdminUser) {
+        // ===== للتاجر والأدمن: كل الأسعار =====
+        priceSectionHTML = `
+          <div class="price-section">
+            <div class="price-main">
+              ${hasOffer ? `
+                <span class="price-value">${offerPrice.toFixed(2)} ج.م</span>
+                <span class="price-before">${wholesalePrice.toFixed(2)} ج.م</span>
+              ` : `
+                <span class="price-value">${wholesalePrice.toFixed(2)} ج.م</span>
+              `}
+              <span class="price-unit">/ ${unit}</span>
+            </div>
+            <div style="font-size:0.85rem;color:var(--gray-500);">
+              <i class="fas fa-info-circle" style="color:var(--gold);"></i>
+              سعر الجملة للوحدة الكاملة
+            </div>
+            
+            <div class="wholesale-prices-box">
+              <h4><i class="fas fa-calculator"></i> تفاصيل الأسعار</h4>
+              
+              <div class="price-row">
+                <span class="label"><i class="fas fa-box"></i> سعر الوحدة (${unit})</span>
+                <span class="value">${wholesalePrice.toFixed(2)} ج.م</span>
+              </div>
+              
+              ${piecesPerUnit > 1 ? `
+                <div class="price-row">
+                  <span class="label"><i class="fas fa-cube"></i> عدد القطع في الوحدة</span>
+                  <span class="value">${piecesPerUnit} ${retailUnit}</span>
+                </div>
+                
+                <div class="price-row">
+                  <span class="label"><i class="fas fa-tag"></i> سعر القطعة (جملة)</span>
+                  <span class="value">${wholesalePiecePrice.toFixed(2)} ج.م</span>
+                </div>
+              ` : ''}
+              
+              <div class="price-row">
+                <span class="label"><i class="fas fa-shopping-basket"></i> سعر البيع للمستهلك</span>
+                <span class="value">${retailPrice.toFixed(2)} ج.م</span>
+              </div>
+              
+              ${piecesPerUnit > 1 ? `
+                <div class="price-row highlight">
+                  <span class="label">
+                    <i class="fas fa-chart-line"></i>
+                    هامش الربح في القطعة
+                  </span>
+                  <span class="value">${profitPerPiece.toFixed(2)} ج.م</span>
+                </div>
+                
+                <div class="price-row highlight">
+                  <span class="label">
+                    <i class="fas fa-chart-line"></i>
+                    هامش الربح في الوحدة
+                  </span>
+                  <span class="value">${profitPerUnit.toFixed(2)} ج.م (${profitMarginPercent.toFixed(0)}%)</span>
+                </div>
+              ` : `
+                <div class="price-row highlight">
+                  <span class="label">
+                    <i class="fas fa-chart-line"></i>
+                    هامش الربح
+                  </span>
+                  <span class="value">${profitPerUnit.toFixed(2)} ج.م (${profitMarginPercent.toFixed(0)}%)</span>
+                </div>
+              `}
+            </div>
+          </div>
+        `;
+      } else {
+        // ===== للعميل والزائر: السعر القطاعي فقط =====
+        priceSectionHTML = `
+          <div class="price-section">
+            <div class="price-main">
+              ${hasOffer ? `
+                <span class="price-value" style="color:var(--danger);">${offerPrice.toFixed(2)} ج.م</span>
+                <span class="price-before">${retailPrice.toFixed(2)} ج.م</span>
+              ` : `
+                <span class="price-value">${retailPrice.toFixed(2)} ج.م</span>
+              `}
+              <span class="price-unit">/ ${retailUnit}</span>
+            </div>
+          </div>
+        `;
+      }
+      
+      // ===== الملاحظات (للتاجر والأدمن فقط) =====
+      let notesHTML = '';
+      if (p.notes && (isWholesaleUser || isAdminUser)) {
+        notesHTML = `
+          <div class="product-notes">
+            <div class="notes-title"><i class="fas fa-sticky-note"></i> ملاحظات</div>
+            ${p.notes}
+          </div>
+        `;
+      }
+      
+      // ===== الحد الأقصى للطلب (للتاجر فقط) =====
+      let maxOrderHTML = '';
+      if (isWholesaleUser && maxOrder > 0) {
+        maxOrderHTML = `
+          <div class="stock-info" style="background:#fef9e7;border:1px solid var(--gold-light);">
+            <i class="fas fa-exclamation-triangle"></i>
+            <span>الحد الأقصى للطلب: <strong>${maxOrder} ${unit}</strong></span>
+          </div>
+        `;
+      }
+      
+      // ===== سعر الشراء (للسوبر أدمن فقط) =====
+      let purchasePriceHTML = '';
+      if (isSuperAdmin && purchasePrice > 0) {
+        purchasePriceHTML = `
+          <div class="stock-info" style="background:#fdf2e9;border:1px solid #f39c12;">
+            <i class="fas fa-money-bill-wave" style="color:#e67e22;"></i>
+            <span>سعر الشراء: <strong style="color:#e67e22;">${purchasePrice.toFixed(2)} ج.م</strong></span>
+          </div>
+        `;
+      }
+      
+      // ===== زر التعديل (للسوبر أدمن والأدمن) =====
+      let editBtnHTML = '';
+      if (isAdminUser) {
+        editBtnHTML = `
+          <a href="/gomla/admin/products.html?edit=${p.id}" 
+             class="btn btn-outline" 
+             style="margin-top:8px;">
+            <i class="fas fa-edit"></i> تعديل المنتج
+          </a>
+        `;
+      }
+      
+      // ===== زر إضافة للسلة =====
+      const canAddToCart = isAvailable && (!isWholesaleUser || stock > 0);
+      const maxQty = isWholesaleUser ? Math.min(maxOrder || stock, stock) : stock;
+      
+      // ===== بناء HTML النهائي =====
+      container.innerHTML = `
+        <div class="product-layout">
+          
+          <!-- معرض الصور -->
+          <div class="product-gallery">
+            <div class="main-image-wrapper">
+              ${discountBadge}
+              ${availabilityBadge}
+              <img src="${p.imageUrl || '/gomla/assets/images/no-image.png'}" 
+                   alt="${p.name}"
+                   id="mainProductImage"
+                   onerror="this.src='/gomla/assets/images/no-image.png'"
+                   onclick="openImageModal(this.src)">
+            </div>
+          </div>
+          
+          <!-- التفاصيل -->
+          <div class="product-details-info">
+            
+            <h1 class="product-name-lg">${p.name}</h1>
+            
+            <!-- البراند والتصنيف -->
+            <div class="product-tags">
+              ${p.brandName ? `
+                <a href="/gomla/brand-products.html?id=${p.brandId}" class="product-tag">
+                  <i class="fas fa-copyright"></i>
+                  ${p.brandName}
+                </a>
+              ` : ''}
+              ${p.categoryName ? `
+                <a href="/gomla/category-products.html?id=${p.categoryId}" class="product-tag">
+                  <i class="fas fa-tag"></i>
+                  ${p.categoryName}
+                </a>
+              ` : ''}
+            </div>
+            
+            <!-- الأسعار -->
+            ${priceSectionHTML}
+            
+            <!-- سعر الشراء (للسوبر أدمن) -->
+            ${purchasePriceHTML}
+            
+            <!-- المخزون -->
+            <div class="stock-info">
+              <i class="fas fa-warehouse"></i>
+              <span>المتوفر: 
+                <strong class="stock-value ${!isAvailable ? 'out' : (isLowStock ? 'low' : '')}">
+                  ${stock} ${isWholesaleUser ? unit : retailUnit}
+                </strong>
+                ${isLowStock && isAvailable ? '<span style="color:var(--warning);font-size:0.8rem;"> (كمية محدودة)</span>' : ''}
+              </span>
+            </div>
+            
+            <!-- الحد الأقصى -->
+            ${maxOrderHTML}
+            
+            <!-- الملاحظات -->
+            ${notesHTML}
+            
+            <!-- الكمية -->
+            ${isAvailable ? `
+              <div class="quantity-section">
+                <label><i class="fas fa-sort-numeric-up" style="color:var(--gold);"></i> الكمية:</label>
+                <div class="quantity-control">
+                  <button onclick="changeQuantity(-1)" ${quantity <= 1 ? 'disabled' : ''} id="qtyMinus">
+                    <i class="fas fa-minus"></i>
+                  </button>
+                  <span class="qty-display" id="qtyDisplay">${quantity}</span>
+                  <button onclick="changeQuantity(1)" ${quantity >= maxQty ? 'disabled' : ''} id="qtyPlus">
+                    <i class="fas fa-plus"></i>
+                  </button>
+                </div>
+              </div>
+            ` : ''}
+            
+            <!-- الأزرار -->
+            <div class="action-buttons">
+              ${isAvailable ? `
+                <button class="btn btn-primary" onclick="handleAddToCart()">
+                  <i class="fas fa-cart-plus"></i>
+                  أضف للسلة
+                </button>
+              ` : `
+                <button class="btn btn-outline" disabled style="opacity:0.5;cursor:not-allowed;">
+                  <i class="fas fa-times-circle"></i>
+                  غير متوفر
+                </button>
+              `}
+              
+              ${!isAdminUser ? `
+                <button class="btn wishlist-btn ${isInWishlistFlag ? 'active' : ''}" 
+                        onclick="handleToggleWishlist()"
+                        title="إضافة للمفضلة"
+                        id="wishlistBtn">
+                  <i class="${isInWishlistFlag ? 'fas' : 'far'} fa-heart"></i>
+                </button>
+              ` : ''}
+            </div>
+            
+            <!-- زر التعديل للأدمن -->
+            ${editBtnHTML}
+            
+          </div>
+        </div>
+        
+        <!-- الوصف -->
+        ${p.description ? `
+          <div class="description-section">
+            <h3><i class="fas fa-align-right"></i> وصف المنتج</h3>
+            <div class="description-content">${p.description}</div>
+          </div>
+        ` : ''}
+        
+        <!-- منتجات مشابهة -->
+        <section class="related-section" id="relatedSection" style="display:none;">
+          <div class="section-header">
+            <h2 class="section-title">
+              <i class="fas fa-th-large"></i>
+              منتجات مشابهة
+            </h2>
+          </div>
+          <div class="related-grid" id="relatedProducts"></div>
+        </section>
+      `;
+
+      // تحقق من المفضلة
+      checkWishlistStatus();
+    }
+
+    // ============================================================
+    // 🔢 التحكم بالكمية
+    // ============================================================
+
+    function changeQuantity(delta) {
+      const user = getCurrentUser();
+      const role = user ? user.data.role : ROLES.GUEST;
+      const isWholesaleUser = role === ROLES.WHOLESALE;
+      
+      const stock = currentProduct.stockQuantity || 0;
+      const maxOrder = currentProduct.maxOrder || 0;
+      const maxQty = isWholesaleUser ? Math.min(maxOrder || stock, stock) : stock;
+      
+      const newQty = quantity + delta;
+      
+      if (newQty < 1) return;
+      if (newQty > maxQty) {
+        showToast(`⚠️ الحد الأقصى هو ${maxQty}`, 'warning');
+        return;
+      }
+      
+      quantity = newQty;
+      
+      const display = document.getElementById('qtyDisplay');
+      if (display) display.textContent = quantity;
+      
+      const minusBtn = document.getElementById('qtyMinus');
+      const plusBtn = document.getElementById('qtyPlus');
+      
+      if (minusBtn) minusBtn.disabled = quantity <= 1;
+      if (plusBtn) plusBtn.disabled = quantity >= maxQty;
+    }
+
+    // ============================================================
+    // 🛒 إضافة للسلة
+    // ============================================================
+
+    async function handleAddToCart() {
+      if (!currentProduct) return;
+      
+      const user = getCurrentUser();
+      
+      // لو زائر → نحفظ في localStorage
+      if (!user) {
+        await addToCart(currentProduct.id, quantity);
+        return;
+      }
+      
+      const role = user.data.role;
+      
+      // التحقق من صلاحية الشراء
+      const isWholesaleProduct = role === ROLES.WHOLESALE;
+      const isRetailProduct = role === ROLES.RETAIL || role === ROLES.ADMIN || role === ROLES.SUPER;
+      
+      if (!isWholesaleProduct && !isRetailProduct && role !== ROLES.CASHIER) {
+        showToast('⚠️ غير مصرح لك بالشراء', 'warning');
+        return;
+      }
+      
+      try {
+        await addToCart(currentProduct.id, quantity);
+        quantity = 1;
+        
+        // إعادة تحديث العرض
+        const display = document.getElementById('qtyDisplay');
+        if (display) display.textContent = quantity;
+        
+      } catch (error) {
+        console.error('Error adding to cart:', error);
+      }
+    }
+
+    // ============================================================
+    // ❤️ المفضلة
+    // ============================================================
+
+    async function checkWishlistStatus() {
+      if (!currentProduct) return;
+      
+      const user = getCurrentUser();
+      if (!user || user.type === 'admin') return;
+      
+      try {
+        isInWishlistFlag = await isInWishlist(currentProduct.id);
+        
+        const btn = document.getElementById('wishlistBtn');
+        if (btn) {
+          btn.classList.toggle('active', isInWishlistFlag);
+          const icon = btn.querySelector('i');
+          if (icon) {
+            icon.className = isInWishlistFlag ? 'fas fa-heart' : 'far fa-heart';
+          }
+        }
+      } catch (error) {
+        console.error('Error checking wishlist:', error);
+      }
+    }
+
+    async function handleToggleWishlist() {
+      if (!currentProduct) return;
+      
+      const user = getCurrentUser();
+      if (!user) {
+        showToast('⚠️ سجل الدخول أولاً', 'warning');
+        return;
+      }
+      
+      try {
+        if (isInWishlistFlag) {
+          await removeFromWishlist(currentProduct.id);
+          isInWishlistFlag = false;
+        } else {
+          await addToWishlist(currentProduct.id);
+          isInWishlistFlag = true;
+        }
+        
+        const btn = document.getElementById('wishlistBtn');
+        if (btn) {
+          btn.classList.toggle('active', isInWishlistFlag);
+          const icon = btn.querySelector('i');
+          if (icon) {
+            icon.className = isInWishlistFlag ? 'fas fa-heart' : 'far fa-heart';
+          }
+        }
+      } catch (error) {
+        console.error('Error toggling wishlist:', error);
+      }
+    }
+
+    // ============================================================
+    // 🖼️ عرض الصورة بحجم كامل
+    // ============================================================
+
+    function openImageModal(src) {
+      const modal = document.createElement('div');
+      modal.className = 'modal-overlay show';
+      modal.style.cssText = 'display:flex;align-items:center;justify-content:center;cursor:zoom-out;z-index:99999;';
+      modal.innerHTML = `
+        <img src="${src}" 
+             style="max-width:90%;max-height:90%;border-radius:12px;box-shadow:0 8px 40px rgba(0,0,0,0.5);"
+             onclick="event.stopPropagation();this.parentElement.remove();">
+      `;
+      modal.onclick = () => modal.remove();
+      document.body.appendChild(modal);
+    }
+
+    // ============================================================
+    // 📦 منتجات مشابهة
+    // ============================================================
+
+    async function loadRelatedProducts() {
+      if (!currentProduct || !currentProduct.categoryId) return;
+      
+      const container = document.getElementById('relatedProducts');
+      const section = document.getElementById('relatedSection');
+      if (!container || !section) return;
+      
+      try {
+        const snapshot = await db.collection(COLLECTIONS.PRODUCTS)
+          .where('available', '==', true)
+          .where('categoryId', '==', currentProduct.categoryId)
+          .limit(6)
+          .get();
+        
+        const products = [];
+        snapshot.forEach(doc => {
+          if (doc.id !== currentProduct.id) {
+            products.push({ id: doc.id, ...doc.data() });
+          }
+        });
+        
+        if (products.length === 0) return;
+        
+        const user = getCurrentUser();
+        const role = user ? user.data.role : ROLES.GUEST;
+        const isWholesaleUser = role === ROLES.WHOLESALE || role === ROLES.ADMIN || role === ROLES.SUPER;
+        
+        let html = '';
+        products.slice(0, 4).forEach(p => {
+          const price = isWholesaleUser ? (p.wholesalePrice || 0) : (p.retailPrice || 0);
+          const unit = isWholesaleUser ? (p.unit || 'كرتونة') : 'قطعة';
+          
+          html += `
+            <div class="product-card" onclick="window.location.href='/gomla/product-details.html?id=${p.id}'">
+              <img src="${p.imageUrl || '/gomla/assets/images/no-image.png'}" 
+                   alt="${p.name}" 
+                   class="product-image"
+                   loading="lazy"
+                   onerror="this.src='/gomla/assets/images/no-image.png'">
+              <div class="product-body">
+                <h4 class="product-name">${p.name}</h4>
+                <div class="product-price">
+                  ${price.toFixed(2)} ج.م
+                  <small>/ ${unit}</small>
+                </div>
+              </div>
+            </div>
+          `;
+        });
+        
+        container.innerHTML = html;
+        section.style.display = 'block';
+        
+      } catch (error) {
+        console.error('Error loading related:', error);
+      }
+    }
+
+    // ============================================================
+    // 🛠️ رسالة الخطأ
+    // ============================================================
+
+    function renderError(message) {
+      return `
+        <div class="error-container">
+          <i class="fas fa-exclamation-triangle"></i>
+          <h2>${message}</h2>
+          <p style="margin-top:12px;">
+            <a href="/gomla/store-retail.html" class="btn btn-primary">
+              <i class="fas fa-arrow-right"></i>
+              العودة للمتجر
+            </a>
+          </p>
+        </div>
+      `;
+    }
+
+    // ============================================================
+    // 🚀 تشغيل الصفحة
+    // ============================================================
+
+    document.addEventListener('DOMContentLoaded', function() {
+      loadProductDetails();
+      console.log('✅ product-details.html loaded');
+    });
+
+    // تصدير الدوال
+    window.changeQuantity = changeQuantity;
+    window.handleAddToCart = handleAddToCart;
+    window.handleToggleWishlist = handleToggleWishlist;
+    window.openImageModal = openImageModal;
+
+  </script>
+
+</body>
+</html>
