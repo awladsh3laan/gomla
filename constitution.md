@@ -1068,6 +1068,68 @@ const WHATSAPP_NUMBER = "01120282953";
 | 24 | التقارير المالية | 🆕 |
 
 ---
+# ملاحظات مهمة لاستايل الموبايل 
+
+⚠️ مكونات الموبايل:
+
+· الشريط العلوي هيظهر فقط على الموبايل (CSS media query)
+· التبويبات العليا والسفلى كذلك
+· القائمة (Sidebar) هتشتغل في كل الأجهزة
+
+⚠️ عند الاستخدام في HTML:
+
+كل صفحة لازم يكون فيها:
+
+```html
+<div id="header-placeholder"></div>
+<div id="mobile-top-bar"></div>
+<div id="mobile-top-tabs"></div>
+
+<!-- محتوى الصفحة -->
+
+<div id="mobile-bottom-tabs"></div>
+<div id="mobile-copyright"></div>
+<div id="footer-placeholder"></div>
+<div id="sidebar-placeholder"></div>
+<div id="toast-container"></div>
+```
+📌 ملاحظة عن الملفات الأربعة
+
+الملفات الأربعة (mobile-top-bar.html وغيرها) مش محتاجة ملفات HTML منفصلة لأن main.js بيعملها ديناميكياً بالكامل:
+
+```javascript
+// في main.js
+loadMobileTopBar()      → يبني الشريط العلوي
+loadMobileTopTabs()     → يبني التبويبات العليا
+loadMobileBottomTabs()  → يبني التبويبات السفلى
+loadMobileCopyright()   → يبني شريط الحقوق
+```
+
+يعني: كل اللي محتاجه هو الـ IDs في HTML + CSS. مش محتاج ملفات components منفصلة.
+
+هيبقى الهيكل:
+
+```
+assets/components/
+├── header.html          ✅ موجود
+├── footer.html          ✅ موجود
+└── sidebar.html         ✅ موجود
+```
+
+الـ IDs اللي هتضاف في كل صفحة:
+
+```html
+<div id="mobile-top-bar"></div>
+<div id="mobile-top-tabs"></div>
+```
+
+خلاص، فاضل الملف الأهم دلوقتي:
+
+---
+
+📄 الملف 3: assets/css/style.css (النسخة الكاملة)
+
+---
 
 **✅ هذا هو المرجع الرسمي الكامل للمشروع.**
 
