@@ -3,11 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>متجر أولاد شعلان للمنظفات و الورقيات</title>
+  <title>أولاد شعلان للمنظفات والورقيات</title>
 
   <!-- ===== SEO ===== -->
-  <meta name="description" content="متجر أولاد شعلان جملة - أفضل العروض على المنظفات والورقيات بالجملة والقطاعي">
+  <meta name="description" content="متجر أولاد شعلان للمنظفات والورقيات - جملة وقطاعي">
   <meta name="theme-color" content="#1a2a4a">
+  <meta name="google-site-verification" content="eaN3dVnBTBHPYHYlyf5n2PQJ1xbmgLVB6euhe022NlI" />
 
   <!-- ===== Font Awesome ===== -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -16,103 +17,257 @@
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
 
   <!-- ===== الستايل الموحد ===== -->
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="/gomla/assets/css/style.css">
 
   <!-- ===== Favicon ===== -->
-  <link rel="icon" href="assets/images/favicon.ico">
+  <link rel="icon" href="/gomla/assets/images/favicon.ico">
+
+  <!-- ===== مكتبة ضغط الصور ===== -->
+  <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.0/dist/browser-image-compression.js"></script>
 </head>
 <body>
 
-  <!-- ========================================== -->
-  <!-- 🧠 الهيدر (يتم تحميله من main.js)          -->
-  <!-- ========================================== -->
+  <!-- ============================================================ -->
+  <!-- 📱 مكونات الموبايل (تظهر فقط على الشاشات الصغيرة)             -->
+  <!-- ============================================================ -->
+  <div id="mobile-top-bar"></div>
+  <div id="mobile-top-tabs"></div>
+
+  <!-- ============================================================ -->
+  <!-- 🧠 الهيدر (للأجهزة الكبيرة)                                   -->
+  <!-- ============================================================ -->
   <div id="header-placeholder"></div>
 
-  <!-- ========================================== -->
-  <!-- 📢 منطقة العروض والإعلانات والمقولات        -->
-  <!-- ========================================== -->
-  <section class="promo-section">
-    <div class="container">
-      <!-- ===== سلايدر العروض ===== -->
-      <div class="slider-container" id="sliderContainer">
-        <div class="slider-track" id="sliderTrack">
-          <!-- سيتم تحميل الصور من Firebase -->
-        </div>
-        <button class="slider-btn prev" onclick="slidePrev()"><i class="fas fa-chevron-right"></i></button>
-        <button class="slider-btn next" onclick="slideNext()"><i class="fas fa-chevron-left"></i></button>
-        <div class="slider-dots" id="sliderDots"></div>
-      </div>
-
-      <!-- ===== شريط المقولات ===== -->
-      <div class="quotes-bar" id="quotesBar">
-        <i class="fas fa-quote-right"></i>
-        <span id="quoteText">جاري تحميل المقولات...</span>
-      </div>
-
-      <!-- ===== شريط الأخبار ===== -->
-      <div class="news-bar" id="newsBar">
-        <i class="fas fa-bullhorn"></i>
-        <span id="newsText">جاري تحميل الأخبار...</span>
-      </div>
-
-      <!-- ===== الإعلانات (بنرات) ===== -->
-      <div class="ads-grid" id="adsGrid">
-        <!-- سيتم تحميل الإعلانات من Firebase -->
-      </div>
-    </div>
-  </section>
-
-  <!-- ========================================== -->
-  <!-- 🛒 المحتوى الرئيسي (المتجر القطاعي)        -->
-  <!-- ========================================== -->
-  <main class="main-content">
+  <!-- ============================================================ -->
+  <!-- 🏠 محتوى الصفحة الرئيسية                                     -->
+  <!-- ============================================================ -->
+  <main class="home-page">
     <div class="container">
 
-      <!-- ===== التصنيفات ===== -->
-      <section class="categories-section">
-        <h2 class="section-title"><i class="fas fa-tags"></i> التصنيفات</h2>
-        <div class="categories-grid" id="categoriesContainer">
-          <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</div>
+      <!-- ============================================================ -->
+      <!-- 🎞️ سيكشن 1: السلايدر                                        -->
+      <!-- ============================================================ -->
+      <section class="home-section slider-section" id="slider-section">
+        <div class="slider-container" id="sliderContainer">
+          <div class="slider-track" id="sliderTrack">
+            <div class="slider-item">
+              <div class="slide-placeholder">
+                <i class="fas fa-spinner fa-spin"></i>
+                جاري تحميل السلايدر...
+              </div>
+            </div>
+          </div>
+          <button class="slider-btn prev" onclick="slidePrev()" aria-label="السابق">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+          <button class="slider-btn next" onclick="slideNext()" aria-label="التالي">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <div class="slider-dots" id="sliderDots"></div>
         </div>
       </section>
 
-      <!-- ===== المنتجات ===== -->
-      <section class="products-section">
-        <h2 class="section-title"><i class="fas fa-boxes"></i> أحدث المنتجات</h2>
-        <div class="products-grid" id="productsContainer">
-          <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</div>
+      <!-- ============================================================ -->
+      <!-- 🏪 سيكشن 2: كروت المتاجر                                    -->
+      <!-- ============================================================ -->
+      <section class="home-section stores-section" id="stores-section">
+        <div class="stores-grid">
+          
+          <!-- متجر الجملة -->
+          <a href="/gomla/store-wholesale.html" class="store-card">
+            <div class="store-icon">
+              <i class="fas fa-store"></i>
+            </div>
+            <div class="store-title">متجر الجملة</div>
+            <div class="store-desc">
+              للتجار والسوبر أدمن والأدمن فقط — أسعار خاصة بالجملة
+            </div>
+            <div class="store-btn">
+              <i class="fas fa-sign-in-alt"></i>
+              دخول المتجر
+            </div>
+          </a>
+
+          <!-- متجر القطاعي -->
+          <a href="/gomla/store-retail.html" class="store-card">
+            <div class="store-icon" style="background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--navy);">
+              <i class="fas fa-shopping-cart"></i>
+            </div>
+            <div class="store-title">متجر القطاعي</div>
+            <div class="store-desc">
+              للجميع — تصفح وأنشئ طلبك بسهولة
+            </div>
+            <div class="store-btn">
+              <i class="fas fa-arrow-left"></i>
+              تسوق الآن
+            </div>
+          </a>
+
         </div>
       </section>
 
-      <!-- ===== العروض ===== -->
-      <section class="offers-section">
-        <h2 class="section-title"><i class="fas fa-percent"></i> عروض حصرية</h2>
-        <div class="products-grid" id="offersContainer">
-          <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</div>
+      <!-- ============================================================ -->
+      <!-- 🆕 سيكشن 3: أحدث المنتجات                                    -->
+      <!-- ============================================================ -->
+      <section class="home-section products-section" id="latest-products-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i class="fas fa-clock"></i>
+            أحدث المنتجات
+          </h2>
+          <a href="/gomla/store-retail.html" class="view-all">
+            عرض الكل
+            <i class="fas fa-arrow-left"></i>
+          </a>
+        </div>
+        <div class="horizontal-scroll" id="latestProducts">
+          <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            جاري التحميل...
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- 🆕 سيكشن 4: أحدث العروض                                      -->
+      <!-- ============================================================ -->
+      <section class="home-section offers-section" id="latest-offers-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i class="fas fa-percent"></i>
+            أحدث العروض
+          </h2>
+          <a href="/gomla/offers.html" class="view-all">
+            كل العروض
+            <i class="fas fa-arrow-left"></i>
+          </a>
+        </div>
+        <div class="horizontal-scroll" id="latestOffers">
+          <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            جاري التحميل...
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- 🆕 سيكشن 5: المنتجات الأكثر طلباً                            -->
+      <!-- ============================================================ -->
+      <section class="home-section products-section" id="popular-products-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i class="fas fa-fire"></i>
+            المنتجات الأكثر طلباً
+          </h2>
+          <a href="/gomla/store-retail.html?sort=popular" class="view-all">
+            عرض الكل
+            <i class="fas fa-arrow-left"></i>
+          </a>
+        </div>
+        <div class="horizontal-scroll" id="popularProducts">
+          <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            جاري التحميل...
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- 🆕 سيكشن 6: السيكشنات المخصصة (من لوحة التحكم)              -->
+      <!-- ============================================================ -->
+      <div id="custom-sections-container">
+        <!-- يتم تعبئتها ديناميكياً من Firestore -->
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- 🆕 سيكشن 7: نبذة عن أولاد شعلان                             -->
+      <!-- ============================================================ -->
+      <section class="home-section about-section" id="about-section">
+        <div class="about-card">
+          <div class="about-icon">
+            <i class="fas fa-building"></i>
+          </div>
+          <h2 class="about-title" id="aboutTitle">نبذة عن أولاد شعلان</h2>
+          <div class="about-content" id="aboutContent">
+            <p>جاري التحميل...</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- 🆕 سيكشن 8: تواصل معنا                                       -->
+      <!-- ============================================================ -->
+      <section class="home-section contact-section" id="contact-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i class="fas fa-headset"></i>
+            تواصل معنا
+          </h2>
+        </div>
+        <div class="contact-grid">
+          
+          <!-- واتساب -->
+          <a href="https://wa.me/201120282953" 
+             target="_blank" 
+             rel="noopener"
+             class="contact-card whatsapp-card">
+            <div class="contact-icon">
+              <i class="fab fa-whatsapp"></i>
+            </div>
+            <div class="contact-info">
+              <div class="contact-title">واتساب</div>
+              <div class="contact-sub">تواصل مباشر وسريع</div>
+            </div>
+            <div class="contact-arrow">
+              <i class="fas fa-arrow-left"></i>
+            </div>
+          </a>
+
+          <!-- جيميل -->
+          <a href="mailto:info@awladshalaan.com" 
+             class="contact-card email-card">
+            <div class="contact-icon">
+              <i class="fas fa-envelope"></i>
+            </div>
+            <div class="contact-info">
+              <div class="contact-title">البريد الإلكتروني</div>
+              <div class="contact-sub">للاستفسارات الرسمية</div>
+            </div>
+            <div class="contact-arrow">
+              <i class="fas fa-arrow-left"></i>
+            </div>
+          </a>
+
         </div>
       </section>
 
     </div>
   </main>
 
-  <!-- ========================================== -->
-  <!-- 👣 الفوتر (يتم تحميله من main.js)          -->
-  <!-- ========================================== -->
+  <!-- ============================================================ -->
+  <!-- 📱 التبويبات السفلى + شريط الحقوق (للموبايل)                 -->
+  <!-- ============================================================ -->
+  <div id="mobile-bottom-tabs"></div>
+  <div id="mobile-copyright"></div>
+
+  <!-- ============================================================ -->
+  <!-- 👣 الفوتر (للأجهزة الكبيرة)                                   -->
+  <!-- ============================================================ -->
   <div id="footer-placeholder"></div>
 
-  <!-- ========================================== -->
-  <!-- 🧠 السايدبار (يتم تحميله من main.js)       -->
-  <!-- ========================================== -->
+  <!-- ============================================================ -->
+  <!-- 🧠 السايدبار (يعمل على كل الأجهزة)                            -->
+  <!-- ============================================================ -->
   <div id="sidebar-placeholder"></div>
 
-  <!-- ========================================== -->
-  <!-- 🍞 Toast Notifications                     -->
-  <!-- ========================================== -->
+  <!-- ============================================================ -->
+  <!-- 🍞 Toast Container                                            -->
+  <!-- ============================================================ -->
   <div id="toast-container"></div>
 
-  <!-- ========================================== -->
-  <!-- 📚 Firebase & JavaScript                   -->
-  <!-- ========================================== -->
+  <!-- ============================================================ -->
+  <!-- 📚 Firebase & JavaScript                                      -->
+  <!-- ============================================================ -->
 
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
