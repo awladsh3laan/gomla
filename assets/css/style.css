@@ -1096,7 +1096,7 @@ input, select, textarea {
 }
 
 .mobile-tabs-scroll {
-  display: flex;
+  display:none;
   gap: 4px;
   overflow-x: auto;
   padding: 6px 8px;
