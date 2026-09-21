@@ -1371,11 +1371,26 @@ function loadMobileCopyright() {
   `;
 }
 
+// ============================================================
+// 🔍 فتح نافذة البحث الاحترافية
+// ============================================================
+
 function openSearch() {
-  const query = prompt('ابحث عن منتج:');
-  if (query && query.trim()) {
-    window.location.href = `/gomla/store-retail.html?search=${encodeURIComponent(query.trim())}`;
+  // لو النافذة موجودة في الصفحة → افتحها
+  const searchOverlay = document.getElementById('searchModalOverlay');
+  if (searchOverlay) {
+    // استدعاء دالة الصفحة إذا كانت موجودة
+    if (typeof window.openSearchModal === 'function') {
+      window.openSearchModal();
+    } else {
+      searchOverlay.classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+    return;
   }
+  
+  // لو النافذة مش موجودة (صفحة تانية) → انتقل لصفحة البحث
+  window.location.href = '/gomla/search.html';
 }
 
 function openCart() {
