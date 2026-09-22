@@ -1,0 +1,1015 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الأقسام - أولاد شعلان</title>
+
+  <meta name="description" content="كل الأقسام - أولاد شعلان للمنظفات والورقيات">
+  <meta name="theme-color" content="#1a2a4a">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Style -->
+  <link rel="stylesheet" href="/gomla/assets/css/style.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="/gomla/assets/images/favicon.ico">
+
+  <style>
+    /* ============================================================
+       🎨 ستايل صفحة الأقسام
+       ============================================================ */
+
+    /* ============================================================
+       🏷️ عنوان الصفحة
+       ============================================================ */
+    .categories-hero {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+      border-radius: var(--radius-lg);
+      padding: 40px 24px;
+      margin-bottom: 24px;
+      text-align: center;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+    }
+
+    .categories-hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle, rgba(201, 168, 76, 0.15) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .categories-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -50%;
+      left: -20%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(201, 168, 76, 0.1) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .categories-hero .hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .categories-hero .hero-icon {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: var(--gold);
+      color: var(--navy);
+      font-size: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      animation: float 3s ease-in-out infinite;
+      box-shadow: 0 8px 24px rgba(201, 168, 76, 0.4);
+    }
+
+    .categories-hero h1 {
+      font-size: 2rem;
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .categories-hero h1 .gold {
+      color: var(--gold);
+    }
+
+    .categories-hero p {
+      font-size: 1rem;
+      opacity: 0.9;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    /* ============================================================
+       🏷️ شبكة الأقسام - مع أنيميشن
+       ============================================================ */
+    .categories-full-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    /* كارت القسم - أنيميشن النزول */
+    .category-full-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 2px solid transparent;
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--gray-800);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      transform: translateY(-40px);
+      animation: dropIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* أنيميشن النزول */
+    @keyframes dropIn {
+      0% {
+        opacity: 0;
+        transform: translateY(-40px) scale(0.9);
+      }
+      60% {
+        opacity: 1;
+        transform: translateY(4px) scale(1.01);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* شريط ذهبي في الأعلى عند التحويم */
+    .category-full-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform 0.4s ease;
+    }
+
+    .category-full-card:hover::before {
+      transform: scaleX(1);
+    }
+
+    .category-full-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--gold);
+    }
+
+    /* صورة القسم */
+    .category-full-card .category-image-wrap {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      overflow: hidden;
+      background: var(--gray-100);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 3px solid var(--gray-200);
+      transition: all 0.3s ease;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .category-full-card:hover .category-image-wrap {
+      border-color: var(--gold);
+      transform: scale(1.1);
+      box-shadow: 0 8px 20px rgba(201, 168, 76, 0.3);
+    }
+
+    .category-full-card .category-image-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .category-full-card:hover .category-image-wrap img {
+      transform: scale(1.15);
+    }
+
+    /* اسم القسم */
+    .category-full-card .category-name {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin: 0;
+      line-height: 1.4;
+      transition: color 0.3s ease;
+    }
+
+    .category-full-card:hover .category-name {
+      color: var(--gold-dark);
+    }
+
+    /* عدد المنتجات */
+    .category-full-card .category-count {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 12px;
+      background: var(--gray-100);
+      color: var(--gray-600);
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+
+    .category-full-card:hover .category-count {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    .category-full-card .category-count i {
+      font-size: 0.7rem;
+    }
+
+    /* تأخير الأنيميشن لكل كارت */
+    .category-full-card:nth-child(1) { animation-delay: 0.05s; }
+    .category-full-card:nth-child(2) { animation-delay: 0.1s; }
+    .category-full-card:nth-child(3) { animation-delay: 0.15s; }
+    .category-full-card:nth-child(4) { animation-delay: 0.2s; }
+    .category-full-card:nth-child(5) { animation-delay: 0.25s; }
+    .category-full-card:nth-child(6) { animation-delay: 0.3s; }
+    .category-full-card:nth-child(7) { animation-delay: 0.35s; }
+    .category-full-card:nth-child(8) { animation-delay: 0.4s; }
+    .category-full-card:nth-child(9) { animation-delay: 0.45s; }
+    .category-full-card:nth-child(10) { animation-delay: 0.5s; }
+    .category-full-card:nth-child(11) { animation-delay: 0.55s; }
+    .category-full-card:nth-child(12) { animation-delay: 0.6s; }
+
+    /* ============================================================
+       🎯 سيكشن العروض المصغر
+       ============================================================ */
+    .mini-offers-section {
+      background: linear-gradient(135deg, #fef9e7 0%, #fcf9f0 100%);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      margin-bottom: 24px;
+      border: 2px solid var(--gold-light);
+    }
+
+    .mini-offers-section .section-header {
+      margin-bottom: 16px;
+    }
+
+    /* ============================================================
+       🔍 البحث المصغر
+       ============================================================ */
+    .mini-search-section {
+      margin-bottom: 24px;
+    }
+
+    /* ============================================================
+       🎞️ السلايدر المصغر
+       ============================================================ */
+    .mini-slider-section {
+      margin-bottom: 24px;
+    }
+
+    /* ============================================================
+       📱 Responsive
+       ============================================================ */
+    @media (max-width: 768px) and (pointer: coarse) {
+      .categories-hero {
+        padding: 24px 16px;
+      }
+
+      .categories-hero .hero-icon {
+        width: 56px;
+        height: 56px;
+        font-size: 1.6rem;
+      }
+
+      .categories-hero h1 {
+        font-size: 1.5rem;
+      }
+
+      .categories-hero p {
+        font-size: 0.9rem;
+      }
+
+      .categories-full-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 12px;
+      }
+
+      .category-full-card {
+        padding: 12px;
+        gap: 8px;
+      }
+
+      .category-full-card .category-image-wrap {
+        width: 70px;
+        height: 70px;
+      }
+
+      .category-full-card .category-name {
+        font-size: 0.88rem;
+      }
+
+      .category-full-card .category-count {
+        font-size: 0.7rem;
+        padding: 3px 10px;
+      }
+
+      .mini-offers-section {
+        padding: 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .categories-full-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+
+      .category-full-card .category-image-wrap {
+        width: 60px;
+        height: 60px;
+      }
+
+      .category-full-card .category-name {
+        font-size: 0.8rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- مكونات الموبايل -->
+  <div id="mobile-top-bar"></div>
+  <div id="mobile-top-tabs"></div>
+
+  <!-- الهيدر -->
+  <div id="header-placeholder"></div>
+
+  <!-- المحتوى -->
+  <main class="home-page">
+    <div class="container">
+
+      <!-- ============================================================ -->
+      <!-- 🏷️ سيكشن 1: عنوان الصفحة                                     -->
+      <!-- ============================================================ -->
+      <section class="categories-hero" id="categoriesHero">
+        <div class="hero-content">
+          <div class="hero-icon">
+            <i class="fas fa-th-large"></i>
+          </div>
+          <h1>كل <span class="gold">الأقسام</span></h1>
+          <p>اكتشف منتجاتنا المتنوعة عبر الأقسام المختلفة</p>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- 🎞️ سيكشن 2: السلايدر                                          -->
+      <!-- ============================================================ -->
+      <section class="mini-slider-section" id="slider-section">
+        <div class="slider-container" id="sliderContainer">
+          <div class="slider-track" id="sliderTrack">
+            <div class="slider-item">
+              <div class="slide-placeholder">
+                <i class="fas fa-spinner fa-spin"></i>
+                جاري التحميل...
+              </div>
+            </div>
+          </div>
+          <button class="slider-btn prev" onclick="slidePrev()" aria-label="السابق">
+            <i class="fas fa-chevron-right"></i>
+          </button>
+          <button class="slider-btn next" onclick="slideNext()" aria-label="التالي">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <div class="slider-dots" id="sliderDots"></div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- 🔍 سيكشن 3: البحث                                            -->
+      <!-- ============================================================ -->
+      <section class="mini-search-section">
+        <div class="smart-search">
+          <div class="search-wrapper" onclick="openSearchModal()" style="cursor:pointer;">
+            <i class="fas fa-search"></i>
+            <input type="text" 
+                   placeholder="ابحث عن منتج..." 
+                   readonly
+                   style="cursor:pointer;">
+            <button class="search-btn" type="button">
+              <i class="fas fa-arrow-left"></i> بحث
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- 🎯 سيكشن 4: العروض                                            -->
+      <!-- ============================================================ -->
+      <section class="mini-offers-section" id="mini-offers-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i class="fas fa-percent"></i>
+            العروض
+          </h2>
+          <a href="/gomla/offers.html?type=retail" class="view-all">
+            كل العروض
+            <i class="fas fa-arrow-left"></i>
+          </a>
+        </div>
+        <div class="horizontal-scroll" id="miniOffers">
+          <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            جاري التحميل...
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================ -->
+      <!-- 📂 سيكشن 5: الأقسام (الشبكة الرئيسية)                         -->
+      <!-- ============================================================ -->
+      <section class="categories-full-section" id="categories-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i class="fas fa-tags"></i>
+            الأقسام
+          </h2>
+          <span style="font-size:0.85rem;color:var(--gray-500);" id="categoriesCount">
+            جاري التحميل...
+          </span>
+        </div>
+        <div class="categories-full-grid" id="categoriesFullGrid">
+          <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+            جاري التحميل...
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- التبويبات السفلى + الحقوق -->
+  <div id="mobile-bottom-tabs"></div>
+  <div id="mobile-copyright"></div>
+
+  <!-- الفوتر -->
+  <div id="footer-placeholder"></div>
+
+  <!-- السايدبار -->
+  <div id="sidebar-placeholder"></div>
+
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
+
+  <!-- ============================================================ -->
+  <!-- 🔍 نافذة البحث (نفس النافذة)                                  -->
+  <!-- ============================================================ -->
+  <div class="search-modal-overlay" id="searchModalOverlay" onclick="closeSearchModal(event)">
+    <div class="search-modal" onclick="event.stopPropagation()">
+      
+      <div class="search-modal-header">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" 
+               id="searchModalInput" 
+               placeholder="ابحث عن منتج..."
+               autocomplete="off"
+               oninput="handleModalSearch(this.value)"
+               onkeydown="handleSearchKeydown(event)">
+        <button class="search-modal-close" onclick="closeSearchModal()" aria-label="إغلاق">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      
+      <div class="search-modal-body" id="searchModalBody">
+        <div id="searchInitialContent">
+          <div class="search-suggestions-header">
+            <i class="fas fa-fire"></i>
+            اقتراحات سريعة
+          </div>
+          <div class="search-suggestions-chips">
+            <a href="/gomla/offers.html?type=retail" class="search-chip">
+              <i class="fas fa-percent"></i>
+              العروض
+            </a>
+            <a href="#" class="search-chip" onclick="quickSearch('منظف')">
+              <i class="fas fa-spray-can"></i>
+              منظفات
+            </a>
+            <a href="#" class="search-chip" onclick="quickSearch('ورق')">
+              <i class="fas fa-toilet-paper"></i>
+              ورقيات
+            </a>
+            <a href="#" class="search-chip" onclick="quickSearch('صابون')">
+              <i class="fas fa-soap"></i>
+              صابون
+            </a>
+          </div>
+        </div>
+        
+        <div class="search-results" id="searchResults"></div>
+      </div>
+      
+      <div class="search-keyboard-hint">
+        <span><kbd>ESC</kbd> للإغلاق</span>
+        <span><kbd>Enter</kbd> للبحث</span>
+      </div>
+      
+    </div>
+  </div>
+
+  <!-- Firebase & Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+  <script src="/gomla/assets/js/firebase-config.js"></script>
+  <script src="/gomla/assets/js/main.js"></script>
+
+  <script>
+    // ============================================================
+    // 📄 categories.html - صفحة الأقسام
+    // ============================================================
+
+    let slideIndex = 0;
+    let slideInterval = null;
+    let slidesCount = 0;
+    let searchTimeout = null;
+    let currentUserType = 'retail';
+
+    // ============================================================
+    // 🚀 تحميل السلايدر
+    // ============================================================
+
+    async function loadSlider() {
+      const track = document.getElementById('sliderTrack');
+      const dots = document.getElementById('sliderDots');
+      if (!track) return;
+
+      try {
+        const snapshot = await db.collection(COLLECTIONS.SLIDER)
+          .where('active', '==', true)
+          .orderBy('order', 'asc')
+          .get();
+
+        if (snapshot.empty) {
+          track.innerHTML = `
+            <div class="slider-item">
+              <div class="slide-placeholder">
+                <i class="fas fa-image"></i>
+                لا توجد صور
+              </div>
+            </div>
+          `;
+          return;
+        }
+
+        let slidesHtml = '';
+        let dotsHtml = '';
+        let index = 0;
+
+        snapshot.forEach(doc => {
+          const slide = doc.data();
+          const imageUrl = slide.imageUrl || '';
+          const title = slide.title || '';
+          const link = slide.link || '';
+
+          const captionHtml = title ? `<div class="slider-caption">${title}</div>` : '';
+          const content = link ?
+            `<a href="${link}"><img src="${imageUrl}" alt="${title}" onerror="this.src='/gomla/assets/images/no-image.png'">${captionHtml}</a>` :
+            `<img src="${imageUrl}" alt="${title}" onerror="this.src='/gomla/assets/images/no-image.png'">${captionHtml}`;
+
+          slidesHtml += `<div class="slider-item">${content}</div>`;
+          dotsHtml += `<span class="dot ${index === 0 ? 'active' : ''}" onclick="goToSlide(${index})"></span>`;
+          index++;
+        });
+
+        track.innerHTML = slidesHtml;
+        if (dots) dots.innerHTML = dotsHtml;
+
+        startSliderAuto();
+
+      } catch (error) {
+        console.error('Error loading slider:', error);
+      }
+    }
+
+    function startSliderAuto() {
+      slidesCount = document.querySelectorAll('.slider-item').length;
+      if (slidesCount <= 1) return;
+      if (slideInterval) clearInterval(slideInterval);
+      slideInterval = setInterval(() => {
+        slideIndex = (slideIndex + 1) % slidesCount;
+        updateSlider();
+      }, 5000);
+    }
+
+    function slideNext() {
+      if (slidesCount <= 1) return;
+      slideIndex = (slideIndex + 1) % slidesCount;
+      updateSlider();
+      startSliderAuto();
+    }
+
+    function slidePrev() {
+      if (slidesCount <= 1) return;
+      slideIndex = (slideIndex - 1 + slidesCount) % slidesCount;
+      updateSlider();
+      startSliderAuto();
+    }
+
+    function goToSlide(index) {
+      slideIndex = index;
+      updateSlider();
+      startSliderAuto();
+    }
+
+    function updateSlider() {
+      const track = document.getElementById('sliderTrack');
+      const dots = document.querySelectorAll('.slider-dots .dot');
+      if (!track) return;
+      track.style.transform = `translateX(${slideIndex * 100}%)`;
+      dots.forEach((dot, i) => dot.classList.toggle('active', i === slideIndex));
+    }
+
+    // ============================================================
+    // 🎯 تحميل العروض المصغرة
+    // ============================================================
+
+    async function loadMiniOffers() {
+      const container = document.getElementById('miniOffers');
+      if (!container) return;
+
+      try {
+        const snapshot = await db.collection(COLLECTIONS.PRODUCTS)
+          .where('available', '==', true)
+          .where('hasOffer', '==', true)
+          .limit(10)
+          .get();
+
+        if (snapshot.empty) {
+          container.innerHTML = '<p style="color:var(--gray-400);text-align:center;padding:12px;">لا توجد عروض حالياً</p>';
+          return;
+        }
+
+        let html = '';
+
+        snapshot.forEach(doc => {
+          const p = doc.data();
+          const price = p.retailPrice || 0;
+          const offerPrice = p.offerPrice || 0;
+          const discountPercent = price > 0 ? Math.round(((price - offerPrice) / price) * 100) : 0;
+
+          html += `
+            <div class="product-card offer-card" onclick="goToProduct('${doc.id}')">
+              <div class="discount-badge">
+                <i class="fas fa-percent"></i> ${discountPercent}%
+              </div>
+              <img src="${p.imageUrl || '/gomla/assets/images/no-image.png'}"
+                   alt="${p.name}"
+                   class="product-image"
+                   loading="lazy"
+                   onerror="this.src='/gomla/assets/images/no-image.png'">
+              <div class="product-body">
+                <h4 class="product-name">${p.name}</h4>
+                <div class="product-price">
+                  <span class="price-after">${offerPrice.toFixed(2)} ج.م</span>
+                  <span class="price-before">${price.toFixed(2)} ج.م</span>
+                  <small>/ قطعة</small>
+                </div>
+                <button class="btn btn-primary btn-sm"
+                        onclick="event.stopPropagation();handleAddToCart('${doc.id}')">
+                  <i class="fas fa-cart-plus"></i>
+                </button>
+              </div>
+            </div>
+          `;
+        });
+
+        container.innerHTML = html;
+
+      } catch (error) {
+        console.error('Error loading offers:', error);
+      }
+    }
+
+    // ============================================================
+    // 📂 تحميل الأقسام (الرئيسية)
+    // ============================================================
+
+    async function loadCategories() {
+      const container = document.getElementById('categoriesFullGrid');
+      const countEl = document.getElementById('categoriesCount');
+      if (!container) return;
+
+      try {
+        const snapshot = await db.collection(COLLECTIONS.CATEGORIES)
+          .orderBy('name')
+          .get();
+
+        if (snapshot.empty) {
+          container.innerHTML = `
+            <div class="empty-state">
+              <i class="fas fa-folder-open"></i>
+              <p>لا توجد أقسام حالياً</p>
+            </div>
+          `;
+          if (countEl) countEl.textContent = '0 قسم';
+          return;
+        }
+
+        // جلب عدد المنتجات الحقيقي لكل قسم
+        const categoriesWithCount = [];
+
+        for (const doc of snapshot.docs) {
+          const cat = doc.data();
+          
+          // جلب عدد المنتجات المتاحة في هذا القسم
+          const productsSnapshot = await db.collection(COLLECTIONS.PRODUCTS)
+            .where('available', '==', true)
+            .where('categoryId', '==', doc.id)
+            .get();
+
+          categoriesWithCount.push({
+            id: doc.id,
+            name: cat.name || 'قسم',
+            imageUrl: cat.imageUrl || '/gomla/assets/images/no-image.png',
+            realCount: productsSnapshot.size
+          });
+        }
+
+        // فلترة الأقسام الفارغة (اختياري - ممكن تخليها تظهر)
+        const visibleCategories = categoriesWithCount.filter(c => c.realCount > 0);
+
+        if (visibleCategories.length === 0) {
+          container.innerHTML = `
+            <div class="empty-state">
+              <i class="fas fa-folder-open"></i>
+              <p>لا توجد أقسام بها منتجات حالياً</p>
+            </div>
+          `;
+          if (countEl) countEl.textContent = '0 قسم';
+          return;
+        }
+
+        let html = '';
+
+        visibleCategories.forEach(cat => {
+          html += `
+            <a href="/gomla/category-products.html?id=${cat.id}&type=${currentUserType}" 
+               class="category-full-card">
+              <div class="category-image-wrap">
+                <img src="${cat.imageUrl}"
+                     alt="${cat.name}"
+                     onerror="this.src='/gomla/assets/images/no-image.png'">
+              </div>
+              <h3 class="category-name">${cat.name}</h3>
+              <span class="category-count">
+                <i class="fas fa-box"></i>
+                ${cat.realCount} منتج
+              </span>
+            </a>
+          `;
+        });
+
+        container.innerHTML = html;
+
+        if (countEl) {
+          countEl.textContent = `${visibleCategories.length} قسم`;
+        }
+
+      } catch (error) {
+        console.error('Error loading categories:', error);
+        container.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p>حدث خطأ في تحميل الأقسام</p>
+          </div>
+        `;
+      }
+    }
+
+    // ============================================================
+    // 🔍 نافذة البحث
+    // ============================================================
+
+    function openSearchModal() {
+      const overlay = document.getElementById('searchModalOverlay');
+      const input = document.getElementById('searchModalInput');
+      if (!overlay) return;
+
+      overlay.classList.add('show');
+      document.body.style.overflow = 'hidden';
+
+      if (input) {
+        input.value = '';
+        setTimeout(() => input.focus(), 100);
+      }
+
+      const initialContent = document.getElementById('searchInitialContent');
+      const resultsContainer = document.getElementById('searchResults');
+      if (initialContent) initialContent.style.display = 'block';
+      if (resultsContainer) resultsContainer.innerHTML = '';
+    }
+
+    function closeSearchModal(event) {
+      if (event && event.target !== event.currentTarget) return;
+
+      const overlay = document.getElementById('searchModalOverlay');
+      if (overlay) {
+        overlay.classList.remove('show');
+        document.body.style.overflow = '';
+      }
+
+      const input = document.getElementById('searchModalInput');
+      if (input) input.value = '';
+    }
+
+    function handleSearchKeydown(event) {
+      if (event.key === 'Escape') {
+        closeSearchModal();
+      } else if (event.key === 'Enter') {
+        const value = event.target.value.trim();
+        if (value) {
+          window.location.href = `/gomla/store-retail.html?search=${encodeURIComponent(value)}`;
+        }
+      }
+    }
+
+    function quickSearch(term) {
+      const input = document.getElementById('searchModalInput');
+      if (input) {
+        input.value = term;
+        handleModalSearch(term);
+      }
+    }
+
+    async function handleModalSearch(searchTerm) {
+      const resultsContainer = document.getElementById('searchResults');
+      const initialContent = document.getElementById('searchInitialContent');
+
+      if (!resultsContainer) return;
+
+      if (!searchTerm || searchTerm.trim().length < 2) {
+        if (initialContent) initialContent.style.display = 'block';
+        resultsContainer.innerHTML = '';
+        return;
+      }
+
+      if (initialContent) initialContent.style.display = 'none';
+
+      resultsContainer.innerHTML = `
+        <div class="search-loading">
+          <i class="fas fa-spinner fa-spin"></i>
+          <p style="margin-top:8px;">جاري البحث...</p>
+        </div>
+      `;
+
+      if (searchTimeout) clearTimeout(searchTimeout);
+
+      searchTimeout = setTimeout(async () => {
+        try {
+          const term = searchTerm.trim().toLowerCase();
+
+          const snapshot = await db.collection(COLLECTIONS.PRODUCTS)
+            .where('available', '==', true)
+            .limit(50)
+            .get();
+
+          const results = [];
+          snapshot.forEach(doc => {
+            const p = doc.data();
+            const name = (p.name || '').toLowerCase();
+            const brand = (p.brandName || '').toLowerCase();
+            const keywords = (p.keywords || '').toLowerCase();
+
+            if (name.includes(term) || brand.includes(term) || keywords.includes(term)) {
+              results.push({ id: doc.id, ...p });
+            }
+          });
+
+          if (results.length === 0) {
+            resultsContainer.innerHTML = `
+              <div class="search-empty">
+                <i class="fas fa-search-minus"></i>
+                <p>لا توجد نتائج لـ "${searchTerm}"</p>
+              </div>
+            `;
+            return;
+          }
+
+          let html = `
+            <div class="search-suggestions-header">
+              <i class="fas fa-check-circle"></i>
+              ${results.length} نتيجة
+            </div>
+          `;
+
+          results.slice(0, 15).forEach(p => {
+            const price = p.retailPrice || 0;
+
+            html += `
+              <a href="/gomla/product-details.html?id=${p.id}" class="search-result-item">
+                <img src="${p.imageUrl || '/gomla/assets/images/no-image.png'}"
+                     alt="${p.name}"
+                     onerror="this.src='/gomla/assets/images/no-image.png'">
+                <div class="search-result-info">
+                  <div class="search-result-name">${p.name}</div>
+                  <div class="search-result-meta">
+                    <span class="search-result-price">
+                      ${price.toFixed(2)} ج.م
+                      <small>/ قطعة</small>
+                    </span>
+                    ${p.brandName ? `<span><i class="fas fa-tag" style="color:var(--gold);"></i> ${p.brandName}</span>` : ''}
+                  </div>
+                </div>
+                <i class="fas fa-arrow-left search-result-arrow"></i>
+              </a>
+            `;
+          });
+
+          resultsContainer.innerHTML = html;
+
+        } catch (error) {
+          console.error('Search error:', error);
+        }
+      }, 300);
+    }
+
+    // ============================================================
+    // 🛒 إضافة للسلة
+    // ============================================================
+
+    async function handleAddToCart(productId) {
+      try {
+        await addToCart(productId, 1);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+
+    function goToProduct(productId) {
+      window.location.href = `/gomla/product-details.html?id=${productId}`;
+    }
+
+    // ============================================================
+    // 🚀 تشغيل الصفحة
+    // ============================================================
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // تحديد نوع المستخدم
+      const user = getCurrentUser();
+      if (user && user.data) {
+        const role = user.data.role;
+        if (role === ROLES.WHOLESALE || role === ROLES.ADMIN || role === ROLES.SUPER) {
+          currentUserType = 'wholesale';
+        } else {
+          currentUserType = 'retail';
+        }
+      }
+
+      // تحميل كل المحتوى
+      loadSlider();
+      loadMiniOffers();
+      loadCategories();
+
+      // ESC لإغلاق البحث
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeSearchModal();
+      });
+
+      console.log('✅ categories.html loaded');
+    });
+
+    // تصدير
+    window.slideNext = slideNext;
+    window.slidePrev = slidePrev;
+    window.goToSlide = goToSlide;
+    window.openSearchModal = openSearchModal;
+    window.closeSearchModal = closeSearchModal;
+    window.handleModalSearch = handleModalSearch;
+    window.handleSearchKeydown = handleSearchKeydown;
+    window.quickSearch = quickSearch;
+    window.handleAddToCart = handleAddToCart;
+    window.goToProduct = goToProduct;
+  </script>
+
+</body>
+</html>
