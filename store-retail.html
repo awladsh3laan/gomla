@@ -769,11 +769,15 @@
       <!-- ============================================================ -->
       <section class="categories-section" id="categories-section">
         <div class="section-header">
-          <h2 class="section-title">
-            <i class="fas fa-th-large"></i>
-            الأقسام
-          </h2>
-        </div>
+  <h2 class="section-title">
+    <i class="fas fa-th-large"></i>
+    الأقسام
+  </h2>
+  <a href="/gomla/categories.html" class="view-all">
+    عرض كل الأقسام
+    <i class="fas fa-arrow-left"></i>
+  </a>
+</div>
         <div class="categories-grid" id="categoriesContainer">
           <div class="loading-spinner">
             <i class="fas fa-spinner fa-spin"></i>
@@ -1204,8 +1208,7 @@
           `;
         });
 
-        container.innerHTML = html;
-        autoScroll(container);
+        container.innerHTML = html
 
       } catch (error) {
         console.error('Error loading latest products:', error);
@@ -1251,7 +1254,6 @@
         });
 
         container.innerHTML = html;
-        autoScroll(container);
 
       } catch (error) {
         console.error('Error loading brands:', error);
@@ -1316,7 +1318,6 @@
         });
 
         container.innerHTML = html;
-        autoScroll(container);
 
       } catch (error) {
         console.error('Error loading offers:', error);
@@ -1617,30 +1618,6 @@
       } catch (error) {
         console.error('Error loading more:', error);
       }
-    }
-
-    // ============================================================
-    // 🔄 السكرول التلقائي
-    // ============================================================
-
-    function autoScroll(container) {
-      let interval;
-      let isHovering = false;
-
-      container.addEventListener('mouseenter', () => { isHovering = true; });
-      container.addEventListener('mouseleave', () => { isHovering = false; });
-
-      if (interval) clearInterval(interval);
-      interval = setInterval(() => {
-        if (!isHovering && container.scrollWidth > container.clientWidth) {
-          const maxScroll = container.scrollWidth - container.clientWidth;
-          if (container.scrollLeft >= maxScroll - 10) {
-            container.scrollTo({ left: 0, behavior: 'smooth' });
-          } else {
-            container.scrollBy({ left: 200, behavior: 'smooth' });
-          }
-        }
-      }, 3000);
     }
 
     // ============================================================
