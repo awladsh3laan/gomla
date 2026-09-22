@@ -1092,7 +1092,7 @@ function loadMobileTopBar() {
   let html = `
     <div class="mobile-top-bar-content">
       <div class="mobile-top-bar-left">
-        <button class="top-bar-btn" onclick="openSearch()" title="بحث">
+        <button class="top-bar-btn" onclick="openSearchModal()" title="بحث">
           <i class="fas fa-search"></i>
         </button>
       </div>
