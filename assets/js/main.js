@@ -1372,26 +1372,237 @@ function loadMobileCopyright() {
 }
 
 // ============================================================
-// 🔍 فتح نافذة البحث الاحترافية
+// 🔍 نظام البحث الموحد (يعمل في كل الصفحات)
 // ============================================================
 
-function openSearch() {
-  // لو النافذة موجودة في الصفحة → افتحها
-  const searchOverlay = document.getElementById('searchModalOverlay');
-  if (searchOverlay) {
-    // استدعاء دالة الصفحة إذا كانت موجودة
-    if (typeof window.openSearchModal === 'function') {
-      window.openSearchModal();
-    } else {
-      searchOverlay.classList.add('show');
-      document.body.style.overflow = 'hidden';
-    }
+let searchTimeoutGlobal = null;
+
+/**
+ * فتح نافذة البحث
+ */
+function openSearchModal() {
+  const overlay = document.getElementById('searchModalOverlay');
+  const input = document.getElementById('searchModalInput');
+  
+  if (!overlay) {
+    // لو النافذة مش موجودة → انتقل لصفحة البحث
+    window.location.href = '/gomla/search.html';
     return;
   }
   
-  // لو النافذة مش موجودة (صفحة تانية) → انتقل لصفحة البحث
-  window.location.href = '/gomla/search.html';
+  overlay.classList.add('show');
+  document.body.style.overflow = 'hidden';
+  
+  if (input) {
+    input.value = '';
+    setTimeout(() => input.focus(), 100);
+  }
+  
+  const initialContent = document.getElementById('searchInitialContent');
+  const resultsContainer = document.getElementById('searchResults');
+  if (initialContent) initialContent.style.display = 'block';
+  if (resultsContainer) resultsContainer.innerHTML = '';
 }
+
+/**
+ * إغلاق نافذة البحث
+ */
+function closeSearchModal(event) {
+  if (event && event.target !== event.currentTarget) return;
+  
+  const overlay = document.getElementById('searchModalOverlay');
+  if (overlay) {
+    overlay.classList.remove('show');
+    document.body.style.overflow = '';
+  }
+  
+  const input = document.getElementById('searchModalInput');
+  if (input) input.value = '';
+}
+
+/**
+ * التعامل مع ضغطات لوحة المفاتيح
+ */
+function handleSearchKeydown(event) {
+  if (event.key === 'Escape') {
+    closeSearchModal();
+  } else if (event.key === 'Enter') {
+    const value = event.target.value.trim();
+    if (value) {
+      // الانتقال لصفحة نتائج البحث
+      const user = getCurrentUser();
+      const role = user ? user.data.role : ROLES.GUEST;
+      const type = (role === ROLES.WHOLESALE || role === ROLES.ADMIN || role === ROLES.SUPER) 
+        ? 'wholesale' 
+        : 'retail';
+      
+      window.location.href = `/gomla/store-${type}.html?search=${encodeURIComponent(value)}`;
+    }
+  }
+}
+
+/**
+ * البحث السريع بكلمة جاهزة
+ */
+function quickSearch(term) {
+  const input = document.getElementById('searchModalInput');
+  if (input) {
+    input.value = term;
+    handleModalSearch(term);
+  }
+}
+
+/**
+ * البحث الفوري
+ */
+async function handleModalSearch(searchTerm) {
+  const resultsContainer = document.getElementById('searchResults');
+  const initialContent = document.getElementById('searchInitialContent');
+  
+  if (!resultsContainer) return;
+  
+  // لو البحث قصير
+  if (!searchTerm || searchTerm.trim().length < 2) {
+    if (initialContent) initialContent.style.display = 'block';
+    resultsContainer.innerHTML = '';
+    return;
+  }
+  
+  // إخفاء المحتوى الأولي
+  if (initialContent) initialContent.style.display = 'none';
+  
+  // عرض التحميل
+  resultsContainer.innerHTML = `
+    <div class="search-loading">
+      <i class="fas fa-spinner fa-spin"></i>
+      <p style="margin-top:8px;">جاري البحث...</p>
+    </div>
+  `;
+  
+  // Debounce
+  if (searchTimeoutGlobal) clearTimeout(searchTimeoutGlobal);
+  
+  searchTimeoutGlobal = setTimeout(async () => {
+    try {
+      const term = searchTerm.trim().toLowerCase();
+      
+      // تحديد نوع المستخدم
+      const user = getCurrentUser();
+      const role = user ? user.data.role : ROLES.GUEST;
+      const isWholesale = role === ROLES.WHOLESALE || role === ROLES.ADMIN || role === ROLES.SUPER;
+      
+      // جلب المنتجات
+      const snapshot = await db.collection(COLLECTIONS.PRODUCTS)
+        .where('available', '==', true)
+        .limit(50)
+        .get();
+      
+      // فلترة النتائج
+      const results = [];
+      snapshot.forEach(doc => {
+        const p = doc.data();
+        const name = (p.name || '').toLowerCase();
+        const brand = (p.brandName || '').toLowerCase();
+        const keywords = (p.keywords || '').toLowerCase();
+        const barcode = (p.barcode || '').toLowerCase();
+        
+        if (name.includes(term) || 
+            brand.includes(term) || 
+            keywords.includes(term) ||
+            barcode === term) {
+          results.push({ id: doc.id, ...p });
+        }
+      });
+      
+      // عرض النتائج
+      if (results.length === 0) {
+        resultsContainer.innerHTML = `
+          <div class="search-empty">
+            <i class="fas fa-search-minus"></i>
+            <p>لا توجد نتائج لـ "${searchTerm}"</p>
+            <p style="font-size:0.85rem;margin-top:8px;">جرب كلمات أخرى</p>
+          </div>
+        `;
+        return;
+      }
+      
+      let html = `
+        <div class="search-suggestions-header">
+          <i class="fas fa-check-circle"></i>
+          ${results.length} نتيجة
+        </div>
+      `;
+      
+      results.slice(0, 15).forEach(p => {
+        // 🔒 السعر حسب نوع المستخدم
+        const price = isWholesale ? 
+          (p.wholesalePrice || 0) : 
+          (p.retailPrice || 0);
+        const unit = isWholesale ? 
+          (p.unit || 'كرتونة') : 
+          'قطعة';
+        const stock = p.stockQuantity || 0;
+        const isAvailable = stock > 0;
+        
+        html += `
+          <a href="/gomla/product-details.html?id=${p.id}" 
+             class="search-result-item">
+            <img src="${p.imageUrl || '/gomla/assets/images/no-image.png'}"
+                 alt="${p.name}"
+                 onerror="this.src='/gomla/assets/images/no-image.png'">
+            <div class="search-result-info">
+              <div class="search-result-name">${p.name}</div>
+              <div class="search-result-meta">
+                <span class="search-result-price">
+                  ${price.toFixed(2)} ج.م
+                  <small>/ ${unit}</small>
+                </span>
+                ${p.brandName ? `
+                  <span><i class="fas fa-tag" style="color:var(--gold);"></i> ${p.brandName}</span>
+                ` : ''}
+                ${!isAvailable ? `
+                  <span style="color:var(--danger);">
+                    <i class="fas fa-times-circle"></i> غير متوفر
+                  </span>
+                ` : ''}
+              </div>
+            </div>
+            <i class="fas fa-arrow-left search-result-arrow"></i>
+          </a>
+        `;
+      });
+      
+      resultsContainer.innerHTML = html;
+      
+    } catch (error) {
+      console.error('Search error:', error);
+      resultsContainer.innerHTML = `
+        <div class="search-empty">
+          <i class="fas fa-exclamation-triangle"></i>
+          <p>حدث خطأ في البحث</p>
+        </div>
+      `;
+    }
+  }, 300);
+}
+
+// ===== ESC لإغلاق النافذة =====
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    const overlay = document.getElementById('searchModalOverlay');
+    if (overlay && overlay.classList.contains('show')) {
+      closeSearchModal();
+    }
+  }
+});
+
+// تصدير للاستخدام العالمي
+window.openSearchModal = openSearchModal;
+window.closeSearchModal = closeSearchModal;
+window.handleSearchKeydown = handleSearchKeydown;
+window.handleModalSearch = handleModalSearch;
+window.quickSearch = quickSearch;
+//نهاية البحث 
 
 function openCart() {
   window.location.href = '/gomla/cart.html';
