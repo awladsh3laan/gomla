@@ -4452,6 +4452,347 @@ input, select, textarea {
 /* ═══════════════════════════════════════════════════════════════
    ✅ نهاية الإضافات النهائية - المرحلة 1
    ═══════════════════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════
+   ═══════════════════════════════════════════════════════════════
+   
+   🔍 نافذة البحث الاحترافية (Search Modal) - نسخة عامة
+   📅 آخر تحديث: 2026-09-22
+   
+   ⚠️ هذا القسم يُستخدم في كل الصفحات
+   ⚠️ يُضاف في نهاية ملف style.css
+   
+   ═══════════════════════════════════════════════════════════════
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ===== الخلفية المعتمة ===== */
+.search-modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 26, 46, 0.7);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 99999;
+  padding: 20px;
+  animation: fadeIn 0.2s ease;
+}
+
+.search-modal-overlay.show {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 60px;
+}
+
+/* ===== نافذة البحث ===== */
+.search-modal {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 700px;
+  max-height: 80vh;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideDown 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== رأس النافذة ===== */
+.search-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 2px solid var(--gray-100);
+  background: var(--white);
+  flex-shrink: 0;
+}
+
+.search-modal-header .search-icon {
+  font-size: 1.2rem;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
+.search-modal-header input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-family: inherit;
+  font-size: 1.1rem;
+  color: var(--navy);
+  background: transparent;
+  padding: 8px 0;
+  font-weight: 500;
+}
+
+.search-modal-header input::placeholder {
+  color: var(--gray-400);
+  font-weight: 400;
+}
+
+.search-modal-close {
+  background: var(--gray-100);
+  border: none;
+  color: var(--gray-500);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  flex-shrink: 0;
+  font-size: 1.1rem;
+}
+
+.search-modal-close:hover {
+  background: var(--danger);
+  color: var(--white);
+  transform: rotate(90deg);
+}
+
+/* ===== جسم النافذة ===== */
+.search-modal-body {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 150px;
+  max-height: 400px;
+}
+
+/* ===== اقتراحات سريعة ===== */
+.search-suggestions-header {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--gray-500);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.search-suggestions-header i {
+  color: var(--gold);
+}
+
+.search-suggestions-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.search-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: var(--gray-100);
+  color: var(--gray-700);
+  border-radius: var(--radius-full);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  border: 2px solid transparent;
+  text-decoration: none;
+  font-family: inherit;
+}
+
+.search-chip:hover,
+.search-chip:active {
+  background: var(--gold-light);
+  color: var(--navy);
+  border-color: var(--gold);
+  transform: translateY(-2px);
+}
+
+.search-chip i {
+  font-size: 0.9rem;
+  color: var(--gold);
+}
+
+/* ===== نتائج البحث ===== */
+.search-results {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.search-result-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+  color: inherit;
+  background: var(--white);
+  border: 2px solid transparent;
+}
+
+.search-result-item:hover,
+.search-result-item:active {
+  background: var(--gray-50);
+  border-color: var(--gold);
+}
+
+.search-result-item img {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  background: var(--gray-100);
+  flex-shrink: 0;
+  border: 1px solid var(--gray-200);
+}
+
+.search-result-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.search-result-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.search-result-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.8rem;
+  color: var(--gray-500);
+  flex-wrap: wrap;
+}
+
+.search-result-price {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--gold);
+}
+
+.search-result-price small {
+  font-size: 0.7rem;
+  color: var(--gray-400);
+  font-weight: 500;
+}
+
+.search-result-arrow {
+  color: var(--gray-300);
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  transition: var(--transition);
+}
+
+.search-result-item:hover .search-result-arrow {
+  color: var(--gold);
+  transform: translateX(-4px);
+}
+
+/* ===== الحالات الفارغة ===== */
+.search-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--gray-400);
+}
+
+.search-empty i {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 12px;
+  color: var(--gray-300);
+}
+
+.search-empty p {
+  font-size: 0.95rem;
+}
+
+.search-loading {
+  text-align: center;
+  padding: 30px;
+  color: var(--gray-400);
+}
+
+.search-loading i {
+  font-size: 1.5rem;
+  color: var(--gold);
+}
+
+/* ===== تلميح لوحة المفاتيح ===== */
+.search-keyboard-hint {
+  padding: 8px 20px;
+  background: var(--gray-50);
+  border-top: 1px solid var(--gray-100);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--gray-500);
+  flex-shrink: 0;
+}
+
+.search-keyboard-hint kbd {
+  background: var(--white);
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--gray-200);
+  font-family: inherit;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--navy);
+  box-shadow: 0 2px 0 var(--gray-200);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) and (pointer: coarse) {
+  .search-modal-overlay.show {
+    padding-top: 20px;
+  }
+
+  .search-modal {
+    max-height: 90vh;
+    border-radius: var(--radius-md);
+  }
+
+  .search-modal-header input {
+    font-size: 1rem;
+  }
+
+  .search-modal-body {
+    padding: 16px;
+  }
+
+  .search-result-item {
+    padding: 10px;
+  }
+
+  .search-result-item img {
+    width: 48px;
+    height: 48px;
+  }
+
+  .search-keyboard-hint {
+    display: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   ✅ نهاية style نافذة البحث
+   ═══════════════════════════════════════════════════════════════ */
 
 /* ============================================================
 ✅ نهاية الملف - style.css v6.0
