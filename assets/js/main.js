@@ -1190,7 +1190,7 @@ function loadMobileTopTabs() {
       { text: 'متجر قطاعي', url: '/gomla/store-retail.html', icon: 'fa-store' },
       { text: 'تسجيل كعميل', url: '/gomla/customer-login.html', icon: 'fa-user-plus' },
       { text: 'تسجيل كتاجر', url: '/gomla/support.html', icon: 'fa-store-alt' },
-      { text: 'تسجيل الدخول', url: '/gomla/customer-login.html', icon: 'fa-sign-in-alt' }
+      { text: 'تسجيل الدخول', url: '/gomla/login.html', icon: 'fa-sign-in-alt' }
     ];
   }
   
@@ -1248,7 +1248,7 @@ function loadMobileBottomTabs() {
   if (path === '/' || path.includes('index.html') || path.includes('store-')) {
     tabs = [
       { text: 'أحدث', url: '#', icon: 'fa-home', onclick: 'scrollToLatest()' },
-      { text: 'الأقسام', url: '#', icon: 'fa-th-large', onclick: 'scrollToCategories()' },
+      { text: 'الأقسام', url: '/gomla/categories.html', icon: 'fa-th-large', onclick: 'scrollToCategories()' },
       { text: 'المفضلة', url: '/gomla/wishlist.html', icon: 'fa-heart' },
       { text: 'السلة', url: '/gomla/cart.html', icon: 'fa-shopping-cart' },
       { text: 'القائمة', url: '#', icon: 'fa-bars', onclick: 'openSidebar()' }
