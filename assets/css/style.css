@@ -150,7 +150,7 @@ input, select, textarea {
 }
 
 .btn-primary {
-  background: var(--ddd);
+  background: var(--white);
   color: var(--navy);
 }
 
@@ -163,7 +163,7 @@ input, select, textarea {
 
 .btn-gold {
   background: var(--gold);
-  color: var(--navy);
+  color: var(--ddd);
 }
 
 .btn-gold:hover {
