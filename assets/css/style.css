@@ -175,7 +175,7 @@ input, select, textarea {
 .btn-outline {
   background: transparent;
   border: 2px solid var(--navy-light);
-  color: var(--navy);
+  color: var(--ddd);
 }
 
 .btn-outline:hover {
