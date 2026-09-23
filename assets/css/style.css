@@ -163,7 +163,7 @@ input, select, textarea {
 
 .btn-gold {
   background: var(--gold);
-  color: var(--ddd);
+  color: var(--navy);
 }
 
 .btn-gold:hover {
@@ -179,7 +179,7 @@ input, select, textarea {
 }
 
 .btn-outline:hover {
-  background: var(--navy);
+  background: var(--ddd);
   color: var(--white);
   border-color: var(--navy);
   transform: translateY(-2px);
