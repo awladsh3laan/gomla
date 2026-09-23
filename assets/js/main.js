@@ -1155,6 +1155,18 @@ function loadMobileTopTabs() {
         { text: 'متجر القطاعي', url: '/gomla/store-retail.html' }
       ]}
     ];
+  } else if (role === ROLES.ADMIN_PLUS) {
+    tabs = [
+      { text: 'لوحة التحكم', url: '/gomla/admin/dashboard.html', icon: 'fa-tachometer-alt' },
+      { text: 'الطلبات', url: '/gomla/admin/orders.html', icon: 'fa-shopping-bag' },
+      { text: 'المنتجات', url: '/gomla/admin/products.html', icon: 'fa-boxes' },
+      { text: 'الصندوق', url: '/gomla/admin/cashbox.html', icon: 'fa-cash-register' },
+      { text: 'المتاجر', url: '#', icon: 'fa-store', dropdown: [
+        { text: 'متجر الجملة', url: '/gomla/store-wholesale.html' },
+        { text: 'متجر القطاعي', url: '/gomla/store-retail.html' }
+      ]}
+    ];
+
   } else if (role === ROLES.ADMIN) {
     tabs = [
       { text: 'لوحة التحكم', url: '/gomla/admin/dashboard.html', icon: 'fa-tachometer-alt' },
@@ -1247,8 +1259,8 @@ function loadMobileBottomTabs() {
   // الصفحات الرئيسية
   if (path === '/' || path.includes('index.html') || path.includes('store-')) {
     tabs = [
-      { text: 'أحدث', url: '#', icon: 'fa-home', onclick: 'scrollToLatest()' },
-      { text: 'الأقسام', url: '/gomla/categories.html', icon: 'fa-th-large', onclick: 'scrollToCategories()' },
+      { text: 'رئيسية', url: '/gomla', icon: 'fa-home' },
+      { text: 'الأقسام', url: '/gomla/categories.html', icon: 'fa-th-large' },
       { text: 'المفضلة', url: '/gomla/wishlist.html', icon: 'fa-heart' },
       { text: 'السلة', url: '/gomla/cart.html', icon: 'fa-shopping-cart' },
       { text: 'القائمة', url: '#', icon: 'fa-bars', onclick: 'openSidebar()' }
@@ -1257,7 +1269,8 @@ function loadMobileBottomTabs() {
   // صفحة المنتجات
   else if (path.includes('admin/products.html')) {
     tabs = [
-      { text: 'إضافة منتج', url: '#', icon: 'fa-plus', onclick: 'openAddModal()' },
+ { text: 'لوحة التحكم', url: '/gomla/admin/dashboard.html', icon: 'fa-plus' },   
+  { text: 'إضافة منتج', url: '#', icon: 'fa-plus', onclick: 'openAddModal()' },
       { text: 'إضافة براند', url: '#', icon: 'fa-copyright', onclick: 'openBrandModal()' },
       { text: 'إضافة تصنيف', url: '#', icon: 'fa-tags', onclick: 'openCategoryModal()' },
       { text: 'نسخة احتياطية', url: '#', icon: 'fa-download', onclick: 'exportProducts()' },
