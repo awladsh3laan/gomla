@@ -1089,14 +1089,14 @@ input, select, textarea {
 #mobile-top-tabs {
   background: var(--white);
   border-bottom: 1px solid var(--gray-200);
-  position: fixed;
+  position:sticky;
   top: var(--mobile-top-bar-height);
   z-index: 890;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .mobile-tabs-scroll {
-  display: flex;
+  display: fixed;
   gap: 4px;
   overflow-x: auto;
   padding: 6px 8px;
