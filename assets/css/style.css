@@ -151,12 +151,12 @@ input, select, textarea {
 
 .btn-primary {
   background: var(--white);
-  color: var(--ddd);
+  color: var(--navy);
 }
 
 .btn-primary:hover {
   background: var(--gold);
-  color: var(--navy);
+  color: var(--gold);
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
