@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>خصومات التجار - أولاد شعلان جملة</title>
+
+  <meta name="description" content="خصومات حصرية للتجار - أولاد شعلان جملة">
+  <meta name="theme-color" content="#1a2a4a">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/gomla/assets/css/style.css">
+  <link rel="icon" href="/gomla/assets/images/favicon.ico">
+
+  <style>
+    /* ============================================================
+       🎨 ستايل صفحة الخصومات (للتجار فقط)
+       ============================================================ */
+
+    /* ===== رأس الصفحة - بألوان الجملة ===== */
+    .discounts-hero {
+      background: linear-gradient(135deg, #0f1a2e 0%, #1a2a4a 40%, #2a3f6a 100%);
+      border-radius: var(--radius-lg);
+      padding: 44px 24px;
+      margin-bottom: 24px;
+      text-align: center;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(15, 26, 46, 0.4);
+      border: 2px solid var(--gold);
+    }
+
+    .discounts-hero::before {
+      content: '';
+      position: absolute;
+      top: -30%;
+      right: -10%;
+      width: 320px;
+      height: 320px;
+      background: radial-gradient(circle, rgba(201, 168, 76, 0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .discounts-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      left: -10%;
+      width: 270px;
+      height: 270px;
+      background: radial-gradient(circle, rgba(201, 168, 76, 0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 10s ease-in-out infinite reverse;
+    }
+
+    .discounts-hero .top-shimmer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        var(--gold) 25%,
+        var(--gold-light) 50%,
+        var(--gold) 75%,
+        transparent 100%);
+      background-size: 200% 100%;
+      animation: shimmer-move 3s linear infinite;
+    }
+
+    @keyframes shimmer-move {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    .discounts-hero-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .discounts-hero-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      font-size: 2.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      border: 3px solid var(--gold-light);
+      animation: tag-pulse 2.5s ease-in-out infinite;
+      box-shadow: 0 8px 30px rgba(201, 168, 76, 0.4);
+    }
+
+    @keyframes tag-pulse {
+      0%, 100% {
+        transform: scale(1) rotate(0deg);
+        box-shadow: 0 8px 30px rgba(201, 168, 76, 0.4);
+      }
+      50% {
+        transform: scale(1.06) rotate(-5deg);
+        box-shadow: 0 12px 40px rgba(201, 168, 76, 0.6);
+      }
+    }
+
+    .discounts-hero h1 {
+      font-size: 2.2rem;
+      font-weight: 900;
+      margin-bottom: 8px;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    }
+
+    .discounts-hero h1 .gold {
+      color: var(--gold);
+    }
+
+    .discounts-hero p {
+      font-size: 1rem;
+      opacity: 0.9;
+      margin-bottom: 12px;
+    }
+
+    .discounts-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--gold);
+      color: var(--navy);
+      padding: 8px 20px;
+      border-radius: var(--radius-full);
+      font-size: 0.85rem;
+      font-weight: 800;
+      box-shadow: 0 4px 16px rgba(201, 168, 76, 0.4);
+    }
+
+    /* ===== كارت الخصم (مميز للتجار) ===== */
+    .discount-full-card {
+      position: relative;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      border: 2px solid var(--gold-light);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .discount-full-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(201, 168, 76, 0.3);
+      border-color: var(--gold);
+    }
+
+    /* شريط خصم ذهبي */
+    .discount-full-card .discount-ribbon {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+      color: var(--navy);
+      padding: 7px 16px;
+      border-radius: var(--radius-full);
+      font-size: 0.9rem;
+      font-weight: 900;
+      z-index: 5;
+      box-shadow: 0 4px 12px rgba(201, 168, 76, 0.5);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* مؤقت العرض */
+    .discount-full-card .discount-timer {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(15, 26, 46, 0.92);
+      color: var(--gold-light);
+      padding: 5px 12px;
+      border-radius: var(--radius-full);
+      font-size: 0.72rem;
+      font-weight: 700;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      backdrop-filter: blur(10px);
+    }
+
+    .discount-full-card .discount-timer i {
+      color: var(--gold);
+    }
+
+    .discount-full-card .discount-timer.urgent {
+      background: rgba(239, 68, 68, 0.95);
+      color: white;
+    }
+
+    .discount-full-card .discount-timer.urgent i {
+      color: white;
+    }
+
+    /* قسم السعر */
+    .discount-full-card .price-section {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin: 10px 0;
+    }
+
+    .discount-full-card .price-row-main {
+      display: flex;
+      align-items: baseline;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .discount-full-card .discount-price {
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: var(--gold-dark);
+      line-height: 1.2;
+    }
+
+    .discount-full-card .discount-price small {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--gray-500);
+    }
+
+    .discount-full-card .original-price {
+      font-size: 0.9rem;
+      color: var(--gray-400);
+      text-decoration: line-through;
+      font-weight: 500;
+    }
+
+    .discount-full-card .saving-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      background: rgba(34, 197, 94, 0.15);
+      color: #16a34a;
+      border-radius: var(--radius-full);
+      font-size: 0.72rem;
+      font-weight: 700;
+      align-self: flex-start;
+      border: 1px solid rgba(34, 197, 94, 0.25);
+    }
+
+    /* ملاحظات التاجر */
+    .discount-full-card .trader-notes {
+      background: #fef9e7;
+      border-right: 3px solid var(--gold);
+      padding: 8px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      color: var(--gray-700);
+      line-height: 1.5;
+      margin: 6px 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+    }
+
+    .discount-full-card .trader-notes i {
+      color: var(--gold);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* شارة "خاص بالتجار" */
+    .discount-full-card .trader-only-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--gold-light);
+      border-radius: var(--radius-full);
+      font-size: 0.65rem;
+      font-weight: 800;
+      align-self: flex-start;
+      margin-bottom: 6px;
+      border: 1px solid var(--gold);
+    }
+
+    /* ===== شاشة الحظر ===== */
+    .access-denied-screen {
+      display: none;
+      min-height: 70vh;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .access-denied-screen.show {
+      display: flex;
+    }
+
+    .access-denied-content {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 48px 32px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: var(--shadow-lg);
+      border-top: 6px solid var(--danger);
+      animation: shake-in 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @keyframes shake-in {
+      0% {
+        opacity: 0;
+        transform: translateY(-30px) scale(0.9);
+      }
+      60% {
+        transform: translateY(5px) scale(1.02);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .access-denied-content .denied-icon {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #fef2f2, #fee2e2);
+      color: var(--danger);
+      font-size: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      border: 4px solid rgba(239, 68, 68, 0.2);
+      animation: lock-shake 2s ease-in-out infinite;
+    }
+
+    @keyframes lock-shake {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-8deg); }
+      75% { transform: rotate(8deg); }
+    }
+
+    .access-denied-content h2 {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--danger);
+      margin-bottom: 12px;
+    }
+
+    .access-denied-content p {
+      font-size: 1rem;
+      color: var(--gray-600);
+      line-height: 1.8;
+      margin-bottom: 24px;
+    }
+
+    .access-denied-content .denied-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* ===== الفلاتر ===== */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      background: var(--white);
+      padding: 14px 16px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 20px;
+      align-items: center;
+      border: 1px solid var(--gray-200);
+    }
+
+    .filter-bar select {
+      padding: 10px 14px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.9rem;
+      background: var(--gray-50);
+      min-width: 140px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .filter-bar select:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.15);
+      background: var(--white);
+    }
+
+    .filter-bar .filter-icon {
+      color: var(--gold);
+      font-size: 1rem;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) and (pointer: coarse) {
+      .discounts-hero {
+        padding: 28px 16px;
+      }
+
+      .discounts-hero-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.6rem;
+      }
+
+      .discounts-hero h1 {
+        font-size: 1.5rem;
+      }
+
+      .discounts-hero p {
+        font-size: 0.9rem;
+      }
+
+      .filter-bar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .filter-bar select {
+        width: 100%;
+      }
+
+      .access-denied-content {
+        padding: 32px 20px;
+      }
+
+      .access-denied-content .denied-icon {
+        width: 80px;
+        height: 80px;
+        font-size: 2.5rem;
+      }
+
+      .access-denied-content h2 {
+        font-size: 1.3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- مكونات الموبايل -->
+  <div id="mobile-top-bar"></div>
+  <div id="mobile-top-tabs"></div>
+
+  <!-- الهيدر -->
+  <div id="header-placeholder"></div>
+
+  <!-- المحتوى -->
+  <main class="page-content">
+    <div class="container">
+
+      <!-- ============================================================ -->
+      <!-- 🚫 شاشة الحظر (لغير التجار)                                   -->
+      <!-- ============================================================ -->
+      <div class="access-denied-screen" id="accessDeniedScreen">
+        <div class="access-denied-content">
+          <div class="denied-icon">
+            <i class="fas fa-lock"></i>
+          </div>
+          <h2>هذه الصفحة للتجار فقط</h2>
+          <p>
+            عذراً، صفحة <strong>خصومات التجار</strong> متاحة للتجار المسجلين فقط.
+            <br>
+            إذا كنت تاجراً، يرجى تسجيل الدخول بكود التاجر الخاص بك.
+          </p>
+          <div class="denied-actions">
+            <a href="/gomla/trader-login.html" class="btn btn-primary">
+              <i class="fas fa-sign-in-alt"></i>
+              دخول التجار
+            </a>
+            <a href="/gomla/store-retail.html" class="btn btn-outline">
+              <i class="fas fa-store"></i>
+              المتجر القطاعي
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- 🎯 محتوى الخصومات (للتجار)                                    -->
+      <!-- ============================================================ -->
+      <div id="discountsContent" style="display:none;">
+
+        <!-- مسار التنقل -->
+        <div class="breadcrumb">
+          <a href="/gomla/">الرئيسية</a>
+          <span>›</span>
+          <a href="/gomla/store-wholesale.html">المتجر</a>
+          <span>›</span>
+          <span>خصومات التجار</span>
+        </div>
+
+        <!-- رأس الصفحة -->
+        <section class="discounts-hero">
+          <div class="top-shimmer"></div>
+          <div class="discounts-hero-content">
+            <div class="discounts-hero-icon">
+              <i class="fas fa-tags"></i>
+            </div>
+            <h1>
+              خصومات <span class="gold">التجار</span>
+            </h1>
+            <p>عروض وخصومات حصرية للتجار — أسعار مميزة تزيد أرباحك</p>
+            <div class="discounts-hero-badge">
+              <i class="fas fa-star"></i>
+              عروض حصرية للتجار المعتمدين
+            </div>
+          </div>
+        </section>
+
+        <!-- سلايدر مصغر -->
+        <section class="slider-section" style="margin-bottom:24px;">
+          <div class="slider-container" id="sliderContainer">
+            <div class="slider-track" id="sliderTrack">
+              <div class="slider-item">
+                <div class="slide-placeholder">
+                  <i class="fas fa-spinner fa-spin"></i>
+                  جاري التحميل...
+                </div>
+              </div>
+            </div>
+            <button class="slider-btn prev" onclick="slidePrev()" aria-label="السابق">
+              <i class="fas fa-chevron-right"></i>
+            </button>
+            <button class="slider-btn next" onclick="slideNext()" aria-label="التالي">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <div class="slider-dots" id="sliderDots"></div>
+          </div>
+        </section>
+
+        <!-- شريط البحث -->
+        <section class="smart-search desktop-only" style="margin-bottom:24px;">
+          <div class="search-wrapper" onclick="openSearchModal()" style="cursor:pointer;">
+            <i class="fas fa-search"></i>
+            <input type="text" 
+                   placeholder="ابحث في الخصومات..." 
+                   readonly
+                   style="cursor:pointer;">
+            <button class="search-btn" type="button">
+              <i class="fas fa-arrow-left"></i> بحث
+            </button>
+          </div>
+        </section>
+
+        <!-- الفلاتر -->
+        <div class="filter-bar">
+          <i class="fas fa-sliders-h filter-icon"></i>
+          <select id="sortFilter" onchange="applyFilters()">
+            <option value="discount-high">أعلى خصم</option>
+            <option value="discount-low">أقل خصم</option>
+            <option value="price-low">السعر: الأقل للأعلى</option>
+            <option value="price-high">السعر: الأعلى للأقل</option>
+            <option value="newest">الأحدث</option>
+            <option value="ending-soon">ينتهي قريباً</option>
+          </select>
+          <select id="categoryFilter" onchange="applyFilters()">
+            <option value="">كل الأقسام</option>
+          </select>
+          <select id="brandFilter" onchange="applyFilters()">
+            <option value="">كل البراندات</option>
+          </select>
+        </div>
+
+        <!-- شبكة الخصومات -->
+        <div class="products-grid" id="discountsContainer">
+          <div class="loading-spinner" style="grid-column:1/-1;">
+            <i class="fas fa-spinner fa-spin"></i>
+            جاري التحميل...
+          </div>
+        </div>
+
+        <!-- تحميل المزيد -->
+        <div style="text-align:center;margin-top:20px;">
+          <button class="btn btn-outline" id="loadMoreBtn" onclick="loadMoreDiscounts()" style="display:none;">
+            <i class="fas fa-chevron-down"></i>
+            تحميل المزيد
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- التبويبات السفلى -->
+  <div id="mobile-bottom-tabs"></div>
+  <div id="mobile-copyright"></div>
+
+  <!-- الفوتر -->
+  <div id="footer-placeholder"></div>
+
+  <!-- السايدبار -->
+  <div id="sidebar-placeholder"></div>
+
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
+
+  <!-- نافذة البحث -->
+  <div class="search-modal-overlay" id="searchModalOverlay" onclick="closeSearchModal(event)">
+    <div class="search-modal" onclick="event.stopPropagation()">
+      <div class="search-modal-header">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" 
+               id="searchModalInput" 
+               placeholder="ابحث عن منتج..."
+               autocomplete="off"
+               oninput="handleModalSearch(this.value)"
+               onkeydown="handleSearchKeydown(event)">
+        <button class="search-modal-close" onclick="closeSearchModal()" aria-label="إغلاق">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="search-modal-body" id="searchModalBody">
+        <div id="searchInitialContent">
+          <div class="search-suggestions-header">
+            <i class="fas fa-fire"></i>
+            اقتراحات سريعة
+          </div>
+          <div class="search-suggestions-chips">
+            <a href="#" class="search-chip" onclick="quickSearch('منظف')">
+              <i class="fas fa-spray-can"></i>
+              منظفات
+            </a>
+            <a href="#" class="search-chip" onclick="quickSearch('ورق')">
+              <i class="fas fa-toilet-paper"></i>
+              ورقيات
+            </a>
+            <a href="#" class="search-chip" onclick="quickSearch('صابون')">
+              <i class="fas fa-soap"></i>
+              صابون
+            </a>
+          </div>
+        </div>
+        <div class="search-results" id="searchResults"></div>
+      </div>
+      <div class="search-keyboard-hint">
+        <span><kbd>ESC</kbd> للإغلاق</span>
+        <span><kbd>Enter</kbd> للبحث</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase & Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+  <script src="/gomla/assets/js/firebase-config.js"></script>
+  <script src="/gomla/assets/js/main.js"></script>
+
+  <script>
+    // ============================================================
+    // 📄 discounts.html - صفحة خصومات التجار
+    // 🔒 للتجار فقط (يمنع العملاء والزوار)
+    // ============================================================
+
+    // ===== المتغيرات =====
+    let allDiscounts = [];
+    let filteredDiscounts = [];
+    let currentPage = 0;
+    const pageSize = 12;
+    let slidesCount = 0;
+    let slideIndex = 0;
+    let slideInterval = null;
+    let timerInterval = null;
+
+    // ============================================================
+    // 🔒 التحقق من الصلاحية
+    // ============================================================
+
+    function checkAccess() {
+      const user = getCurrentUser();
+
+      // زائر أو غير مسجل → ممنوع
+      if (!user) {
+        showAccessDenied();
+        return false;
+      }
+
+      const role = user.data.role;
+
+      // تاجر أو أدمن أو سوبر أدمن → مسموح
+      const allowed = [
+        ROLES.WHOLESALE,
+        ROLES.ADMIN,
+        ROLES.SUPER,
+        ROLES.ADMIN_PLUS
+      ];
+
+      if (!allowed.includes(role)) {
+        showAccessDenied();
+        return false;
+      }
+
+      return true;
+    }
+
+    function showAccessDenied() {
+      document.getElementById('accessDeniedScreen').classList.add('show');
+      document.getElementById('discountsContent').style.display = 'none';
+    }
+
+    function showDiscountsContent() {
+      document.getElementById('accessDeniedScreen').classList.remove('show');
+      document.getElementById('discountsContent').style.display = 'block';
+    }
+
+    // ============================================================
+    // 🚀 تحميل الصفحة
+    // ============================================================
+
+    async function loadPageData() {
+      // 🔒 التحقق من الصلاحية
+      if (!checkAccess()) return;
+
+      // عرض المحتوى
+      showDiscountsContent();
+
+      await loadDiscounts();
+      await loadFilters();
+      loadSlider();
+
+      // بدء تحديث المؤقتات
+      startTimersUpdate();
+    }
+
+    // ============================================================
+    // 🎯 تحميل الخصومات
+    // ============================================================
+
+    async function loadDiscounts() {
+      const container = document.getElementById('discountsContainer');
+      if (!container) return;
+
+      try {
+        const snapshot = await db.collection(COLLECTIONS.PRODUCTS)
+          .where('available', '==', true)
+          .where('hasWholesaleDiscount', '==', true)
+          .orderBy('updatedAt', 'desc')
+          .limit(pageSize)
+          .get();
+
+        allDiscounts = [];
+        snapshot.forEach(doc => {
+          allDiscounts.push({ id: doc.id, ...doc.data() });
+        });
+
+        filteredDiscounts = [...allDiscounts];
+        renderDiscounts();
+
+        if (allDiscounts.length >= pageSize) {
+          document.getElementById('loadMoreBtn').style.display = 'inline-block';
+        }
+
+      } catch (error) {
+        console.error('Error loading discounts:', error);
+        container.innerHTML = `
+          <div class="empty-state" style="grid-column:1/-1;">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p>حدث خطأ في تحميل الخصومات</p>
+          </div>
+        `;
+      }
+    }
+
+    // ============================================================
+    // 📂 تحميل الفلاتر
+    // ============================================================
+
+    async function loadFilters() {
+      const categories = new Map();
+      const brands = new Map();
+
+      allDiscounts.forEach(p => {
+        if (p.categoryId && p.categoryName) {
+          categories.set(p.categoryId, p.categoryName);
+        }
+        if (p.brandId && p.brandName) {
+          brands.set(p.brandId, p.brandName);
+        }
+      });
+
+      const catSelect = document.getElementById('categoryFilter');
+      if (catSelect && categories.size > 0) {
+        let html = '<option value="">كل الأقسام</option>';
+        categories.forEach((name, id) => {
+          html += `<option value="${id}">${name}</option>`;
+        });
+        catSelect.innerHTML = html;
+      } else if (catSelect) {
+        catSelect.style.display = 'none';
+      }
+
+      const brandSelect = document.getElementById('brandFilter');
+      if (brandSelect && brands.size > 0) {
+        let html = '<option value="">كل البراندات</option>';
+        brands.forEach((name, id) => {
+          html += `<option value="${id}">${name}</option>`;
+        });
+        brandSelect.innerHTML = html;
+      } else if (brandSelect) {
+        brandSelect.style.display = 'none';
+      }
+    }
+
+    // ============================================================
+    // 🎨 عرض الخصومات
+    // ============================================================
+
+    function renderDiscounts() {
+      const container = document.getElementById('discountsContainer');
+      if (!container) return;
+
+      const start = currentPage * pageSize;
+      const end = start + pageSize;
+      const pageDiscounts = filteredDiscounts.slice(start, end);
+
+      if (pageDiscounts.length === 0 && currentPage === 0) {
+        container.innerHTML = `
+          <div class="empty-state" style="grid-column:1/-1;">
+            <i class="fas fa-tags"></i>
+            <h3 style="color:var(--gray-600);margin:12px 0 8px;">لا توجد خصومات حالياً</h3>
+            <p>ترقب خصوماتنا القادمة للتجار!</p>
+            <a href="/gomla/store-wholesale.html" class="btn btn-primary" style="margin-top:16px;">
+              <i class="fas fa-arrow-right"></i>
+              العودة للمتجر
+            </a>
+          </div>
+        `;
+        document.getElementById('loadMoreBtn').style.display = 'none';
+        return;
+      }
+
+      let html = '';
+
+      pageDiscounts.forEach(discount => {
+        const originalPrice = discount.wholesalePrice || 0;
+        const discountPercent = discount.wholesaleDiscountPercent || 0;
+        const finalPrice = originalPrice * (1 - discountPercent / 100);
+        const savedAmount = originalPrice - finalPrice;
+        const unit = discount.unit || 'كرتونة';
+        
+        const stock = discount.stockQuantity || 0;
+        const isAvailable = stock > 0;
+
+        // مؤقت العرض
+        let timerHtml = '';
+        let isUrgent = false;
+        
+        if (discount.wholesaleDiscountEndDate) {
+          const endDate = discount.wholesaleDiscountEndDate.toDate ? 
+            discount.wholesaleDiscountEndDate.toDate() : 
+            new Date(discount.wholesaleDiscountEndDate);
+          const now = new Date();
+          const diff = endDate - now;
+          
+          if (diff > 0) {
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            
+            isUrgent = diff < (24 * 60 * 60 * 1000);
+            
+            let timeText = '';
+            if (days > 0) timeText = `${days} ي ${hours} س`;
+            else if (hours > 0) timeText = `${hours} س ${minutes} د`;
+            else timeText = `${minutes} د`;
+            
+            timerHtml = `
+              <div class="discount-timer ${isUrgent ? 'urgent' : ''}" data-end="${endDate.getTime()}">
+                <i class="fas fa-clock"></i>
+                ${timeText}
+              </div>
+            `;
+          } else {
+            timerHtml = `
+              <div class="discount-timer urgent">
+                <i class="fas fa-times"></i>
+                انتهى
+              </div>
+            `;
+          }
+        }
+
+        html += `
+          <div class="discount-full-card" onclick="goToProductDetails('${discount.id}')">
+            <div class="discount-ribbon">
+              <i class="fas fa-tags"></i>
+              خصم ${discountPercent}%
+            </div>
+            ${timerHtml}
+            <img src="${discount.imageUrl || '/gomla/assets/images/no-image.png'}"
+                 alt="${discount.name}"
+                 class="product-image"
+                 loading="lazy"
+                 onerror="this.src='/gomla/assets/images/no-image.png'">
+            <div class="product-body">
+              
+              <span class="trader-only-badge">
+                <i class="fas fa-store"></i>
+                خاص بالتجار
+              </span>
+              
+              <h4 class="product-name">${discount.name}</h4>
+              ${discount.brandName ? `
+                <p class="product-brand">
+                  <i class="fas fa-tag"></i> ${discount.brandName}
+                </p>
+              ` : ''}
+              
+              <div class="price-section">
+                <div class="price-row-main">
+                  <span class="discount-price">
+                    ${finalPrice.toFixed(2)} ج.م
+                    <small>/ ${unit}</small>
+                  </span>
+                  <span class="original-price">${originalPrice.toFixed(2)} ج.م</span>
+                </div>
+                <span class="saving-badge">
+                  <i class="fas fa-piggy-bank"></i>
+                  وفر ${savedAmount.toFixed(2)} ج.م / ${unit}
+                </span>
+              </div>
+              
+              ${discount.traderNotes ? `
+                <div class="trader-notes">
+                  <i class="fas fa-sticky-note"></i>
+                  <span>${discount.traderNotes}</span>
+                </div>
+              ` : ''}
+              
+              ${isAvailable ? `
+                <button class="btn btn-primary btn-sm"
+                        onclick="event.stopPropagation();handleAddToCart('${discount.id}')">
+                  <i class="fas fa-cart-plus"></i> أضف للسلة
+                </button>
+              ` : `
+                <div class="out-of-stock">
+                  <i class="fas fa-times-circle"></i> غير متوفر
+                </div>
+              `}
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+
+      if (filteredDiscounts.length > (currentPage + 1) * pageSize) {
+        document.getElementById('loadMoreBtn').style.display = 'inline-block';
+      } else {
+        document.getElementById('loadMoreBtn').style.display = 'none';
+      }
+    }
+
+    // ============================================================
+    // 🔄 تحديث المؤقتات
+    // ============================================================
+
+    function startTimersUpdate() {
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        document.querySelectorAll('.discount-timer[data-end]').forEach(el => {
+          const endTime = parseInt(el.dataset.end);
+          const now = Date.now();
+          const diff = endTime - now;
+          
+          if (diff <= 0) {
+            el.innerHTML = '<i class="fas fa-times"></i> انتهى';
+            el.classList.add('urgent');
+            return;
+          }
+          
+          const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+          const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+          
+          let timeText = '';
+          if (days > 0) timeText = `${days} ي ${hours} س`;
+          else if (hours > 0) timeText = `${hours} س ${minutes} د`;
+          else timeText = `${minutes} د`;
+          
+          el.innerHTML = `<i class="fas fa-clock"></i> ${timeText}`;
+          
+          if (diff < (24 * 60 * 60 * 1000)) {
+            el.classList.add('urgent');
+          }
+        });
+      }, 60000);
+    }
+
+    // ============================================================
+    // 🔍 التصفية
+    // ============================================================
+
+    function applyFilters() {
+      const sortValue = document.getElementById('sortFilter').value;
+      const categoryId = document.getElementById('categoryFilter')?.value || '';
+      const brandId = document.getElementById('brandFilter')?.value || '';
+
+      filteredDiscounts = [...allDiscounts];
+
+      if (categoryId) {
+        filteredDiscounts = filteredDiscounts.filter(p => p.categoryId === categoryId);
+      }
+
+      if (brandId) {
+        filteredDiscounts = filteredDiscounts.filter(p => p.brandId === brandId);
+      }
+
+      switch (sortValue) {
+        case 'discount-high':
+          filteredDiscounts.sort((a, b) => 
+            (b.wholesaleDiscountPercent || 0) - (a.wholesaleDiscountPercent || 0)
+          );
+          break;
+        case 'discount-low':
+          filteredDiscounts.sort((a, b) => 
+            (a.wholesaleDiscountPercent || 0) - (b.wholesaleDiscountPercent || 0)
+          );
+          break;
+        case 'price-low':
+          filteredDiscounts.sort((a, b) => {
+            const priceA = (a.wholesalePrice || 0) * (1 - (a.wholesaleDiscountPercent || 0) / 100);
+            const priceB = (b.wholesalePrice || 0) * (1 - (b.wholesaleDiscountPercent || 0) / 100);
+            return priceA - priceB;
+          });
+          break;
+        case 'price-high':
+          filteredDiscounts.sort((a, b) => {
+            const priceA = (a.wholesalePrice || 0) * (1 - (a.wholesaleDiscountPercent || 0) / 100);
+            const priceB = (b.wholesalePrice || 0) * (1 - (b.wholesaleDiscountPercent || 0) / 100);
+            return priceB - priceA;
+          });
+          break;
+        case 'ending-soon':
+          filteredDiscounts.sort((a, b) => {
+            const endA = a.wholesaleDiscountEndDate?.toMillis?.() || Infinity;
+            const endB = b.wholesaleDiscountEndDate?.toMillis?.() || Infinity;
+            return endA - endB;
+          });
+          break;
+        default:
+          filteredDiscounts.sort((a, b) => 
+            (b.updatedAt?.toMillis() || 0) - (a.updatedAt?.toMillis() || 0)
+          );
+      }
+
+      currentPage = 0;
+      renderDiscounts();
+    }
+
+    // ============================================================
+    // 🔄 تحميل المزيد
+    // ============================================================
+
+    async function loadMoreDiscounts() {
+      currentPage++;
+      const start = currentPage * pageSize;
+
+      try {
+        const snapshot = await db.collection(COLLECTIONS.PRODUCTS)
+          .where('available', '==', true)
+          .where('hasWholesaleDiscount', '==', true)
+          .orderBy('updatedAt', 'desc')
+          .limit(start + pageSize)
+          .get();
+
+        const newDiscounts = [];
+        snapshot.forEach(doc => newDiscounts.push({ id: doc.id, ...doc.data() }));
+
+        const additional = newDiscounts.slice(start);
+        allDiscounts = [...allDiscounts, ...additional];
+        filteredDiscounts = [...allDiscounts];
+        
+        applyFilters();
+
+      } catch (error) {
+        console.error('Error loading more:', error);
+        currentPage--;
+      }
+    }
+
+    // ============================================================
+    // 🎞️ السلايدر
+    // ============================================================
+
+    async function loadSlider() {
+      const track = document.getElementById('sliderTrack');
+      const dots = document.getElementById('sliderDots');
+      if (!track) return;
+
+      try {
+        const snapshot = await db.collection(COLLECTIONS.SLIDER)
+          .where('active', '==', true)
+          .orderBy('order', 'asc')
+          .get();
+
+        if (snapshot.empty) {
+          track.innerHTML = `
+            <div class="slider-item">
+              <div class="slide-placeholder">
+                <i class="fas fa-image"></i>
+                لا توجد صور
+              </div>
+            </div>
+          `;
+          return;
+        }
+
+        let slidesHtml = '';
+        let dotsHtml = '';
+        let index = 0;
+
+        snapshot.forEach(doc => {
+          const slide = doc.data();
+          const imageUrl = slide.imageUrl || '';
+          const title = slide.title || '';
+          const link = slide.link || '';
+          const captionHtml = title ? `<div class="slider-caption">${title}</div>` : '';
+          const content = link ?
+            `<a href="${link}"><img src="${imageUrl}" alt="${title}" onerror="this.src='/gomla/assets/images/no-image.png'">${captionHtml}</a>` :
+            `<img src="${imageUrl}" alt="${title}" onerror="this.src='/gomla/assets/images/no-image.png'">${captionHtml}`;
+          slidesHtml += `<div class="slider-item">${content}</div>`;
+          dotsHtml += `<span class="dot ${index === 0 ? 'active' : ''}" onclick="goToSlide(${index})"></span>`;
+          index++;
+        });
+
+        track.innerHTML = slidesHtml;
+        if (dots) dots.innerHTML = dotsHtml;
+        startSliderAuto();
+
+      } catch (error) {
+        console.error('Error loading slider:', error);
+      }
+    }
+
+    function startSliderAuto() {
+      slidesCount = document.querySelectorAll('.slider-item').length;
+      if (slidesCount <= 1) return;
+      if (slideInterval) clearInterval(slideInterval);
+      slideInterval = setInterval(() => {
+        slideIndex = (slideIndex + 1) % slidesCount;
+        updateSlider();
+      }, 5000);
+    }
+
+    function slideNext() {
+      if (slidesCount <= 1) return;
+      slideIndex = (slideIndex + 1) % slidesCount;
+      updateSlider();
+      startSliderAuto();
+    }
+
+    function slidePrev() {
+      if (slidesCount <= 1) return;
+      slideIndex = (slideIndex - 1 + slidesCount) % slidesCount;
+      updateSlider();
+      startSliderAuto();
+    }
+
+    function goToSlide(index) {
+      slideIndex = index;
+      updateSlider();
+      startSliderAuto();
+    }
+
+    function updateSlider() {
+      const track = document.getElementById('sliderTrack');
+      const dots = document.querySelectorAll('.slider-dots .dot');
+      if (!track) return;
+      track.style.transform = `translateX(${slideIndex * 100}%)`;
+      dots.forEach((dot, i) => dot.classList.toggle('active', i === slideIndex));
+    }
+
+    // ============================================================
+    // 🛒 إضافة للسلة
+    // ============================================================
+
+    async function handleAddToCart(productId) {
+      try {
+        await addToCart(productId, 1);
+      } catch (error) {
+        console.error('Error adding to cart:', error);
+      }
+    }
+
+    function goToProductDetails(productId) {
+      window.location.href = `/gomla/product-details.html?id=${productId}&type=wholesale`;
+    }
+
+    // ============================================================
+    // 🚀 تشغيل الصفحة
+    // ============================================================
+
+    document.addEventListener('DOMContentLoaded', function() {
+      loadPageData();
+      console.log('✅ discounts.html loaded');
+    });
+
+    // تصدير
+    window.slideNext = slideNext;
+    window.slidePrev = slidePrev;
+    window.goToSlide = goToSlide;
+    window.applyFilters = applyFilters;
+    window.loadMoreDiscounts = loadMoreDiscounts;
+    window.handleAddToCart = handleAddToCart;
+    window.goToProductDetails = goToProductDetails;
+
+  </script>
+
+</body>
+</html>
