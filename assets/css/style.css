@@ -240,7 +240,7 @@ input, select, textarea {
 6️⃣ الهيدر (للأجهزة الكبيرة فقط)
 ============================================================ */
 .smart-header {
-  background: var(--navy);
+  background: var(--ddd);
   color: var(--white);
   padding: 14px 0;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
