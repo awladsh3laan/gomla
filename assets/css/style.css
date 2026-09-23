@@ -1,7 +1,7 @@
 /* ============================================================
 🎨 style.css - الستايل الموحد للمشروع
-الإصدار: 6.0
-آخر تحديث: 2026-09-19
+الإصدار: 6.1
+آخر تحديث: 2026-09-23
 ============================================================ */
 @media (max-width: 768px) and (pointer: coarse) {
   /* إخفاء سيكشن البحث داخل الصفحة على الموبايل */
@@ -74,8 +74,8 @@ input, select, textarea {
   --gold-light: #e8d5a3;
   --gold-dark: #b8942a;
   --white: #ffffff;
-  --ddd : #0088FC
-  
+  --ddd: #0088FC; /* 🆕 اللون الأزرق */
+
   /* الرمادي */
   --gray-50: #f8fafc;
   --gray-100: #f1f5f9;
@@ -87,28 +87,28 @@ input, select, textarea {
   --gray-700: #334155;
   --gray-800: #1e293b;
   --gray-900: #0f172a;
-  
+
   /* الألوان الوظيفية */
   --success: #22c55e;
   --danger: #ef4444;
   --warning: #f59e0b;
   --info: #3b82f6;
-  
+
   /* الظلال */
   --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
   --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
   --shadow-lg: 0 8px 40px rgba(0,0,0,0.12);
-  
+
   /* الحدود */
   --radius-sm: 10px;
   --radius-md: 16px;
   --radius-lg: 24px;
   --radius-full: 9999px;
-  
+
   /* الحركات */
   --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-fast: 0.15s ease;
-  
+
   /* أبعاد الموبايل */
   --mobile-top-bar-height: 56px;
   --mobile-top-tabs-height: 48px;
@@ -980,6 +980,7 @@ input, select, textarea {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--gold-dark);
 }
+
 /* ============================================================
 1️⃣6️⃣ 📱 مكونات الموبايل (App-Like)
 ============================================================ */
@@ -993,7 +994,7 @@ input, select, textarea {
 }
 
 /* ============================================================
-الشريط العلوي (Mobile Top Bar)
+📱 الشريط العلوي (Mobile Top Bar) - ثابت أعلى المتصفح
 ============================================================ */
 .mobile-top-bar-content {
   display: flex;
@@ -1004,10 +1005,26 @@ input, select, textarea {
   padding: 8px 12px;
   height: var(--mobile-top-bar-height);
   border-bottom: 2px solid var(--gold);
-  position: sticky;
+
+  /* 🆕 ثابت أعلى المتصفح */
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
   z-index: 900;
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* نفس الشيء للـ placeholder */
+#mobile-top-bar {
+  position: relative;
+}
+
+/* 🆕 إضافة مساحة للـ body عشان الشريط ما يغطي المحتوى */
+@media (max-width: 768px) and (pointer: coarse) {
+  body {
+    padding-top: calc(var(--mobile-top-bar-height) + var(--mobile-top-tabs-height));
+  }
 }
 
 .mobile-top-bar-left,
@@ -1035,7 +1052,7 @@ input, select, textarea {
 }
 
 .top-bar-btn {
-  position: relative;
+  position: relative; /* 🆕 صح */
   background: rgba(255, 255, 255, 0.08);
   border: none;
   color: var(--white);
@@ -1090,22 +1107,29 @@ input, select, textarea {
 }
 
 /* ============================================================
-التبويبات العليا (Mobile Top Tabs)
+📱 التبويبات العليا (Mobile Top Tabs) - ثابتة تحت الشريط العلوي
 ============================================================ */
 #mobile-top-tabs {
   background: var(--white);
   border-bottom: 1px solid var(--gray-200);
-  position:sticky;
+
+  /* 🆕 ثابتة تحت الشريط العلوي */
+  position: fixed;
   top: var(--mobile-top-bar-height);
+  left: 0;
+  right: 0;
+  height: var(--mobile-top-tabs-height);
   z-index: 890;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
 .mobile-tabs-scroll {
-  display: fixed;
+  display: flex; /* 🆕 كان fixed (خطأ) */
   gap: 4px;
   overflow-x: auto;
   padding: 6px 8px;
+  height: 100%;
+  align-items: center;
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
 }
@@ -1186,7 +1210,7 @@ input, select, textarea {
 }
 
 /* ============================================================
-التبويبات السفلى (Mobile Bottom Tabs)
+📱 التبويبات السفلى (Mobile Bottom Tabs) - نسخة واحدة بدون تكرار
 ============================================================ */
 #mobile-bottom-tabs {
   position: fixed;
@@ -1198,14 +1222,9 @@ input, select, textarea {
   z-index: 950;
   box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.08);
   display: none;
-  align-items: stretch;
-  height: var(--mobile-bottom-tabs-height);
-}
-
-#mobile-bottom-tabs {
-  display: none;
   justify-content: space-around;
   align-items: center;
+  height: var(--mobile-bottom-tabs-height);
 }
 
 .mobile-bottom-tab {
@@ -1994,194 +2013,200 @@ input, select, textarea {
 }
 
 /* ============================================================
-2️⃣6️⃣ 📱 Media Queries (الموبايل)
+2️⃣6️⃣ 📱 Media Queries (الموبايل الحقيقي)
 ============================================================ */
-@media (max-width: 768px) {
-  
+@media (max-width: 768px) and (pointer: coarse) {
+
   /* إخفاء الهيدر والفوتر */
   .smart-header,
   .smart-footer {
     display: none !important;
   }
-  
+
   /* إظهار مكونات الموبايل */
   #mobile-top-bar {
     display: block !important;
   }
-  
+
   #mobile-top-tabs {
     display: block !important;
   }
-  
+
   #mobile-bottom-tabs {
     display: flex !important;
   }
-  
+
   #mobile-copyright {
     display: block !important;
   }
-  
-  /* إضافة مساحة أسفل الصفحة */
+
+  /* 🆕 إضافة مساحة أعلى وأسفل الصفحة */
   body {
+    padding-top: calc(var(--mobile-top-bar-height) + var(--mobile-top-tabs-height));
     padding-bottom: calc(var(--mobile-bottom-tabs-height) + var(--mobile-copyright-height) + 8px);
-    padding-top: 0;
   }
-  
+
   /* إخفاء زر القائمة العائم */
   .sidebar-toggle {
     display: none !important;
   }
-  
+
+  /* 🆕 إخفاء البحث من الصفحات (لأنه في الشريط العلوي) */
+  .smart-search,
+  .mini-search-section {
+    display: none !important;
+  }
+
   /* السايدبار يتحول لعرض كامل من اليمين */
   .smart-sidebar {
     width: 85vw;
     max-width: 340px;
     right: -100vw;
   }
-  
+
   /* الحاوية أصغر padding */
   .container {
     padding: 0 12px;
   }
-  
+
   .page-content,
   .home-page,
   .dashboard-page {
     padding: 16px 0 20px;
   }
-  
+
   /* السلايدر */
   .slider-item img {
     height: 200px;
   }
-  
+
   .slider-placeholder,
   .slide-placeholder {
     height: 200px;
     font-size: 0.9rem;
   }
-  
+
   .slider-btn {
     width: 34px;
     height: 34px;
     font-size: 0.9rem;
   }
-  
+
   /* المنتجات */
   .products-grid {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: 12px;
   }
-  
+
   .product-card .product-image {
     height: 150px;
   }
-  
+
   .product-card .product-name {
     font-size: 0.85rem;
     min-height: 38px;
   }
-  
+
   .product-card .product-price {
     font-size: 1rem;
   }
-  
+
   .horizontal-scroll .product-card {
     min-width: 160px;
     max-width: 180px;
   }
-  
+
   /* كروت المتاجر */
   .stores-grid {
     grid-template-columns: 1fr;
     gap: 16px;
   }
-  
+
   .store-card {
     padding: 24px 20px;
   }
-  
+
   .store-card .store-icon {
     width: 64px;
     height: 64px;
     font-size: 1.9rem;
   }
-  
+
   .store-card .store-title {
     font-size: 1.15rem;
   }
-  
+
   /* التصنيفات */
   .categories-grid {
     grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
     gap: 10px;
   }
-  
+
   .category-card {
     padding: 14px 8px;
   }
-  
+
   .category-card img {
     width: 56px;
     height: 56px;
   }
-  
+
   .category-card h4 {
     font-size: 0.8rem;
   }
-  
+
   /* الفقاعات */
   .bubbles-grid {
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
     gap: 12px;
   }
-  
+
   .bubble-item {
     padding: 14px 10px;
   }
-  
+
   .bubble-item .bubble-icon {
     font-size: 1.8rem;
   }
-  
+
   .bubble-item .bubble-title {
     font-size: 0.75rem;
   }
-  
+
   .bubble-item .bubble-sub {
     font-size: 0.65rem;
   }
-  
+
   /* البحث */
   .search-wrapper {
     padding: 2px 16px 2px 2px;
   }
-  
+
   .search-wrapper input {
     padding: 12px 0;
     font-size: 0.95rem;
   }
-  
+
   .search-wrapper .search-btn {
     padding: 8px 16px;
     font-size: 0.85rem;
   }
-  
+
   /* العناوين */
   .section-title {
     font-size: 1.15rem;
   }
-  
+
   .view-all {
     font-size: 0.8rem;
   }
-  
+
   /* الأزرار */
   .btn {
     padding: 10px 18px;
     font-size: 0.9rem;
   }
-  
+
   /* Toast */
   #toast-container {
     bottom: calc(var(--mobile-bottom-tabs-height) + var(--mobile-copyright-height) + 12px);
@@ -2189,7 +2214,7 @@ input, select, textarea {
     left: 12px;
     max-width: none;
   }
-  
+
   .toast {
     max-width: 100%;
     font-size: 0.85rem;
@@ -2198,64 +2223,65 @@ input, select, textarea {
 }
 
 @media (max-width: 480px) {
-  
+
   .products-grid {
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 10px;
   }
-  
+
   .product-card .product-image {
     height: 130px;
   }
-  
+
   .categories-grid {
     grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
     gap: 8px;
   }
-  
+
   .category-card {
     padding: 12px 6px;
   }
-  
+
   .category-card img {
     width: 48px;
     height: 48px;
   }
-  
+
   .category-card h4 {
     font-size: 0.75rem;
   }
-  
+
   .bubbles-grid {
     grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
     gap: 8px;
   }
-  
+
   .bubble-item {
     padding: 12px 8px;
   }
-  
+
   .bubble-item .bubble-icon {
     font-size: 1.5rem;
   }
-  
+
   .bubble-item .bubble-title {
     font-size: 0.7rem;
   }
-  
+
   .slider-item img {
     height: 150px;
   }
-  
+
   .slider-placeholder,
   .slide-placeholder {
     height: 150px;
   }
-  
+
   .container {
     padding: 0 10px;
   }
 }
+
 /* ============================================================
 2️⃣7️⃣ 📊 الجداول (Tables)
 ============================================================ */
@@ -3455,13 +3481,13 @@ input, select, textarea {
 4️⃣5️⃣ 📱 Responsive للجداول (Mobile)
 ============================================================ */
 @media (max-width: 768px) {
-  
+
   /* إخفاء الهيدر في الجداول */
   .admin-table thead,
   .custom-table thead {
     display: none;
   }
-  
+
   /* عرض الصفوف ككروت */
   .admin-table tbody tr,
   .custom-table tbody tr {
@@ -3473,7 +3499,7 @@ input, select, textarea {
     background: var(--white);
     box-shadow: var(--shadow-sm);
   }
-  
+
   .admin-table tbody tr td,
   .custom-table tbody tr td {
     display: flex;
@@ -3487,7 +3513,7 @@ input, select, textarea {
     text-align: right;
     flex-wrap: wrap;
   }
-  
+
   .admin-table tbody tr td:last-child,
   .custom-table tbody tr td:last-child {
     border-bottom: none;
@@ -3496,7 +3522,7 @@ input, select, textarea {
     border-top: 2px solid var(--gray-200);
     margin-top: 6px;
   }
-  
+
   .admin-table tbody tr td::before,
   .custom-table tbody tr td::before {
     content: attr(data-label);
@@ -3505,101 +3531,101 @@ input, select, textarea {
     font-size: 0.75rem;
     flex-shrink: 0;
   }
-  
+
   /* الصورة */
   .table-thumb {
     width: 60px;
     height: 60px;
   }
-  
+
   /* الجداول الكبيرة */
   .table-container {
     border-radius: var(--radius-md);
   }
-  
+
   /* النماذج */
   .form-row,
   .form-row-3 {
     grid-template-columns: 1fr;
   }
-  
+
   /* Modal */
   .modal-content {
     padding: 0;
     margin: 10px;
     max-height: 95vh;
   }
-  
+
   .modal-header {
     padding: 14px 16px;
   }
-  
+
   .modal-header h2,
   .modal-header h3 {
     font-size: 1rem;
   }
-  
+
   .modal-body {
     padding: 16px;
   }
-  
+
   .modal-actions,
   .modal-footer {
     padding: 12px 16px;
     flex-direction: column-reverse;
   }
-  
+
   .modal-actions .btn,
   .modal-footer .btn {
     width: 100%;
   }
-  
+
   /* Stats */
   .stats-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
   }
-  
+
   .stat-card {
     padding: 12px 10px;
     flex-direction: column;
     text-align: center;
     gap: 8px;
   }
-  
+
   .stat-card .stat-icon {
     width: 40px;
     height: 40px;
     font-size: 1.1rem;
   }
-  
+
   .stat-number,
   .stat-value {
     font-size: 1.15rem;
   }
-  
+
   .stat-label {
     font-size: 0.7rem;
   }
-  
+
   /* Quick cards */
   .quick-grid {
     grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
     gap: 10px;
   }
-  
+
   .quick-card {
     padding: 14px 10px;
   }
-  
+
   .quick-card .card-icon {
     font-size: 1.6rem;
   }
-  
+
   .quick-card .card-title {
     font-size: 0.8rem;
   }
-  
+
   /* الفلاتر */
   .filter-bar,
   .filter-section {
@@ -3607,7 +3633,7 @@ input, select, textarea {
     align-items: stretch;
     padding: 12px;
   }
-  
+
   .filter-bar input,
   .filter-bar select,
   .filter-section input,
@@ -3615,29 +3641,29 @@ input, select, textarea {
     width: 100%;
     min-width: auto;
   }
-  
+
   .search-box {
     flex-direction: column;
     min-width: 100%;
   }
-  
+
   /* التبويبات */
   .tabs-container {
     overflow-x: auto;
     flex-wrap: nowrap;
     padding: 8px 12px;
   }
-  
+
   .tab-btn {
     padding: 8px 14px;
     font-size: 0.8rem;
     flex-shrink: 0;
   }
-  
+
   .tab-btn i {
     font-size: 0.9rem;
   }
-  
+
   /* Header */
   .admin-header,
   .dashboard-header,
@@ -3646,30 +3672,30 @@ input, select, textarea {
     align-items: stretch;
     text-align: center;
   }
-  
+
   .admin-header h1,
   .dashboard-header h1,
   .page-header h1 {
     font-size: 1.3rem;
     justify-content: center;
   }
-  
+
   .admin-header .header-actions,
   .page-header .header-actions {
     justify-content: center;
   }
-  
+
   .admin-header .header-actions .btn,
   .page-header .header-actions .btn {
     font-size: 0.8rem;
     padding: 8px 12px;
   }
-  
+
   /* الفاتورة للطباعة */
   .invoice-print {
     padding: 16px;
   }
-  
+
   .invoice-print .invoice-info {
     grid-template-columns: 1fr;
   }
@@ -3679,52 +3705,52 @@ input, select, textarea {
 4️⃣6️⃣ 📱 Responsive إضافي للشاشات الصغيرة جداً
 ============================================================ */
 @media (max-width: 480px) {
-  
+
   .stats-grid {
     grid-template-columns: 1fr 1fr;
     gap: 8px;
   }
-  
+
   .stat-card {
     padding: 10px 8px;
   }
-  
+
   .stat-number,
   .stat-value {
     font-size: 1rem;
   }
-  
+
   .stat-label {
     font-size: 0.65rem;
   }
-  
+
   .quick-grid {
     grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
     gap: 8px;
   }
-  
+
   .quick-card {
     padding: 12px 8px;
   }
-  
+
   .quick-card .card-icon {
     font-size: 1.4rem;
   }
-  
+
   .quick-card .card-title {
     font-size: 0.75rem;
   }
-  
+
   .admin-header h1,
   .dashboard-header h1,
   .page-header h1 {
     font-size: 1.15rem;
   }
-  
+
   .action-buttons {
     gap: 4px;
   }
-  
+
   .action-buttons button,
   .btn-icon {
     padding: 6px 8px;
@@ -3732,18 +3758,18 @@ input, select, textarea {
     min-height: 34px;
     min-width: 34px;
   }
-  
+
   .modal-body {
     padding: 12px;
   }
-  
+
   .form-group input,
   .form-group select,
   .form-group textarea {
     padding: 10px 12px;
     font-size: 0.9rem;
   }
-  
+
   .toast {
     font-size: 0.8rem;
     padding: 10px 14px;
@@ -3767,20 +3793,20 @@ input, select, textarea {
   .modal-close {
     display: none !important;
   }
-  
+
   body {
     background: white;
     padding: 0;
     margin: 0;
   }
-  
+
   .modal-overlay {
     position: static;
     background: white;
     display: block !important;
     padding: 0;
   }
-  
+
   .modal-content {
     box-shadow: none;
     border: none;
@@ -3788,7 +3814,7 @@ input, select, textarea {
     max-height: none;
     padding: 0;
   }
-  
+
   .print-only {
     display: block !important;
   }
@@ -3865,10 +3891,10 @@ input, select, textarea {
 
 /* ═══════════════════════════════════════════════════════════════
    ═══════════════════════════════════════════════════════════════
-   
+
    🆕 الإضافات النهائية - المرحلة 1
    📅 آخر تحديث: 2026-09-19
-   
+
 ═══════════════════════════════════════════════════════════════
    ═══════════════════════════════════════════════════════════════ */
 
@@ -4460,13 +4486,13 @@ input, select, textarea {
    ═══════════════════════════════════════════════════════════════ */
 /* ═══════════════════════════════════════════════════════════════
    ═══════════════════════════════════════════════════════════════
-   
+
    🔍 نافذة البحث الاحترافية (Search Modal) - نسخة عامة
    📅 آخر تحديث: 2026-09-22
-   
+
    ⚠️ هذا القسم يُستخدم في كل الصفحات
    ⚠️ يُضاف في نهاية ملف style.css
-   
+
    ═══════════════════════════════════════════════════════════════
    ═══════════════════════════════════════════════════════════════ */
 
@@ -4801,5 +4827,5 @@ input, select, textarea {
    ═══════════════════════════════════════════════════════════════ */
 
 /* ============================================================
-✅ نهاية الملف - style.css v6.0
+✅ نهاية الملف - style.css v6.1
 ============================================================ */
