@@ -151,7 +151,7 @@ input, select, textarea {
 
 .btn-primary {
   background: var(--white);
-  color: var(--navy);
+  color: var(--ddd);
 }
 
 .btn-primary:hover {
