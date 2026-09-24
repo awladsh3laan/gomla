@@ -1032,7 +1032,7 @@ function updateSidebar() {
       `;
     } else {
       footer.innerHTML = `
-        <a href="/gomla/customer-login.html" class="sidebar-action-btn">
+        <a href="/gomla/login.html" class="sidebar-action-btn">
           <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
         </a>
       `;
@@ -1202,7 +1202,7 @@ function loadMobileTopTabs() {
       { text: 'أولاد شعلان ستور', url: '/gomla/store-retail.html', icon: 'fa-store' },
       { text: 'تسجيل كعميل', url: '/gomla/customer-register.html', icon: 'fa-user-plus' },
       { text: 'تسجيل كتاجر', url: '/gomla/support.html', icon: 'fa-store-alt' },
-      { text: 'تسجيل الدخول', url: '/gomla/alogin.html', icon: 'fa-sign-in-alt' }
+      { text: 'تسجيل الدخول', url: '/gomla/login.html', icon: 'fa-sign-in-alt' }
     ];
   }
   
