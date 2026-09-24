@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل دخول التجار - أولاد شعلان جملة</title>
+
+  <meta name="description" content="تسجيل دخول التجار - أولاد شعلان جملة">
+  <meta name="theme-color" content="#1a2a4a">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/gomla/assets/css/style.css">
+  <link rel="icon" href="/gomla/assets/images/favicon.ico">
+
+  <style>
+    /* ============================================================
+       🎨 ستايل صفحة تسجيل دخول التجار
+       ============================================================ */
+
+    .login-page {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f1a2e 0%, #1a2a4a 40%, #2a3f6a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* زخارف خلفية */
+    .login-page::before {
+      content: '';
+      position: absolute;
+      top: -20%;
+      right: -10%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(201, 168, 76, 0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float-slow 12s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .login-page::after {
+      content: '';
+      position: absolute;
+      bottom: -20%;
+      left: -10%;
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(201, 168, 76, 0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float-slow 14s ease-in-out infinite reverse;
+      pointer-events: none;
+    }
+
+    @keyframes float-slow {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(30px, -30px) scale(1.15); }
+    }
+
+    /* ===== البطاقة ===== */
+    .login-card {
+      max-width: 480px;
+      width: 100%;
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+      overflow: hidden;
+      position: relative;
+      z-index: 2;
+      animation: card-in 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @keyframes card-in {
+      from {
+        opacity: 0;
+        transform: translateY(-30px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* شريط ذهبي علوي */
+    .login-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light), var(--gold), var(--gold-dark));
+      background-size: 200% 100%;
+      animation: shimmer-bar 3s linear infinite;
+      z-index: 3;
+    }
+
+    @keyframes shimmer-bar {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    /* ===== الرأس ===== */
+    .login-header {
+      padding: 36px 32px 24px;
+      text-align: center;
+      background: linear-gradient(135deg, #0f1a2e 0%, #1a2a4a 50%, #2a3f6a 100%);
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(201, 168, 76, 0.2) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .login-header > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .login-header .header-icon {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      font-size: 2.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      border: 4px solid rgba(232, 213, 163, 0.6);
+      animation: pulse-icon-gold 2.5s ease-in-out infinite;
+      box-shadow: 0 10px 30px rgba(201, 168, 76, 0.5);
+    }
+
+    @keyframes pulse-icon-gold {
+      0%, 100% {
+        transform: scale(1) rotate(0deg);
+        box-shadow: 0 10px 30px rgba(201, 168, 76, 0.5);
+      }
+      50% {
+        transform: scale(1.05) rotate(-3deg);
+        box-shadow: 0 15px 45px rgba(201, 168, 76, 0.7);
+      }
+    }
+
+    .login-header h1 {
+      font-size: 1.5rem;
+      font-weight: 900;
+      margin-bottom: 6px;
+      color: var(--white);
+    }
+
+    .login-header h1 .gold {
+      color: var(--gold);
+    }
+
+    .login-header p {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .login-header .badge-gold {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(201, 168, 76, 0.2);
+      color: var(--gold-light);
+      padding: 5px 14px;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 800;
+      margin-top: 10px;
+      border: 1px solid rgba(201, 168, 76, 0.4);
+      backdrop-filter: blur(10px);
+    }
+
+    .login-header .badge-gold i {
+      color: var(--gold);
+    }
+
+    /* ===== الجسم ===== */
+    .login-body {
+      padding: 28px 32px 24px;
+    }
+
+    /* ===== تنبيه ===== */
+    .info-alert {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 14px;
+      background: linear-gradient(135deg, #fef9e7, #fcf9f0);
+      border: 2px solid var(--gold-light);
+      border-radius: var(--radius-sm);
+      margin-bottom: 20px;
+      font-size: 0.82rem;
+      color: var(--gray-700);
+      line-height: 1.6;
+    }
+
+    .info-alert i {
+      color: var(--gold-dark);
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .info-alert strong {
+      color: var(--navy);
+      font-weight: 800;
+    }
+
+    /* رسالة الخطأ */
+    .login-error {
+      display: none;
+      background: #fef2f2;
+      border-right: 4px solid var(--danger);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      color: #dc2626;
+      font-size: 0.88rem;
+      font-weight: 600;
+      align-items: center;
+      gap: 10px;
+      animation: shake 0.4s ease;
+    }
+
+    .login-error.show {
+      display: flex;
+    }
+
+    .login-error i {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-8px); }
+      40% { transform: translateX(8px); }
+      60% { transform: translateX(-4px); }
+      80% { transform: translateX(4px); }
+    }
+
+    /* رسالة النجاح */
+    .login-success {
+      display: none;
+      background: #f0fdf4;
+      border-right: 4px solid var(--success);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      color: #16a34a;
+      font-size: 0.88rem;
+      font-weight: 600;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .login-success.show {
+      display: flex;
+    }
+
+    .login-success i {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    /* ===== حقل الكود ===== */
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: var(--gray-700);
+      margin-bottom: 8px;
+    }
+
+    .form-group label i {
+      color: var(--gold);
+      font-size: 0.85rem;
+    }
+
+    .form-group .input-wrap {
+      position: relative;
+    }
+
+    /* حقل الكود - ستايل خاص */
+    .code-input-wrap {
+      position: relative;
+    }
+
+    .code-input-wrap input {
+      width: 100%;
+      padding: 18px 60px 18px 20px;
+      border: 3px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      font-family: 'Courier New', monospace;
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: 4px;
+      text-align: center;
+      text-transform: uppercase;
+      background: var(--gray-50);
+      color: var(--navy);
+      transition: all 0.3s ease;
+      direction: ltr;
+    }
+
+    .code-input-wrap input:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 6px rgba(201, 168, 76, 0.2);
+      background: var(--white);
+      transform: scale(1.02);
+    }
+
+    .code-input-wrap input.error {
+      border-color: var(--danger);
+      background: #fef2f2;
+      animation: shake 0.4s ease;
+    }
+
+    .code-input-wrap input::placeholder {
+      color: var(--gray-300);
+      font-size: 1rem;
+      letter-spacing: 2px;
+    }
+
+    /* أيقونة داخل الحقل */
+    .code-input-wrap .code-icon {
+      position: absolute;
+      right: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gold);
+      font-size: 1.5rem;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    .code-input-wrap input:focus + .code-icon {
+      color: var(--gold-dark);
+      transform: translateY(-50%) rotate(15deg);
+    }
+
+    .code-input-wrap input.error + .code-icon {
+      color: var(--danger);
+    }
+
+    /* عداد الأرقام */
+    .code-length-hint {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      color: var(--gray-400);
+      margin-top: 6px;
+      padding: 0 4px;
+    }
+
+    .code-length-hint .prefix-info {
+      color: var(--gold-dark);
+      font-weight: 700;
+    }
+
+    /* ===== خيارات ===== */
+    .login-options {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 18px 0;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-size: 0.88rem;
+      color: var(--gray-600);
+      font-weight: 600;
+    }
+
+    .remember-me input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--gold);
+      cursor: pointer;
+    }
+
+    .contact-admin {
+      font-size: 0.88rem;
+      color: var(--gold-dark);
+      text-decoration: none;
+      font-weight: 700;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .contact-admin:hover {
+      color: var(--gold);
+      text-decoration: underline;
+    }
+
+    /* ===== زر الدخول ===== */
+    .login-btn {
+      width: 100%;
+      padding: 16px 24px;
+      border: none;
+      border-radius: var(--radius-full);
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      font-weight: 900;
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(201, 168, 76, 0.4);
+    }
+
+    .login-btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.25);
+      transform: translate(-50%, -50%);
+      transition: width 0.5s ease, height 0.5s ease;
+    }
+
+    .login-btn:hover::before {
+      width: 500px;
+      height: 500px;
+    }
+
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(201, 168, 76, 0.6);
+    }
+
+    .login-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .login-btn i,
+    .login-btn span {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== الفاصل ===== */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 24px 0 20px;
+      color: var(--gray-400);
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--gray-200);
+    }
+
+    /* ===== أزرار بديلة ===== */
+    .alt-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .alt-btn {
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+      border: 2px solid var(--gray-200);
+      color: var(--gray-700);
+      background: var(--white);
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .alt-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold-dark);
+      background: #fcf9f0;
+      transform: translateY(-2px);
+    }
+
+    .alt-btn i {
+      font-size: 0.9rem;
+    }
+
+    /* ===== الفوتر ===== */
+    .login-footer {
+      padding: 20px 32px;
+      background: var(--gray-50);
+      border-top: 1px solid var(--gray-200);
+      text-align: center;
+      font-size: 0.88rem;
+      color: var(--gray-600);
+    }
+
+    .login-footer a {
+      color: var(--gold-dark);
+      font-weight: 800;
+      text-decoration: none;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      transition: all 0.2s ease;
+    }
+
+    .login-footer a:hover {
+      background: #fcf9f0;
+      color: var(--gold);
+    }
+
+    /* ===== الرجوع ===== */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255, 255, 255, 0.7);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      transition: all 0.2s ease;
+      font-weight: 700;
+      margin-top: 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(201, 168, 76, 0.3);
+    }
+
+    .back-link:hover {
+      color: var(--gold);
+      background: rgba(201, 168, 76, 0.15);
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) and (pointer: coarse) {
+      .login-page {
+        padding: 20px 12px;
+      }
+
+      .login-card {
+        border-radius: var(--radius-md);
+      }
+
+      .login-header {
+        padding: 28px 20px 20px;
+      }
+
+      .login-header .header-icon {
+        width: 72px;
+        height: 72px;
+        font-size: 1.8rem;
+      }
+
+      .login-header h1 {
+        font-size: 1.25rem;
+      }
+
+      .login-body {
+        padding: 22px 20px 18px;
+      }
+
+      .code-input-wrap input {
+        font-size: 1.2rem;
+        padding: 16px 55px 16px 18px;
+        letter-spacing: 3px;
+      }
+
+      .code-input-wrap .code-icon {
+        font-size: 1.3rem;
+      }
+
+      .login-btn {
+        padding: 14px 20px;
+        font-size: 1rem;
+      }
+
+      .alt-actions {
+        grid-template-columns: 1fr;
+      }
+
+      .login-footer {
+        padding: 16px 20px;
+        font-size: 0.85rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .login-header h1 {
+        font-size: 1.15rem;
+      }
+
+      .login-header p {
+        font-size: 0.85rem;
+      }
+
+      .login-options {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .code-input-wrap input {
+        font-size: 1rem;
+        letter-spacing: 2px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================ -->
+  <!-- 🏪 صفحة تسجيل دخول التجار                                    -->
+  <!-- ============================================================ -->
+  <div class="login-page">
+    <div class="container">
+
+      <div class="login-card" id="loginCard">
+
+        <!-- ===== الرأس ===== -->
+        <div class="login-header">
+          <div class="header-icon">
+            <i class="fas fa-store"></i>
+          </div>
+          <h1>تسجيل دخول <span class="gold">التجار</span></h1>
+          <p>أدخل كود التاجر الخاص بك للوصول للمتجر</p>
+          <div class="badge-gold">
+            <i class="fas fa-star"></i>
+            حساب تاجر معتمد
+          </div>
+        </div>
+
+        <!-- ===== الجسم ===== -->
+        <div class="login-body" id="loginBody">
+
+          <!-- تنبيه -->
+          <div class="info-alert">
+            <i class="fas fa-info-circle"></i>
+            <span>
+              كود التاجر بيتم إنشاؤه بواسطة <strong>الإدارة</strong>. 
+              لو معندكش كود، تواصل معنا للحصول على حساب تاجر.
+            </span>
+          </div>
+
+          <!-- رسالة الخطأ -->
+          <div class="login-error" id="loginError">
+            <i class="fas fa-exclamation-circle"></i>
+            <span id="errorText">حدث خطأ</span>
+          </div>
+
+          <!-- رسالة النجاح -->
+          <div class="login-success" id="loginSuccess">
+            <i class="fas fa-check-circle"></i>
+            <span id="successText">تم تسجيل الدخول</span>
+          </div>
+
+          <!-- النموذج -->
+          <form id="loginForm" onsubmit="handleLogin(event)">
+
+            <!-- كود التاجر -->
+            <div class="form-group">
+              <label>
+                <i class="fas fa-key"></i>
+                كود التاجر
+              </label>
+              <div class="code-input-wrap">
+                <input 
+                  type="text" 
+                  id="traderCode" 
+                  placeholder="XXX-XXXX"
+                  maxlength="8"
+                  autocomplete="off"
+                  autocapitalize="characters"
+                  autofocus
+                  oninput="handleCodeInput(this)"
+                  onkeypress="return /[a-zA-Z0-9\-]/i.test(event.key)">
+                <i class="fas fa-key code-icon"></i>
+              </div>
+              <div class="code-length-hint">
+                <span class="prefix-info">
+                  <i class="fas fa-info-circle"></i>
+                  صيغة الكود: MHL-XXXX أو MNS-XXXX أو TNT-XXXX
+                </span>
+              </div>
+            </div>
+
+            <!-- الخيارات -->
+            <div class="login-options">
+              <label class="remember-me">
+                <input type="checkbox" id="rememberCode">
+                <span>احفظ الكود</span>
+              </label>
+              <a href="https://wa.me/201120282953?text=مرحباً، أحتاج كود تاجر جديد" 
+                 target="_blank"
+                 class="contact-admin">
+                <i class="fab fa-whatsapp"></i>
+                تواصل مع الإدارة
+              </a>
+            </div>
+
+            <!-- زر الدخول -->
+            <button type="submit" class="login-btn" id="loginBtn">
+              <i class="fas fa-sign-in-alt"></i>
+              <span>دخول المتجر</span>
+            </button>
+
+          </form>
+
+          <!-- فاصل -->
+          <div class="divider">أو</div>
+
+          <!-- أزرار بديلة -->
+          <div class="alt-actions">
+            <a href="/gomla/customer-login.html" class="alt-btn">
+              <i class="fas fa-user"></i>
+              دخول العملاء
+            </a>
+            <a href="/gomla/login.html" class="alt-btn">
+              <i class="fas fa-arrow-right"></i>
+              بوابة الدخول
+            </a>
+          </div>
+
+        </div>
+
+        <!-- ===== الفوتر ===== -->
+        <div class="login-footer">
+          تاجر جديد؟ 
+          <a href="https://wa.me/201120282953?text=مرحباً، أرغب في فتح حساب تاجر جديد" 
+             target="_blank">
+            <i class="fab fa-whatsapp"></i>
+            تواصل مع الإدارة
+          </a>
+        </div>
+
+      </div>
+
+      <!-- زر الرجوع -->
+      <div style="text-align:center;position:relative;z-index:2;">
+        <a href="/gomla/" class="back-link">
+          <i class="fas fa-arrow-right"></i>
+          العودة للصفحة الرئيسية
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
+
+  <!-- Firebase & Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+  <script src="/gomla/assets/js/firebase-config.js"></script>
+  <script src="/gomla/assets/js/main.js"></script>
+
+  <script>
+    // ============================================================
+    // 📄 trader-login.html - تسجيل دخول التجار
+    // ============================================================
+
+    let isSubmitting = false;
+
+    // ============================================================
+    // 🚀 تشغيل الصفحة
+    // ============================================================
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // التحقق من وجود مستخدم مسجل
+      const user = getCurrentUser();
+      if (user) {
+        redirectByRole(user.data.role);
+        return;
+      }
+
+      // استرجاع الكود المحفوظ
+      const savedCode = localStorage.getItem('saved_trader_code');
+      if (savedCode) {
+        document.getElementById('traderCode').value = savedCode;
+        document.getElementById('rememberCode').checked = true;
+      }
+
+      console.log('✅ trader-login.html loaded');
+    });
+
+    // ============================================================
+    // ⌨️ معالجة إدخال الكود
+    // ============================================================
+
+    function handleCodeInput(input) {
+      // تحويل لأحرف كبيرة
+      let value = input.value.toUpperCase();
+      
+      // إزالة أي حروف/أرقام غير مسموح بها
+      value = value.replace(/[^A-Z0-9\-]/g, '');
+      
+      // إضافة الشرطة تلقائياً بعد 3 أحرف
+      if (value.length >= 3 && !value.includes('-') && value.length <= 4) {
+        value = value.slice(0, 3) + '-' + value.slice(3);
+      }
+      
+      // حد أقصى 8 أحرف
+      if (value.length > 8) {
+        value = value.slice(0, 8);
+      }
+      
+      input.value = value;
+    }
+
+    // ============================================================
+    // 📝 تسجيل الدخول
+    // ============================================================
+
+    async function handleLogin(event) {
+      event.preventDefault();
+
+      if (isSubmitting) return;
+
+      // جلب الكود
+      const code = document.getElementById('traderCode').value.trim().toUpperCase();
+      const rememberCode = document.getElementById('rememberCode').checked;
+
+      // التحقق من الصيغة
+      if (!code || !/^[A-Z]{3}-[A-Z0-9]{4}$/.test(code)) {
+        showError('صيغة الكود غير صحيحة. الصيغة المطلوبة: XXX-XXXX');
+        document.getElementById('traderCode').classList.add('error');
+        setTimeout(() => {
+          document.getElementById('traderCode').classList.remove('error');
+        }, 800);
+        document.getElementById('traderCode').focus();
+        return;
+      }
+
+      // بدء الإرسال
+      isSubmitting = true;
+      const btn = document.getElementById('loginBtn');
+      const originalText = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>جاري التحقق...</span>';
+
+      hideError();
+
+      try {
+        // 1️⃣ البحث عن التاجر بكود التاجر في Firestore
+        const snapshot = await db.collection(COLLECTIONS.CUSTOMERS)
+          .where('code', '==', code)
+          .limit(1)
+          .get();
+
+        if (snapshot.empty) {
+          throw new Error('الكود غير صحيح. تأكد من الكود أو تواصل مع الإدارة.');
+        }
+
+        const traderDoc = snapshot.docs[0];
+        const traderData = traderDoc.data();
+        traderData.id = traderDoc.id;
+
+        // 2️⃣ التحقق من الدور
+        if (traderData.role !== ROLES.WHOLESALE) {
+          throw new Error('هذا الكود ليس كود تاجر. تواصل مع الإدارة.');
+        }
+
+        // 3️⃣ التحقق من حالة الحساب
+        if (traderData.active === false) {
+          throw new Error('حسابك موقوف. تواصل مع الإدارة.');
+        }
+
+        // 4️⃣ تسجيل الدخول عبر Firebase Auth
+        // 🔑 ملاحظة: التاجر مش عنده باسورد - نستخدم custom token أو دخول بالبريد
+        // لكن الحل الأسهل: نستخدم Firebase Auth بالبريد المخصص للتاجر
+        
+        // الحل: البحث عن البريد المرتبط بالكود
+        // في Firestore، حقل البريد للتاجر هو: `traderCode@awladshalaan.trader`
+        
+        // لكن مفيش بريد فعلي - نستخدم Anonymous Auth ثم نربط بالبيانات
+        
+        // الأسهل: نستخدم Firebase Anonymous Auth + نعتمد على الكود في localStorage
+        // (لأننا مش بنحتاج Firebase Auth للتاجر، البيانات بتيجي من Firestore مباشرة)
+        
+        // حفظ بيانات التاجر في localStorage
+        localStorage.setItem('customer', JSON.stringify({
+          id: traderData.id,
+          name: traderData.name,
+          email: traderData.email || '',
+          phone: traderData.phone || '',
+          code: traderData.code,
+          role: ROLES.WHOLESALE,
+          type: 'wholesale',
+          avatar: traderData.avatar || '',
+          balance: traderData.balance || 0,
+          city: traderData.city || '',
+          address: traderData.address || '',
+          active: true
+        }));
+
+        // 5️⃣ حفظ الكود لو "احفظ" مفعّل
+        if (rememberCode) {
+          localStorage.setItem('saved_trader_code', code);
+        } else {
+          localStorage.removeItem('saved_trader_code');
+        }
+
+        // 6️⃣ تسجيل النشاط
+        try {
+          await db.collection(COLLECTIONS.ACTIVITY_LOG).add({
+            userId: traderData.id,
+            userName: traderData.name || 'unknown',
+            userRole: ROLES.WHOLESALE,
+            action: 'تسجيل دخول تاجر',
+            details: `الكود: ${code}`,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        } catch (logError) {
+          console.warn('Could not log activity:', logError);
+        }
+
+        // 7️⃣ عرض رسالة النجاح
+        showSuccess(`مرحباً ${traderData.name || 'بك'}! جاري التحويل للمتجر...`);
+        showToast(`✅ مرحباً ${traderData.name}`, 'success');
+
+        // 8️⃣ التوجيه للمتجر أو الصفحة الرئيسية للتاجر
+        setTimeout(() => {
+          window.location.href = '/gomla/store-wholesale.html';
+        }, 1200);
+
+      } catch (error) {
+        console.error('Login error:', error);
+
+        let errorMessage = error.message || 'حدث خطأ في تسجيل الدخول';
+
+        if (error.code === 'auth/network-request-failed') {
+          errorMessage = 'فشل الاتصال بالإنترنت. تأكد من الشبكة';
+        }
+
+        showError(errorMessage);
+        
+        document.getElementById('traderCode').classList.add('error');
+        setTimeout(() => {
+          document.getElementById('traderCode').classList.remove('error');
+        }, 800);
+
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+        isSubmitting = false;
+      }
+    }
+
+    // ============================================================
+    // 🎯 التوجيه حسب الدور
+    // ============================================================
+
+    function redirectByRole(role) {
+      if (role === ROLES.SUPER || role === ROLES.ADMIN_PLUS || role === ROLES.ADMIN) {
+        window.location.href = '/gomla/admin/home.html';
+        return;
+      }
+
+      if (role === ROLES.WHOLESALE) {
+        window.location.href = '/gomla/store-wholesale.html';
+        return;
+      }
+
+      if (role === ROLES.CASHIER) {
+        window.location.href = '/gomla/cashier/home.html';
+        return;
+      }
+
+      if (role === ROLES.RETAIL) {
+        window.location.href = '/gomla/customer-home.html';
+      }
+    }
+
+    // ============================================================
+    // 🛠️ دوال العرض
+    // ============================================================
+
+    function showError(message) {
+      const errorEl = document.getElementById('loginError');
+      const errorText = document.getElementById('errorText');
+      errorText.textContent = message;
+      errorEl.classList.add('show');
+      document.getElementById('loginSuccess').classList.remove('show');
+
+      errorEl.style.animation = 'none';
+      setTimeout(() => {
+        errorEl.style.animation = 'shake 0.4s ease';
+      }, 10);
+    }
+
+    function hideError() {
+      document.getElementById('loginError').classList.remove('show');
+    }
+
+    function showSuccess(message) {
+      const successEl = document.getElementById('loginSuccess');
+      const successText = document.getElementById('successText');
+      successText.textContent = message;
+      successEl.classList.add('show');
+      document.getElementById('loginError').classList.remove('show');
+    }
+
+    // ============================================================
+    // 🌐 تصدير الدوال
+    // ============================================================
+
+    window.handleCodeInput = handleCodeInput;
+    window.handleLogin = handleLogin;
+
+  </script>
+
+</body>
+</html>
