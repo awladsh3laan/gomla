@@ -3,1185 +3,1484 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>أولاد شعلان جملة - الرئيسية</title>
+  <title>صفحتي - أولاد شعلان</title>
 
-  <meta name="description" content="الصفحة الرئيسية للعميل - أولاد شعلان جملة">
+  <meta name="description" content="صفحة العميل - أولاد شعلان للمنظفات والورقيات">
   <meta name="theme-color" content="#1a2a4a">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="icon" href="assets/images/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/gomla/assets/css/style.css">
+  <link rel="icon" href="/gomla/assets/images/favicon.ico">
 
   <style>
-    /* ========================================== */
-    /* 🎨 الألوان الموحدة - أولاد شعلان جملة      */
-    /* ========================================== */
+    /* ============================================================
+       🎨 ستايل صفحة العميل الرئيسية
+       ============================================================ */
 
-    :root {
-      --navy: #1a2a4a;
-      --navy-light: #2a3f6a;
-      --navy-dark: #0f1a2e;
-      --gold: #c9a84c;
-      --gold-light: #e8d5a3;
-      --gold-dark: #b8942a;
-      --white: #ffffff;
-      --gray-50: #f8fafc;
-      --gray-100: #f1f5f9;
-      --gray-200: #e2e8f0;
-      --gray-300: #cbd5e1;
-      --gray-400: #94a3b8;
-      --gray-500: #64748b;
-      --gray-600: #475569;
-      --gray-700: #334155;
-      --gray-800: #1e293b;
-      --gray-900: #0f172a;
-      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
-      --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.08);
-      --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.12);
-      --shadow-xl: 0 16px 60px rgba(0, 0, 0, 0.16);
-      --radius-sm: 10px;
-      --radius-md: 16px;
-      --radius-lg: 24px;
-      --radius-full: 9999px;
-      --transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-      --transition-bounce: 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    /* ===== رأس الترحيب ===== */
+    .welcome-header {
+      background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      margin-bottom: 24px;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(37, 99, 235, 0.25);
+      border-bottom: 4px solid var(--gold);
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    .welcome-header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -15%;
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
     }
 
-    html {
-      scroll-behavior: smooth;
-      direction: rtl;
+    .welcome-header::after {
+      content: '';
+      position: absolute;
+      bottom: -40%;
+      left: -10%;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(201, 168, 76, 0.2) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 10s ease-in-out infinite reverse;
     }
 
-    body {
-      font-family: 'Tajawal', -apple-system, sans-serif;
-      background: var(--gray-50);
+    .welcome-header-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .welcome-header-content .avatar-wrap {
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .welcome-header-content .avatar-wrap img {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--gold);
+      background: var(--white);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+      animation: logo-pulse 3s ease-in-out infinite;
+    }
+
+    .welcome-header-content .avatar-wrap .online-dot {
+      position: absolute;
+      bottom: 6px;
+      right: 6px;
+      width: 18px;
+      height: 18px;
+      background: #22c55e;
+      border-radius: 50%;
+      border: 3px solid var(--white);
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.3);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .welcome-header-content .welcome-text {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .welcome-header-content .welcome-text h1 {
+      font-size: 1.6rem;
+      font-weight: 900;
+      margin-bottom: 6px;
+      line-height: 1.3;
+    }
+
+    .welcome-header-content .welcome-text h1 .gold {
+      color: var(--gold);
+    }
+
+    .welcome-header-content .welcome-text p {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-bottom: 10px;
+    }
+
+    .welcome-header-content .welcome-text .user-badges {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .welcome-header-content .welcome-text .user-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 5px 12px;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 700;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+    }
+
+    .welcome-header-content .welcome-text .user-badge i {
+      color: var(--gold);
+    }
+
+    /* ===== الإحصائيات ===== */
+    .customer-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .customer-stat-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: var(--transition);
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .customer-stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--gold);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.4s ease;
+    }
+
+    .customer-stat-card:hover::before {
+      transform: scaleY(1);
+    }
+
+    .customer-stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--gold-light);
+    }
+
+    .customer-stat-card .stat-icon-wrap {
+      width: 50px;
+      height: 50px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+
+    .customer-stat-card .stat-icon-wrap.blue {
+      background: rgba(37, 99, 235, 0.12);
+      color: #2563eb;
+    }
+
+    .customer-stat-card .stat-icon-wrap.green {
+      background: rgba(34, 197, 94, 0.12);
+      color: #16a34a;
+    }
+
+    .customer-stat-card .stat-icon-wrap.gold {
+      background: rgba(201, 168, 76, 0.15);
+      color: var(--gold-dark);
+    }
+
+    .customer-stat-card .stat-icon-wrap.red {
+      background: rgba(239, 68, 68, 0.12);
+      color: #dc2626;
+    }
+
+    .customer-stat-card .stat-icon-wrap.purple {
+      background: rgba(139, 92, 246, 0.12);
+      color: #7c3aed;
+    }
+
+    .customer-stat-card .stat-info-wrap {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .customer-stat-card .stat-number {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--navy);
+      line-height: 1.2;
+      margin-bottom: 2px;
+    }
+
+    .customer-stat-card .stat-number.gold {
+      color: var(--gold-dark);
+    }
+
+    .customer-stat-card .stat-number.green {
+      color: #16a34a;
+    }
+
+    .customer-stat-card .stat-number.red {
+      color: #dc2626;
+    }
+
+    .customer-stat-card .stat-label {
+      font-size: 0.78rem;
+      color: var(--gray-500);
+      font-weight: 600;
+    }
+
+    /* ===== الوصول السريع ===== */
+    .quick-access-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .quick-access-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 18px 12px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      text-decoration: none;
       color: var(--gray-800);
-      min-height: 100vh;
+      border: 2px solid transparent;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       display: flex;
       flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(-20px);
+      animation: dropIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
 
-    /* ===== أنيميشن ===== */
-    @keyframes fadeInUp {
-      from {
+    .quick-access-card:nth-child(1) { animation-delay: 0.05s; }
+    .quick-access-card:nth-child(2) { animation-delay: 0.1s; }
+    .quick-access-card:nth-child(3) { animation-delay: 0.15s; }
+    .quick-access-card:nth-child(4) { animation-delay: 0.2s; }
+    .quick-access-card:nth-child(5) { animation-delay: 0.25s; }
+    .quick-access-card:nth-child(6) { animation-delay: 0.3s; }
+
+    @keyframes dropIn {
+      0% {
         opacity: 0;
-        transform: translateY(40px) scale(0.96);
+        transform: translateY(-20px) scale(0.9);
       }
-      to {
+      100% {
         opacity: 1;
         transform: translateY(0) scale(1);
       }
     }
 
-    @keyframes float {
-      0%,
-      100% {
-        transform: translateY(0px);
-      }
-      50% {
-        transform: translateY(-12px);
-      }
-    }
-
-    @keyframes pulse {
-      0%,
-      100% {
-        transform: scale(1);
-        opacity: 1;
-      }
-      50% {
-        transform: scale(1.04);
-        opacity: 0.85;
-      }
-    }
-
-    @keyframes shimmer {
-      0% {
-        background-position: -200% center;
-      }
-      100% {
-        background-position: 200% center;
-      }
-    }
-
-    @keyframes floatSlow {
-      0%,
-      100% {
-        transform: translateY(0px);
-      }
-      50% {
-        transform: translateY(-8px);
-      }
-    }
-
-    .container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    /* ========================================== */
-    /* 🧠 الهيدر - كحلي مع شريط ذهبي            */
-    /* ========================================== */
-
-    .smart-header {
-      background: var(--navy);
-      color: var(--white);
-      padding: 14px 0;
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      border-bottom: 3px solid var(--gold);
-    }
-
-    .smart-header .container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .smart-header .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 1.5rem;
-      font-weight: 900;
-      color: var(--white);
-      text-decoration: none;
-    }
-
-    .smart-header .logo img {
-      height: 44px;
-      border-radius: 10px;
-    }
-
-    .smart-header .logo small {
-      font-size: 0.7rem;
-      font-weight: 400;
-      opacity: 0.8;
-    }
-
-    .smart-header .logo .gold {
-      color: var(--gold);
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .header-actions .btn {
-      padding: 8px 20px;
-      border-radius: var(--radius-full);
-      font-weight: 700;
-      font-size: 0.85rem;
-      border: none;
-      cursor: pointer;
-      transition: var(--transition-base);
-      font-family: inherit;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .header-actions .btn-gold {
-      background: var(--gold);
-      color: var(--navy);
-    }
-
-    .header-actions .btn-gold:hover {
-      background: var(--gold-light);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 16px rgba(201, 168, 76, 0.35);
-    }
-
-    .header-actions .btn-outline {
-      background: transparent;
-      border: 2px solid var(--gold);
-      color: var(--white);
-    }
-
-    .header-actions .btn-outline:hover {
-      background: var(--gold);
-      color: var(--navy);
-      transform: translateY(-2px);
-    }
-
-    /* ========================================== */
-    /* 📢 المساحة الإعلانية                      */
-    /* ========================================== */
-
-    .ad-banner {
-      background: var(--white);
-      padding: 12px 0;
-      border-bottom: 1px solid var(--gray-200);
-      margin-bottom: 20px;
-      text-align: center;
-    }
-
-    .ad-banner img {
-      max-width: 100%;
-      max-height: 120px;
-      border-radius: var(--radius-sm);
-      object-fit: cover;
-      cursor: pointer;
-      transition: var(--transition-base);
-    }
-
-    .ad-banner img:hover {
-      transform: scale(1.02);
-      box-shadow: var(--shadow-md);
-    }
-
-    .ad-banner .ad-placeholder {
-      color: var(--gray-400);
-      font-size: 0.9rem;
-      padding: 8px 0;
-      background: var(--gray-100);
-      border-radius: var(--radius-sm);
-    }
-
-    /* ========================================== */
-    /* 🫧 سيكشن 1: الفقاعات                     */
-    /* ========================================== */
-
-    .bubbles-section {
-      margin-bottom: 32px;
-    }
-
-    .bubbles-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-      gap: 16px;
-    }
-
-    .bubble-item {
-      background: var(--white);
-      border-radius: var(--radius-md);
-      padding: 20px 12px;
-      text-align: center;
-      box-shadow: var(--shadow-sm);
-      transition: all var(--transition-bounce);
-      border: 2px solid transparent;
-      text-decoration: none;
-      color: var(--gray-800);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      opacity: 0;
-      animation: fadeInUp 0.6s ease forwards;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .bubble-item::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(135deg, var(--gold), var(--gold-light));
-      opacity: 0;
-      transition: opacity 0.4s ease;
-      border-radius: inherit;
-    }
-
-    .bubble-item:hover::before {
-      opacity: 0.06;
-    }
-
-    .bubble-item:nth-child(1) {
-      animation-delay: 0.05s;
-    }
-    .bubble-item:nth-child(2) {
-      animation-delay: 0.1s;
-    }
-    .bubble-item:nth-child(3) {
-      animation-delay: 0.15s;
-    }
-    .bubble-item:nth-child(4) {
-      animation-delay: 0.2s;
-    }
-    .bubble-item:nth-child(5) {
-      animation-delay: 0.25s;
-    }
-    .bubble-item:nth-child(6) {
-      animation-delay: 0.3s;
-    }
-    .bubble-item:nth-child(7) {
-      animation-delay: 0.35s;
-    }
-    .bubble-item:nth-child(8) {
-      animation-delay: 0.4s;
-    }
-
-    .bubble-item:hover {
-      transform: translateY(-8px) scale(1.04);
-      box-shadow: var(--shadow-xl);
+    .quick-access-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
       border-color: var(--gold);
     }
 
-    .bubble-item .bubble-icon {
-      font-size: 2.4rem;
+    .quick-access-card .qa-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
       color: var(--gold);
-      position: relative;
-      z-index: 1;
-      transition: transform var(--transition-base);
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s ease;
+      box-shadow: 0 6px 16px rgba(26, 42, 74, 0.2);
     }
 
-    .bubble-item:hover .bubble-icon {
-      transform: scale(1.15) rotate(-6deg);
-    }
-
-    .bubble-item .bubble-title {
-      font-size: 0.85rem;
-      font-weight: 700;
-      position: relative;
-      z-index: 1;
-    }
-
-    .bubble-item .bubble-sub {
-      font-size: 0.7rem;
-      color: var(--gray-400);
-      position: relative;
-      z-index: 1;
-    }
-
-    .bubble-item .bubble-badge {
-      position: absolute;
-      top: 6px;
-      left: 6px;
-      background: var(--gold);
+    .quick-access-card:hover .qa-icon {
+      transform: scale(1.1) rotate(-5deg);
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
       color: var(--navy);
-      padding: 1px 10px;
-      border-radius: var(--radius-full);
-      font-size: 0.6rem;
-      font-weight: 700;
-      z-index: 2;
     }
 
-    /* ========================================== */
-    /* 📝 سيكشن 2: النصوص التحفيزية             */
-    /* ========================================== */
-
-    .info-section {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 24px;
-      margin-bottom: 32px;
-    }
-
-    .info-box {
-      background: var(--white);
-      border-radius: var(--radius-md);
-      padding: 28px 24px;
-      box-shadow: var(--shadow-sm);
-      border-right: 4px solid var(--gold);
-      transition: all var(--transition-base);
-      animation: fadeInUp 0.6s ease both;
-    }
-
-    .info-box:nth-child(1) {
-      animation-delay: 0.1s;
-    }
-    .info-box:nth-child(2) {
-      animation-delay: 0.2s;
-    }
-    .info-box:nth-child(3) {
-      animation-delay: 0.3s;
-    }
-
-    .info-box:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .info-box .info-icon {
-      font-size: 2rem;
-      color: var(--gold);
-      display: block;
-      margin-bottom: 8px;
-    }
-
-    .info-box .info-greeting {
-      font-size: 1.2rem;
+    .quick-access-card .qa-title {
+      font-size: 0.88rem;
       font-weight: 800;
       color: var(--navy);
-      margin-bottom: 4px;
+      line-height: 1.3;
     }
 
-    .info-box .info-greeting .customer-name {
+    .quick-access-card .qa-sub {
+      font-size: 0.7rem;
+      color: var(--gray-400);
+    }
+
+    .quick-access-card .qa-badge {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: var(--danger);
+      color: var(--white);
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      min-width: 20px;
+      text-align: center;
+    }
+
+    /* ===== الأقسام ===== */
+    .customer-section {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+
+    .customer-section .section-header {
+      padding: 16px 20px;
+      border-bottom: 2px solid var(--gray-100);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      background: linear-gradient(135deg, #fcf9f0, #f8f4e8);
+    }
+
+    .customer-section .section-header h2 {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .customer-section .section-header h2 i {
       color: var(--gold);
     }
 
-    .info-box p {
-      font-size: 0.95rem;
-      color: var(--gray-600);
-      line-height: 1.8;
-      margin: 0;
-    }
-
-    .info-box .info-highlight {
+    .customer-section .section-header .view-all-link {
+      font-size: 0.82rem;
       color: var(--gold-dark);
+      text-decoration: none;
       font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s ease;
     }
 
-    /* ===== صندوق الخبرة ===== */
-    .experience-box {
+    .customer-section .section-header .view-all-link:hover {
+      color: var(--gold);
+      transform: translateX(-4px);
+    }
+
+    .customer-section .section-body {
+      padding: 16px 20px;
+    }
+
+    /* ===== بطاقة الرصيد ===== */
+    .balance-card {
       background: linear-gradient(135deg, var(--navy), var(--navy-light));
       border-radius: var(--radius-md);
-      padding: 32px 28px;
-      text-align: center;
+      padding: 20px;
       color: var(--white);
-      margin-bottom: 32px;
-      animation: fadeInUp 0.8s ease both;
       position: relative;
       overflow: hidden;
     }
 
-    .experience-box::before {
+    .balance-card::before {
       content: '';
       position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 70% 30%, rgba(201, 168, 76, 0.08) 0%, transparent 60%);
-      animation: float 8s ease-in-out infinite alternate;
-      pointer-events: none;
+      top: -50%;
+      right: -20%;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(201, 168, 76, 0.2) 0%, transparent 70%);
+      border-radius: 50%;
     }
 
-    .experience-box * {
+    .balance-card > * {
       position: relative;
       z-index: 1;
     }
 
-    .experience-box .exp-icon {
-      font-size: 3rem;
-      color: var(--gold);
-      display: block;
-      margin-bottom: 8px;
-    }
-
-    .experience-box h2 {
-      font-size: 1.5rem;
-      font-weight: 800;
-      margin-bottom: 4px;
-    }
-
-    .experience-box h2 .gold {
-      color: var(--gold);
-    }
-
-    .experience-box p {
-      font-size: 1rem;
+    .balance-card .balance-label {
+      font-size: 0.85rem;
       opacity: 0.9;
-      max-width: 700px;
-      margin: 0 auto;
-      line-height: 1.8;
-    }
-
-    .experience-box .exp-years {
-      display: inline-block;
-      background: var(--gold);
-      color: var(--navy);
-      padding: 4px 24px;
-      border-radius: var(--radius-full);
-      font-weight: 800;
-      font-size: 1.1rem;
-      margin-top: 10px;
-    }
-
-    /* ========================================== */
-    /* 👣 الفوتر - كحلي داكن مع شريط ذهبي       */
-    /* ========================================== */
-
-    .smart-footer {
-      background: var(--navy-dark);
-      color: rgba(255, 255, 255, 0.85);
-      padding: 28px 0;
-      margin-top: 0;
-      border-top: 3px solid var(--gold);
-    }
-
-    .smart-footer .container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-
-    .smart-footer .footer-links {
-      display: flex;
-      gap: 20px;
-    }
-
-    .smart-footer .footer-links a {
-      color: rgba(255, 255, 255, 0.7);
-      text-decoration: none;
-      transition: var(--transition-base);
-    }
-
-    .smart-footer .footer-links a:hover {
-      color: var(--gold);
-    }
-
-    .smart-footer .social-icons {
-      display: flex;
-      gap: 12px;
-    }
-
-    .smart-footer .social-icons a {
+      margin-bottom: 8px;
       display: flex;
       align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.06);
-      color: var(--white);
-      text-decoration: none;
-      transition: var(--transition-base);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .smart-footer .social-icons a:hover {
-      background: var(--gold);
-      color: var(--navy);
-      transform: translateY(-3px);
-    }
-
-    /* ========================================== */
-    /* 🧠 السايدبار الذكي                       */
-    /* ========================================== */
-
-    .smart-sidebar {
-      position: fixed;
-      top: 0;
-      right: -380px;
-      width: 360px;
-      height: 100%;
-      background: var(--white);
-      z-index: 9999;
-      transition: right 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-      box-shadow: -4px 0 40px rgba(0, 0, 0, 0.12);
-      display: flex;
-      flex-direction: column;
-      overflow-y: auto;
-    }
-
-    .smart-sidebar.open {
-      right: 0;
-    }
-
-    .sidebar-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.4);
-      z-index: 9998;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-    }
-
-    .sidebar-overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .sidebar-header {
-      padding: 20px 24px;
-      background: var(--navy);
-      color: var(--white);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-shrink: 0;
-    }
-
-    .sidebar-user {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .sidebar-avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid var(--gold);
-    }
-
-    .sidebar-username {
-      font-weight: 700;
-      font-size: 1rem;
-    }
-
-    .sidebar-user-role {
-      font-size: 0.75rem;
-      opacity: 0.7;
-    }
-
-    .sidebar-close {
-      background: rgba(255, 255, 255, 0.1);
-      border: none;
-      color: var(--white);
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      font-size: 1.1rem;
-      cursor: pointer;
-      transition: var(--transition-base);
-    }
-
-    .sidebar-close:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
-
-    .sidebar-motivational {
-      background: linear-gradient(135deg, var(--navy), var(--navy-light));
-      color: var(--white);
-      padding: 20px 24px;
-      text-align: center;
-      flex-shrink: 0;
-    }
-
-    .motivational-icon {
-      font-size: 1.4rem;
-      color: var(--gold);
-      margin-bottom: 6px;
-    }
-
-    .motivational-text {
-      font-size: 1rem;
-      font-weight: 500;
-      transition: opacity 0.3s ease;
-      line-height: 1.6;
-    }
-
-    .sidebar-news {
-      padding: 16px 24px;
-      border-bottom: 1px solid var(--gray-200);
-      flex-shrink: 0;
-    }
-
-    .news-header {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-weight: 700;
-      font-size: 0.9rem;
-      color: var(--navy);
-      margin-bottom: 10px;
-    }
-
-    .news-header i {
-      color: var(--gold);
-    }
-
-    .news-list {
-      display: flex;
-      flex-direction: column;
       gap: 6px;
     }
 
-    .news-item {
-      display: flex;
+    .balance-card .balance-label i {
+      color: var(--gold);
+    }
+
+    .balance-card .balance-amount {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--gold);
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+
+    .balance-card .balance-status {
+      font-size: 0.8rem;
+      display: inline-flex;
       align-items: center;
-      gap: 10px;
-      font-size: 0.85rem;
-      color: var(--gray-600);
-      padding: 4px 0;
-    }
-
-    .news-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--gold);
-      flex-shrink: 0;
-    }
-
-    .sidebar-nav {
-      flex: 1;
-      padding: 12px 16px;
-      overflow-y: auto;
-    }
-
-    .sidebar-link {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 10px 16px;
-      border-radius: var(--radius-sm);
-      color: var(--gray-600);
-      text-decoration: none;
-      transition: var(--transition-base);
-      font-size: 0.95rem;
-      font-weight: 500;
-    }
-
-    .sidebar-link:hover {
-      background: var(--gray-100);
-      color: var(--navy);
-    }
-
-    .sidebar-link.active {
-      background: var(--navy);
-      color: var(--white);
-    }
-
-    .sidebar-link i {
-      width: 20px;
-      text-align: center;
-      font-size: 1.05rem;
-    }
-
-    .sidebar-footer {
-      padding: 16px 24px;
-      border-top: 1px solid var(--gray-200);
-      flex-shrink: 0;
-    }
-
-    .sidebar-action-btn {
-      width: 100%;
-      padding: 12px;
-      border: none;
+      gap: 6px;
+      padding: 4px 12px;
       border-radius: var(--radius-full);
-      background: var(--gold);
-      color: var(--navy);
       font-weight: 700;
-      font-size: 0.95rem;
-      cursor: pointer;
-      transition: var(--transition-base);
-      font-family: inherit;
+    }
+
+    .balance-card .balance-status.clear {
+      background: rgba(34, 197, 94, 0.2);
+      color: #86efac;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+
+    .balance-card .balance-status.due {
+      background: rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    /* ===== آخر الطلبات ===== */
+    .recent-orders-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .recent-order-item {
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .sidebar-action-btn:hover {
-      background: var(--gold-light);
-      transform: scale(1.02);
-    }
-
-    .sidebar-toggle {
-      position: fixed;
-      left: 20px;
-      bottom: 20px;
-      background: var(--navy);
-      color: var(--white);
-      width: 52px;
-      height: 52px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
+      gap: 12px;
+      padding: 12px;
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--gray-200);
+      transition: var(--transition);
       cursor: pointer;
-      box-shadow: var(--shadow-lg);
-      border: none;
-      z-index: 999;
-      transition: var(--transition-base);
+      text-decoration: none;
+      color: inherit;
     }
 
-    .sidebar-toggle:hover {
-      background: var(--gold);
+    .recent-order-item:hover {
+      background: var(--white);
+      border-color: var(--gold);
+      transform: translateX(-4px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .recent-order-item .order-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
       color: var(--navy);
-      transform: scale(1.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
     }
 
-    /* ========================================== */
-    /* 📱 تحسينات الشاشات الصغيرة                */
-    /* ========================================== */
-
-    @media (max-width: 1024px) {
-      .info-section {
-        grid-template-columns: 1fr 1fr;
-      }
+    .recent-order-item .order-info {
+      flex: 1;
+      min-width: 0;
     }
 
-    @media (max-width: 768px) {
-      .bubbles-grid {
-        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-        gap: 12px;
-      }
+    .recent-order-item .order-info .order-num {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 2px;
+    }
 
-      .bubble-item {
-        padding: 14px 10px;
-      }
+    .recent-order-item .order-info .order-date {
+      font-size: 0.72rem;
+      color: var(--gray-500);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
 
-      .bubble-item .bubble-icon {
-        font-size: 1.8rem;
-      }
+    .recent-order-item .order-info .order-date i {
+      color: var(--gold);
+      font-size: 0.65rem;
+    }
 
-      .bubble-item .bubble-title {
-        font-size: 0.75rem;
-      }
+    .recent-order-item .order-status-badge {
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      font-size: 0.7rem;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
 
-      .info-section {
-        grid-template-columns: 1fr;
-        gap: 16px;
-      }
+    .recent-order-item .order-status-badge.pending {
+      background: rgba(245, 158, 11, 0.15);
+      color: #d97706;
+    }
 
-      .info-box {
+    .recent-order-item .order-status-badge.processing {
+      background: rgba(59, 130, 246, 0.15);
+      color: #2563eb;
+    }
+
+    .recent-order-item .order-status-badge.shipped {
+      background: rgba(139, 92, 246, 0.15);
+      color: #7c3aed;
+    }
+
+    .recent-order-item .order-status-badge.delivered {
+      background: rgba(34, 197, 94, 0.15);
+      color: #16a34a;
+    }
+
+    .recent-order-item .order-status-badge.cancelled {
+      background: rgba(239, 68, 68, 0.15);
+      color: #dc2626;
+    }
+
+    .recent-order-item .order-total {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--gold-dark);
+      flex-shrink: 0;
+    }
+
+    /* ===== العروض المميزة ===== */
+    .featured-offers-scroll {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding: 4px;
+      scrollbar-width: thin;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .featured-offers-scroll::-webkit-scrollbar {
+      height: 5px;
+    }
+
+    .featured-offers-scroll::-webkit-scrollbar-thumb {
+      background: var(--gold);
+      border-radius: 10px;
+    }
+
+    .featured-offer-card {
+      min-width: 200px;
+      max-width: 220px;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      border: 2px solid var(--danger);
+      cursor: pointer;
+      transition: var(--transition);
+      flex-shrink: 0;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+    }
+
+    .featured-offer-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: #dc2626;
+    }
+
+    .featured-offer-card .discount-ribbon {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: var(--danger);
+      color: var(--white);
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 800;
+      z-index: 5;
+    }
+
+    .featured-offer-card img {
+      width: 100%;
+      height: 130px;
+      object-fit: cover;
+      background: var(--gray-100);
+    }
+
+    .featured-offer-card .offer-body {
+      padding: 10px 12px 12px;
+    }
+
+    .featured-offer-card .offer-name {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      min-height: 36px;
+    }
+
+    .featured-offer-card .offer-price {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .featured-offer-card .offer-price .new-price {
+      font-size: 1rem;
+      font-weight: 900;
+      color: var(--danger);
+    }
+
+    .featured-offer-card .offer-price .old-price {
+      font-size: 0.75rem;
+      color: var(--gray-400);
+      text-decoration: line-through;
+    }
+
+    /* ===== حالة فارغة ===== */
+    .mini-empty {
+      text-align: center;
+      padding: 32px 16px;
+      color: var(--gray-400);
+    }
+
+    .mini-empty i {
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 8px;
+      color: var(--gray-300);
+    }
+
+    .mini-empty p {
+      font-size: 0.85rem;
+      margin-bottom: 12px;
+    }
+
+    /* ===== تحميل ===== */
+    .mini-loading {
+      text-align: center;
+      padding: 24px;
+      color: var(--gray-400);
+    }
+
+    .mini-loading i {
+      color: var(--gold);
+      font-size: 1.5rem;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) and (pointer: coarse) {
+      .welcome-header {
         padding: 20px 16px;
+        border-radius: var(--radius-md);
       }
 
-      .experience-box {
-        padding: 24px 16px;
+      .welcome-header-content .avatar-wrap img {
+        width: 68px;
+        height: 68px;
       }
 
-      .experience-box h2 {
+      .welcome-header-content .welcome-text h1 {
         font-size: 1.2rem;
       }
 
-      .smart-sidebar {
-        width: 320px;
-        right: -340px;
+      .welcome-header-content .welcome-text p {
+        font-size: 0.83rem;
       }
 
-      .smart-header .container {
-        flex-direction: column;
-        align-items: stretch;
+      .customer-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
       }
 
-      .header-actions {
-        justify-content: center;
+      .customer-stat-card {
+        padding: 12px;
+        gap: 10px;
       }
 
-      .smart-footer .container {
-        flex-direction: column;
-        text-align: center;
+      .customer-stat-card .stat-icon-wrap {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
       }
 
-      .smart-footer .footer-links {
-        justify-content: center;
+      .customer-stat-card .stat-number {
+        font-size: 1.15rem;
       }
 
-      .ad-banner img {
-        max-height: 80px;
+      .customer-stat-card .stat-label {
+        font-size: 0.68rem;
+      }
+
+      .quick-access-grid {
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 10px;
+      }
+
+      .quick-access-card {
+        padding: 14px 8px;
+      }
+
+      .quick-access-card .qa-icon {
+        width: 42px;
+        height: 42px;
+        font-size: 1.1rem;
+      }
+
+      .quick-access-card .qa-title {
+        font-size: 0.78rem;
+      }
+
+      .customer-section .section-header {
+        padding: 12px 14px;
+      }
+
+      .customer-section .section-body {
+        padding: 12px 14px;
+      }
+
+      .balance-card {
+        padding: 16px;
+      }
+
+      .balance-card .balance-amount {
+        font-size: 1.6rem;
+      }
+
+      .recent-order-item {
+        padding: 10px;
+        gap: 10px;
+      }
+
+      .recent-order-item .order-icon {
+        width: 38px;
+        height: 38px;
+        font-size: 0.95rem;
+      }
+
+      .recent-order-item .order-info .order-num {
+        font-size: 0.78rem;
       }
     }
 
     @media (max-width: 480px) {
-      .bubbles-grid {
-        grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
-        gap: 10px;
+      .welcome-header-content {
+        flex-direction: column;
+        text-align: center;
       }
 
-      .bubble-item {
-        padding: 12px 8px;
+      .welcome-header-content .welcome-text {
+        text-align: center;
       }
 
-      .bubble-item .bubble-icon {
-        font-size: 1.5rem;
+      .welcome-header-content .welcome-text .user-badges {
+        justify-content: center;
       }
 
-      .bubble-item .bubble-title {
-        font-size: 0.65rem;
-      }
-
-      .bubble-item .bubble-sub {
-        font-size: 0.55rem;
-      }
-
-      .info-box .info-greeting {
-        font-size: 1rem;
-      }
-
-      .info-box p {
-        font-size: 0.85rem;
-      }
-
-      .experience-box p {
-        font-size: 0.9rem;
-      }
-
-      .experience-box .exp-years {
-        font-size: 0.9rem;
-        padding: 2px 16px;
-      }
-
-      .smart-sidebar {
-        width: 290px;
-        right: -310px;
-      }
-
-      .sidebar-toggle {
-        width: 44px;
-        height: 44px;
-        font-size: 1.2rem;
-        left: 12px;
-        bottom: 12px;
-      }
-
-      .ad-banner img {
-        max-height: 60px;
+      .welcome-header-content .welcome-text h1 {
+        font-size: 1.05rem;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- ===== الهيدر ===== -->
-  <header class="smart-header">
+  <!-- مكونات الموبايل -->
+  <div id="mobile-top-bar"></div>
+  <div id="mobile-top-tabs"></div>
+
+  <!-- الهيدر -->
+  <div id="header-placeholder"></div>
+
+  <!-- المحتوى -->
+  <main class="page-content">
     <div class="container">
-      <a href="/gomla/customer-home.html" class="logo">
-        <img src="assets/images/logo.png" alt="أولاد شعلان" onerror="this.style.display='none'">
-        <span>أولاد شعلان <small>جملة</small></span>
-        <span class="gold">✦</span>
-      </a>
-      <div class="header-actions">
-        <span class="btn btn-gold" id="customerNameDisplay">
-          <i class="fas fa-user"></i> مرحباً <span id="customerName">عميل</span>
-        </span>
-        <button class="btn btn-outline" onclick="logoutCustomer()">
-          <i class="fas fa-sign-out-alt"></i> خروج
-        </button>
+
+      <!-- ============================================================ -->
+      <!-- 👋 رأس الترحيب                                               -->
+      <!-- ============================================================ -->
+      <div class="welcome-header">
+        <div class="welcome-header-content">
+          <div class="avatar-wrap">
+            <img src="/gomla/assets/images/default-avatar.png" 
+                 alt="صورة العميل" 
+                 id="customerAvatar"
+                 onerror="this.src='/gomla/assets/images/default-avatar.png'">
+            <div class="online-dot"></div>
+          </div>
+          <div class="welcome-text">
+            <h1>أهلاً بك <span class="gold" id="customerName">عميلنا العزيز</span> 👋</h1>
+            <p id="welcomeMessage">سعداء بوجودك معنا في أولاد شعلان</p>
+            <div class="user-badges">
+              <span class="user-badge">
+                <i class="fas fa-user"></i>
+                عميل قطاعي
+              </span>
+              <span class="user-badge">
+                <i class="fas fa-clock"></i>
+                <span id="memberSince">عضو جديد</span>
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
-  </header>
 
-  <!-- ===== المساحة الإعلانية ===== -->
-  <section class="ad-banner" id="adBanner">
-    <div class="container">
-      <!-- سيتم تحميل الإعلان من Firebase -->
-      <div id="adContent">
-        <div class="ad-placeholder">
-          <i class="fas fa-spinner fa-spin"></i> جاري تحميل الإعلان...
+      <!-- ============================================================ -->
+      <!-- 📊 الإحصائيات                                                -->
+      <!-- ============================================================ -->
+      <div class="customer-stats-grid" id="statsGrid">
+
+        <a href="/gomla/customer/orders.html" class="customer-stat-card">
+          <div class="stat-icon-wrap blue">
+            <i class="fas fa-shopping-bag"></i>
+          </div>
+          <div class="stat-info-wrap">
+            <div class="stat-number" id="statOrders">0</div>
+            <div class="stat-label">إجمالي الطلبات</div>
+          </div>
+        </a>
+
+        <a href="/gomla/customer/orders.html?status=pending" class="customer-stat-card">
+          <div class="stat-icon-wrap gold">
+            <i class="fas fa-clock"></i>
+          </div>
+          <div class="stat-info-wrap">
+            <div class="stat-number gold" id="statPending">0</div>
+            <div class="stat-label">قيد الانتظار</div>
+          </div>
+        </a>
+
+        <a href="/gomla/wishlist.html" class="customer-stat-card">
+          <div class="stat-icon-wrap red">
+            <i class="fas fa-heart"></i>
+          </div>
+          <div class="stat-info-wrap">
+            <div class="stat-number red" id="statWishlist">0</div>
+            <div class="stat-label">المفضلة</div>
+          </div>
+        </a>
+
+        <a href="/gomla/customer/balance.html" class="customer-stat-card">
+          <div class="stat-icon-wrap green">
+            <i class="fas fa-wallet"></i>
+          </div>
+          <div class="stat-info-wrap">
+            <div class="stat-number green" id="statBalance">0</div>
+            <div class="stat-label">الرصيد الحالي</div>
+          </div>
+        </a>
+
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- 🚀 الوصول السريع                                              -->
+      <!-- ============================================================ -->
+      <div class="quick-access-grid">
+
+        <a href="/gomla/store-retail.html" class="quick-access-card">
+          <div class="qa-icon">
+            <i class="fas fa-shopping-cart"></i>
+          </div>
+          <div class="qa-title">المتجر</div>
+          <div class="qa-sub">تسوق الآن</div>
+        </a>
+
+        <a href="/gomla/customer/orders.html" class="quick-access-card">
+          <div class="qa-icon">
+            <i class="fas fa-list-alt"></i>
+          </div>
+          <div class="qa-title">طلباتي</div>
+          <div class="qa-sub">تابع طلباتك</div>
+        </a>
+
+        <a href="/gomla/offers.html" class="quick-access-card">
+          <div class="qa-icon">
+            <i class="fas fa-percent"></i>
+          </div>
+          <div class="qa-title">العروض</div>
+          <div class="qa-sub">وفّر أكثر</div>
+        </a>
+
+        <a href="/gomla/wishlist.html" class="quick-access-card">
+          <div class="qa-icon">
+            <i class="fas fa-heart"></i>
+          </div>
+          <div class="qa-title">المفضلة</div>
+          <div class="qa-sub">منتجاتك المفضلة</div>
+          <span class="qa-badge" id="wishlistBadge" style="display:none;">0</span>
+        </a>
+
+        <a href="/gomla/tracking.html" class="quick-access-card">
+          <div class="qa-icon">
+            <i class="fas fa-truck"></i>
+          </div>
+          <div class="qa-title">تتبع الطلب</div>
+          <div class="qa-sub">حالة الشحنة</div>
+        </a>
+
+        <a href="/gomla/customer/profile.html" class="quick-access-card">
+          <div class="qa-icon">
+            <i class="fas fa-user-edit"></i>
+          </div>
+          <div class="qa-title">بياناتي</div>
+          <div class="qa-sub">تعديل الحساب</div>
+        </a>
+
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- 💰 بطاقة الرصيد                                              -->
+      <!-- ============================================================ -->
+      <div class="customer-section">
+        <div class="section-header">
+          <h2>
+            <i class="fas fa-wallet"></i>
+            الذمة المالية
+          </h2>
+          <a href="/gomla/customer/balance.html" class="view-all-link">
+            التفاصيل
+            <i class="fas fa-arrow-left"></i>
+          </a>
+        </div>
+        <div class="section-body">
+          <div class="balance-card">
+            <div class="balance-label">
+              <i class="fas fa-coins"></i>
+              رصيدك الحالي
+            </div>
+            <div class="balance-amount" id="balanceAmount">0.00 ج.م</div>
+            <div class="balance-status clear" id="balanceStatus">
+              <i class="fas fa-check-circle"></i>
+              لا توجد مديونيات
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- ===== المحتوى الرئيسي ===== -->
-  <main class="home-page">
-    <div class="container">
-
-      <!-- ===== سيكشن 1: الفقاعات ===== -->
-      <section class="bubbles-section">
-        <div class="bubbles-grid" id="bubblesGrid">
-          <!-- سيتم تحميلها عن طريق JavaScript -->
-          <div class="text-center py-4 text-gray-400 col-span-full">
-            <i class="fas fa-spinner fa-spin text-xl"></i>
-            <p class="mt-1">جاري تحميل الفقاعات...</p>
+      <!-- ============================================================ -->
+      <!-- 📦 آخر الطلبات                                               -->
+      <!-- ============================================================ -->
+      <div class="customer-section">
+        <div class="section-header">
+          <h2>
+            <i class="fas fa-history"></i>
+            آخر الطلبات
+          </h2>
+          <a href="/gomla/customer/orders.html" class="view-all-link">
+            كل الطلبات
+            <i class="fas fa-arrow-left"></i>
+          </a>
+        </div>
+        <div class="section-body">
+          <div class="recent-orders-list" id="recentOrders">
+            <div class="mini-loading">
+              <i class="fas fa-spinner fa-spin"></i>
+              <p style="margin-top:8px;">جاري التحميل...</p>
+            </div>
           </div>
         </div>
-      </section>
+      </div>
 
-      <!-- ===== سيكشن 2: النصوص التحفيزية ===== -->
-      <section class="info-section">
-
-        <!-- صندوق 1: الترحيب -->
-        <div class="info-box">
-          <span class="info-icon"><i class="fas fa-handshake"></i></span>
-          <div class="info-greeting">
-            عزيزي <span class="customer-name" id="customerGreetingName">العميل</span>
-          </div>
-          <p>
-            مؤسسة <span class="info-highlight">أولاد شعلان</span> مش مجرد مورد أو تاجر جملة انت بتشتري من عنده وخلاص،
-            لأ انت هتلاقي <span class="info-highlight">دعم</span> في معلومات المنتجات،
-            في طرق استخدامها وأهمية كل منتج،
-            <span class="info-highlight">دعم ومتابعة</span> آخر تحديثات وأخبار عالم المنظفات،
-            نتطور دائماً في <span class="info-highlight">خدمتك</span>.
-          </p>
+      <!-- ============================================================ -->
+      <!-- 🎁 العروض المميزة                                            -->
+      <!-- ============================================================ -->
+      <div class="customer-section">
+        <div class="section-header">
+          <h2>
+            <i class="fas fa-percent"></i>
+            عروض مميزة لك
+          </h2>
+          <a href="/gomla/offers.html" class="view-all-link">
+            كل العروض
+            <i class="fas fa-arrow-left"></i>
+          </a>
         </div>
-
-        <!-- صندوق 2: ليه تتعامل معانا -->
-        <div class="info-box">
-          <span class="info-icon"><i class="fas fa-star"></i></span>
-          <div class="info-greeting" style="font-size:1.1rem;">
-            ليه تتعامل معانا؟
-          </div>
-          <p>
-            <span class="info-highlight">✓</span> جودة المنتجات<br>
-            <span class="info-highlight">✓</span> الأمانة في المعاملة<br>
-            <span class="info-highlight">✓</span> المصداقية<br>
-            <span class="info-highlight">✓</span> تنوع المنتجات والأصناف اللي ممكن تحتاجها لمحلك
-          </p>
-        </div>
-
-        <!-- صندوق 3: سنين الخبرة -->
-        <div class="info-box" style="border-right-color: var(--gold-dark);">
-          <span class="info-icon"><i class="fas fa-medal"></i></span>
-          <div class="info-greeting" style="font-size:1.1rem;">
-            سنين الخبرة
-          </div>
-          <p>
-            تخليك تكون مطمئن لأن جميع منتجاتنا <span class="info-highlight">أصلية</span>
-            ووجودنا في المجال يستمر لأكثر من <span class="info-highlight">١٠ سنوات</span>.
-          </p>
-          <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
-            <span style="background:var(--gold);color:var(--navy);padding:4px 16px;border-radius:var(--radius-full);font-weight:700;font-size:0.8rem;">
-              <i class="fas fa-check-circle"></i> خليك مطمئن
-            </span>
+        <div class="section-body">
+          <div class="featured-offers-scroll" id="featuredOffers">
+            <div class="mini-loading">
+              <i class="fas fa-spinner fa-spin"></i>
+            </div>
           </div>
         </div>
-
-      </section>
+      </div>
 
     </div>
   </main>
 
-  <!-- ===== الفوتر ===== -->
-  <footer class="smart-footer">
-    <div class="container">
-      <div class="copyright">© 2026 أولاد شعلان جملة - جميع الحقوق محفوظة</div>
-      <div class="footer-links">
-        <a href="/gomla/customer-home.html">الرئيسية</a>
-        <a href="/gomla/store-gomla.html">متجر الجملة</a>
-        <a href="/gomla/customer-dashboard.html">بياناتي</a>
+  <!-- التبويبات السفلى -->
+  <div id="mobile-bottom-tabs"></div>
+  <div id="mobile-copyright"></div>
+
+  <!-- الفوتر -->
+  <div id="footer-placeholder"></div>
+
+  <!-- السايدبار -->
+  <div id="sidebar-placeholder"></div>
+
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
+
+  <!-- نافذة البحث -->
+  <div class="search-modal-overlay" id="searchModalOverlay" onclick="closeSearchModal(event)">
+    <div class="search-modal" onclick="event.stopPropagation()">
+      <div class="search-modal-header">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" 
+               id="searchModalInput" 
+               placeholder="ابحث عن منتج..."
+               autocomplete="off"
+               oninput="handleModalSearch(this.value)"
+               onkeydown="handleSearchKeydown(event)">
+        <button class="search-modal-close" onclick="closeSearchModal()" aria-label="إغلاق">
+          <i class="fas fa-times"></i>
+        </button>
       </div>
-      <div class="social-icons">
-        <a href="#"><i class="fab fa-facebook-f"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-whatsapp"></i></a>
-        <a href="#"><i class="fab fa-youtube"></i></a>
+      <div class="search-modal-body" id="searchModalBody">
+        <div id="searchInitialContent">
+          <div class="search-suggestions-header">
+            <i class="fas fa-fire"></i>
+            اقتراحات سريعة
+          </div>
+          <div class="search-suggestions-chips">
+            <a href="#" class="search-chip" onclick="quickSearch('منظف')">
+              <i class="fas fa-spray-can"></i>
+              منظفات
+            </a>
+            <a href="#" class="search-chip" onclick="quickSearch('ورق')">
+              <i class="fas fa-toilet-paper"></i>
+              ورقيات
+            </a>
+            <a href="#" class="search-chip" onclick="quickSearch('صابون')">
+              <i class="fas fa-soap"></i>
+              صابون
+            </a>
+          </div>
+        </div>
+        <div class="search-results" id="searchResults"></div>
+      </div>
+      <div class="search-keyboard-hint">
+        <span><kbd>ESC</kbd> للإغلاق</span>
+        <span><kbd>Enter</kbd> للبحث</span>
       </div>
     </div>
-  </footer>
+  </div>
 
-  <!-- ===== زر المنيو ===== -->
-  <button class="sidebar-toggle" id="sidebarToggle">
-    <i class="fas fa-bars"></i>
-  </button>
-
-  <!-- ===== Firebase ===== -->
+  <!-- Firebase & Scripts -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 
-  <!-- ===== الملفات ===== -->
-  <script src="assets/js/firebase-config.js"></script>
-  <script src="assets/js/core.js"></script>
-  <script src="assets/js/sidebar.js"></script>
+  <script src="/gomla/assets/js/firebase-config.js"></script>
+  <script src="/gomla/assets/js/main.js"></script>
 
   <script>
-    // ============================================
-    // 🏠 الصفحة الرئيسية للعميل - customer-home.html
-    // ============================================
+    // ============================================================
+    // 📄 customer-home.html - صفحة العميل الرئيسية
+    // ============================================================
 
-    // ===== التحقق من صلاحية العميل =====
-    function checkCustomerAuth() {
-      const customerData = localStorage.getItem('customer');
-      if (!customerData) {
+    // ===== المتغيرات =====
+    let customerData = null;
+    let customerId = null;
+
+    // ============================================================
+    // 🚀 تحميل الصفحة
+    // ============================================================
+
+    async function loadCustomerHome() {
+      const user = getCurrentUser();
+
+      // 🔒 حماية: عميل قطاعي فقط
+      if (!user) {
         window.location.href = '/gomla/customer-login.html';
-        return null;
+        return;
       }
-      return JSON.parse(customerData);
+
+      if (user.data.role !== ROLES.RETAIL) {
+        // لو مش عميل قطاعي، نحوله حسب دوره
+        if (user.data.role === ROLES.WHOLESALE) {
+          window.location.href = '/gomla/trader-home.html';
+        } else if (user.data.role === ROLES.SUPER || user.data.role === ROLES.ADMIN_PLUS || user.data.role === ROLES.ADMIN) {
+          window.location.href = '/gomla/admin/home.html';
+        } else if (user.data.role === ROLES.CASHIER) {
+          window.location.href = '/gomla/cashier/home.html';
+        } else {
+          window.location.href = '/gomla/';
+        }
+        return;
+      }
+
+      customerData = user.data;
+      customerId = customerData.id || customerData.uid;
+
+      // عرض البيانات
+      renderWelcomeHeader();
+
+      // تحميل الإحصائيات والبيانات
+      await Promise.all([
+        loadCustomerStats(),
+        loadBalance(),
+        loadRecentOrders(),
+        loadFeaturedOffers(),
+        loadWishlistCount()
+      ]);
     }
 
-    // ===== تحميل بيانات العميل =====
-    function loadCustomerProfile() {
-      const customer = checkCustomerAuth();
-      if (!customer) return;
+    // ============================================================
+    // 👋 عرض رأس الترحيب
+    // ============================================================
 
-      // عرض اسم العميل
-      document.getElementById('customerName').textContent = customer.name || 'عميل';
-      document.getElementById('customerGreetingName').textContent = customer.name || 'العميل';
+    function renderWelcomeHeader() {
+      const nameEl = document.getElementById('customerName');
+      const avatarEl = document.getElementById('customerAvatar');
+      const memberEl = document.getElementById('memberSince');
+      const welcomeMsg = document.getElementById('welcomeMessage');
 
-      // تحميل الفقاعات
-      loadBubbles();
+      if (nameEl) {
+        nameEl.textContent = customerData.name || 'عميلنا العزيز';
+      }
 
-      // تحميل الإعلان
-      loadAdBanner();
+      if (avatarEl && customerData.avatar) {
+        avatarEl.src = customerData.avatar;
+      }
+
+      // رسالة ترحيب حسب الوقت
+      const hour = new Date().getHours();
+      let greeting = 'سعداء بوجودك معنا في أولاد شعلان';
+      if (hour < 12) {
+        greeting = 'صباح الخير! نتمنى لك يوماً سعيداً 🌞';
+      } else if (hour < 18) {
+        greeting = 'مساء الخير! كيف حالك اليوم؟ ☀️';
+      } else {
+        greeting = 'مساء الخير! تصفح منتجاتنا المميزة 🌙';
+      }
+      if (welcomeMsg) welcomeMsg.textContent = greeting;
+
+      // تاريخ العضوية
+      if (memberEl && customerData.createdAt) {
+        const date = customerData.createdAt.toDate ? 
+          customerData.createdAt.toDate() : 
+          new Date(customerData.createdAt);
+        
+        const months = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
+                       'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
+        
+        memberEl.textContent = `عضو منذ ${months[date.getMonth()]} ${date.getFullYear()}`;
+      }
     }
 
-    // ===== تحميل الفقاعات =====
-    function loadBubbles() {
-      const container = document.getElementById('bubblesGrid');
-      if (!container) return;
+    // ============================================================
+    // 📊 تحميل الإحصائيات
+    // ============================================================
 
-      const bubbles = [
-        { icon: 'fa-store', title: 'متجر الجملة', url: '/gomla/store-gomla.html', sub: 'تسوق الآن', badge: 'جديد' },
-        { icon: 'fa-box', title: 'طلباتي الأخيرة', url: '/gomla/last-orders.html', sub: 'آخر طلب', badge: '' },
-        { icon: 'fa-user', title: 'بياناتي', url: '/gomla/customer-dashboard.html', sub: 'عرض بياناتي', badge: '' },
-        { icon: 'fa-file-invoice', title: 'فواتيري', url: '/gomla/customer-invoices.html', sub: 'عرض الفواتير', badge: '' },
-        { icon: 'fa-truck', title: 'تتبع الطلبات', url: '/gomla/tracking.html', sub: 'متابعة', badge: '' },
-        { icon: 'fa-coins', title: 'الذمة المالية', url: '/gomla/customer-balance.html', sub: 'ما لك و ما عليك', badge: '' },
-        { icon: 'fa-headset', title: 'شكوى واستفسار', url: '/gomla/customer-contact.html', sub: 'تواصل معنا', badge: '' },
-      ];
+    async function loadCustomerStats() {
+      try {
+        // جلب طلبات العميل
+        const ordersSnapshot = await db.collection(COLLECTIONS.ORDERS)
+          .where('customerId', '==', customerId)
+          .get();
 
-      let html = '';
-      bubbles.forEach((bubble) => {
-        html += `
-          <a href="${bubble.url}" class="bubble-item">
-            ${bubble.badge ? `<span class="bubble-badge">${bubble.badge}</span>` : ''}
-            <span class="bubble-icon"><i class="fas ${bubble.icon}"></i></span>
-            <span class="bubble-title">${bubble.title}</span>
-            <span class="bubble-sub">${bubble.sub}</span>
-          </a>
-        `;
-      });
+        let totalOrders = 0;
+        let pendingOrders = 0;
 
-      container.innerHTML = html;
-    }
-
-    // ===== تحميل الإعلان =====
-    function loadAdBanner() {
-      const container = document.getElementById('adContent');
-      if (!container) return;
-
-      db.collection('ads')
-        .where('active', '==', true)
-        .where('page', '==', 'customer-home')
-        .orderBy('order')
-        .limit(1)
-        .get()
-        .then((snapshot) => {
-          if (snapshot.empty) {
-            container.innerHTML = `
-              <div class="ad-placeholder">
-                <i class="fas fa-info-circle"></i> لا توجد إعلانات حالياً
-              </div>
-            `;
-            return;
+        ordersSnapshot.forEach(doc => {
+          const order = doc.data();
+          totalOrders++;
+          if (order.status === 'pending') {
+            pendingOrders++;
           }
+        });
 
-          const ad = snapshot.docs[0].data();
-          if (ad.imageUrl) {
-            container.innerHTML = `
-              <a href="${ad.link || '#'}" target="${ad.target || '_blank'}">
-                <img src="${ad.imageUrl}" alt="${ad.title || 'إعلان'}">
-              </a>
+        document.getElementById('statOrders').textContent = totalOrders;
+        document.getElementById('statPending').textContent = pendingOrders;
+
+      } catch (error) {
+        console.error('Error loading stats:', error);
+      }
+    }
+
+    // ============================================================
+    // 💰 تحميل الرصيد
+    // ============================================================
+
+    async function loadBalance() {
+      try {
+        const doc = await db.collection(COLLECTIONS.CUSTOMERS).doc(customerId).get();
+        
+        if (!doc.exists) return;
+
+        const data = doc.data();
+        const balance = data.balance || 0;
+
+        const amountEl = document.getElementById('balanceAmount');
+        const statusEl = document.getElementById('balanceStatus');
+
+        if (amountEl) {
+          amountEl.textContent = `${Math.abs(balance).toFixed(2)} ج.م`;
+        }
+
+        if (statusEl) {
+          if (balance > 0) {
+            statusEl.className = 'balance-status due';
+            statusEl.innerHTML = `
+              <i class="fas fa-exclamation-circle"></i>
+              مديونية: ${balance.toFixed(2)} ج.م
+            `;
+          } else if (balance < 0) {
+            statusEl.className = 'balance-status clear';
+            statusEl.innerHTML = `
+              <i class="fas fa-check-circle"></i>
+              رصيد دائن: ${Math.abs(balance).toFixed(2)} ج.م
             `;
           } else {
-            container.innerHTML = `
-              <div class="ad-placeholder" style="background:var(--gold-light);color:var(--navy);font-weight:700;">
-                ${ad.title || 'إعلان'}
-              </div>
+            statusEl.className = 'balance-status clear';
+            statusEl.innerHTML = `
+              <i class="fas fa-check-circle"></i>
+              لا توجد مديونيات
             `;
           }
-        })
-        .catch(() => {
-          container.innerHTML = `
-            <div class="ad-placeholder">
-              <i class="fas fa-exclamation-triangle"></i> حدث خطأ في تحميل الإعلان
-            </div>
-          `;
-        });
+        }
+
+        // تحديث إحصائية الرصيد
+        const statBalance = document.getElementById('statBalance');
+        if (statBalance) {
+          statBalance.textContent = `${Math.abs(balance).toFixed(0)} ج.م`;
+        }
+
+      } catch (error) {
+        console.error('Error loading balance:', error);
+      }
     }
 
-    // ============================================
+    // ============================================================
+    // 📦 تحميل آخر الطلبات
+    // ============================================================
+
+    async function loadRecentOrders() {
+      const container = document.getElementById('recentOrders');
+      if (!container) return;
+
+      try {
+        const snapshot = await db.collection(COLLECTIONS.ORDERS)
+          .where('customerId', '==', customerId)
+          .orderBy('createdAt', 'desc')
+          .limit(5)
+          .get();
+
+        if (snapshot.empty) {
+          container.innerHTML = `
+            <div class="mini-empty">
+              <i class="fas fa-shopping-bag"></i>
+              <p>لا توجد طلبات حتى الآن</p>
+              <a href="/gomla/store-retail.html" class="btn btn-primary btn-sm">
+                <i class="fas fa-shopping-cart"></i>
+                ابدأ التسوق
+              </a>
+            </div>
+          `;
+          return;
+        }
+
+        let html = '';
+        const statusMap = {
+          pending: 'قيد الانتظار',
+          processing: 'قيد المعالجة',
+          shipped: 'تم الشحن',
+          delivered: 'تم التسليم',
+          cancelled: 'ملغي'
+        };
+
+        snapshot.forEach(doc => {
+          const order = doc.data();
+          const orderNumber = doc.id.slice(-8).toUpperCase();
+          const date = order.createdAt ? 
+            (order.createdAt.toDate ? order.createdAt.toDate() : new Date(order.createdAt)) : 
+            new Date();
+          
+          const dateStr = date.toLocaleDateString('ar-EG', {
+            year: 'numeric', month: 'short', day: 'numeric'
+          });
+          
+          const status = order.status || 'pending';
+          const statusText = statusMap[status] || 'قيد الانتظار';
+
+          html += `
+            <a href="/gomla/tracking.html?id=${doc.id}" class="recent-order-item">
+              <div class="order-icon">
+                <i class="fas fa-receipt"></i>
+              </div>
+              <div class="order-info">
+                <div class="order-num">#${orderNumber}</div>
+                <div class="order-date">
+                  <i class="fas fa-calendar"></i>
+                  ${dateStr}
+                </div>
+              </div>
+              <span class="order-status-badge ${status}">${statusText}</span>
+              <div class="order-total">${(order.total || 0).toFixed(0)} ج.م</div>
+            </a>
+          `;
+        });
+
+        container.innerHTML = html;
+
+      } catch (error) {
+        console.error('Error loading recent orders:', error);
+        container.innerHTML = `
+          <div class="mini-empty">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p>حدث خطأ في تحميل الطلبات</p>
+          </div>
+        `;
+      }
+    }
+
+    // ============================================================
+    // 🎁 تحميل العروض المميزة
+    // ============================================================
+
+    async function loadFeaturedOffers() {
+      const container = document.getElementById('featuredOffers');
+      if (!container) return;
+
+      try {
+        const snapshot = await db.collection(COLLECTIONS.PRODUCTS)
+          .where('available', '==', true)
+          .where('hasRetailOffer', '==', true)
+          .limit(6)
+          .get();
+
+        if (snapshot.empty) {
+          container.innerHTML = `
+            <div class="mini-empty" style="width:100%;">
+              <i class="fas fa-percent"></i>
+              <p>لا توجد عروض حالياً</p>
+            </div>
+          `;
+          return;
+        }
+
+        let html = '';
+
+        snapshot.forEach(doc => {
+          const p = doc.data();
+          const id = doc.id;
+          const originalPrice = p.retailPrice || 0;
+          const offerPrice = p.retailOfferPrice || 0;
+          const discount = originalPrice > 0 ? 
+            Math.round(((originalPrice - offerPrice) / originalPrice) * 100) : 0;
+
+          html += `
+            <a href="/gomla/product-details.html?id=${id}&type=retail" class="featured-offer-card">
+              <div class="discount-ribbon">${discount}% خصم</div>
+              <img src="${p.imageUrl || '/gomla/assets/images/no-image.png'}" 
+                   alt="${p.name}"
+                   onerror="this.src='/gomla/assets/images/no-image.png'">
+              <div class="offer-body">
+                <div class="offer-name">${p.name}</div>
+                <div class="offer-price">
+                  <span class="new-price">${offerPrice.toFixed(2)} ج.م</span>
+                  <span class="old-price">${originalPrice.toFixed(2)} ج.م</span>
+                </div>
+              </div>
+            </a>
+          `;
+        });
+
+        container.innerHTML = html;
+
+      } catch (error) {
+        console.error('Error loading offers:', error);
+      }
+    }
+
+    // ============================================================
+    // ❤️ تحميل عدد المفضلة
+    // ============================================================
+
+    async function loadWishlistCount() {
+      try {
+        const snapshot = await db.collection(COLLECTIONS.WISHLIST)
+          .where('userId', '==', customerId)
+          .get();
+
+        const count = snapshot.size;
+
+        // تحديث إحصائية المفضلة
+        const statWishlist = document.getElementById('statWishlist');
+        if (statWishlist) {
+          statWishlist.textContent = count;
+        }
+
+        // تحديث شارة المفضلة
+        const wishlistBadge = document.getElementById('wishlistBadge');
+        if (wishlistBadge) {
+          if (count > 0) {
+            wishlistBadge.textContent = count > 99 ? '99+' : count;
+            wishlistBadge.style.display = 'inline-block';
+          } else {
+            wishlistBadge.style.display = 'none';
+          }
+        }
+
+      } catch (error) {
+        console.error('Error loading wishlist count:', error);
+      }
+    }
+
+    // ============================================================
     // 🚀 تشغيل الصفحة
-    // ============================================
+    // ============================================================
 
     document.addEventListener('DOMContentLoaded', function() {
-      loadCustomerProfile();
+      loadCustomerHome();
+      console.log('✅ customer-home.html loaded');
     });
+
+    // تصدير
+    window.loadCustomerHome = loadCustomerHome;
+
   </script>
 
 </body>
