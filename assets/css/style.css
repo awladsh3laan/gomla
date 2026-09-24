@@ -162,7 +162,7 @@ input, select, textarea {
 
 .btn-primary:hover {
   background: var(--gold);
-  color: var(--gold);
+  color: var(--navy-light);
   transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
@@ -181,7 +181,7 @@ input, select, textarea {
 .btn-outline {
   background: transparent;
   border: 2px solid var(--navy-light);
-  color: var(--ddd);
+  color: var(--white);
 }
 
 .btn-outline:hover {
