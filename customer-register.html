@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>إنشاء حساب جديد - أولاد شعلان</title>
+
+  <meta name="description" content="تسجيل حساب جديد - أولاد شعلان للمنظفات والورقيات">
+  <meta name="theme-color" content="#1a2a4a">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  
+  <!-- Style -->
+  <link rel="stylesheet" href="/gomla/assets/css/style.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="/gomla/assets/images/favicon.ico">
+
+  <style>
+    /* ============================================================
+       🎨 ستايل صفحة تسجيل العملاء
+       ============================================================ */
+
+    /* ===== الصفحة ===== */
+    .register-page {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #f0f4f8 0%, #f8fafc 50%, #fcf9f0 100%);
+      padding: 40px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* زخارف خلفية */
+    .register-page::before {
+      content: '';
+      position: absolute;
+      top: -100px;
+      right: -100px;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(201, 168, 76, 0.08) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .register-page::after {
+      content: '';
+      position: absolute;
+      bottom: -100px;
+      left: -100px;
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle, rgba(26, 42, 74, 0.06) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    /* ===== البطاقة الرئيسية ===== */
+    .register-card {
+      max-width: 560px;
+      width: 100%;
+      margin: 0 auto;
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 20px 60px rgba(26, 42, 74, 0.15);
+      overflow: hidden;
+      position: relative;
+      z-index: 2;
+      animation: card-in 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @keyframes card-in {
+      from {
+        opacity: 0;
+        transform: translateY(-30px) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* شريط ذهبي علوي */
+    .register-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light), var(--gold), var(--gold-dark));
+      background-size: 200% 100%;
+      animation: shimmer-bar 3s linear infinite;
+    }
+
+    @keyframes shimmer-bar {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    /* ===== رأس البطاقة ===== */
+    .register-header {
+      padding: 32px 32px 20px;
+      text-align: center;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .register-header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(201, 168, 76, 0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .register-header > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .register-header .header-icon {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      font-size: 1.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 14px;
+      box-shadow: 0 8px 24px rgba(201, 168, 76, 0.4);
+      animation: pulse 2.5s ease-in-out infinite;
+    }
+
+    .register-header h1 {
+      font-size: 1.6rem;
+      font-weight: 900;
+      margin-bottom: 6px;
+    }
+
+    .register-header h1 .gold {
+      color: var(--gold);
+    }
+
+    .register-header p {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    .register-header .type-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.15);
+      padding: 5px 14px;
+      border-radius: var(--radius-full);
+      font-size: 0.78rem;
+      font-weight: 700;
+      margin-top: 10px;
+      border: 1px solid rgba(201, 168, 76, 0.4);
+      backdrop-filter: blur(10px);
+    }
+
+    .register-header .type-badge i {
+      color: var(--gold);
+    }
+
+    /* ===== جسم البطاقة ===== */
+    .register-body {
+      padding: 28px 32px 32px;
+    }
+
+    /* ===== الأخطاء ===== */
+    .register-error {
+      display: none;
+      background: #fef2f2;
+      border-right: 4px solid var(--danger);
+      border-radius: var(--radius-sm);
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      color: #dc2626;
+      font-size: 0.88rem;
+      font-weight: 600;
+      animation: shake 0.4s ease;
+    }
+
+    .register-error.show {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .register-error i {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-8px); }
+      40% { transform: translateX(8px); }
+      60% { transform: translateX(-4px); }
+      80% { transform: translateX(4px); }
+    }
+
+    /* ===== مجموعة الحقول ===== */
+    .form-group {
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .form-group label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: var(--gray-700);
+      margin-bottom: 6px;
+    }
+
+    .form-group label i {
+      color: var(--gold);
+      font-size: 0.85rem;
+    }
+
+    .form-group label .required {
+      color: var(--danger);
+      margin-right: 2px;
+    }
+
+    /* حقل الإدخال */
+    .form-group .input-wrap {
+      position: relative;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px 44px 12px 14px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.95rem;
+      background: var(--gray-50);
+      color: var(--gray-800);
+      transition: all 0.3s ease;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.15);
+      background: var(--white);
+    }
+
+    .form-group input.error {
+      border-color: var(--danger);
+      background: #fef2f2;
+    }
+
+    .form-group input.success {
+      border-color: var(--success);
+      background: #f0fdf4;
+    }
+
+    .form-group input::placeholder {
+      color: var(--gray-400);
+      font-size: 0.88rem;
+    }
+
+    /* أيقونة الحقل */
+    .form-group .input-icon {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray-400);
+      font-size: 1rem;
+      pointer-events: none;
+      transition: color 0.3s ease;
+    }
+
+    .form-group input:focus + .input-icon {
+      color: var(--gold);
+    }
+
+    /* زر إظهار/إخفاء الباسورد */
+    .form-group .toggle-password {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
+      color: var(--gray-400);
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 6px;
+      border-radius: 50%;
+      transition: all 0.2s ease;
+      pointer-events: auto;
+    }
+
+    .form-group .toggle-password:hover {
+      color: var(--navy);
+      background: var(--gray-100);
+    }
+
+    /* رسالة الخطأ */
+    .form-group .error-text {
+      display: none;
+      color: var(--danger);
+      font-size: 0.75rem;
+      margin-top: 4px;
+      padding-right: 4px;
+    }
+
+    .form-group .error-text.show {
+      display: block;
+    }
+
+    /* ===== صف مزدوج ===== */
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    /* ===== الشروط ===== */
+    .terms-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 14px 16px;
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--gray-200);
+      margin: 18px 0;
+      transition: all 0.3s ease;
+    }
+
+    .terms-group.has-error {
+      border-color: var(--danger);
+      background: #fef2f2;
+    }
+
+    .terms-group input[type="checkbox"] {
+      width: 20px;
+      height: 20px;
+      accent-color: var(--gold);
+      cursor: pointer;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .terms-group label {
+      font-size: 0.85rem;
+      color: var(--gray-600);
+      line-height: 1.6;
+      cursor: pointer;
+      margin: 0;
+      font-weight: 500;
+    }
+
+    .terms-group label a {
+      color: var(--gold-dark);
+      font-weight: 700;
+      text-decoration: underline;
+    }
+
+    /* ===== زر التسجيل ===== */
+    .register-btn {
+      width: 100%;
+      padding: 15px 24px;
+      border: none;
+      border-radius: var(--radius-full);
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      font-weight: 800;
+      font-size: 1.05rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .register-btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.15);
+      transform: translate(-50%, -50%);
+      transition: width 0.5s ease, height 0.5s ease;
+    }
+
+    .register-btn:hover::before {
+      width: 500px;
+      height: 500px;
+    }
+
+    .register-btn:hover {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px rgba(201, 168, 76, 0.4);
+    }
+
+    .register-btn:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .register-btn i,
+    .register-btn span {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== فوتر البطاقة ===== */
+    .register-footer {
+      padding: 20px 32px;
+      background: var(--gray-50);
+      border-top: 1px solid var(--gray-200);
+      text-align: center;
+      font-size: 0.9rem;
+      color: var(--gray-600);
+    }
+
+    .register-footer a {
+      color: var(--gold-dark);
+      font-weight: 800;
+      text-decoration: none;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      transition: all 0.2s ease;
+    }
+
+    .register-footer a:hover {
+      background: var(--gold-light);
+      color: var(--navy);
+    }
+
+    /* ===== معلومات إضافية ===== */
+    .info-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 14px;
+      background: #eff6ff;
+      border-radius: var(--radius-sm);
+      border-right: 3px solid var(--info);
+      margin-bottom: 20px;
+      font-size: 0.82rem;
+      color: #1e40af;
+      line-height: 1.6;
+    }
+
+    .info-note i {
+      color: var(--info);
+      font-size: 1rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ===== شاشة النجاح ===== */
+    .success-screen {
+      display: none;
+      padding: 48px 32px;
+      text-align: center;
+    }
+
+    .success-screen.show {
+      display: block;
+      animation: success-in 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @keyframes success-in {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .success-screen .success-icon {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: var(--white);
+      font-size: 3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      box-shadow: 0 12px 40px rgba(34, 197, 94, 0.4);
+      animation: success-pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes success-pulse {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 12px 40px rgba(34, 197, 94, 0.4);
+      }
+      50% {
+        transform: scale(1.05);
+        box-shadow: 0 16px 50px rgba(34, 197, 94, 0.5);
+      }
+    }
+
+    .success-screen h2 {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+
+    .success-screen .success-name {
+      color: var(--gold-dark);
+    }
+
+    .success-screen p {
+      font-size: 0.95rem;
+      color: var(--gray-600);
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    .success-screen .success-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .success-screen .success-actions .btn {
+      min-width: 160px;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) and (pointer: coarse) {
+      .register-page {
+        padding: 20px 12px;
+      }
+
+      .register-card {
+        border-radius: var(--radius-md);
+      }
+
+      .register-header {
+        padding: 24px 20px 16px;
+      }
+
+      .register-header .header-icon {
+        width: 58px;
+        height: 58px;
+        font-size: 1.5rem;
+      }
+
+      .register-header h1 {
+        font-size: 1.3rem;
+      }
+
+      .register-header p {
+        font-size: 0.83rem;
+      }
+
+      .register-body {
+        padding: 20px 20px 24px;
+      }
+
+      .form-group input {
+        padding: 11px 40px 11px 12px;
+        font-size: 0.9rem;
+      }
+
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+
+      .register-btn {
+        padding: 14px 20px;
+        font-size: 1rem;
+      }
+
+      .register-footer {
+        padding: 16px 20px;
+        font-size: 0.85rem;
+      }
+
+      .success-screen {
+        padding: 32px 20px;
+      }
+
+      .success-screen .success-icon {
+        width: 80px;
+        height: 80px;
+        font-size: 2.4rem;
+      }
+
+      .success-screen h2 {
+        font-size: 1.3rem;
+      }
+
+      .success-screen .success-actions .btn {
+        min-width: 100%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .register-header h1 {
+        font-size: 1.15rem;
+      }
+
+      .register-body {
+        padding: 18px 16px 20px;
+      }
+
+      .form-group label {
+        font-size: 0.83rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================ -->
+  <!-- 📝 صفحة التسجيل                                              -->
+  <!-- ============================================================ -->
+  <div class="register-page">
+    <div class="container">
+
+      <!-- ===== البطاقة ===== -->
+      <div class="register-card" id="registerCard">
+
+        <!-- ===== الرأس ===== -->
+        <div class="register-header">
+          <div class="header-icon">
+            <i class="fas fa-user-plus"></i>
+          </div>
+          <h1>إنشاء <span class="gold">حساب جديد</span></h1>
+          <p>سجل حسابك للاستفادة من مزايا المتجر</p>
+          <div class="type-badge">
+            <i class="fas fa-shopping-cart"></i>
+            حساب عميل قطاعي
+          </div>
+        </div>
+
+        <!-- ===== الجسم ===== -->
+        <div class="register-body" id="registerBody">
+
+          <!-- معلومات -->
+          <div class="info-note">
+            <i class="fas fa-info-circle"></i>
+            <span>
+              التسجيل <strong>للعملاء القطاعيين</strong> فقط. 
+              التجار يسجلون بواسطة كود خاص من الإدارة.
+            </span>
+          </div>
+
+          <!-- رسالة الخطأ -->
+          <div class="register-error" id="registerError">
+            <i class="fas fa-exclamation-circle"></i>
+            <span id="errorText">حدث خطأ</span>
+          </div>
+
+          <!-- النموذج -->
+          <form id="registerForm" onsubmit="handleRegister(event)">
+
+            <!-- الاسم -->
+            <div class="form-group">
+              <label>
+                <i class="fas fa-user"></i>
+                الاسم الكامل
+                <span class="required">*</span>
+              </label>
+              <div class="input-wrap">
+                <input 
+                  type="text" 
+                  id="regName" 
+                  placeholder="مثال: أحمد محمد علي"
+                  maxlength="60"
+                  autocomplete="name"
+                  oninput="validateField('name')">
+                <i class="fas fa-user input-icon"></i>
+              </div>
+              <div class="error-text" id="errName">يرجى إدخال الاسم الكامل</div>
+            </div>
+
+            <!-- الهاتف -->
+            <div class="form-group">
+              <label>
+                <i class="fas fa-phone"></i>
+                رقم الهاتف
+                <span class="required">*</span>
+              </label>
+              <div class="input-wrap">
+                <input 
+                  type="tel" 
+                  id="regPhone" 
+                  placeholder="01xxxxxxxxx"
+                  maxlength="11"
+                  inputmode="numeric"
+                  autocomplete="tel"
+                  oninput="validateField('phone')">
+                <i class="fas fa-phone input-icon"></i>
+              </div>
+              <div class="error-text" id="errPhone">رقم الهاتف يجب أن يكون 11 رقم ويبدأ بـ 01</div>
+            </div>
+
+            <!-- العنوان -->
+            <div class="form-group">
+              <label>
+                <i class="fas fa-map-marker-alt"></i>
+                العنوان بالتفصيل
+                <span class="required">*</span>
+              </label>
+              <div class="input-wrap">
+                <input 
+                  type="text" 
+                  id="regAddress" 
+                  placeholder="مثال: المحلة الكبرى - شارع الجلاء"
+                  maxlength="150"
+                  autocomplete="street-address"
+                  oninput="validateField('address')">
+                <i class="fas fa-map-marker-alt input-icon"></i>
+              </div>
+              <div class="error-text" id="errAddress">يرجى إدخال العنوان</div>
+            </div>
+
+            <!-- البريد الإلكتروني -->
+            <div class="form-group">
+              <label>
+                <i class="fas fa-envelope"></i>
+                البريد الإلكتروني
+                <span class="required">*</span>
+              </label>
+              <div class="input-wrap">
+                <input 
+                  type="email" 
+                  id="regEmail" 
+                  placeholder="example@email.com"
+                  autocomplete="email"
+                  oninput="validateField('email')">
+                <i class="fas fa-envelope input-icon"></i>
+              </div>
+              <div class="error-text" id="errEmail">يرجى إدخال بريد إلكتروني صحيح</div>
+            </div>
+
+            <!-- الباسورد + تأكيد -->
+            <div class="form-row">
+              <div class="form-group">
+                <label>
+                  <i class="fas fa-lock"></i>
+                  كلمة المرور
+                  <span class="required">*</span>
+                </label>
+                <div class="input-wrap">
+                  <input 
+                    type="password" 
+                    id="regPassword" 
+                    placeholder="6 أحرف على الأقل"
+                    autocomplete="new-password"
+                    oninput="validateField('password')">
+                  <i class="fas fa-lock input-icon"></i>
+                  <button 
+                    type="button" 
+                    class="toggle-password" 
+                    onclick="togglePassword('regPassword', this)"
+                    tabindex="-1">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+                <div class="error-text" id="errPassword">كلمة المرور يجب أن تكون 6 أحرف على الأقل</div>
+              </div>
+
+              <div class="form-group">
+                <label>
+                  <i class="fas fa-lock"></i>
+                  تأكيد كلمة المرور
+                  <span class="required">*</span>
+                </label>
+                <div class="input-wrap">
+                  <input 
+                    type="password" 
+                    id="regPasswordConfirm" 
+                    placeholder="أعد كتابة كلمة المرور"
+                    autocomplete="new-password"
+                    oninput="validateField('confirm')">
+                  <i class="fas fa-lock input-icon"></i>
+                  <button 
+                    type="button" 
+                    class="toggle-password" 
+                    onclick="togglePassword('regPasswordConfirm', this)"
+                    tabindex="-1">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                </div>
+                <div class="error-text" id="errConfirm">كلمتا المرور غير متطابقتين</div>
+              </div>
+            </div>
+
+            <!-- الشروط -->
+            <div class="terms-group" id="termsGroup">
+              <input 
+                type="checkbox" 
+                id="regTerms"
+                onchange="validateField('terms')">
+              <label for="regTerms">
+                أوافق على 
+                <a href="/gomla/terms.html" target="_blank">الشروط والأحكام</a>
+                و
+                <a href="/gomla/privacy-policy.html" target="_blank">سياسة الخصوصية</a>
+                الخاصة بمؤسسة أولاد شعلان
+              </label>
+            </div>
+
+            <!-- زر التسجيل -->
+            <button type="submit" class="register-btn" id="registerBtn">
+              <i class="fas fa-user-plus"></i>
+              <span>إنشاء الحساب</span>
+            </button>
+
+          </form>
+
+        </div>
+
+        <!-- ===== شاشة النجاح ===== -->
+        <div class="success-screen" id="successScreen">
+          <div class="success-icon">
+            <i class="fas fa-check"></i>
+          </div>
+          <h2>مرحباً بك <span class="success-name" id="successName">عميلنا العزيز</span> 🎉</h2>
+          <p>
+            تم إنشاء حسابك بنجاح ✅
+            <br>
+            يمكنك الآن التسوق من متجر القطاعي والاستفادة من جميع المميزات.
+          </p>
+          <div class="success-actions">
+            <a href="/gomla/store-retail.html" class="btn btn-primary">
+              <i class="fas fa-shopping-cart"></i>
+              ابدأ التسوق
+            </a>
+            <a href="/gomla/customer-home.html" class="btn btn-outline">
+              <i class="fas fa-home"></i>
+              صفحتي
+            </a>
+          </div>
+        </div>
+
+        <!-- ===== الفوتر ===== -->
+        <div class="register-footer" id="registerFooter">
+          لديك حساب بالفعل؟ 
+          <a href="/gomla/customer-login.html">
+            <i class="fas fa-sign-in-alt"></i>
+            تسجيل الدخول
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- Toast Container                                              -->
+  <!-- ============================================================ -->
+  <div id="toast-container"></div>
+
+  <!-- ============================================================ -->
+  <!-- Firebase & Scripts                                            -->
+  <!-- ============================================================ -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+  <script src="/gomla/assets/js/firebase-config.js"></script>
+  <script src="/gomla/assets/js/main.js"></script>
+
+  <script>
+    // ============================================================
+    // 📄 customer-register.html - تسجيل العملاء
+    // ============================================================
+
+    // ===== المتغيرات =====
+    let isSubmitting = false;
+    let validationState = {
+      name: false,
+      phone: false,
+      address: false,
+      email: false,
+      password: false,
+      confirm: false,
+      terms: false
+    };
+
+    // ============================================================
+    // 🚀 تشغيل الصفحة
+    // ============================================================
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // التحقق من عدم وجود مستخدم مسجل
+      const user = getCurrentUser();
+      if (user) {
+        showToast('✅ أنت مسجل دخول بالفعل', 'info');
+        setTimeout(() => {
+          const role = user.data.role;
+          if (role === ROLES.RETAIL) {
+            window.location.href = '/gomla/customer-home.html';
+          } else if (role === ROLES.WHOLESALE) {
+            window.location.href = '/gomla/trader-home.html';
+          } else {
+            window.location.href = '/gomla/';
+          }
+        }, 1500);
+        return;
+      }
+
+      // التركيز التلقائي على الاسم
+      setTimeout(() => {
+        document.getElementById('regName').focus();
+      }, 500);
+
+      // منع الأرقام في حقل الهاتف
+      document.getElementById('regPhone').addEventListener('keypress', function(e) {
+        if (!/[0-9]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete' && e.key !== 'Tab') {
+          e.preventDefault();
+        }
+      });
+
+      console.log('✅ customer-register.html loaded');
+    });
+
+    // ============================================================
+    // 🔐 إظهار/إخفاء كلمة المرور
+    // ============================================================
+
+    function togglePassword(fieldId, btn) {
+      const field = document.getElementById(fieldId);
+      const icon = btn.querySelector('i');
+
+      if (field.type === 'password') {
+        field.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+      } else {
+        field.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
+      }
+    }
+
+    // ============================================================
+    // ✅ التحقق من الحقول
+    // ============================================================
+
+    function validateField(field) {
+      const input = document.getElementById(getInputId(field));
+      const errorEl = document.getElementById(getErrorId(field));
+      let isValid = false;
+      let errorMessage = '';
+
+      switch (field) {
+        case 'name':
+          const name = input.value.trim();
+          isValid = name.length >= 3;
+          errorMessage = 'يرجى إدخال الاسم الكامل (3 أحرف على الأقل)';
+          break;
+
+        case 'phone':
+          const phone = input.value.trim();
+          isValid = /^01[0-9]{9}$/.test(phone);
+          errorMessage = 'رقم الهاتف يجب أن يكون 11 رقم ويبدأ بـ 01';
+          break;
+
+        case 'address':
+          const address = input.value.trim();
+          isValid = address.length >= 5;
+          errorMessage = 'يرجى إدخال العنوان (5 أحرف على الأقل)';
+          break;
+
+        case 'email':
+          const email = input.value.trim();
+          isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+          errorMessage = 'يرجى إدخال بريد إلكتروني صحيح';
+          break;
+
+        case 'password':
+          const password = input.value;
+          isValid = password.length >= 6;
+          errorMessage = 'كلمة المرور يجب أن تكون 6 أحرف على الأقل';
+          // تحقق من التطابق
+          if (document.getElementById('regPasswordConfirm').value) {
+            validateField('confirm');
+          }
+          break;
+
+        case 'confirm':
+          const pwd = document.getElementById('regPassword').value;
+          const confirm = input.value;
+          isValid = confirm.length > 0 && pwd === confirm;
+          errorMessage = 'كلمتا المرور غير متطابقتين';
+          break;
+
+        case 'terms':
+          isValid = input.checked;
+          errorMessage = 'يجب الموافقة على الشروط والأحكام';
+          break;
+      }
+
+      // تحديث الحالة
+      validationState[field] = isValid;
+
+      // تحديث شكل الحقل
+      input.classList.toggle('success', isValid);
+      input.classList.toggle('error', !isValid && input.value.length > 0);
+
+      // عرض الخطأ
+      if (errorEl) {
+        errorEl.textContent = errorMessage;
+        errorEl.classList.toggle('show', !isValid && input.value.length > 0);
+      }
+
+      return isValid;
+    }
+
+    function getInputId(field) {
+      const map = {
+        name: 'regName',
+        phone: 'regPhone',
+        address: 'regAddress',
+        email: 'regEmail',
+        password: 'regPassword',
+        confirm: 'regPasswordConfirm',
+        terms: 'regTerms'
+      };
+      return map[field];
+    }
+
+    function getErrorId(field) {
+      const map = {
+        name: 'errName',
+        phone: 'errPhone',
+        address: 'errAddress',
+        email: 'errEmail',
+        password: 'errPassword',
+        confirm: 'errConfirm'
+      };
+      return map[field];
+    }
+
+    // ============================================================
+    // 📝 تسجيل الحساب
+    // ============================================================
+
+    async function handleRegister(event) {
+      event.preventDefault();
+
+      if (isSubmitting) return;
+
+      // التحقق من كل الحقول
+      const fields = ['name', 'phone', 'address', 'email', 'password', 'confirm', 'terms'];
+      let allValid = true;
+
+      fields.forEach(field => {
+        if (!validateField(field)) {
+          allValid = false;
+        }
+      });
+
+      // التحقق من الشروط منفصلة
+      const termsCheckbox = document.getElementById('regTerms');
+      const termsGroup = document.getElementById('termsGroup');
+      termsGroup.classList.toggle('has-error', !termsCheckbox.checked);
+
+      if (!allValid) {
+        showError('يرجى تصحيح الأخطاء الموجودة في النموذج');
+        return;
+      }
+
+      // تعطيل الزر
+      isSubmitting = true;
+      const btn = document.getElementById('registerBtn');
+      const originalText = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>جاري إنشاء الحساب...</span>';
+
+      // جلب البيانات
+      const name = document.getElementById('regName').value.trim();
+      const phone = document.getElementById('regPhone').value.trim();
+      const address = document.getElementById('regAddress').value.trim();
+      const email = document.getElementById('regEmail').value.trim().toLowerCase();
+      const password = document.getElementById('regPassword').value;
+
+      try {
+        // 1️⃣ التحقق من وجود البريد
+        const existingCustomer = await db.collection(COLLECTIONS.CUSTOMERS)
+          .where('email', '==', email)
+          .limit(1)
+          .get();
+
+        if (!existingCustomer.empty) {
+          throw new Error('هذا البريد الإلكتروني مسجل بالفعل');
+        }
+
+        // 2️⃣ التحقق من وجود رقم الهاتف
+        const existingPhone = await db.collection(COLLECTIONS.CUSTOMERS)
+          .where('phone', '==', phone)
+          .limit(1)
+          .get();
+
+        if (!existingPhone.empty) {
+          throw new Error('رقم الهاتف مسجل بالفعل');
+        }
+
+        // 3️⃣ إنشاء حساب Firebase Auth
+        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+        const uid = userCredential.user.uid;
+
+        // 4️⃣ تحديث اسم المستخدم في Firebase Auth
+        await userCredential.user.updateProfile({
+          displayName: name
+        });
+
+        // 5️⃣ حفظ بيانات المستخدم في Firestore
+        await db.collection(COLLECTIONS.CUSTOMERS).doc(uid).set({
+          id: uid,
+          name: name,
+          email: email,
+          phone: phone,
+          address: address,
+          role: ROLES.RETAIL,
+          avatar: '',
+          balance: 0,
+          active: true,
+          type: 'retail',
+          city: '',
+          code: '',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        // 6️⃣ حفظ في localStorage
+        const customerData = {
+          id: uid,
+          name: name,
+          email: email,
+          phone: phone,
+          address: address,
+          role: ROLES.RETAIL,
+          avatar: '',
+          balance: 0,
+          type: 'retail'
+        };
+        localStorage.setItem('customer', JSON.stringify(customerData));
+
+        // 7️⃣ تسجيل النشاط
+        try {
+          await db.collection(COLLECTIONS.ACTIVITY_LOG).add({
+            userId: uid,
+            userName: name,
+            userRole: ROLES.RETAIL,
+            action: 'تسجيل حساب جديد',
+            details: `العميل: ${name} - ${email}`,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        } catch (logError) {
+          console.warn('Could not log activity:', logError);
+        }
+
+        // 8️⃣ عرض شاشة النجاح
+        showSuccessScreen(name);
+
+        showToast('✅ تم إنشاء الحساب بنجاح', 'success');
+
+      } catch (error) {
+        console.error('Registration error:', error);
+        
+        // رسائل مخصصة
+        let errorMessage = 'حدث خطأ أثناء التسجيل';
+        
+        if (error.code === 'auth/email-already-in-use') {
+          errorMessage = 'هذا البريد الإلكتروني مسجل بالفعل';
+        } else if (error.code === 'auth/invalid-email') {
+          errorMessage = 'البريد الإلكتروني غير صحيح';
+        } else if (error.code === 'auth/weak-password') {
+          errorMessage = 'كلمة المرور ضعيفة جداً (6 أحرف على الأقل)';
+        } else if (error.code === 'auth/network-request-failed') {
+          errorMessage = 'فشل الاتصال بالإنترنت - تأكد من الشبكة';
+        } else if (error.message) {
+          errorMessage = error.message;
+        }
+
+        showError(errorMessage);
+
+        // إعادة تفعيل الزر
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+        isSubmitting = false;
+      }
+    }
+
+    // ============================================================
+    // ✅ شاشة النجاح
+    // ============================================================
+
+    function showSuccessScreen(name) {
+      document.getElementById('registerBody').style.display = 'none';
+      document.getElementById('registerFooter').style.display = 'none';
+      document.getElementById('successName').textContent = name;
+      document.getElementById('successScreen').classList.add('show');
+    }
+
+    // ============================================================
+    // ❌ عرض الخطأ
+    // ============================================================
+
+    function showError(message) {
+      const errorEl = document.getElementById('registerError');
+      const errorText = document.getElementById('errorText');
+      errorText.textContent = message;
+      errorEl.classList.add('show');
+
+      // اهتزاز
+      errorEl.style.animation = 'none';
+      setTimeout(() => {
+        errorEl.style.animation = 'shake 0.4s ease';
+      }, 10);
+
+      // إخفاء بعد 5 ثواني
+      setTimeout(() => {
+        errorEl.classList.remove('show');
+      }, 5000);
+
+      // scroll لأعلى
+      errorEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    // ============================================================
+    // 🌐 تصدير الدوال
+    // ============================================================
+
+    window.togglePassword = togglePassword;
+    window.validateField = validateField;
+    window.handleRegister = handleRegister;
+
+  </script>
+
+</body>
+</html>
