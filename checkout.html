@@ -1465,8 +1465,8 @@
           updateCartBadge();
         }
 
-        // ===== عرض شاشة النجاح =====
-        showSuccess(orderNumber);
+        // ===== الانتقال لصفحة النجاح =====
+        window.location.href = `/gomla/order-success.html?id=${orderRef.id}`;
 
       } catch (error) {
         console.error('Error submitting order:', error);
