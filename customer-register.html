@@ -25,7 +25,6 @@
        🎨 ستايل صفحة تسجيل العملاء
        ============================================================ */
 
-    /* ===== الصفحة ===== */
     .register-page {
       min-height: 100vh;
       background: linear-gradient(135deg, #f0f4f8 0%, #f8fafc 50%, #fcf9f0 100%);
@@ -34,7 +33,6 @@
       overflow: hidden;
     }
 
-    /* زخارف خلفية */
     .register-page::before {
       content: '';
       position: absolute;
@@ -59,7 +57,6 @@
       pointer-events: none;
     }
 
-    /* ===== البطاقة الرئيسية ===== */
     .register-card {
       max-width: 560px;
       width: 100%;
@@ -84,7 +81,6 @@
       }
     }
 
-    /* شريط ذهبي علوي */
     .register-card::before {
       content: '';
       position: absolute;
@@ -102,7 +98,6 @@
       100% { background-position: 200% 0; }
     }
 
-    /* ===== رأس البطاقة ===== */
     .register-header {
       padding: 32px 32px 20px;
       text-align: center;
@@ -177,12 +172,10 @@
       color: var(--gold);
     }
 
-    /* ===== جسم البطاقة ===== */
     .register-body {
       padding: 28px 32px 32px;
     }
 
-    /* ===== الأخطاء ===== */
     .register-error {
       display: none;
       background: #fef2f2;
@@ -215,7 +208,6 @@
       80% { transform: translateX(4px); }
     }
 
-    /* ===== مجموعة الحقول ===== */
     .form-group {
       margin-bottom: 16px;
       position: relative;
@@ -241,7 +233,6 @@
       margin-right: 2px;
     }
 
-    /* حقل الإدخال */
     .form-group .input-wrap {
       position: relative;
     }
@@ -280,7 +271,6 @@
       font-size: 0.88rem;
     }
 
-    /* أيقونة الحقل */
     .form-group .input-icon {
       position: absolute;
       right: 14px;
@@ -296,7 +286,6 @@
       color: var(--gold);
     }
 
-    /* زر إظهار/إخفاء الباسورد */
     .form-group .toggle-password {
       position: absolute;
       left: 12px;
@@ -318,7 +307,6 @@
       background: var(--gray-100);
     }
 
-    /* رسالة الخطأ */
     .form-group .error-text {
       display: none;
       color: var(--danger);
@@ -331,14 +319,12 @@
       display: block;
     }
 
-    /* ===== صف مزدوج ===== */
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 14px;
     }
 
-    /* ===== الشروط ===== */
     .terms-group {
       display: flex;
       align-items: flex-start;
@@ -380,7 +366,6 @@
       text-decoration: underline;
     }
 
-    /* ===== زر التسجيل ===== */
     .register-btn {
       width: 100%;
       padding: 15px 24px;
@@ -438,7 +423,6 @@
       z-index: 1;
     }
 
-    /* ===== فوتر البطاقة ===== */
     .register-footer {
       padding: 20px 32px;
       background: var(--gray-50);
@@ -462,7 +446,6 @@
       color: var(--navy);
     }
 
-    /* ===== معلومات إضافية ===== */
     .info-note {
       display: flex;
       align-items: flex-start;
@@ -484,7 +467,6 @@
       margin-top: 2px;
     }
 
-    /* ===== شاشة النجاح ===== */
     .success-screen {
       display: none;
       padding: 48px 32px;
@@ -562,7 +544,6 @@
       min-width: 160px;
     }
 
-    /* ===== Responsive ===== */
     @media (max-width: 768px) and (pointer: coarse) {
       .register-page {
         padding: 20px 12px;
@@ -649,13 +630,9 @@
 </head>
 <body>
 
-  <!-- ============================================================ -->
-  <!-- 📝 صفحة التسجيل                                              -->
-  <!-- ============================================================ -->
   <div class="register-page">
     <div class="container">
 
-      <!-- ===== البطاقة ===== -->
       <div class="register-card" id="registerCard">
 
         <!-- ===== الرأس ===== -->
@@ -674,7 +651,6 @@
         <!-- ===== الجسم ===== -->
         <div class="register-body" id="registerBody">
 
-          <!-- معلومات -->
           <div class="info-note">
             <i class="fas fa-info-circle"></i>
             <span>
@@ -683,13 +659,11 @@
             </span>
           </div>
 
-          <!-- رسالة الخطأ -->
           <div class="register-error" id="registerError">
             <i class="fas fa-exclamation-circle"></i>
             <span id="errorText">حدث خطأ</span>
           </div>
 
-          <!-- النموذج -->
           <form id="registerForm" onsubmit="handleRegister(event)">
 
             <!-- الاسم -->
@@ -887,9 +861,6 @@
     </div>
   </div>
 
-  <!-- ============================================================ -->
-  <!-- Toast Container                                              -->
-  <!-- ============================================================ -->
   <div id="toast-container"></div>
 
   <!-- ============================================================ -->
@@ -1014,7 +985,6 @@
           const password = input.value;
           isValid = password.length >= 6;
           errorMessage = 'كلمة المرور يجب أن تكون 6 أحرف على الأقل';
-          // تحقق من التطابق
           if (document.getElementById('regPasswordConfirm').value) {
             validateField('confirm');
           }
@@ -1033,14 +1003,11 @@
           break;
       }
 
-      // تحديث الحالة
       validationState[field] = isValid;
 
-      // تحديث شكل الحقل
       input.classList.toggle('success', isValid);
       input.classList.toggle('error', !isValid && input.value.length > 0);
 
-      // عرض الخطأ
       if (errorEl) {
         errorEl.textContent = errorMessage;
         errorEl.classList.toggle('show', !isValid && input.value.length > 0);
@@ -1075,7 +1042,7 @@
     }
 
     // ============================================================
-    // 📝 تسجيل الحساب
+    // 📝 تسجيل الحساب (✅ بعد التعديل)
     // ============================================================
 
     async function handleRegister(event) {
@@ -1093,7 +1060,6 @@
         }
       });
 
-      // التحقق من الشروط منفصلة
       const termsCheckbox = document.getElementById('regTerms');
       const termsGroup = document.getElementById('termsGroup');
       termsGroup.classList.toggle('has-error', !termsCheckbox.checked);
@@ -1117,37 +1083,22 @@
       const email = document.getElementById('regEmail').value.trim().toLowerCase();
       const password = document.getElementById('regPassword').value;
 
+      let uid = null;
+
       try {
-        // 1️⃣ التحقق من وجود البريد
-        const existingCustomer = await db.collection(COLLECTIONS.CUSTOMERS)
-          .where('email', '==', email)
-          .limit(1)
-          .get();
-
-        if (!existingCustomer.empty) {
-          throw new Error('هذا البريد الإلكتروني مسجل بالفعل');
-        }
-
-        // 2️⃣ التحقق من وجود رقم الهاتف
-        const existingPhone = await db.collection(COLLECTIONS.CUSTOMERS)
-          .where('phone', '==', phone)
-          .limit(1)
-          .get();
-
-        if (!existingPhone.empty) {
-          throw new Error('رقم الهاتف مسجل بالفعل');
-        }
-
-        // 3️⃣ إنشاء حساب Firebase Auth
+        // ✅ 1. إنشاء حساب Firebase Auth مباشرة (بيسجل دخول تلقائياً)
+        // لو الإيميل موجود، Firebase Auth هيرفضه تلقائياً برسالة واضحة
         const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-        const uid = userCredential.user.uid;
+        uid = userCredential.user.uid;
 
-        // 4️⃣ تحديث اسم المستخدم في Firebase Auth
+        console.log('✅ Firebase Auth account created:', uid);
+
+        // ✅ 2. تحديث الاسم في Firebase Auth
         await userCredential.user.updateProfile({
           displayName: name
         });
 
-        // 5️⃣ حفظ بيانات المستخدم في Firestore
+        // ✅ 3. حفظ بيانات المستخدم في Firestore (isSignedIn() == true دلوقتي)
         await db.collection(COLLECTIONS.CUSTOMERS).doc(uid).set({
           id: uid,
           name: name,
@@ -1155,17 +1106,19 @@
           phone: phone,
           address: address,
           role: ROLES.RETAIL,
+          type: 'retail',
           avatar: '',
           balance: 0,
           active: true,
-          type: 'retail',
           city: '',
           code: '',
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
           updatedAt: firebase.firestore.FieldValue.serverTimestamp()
         });
 
-        // 6️⃣ حفظ في localStorage
+        console.log('✅ Customer data saved to Firestore');
+
+        // ✅ 4. حفظ في localStorage
         const customerData = {
           id: uid,
           name: name,
@@ -1179,7 +1132,7 @@
         };
         localStorage.setItem('customer', JSON.stringify(customerData));
 
-        // 7️⃣ تسجيل النشاط
+        // ✅ 5. تسجيل النشاط (اختياري - لو فشل مش مشكلة)
         try {
           await db.collection(COLLECTIONS.ACTIVITY_LOG).add({
             userId: uid,
@@ -1190,16 +1143,15 @@
             timestamp: firebase.firestore.FieldValue.serverTimestamp()
           });
         } catch (logError) {
-          console.warn('Could not log activity:', logError);
+          console.warn('⚠️ Could not log activity:', logError);
         }
 
-        // 8️⃣ عرض شاشة النجاح
+        // ✅ 6. عرض شاشة النجاح
         showSuccessScreen(name);
-
         showToast('✅ تم إنشاء الحساب بنجاح', 'success');
 
       } catch (error) {
-        console.error('Registration error:', error);
+        console.error('❌ Registration error:', error);
         
         // رسائل مخصصة
         let errorMessage = 'حدث خطأ أثناء التسجيل';
@@ -1212,11 +1164,23 @@
           errorMessage = 'كلمة المرور ضعيفة جداً (6 أحرف على الأقل)';
         } else if (error.code === 'auth/network-request-failed') {
           errorMessage = 'فشل الاتصال بالإنترنت - تأكد من الشبكة';
+        } else if (error.code === 'permission-denied' || error.message?.includes('permissions')) {
+          errorMessage = 'حدث خطأ في الصلاحيات - تواصل مع الدعم';
         } else if (error.message) {
           errorMessage = error.message;
         }
 
         showError(errorMessage);
+
+        // ⚠️ لو الحساب اتعمل في Auth بس فشل الحفظ في Firestore، نحذف الحساب
+        if (uid && auth.currentUser && error.code !== 'auth/email-already-in-use') {
+          try {
+            await auth.currentUser.delete();
+            console.log('🗑️ Auth account deleted after error');
+          } catch (deleteError) {
+            console.warn('⚠️ Could not delete user:', deleteError);
+          }
+        }
 
         // إعادة تفعيل الزر
         btn.disabled = false;
@@ -1246,18 +1210,15 @@
       errorText.textContent = message;
       errorEl.classList.add('show');
 
-      // اهتزاز
       errorEl.style.animation = 'none';
       setTimeout(() => {
         errorEl.style.animation = 'shake 0.4s ease';
       }, 10);
 
-      // إخفاء بعد 5 ثواني
       setTimeout(() => {
         errorEl.classList.remove('show');
       }, 5000);
 
-      // scroll لأعلى
       errorEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
 
