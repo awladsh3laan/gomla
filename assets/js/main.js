@@ -87,7 +87,7 @@ function protectPage() {
 function protectAdminPage() {
   const user = getCurrentUser();
   if (!user || (user.type !== 'admin')) {
-    window.location.href = '/gomla/admin/login.html';
+    window.location.href = '/gomla/';
     return false;
   }
   return true;
@@ -99,7 +99,7 @@ function protectAdminPage() {
 function protectSuperAdminPage() {
   const user = getCurrentUser();
   if (!user || user.type !== 'admin' || user.data.role !== ROLES.SUPER) {
-    window.location.href = '/gomla/admin/login.html';
+    window.location.href = '/gomla';
     return false;
   }
   return true;
@@ -111,7 +111,7 @@ function protectSuperAdminPage() {
 function protectCashierPage() {
   const user = getCurrentUser();
   if (!user || (user.type !== 'cashier' && user.type !== 'admin')) {
-    window.location.href = '/gomla/cashier-login.html';
+    window.location.href = '/gomla';
     return false;
   }
   return true;
