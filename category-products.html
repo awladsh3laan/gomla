@@ -18,187 +18,272 @@
        🎨 ستايل صفحة منتجات القسم
        ============================================================ */
 
-    /* ===== رأس القسم ===== */
-    .category-hero {
+    /* ===== الشريط المضغوط (Sticky) ===== */
+    .category-compact-bar {
       background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
-      border-radius: var(--radius-lg);
-      padding: 32px 24px;
-      margin-bottom: 24px;
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
       color: var(--white);
-      text-align: center;
+      box-shadow: var(--shadow-md);
+      border-bottom: 3px solid var(--gold);
       position: relative;
       overflow: hidden;
-      box-shadow: var(--shadow-md);
+      
+      /* Sticky */
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      transition: box-shadow 0.3s ease;
     }
 
-    .category-hero::before {
+    /* حالة Sticky (أثناء السكرول) */
+    .category-compact-bar.sticky-active {
+      box-shadow: 0 8px 30px rgba(15, 26, 46, 0.3);
+      border-radius: 0;
+    }
+
+    .category-compact-bar::before {
       content: '';
       position: absolute;
       top: -50%;
-      right: -10%;
-      width: 300px;
-      height: 300px;
-      background: radial-gradient(circle, rgba(201, 168, 76, 0.15) 0%, transparent 70%);
+      right: -20%;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(201, 168, 76, 0.12) 0%, transparent 70%);
       border-radius: 50%;
-      animation: float 8s ease-in-out infinite;
+      pointer-events: none;
     }
 
-    .category-hero::after {
-      content: '';
-      position: absolute;
-      bottom: -50%;
-      left: -10%;
-      width: 250px;
-      height: 250px;
-      background: radial-gradient(circle, rgba(201, 168, 76, 0.1) 0%, transparent 70%);
-      border-radius: 50%;
-      animation: float 10s ease-in-out infinite reverse;
-    }
-
-    .category-hero-content {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 24px;
-      flex-wrap: wrap;
-      max-width: 700px;
-      margin: 0 auto;
-    }
-
-    .category-hero-image {
-      width: 110px;
-      height: 110px;
+    /* صورة القسم */
+    .category-compact-bar .compact-image {
+      width: 52px;
+      height: 52px;
       border-radius: 50%;
       object-fit: cover;
-      border: 4px solid var(--gold);
+      border: 3px solid var(--gold);
       background: var(--white);
-      padding: 6px;
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-      animation: logo-pulse-cat 3s ease-in-out infinite;
+      padding: 2px;
       flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 4px 12px rgba(201, 168, 76, 0.35);
+      transition: transform 0.3s ease;
     }
 
-    @keyframes logo-pulse-cat {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
+    .category-compact-bar:hover .compact-image {
+      transform: scale(1.08);
     }
 
-    .category-hero-text {
+    /* معلومات القسم */
+    .category-compact-bar .compact-info {
       flex: 1;
-      min-width: 220px;
-      text-align: right;
+      min-width: 0;
+      position: relative;
+      z-index: 1;
     }
 
-    .category-hero-text h1 {
-      font-size: 1.8rem;
+    .category-compact-bar .compact-info h1 {
+      font-size: 1.15rem;
       font-weight: 900;
-      margin-bottom: 8px;
+      margin: 0 0 2px;
+      line-height: 1.3;
       color: var(--white);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
-    .category-hero-text .count-badge {
-      display: inline-flex;
+    .category-compact-bar .compact-info p {
+      font-size: 0.75rem;
+      margin: 0;
+      opacity: 0.85;
+      display: flex;
       align-items: center;
       gap: 6px;
-      background: rgba(201, 168, 76, 0.2);
-      color: var(--gold-light);
-      padding: 6px 16px;
-      border-radius: var(--radius-full);
-      font-size: 0.85rem;
-      font-weight: 700;
-      border: 1px solid rgba(201, 168, 76, 0.4);
     }
 
-    /* ===== البراندات في القسم ===== */
-    .brands-in-category {
+    .category-compact-bar .compact-info p i {
+      color: var(--gold);
+    }
+
+    /* عدد المنتجات */
+    .category-compact-bar .compact-count {
+      background: var(--gold);
+      color: var(--navy);
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      font-size: 0.8rem;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 4px 12px rgba(201, 168, 76, 0.4);
+    }
+
+    .category-compact-bar .compact-count i {
+      font-size: 0.75rem;
+    }
+
+    /* ============================================================
+       🏷️ شرائح البراندات
+       ============================================================ */
+    .brands-chips-bar {
       background: var(--white);
       border-radius: var(--radius-md);
-      padding: 20px;
-      margin-bottom: 24px;
+      padding: 12px 14px;
+      margin-bottom: 16px;
       box-shadow: var(--shadow-sm);
       border: 1px solid var(--gray-200);
+      display: none;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.4s ease;
     }
 
-    .brands-in-category .section-header {
-      margin-bottom: 16px;
-      padding-bottom: 12px;
-      border-bottom: 2px solid var(--gray-100);
+    .brands-chips-bar.show {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
     }
 
-    .brands-in-category .brands-chips {
+    .brands-chips-bar .brands-chips-title {
       display: flex;
-      gap: 10px;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 800;
+      color: var(--gray-600);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 10px;
+    }
+
+    .brands-chips-bar .brands-chips-title i {
+      color: var(--gold);
+      font-size: 0.85rem;
+    }
+
+    /* حاوية الشرائح */
+    .brands-chips-scroll {
+      display: flex;
+      gap: 8px;
       overflow-x: auto;
-      padding: 4px;
+      padding: 4px 2px;
       scrollbar-width: thin;
+      -webkit-overflow-scrolling: touch;
     }
 
-    .brands-in-category .brands-chips::-webkit-scrollbar {
-      height: 5px;
+    .brands-chips-scroll::-webkit-scrollbar {
+      height: 4px;
     }
 
-    .brands-in-category .brands-chips::-webkit-scrollbar-thumb {
+    .brands-chips-scroll::-webkit-scrollbar-thumb {
       background: var(--gold);
       border-radius: 10px;
     }
 
-    /* كارت براند مصغر */
+    /* شريحة براند */
     .brand-chip {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 10px;
-      padding: 8px 14px;
+      gap: 8px;
+      padding: 7px 12px;
       background: var(--gray-50);
+      border: 2px solid transparent;
       border-radius: var(--radius-full);
       cursor: pointer;
-      transition: var(--transition);
-      border: 2px solid transparent;
+      transition: all 0.3s ease;
       text-decoration: none;
-      color: var(--gray-800);
+      color: var(--gray-700);
       flex-shrink: 0;
       white-space: nowrap;
+      font-family: inherit;
+      font-size: 0.85rem;
     }
 
-    .brand-chip:hover,
-    .brand-chip.active {
-      background: linear-gradient(135deg, var(--gold-light), var(--gold));
-      border-color: var(--gold);
+    .brand-chip:hover {
+      background: var(--gray-100);
+      border-color: var(--gold-light);
       transform: translateY(-2px);
+    }
+
+    .brand-chip.active {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      border-color: var(--gold-dark);
       color: var(--navy);
+      font-weight: 800;
+      box-shadow: 0 4px 12px rgba(201, 168, 76, 0.35);
     }
 
     .brand-chip img {
-      width: 36px;
-      height: 36px;
+      width: 28px;
+      height: 28px;
       border-radius: 50%;
       object-fit: cover;
       background: var(--white);
       border: 2px solid var(--gray-200);
+      flex-shrink: 0;
+    }
+
+    .brand-chip.active img {
+      border-color: var(--navy);
     }
 
     .brand-chip .brand-chip-name {
-      font-size: 0.88rem;
       font-weight: 700;
     }
 
     .brand-chip .brand-chip-count {
-      font-size: 0.72rem;
       background: var(--navy);
       color: var(--gold);
       padding: 2px 8px;
       border-radius: var(--radius-full);
-      font-weight: 700;
+      font-size: 0.68rem;
+      font-weight: 800;
+      min-width: 22px;
+      text-align: center;
     }
 
-    /* ===== الفلاتر ===== */
-    .filter-bar {
+    .brand-chip.active .brand-chip-count {
+      background: var(--navy);
+      color: var(--gold-light);
+    }
+
+    /* شريحة "الكل" */
+    .brand-chip.all-chip .brand-chip-icon {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    .brand-chip.active.all-chip .brand-chip-icon {
+      background: var(--navy);
+      color: var(--gold-light);
+    }
+
+    /* ============================================================
+       🔍 الفلاتر
+       ============================================================ */
+    .category-filters {
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
+      gap: 10px;
       background: var(--white);
-      padding: 14px 16px;
+      padding: 12px 14px;
       border-radius: var(--radius-md);
       box-shadow: var(--shadow-sm);
       margin-bottom: 20px;
@@ -206,68 +291,138 @@
       border: 1px solid var(--gray-200);
     }
 
-    .filter-bar select {
-      padding: 10px 14px;
+    .category-filters .filter-icon {
+      color: var(--gold);
+      font-size: 1rem;
+    }
+
+    .category-filters select {
+      padding: 9px 14px;
       border: 2px solid var(--gray-200);
       border-radius: var(--radius-sm);
       font-family: inherit;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       background: var(--gray-50);
-      min-width: 140px;
+      min-width: 130px;
       cursor: pointer;
       transition: var(--transition);
+      color: var(--gray-700);
+      font-weight: 600;
     }
 
-    .filter-bar select:focus {
+    .category-filters select:focus {
       outline: none;
       border-color: var(--gold);
       box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.15);
       background: var(--white);
     }
 
-    .filter-bar .filter-icon {
-      color: var(--gold);
-      font-size: 1rem;
+    /* ============================================================
+       🎨 المنتجات
+       ============================================================ */
+    .products-grid {
+      margin-bottom: 24px;
     }
 
-    /* ===== Responsive ===== */
+    /* زر تحميل المزيد */
+    .load-more-wrapper {
+      text-align: center;
+      padding: 16px 0;
+    }
+
+    /* ============================================================
+       🔄 تحميل الشريط أثناء السكرول
+       ============================================================ */
+    .category-compact-bar.is-scrolled {
+      box-shadow: 0 4px 20px rgba(15, 26, 46, 0.2);
+    }
+
+    /* ============================================================
+       📱 Responsive
+       ============================================================ */
     @media (max-width: 768px) and (pointer: coarse) {
-      .category-hero {
-        padding: 24px 16px;
+      /* الشريط المضغوط */
+      .category-compact-bar {
+        padding: 10px 12px;
+        gap: 10px;
+        margin-bottom: 12px;
+        top: var(--mobile-top-bar-height, 0);
       }
 
-      .category-hero-content {
-        flex-direction: column;
-        gap: 16px;
-        text-align: center;
+      .category-compact-bar .compact-image {
+        width: 44px;
+        height: 44px;
+        border-width: 2px;
       }
 
-      .category-hero-image {
-        width: 80px;
-        height: 80px;
-        border-width: 3px;
+      .category-compact-bar .compact-info h1 {
+        font-size: 1rem;
       }
 
-      .category-hero-text {
-        text-align: center;
-        min-width: 100%;
+      .category-compact-bar .compact-info p {
+        font-size: 0.7rem;
       }
 
-      .category-hero-text h1 {
-        font-size: 1.4rem;
+      .category-compact-bar .compact-count {
+        padding: 5px 10px;
+        font-size: 0.72rem;
       }
 
-      .brands-in-category {
-        padding: 16px;
+      /* شرائح البراندات */
+      .brands-chips-bar {
+        padding: 10px 12px;
+        margin-bottom: 12px;
       }
 
-      .filter-bar {
+      .brand-chip {
+        padding: 6px 10px;
+        font-size: 0.78rem;
+        gap: 6px;
+      }
+
+      .brand-chip img,
+      .brand-chip.all-chip .brand-chip-icon {
+        width: 24px;
+        height: 24px;
+      }
+
+      .brand-chip .brand-chip-count {
+        padding: 2px 6px;
+        font-size: 0.62rem;
+      }
+
+      /* الفلاتر */
+      .category-filters {
         flex-direction: column;
         align-items: stretch;
+        padding: 10px 12px;
+        gap: 8px;
       }
 
-      .filter-bar select {
+      .category-filters .filter-icon {
+        display: none;
+      }
+
+      .category-filters select {
         width: 100%;
+        min-width: auto;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .category-compact-bar .compact-info h1 {
+        font-size: 0.92rem;
+      }
+
+      .category-compact-bar .compact-count {
+        padding: 4px 8px;
+        font-size: 0.68rem;
+      }
+
+      .brand-chip .brand-chip-name {
+        max-width: 80px;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
   </style>
@@ -286,7 +441,7 @@
     <div class="container">
 
       <!-- مسار التنقل -->
-      <div class="breadcrumb" id="breadcrumb">
+      <div class="breadcrumb" id="breadcrumb" style="margin-bottom:12px;">
         <a href="/gomla/">الرئيسية</a>
         <span>›</span>
         <a href="/gomla/categories.html" id="breadcrumbCategoriesLink">الأقسام</a>
@@ -294,60 +449,47 @@
         <span id="breadcrumbCategoryName">جاري التحميل...</span>
       </div>
 
-      <!-- رأس القسم -->
-      <section class="category-hero" id="categoryHero">
-        <div class="category-hero-content">
-          <img src="/gomla/assets/images/no-image.png" 
-               alt="صورة القسم" 
-               class="category-hero-image" 
-               id="categoryImage"
-               onerror="this.src='/gomla/assets/images/no-image.png'">
-          <div class="category-hero-text">
-            <h1 id="categoryName">جاري التحميل...</h1>
-            <div class="count-badge" id="categoryCount">
-              <i class="fas fa-spinner fa-spin"></i>
-              جاري التحميل...
-            </div>
-          </div>
+      <!-- ============================================================ -->
+      <!-- 🎯 الشريط المضغوط (Sticky)                                    -->
+      <!-- ============================================================ -->
+      <div class="category-compact-bar" id="categoryCompactBar">
+        <img src="/gomla/assets/images/no-image.png" 
+             alt="صورة القسم" 
+             class="compact-image" 
+             id="categoryImage"
+             onerror="this.src='/gomla/assets/images/no-image.png'">
+        
+        <div class="compact-info">
+          <h1 id="categoryName">جاري التحميل...</h1>
+          <p>
+            <i class="fas fa-tag"></i>
+            <span>تصفح منتجات هذا القسم</span>
+          </p>
         </div>
-      </section>
+        
+        <div class="compact-count" id="categoryCount">
+          <i class="fas fa-spinner fa-spin"></i>
+          <span>—</span>
+        </div>
+      </div>
 
-      <!-- سلايدر مصغر -->
-      <section class="slider-section" id="slider-section" style="margin-bottom:24px;">
-        <div class="slider-container" id="sliderContainer">
-          <div class="slider-track" id="sliderTrack">
-            <div class="slider-item">
-              <div class="slide-placeholder">
-                <i class="fas fa-spinner fa-spin"></i>
-                جاري التحميل...
-              </div>
-            </div>
-          </div>
-          <button class="slider-btn prev" onclick="slidePrev()" aria-label="السابق">
-            <i class="fas fa-chevron-right"></i>
-          </button>
-          <button class="slider-btn next" onclick="slideNext()" aria-label="التالي">
-            <i class="fas fa-chevron-left"></i>
-          </button>
-          <div class="slider-dots" id="sliderDots"></div>
+      <!-- ============================================================ -->
+      <!-- 🏷️ شرائح البراندات                                            -->
+      <!-- ============================================================ -->
+      <div class="brands-chips-bar" id="brandsChipsBar">
+        <div class="brands-chips-title">
+          <i class="fas fa-copyright"></i>
+          <span>البراندات في هذا القسم</span>
         </div>
-      </section>
-
-      <!-- البراندات في القسم -->
-      <section class="brands-in-category" id="brandsSection" style="display:none;">
-        <div class="section-header">
-          <h2 class="section-title">
-            <i class="fas fa-copyright"></i>
-            البراندات في هذا القسم
-          </h2>
-        </div>
-        <div class="brands-chips" id="brandsChips">
+        <div class="brands-chips-scroll" id="brandsChipsScroll">
           <!-- يتم تحميلها ديناميكياً -->
         </div>
-      </section>
+      </div>
 
-      <!-- الفلاتر -->
-      <div class="filter-bar">
+      <!-- ============================================================ -->
+      <!-- 🔍 الفلاتر                                                    -->
+      <!-- ============================================================ -->
+      <div class="category-filters">
         <i class="fas fa-sliders-h filter-icon"></i>
         <select id="sortFilter" onchange="applyFilters()">
           <option value="newest">الأحدث</option>
@@ -361,16 +503,18 @@
         </select>
       </div>
 
-      <!-- شبكة المنتجات -->
+      <!-- ============================================================ -->
+      <!-- 📦 شبكة المنتجات                                              -->
+      <!-- ============================================================ -->
       <div class="products-grid" id="productsContainer">
         <div class="loading-spinner">
           <i class="fas fa-spinner fa-spin"></i>
-          جاري التحميل...
+          جاري تحميل المنتجات...
         </div>
       </div>
 
       <!-- تحميل المزيد -->
-      <div style="text-align:center;margin-top:20px;">
+      <div class="load-more-wrapper">
         <button class="btn btn-outline" id="loadMoreBtn" onclick="loadMoreProducts()" style="display:none;">
           <i class="fas fa-chevron-down"></i>
           تحميل المزيد
@@ -460,9 +604,7 @@
     let currentPage = 0;
     const pageSize = 12;
     let selectedBrandId = '';
-    let slidesCount = 0;
-    let slideIndex = 0;
-    let slideInterval = null;
+    let brandData = {}; // { brandId: { name, imageUrl } }
 
     // ============================================================
     // 🚀 تحميل الصفحة
@@ -478,23 +620,25 @@
         return;
       }
 
-      // تحديث رابط "الأقسام"
-      document.getElementById('breadcrumbCategoriesLink').href = 
-        `/gomla/categories.html?type=${storeType}`;
-
       // تحديد نوع المتجر حسب الصلاحية
       const user = getCurrentUser();
       if (user && user.data) {
         const role = user.data.role;
-        if (role === ROLES.WHOLESALE || role === ROLES.ADMIN || role === ROLES.SUPER) {
+        if (role === ROLES.WHOLESALE || role === ROLES.ADMIN || role === ROLES.SUPER || role === ROLES.ADMIN_PLUS) {
           storeType = 'wholesale';
+        } else {
+          storeType = 'retail';
         }
       }
+
+      // تحديث رابط "الأقسام"
+      document.getElementById('breadcrumbCategoriesLink').href = 
+        `/gomla/categories.html`;
 
       await loadCategoryInfo();
       await loadProducts();
       await loadCategoryBrands();
-      loadSlider();
+      initStickyBar();
 
       document.title = `${categoryData?.name || 'القسم'} - أولاد شعلان`;
     }
@@ -550,10 +694,7 @@
         filteredProducts = [...allProducts];
 
         // تحديث العداد
-        document.getElementById('categoryCount').innerHTML = `
-          <i class="fas fa-box"></i>
-          ${allProducts.length} منتج
-        `;
+        updateCategoryCount(allProducts.length);
 
         renderProducts();
 
@@ -573,6 +714,20 @@
     }
 
     // ============================================================
+    // 📊 تحديث عدد المنتجات
+    // ============================================================
+
+    function updateCategoryCount(count) {
+      const countEl = document.getElementById('categoryCount');
+      if (countEl) {
+        countEl.innerHTML = `
+          <i class="fas fa-box"></i>
+          <span>${count} منتج</span>
+        `;
+      }
+    }
+
+    // ============================================================
     // 🎨 عرض المنتجات
     // ============================================================
 
@@ -586,10 +741,10 @@
 
       if (pageProducts.length === 0 && currentPage === 0) {
         container.innerHTML = `
-          <div class="empty-state">
+          <div class="empty-state" style="grid-column:1/-1;">
             <i class="fas fa-box-open"></i>
             <p>لا توجد منتجات في هذا القسم</p>
-            <a href="/gomla/categories.html?type=${storeType}" class="btn btn-primary">
+            <a href="/gomla/categories.html" class="btn btn-primary" style="margin-top:12px;">
               <i class="fas fa-arrow-right"></i>
               العودة للأقسام
             </a>
@@ -604,32 +759,44 @@
       let html = '';
 
       pageProducts.forEach(product => {
-        // 🔒 السعر حسب نوع المستخدم
-        const price = isWholesale ? 
-          (product.wholesalePrice || 0) : 
-          (product.retailPrice || 0);
-        const unit = isWholesale ? 
-          (product.unit || 'كرتونة') : 
-          'قطعة';
+        // 🔒 السعر والوحدة حسب نوع المستخدم
+        let price, unit;
+        if (isWholesale) {
+          price = product.wholesalePrice || 0;
+          unit = product.unit || 'كرتونة';
+        } else {
+          price = product.retailPrice || 0;
+          unit = 'قطعة';
+        }
         
         const stock = product.stockQuantity || 0;
         const isAvailable = stock > 0;
         
-        // خصم/عرض
-        const hasOffer = !isWholesale && product.hasRetailOffer === true && product.retailOfferPrice > 0;
-        const offerPrice = product.retailOfferPrice || 0;
+        // عرض/خصم
+        const hasRetailOffer = !isWholesale && product.hasRetailOffer === true && product.retailOfferPrice > 0;
+        const hasWholesaleDiscount = isWholesale && product.hasWholesaleDiscount === true && product.wholesaleDiscountPercent > 0;
         
-        const hasDiscount = isWholesale && product.hasWholesaleDiscount === true && product.wholesaleDiscountPercent > 0;
-        const discountPercent = product.wholesaleDiscountPercent || 0;
-        const finalPrice = hasDiscount ? price * (1 - discountPercent / 100) : price;
-        
-        // نسبة الخصم القطاعي
         let discountBadge = '';
-        if (hasOffer && price > 0) {
-          const disc = Math.round(((price - offerPrice) / price) * 100);
+        let finalPrice = price;
+        let priceHtml = `${price.toFixed(2)} ج.م`;
+        
+        if (hasRetailOffer) {
+          const offerPrice = product.retailOfferPrice || 0;
+          const disc = price > 0 ? Math.round(((price - offerPrice) / price) * 100) : 0;
+          finalPrice = offerPrice;
           discountBadge = `<div class="offer-badge"><i class="fas fa-percent"></i> ${disc}%</div>`;
-        } else if (hasDiscount) {
-          discountBadge = `<div class="offer-badge" style="background:linear-gradient(135deg, var(--gold-dark), var(--gold));"><i class="fas fa-tags"></i> ${discountPercent}%</div>`;
+          priceHtml = `
+            <span class="price-after">${offerPrice.toFixed(2)} ج.م</span>
+            <span class="price-before">${price.toFixed(2)} ج.م</span>
+          `;
+        } else if (hasWholesaleDiscount) {
+          const disc = product.wholesaleDiscountPercent || 0;
+          finalPrice = price * (1 - disc / 100);
+          discountBadge = `<div class="offer-badge" style="background:linear-gradient(135deg, var(--gold-dark), var(--gold));"><i class="fas fa-tags"></i> ${disc}%</div>`;
+          priceHtml = `
+            <span class="price-after">${finalPrice.toFixed(2)} ج.م</span>
+            <span class="price-before">${price.toFixed(2)} ج.م</span>
+          `;
         }
 
         html += `
@@ -649,15 +816,7 @@
               ` : ''}
               
               <div class="product-price">
-                ${hasOffer ? `
-                  <span class="price-after">${offerPrice.toFixed(2)} ج.م</span>
-                  <span class="price-before">${price.toFixed(2)} ج.م</span>
-                ` : hasDiscount ? `
-                  <span class="price-after">${finalPrice.toFixed(2)} ج.م</span>
-                  <span class="price-before">${price.toFixed(2)} ج.م</span>
-                ` : `
-                  ${price.toFixed(2)} ج.م
-                `}
+                ${priceHtml}
                 <small>/ ${unit}</small>
               </div>
               
@@ -678,7 +837,6 @@
 
       container.innerHTML = html;
 
-      // زر تحميل المزيد
       if (filteredProducts.length > (currentPage + 1) * pageSize) {
         document.getElementById('loadMoreBtn').style.display = 'inline-block';
       } else {
@@ -687,22 +845,22 @@
     }
 
     // ============================================================
-    // 🏷️ البراندات في القسم
+    // 🏷️ البراندات في القسم (Chips)
     // ============================================================
 
     async function loadCategoryBrands() {
-      const section = document.getElementById('brandsSection');
-      const container = document.getElementById('brandsChips');
-      if (!section || !container) return;
+      const bar = document.getElementById('brandsChipsBar');
+      const scroll = document.getElementById('brandsChipsScroll');
+      if (!bar || !scroll) return;
 
       try {
-        // جلب كل المنتجات في القسم (بدون limit)
+        // جلب كل منتجات القسم بدون limit
         const snapshot = await db.collection(COLLECTIONS.PRODUCTS)
           .where('available', '==', true)
           .where('categoryId', '==', categoryId)
           .get();
 
-        // تجميع البراندات وعدّها
+        // تجميع البراندات
         const brandCounts = {};
         
         snapshot.forEach(doc => {
@@ -712,7 +870,6 @@
               brandCounts[p.brandId] = {
                 id: p.brandId,
                 name: p.brandName,
-                imageUrl: p.brandImageUrl || '',
                 count: 0
               };
             }
@@ -723,44 +880,46 @@
         const brands = Object.values(brandCounts);
 
         if (brands.length === 0) {
-          section.style.display = 'none';
+          bar.classList.remove('show');
           return;
         }
 
-        // جلب صور البراندات من Firestore
-        const brandIds = brands.map(b => b.id);
+        // جلب صور البراندات من كولكشن brands
         const brandsSnapshot = await db.collection(COLLECTIONS.BRANDS).get();
-        const brandData = {};
         brandsSnapshot.forEach(doc => {
           brandData[doc.id] = doc.data();
         });
 
         // بناء HTML
         let html = `
-          <a href="#" class="brand-chip active" onclick="filterByBrand(event, '')">
-            <i class="fas fa-list" style="color:var(--gold);font-size:1rem;"></i>
+          <button class="brand-chip all-chip active" onclick="filterByBrand(event, '')">
+            <div class="brand-chip-icon">
+              <i class="fas fa-list"></i>
+            </div>
             <span class="brand-chip-name">الكل</span>
             <span class="brand-chip-count">${snapshot.size}</span>
-          </a>
+          </button>
         `;
 
         brands.forEach(brand => {
-          const brandInfo = brandData[brand.id] || {};
-          const imageUrl = brandInfo.imageUrl || brand.imageUrl || '/gomla/assets/images/no-image.png';
+          const info = brandData[brand.id] || {};
+          const imageUrl = info.imageUrl || '/gomla/assets/images/no-image.png';
           
           html += `
-            <a href="#" class="brand-chip" onclick="filterByBrand(event, '${brand.id}')">
+            <button class="brand-chip" onclick="filterByBrand(event, '${brand.id}')">
               <img src="${imageUrl}" 
                    alt="${brand.name}"
                    onerror="this.src='/gomla/assets/images/no-image.png'">
               <span class="brand-chip-name">${brand.name}</span>
               <span class="brand-chip-count">${brand.count}</span>
-            </a>
+            </button>
           `;
         });
 
-        container.innerHTML = html;
-        section.style.display = 'block';
+        scroll.innerHTML = html;
+        
+        // إظهار الشريط بأنيميشن
+        setTimeout(() => bar.classList.add('show'), 100);
 
       } catch (error) {
         console.error('Error loading brands:', error);
@@ -833,10 +992,7 @@
       currentPage = 0;
       renderProducts();
 
-      document.getElementById('categoryCount').innerHTML = `
-        <i class="fas fa-box"></i>
-        ${filteredProducts.length} منتج
-      `;
+      updateCategoryCount(filteredProducts.length);
     }
 
     // ============================================================
@@ -860,7 +1016,6 @@
 
         const additional = newProducts.slice(start);
         allProducts = [...allProducts, ...additional];
-        filteredProducts = [...allProducts, ...additional];
         
         applyFilters();
 
@@ -871,95 +1026,26 @@
     }
 
     // ============================================================
-    // 🎞️ السلايدر
+    // 📌 شريط الـ Sticky - إضافة Class أثناء السكرول
     // ============================================================
 
-    async function loadSlider() {
-      const track = document.getElementById('sliderTrack');
-      const dots = document.getElementById('sliderDots');
-      if (!track) return;
+    function initStickyBar() {
+      const bar = document.getElementById('categoryCompactBar');
+      if (!bar) return;
 
-      try {
-        const snapshot = await db.collection(COLLECTIONS.SLIDER)
-          .where('active', '==', true)
-          .orderBy('order', 'asc')
-          .get();
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          bar.classList.toggle('is-scrolled', !entry.isIntersecting);
+        },
+        { threshold: 1, rootMargin: '-10px 0px 0px 0px' }
+      );
 
-        if (snapshot.empty) {
-          track.innerHTML = `
-            <div class="slider-item">
-              <div class="slide-placeholder">
-                <i class="fas fa-image"></i>
-                لا توجد صور
-              </div>
-            </div>
-          `;
-          return;
-        }
+      // عنصر مراقب مخفي
+      const sentinel = document.createElement('div');
+      sentinel.style.cssText = 'position:absolute;top:0;height:1px;width:1px;';
+      bar.parentElement.insertBefore(sentinel, bar);
 
-        let slidesHtml = '';
-        let dotsHtml = '';
-        let index = 0;
-
-        snapshot.forEach(doc => {
-          const slide = doc.data();
-          const imageUrl = slide.imageUrl || '';
-          const title = slide.title || '';
-          const link = slide.link || '';
-          const captionHtml = title ? `<div class="slider-caption">${title}</div>` : '';
-          const content = link ?
-            `<a href="${link}"><img src="${imageUrl}" alt="${title}" onerror="this.src='/gomla/assets/images/no-image.png'">${captionHtml}</a>` :
-            `<img src="${imageUrl}" alt="${title}" onerror="this.src='/gomla/assets/images/no-image.png'">${captionHtml}`;
-          slidesHtml += `<div class="slider-item">${content}</div>`;
-          dotsHtml += `<span class="dot ${index === 0 ? 'active' : ''}" onclick="goToSlide(${index})"></span>`;
-          index++;
-        });
-
-        track.innerHTML = slidesHtml;
-        if (dots) dots.innerHTML = dotsHtml;
-        startSliderAuto();
-
-      } catch (error) {
-        console.error('Error loading slider:', error);
-      }
-    }
-
-    function startSliderAuto() {
-      slidesCount = document.querySelectorAll('.slider-item').length;
-      if (slidesCount <= 1) return;
-      if (slideInterval) clearInterval(slideInterval);
-      slideInterval = setInterval(() => {
-        slideIndex = (slideIndex + 1) % slidesCount;
-        updateSlider();
-      }, 5000);
-    }
-
-    function slideNext() {
-      if (slidesCount <= 1) return;
-      slideIndex = (slideIndex + 1) % slidesCount;
-      updateSlider();
-      startSliderAuto();
-    }
-
-    function slidePrev() {
-      if (slidesCount <= 1) return;
-      slideIndex = (slideIndex - 1 + slidesCount) % slidesCount;
-      updateSlider();
-      startSliderAuto();
-    }
-
-    function goToSlide(index) {
-      slideIndex = index;
-      updateSlider();
-      startSliderAuto();
-    }
-
-    function updateSlider() {
-      const track = document.getElementById('sliderTrack');
-      const dots = document.querySelectorAll('.slider-dots .dot');
-      if (!track) return;
-      track.style.transform = `translateX(${slideIndex * 100}%)`;
-      dots.forEach((dot, i) => dot.classList.toggle('active', i === slideIndex));
+      observer.observe(sentinel);
     }
 
     // ============================================================
@@ -987,7 +1073,7 @@
         <div class="empty-state">
           <i class="fas fa-exclamation-triangle"></i>
           <p>${message}</p>
-          <a href="/gomla/categories.html" class="btn btn-primary">
+          <a href="/gomla/categories.html" class="btn btn-primary" style="margin-top:12px;">
             <i class="fas fa-arrow-right"></i>
             العودة للأقسام
           </a>
@@ -1005,9 +1091,6 @@
     });
 
     // تصدير
-    window.slideNext = slideNext;
-    window.slidePrev = slidePrev;
-    window.goToSlide = goToSlide;
     window.applyFilters = applyFilters;
     window.filterByBrand = filterByBrand;
     window.loadMoreProducts = loadMoreProducts;
