@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تسجيل الدخول - أولاد شعلان</title>
+
+  <meta name="description" content="بوابة الدخول - أولاد شعلان للمنظفات والورقيات">
+  <meta name="theme-color" content="#1a2a4a">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Style -->
+  <link rel="stylesheet" href="/gomla/assets/css/style.css">
+
+  <!-- Favicon -->
+  <link rel="icon" href="/gomla/assets/images/favicon.ico">
+
+  <style>
+    /* ============================================================
+       🎨 ستايل بوابة الدخول
+       ============================================================ */
+
+    /* ===== الصفحة كاملة ===== */
+    .login-gateway {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f1a2e 0%, #1a2a4a 40%, #2a3f6a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* خلفية متحركة - دوائر ذهبية */
+    .login-gateway::before {
+      content: '';
+      position: absolute;
+      top: -20%;
+      right: -10%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(201, 168, 76, 0.12) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float-slow 12s ease-in-out infinite;
+    }
+
+    .login-gateway::after {
+      content: '';
+      position: absolute;
+      bottom: -20%;
+      left: -10%;
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(circle, rgba(201, 168, 76, 0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float-slow 14s ease-in-out infinite reverse;
+    }
+
+    @keyframes float-slow {
+      0%, 100% {
+        transform: translate(0, 0) scale(1);
+      }
+      50% {
+        transform: translate(30px, -30px) scale(1.15);
+      }
+    }
+
+    /* ===== المحتوى ===== */
+    .gateway-content {
+      max-width: 1100px;
+      width: 100%;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ===== رأس الصفحة ===== */
+    .gateway-header {
+      text-align: center;
+      margin-bottom: 48px;
+      animation: fadeInDown 0.8s ease both;
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .gateway-logo {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      box-shadow: 
+        0 0 0 8px rgba(201, 168, 76, 0.15),
+        0 12px 40px rgba(0, 0, 0, 0.3);
+      animation: logo-pulse-gateway 3s ease-in-out infinite;
+    }
+
+    @keyframes logo-pulse-gateway {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 
+          0 0 0 8px rgba(201, 168, 76, 0.15),
+          0 12px 40px rgba(0, 0, 0, 0.3);
+      }
+      50% {
+        transform: scale(1.05);
+        box-shadow: 
+          0 0 0 16px rgba(201, 168, 76, 0.06),
+          0 16px 50px rgba(0, 0, 0, 0.35);
+      }
+    }
+
+    .gateway-logo i {
+      font-size: 3rem;
+      color: var(--navy);
+    }
+
+    .gateway-header h1 {
+      font-size: 2.4rem;
+      font-weight: 900;
+      color: var(--white);
+      margin-bottom: 12px;
+      line-height: 1.3;
+      background: linear-gradient(135deg, #ffffff 0%, #e8d5a3 50%, #ffffff 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: text-shine-gateway 5s linear infinite;
+    }
+
+    @keyframes text-shine-gateway {
+      to {
+        background-position: 200% center;
+      }
+    }
+
+    .gateway-header h1 .gold {
+      color: var(--gold);
+      -webkit-text-fill-color: var(--gold);
+    }
+
+    .gateway-header p {
+      font-size: 1.1rem;
+      color: rgba(255, 255, 255, 0.85);
+      line-height: 1.7;
+    }
+
+    /* ===== شبكة الكروت ===== */
+    .gateway-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    /* ===== كارت الدخول ===== */
+    .gateway-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 32px 24px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--gray-800);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(40px);
+      animation: card-drop-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      border: 3px solid transparent;
+    }
+
+    /* تأخير الأنيميشن */
+    .gateway-card:nth-child(1) { animation-delay: 0.2s; }
+    .gateway-card:nth-child(2) { animation-delay: 0.35s; }
+    .gateway-card:nth-child(3) { animation-delay: 0.5s; }
+
+    @keyframes card-drop-in {
+      0% {
+        opacity: 0;
+        transform: translateY(40px) scale(0.9);
+      }
+      60% {
+        opacity: 1;
+        transform: translateY(-6px) scale(1.02);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* شريط علوي متلألئ */
+    .gateway-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, transparent, currentColor, transparent);
+      background-size: 200% 100%;
+      opacity: 0.8;
+    }
+
+    /* خلفية شفافة عند التحويم */
+    .gateway-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+    }
+
+    .gateway-card:hover {
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+    }
+
+    .gateway-card:hover::after {
+      opacity: 0.06;
+    }
+
+    /* ===== كارت الإدارة ===== */
+    .gateway-card.admin-card {
+      color: var(--navy);
+      border-color: rgba(26, 42, 74, 0.15);
+    }
+
+    .gateway-card.admin-card::before {
+      background: linear-gradient(90deg, var(--navy), var(--navy-light), var(--navy));
+    }
+
+    .gateway-card.admin-card::after {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+    }
+
+    .gateway-card.admin-card:hover {
+      border-color: var(--navy);
+    }
+
+    .gateway-card.admin-card .card-icon-wrap {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--gold);
+    }
+
+    .gateway-card.admin-card .card-cta {
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    .gateway-card.admin-card:hover .card-cta {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    /* ===== كارت التجار ===== */
+    .gateway-card.trader-card {
+      color: var(--gold-dark);
+      border-color: rgba(201, 168, 76, 0.3);
+    }
+
+    .gateway-card.trader-card::before {
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold-light), var(--gold-dark));
+    }
+
+    .gateway-card.trader-card::after {
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+    }
+
+    .gateway-card.trader-card:hover {
+      border-color: var(--gold);
+    }
+
+    .gateway-card.trader-card .card-icon-wrap {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+    }
+
+    .gateway-card.trader-card .card-cta {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    .gateway-card.trader-card:hover .card-cta {
+      background: var(--navy);
+      color: var(--gold);
+    }
+
+    /* ===== كارت العملاء ===== */
+    .gateway-card.customer-card {
+      color: #2563eb;
+      border-color: rgba(59, 130, 246, 0.2);
+    }
+
+    .gateway-card.customer-card::before {
+      background: linear-gradient(90deg, #2563eb, #60a5fa, #2563eb);
+    }
+
+    .gateway-card.customer-card::after {
+      background: linear-gradient(135deg, #2563eb, #60a5fa);
+    }
+
+    .gateway-card.customer-card:hover {
+      border-color: #2563eb;
+    }
+
+    .gateway-card.customer-card .card-icon-wrap {
+      background: linear-gradient(135deg, #2563eb, #60a5fa);
+      color: var(--white);
+    }
+
+    .gateway-card.customer-card .card-cta {
+      background: #2563eb;
+      color: var(--white);
+    }
+
+    .gateway-card.customer-card:hover .card-cta {
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    /* ===== أيقونة الكارت ===== */
+    .gateway-card .card-icon-wrap {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.4rem;
+      transition: transform 0.4s ease;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .gateway-card:hover .card-icon-wrap {
+      transform: scale(1.1) rotate(-5deg);
+    }
+
+    /* ===== اسم الكارت ===== */
+    .gateway-card .card-title {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin: 4px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== وصف الكارت ===== */
+    .gateway-card .card-description {
+      font-size: 0.9rem;
+      color: var(--gray-500);
+      line-height: 1.6;
+      min-height: 44px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== مميزات الكارت ===== */
+    .gateway-card .card-features {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      width: 100%;
+      margin: 6px 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .gateway-card .card-feature {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      color: var(--gray-600);
+      padding: 4px 0;
+    }
+
+    .gateway-card .card-feature i {
+      color: var(--gold);
+      font-size: 0.75rem;
+      flex-shrink: 0;
+    }
+
+    /* ===== زر الكارت ===== */
+    .gateway-card .card-cta {
+      width: 100%;
+      padding: 14px 24px;
+      border-radius: var(--radius-full);
+      font-weight: 800;
+      font-size: 1rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+      margin-top: 8px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .gateway-card:hover .card-cta {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    /* ===== الفوتر ===== */
+    .gateway-footer {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.9rem;
+      padding: 20px 0;
+      animation: fadeInUp 1s ease 0.7s both;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .gateway-footer .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--gold);
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: var(--radius-full);
+      transition: all 0.3s ease;
+      margin-bottom: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(201, 168, 76, 0.3);
+    }
+
+    .gateway-footer .back-link:hover {
+      background: var(--gold);
+      color: var(--navy);
+      transform: translateY(-2px);
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 992px) {
+      .gateway-cards {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+      }
+
+      .gateway-card {
+        padding: 28px 20px;
+      }
+
+      .gateway-card:nth-child(3) {
+        grid-column: 1 / -1;
+        max-width: 400px;
+        margin: 0 auto;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 768px) and (pointer: coarse) {
+      .login-gateway {
+        padding: 24px 14px;
+      }
+
+      .gateway-header {
+        margin-bottom: 28px;
+      }
+
+      .gateway-logo {
+        width: 76px;
+        height: 76px;
+      }
+
+      .gateway-logo i {
+        font-size: 2.2rem;
+      }
+
+      .gateway-header h1 {
+        font-size: 1.6rem;
+      }
+
+      .gateway-header p {
+        font-size: 0.9rem;
+      }
+
+      .gateway-cards {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .gateway-card {
+        padding: 24px 20px;
+        gap: 12px;
+      }
+
+      .gateway-card:nth-child(3) {
+        max-width: 100%;
+      }
+
+      .gateway-card .card-icon-wrap {
+        width: 72px;
+        height: 72px;
+        font-size: 1.9rem;
+      }
+
+      .gateway-card .card-title {
+        font-size: 1.25rem;
+      }
+
+      .gateway-card .card-description {
+        font-size: 0.85rem;
+        min-height: auto;
+      }
+
+      .gateway-card .card-features {
+        display: none;
+      }
+
+      .gateway-card .card-cta {
+        padding: 12px 20px;
+        font-size: 0.95rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .gateway-header h1 {
+        font-size: 1.35rem;
+      }
+
+      .gateway-header p {
+        font-size: 0.85rem;
+      }
+
+      .gateway-card {
+        padding: 20px 16px;
+      }
+
+      .gateway-card .card-icon-wrap {
+        width: 64px;
+        height: 64px;
+        font-size: 1.6rem;
+      }
+
+      .gateway-card .card-title {
+        font-size: 1.1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================ -->
+  <!-- 🚪 بوابة الدخول                                              -->
+  <!-- ============================================================ -->
+  <div class="login-gateway">
+    <div class="gateway-content">
+
+      <!-- ===== الرأس ===== -->
+      <div class="gateway-header">
+        <div class="gateway-logo">
+          <i class="fas fa-store"></i>
+        </div>
+        <h1>أولاد شعلان <span class="gold">للمنظفات والورقيات</span></h1>
+        <p>اختر نوع الدخول المناسب لك للوصول إلى لوحة التحكم الخاصة بك</p>
+      </div>
+
+      <!-- ===== الكروت ===== -->
+      <div class="gateway-cards">
+
+        <!-- 👑 كارت الإدارة -->
+        <a href="/gomla/admin/login.html" class="gateway-card admin-card">
+          <div class="card-icon-wrap">
+            <i class="fas fa-user-shield"></i>
+          </div>
+          <h2 class="card-title">دخول الإدارة</h2>
+          <p class="card-description">
+            للسوبر أدمن والأدمن وأدمن بلص - إدارة كاملة للنظام
+          </p>
+          <div class="card-features">
+            <div class="card-feature">
+              <i class="fas fa-check-circle"></i>
+              <span>لوحة تحكم شاملة</span>
+            </div>
+            <div class="card-feature">
+              <i class="fas fa-check-circle"></i>
+              <span>إدارة المنتجات والطلبات</span>
+            </div>
+            <div class="card-feature">
+              <i class="fas fa-check-circle"></i>
+              <span>التقارير المالية والصندوق</span>
+            </div>
+          </div>
+          <div class="card-cta">
+            <i class="fas fa-sign-in-alt"></i>
+            دخول
+          </div>
+        </a>
+
+        <!-- 🏪 كارت التجار -->
+        <a href="/gomla/trader-login.html" class="gateway-card trader-card">
+          <div class="card-icon-wrap">
+            <i class="fas fa-store"></i>
+          </div>
+          <h2 class="card-title">دخول التجار</h2>
+          <p class="card-description">
+            للتجار المعتمدين - تسوق بالجملة واستفد من الخصومات
+          </p>
+          <div class="card-features">
+            <div class="card-feature">
+              <i class="fas fa-check-circle"></i>
+              <span>أسعار الجملة والخصومات</span>
+            </div>
+            <div class="card-feature">
+              <i class="fas fa-check-circle"></i>
+              <span>فواتير آجلة</span>
+            </div>
+            <div class="card-feature">
+              <i class="fas fa-check-circle"></i>
+              <span>متابعة الذمة المالية</span>
+            </div>
+          </div>
+          <div class="card-cta">
+            <i class="fas fa-key"></i>
+            دخول بالكود
+          </div>
+        </a>
+
+        <!-- 👤 كارت العملاء -->
+        <a href="/gomla/customer-login.html" class="gateway-card customer-card">
+          <div class="card-icon-wrap">
+            <i class="fas fa-user"></i>
+          </div>
+          <h2 class="card-title">دخول العملاء</h2>
+          <p class="card-description">
+            للعملاء القطاعيين - تسوق بسهولة وتابع طلباتك
+          </p>
+          <div class="card-features">
+            <div class="card-feature">
+              <i class="fas fa-check-circle"></i>
+              <span>تسوق بأسعار القطاعي</span>
+            </div>
+            <div class="card-feature">
+              <i class="fas fa-check-circle"></i>
+              <span>عروض حصرية</span>
+            </div>
+            <div class="card-feature">
+              <i class="fas fa-check-circle"></i>
+              <span>تتبع الطلبات</span>
+            </div>
+          </div>
+          <div class="card-cta">
+            <i class="fas fa-sign-in-alt"></i>
+            دخول / تسجيل
+          </div>
+        </a>
+
+      </div>
+
+      <!-- ===== الفوتر ===== -->
+      <div class="gateway-footer">
+        <a href="/gomla/" class="back-link">
+          <i class="fas fa-arrow-right"></i>
+          العودة للصفحة الرئيسية
+        </a>
+        <div>
+          © 2026 أولاد شعلان للمنظفات والورقيات
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- Toast Container                                              -->
+  <!-- ============================================================ -->
+  <div id="toast-container"></div>
+
+  <!-- ============================================================ -->
+  <!-- Firebase & Scripts                                            -->
+  <!-- ============================================================ -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+  <script src="/gomla/assets/js/firebase-config.js"></script>
+  <script src="/gomla/assets/js/main.js"></script>
+
+  <script>
+    // ============================================================
+    // 📄 login.html - بوابة الدخول
+    // ============================================================
+
+    // ===== التحقق من المستخدم الحالي =====
+    function checkExistingUser() {
+      const user = getCurrentUser();
+
+      if (!user) return;
+
+      const role = user.data.role;
+
+      // لو المستخدم مسجل دخول بالفعل → تحويله حسب دوره
+      setTimeout(() => {
+        if (role === ROLES.SUPER || role === ROLES.ADMIN_PLUS || role === ROLES.ADMIN) {
+          showToast(`✅ مرحباً ${user.data.name} - جاري التحويل...`, 'success');
+          setTimeout(() => {
+            window.location.href = '/gomla/admin/home.html';
+          }, 1000);
+        } else if (role === ROLES.WHOLESALE) {
+          showToast(`✅ مرحباً ${user.data.name} - جاري التحويل...`, 'success');
+          setTimeout(() => {
+            window.location.href = '/gomla/trader-home.html';
+          }, 1000);
+        } else if (role === ROLES.RETAIL) {
+          showToast(`✅ مرحباً ${user.data.name} - جاري التحويل...`, 'success');
+          setTimeout(() => {
+            window.location.href = '/gomla/customer-home.html';
+          }, 1000);
+        } else if (role === ROLES.CASHIER) {
+          showToast(`✅ مرحباً ${user.data.name} - جاري التحويل...`, 'success');
+          setTimeout(() => {
+            window.location.href = '/gomla/cashier/home.html';
+          }, 1000);
+        }
+      }, 500);
+    }
+
+    // ============================================================
+    // 🚀 تشغيل الصفحة
+    // ============================================================
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // التحقق من وجود مستخدم مسجل
+      checkExistingUser();
+
+      console.log('✅ login.html loaded');
+    });
+
+  </script>
+
+</body>
+</html>
