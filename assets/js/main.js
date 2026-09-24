@@ -1184,7 +1184,7 @@ function loadMobileTopTabs() {
     ];
   } else if (role === ROLES.WHOLESALE) {
     tabs = [
-      { text: 'المتجر' url: '/gomla/store-wholesale.html', icon: 'fa-store' },
+      { text: 'المتجر', url: '/gomla/store-wholesale.html', icon: 'fa-store' },
       { text: 'تتبع الطلبات', url: '/gomla/tracking.html', icon: 'fa-truck' },
       { text: 'آخر الطلبات', url: '/gomla/customer/orders.html', icon: 'fa-history' },
       { text: 'عروض', url: '/gomla/offers.html', icon: 'fa-percent' }
@@ -1333,7 +1333,7 @@ function loadMobileBottomTabs() {
       { text: 'المتجر', url: '/gomla/store-retail.html', icon: 'fa-store' },
       { text: 'الرئيسية', url: '/gomla/', icon: 'fa-home' },
       { text: 'تفريغ', url: '#', icon: 'fa-trash', onclick: 'clearCart()' },
-      { text: 'إتمام', url: '/gomla/checkout.html', icon: 'fa-check-circle' },
+      { text: 'تأكيد الطلب', url: '/gomla/checkout.html', icon: 'fa-check-circle' },
       { text: 'القائمة', url: '#', icon: 'fa-bars', onclick: 'openSidebar()' }
     ];
   }
