@@ -987,6 +987,38 @@
   <!-- 📝 كود الصفحة الخاص                                           -->
   <!-- ============================================================ -->
   <script>
+
+    // ============================================================
+// 📄 store-wholesale.html - متجر الجملة
+// ============================================================
+
+// 🚨 حماية صارمة: متجر الجملة للتجار والأدمن فقط
+(function protectWholesaleStore() {
+  const user = getCurrentUser();
+  const allowedRoles = [
+    ROLES.WHOLESALE,
+    ROLES.ADMIN,
+    ROLES.ADMIN_PLUS,
+    ROLES.SUPER,
+    ROLES.CASHIER
+  ];
+  
+  // لو مش مسجل → تحويل لصفحة دخول التجار
+  if (!user) {
+    console.warn('⚠️ غير مسجل - تحويل لصفحة دخول التجار');
+    window.location.replace('/gomla/trader-login.html');
+    return;
+  }
+  
+  // لو دوره مش مسموح → تحويل لمتجر القطاعي
+  if (!allowedRoles.includes(user.data.role)) {
+    console.warn('⚠️ دور غير مصرح به:', user.data.role);
+    window.location.replace('/gomla/store-retail.html');
+    return;
+  }
+})();
+
+// ===== متغيرات عامة =====
     // ============================================================
     // 📄 store-wholesale.html - متجر الجملة
     // ============================================================
