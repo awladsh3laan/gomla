@@ -1123,7 +1123,7 @@ function loadMobileTopBar() {
             <i class="fas fa-sign-out-alt"></i>
           </button>
         ` : `
-          <a href="/gomla/customer-login.html" class="top-bar-btn" title="دخول">
+          <a href="/gomla/alogin.html" class="top-bar-btn" title="دخول">
             <i class="fas fa-user"></i>
           </a>
         `}
@@ -1184,7 +1184,7 @@ function loadMobileTopTabs() {
     ];
   } else if (role === ROLES.WHOLESALE) {
     tabs = [
-      { text: 'المتجر (جملة)', url: '/gomla/store-wholesale.html', icon: 'fa-store' },
+      { text: 'المتجر' url: '/gomla/store-wholesale.html', icon: 'fa-store' },
       { text: 'تتبع الطلبات', url: '/gomla/tracking.html', icon: 'fa-truck' },
       { text: 'آخر الطلبات', url: '/gomla/customer/orders.html', icon: 'fa-history' },
       { text: 'عروض', url: '/gomla/offers.html', icon: 'fa-percent' }
@@ -1199,10 +1199,10 @@ function loadMobileTopTabs() {
   } else {
     // الزائر
     tabs = [
-      { text: 'متجر قطاعي', url: '/gomla/store-retail.html', icon: 'fa-store' },
-      { text: 'تسجيل كعميل', url: '/gomla/customer-login.html', icon: 'fa-user-plus' },
+      { text: 'أولاد شعلان ستور', url: '/gomla/store-retail.html', icon: 'fa-store' },
+      { text: 'تسجيل كعميل', url: '/gomla/customer-register.html', icon: 'fa-user-plus' },
       { text: 'تسجيل كتاجر', url: '/gomla/support.html', icon: 'fa-store-alt' },
-      { text: 'تسجيل الدخول', url: '/gomla/login.html', icon: 'fa-sign-in-alt' }
+      { text: 'تسجيل الدخول', url: '/gomla/alogin.html', icon: 'fa-sign-in-alt' }
     ];
   }
   
