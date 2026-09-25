@@ -1,0 +1,1686 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>صفحة التاجر - أولاد شعلان جملة</title>
+
+  <meta name="description" content="صفحة التاجر - أولاد شعلان جملة">
+  <meta name="theme-color" content="#1a2a4a">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/gomla/assets/css/style.css">
+  <link rel="icon" href="/gomla/assets/images/favicon.ico">
+
+  <style>
+    /* ============================================================
+       🎨 ستايل صفحة التاجر الرئيسية
+       ============================================================ */
+
+    /* ===== رأس الترحيب ===== */
+    .welcome-header {
+      background: linear-gradient(135deg, #0f1a2e 0%, #1a2a4a 50%, #2a3f6a 100%);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      margin-bottom: 24px;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(15, 26, 46, 0.35);
+      border-bottom: 4px solid var(--gold);
+    }
+
+    .welcome-header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -15%;
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle, rgba(201, 168, 76, 0.18) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .welcome-header::after {
+      content: '';
+      position: absolute;
+      bottom: -40%;
+      left: -10%;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(201, 168, 76, 0.12) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 10s ease-in-out infinite reverse;
+    }
+
+    .welcome-header-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .welcome-header-content .avatar-wrap {
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .welcome-header-content .avatar-wrap img {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid var(--gold);
+      background: var(--white);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+      animation: logo-pulse 3s ease-in-out infinite;
+    }
+
+    .welcome-header-content .avatar-wrap .online-dot {
+      position: absolute;
+      bottom: 6px;
+      right: 6px;
+      width: 18px;
+      height: 18px;
+      background: #22c55e;
+      border-radius: 50%;
+      border: 3px solid var(--white);
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.3);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    /* شارة "تاجر معتمد" */
+    .welcome-header-content .avatar-wrap .trader-crown {
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      border: 3px solid var(--white);
+      box-shadow: 0 4px 12px rgba(201, 168, 76, 0.5);
+      animation: crown-bounce 2.5s ease-in-out infinite;
+    }
+
+    @keyframes crown-bounce {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-4px) rotate(-8deg); }
+    }
+
+    .welcome-header-content .welcome-text {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .welcome-header-content .welcome-text h1 {
+      font-size: 1.6rem;
+      font-weight: 900;
+      margin-bottom: 6px;
+      line-height: 1.3;
+      color: var(--white);
+    }
+
+    .welcome-header-content .welcome-text h1 .gold {
+      color: var(--gold);
+    }
+
+    .welcome-header-content .welcome-text p {
+      font-size: 0.9rem;
+      opacity: 0.9;
+      margin-bottom: 10px;
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .welcome-header-content .welcome-text .user-badges {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .welcome-header-content .welcome-text .user-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      background: rgba(201, 168, 76, 0.2);
+      color: var(--gold-light);
+      padding: 5px 12px;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 700;
+      border: 1px solid rgba(201, 168, 76, 0.4);
+      backdrop-filter: blur(10px);
+    }
+
+    .welcome-header-content .welcome-text .user-badge i {
+      color: var(--gold);
+    }
+
+    /* ===== صندوق كود التاجر ===== */
+    .trader-code-box {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      box-shadow: 0 8px 24px rgba(201, 168, 76, 0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .trader-code-box::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 6s ease-in-out infinite;
+    }
+
+    .trader-code-box > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .trader-code-box .code-label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--navy);
+      font-weight: 800;
+      font-size: 0.9rem;
+    }
+
+    .trader-code-box .code-label i {
+      font-size: 1.3rem;
+    }
+
+    .trader-code-box .code-value {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex: 1;
+      min-width: 200px;
+      justify-content: center;
+    }
+
+    .trader-code-box .code-text {
+      font-family: 'Courier New', monospace;
+      font-size: 1.6rem;
+      font-weight: 900;
+      letter-spacing: 3px;
+      color: var(--navy);
+      background: rgba(255, 255, 255, 0.5);
+      padding: 6px 20px;
+      border-radius: var(--radius-sm);
+      border: 2px dashed var(--navy);
+    }
+
+    .trader-code-box .copy-code-btn {
+      background: var(--navy);
+      color: var(--gold);
+      border: none;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .trader-code-box .copy-code-btn:hover {
+      background: var(--white);
+      color: var(--navy);
+      transform: scale(1.1);
+    }
+
+    /* ===== الإحصائيات ===== */
+    .customer-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .customer-stat-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 18px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      transition: var(--transition);
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .customer-stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--gold);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.4s ease;
+    }
+
+    .customer-stat-card:hover::before {
+      transform: scaleY(1);
+    }
+
+    .customer-stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--gold-light);
+    }
+
+    .customer-stat-card .stat-icon-wrap {
+      width: 50px;
+      height: 50px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+
+    .customer-stat-card .stat-icon-wrap.gold {
+      background: rgba(201, 168, 76, 0.15);
+      color: var(--gold-dark);
+    }
+
+    .customer-stat-card .stat-icon-wrap.green {
+      background: rgba(34, 197, 94, 0.12);
+      color: #16a34a;
+    }
+
+    .customer-stat-card .stat-icon-wrap.red {
+      background: rgba(239, 68, 68, 0.12);
+      color: #dc2626;
+    }
+
+    .customer-stat-card .stat-icon-wrap.purple {
+      background: rgba(139, 92, 246, 0.12);
+      color: #7c3aed;
+    }
+
+    .customer-stat-card .stat-icon-wrap.blue {
+      background: rgba(59, 130, 246, 0.12);
+      color: #2563eb;
+    }
+
+    .customer-stat-card .stat-info-wrap {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .customer-stat-card .stat-number {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--navy);
+      line-height: 1.2;
+      margin-bottom: 2px;
+    }
+
+    .customer-stat-card .stat-number.gold {
+      color: var(--gold-dark);
+    }
+
+    .customer-stat-card .stat-number.green {
+      color: #16a34a;
+    }
+
+    .customer-stat-card .stat-number.red {
+      color: #dc2626;
+    }
+
+    .customer-stat-card .stat-label {
+      font-size: 0.78rem;
+      color: var(--gray-500);
+      font-weight: 600;
+    }
+
+    /* ===== الوصول السريع ===== */
+    .quick-access-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .quick-access-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 18px 12px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      text-decoration: none;
+      color: var(--gray-800);
+      border: 2px solid transparent;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(-20px);
+      animation: dropIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+
+    .quick-access-card:nth-child(1) { animation-delay: 0.05s; }
+    .quick-access-card:nth-child(2) { animation-delay: 0.1s; }
+    .quick-access-card:nth-child(3) { animation-delay: 0.15s; }
+    .quick-access-card:nth-child(4) { animation-delay: 0.2s; }
+    .quick-access-card:nth-child(5) { animation-delay: 0.25s; }
+    .quick-access-card:nth-child(6) { animation-delay: 0.3s; }
+
+    @keyframes dropIn {
+      0% {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.9);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .quick-access-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--gold);
+    }
+
+    .quick-access-card .qa-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--gold);
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s ease;
+      box-shadow: 0 6px 16px rgba(26, 42, 74, 0.2);
+    }
+
+    .quick-access-card:hover .qa-icon {
+      transform: scale(1.1) rotate(-5deg);
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+    }
+
+    .quick-access-card .qa-title {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.3;
+    }
+
+    .quick-access-card .qa-sub {
+      font-size: 0.7rem;
+      color: var(--gray-400);
+    }
+
+    .quick-access-card .qa-badge {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: var(--danger);
+      color: var(--white);
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      min-width: 20px;
+      text-align: center;
+    }
+
+    /* ===== الأقسام ===== */
+    .customer-section {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+
+    .customer-section .section-header {
+      padding: 16px 20px;
+      border-bottom: 2px solid var(--gray-100);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      background: linear-gradient(135deg, #fcf9f0, #f8f4e8);
+    }
+
+    .customer-section .section-header h2 {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .customer-section .section-header h2 i {
+      color: var(--gold);
+    }
+
+    .customer-section .section-header .view-all-link {
+      font-size: 0.82rem;
+      color: var(--gold-dark);
+      text-decoration: none;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .customer-section .section-header .view-all-link:hover {
+      color: var(--gold);
+      transform: translateX(-4px);
+    }
+
+    .customer-section .section-body {
+      padding: 16px 20px;
+    }
+
+    /* ===== بطاقة الرصيد ===== */
+    .balance-card {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      border-radius: var(--radius-md);
+      padding: 20px;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .balance-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(201, 168, 76, 0.2) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .balance-card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .balance-card .balance-label {
+      font-size: 0.85rem;
+      opacity: 0.9;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .balance-card .balance-label i {
+      color: var(--gold);
+    }
+
+    .balance-card .balance-amount {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--gold);
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+
+    .balance-card .balance-status {
+      font-size: 0.8rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      font-weight: 700;
+    }
+
+    .balance-card .balance-status.clear {
+      background: rgba(34, 197, 94, 0.2);
+      color: #86efac;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+
+    .balance-card .balance-status.due {
+      background: rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    /* ===== آخر الطلبات ===== */
+    .recent-orders-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .recent-order-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--gray-200);
+      transition: var(--transition);
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .recent-order-item:hover {
+      background: var(--white);
+      border-color: var(--gold);
+      transform: translateX(-4px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .recent-order-item .order-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .recent-order-item .order-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .recent-order-item .order-info .order-num {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 2px;
+    }
+
+    .recent-order-item .order-info .order-date {
+      font-size: 0.72rem;
+      color: var(--gray-500);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .recent-order-item .order-info .order-date i {
+      color: var(--gold);
+      font-size: 0.65rem;
+    }
+
+    .recent-order-item .order-status-badge {
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      font-size: 0.7rem;
+      font-weight: 800;
+      flex-shrink: 0;
+    }
+
+    .recent-order-item .order-status-badge.pending {
+      background: rgba(245, 158, 11, 0.15);
+      color: #d97706;
+    }
+
+    .recent-order-item .order-status-badge.processing {
+      background: rgba(59, 130, 246, 0.15);
+      color: #2563eb;
+    }
+
+    .recent-order-item .order-status-badge.shipped {
+      background: rgba(139, 92, 246, 0.15);
+      color: #7c3aed;
+    }
+
+    .recent-order-item .order-status-badge.delivered {
+      background: rgba(34, 197, 94, 0.15);
+      color: #16a34a;
+    }
+
+    .recent-order-item .order-status-badge.cancelled {
+      background: rgba(239, 68, 68, 0.15);
+      color: #dc2626;
+    }
+
+    .recent-order-item .order-total {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--gold-dark);
+      flex-shrink: 0;
+    }
+
+    /* ===== الخصومات المميزة ===== */
+    .featured-offers-scroll {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      padding: 4px;
+      scrollbar-width: thin;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .featured-offers-scroll::-webkit-scrollbar {
+      height: 5px;
+    }
+
+    .featured-offers-scroll::-webkit-scrollbar-thumb {
+      background: var(--gold);
+      border-radius: 10px;
+    }
+
+    .featured-offer-card {
+      min-width: 200px;
+      max-width: 220px;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      border: 2px solid var(--gold);
+      cursor: pointer;
+      transition: var(--transition);
+      flex-shrink: 0;
+      text-decoration: none;
+      color: inherit;
+      position: relative;
+    }
+
+    .featured-offer-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--gold-dark);
+    }
+
+    .featured-offer-card .discount-ribbon {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+      color: var(--navy);
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 900;
+      z-index: 5;
+      box-shadow: 0 4px 12px rgba(201, 168, 76, 0.4);
+    }
+
+    .featured-offer-card img {
+      width: 100%;
+      height: 130px;
+      object-fit: cover;
+      background: var(--gray-100);
+    }
+
+    .featured-offer-card .offer-body {
+      padding: 10px 12px 12px;
+    }
+
+    .featured-offer-card .offer-name {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      min-height: 36px;
+    }
+
+    .featured-offer-card .offer-price {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .featured-offer-card .offer-price .new-price {
+      font-size: 1rem;
+      font-weight: 900;
+      color: var(--gold-dark);
+    }
+
+    .featured-offer-card .offer-price .old-price {
+      font-size: 0.75rem;
+      color: var(--gray-400);
+      text-decoration: line-through;
+    }
+
+    /* ===== حالة فارغة ===== */
+    .mini-empty {
+      text-align: center;
+      padding: 32px 16px;
+      color: var(--gray-400);
+    }
+
+    .mini-empty i {
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 8px;
+      color: var(--gray-300);
+    }
+
+    .mini-empty p {
+      font-size: 0.85rem;
+      margin-bottom: 12px;
+    }
+
+    /* ===== تحميل ===== */
+    .mini-loading {
+      text-align: center;
+      padding: 24px;
+      color: var(--gray-400);
+    }
+
+    .mini-loading i {
+      color: var(--gold);
+      font-size: 1.5rem;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) and (pointer: coarse) {
+      .welcome-header {
+        padding: 20px 16px;
+        border-radius: var(--radius-md);
+      }
+
+      .welcome-header-content .avatar-wrap img {
+        width: 68px;
+        height: 68px;
+      }
+
+      .welcome-header-content .welcome-text h1 {
+        font-size: 1.2rem;
+      }
+
+      .welcome-header-content .welcome-text p {
+        font-size: 0.83rem;
+      }
+
+      /* صندوق الكود */
+      .trader-code-box {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+        padding: 14px;
+      }
+
+      .trader-code-box .code-label {
+        justify-content: center;
+        font-size: 0.82rem;
+      }
+
+      .trader-code-box .code-value {
+        justify-content: center;
+        min-width: auto;
+      }
+
+      .trader-code-box .code-text {
+        font-size: 1.2rem;
+        letter-spacing: 2px;
+        padding: 5px 14px;
+      }
+
+      .customer-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+
+      .customer-stat-card {
+        padding: 12px;
+        gap: 10px;
+      }
+
+      .customer-stat-card .stat-icon-wrap {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+      }
+
+      .customer-stat-card .stat-number {
+        font-size: 1.15rem;
+      }
+
+      .customer-stat-card .stat-label {
+        font-size: 0.68rem;
+      }
+
+      .quick-access-grid {
+        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+        gap: 10px;
+      }
+
+      .quick-access-card {
+        padding: 14px 8px;
+      }
+
+      .quick-access-card .qa-icon {
+        width: 42px;
+        height: 42px;
+        font-size: 1.1rem;
+      }
+
+      .quick-access-card .qa-title {
+        font-size: 0.78rem;
+      }
+
+      .customer-section .section-header {
+        padding: 12px 14px;
+      }
+
+      .customer-section .section-body {
+        padding: 12px 14px;
+      }
+
+      .balance-card {
+        padding: 16px;
+      }
+
+      .balance-card .balance-amount {
+        font-size: 1.6rem;
+      }
+
+      .recent-order-item {
+        padding: 10px;
+        gap: 10px;
+      }
+
+      .recent-order-item .order-icon {
+        width: 38px;
+        height: 38px;
+        font-size: 0.95rem;
+      }
+
+      .recent-order-item .order-info .order-num {
+        font-size: 0.78rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .welcome-header-content {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .welcome-header-content .welcome-text {
+        text-align: center;
+      }
+
+      .welcome-header-content .welcome-text .user-badges {
+        justify-content: center;
+      }
+
+      .welcome-header-content .welcome-text h1 {
+        font-size: 1.05rem;
+      }
+
+      .trader-code-box .code-text {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- مكونات الموبايل -->
+  <div id="mobile-top-bar"></div>
+  <div id="mobile-top-tabs"></div>
+
+  <!-- الهيدر -->
+  <div id="header-placeholder"></div>
+
+  <!-- المحتوى -->
+  <main class="page-content">
+    <div class="container">
+
+      <!-- ============================================================ -->
+      <!-- 👋 رأس الترحيب                                               -->
+      <!-- ============================================================ -->
+      <div class="welcome-header">
+        <div class="welcome-header-content">
+          <div class="avatar-wrap">
+            <img src="/gomla/assets/images/default-avatar.png" 
+                 alt="صورة التاجر" 
+                 id="traderAvatar"
+                 onerror="this.src='/gomla/assets/images/default-avatar.png'">
+            <div class="online-dot"></div>
+            <div class="trader-crown">
+              <i class="fas fa-crown"></i>
+            </div>
+          </div>
+          <div class="welcome-text">
+            <h1>أهلاً بك <span class="gold" id="traderName">تاجرنا العزيز</span> 👋</h1>
+            <p id="welcomeMessage">سعداء بوجودك معنا في أولاد شعلان جملة</p>
+            <div class="user-badges">
+              <span class="user-badge">
+                <i class="fas fa-store"></i>
+                تاجر جملة
+              </span>
+              <span class="user-badge" id="cityBadge" style="display:none;">
+                <i class="fas fa-map-marker-alt"></i>
+                <span id="cityText">المحلة</span>
+              </span>
+              <span class="user-badge">
+                <i class="fas fa-clock"></i>
+                <span id="memberSince">عضو جديد</span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- 🔑 صندوق كود التاجر                                          -->
+      <!-- ============================================================ -->
+      <div class="trader-code-box" id="traderCodeBox">
+        <div class="code-label">
+          <i class="fas fa-key"></i>
+          <span>كود التاجر الخاص بك</span>
+        </div>
+        <div class="code-value">
+          <span class="code-text" id="traderCodeText">---</span>
+          <button class="copy-code-btn" onclick="copyTraderCode()" title="نسخ الكود">
+            <i class="fas fa-copy"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- 📊 الإحصائيات                                                -->
+      <!-- ============================================================ -->
+      <div class="customer-stats-grid" id="statsGrid">
+
+        <a href="/gomla/customer/orders.html" class="customer-stat-card">
+          <div class="stat-icon-wrap blue">
+            <i class="fas fa-shopping-bag"></i>
+          </div>
+          <div class="stat-info-wrap">
+            <div class="stat-number" id="statOrders">0</div>
+            <div class="stat-label">إجمالي الطلبات</div>
+          </div>
+        </a>
+
+        <a href="/gomla/customer/orders.html?status=pending" class="customer-stat-card">
+          <div class="stat-icon-wrap gold">
+            <i class="fas fa-clock"></i>
+          </div>
+          <div class="stat-info-wrap">
+            <div class="stat-number gold" id="statPending">0</div>
+            <div class="stat-label">قيد الانتظار</div>
+          </div>
+        </a>
+
+        <a href="/gomla/discounts.html" class="customer-stat-card">
+          <div class="stat-icon-wrap purple">
+            <i class="fas fa-tags"></i>
+          </div>
+          <div class="stat-info-wrap">
+            <div class="stat-number" id="statDiscounts">0</div>
+            <div class="stat-label">خصومات نشطة</div>
+          </div>
+        </a>
+
+        <a href="/gomla/customer/balance.html" class="customer-stat-card">
+          <div class="stat-icon-wrap green">
+            <i class="fas fa-wallet"></i>
+          </div>
+          <div class="stat-info-wrap">
+            <div class="stat-number green" id="statBalance">0</div>
+            <div class="stat-label">الرصيد الحالي</div>
+          </div>
+        </a>
+
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- 🚀 الوصول السريع                                              -->
+      <!-- ============================================================ -->
+      <div class="quick-access-grid">
+
+        <a href="/gomla/store-wholesale.html" class="quick-access-card">
+          <div class="qa-icon">
+            <i class="fas fa-store"></i>
+          </div>
+          <div class="qa-title">متجر الجملة</div>
+          <div class="qa-sub">تسوق الآن</div>
+        </a>
+
+        <a href="/gomla/discounts.html" class="quick-access-card">
+          <div class="qa-icon">
+            <i class="fas fa-tags"></i>
+          </div>
+          <div class="qa-title">خصومات التجار</div>
+          <div class="qa-sub">وفّر أكثر</div>
+        </a>
+
+        <a href="/gomla/customer/orders.html" class="quick-access-card">
+          <div class="qa-icon">
+            <i class="fas fa-list-alt"></i>
+          </div>
+          <div class="qa-title">طلباتي</div>
+          <div class="qa-sub">تابع طلباتك</div>
+        </a>
+
+        <a href="/gomla/customer/invoices.html" class="quick-access-card">
+          <div class="qa-icon">
+            <i class="fas fa-file-invoice"></i>
+          </div>
+          <div class="qa-title">فواتيري</div>
+          <div class="qa-sub">كل فواتيرك</div>
+        </a>
+
+        <a href="/gomla/tracking.html" class="quick-access-card">
+          <div class="qa-icon">
+            <i class="fas fa-truck"></i>
+          </div>
+          <div class="qa-title">تتبع الطلب</div>
+          <div class="qa-sub">حالة الشحنة</div>
+        </a>
+
+        <a href="/gomla/customer/profile.html" class="quick-access-card">
+          <div class="qa-icon">
+            <i class="fas fa-user-edit"></i>
+          </div>
+          <div class="qa-title">بياناتي</div>
+          <div class="qa-sub">تعديل الحساب</div>
+        </a>
+
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- 💰 بطاقة الذمة المالية                                        -->
+      <!-- ============================================================ -->
+      <div class="customer-section">
+        <div class="section-header">
+          <h2>
+            <i class="fas fa-wallet"></i>
+            الذمة المالية
+          </h2>
+          <a href="/gomla/customer/balance.html" class="view-all-link">
+            التفاصيل
+            <i class="fas fa-arrow-left"></i>
+          </a>
+        </div>
+        <div class="section-body">
+          <div class="balance-card">
+            <div class="balance-label">
+              <i class="fas fa-coins"></i>
+              رصيدك الحالي
+            </div>
+            <div class="balance-amount" id="balanceAmount">0.00 ج.م</div>
+            <div class="balance-status clear" id="balanceStatus">
+              <i class="fas fa-check-circle"></i>
+              لا توجد مديونيات
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- 📦 آخر الطلبات                                               -->
+      <!-- ============================================================ -->
+      <div class="customer-section">
+        <div class="section-header">
+          <h2>
+            <i class="fas fa-history"></i>
+            آخر الطلبات
+          </h2>
+          <a href="/gomla/customer/orders.html" class="view-all-link">
+            كل الطلبات
+            <i class="fas fa-arrow-left"></i>
+          </a>
+        </div>
+        <div class="section-body">
+          <div class="recent-orders-list" id="recentOrders">
+            <div class="mini-loading">
+              <i class="fas fa-spinner fa-spin"></i>
+              <p style="margin-top:8px;">جاري التحميل...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- 💰 الخصومات المميزة                                          -->
+      <!-- ============================================================ -->
+      <div class="customer-section">
+        <div class="section-header">
+          <h2>
+            <i class="fas fa-tags"></i>
+            خصومات مميزة لك
+          </h2>
+          <a href="/gomla/discounts.html" class="view-all-link">
+            كل الخصومات
+            <i class="fas fa-arrow-left"></i>
+          </a>
+        </div>
+        <div class="section-body">
+          <div class="featured-offers-scroll" id="featuredDiscounts">
+            <div class="mini-loading">
+              <i class="fas fa-spinner fa-spin"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- التبويبات السفلى -->
+  <div id="mobile-bottom-tabs"></div>
+  <div id="mobile-copyright"></div>
+
+  <!-- الفوتر -->
+  <div id="footer-placeholder"></div>
+
+  <!-- السايدبار -->
+  <div id="sidebar-placeholder"></div>
+
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
+
+  <!-- نافذة البحث -->
+  <div class="search-modal-overlay" id="searchModalOverlay" onclick="closeSearchModal(event)">
+    <div class="search-modal" onclick="event.stopPropagation()">
+      <div class="search-modal-header">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" 
+               id="searchModalInput" 
+               placeholder="ابحث عن منتج..."
+               autocomplete="off"
+               oninput="handleModalSearch(this.value)"
+               onkeydown="handleSearchKeydown(event)">
+        <button class="search-modal-close" onclick="closeSearchModal()" aria-label="إغلاق">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="search-modal-body" id="searchModalBody">
+        <div id="searchInitialContent">
+          <div class="search-suggestions-header">
+            <i class="fas fa-fire"></i>
+            اقتراحات سريعة
+          </div>
+          <div class="search-suggestions-chips">
+            <a href="#" class="search-chip" onclick="quickSearch('منظف')">
+              <i class="fas fa-spray-can"></i>
+              منظفات
+            </a>
+            <a href="#" class="search-chip" onclick="quickSearch('ورق')">
+              <i class="fas fa-toilet-paper"></i>
+              ورقيات
+            </a>
+            <a href="#" class="search-chip" onclick="quickSearch('صابون')">
+              <i class="fas fa-soap"></i>
+              صابون
+            </a>
+          </div>
+        </div>
+        <div class="search-results" id="searchResults"></div>
+      </div>
+      <div class="search-keyboard-hint">
+        <span><kbd>ESC</kbd> للإغلاق</span>
+        <span><kbd>Enter</kbd> للبحث</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase & Scripts -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+  <script src="/gomla/assets/js/firebase-config.js"></script>
+  <script src="/gomla/assets/js/main.js"></script>
+
+  <script>
+    // ============================================================
+    // 📄 trader-home.html - صفحة التاجر الرئيسية
+    // ============================================================
+
+    // ===== المتغيرات =====
+    let traderData = null;
+    let traderId = null;
+
+    // ============================================================
+    // 🚀 تحميل الصفحة
+    // ============================================================
+
+    async function loadTraderHome() {
+      const user = getCurrentUser();
+
+      // 🔒 حماية: تاجر فقط
+      if (!user) {
+        window.location.href = '/gomla/trader-login.html';
+        return;
+      }
+
+      if (user.data.role !== ROLES.WHOLESALE) {
+        // لو مش تاجر، نحوله حسب دوره
+        if (user.data.role === ROLES.RETAIL) {
+          window.location.href = '/gomla/customer-home.html';
+        } else if (user.data.role === ROLES.SUPER || user.data.role === ROLES.ADMIN_PLUS || user.data.role === ROLES.ADMIN) {
+          window.location.href = '/gomla/admin/home.html';
+        } else if (user.data.role === ROLES.CASHIER) {
+          window.location.href = '/gomla/cashier/home.html';
+        } else {
+          window.location.href = '/gomla/';
+        }
+        return;
+      }
+
+      traderData = user.data;
+      traderId = traderData.id || traderData.uid;
+
+      // عرض البيانات
+      renderWelcomeHeader();
+      renderTraderCode();
+
+      // تحميل الإحصائيات والبيانات
+      await Promise.all([
+        loadTraderStats(),
+        loadBalance(),
+        loadRecentOrders(),
+        loadFeaturedDiscounts()
+      ]);
+    }
+
+    // ============================================================
+    // 👋 عرض رأس الترحيب
+    // ============================================================
+
+    function renderWelcomeHeader() {
+      const nameEl = document.getElementById('traderName');
+      const avatarEl = document.getElementById('traderAvatar');
+      const memberEl = document.getElementById('memberSince');
+      const welcomeMsg = document.getElementById('welcomeMessage');
+      const cityBadge = document.getElementById('cityBadge');
+      const cityText = document.getElementById('cityText');
+
+      if (nameEl) {
+        nameEl.textContent = traderData.name || 'تاجرنا العزيز';
+      }
+
+      if (avatarEl && traderData.avatar) {
+        avatarEl.src = traderData.avatar;
+      }
+
+      // رسالة ترحيب حسب الوقت
+      const hour = new Date().getHours();
+      let greeting = 'سعداء بوجودك معنا في أولاد شعلان جملة';
+      if (hour < 12) {
+        greeting = 'صباح الخير! نتمنى لك يوم تجاري موفق 🌞';
+      } else if (hour < 18) {
+        greeting = 'مساء الخير! كيف حالك اليوم؟ ☀️';
+      } else {
+        greeting = 'مساء الخير! تصفح خصوماتنا الجديدة 🌙';
+      }
+      if (welcomeMsg) welcomeMsg.textContent = greeting;
+
+      // تاريخ العضوية
+      if (memberEl && traderData.createdAt) {
+        const date = traderData.createdAt.toDate ? 
+          traderData.createdAt.toDate() : 
+          new Date(traderData.createdAt);
+        
+        const months = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
+                       'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
+        
+        memberEl.textContent = `عضو منذ ${months[date.getMonth()]} ${date.getFullYear()}`;
+      }
+
+      // شارة المدينة
+      if (cityBadge && traderData.city) {
+        cityText.textContent = traderData.city;
+        cityBadge.style.display = 'inline-flex';
+      }
+    }
+
+    // ============================================================
+    // 🔑 عرض كود التاجر
+    // ============================================================
+
+    function renderTraderCode() {
+      const codeText = document.getElementById('traderCodeText');
+      if (!codeText) return;
+
+      if (traderData.code) {
+        codeText.textContent = traderData.code;
+      } else {
+        codeText.textContent = '---';
+      }
+    }
+
+    // ============================================================
+    // 📋 نسخ كود التاجر
+    // ============================================================
+
+    function copyTraderCode() {
+      const code = traderData?.code;
+      if (!code) {
+        showToast('⚠️ لا يوجد كود للنسخ', 'warning');
+        return;
+      }
+
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(code)
+          .then(() => showToast('✅ تم نسخ الكود', 'success'))
+          .catch(() => fallbackCopy(code));
+      } else {
+        fallbackCopy(code);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      ta.remove();
+      showToast('✅ تم نسخ الكود', 'success');
+    }
+
+    // ============================================================
+    // 📊 تحميل الإحصائيات
+    // ============================================================
+
+    async function loadTraderStats() {
+      try {
+        // جلب طلبات التاجر
+        const ordersSnapshot = await db.collection(COLLECTIONS.ORDERS)
+          .where('customerId', '==', traderId)
+          .get();
+
+        let totalOrders = 0;
+        let pendingOrders = 0;
+
+        ordersSnapshot.forEach(doc => {
+          const order = doc.data();
+          totalOrders++;
+          if (order.status === 'pending') {
+            pendingOrders++;
+          }
+        });
+
+        // جلب الخصومات النشطة
+        const discountsSnapshot = await db.collection(COLLECTIONS.PRODUCTS)
+          .where('available', '==', true)
+          .where('hasWholesaleDiscount', '==', true)
+          .get();
+
+        document.getElementById('statOrders').textContent = totalOrders;
+        document.getElementById('statPending').textContent = pendingOrders;
+        document.getElementById('statDiscounts').textContent = discountsSnapshot.size;
+
+      } catch (error) {
+        console.error('Error loading stats:', error);
+      }
+    }
+
+    // ============================================================
+    // 💰 تحميل الرصيد
+    // ============================================================
+
+    async function loadBalance() {
+      try {
+        const doc = await db.collection(COLLECTIONS.CUSTOMERS).doc(traderId).get();
+        
+        if (!doc.exists) return;
+
+        const data = doc.data();
+        const balance = data.balance || 0;
+
+        const amountEl = document.getElementById('balanceAmount');
+        const statusEl = document.getElementById('balanceStatus');
+
+        if (amountEl) {
+          amountEl.textContent = `${Math.abs(balance).toFixed(2)} ج.م`;
+        }
+
+        if (statusEl) {
+          if (balance > 0) {
+            statusEl.className = 'balance-status due';
+            statusEl.innerHTML = `
+              <i class="fas fa-exclamation-circle"></i>
+              مديونية: ${balance.toFixed(2)} ج.م
+            `;
+          } else if (balance < 0) {
+            statusEl.className = 'balance-status clear';
+            statusEl.innerHTML = `
+              <i class="fas fa-check-circle"></i>
+              رصيد دائن: ${Math.abs(balance).toFixed(2)} ج.م
+            `;
+          } else {
+            statusEl.className = 'balance-status clear';
+            statusEl.innerHTML = `
+              <i class="fas fa-check-circle"></i>
+              لا توجد مديونيات
+            `;
+          }
+        }
+
+        // تحديث إحصائية الرصيد
+        const statBalance = document.getElementById('statBalance');
+        if (statBalance) {
+          statBalance.textContent = `${Math.abs(balance).toFixed(0)} ج.م`;
+        }
+
+      } catch (error) {
+        console.error('Error loading balance:', error);
+      }
+    }
+
+    // ============================================================
+    // 📦 تحميل آخر الطلبات
+    // ============================================================
+
+    async function loadRecentOrders() {
+      const container = document.getElementById('recentOrders');
+      if (!container) return;
+
+      try {
+        const snapshot = await db.collection(COLLECTIONS.ORDERS)
+          .where('customerId', '==', traderId)
+          .orderBy('createdAt', 'desc')
+          .limit(5)
+          .get();
+
+        if (snapshot.empty) {
+          container.innerHTML = `
+            <div class="mini-empty">
+              <i class="fas fa-shopping-bag"></i>
+              <p>لا توجد طلبات حتى الآن</p>
+              <a href="/gomla/store-wholesale.html" class="btn btn-primary btn-sm">
+                <i class="fas fa-store"></i>
+                ابدأ التسوق
+              </a>
+            </div>
+          `;
+          return;
+        }
+
+        let html = '';
+        const statusMap = {
+          pending: 'قيد الانتظار',
+          processing: 'قيد المعالجة',
+          shipped: 'تم الشحن',
+          delivered: 'تم التسليم',
+          cancelled: 'ملغي'
+        };
+
+        snapshot.forEach(doc => {
+          const order = doc.data();
+          const orderNumber = doc.id.slice(-8).toUpperCase();
+          const date = order.createdAt ? 
+            (order.createdAt.toDate ? order.createdAt.toDate() : new Date(order.createdAt)) : 
+            new Date();
+          
+          const dateStr = date.toLocaleDateString('ar-EG', {
+            year: 'numeric', month: 'short', day: 'numeric'
+          });
+          
+          const status = order.status || 'pending';
+          const statusText = statusMap[status] || 'قيد الانتظار';
+
+          html += `
+            <a href="/gomla/tracking.html?id=${doc.id}" class="recent-order-item">
+              <div class="order-icon">
+                <i class="fas fa-receipt"></i>
+              </div>
+              <div class="order-info">
+                <div class="order-num">#${orderNumber}</div>
+                <div class="order-date">
+                  <i class="fas fa-calendar"></i>
+                  ${dateStr}
+                </div>
+              </div>
+              <span class="order-status-badge ${status}">${statusText}</span>
+              <div class="order-total">${(order.total || 0).toFixed(0)} ج.م</div>
+            </a>
+          `;
+        });
+
+        container.innerHTML = html;
+
+      } catch (error) {
+        console.error('Error loading recent orders:', error);
+        container.innerHTML = `
+          <div class="mini-empty">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p>حدث خطأ في تحميل الطلبات</p>
+          </div>
+        `;
+      }
+    }
+
+    // ============================================================
+    // 💰 تحميل الخصومات المميزة
+    // ============================================================
+
+    async function loadFeaturedDiscounts() {
+      const container = document.getElementById('featuredDiscounts');
+      if (!container) return;
+
+      try {
+        const snapshot = await db.collection(COLLECTIONS.PRODUCTS)
+          .where('available', '==', true)
+          .where('hasWholesaleDiscount', '==', true)
+          .limit(6)
+          .get();
+
+        if (snapshot.empty) {
+          container.innerHTML = `
+            <div class="mini-empty" style="width:100%;">
+              <i class="fas fa-tags"></i>
+              <p>لا توجد خصومات حالياً</p>
+            </div>
+          `;
+          return;
+        }
+
+        let html = '';
+
+        snapshot.forEach(doc => {
+          const p = doc.data();
+          const id = doc.id;
+          const originalPrice = p.wholesalePrice || 0;
+          const discountPercent = p.wholesaleDiscountPercent || 0;
+          const finalPrice = originalPrice * (1 - discountPercent / 100);
+          const unit = p.unit || 'كرتونة';
+
+          html += `
+            <a href="/gomla/product-details.html?id=${id}&type=wholesale" class="featured-offer-card">
+              <div class="discount-ribbon">
+                <i class="fas fa-tags"></i> ${discountPercent}%
+              </div>
+              <img src="${p.imageUrl || '/gomla/assets/images/no-image.png'}" 
+                   alt="${p.name}"
+                   onerror="this.src='/gomla/assets/images/no-image.png'">
+              <div class="offer-body">
+                <div class="offer-name">${p.name}</div>
+                <div class="offer-price">
+                  <span class="new-price">${finalPrice.toFixed(2)} ج.م</span>
+                  <span class="old-price">${originalPrice.toFixed(2)} ج.م</span>
+                </div>
+                <div style="font-size:0.7rem;color:var(--gray-400);margin-top:4px;">
+                  / ${unit}
+                </div>
+              </div>
+            </a>
+          `;
+        });
+
+        container.innerHTML = html;
+
+      } catch (error) {
+        console.error('Error loading discounts:', error);
+      }
+    }
+
+    // ============================================================
+    // 🚀 تشغيل الصفحة
+    // ============================================================
+
+    document.addEventListener('DOMContentLoaded', function() {
+      loadTraderHome();
+      console.log('✅ trader-home.html loaded');
+    });
+
+    // تصدير
+    window.loadTraderHome = loadTraderHome;
+    window.copyTraderCode = copyTraderCode;
+
+  </script>
+
+</body>
+</html>
