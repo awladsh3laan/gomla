@@ -3,1009 +3,1534 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>أولاد شعلان جملة - توليد أكواد العملاء</title>
+  <title>إدارة الحسابات - أولاد شعلان</title>
 
-  <meta name="description" content="توليد أكواد العملاء - أولاد شعلان جملة">
   <meta name="theme-color" content="#1a2a4a">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="icon" href="../assets/images/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/gomla/assets/css/style.css">
+  <link rel="icon" href="/gomla/assets/images/favicon.ico">
 
   <style>
-@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap');
+    /* ============================================================
+       🎨 ستايل صفحة إدارة الحسابات
+       ============================================================ */
 
-    /* ========================================== */
-    /* 🎨 الألوان الموحدة - أولاد شعلان جملة      */
-    /* ========================================== */
-
-    :root {
-      --navy: #1a2a4a;
-      --navy-light: #2a3f6a;
-      --navy-dark: #0f1a2e;
-      --gold: #c9a84c;
-      --gold-light: #e8d5a3;
-      --gold-dark: #b8942a;
-      --white: #ffffff;
-      --gray-50: #f8fafc;
-      --gray-100: #f1f5f9;
-      --gray-200: #e2e8f0;
-      --gray-300: #cbd5e1;
-      --gray-400: #94a3b8;
-      --gray-500: #64748b;
-      --gray-600: #475569;
-      --gray-700: #334155;
-      --gray-800: #1e293b;
-      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
-      --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.08);
-      --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.12);
-      --shadow-xl: 0 16px 60px rgba(0, 0, 0, 0.16);
-      --radius-sm: 10px;
-      --radius-md: 16px;
-      --radius-lg: 24px;
-      --radius-full: 9999px;
-      --transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-      direction: rtl;
-    }
-
-    body {
-      font-family: 'Tajawal', -apple-system, sans-serif;
-      background: var(--gray-50);
-      color: var(--gray-800);
-      min-height: 100vh;
+    /* ===== التبويبات ===== */
+    .role-tabs {
       display: flex;
-      flex-direction: column;
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px) scale(0.96);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-
-    @keyframes float {
-      0%,
-      100% {
-        transform: translateY(0px);
-      }
-      50% {
-        transform: translateY(-8px);
-      }
-    }
-
-    .container {
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    /* ===== الهيدر ===== */
-    .smart-header {
-      background: var(--navy);
-      color: var(--white);
-      padding: 14px 0;
-      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      border-bottom: 3px solid var(--gold);
-    }
-
-    .smart-header .container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .smart-header .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 1.5rem;
-      font-weight: 900;
-      color: var(--white);
-      text-decoration: none;
-    }
-
-    .smart-header .logo img {
-      height: 44px;
-      border-radius: 10px;
-    }
-
-    .smart-header .logo small {
-      font-size: 0.7rem;
-      font-weight: 400;
-      opacity: 0.8;
-    }
-
-    .smart-header .logo .gold {
-      color: var(--gold);
-    }
-
-    .header-actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      gap: 8px;
+      margin-bottom: 24px;
+      background: var(--white);
+      padding: 8px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      overflow-x: auto;
       flex-wrap: wrap;
     }
 
-    .header-actions .btn {
-      padding: 8px 20px;
-      border-radius: var(--radius-full);
-      font-weight: 700;
-      font-size: 0.85rem;
-      border: none;
-      cursor: pointer;
-      transition: var(--transition-base);
-      font-family: inherit;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .header-actions .btn-gold {
-      background: var(--gold);
-      color: var(--navy);
-    }
-
-    .header-actions .btn-gold:hover {
-      background: var(--gold-light);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 16px rgba(201, 168, 76, 0.35);
-    }
-
-    .header-actions .btn-outline {
-      background: transparent;
-      border: 2px solid var(--gold);
-      color: var(--white);
-    }
-
-    .header-actions .btn-outline:hover {
-      background: var(--gold);
-      color: var(--navy);
-      transform: translateY(-2px);
-    }
-
-    /* ===== المحتوى ===== */
-    .page-content {
+    .role-tab {
       flex: 1;
-      padding: 32px 0 48px;
-    }
-
-    .page-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 28px;
-    }
-
-    .page-header h1 {
-      font-size: 1.8rem;
+      min-width: 130px;
+      padding: 14px 16px;
+      border: none;
+      background: var(--gray-50);
+      color: var(--gray-600);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
       font-weight: 800;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .role-tab:hover {
+      background: var(--gray-100);
+    }
+
+    .role-tab.active {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      box-shadow: 0 6px 20px rgba(26, 42, 74, 0.3);
+    }
+
+    .role-tab.trader.active {
+      background: linear-gradient(135deg, var(--gold-dark), var(--gold));
       color: var(--navy);
     }
 
-    .page-header h1 i {
-      color: var(--gold);
-      margin-left: 8px;
+    .role-tab.cashier.active {
+      background: linear-gradient(135deg, #7c3aed, #a78bfa);
+      color: var(--white);
     }
 
-    .page-header .badge-super {
-      background: var(--gold);
-      color: var(--navy);
-      padding: 6px 18px;
-      border-radius: var(--radius-full);
-      font-weight: 700;
-      font-size: 0.85rem;
+    .role-tab.admin.active {
+      background: linear-gradient(135deg, #2563eb, #60a5fa);
+      color: var(--white);
     }
 
-    /* ===== بطاقة التوليد ===== */
-    .generate-card {
+    .role-tab.admin-plus.active {
+      background: linear-gradient(135deg, #dc2626, #f87171);
+      color: var(--white);
+    }
+
+    .role-tab i {
+      font-size: 1.1rem;
+    }
+
+    /* ===== محتوى التبويب ===== */
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== بطاقة القسم ===== */
+    .role-card {
       background: var(--white);
       border-radius: var(--radius-md);
-      padding: 32px;
-      max-width: 700px;
-      margin: 0 auto;
-      box-shadow: var(--shadow-md);
-      border-top: 5px solid var(--gold);
-      animation: fadeInUp 0.6s ease both;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      overflow: hidden;
+      margin-bottom: 24px;
     }
 
-    .generate-card .form-group {
-      margin-bottom: 18px;
+    .role-card-header {
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      border-bottom: 2px solid var(--gray-100);
     }
 
-    .generate-card .form-group label {
-      display: block;
-      font-weight: 600;
-      font-size: 0.9rem;
-      color: var(--gray-600);
-      margin-bottom: 4px;
+    .role-card-header.trader {
+      background: linear-gradient(135deg, #fcf9f0, #f8f4e8);
+      border-bottom-color: var(--gold-light);
     }
 
-    .generate-card .form-group label i {
+    .role-card-header.cashier {
+      background: linear-gradient(135deg, #f5f3ff, #ede9fe);
+      border-bottom-color: #c4b5fd;
+    }
+
+    .role-card-header.admin {
+      background: linear-gradient(135deg, #eff6ff, #dbeafe);
+      border-bottom-color: #93c5fd;
+    }
+
+    .role-card-header.admin-plus {
+      background: linear-gradient(135deg, #fef2f2, #fee2e2);
+      border-bottom-color: #fca5a5;
+    }
+
+    .role-card-header .rc-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .role-card-header.trader .rc-icon {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+    }
+
+    .role-card-header.cashier .rc-icon {
+      background: linear-gradient(135deg, #7c3aed, #a78bfa);
+      color: var(--white);
+    }
+
+    .role-card-header.admin .rc-icon {
+      background: linear-gradient(135deg, #2563eb, #60a5fa);
+      color: var(--white);
+    }
+
+    .role-card-header.admin-plus .rc-icon {
+      background: linear-gradient(135deg, #dc2626, #f87171);
+      color: var(--white);
+    }
+
+    .role-card-header .rc-info h2 {
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin: 0 0 4px;
+    }
+
+    .role-card-header .rc-info p {
+      font-size: 0.85rem;
+      color: var(--gray-500);
+      margin: 0;
+      line-height: 1.6;
+    }
+
+    .role-card-body {
+      padding: 24px;
+    }
+
+    /* ===== الحقول ===== */
+    .form-group {
+      margin-bottom: 16px;
+    }
+
+    .form-group label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: var(--gray-700);
+      margin-bottom: 6px;
+    }
+
+    .form-group label i {
       color: var(--gold);
-      margin-left: 4px;
+      font-size: 0.85rem;
     }
 
-    .generate-card .form-group input,
-    .generate-card .form-group select {
+    .form-group label .required {
+      color: var(--danger);
+      margin-right: 2px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
       width: 100%;
-      padding: 12px 16px;
+      padding: 12px 14px;
       border: 2px solid var(--gray-200);
       border-radius: var(--radius-sm);
-      font-size: 1rem;
       font-family: inherit;
-      transition: all 0.3s ease;
+      font-size: 0.95rem;
       background: var(--gray-50);
+      color: var(--gray-800);
+      transition: all 0.3s ease;
     }
 
-    .generate-card .form-group input:focus,
-    .generate-card .form-group select:focus {
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
       outline: none;
       border-color: var(--gold);
       box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.15);
       background: var(--white);
     }
 
-    .generate-card .form-row {
+    .form-group input.error {
+      border-color: var(--danger);
+      background: #fef2f2;
+    }
+
+    .form-group .help-text {
+      font-size: 0.75rem;
+      color: var(--gray-400);
+      margin-top: 4px;
+      display: flex;
+      align-items: flex-start;
+      gap: 4px;
+    }
+
+    .form-group .help-text i {
+      color: var(--gold);
+      font-size: 0.7rem;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      gap: 14px;
     }
 
-    .generate-card .code-preview {
-      background: var(--gray-50);
-      border-radius: var(--radius-sm);
-      padding: 16px 20px;
-      text-align: center;
-      margin: 12px 0 16px;
-      border: 2px dashed var(--gold);
-      display: none;
+    /* ===== حقل الباسورد ===== */
+    .password-wrapper {
+      position: relative;
     }
 
-    .generate-card .code-preview.show {
-      display: block;
+    .password-wrapper input {
+      padding-left: 90px;
     }
 
-    .generate-card .code-preview .code-text {
-      font-size: 1.8rem;
-      font-weight: 900;
-      color: var(--navy);
-      font-family: 'Courier New', monospace;
-      letter-spacing: 2px;
-    }
-
-    .generate-card .code-preview .code-label {
-      font-size: 0.8rem;
+    .password-wrapper .toggle-btn {
+      position: absolute;
+      left: 50px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: transparent;
+      border: none;
       color: var(--gray-400);
+      cursor: pointer;
+      font-size: 0.95rem;
+      padding: 6px;
+      transition: all 0.2s ease;
     }
 
-    .generate-card .barcode-preview {
-      text-align: center;
-      margin: 12px 0;
-      display: none;
+    .password-wrapper .toggle-btn:hover {
+      color: var(--navy);
     }
 
-    .generate-card .barcode-preview.show {
-      display: block;
-    }
-
-    .generate-card .barcode-preview img {
-      max-width: 200px;
-      height: auto;
-      border: 1px solid var(--gray-200);
+    .password-wrapper .generate-btn {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--gold);
+      color: var(--navy);
+      border: none;
+      padding: 6px 10px;
       border-radius: var(--radius-sm);
-      padding: 8px;
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 3px;
     }
 
-    .generate-card .btn-generate {
+    .password-wrapper .generate-btn:hover {
+      background: var(--gold-dark);
+      color: var(--white);
+    }
+
+    /* ===== أزرار ===== */
+    .action-btn {
       width: 100%;
-      padding: 14px;
+      padding: 15px 24px;
       border: none;
       border-radius: var(--radius-full);
-      background: var(--navy);
-      color: var(--white);
-      font-weight: 700;
-      font-size: 1.05rem;
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 1rem;
       cursor: pointer;
       transition: all 0.3s ease;
-      font-family: inherit;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      gap: 10px;
+      margin-top: 8px;
+      position: relative;
+      overflow: hidden;
     }
 
-    .generate-card .btn-generate:hover {
-      background: var(--gold);
+    .action-btn.trader-btn {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
       color: var(--navy);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 16px rgba(201, 168, 76, 0.35);
+      box-shadow: 0 8px 24px rgba(201, 168, 76, 0.4);
     }
 
-    .generate-card .btn-generate:disabled {
-      opacity: 0.6;
+    .action-btn.cashier-btn {
+      background: linear-gradient(135deg, #7c3aed, #5b21b6);
+      color: var(--white);
+      box-shadow: 0 8px 24px rgba(124, 58, 237, 0.4);
+    }
+
+    .action-btn.admin-btn {
+      background: linear-gradient(135deg, #2563eb, #1e40af);
+      color: var(--white);
+      box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
+    }
+
+    .action-btn.admin-plus-btn {
+      background: linear-gradient(135deg, #dc2626, #991b1b);
+      color: var(--white);
+      box-shadow: 0 8px 24px rgba(220, 38, 38, 0.4);
+    }
+
+    .action-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.1);
+    }
+
+    .action-btn:disabled {
+      opacity: 0.7;
       cursor: not-allowed;
       transform: none;
     }
 
-    .generate-card .actions-row {
+    .action-btn i,
+    .action-btn span {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ===== صندوق النتيجة ===== */
+    .result-box {
+      display: none;
+      background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+      border: 2px solid #22c55e;
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin-top: 24px;
+      animation: resultIn 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    @keyframes resultIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.9) translateY(-20px);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    .result-box.show {
+      display: block;
+    }
+
+    .result-box::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(34, 197, 94, 0.15) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .result-box > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    .result-box .result-header {
       display: flex;
+      align-items: center;
       gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 12px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 2px dashed #22c55e;
     }
 
-    .generate-card .actions-row .btn {
-      flex: 1;
-      justify-content: center;
-      padding: 10px;
-      font-size: 0.9rem;
-      min-width: 120px;
-    }
-
-    .generate-card .btn-success {
-      background: #22c55e;
+    .result-box .result-header .result-icon {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
       color: var(--white);
-    }
-
-    .generate-card .btn-success:hover {
-      background: #16a34a;
-      transform: translateY(-2px);
-    }
-
-    .generate-card .btn-whatsapp {
-      background: #25d366;
-      color: var(--white);
-    }
-
-    .generate-card .btn-whatsapp:hover {
-      background: #1ebe5a;
-      transform: translateY(-2px);
-    }
-
-    .generate-card .btn-outline {
-      background: transparent;
-      border: 2px solid var(--gold);
-      color: var(--gold);
-    }
-
-    .generate-card .btn-outline:hover {
-      background: var(--gold);
-      color: var(--navy);
-      transform: translateY(-2px);
-    }
-
-    /* ===== رسائل ===== */
-    .toast-container {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      z-index: 9999;
       display: flex;
-      flex-direction: column;
-      gap: 8px;
-      max-width: 90%;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      animation: pulse 2s ease-in-out infinite;
     }
 
-    .toast {
-      padding: 12px 24px;
-      border-radius: var(--radius-sm);
-      color: var(--white);
-      font-weight: 600;
-      font-size: 0.95rem;
-      box-shadow: var(--shadow-lg);
-      animation: fadeInUp 0.3s ease;
-      direction: rtl;
-      font-family: 'Tajawal', sans-serif;
+    .result-box .result-header h3 {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: #166534;
+      margin: 0;
     }
 
-    .toast-success {
-      background: #22c55e;
-    }
-    .toast-error {
-      background: #ef4444;
-    }
-    .toast-warning {
-      background: #f59e0b;
-    }
-    .toast-info {
-      background: #3b82f6;
+    .result-box .result-header p {
+      font-size: 0.85rem;
+      color: #16a34a;
+      margin: 4px 0 0;
     }
 
-    /* ===== الفوتر ===== */
-    .smart-footer {
-      background: var(--navy-dark);
-      color: rgba(255, 255, 255, 0.85);
-      padding: 28px 0;
-      margin-top: 0;
-      border-top: 3px solid var(--gold);
+    /* ===== بطاقة البيانات المحفوظة ===== */
+    .info-display-grid {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 20px;
     }
 
-    .smart-footer .container {
+    .info-display-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-
-    .smart-footer .footer-links {
-      display: flex;
-      gap: 20px;
-    }
-
-    .smart-footer .footer-links a {
-      color: rgba(255, 255, 255, 0.7);
-      text-decoration: none;
-      transition: var(--transition-base);
-    }
-
-    .smart-footer .footer-links a:hover {
-      color: var(--gold);
-    }
-
-    .smart-footer .social-icons {
-      display: flex;
-      gap: 12px;
-    }
-
-    .smart-footer .social-icons a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.06);
-      color: var(--white);
-      text-decoration: none;
-      transition: var(--transition-base);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .smart-footer .social-icons a:hover {
-      background: var(--gold);
-      color: var(--navy);
-      transform: translateY(-3px);
-    }
-
-    /* ========================================== */
-    /* 🧠 السايدبار الذكي                       */
-    /* ========================================== */
-
-    .smart-sidebar {
-      position: fixed;
-      top: 0;
-      right: -380px;
-      width: 360px;
-      height: 100%;
+      padding: 12px 16px;
       background: var(--white);
-      z-index: 9999;
-      transition: right 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-      box-shadow: -4px 0 40px rgba(0, 0, 0, 0.12);
-      display: flex;
-      flex-direction: column;
-      overflow-y: auto;
+      border-radius: var(--radius-sm);
+      border: 2px solid #bbf7d0;
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
-    .smart-sidebar.open {
-      right: 0;
-    }
-
-    .sidebar-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.4);
-      z-index: 9998;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-    }
-
-    .sidebar-overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    .sidebar-header {
-      padding: 20px 24px;
-      background: var(--navy);
-      color: var(--white);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-shrink: 0;
-    }
-
-    .sidebar-user {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-    }
-
-    .sidebar-avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid var(--gold);
-    }
-
-    .sidebar-username {
+    .info-display-row .info-label {
+      font-size: 0.82rem;
       font-weight: 700;
-      font-size: 1rem;
-    }
-
-    .sidebar-user-role {
-      font-size: 0.75rem;
-      opacity: 0.7;
-    }
-
-    .sidebar-close {
-      background: rgba(255, 255, 255, 0.1);
-      border: none;
-      color: var(--white);
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      font-size: 1.1rem;
-      cursor: pointer;
-      transition: var(--transition-base);
-    }
-
-    .sidebar-close:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
-
-    .sidebar-motivational {
-      background: linear-gradient(135deg, var(--navy), var(--navy-light));
-      color: var(--white);
-      padding: 20px 24px;
-      text-align: center;
-      flex-shrink: 0;
-    }
-
-    .motivational-icon {
-      font-size: 1.4rem;
-      color: var(--gold);
-      margin-bottom: 6px;
-    }
-
-    .motivational-text {
-      font-size: 1rem;
-      font-weight: 500;
-      transition: opacity 0.3s ease;
-      line-height: 1.6;
-    }
-
-    .sidebar-news {
-      padding: 16px 24px;
-      border-bottom: 1px solid var(--gray-200);
-      flex-shrink: 0;
-    }
-
-    .news-header {
+      color: var(--gray-600);
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-weight: 700;
-      font-size: 0.9rem;
-      color: var(--navy);
-      margin-bottom: 10px;
-    }
-
-    .news-header i {
-      color: var(--gold);
-    }
-
-    .news-list {
-      display: flex;
-      flex-direction: column;
       gap: 6px;
     }
 
-    .news-item {
+    .info-display-row .info-label i {
+      color: #22c55e;
+    }
+
+    .info-display-row .info-value {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--navy);
       display: flex;
       align-items: center;
-      gap: 10px;
-      font-size: 0.85rem;
-      color: var(--gray-600);
-      padding: 4px 0;
-    }
-
-    .news-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--gold);
-      flex-shrink: 0;
-    }
-
-    .sidebar-nav {
+      gap: 8px;
       flex: 1;
-      padding: 12px 16px;
-      overflow-y: auto;
+      justify-content: flex-end;
+      min-width: 0;
     }
 
-    .sidebar-link {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      padding: 10px 16px;
-      border-radius: var(--radius-sm);
-      color: var(--gray-600);
-      text-decoration: none;
-      transition: var(--transition-base);
-      font-size: 0.95rem;
-      font-weight: 500;
+    .info-display-row .info-value.code-value {
+      font-family: 'Courier New', monospace;
+      font-size: 1.3rem;
+      letter-spacing: 2px;
+      color: var(--gold-dark);
     }
 
-    .sidebar-link:hover {
+    .info-display-row .copy-mini-btn {
       background: var(--gray-100);
-      color: var(--navy);
-    }
-
-    .sidebar-link.active {
-      background: var(--navy);
-      color: var(--white);
-    }
-
-    .sidebar-link i {
-      width: 20px;
-      text-align: center;
-      font-size: 1.05rem;
-    }
-
-    .sidebar-footer {
-      padding: 16px 24px;
-      border-top: 1px solid var(--gray-200);
-      flex-shrink: 0;
-    }
-
-    .sidebar-action-btn {
-      width: 100%;
-      padding: 12px;
       border: none;
-      border-radius: var(--radius-full);
-      background: var(--gold);
-      color: var(--navy);
-      font-weight: 700;
-      font-size: 0.95rem;
+      color: var(--gray-600);
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
       cursor: pointer;
-      transition: var(--transition-base);
-      font-family: inherit;
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+      font-size: 0.85rem;
+    }
+
+    .info-display-row .copy-mini-btn:hover {
+      background: #22c55e;
+      color: var(--white);
+      transform: scale(1.1);
+    }
+
+    /* ===== أزرار الإجراءات ===== */
+    .result-actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+    }
+
+    .result-actions .btn {
+      padding: 12px 16px;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .result-actions .whatsapp-action {
+      background: #25D366;
+      color: var(--white);
+    }
+
+    .result-actions .whatsapp-action:hover {
+      background: #128C7E;
+    }
+
+    /* ===== التنبيهات ===== */
+    .info-alert {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 20px;
+      font-size: 0.85rem;
+      line-height: 1.6;
+    }
+
+    .info-alert.gold {
+      background: linear-gradient(135deg, #fef9e7, #fcf9f0);
+      border: 2px solid var(--gold-light);
+      color: var(--gray-700);
+    }
+
+    .info-alert.gold i {
+      color: var(--gold-dark);
+    }
+
+    .info-alert.red {
+      background: linear-gradient(135deg, #fef2f2, #fee2e2);
+      border: 2px solid #fca5a5;
+      color: #7f1d1d;
+    }
+
+    .info-alert.red i {
+      color: var(--danger);
+    }
+
+    .info-alert.blue {
+      background: linear-gradient(135deg, #eff6ff, #dbeafe);
+      border: 2px solid #93c5fd;
+      color: #1e3a8a;
+    }
+
+    .info-alert.blue i {
+      color: #2563eb;
+    }
+
+    .info-alert.green {
+      background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+      border: 2px solid #86efac;
+      color: #166534;
+    }
+
+    .info-alert.green i {
+      color: #22c55e;
+    }
+
+    .info-alert i {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .info-alert strong {
+      color: var(--navy);
+      font-weight: 800;
+    }
+
+    /* ===== التنبيهات ===== */
+    .toast-inline {
+      display: none;
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 16px;
+      font-size: 0.88rem;
+      font-weight: 700;
+      align-items: center;
       gap: 8px;
     }
 
-    .sidebar-action-btn:hover {
-      background: var(--gold-light);
-      transform: scale(1.02);
-    }
-
-    .sidebar-toggle {
-      position: fixed;
-      left: 20px;
-      bottom: 20px;
-      background: var(--navy);
-      color: var(--white);
-      width: 52px;
-      height: 52px;
-      border-radius: 50%;
+    .toast-inline.show {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-      cursor: pointer;
-      box-shadow: var(--shadow-lg);
-      border: none;
-      z-index: 999;
-      transition: var(--transition-base);
     }
 
-    .sidebar-toggle:hover {
-      background: var(--gold);
-      color: var(--navy);
-      transform: scale(1.05);
+    .toast-inline.error {
+      background: #fef2f2;
+      border-right: 4px solid var(--danger);
+      color: #dc2626;
     }
 
-    /* ========================================== */
-    /* 📱 تحسينات الشاشات الصغيرة                */
-    /* ========================================== */
+    .toast-inline.success {
+      background: #f0fdf4;
+      border-right: 4px solid var(--success);
+      color: #16a34a;
+    }
 
-    @media (max-width: 768px) {
-      .generate-card {
-        padding: 24px 16px;
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) and (pointer: coarse) {
+      .role-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding: 6px;
       }
 
-      .generate-card .form-row {
+      .role-tab {
+        min-width: 110px;
+        padding: 10px 12px;
+        font-size: 0.78rem;
+        flex-shrink: 0;
+      }
+
+      .role-tab i {
+        font-size: 0.95rem;
+      }
+
+      .role-card-header {
+        padding: 16px;
+        gap: 10px;
+      }
+
+      .role-card-header .rc-icon {
+        width: 46px;
+        height: 46px;
+        font-size: 1.2rem;
+      }
+
+      .role-card-header .rc-info h2 {
+        font-size: 1rem;
+      }
+
+      .role-card-header .rc-info p {
+        font-size: 0.78rem;
+      }
+
+      .role-card-body {
+        padding: 16px;
+      }
+
+      .form-row {
         grid-template-columns: 1fr;
         gap: 0;
       }
 
-      .smart-sidebar {
-        width: 320px;
-        right: -340px;
+      .form-group input,
+      .form-group select,
+      .form-group textarea {
+        padding: 11px 12px;
+        font-size: 0.9rem;
       }
 
-      .smart-header .container {
-        flex-direction: column;
-        align-items: stretch;
+      .action-btn {
+        padding: 14px 20px;
+        font-size: 0.95rem;
       }
 
-      .header-actions {
-        justify-content: center;
+      .result-box {
+        padding: 16px;
       }
 
-      .smart-footer .container {
-        flex-direction: column;
-        text-align: center;
+      .result-box .result-header .result-icon {
+        width: 44px;
+        height: 44px;
+        font-size: 1.2rem;
       }
 
-      .smart-footer .footer-links {
-        justify-content: center;
+      .result-box .result-header h3 {
+        font-size: 1rem;
       }
 
-      .page-header h1 {
-        font-size: 1.4rem;
+      .info-display-row {
+        padding: 10px 12px;
       }
 
-      .generate-card .code-preview .code-text {
-        font-size: 1.3rem;
+      .info-display-row .info-value.code-value {
+        font-size: 1rem;
       }
 
-      .generate-card .actions-row .btn {
-        min-width: 100px;
-        font-size: 0.8rem;
+      .result-actions {
+        grid-template-columns: 1fr;
       }
     }
 
     @media (max-width: 480px) {
-      .generate-card {
-        padding: 16px 12px;
+      .role-card-header .rc-info h2 {
+        font-size: 0.92rem;
       }
 
-      .smart-sidebar {
-        width: 290px;
-        right: -310px;
-      }
-
-      .sidebar-toggle {
-        width: 44px;
-        height: 44px;
-        font-size: 1.2rem;
-        left: 12px;
-        bottom: 12px;
-      }
-
-      .generate-card .code-preview .code-text {
-        font-size: 1.1rem;
-      }
-
-      .generate-card .actions-row {
+      .info-display-row {
         flex-direction: column;
+        align-items: stretch;
+        text-align: center;
       }
 
-      .generate-card .actions-row .btn {
-        width: 100%;
+      .info-display-row .info-value {
+        justify-content: center;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- ===== الهيدر ===== -->
-  <header class="smart-header">
+  <!-- مكونات الموبايل -->
+  <div id="mobile-top-bar"></div>
+  <div id="mobile-top-tabs"></div>
+
+  <!-- الهيدر -->
+  <div id="header-placeholder"></div>
+
+  <!-- المحتوى -->
+  <main class="page-content">
     <div class="container">
-      <a href="/gomla/admin/home.html" class="logo">
-        <img src="../assets/images/logo.png" alt="أولاد شعلان" onerror="this.style.display='none'">
-        <span>أولاد شعلان <small>جملة</small></span>
-        <span class="gold">✦</span>
-      </a>
-      <div class="header-actions">
-        <span class="btn btn-gold" id="adminNameDisplay">
-          <i class="fas fa-user-cog"></i> مرحباً <span id="adminName">مدير</span>
+
+      <!-- مسار التنقل -->
+      <div class="breadcrumb">
+        <a href="/gomla/admin/dashboard.html">لوحة التحكم</a>
+        <span>›</span>
+        <span>إدارة الحسابات</span>
+      </div>
+
+      <!-- رأس الصفحة -->
+      <div class="page-header">
+        <h1>
+          <i class="fas fa-user-shield"></i>
+          إدارة الحسابات
+        </h1>
+        <span class="badge-super">
+          <i class="fas fa-crown"></i>
+          سوبر أدمن فقط
         </span>
-        <a href="/gomla/admin/dashboard.html" class="btn btn-outline">
-          <i class="fas fa-th-large"></i> لوحة التحكم
-        </a>
-        <button class="btn btn-outline" onclick="logoutAdmin()">
-          <i class="fas fa-sign-out-alt"></i> خروج
+      </div>
+
+      <!-- تنبيه -->
+      <div class="info-alert red">
+        <i class="fas fa-lock"></i>
+        <div>
+          <strong>⚠️ صفحة حساسة!</strong>
+          كل ما هيتعمل من هنا بيتم تسجيله في سجل النشاط. 
+          تأكد من البيانات قبل الإنشاء.
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- 📑 التبويبات                                                 -->
+      <!-- ============================================================ -->
+      <div class="role-tabs">
+        <button class="role-tab trader active" data-tab="trader" onclick="switchRoleTab('trader')">
+          <i class="fas fa-store"></i>
+          <span>تجار</span>
+        </button>
+        <button class="role-tab cashier" data-tab="cashier" onclick="switchRoleTab('cashier')">
+          <i class="fas fa-cash-register"></i>
+          <span>كاشير</span>
+        </button>
+        <button class="role-tab admin" data-tab="admin" onclick="switchRoleTab('admin')">
+          <i class="fas fa-user-shield"></i>
+          <span>أدمن</span>
+        </button>
+        <button class="role-tab admin-plus" data-tab="admin-plus" onclick="switchRoleTab('admin-plus')">
+          <i class="fas fa-star"></i>
+          <span>أدمن بلص</span>
         </button>
       </div>
+
+      <!-- ============================================================ -->
+      <!-- 🏪 تبويب التجار                                              -->
+      <!-- ============================================================ -->
+      <div class="tab-content active" id="tab-trader">
+        <div class="role-card">
+
+          <div class="role-card-header trader">
+            <div class="rc-icon">
+              <i class="fas fa-store"></i>
+            </div>
+            <div class="rc-info">
+              <h2>إنشاء حساب تاجر</h2>
+              <p>توليد كود تاجر جديد للدخول لمتجر الجملة (لا يحتاج بريد إلكتروني)</p>
+            </div>
+          </div>
+
+          <div class="role-card-body">
+
+            <div class="toast-inline" id="traderToast"></div>
+
+            <form id="traderForm" onsubmit="handleCreateTrader(event)">
+              <input type="hidden" id="traderIdHidden">
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label>
+                    <i class="fas fa-user"></i>
+                    الاسم الكامل
+                    <span class="required">*</span>
+                  </label>
+                  <input type="text" id="traderName" placeholder="مثال: أحمد محمد" maxlength="60" required>
+                </div>
+
+                <div class="form-group">
+                  <label>
+                    <i class="fas fa-store"></i>
+                    اسم المحل
+                    <span class="required">*</span>
+                  </label>
+                  <input type="text" id="traderShop" placeholder="مثال: محلات النور" maxlength="80" required>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label>
+                    <i class="fas fa-phone"></i>
+                    رقم الهاتف
+                    <span class="required">*</span>
+                  </label>
+                  <input type="tel" id="traderPhone" placeholder="01xxxxxxxxx" maxlength="11" inputmode="numeric" required>
+                </div>
+
+                <div class="form-group">
+                  <label>
+                    <i class="fab fa-whatsapp"></i>
+                    رقم الواتساب
+                    <span class="required">*</span>
+                  </label>
+                  <input type="tel" id="traderWhatsapp" placeholder="01xxxxxxxxx" maxlength="11" inputmode="numeric" required>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label>
+                    <i class="fas fa-map-marker-alt"></i>
+                    المدينة
+                    <span class="required">*</span>
+                  </label>
+                  <select id="traderCity" required onchange="updateTraderCodePreview()">
+                    <option value="">-- اختر المدينة --</option>
+                    <option value="المحلة">المحلة (MHL)</option>
+                    <option value="المنصورة">المنصورة (MNS)</option>
+                    <option value="طنطا">طنطا (TNT)</option>
+                    <option value="أخرى">أخرى (OTH)</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label>
+                    <i class="fas fa-key"></i>
+                    الكود المُولَّد (تلقائي)
+                  </label>
+                  <input type="text" id="traderCodePreview" placeholder="---" readonly style="background:var(--gray-100);font-family:monospace;font-size:1.2rem;text-align:center;letter-spacing:2px;font-weight:800;color:var(--gold-dark);">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>
+                  <i class="fas fa-home"></i>
+                  العنوان بالتفصيل
+                  <span class="required">*</span>
+                </label>
+                <input type="text" id="traderAddress" placeholder="المدينة - الشارع - رقم المبنى" maxlength="150" required>
+              </div>
+
+              <button type="submit" class="action-btn trader-btn" id="traderSubmitBtn">
+                <i class="fas fa-key"></i>
+                <span>توليد الكود وإنشاء الحساب</span>
+              </button>
+            </form>
+
+            <!-- صندوق النتيجة -->
+            <div class="result-box" id="traderResult">
+              <div class="result-header">
+                <div class="result-icon">
+                  <i class="fas fa-check"></i>
+                </div>
+                <div>
+                  <h3>تم إنشاء حساب التاجر بنجاح!</h3>
+                  <p>احتفظ بالبيانات دي وسلّمها للتاجر</p>
+                </div>
+              </div>
+
+              <div class="info-display-grid" id="traderResultData"></div>
+
+              <div class="result-actions">
+                <button class="btn btn-outline" onclick="copyTraderResult()">
+                  <i class="fas fa-copy"></i>
+                  نسخ البيانات
+                </button>
+                <button class="btn whatsapp-action" onclick="sendTraderWhatsApp()">
+                  <i class="fab fa-whatsapp"></i>
+                  واتساب
+                </button>
+                <button class="btn btn-primary" onclick="createAnother('trader')">
+                  <i class="fas fa-plus"></i>
+                  إنشاء تاجر جديد
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- 🧑‍💻 تبويب الكاشير                                          -->
+      <!-- ============================================================ -->
+      <div class="tab-content" id="tab-cashier">
+        <div class="role-card">
+
+          <div class="role-card-header cashier">
+            <div class="rc-icon">
+              <i class="fas fa-cash-register"></i>
+            </div>
+            <div class="rc-info">
+              <h2>إنشاء حساب كاشير</h2>
+              <p>إنشاء حساب كاشير لبريد إلكتروني (يحتاج بريد + كلمة مرور)</p>
+            </div>
+          </div>
+
+          <div class="role-card-body">
+
+            <div class="info-alert green">
+              <i class="fas fa-check-circle"></i>
+              <div>
+                <strong>✅ بدون أي تأثير على جلستك:</strong>
+                إنشاء الحساب بيتم باستخدام نسخة Firebase ثانوية معزولة، 
+                فجلسة السوبر أدمن بتفضل شغالة عادي.
+              </div>
+            </div>
+
+            <div class="toast-inline" id="cashierToast"></div>
+
+            <form id="cashierForm" onsubmit="handleCreateCashier(event)">
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label>
+                    <i class="fas fa-user"></i>
+                    الاسم الكامل
+                    <span class="required">*</span>
+                  </label>
+                  <input type="text" id="cashierName" placeholder="مثال: محمد أحمد" maxlength="60" required>
+                </div>
+
+                <div class="form-group">
+                  <label>
+                    <i class="fas fa-phone"></i>
+                    رقم الهاتف
+                    <span class="required">*</span>
+                  </label>
+                  <input type="tel" id="cashierPhone" placeholder="01xxxxxxxxx" maxlength="11" inputmode="numeric" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>
+                  <i class="fas fa-envelope"></i>
+                  البريد الإلكتروني
+                  <span class="required">*</span>
+                </label>
+                <input type="email" id="cashierEmail" placeholder="cashier@example.com" required>
+              </div>
+
+              <div class="form-group">
+                <label>
+                  <i class="fas fa-store"></i>
+                  الفرع
+                  <span class="required">*</span>
+                </label>
+                <input type="text" id="cashierBranch" placeholder="مثال: فرع الرجبي" maxlength="80" required>
+                <div class="help-text">
+                  <i class="fas fa-info-circle"></i>
+                  اكتب اسم الفرع (سيتم ربطه لاحقاً بصفحة الفروع)
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>
+                  <i class="fas fa-lock"></i>
+                  كلمة المرور
+                  <span class="required">*</span>
+                </label>
+                <div class="password-wrapper">
+                  <input type="password" id="cashierPassword" placeholder="6 أحرف على الأقل" minlength="6" required>
+                  <button type="button" class="toggle-btn" onclick="togglePassword('cashierPassword', this)">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button type="button" class="generate-btn" onclick="generatePassword('cashierPassword')">
+                    <i class="fas fa-dice"></i>
+                    توليد
+                  </button>
+                </div>
+              </div>
+
+              <button type="submit" class="action-btn cashier-btn" id="cashierSubmitBtn">
+                <i class="fas fa-user-plus"></i>
+                <span>إنشاء حساب الكاشير</span>
+              </button>
+            </form>
+
+            <!-- صندوق النتيجة -->
+            <div class="result-box" id="cashierResult">
+              <div class="result-header">
+                <div class="result-icon">
+                  <i class="fas fa-check"></i>
+                </div>
+                <div>
+                  <h3>تم إنشاء حساب الكاشير بنجاح!</h3>
+                  <p>سلّم البيانات دي للكاشير</p>
+                </div>
+              </div>
+
+              <div class="info-display-grid" id="cashierResultData"></div>
+
+              <div class="result-actions">
+                <button class="btn btn-outline" onclick="copyCashierResult()">
+                  <i class="fas fa-copy"></i>
+                  نسخ البيانات
+                </button>
+                <button class="btn whatsapp-action" onclick="sendCashierWhatsApp()">
+                  <i class="fab fa-whatsapp"></i>
+                  واتساب
+                </button>
+                <button class="btn btn-primary" onclick="createAnother('cashier')">
+                  <i class="fas fa-plus"></i>
+                  إنشاء كاشير جديد
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- 🛡️ تبويب الأدمن                                             -->
+      <!-- ============================================================ -->
+      <div class="tab-content" id="tab-admin">
+        <div class="role-card">
+
+          <div class="role-card-header admin">
+            <div class="rc-icon">
+              <i class="fas fa-user-shield"></i>
+            </div>
+            <div class="rc-info">
+              <h2>إنشاء حساب أدمن</h2>
+              <p>إنشاء حساب مشرف بصلاحيات محدودة (طلبات، منتجات، عملاء)</p>
+            </div>
+          </div>
+
+          <div class="role-card-body">
+
+            <div class="info-alert blue">
+              <i class="fas fa-info-circle"></i>
+              <div>
+                <strong>الصلاحيات:</strong>
+                إدارة المنتجات (بدون حذف) • إدارة الطلبات • إدارة الفواتير • 
+                عرض سعر الشراء • <strong>بدون</strong> إدارة الصلاحيات أو الفروع
+              </div>
+            </div>
+
+            <div class="toast-inline" id="adminToast"></div>
+
+            <form id="adminForm" onsubmit="handleCreateAdmin(event)">
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label>
+                    <i class="fas fa-user"></i>
+                    الاسم الكامل
+                    <span class="required">*</span>
+                  </label>
+                  <input type="text" id="adminName" placeholder="مثال: أحمد محمود" maxlength="60" required>
+                </div>
+
+                <div class="form-group">
+                  <label>
+                    <i class="fas fa-phone"></i>
+                    رقم الهاتف
+                    <span class="required">*</span>
+                  </label>
+                  <input type="tel" id="adminPhone" placeholder="01xxxxxxxxx" maxlength="11" inputmode="numeric" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>
+                  <i class="fas fa-envelope"></i>
+                  البريد الإلكتروني
+                  <span class="required">*</span>
+                </label>
+                <input type="email" id="adminEmail" placeholder="admin@example.com" required>
+              </div>
+
+              <div class="form-group">
+                <label>
+                  <i class="fas fa-lock"></i>
+                  كلمة المرور
+                  <span class="required">*</span>
+                </label>
+                <div class="password-wrapper">
+                  <input type="password" id="adminPassword" placeholder="6 أحرف على الأقل" minlength="6" required>
+                  <button type="button" class="toggle-btn" onclick="togglePassword('adminPassword', this)">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button type="button" class="generate-btn" onclick="generatePassword('adminPassword')">
+                    <i class="fas fa-dice"></i>
+                    توليد
+                  </button>
+                </div>
+              </div>
+
+              <button type="submit" class="action-btn admin-btn" id="adminSubmitBtn">
+                <i class="fas fa-user-plus"></i>
+                <span>إنشاء حساب الأدمن</span>
+              </button>
+            </form>
+
+            <!-- صندوق النتيجة -->
+            <div class="result-box" id="adminResult">
+              <div class="result-header">
+                <div class="result-icon">
+                  <i class="fas fa-check"></i>
+                </div>
+                <div>
+                  <h3>تم إنشاء حساب الأدمن بنجاح!</h3>
+                  <p>سلّم البيانات دي للأدمن</p>
+                </div>
+              </div>
+
+              <div class="info-display-grid" id="adminResultData"></div>
+
+              <div class="result-actions">
+                <button class="btn btn-outline" onclick="copyAdminResult()">
+                  <i class="fas fa-copy"></i>
+                  نسخ البيانات
+                </button>
+                <button class="btn whatsapp-action" onclick="sendAdminWhatsApp()">
+                  <i class="fab fa-whatsapp"></i>
+                  واتساب
+                </button>
+                <button class="btn btn-primary" onclick="createAnother('admin')">
+                  <i class="fas fa-plus"></i>
+                  إنشاء أدمن جديد
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- 💎 تبويب أدمن بلص                                           -->
+      <!-- ============================================================ -->
+      <div class="tab-content" id="tab-admin-plus">
+        <div class="role-card">
+
+          <div class="role-card-header admin-plus">
+            <div class="rc-icon">
+              <i class="fas fa-star"></i>
+            </div>
+            <div class="rc-info">
+              <h2>إنشاء حساب أدمن بلص</h2>
+              <p>صلاحيات موسعة (كل شيء ما عدا: الصلاحيات، الإعدادات، توليد الأكواد)</p>
+            </div>
+          </div>
+
+          <div class="role-card-body">
+
+            <div class="info-alert red">
+              <i class="fas fa-exclamation-triangle"></i>
+              <div>
+                <strong>⚠️ صلاحيات موسعة!</strong>
+                أدمن بلص يقدر يدير الفروع والموظفين والصندوق والتقارير المالية. 
+                امنحه فقط للأشخاص الموثوقين.
+              </div>
+            </div>
+
+            <div class="toast-inline" id="adminPlusToast"></div>
+
+            <form id="adminPlusForm" onsubmit="handleCreateAdminPlus(event)">
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label>
+                    <i class="fas fa-user"></i>
+                    الاسم الكامل
+                    <span class="required">*</span>
+                  </label>
+                  <input type="text" id="adminPlusName" placeholder="مثال: محمود علي" maxlength="60" required>
+                </div>
+
+                <div class="form-group">
+                  <label>
+                    <i class="fas fa-phone"></i>
+                    رقم الهاتف
+                    <span class="required">*</span>
+                  </label>
+                  <input type="tel" id="adminPlusPhone" placeholder="01xxxxxxxxx" maxlength="11" inputmode="numeric" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>
+                  <i class="fas fa-envelope"></i>
+                  البريد الإلكتروني
+                  <span class="required">*</span>
+                </label>
+                <input type="email" id="adminPlusEmail" placeholder="adminplus@example.com" required>
+              </div>
+
+              <div class="form-group">
+                <label>
+                  <i class="fas fa-lock"></i>
+                  كلمة المرور
+                  <span class="required">*</span>
+                </label>
+                <div class="password-wrapper">
+                  <input type="password" id="adminPlusPassword" placeholder="6 أحرف على الأقل" minlength="6" required>
+                  <button type="button" class="toggle-btn" onclick="togglePassword('adminPlusPassword', this)">
+                    <i class="fas fa-eye"></i>
+                  </button>
+                  <button type="button" class="generate-btn" onclick="generatePassword('adminPlusPassword')">
+                    <i class="fas fa-dice"></i>
+                    توليد
+                  </button>
+                </div>
+              </div>
+
+              <button type="submit" class="action-btn admin-plus-btn" id="adminPlusSubmitBtn">
+                <i class="fas fa-user-plus"></i>
+                <span>إنشاء حساب أدمن بلص</span>
+              </button>
+            </form>
+
+            <!-- صندوق النتيجة -->
+            <div class="result-box" id="adminPlusResult">
+              <div class="result-header">
+                <div class="result-icon">
+                  <i class="fas fa-check"></i>
+                </div>
+                <div>
+                  <h3>تم إنشاء حساب أدمن بلص بنجاح!</h3>
+                  <p>سلّم البيانات دي للمستخدم</p>
+                </div>
+              </div>
+
+              <div class="info-display-grid" id="adminPlusResultData"></div>
+
+              <div class="result-actions">
+                <button class="btn btn-outline" onclick="copyAdminPlusResult()">
+                  <i class="fas fa-copy"></i>
+                  نسخ البيانات
+                </button>
+                <button class="btn whatsapp-action" onclick="sendAdminPlusWhatsApp()">
+                  <i class="fab fa-whatsapp"></i>
+                  واتساب
+                </button>
+                <button class="btn btn-primary" onclick="createAnother('admin-plus')">
+                  <i class="fas fa-plus"></i>
+                  إنشاء أدمن بلص جديد
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
     </div>
-  </header>
+  </main>
 
-  <!-- ===== المحتوى ===== -->
-  <section class="page-content">
-    <div class="container">
+  <!-- التبويبات السفلى -->
+  <div id="mobile-bottom-tabs"></div>
+  <div id="mobile-copyright"></div>
 
-      <div class="page-header">
-        <h1><i class="fas fa-key"></i> توليد أكواد العملاء</h1>
-        <span class="badge-super">👑 سوبر أدمن فقط</span>
-      </div>
+  <!-- الفوتر -->
+  <div id="footer-placeholder"></div>
 
-      <div class="generate-card" id="generateCard">
-        <form id="generateForm">
+  <!-- السايدبار -->
+  <div id="sidebar-placeholder"></div>
 
-          <div class="form-row">
-            <div class="form-group">
-              <label><i class="fas fa-user"></i> اسم العميل *</label>
-              <input type="text" id="customerName" placeholder="مثال: أحمد محمد" required autofocus>
-            </div>
-            <div class="form-group">
-              <label><i class="fas fa-phone"></i> رقم الهاتف *</label>
-              <input type="tel" id="customerPhone" placeholder="مثال: 01012345678" required>
-            </div>
-          </div>
+  <!-- Toast Container -->
+  <div id="toast-container"></div>
 
-          <div class="form-group">
-            <label><i class="fas fa-store"></i> اسم المحل / المتجر</label>
-            <input type="text" id="customerShop" placeholder="مثال: محل النور">
-          </div>
-
-          <div class="form-row">
-            <div class="form-group">
-              <label><i class="fas fa-map-marker-alt"></i> المدينة *</label>
-              <select id="customerCity" required>
-                <option value="">اختر المدينة...</option>
-                <option value="المحلة">المحلة (MHL)</option>
-                <option value="المنصورة">المنصورة (MNS)</option>
-                <option value="طنطا">طنطا (TNT)</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label><i class="fas fa-home"></i> العنوان</label>
-              <input type="text" id="customerAddress" placeholder="العنوان الكامل">
-            </div>
-          </div>
-
-          <!-- ===== معاينة الكود ===== -->
-          <div class="code-preview" id="codePreview">
-            <span class="code-label">الكود المولد</span>
-            <div class="code-text" id="generatedCode">MHL-m1236</div>
-          </div>
-
-          <!-- ===== معاينة الباركود ===== -->
-          <div class="barcode-preview" id="barcodePreview">
-            <img id="barcodeImage" src="" alt="باركود">
-          </div>
-
-          <button type="submit" class="btn-generate" id="generateBtn">
-            <i class="fas fa-sync-alt"></i> توليد الكود وحفظه
-          </button>
-
-          <div class="actions-row" id="actionsRow" style="display:none;">
-            <button type="button" class="btn btn-whatsapp" onclick="sendWhatsApp()">
-              <i class="fab fa-whatsapp"></i> إرسال عبر واتساب
-            </button>
-            <button type="button" class="btn btn-success" onclick="downloadBarcode()">
-              <i class="fas fa-download"></i> تحميل الباركود
-            </button>
-            <button type="button" class="btn btn-outline" onclick="resetForm()">
-              <i class="fas fa-plus"></i> توليد آخر
-            </button>
-          </div>
-
-        </form>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- ===== الفوتر ===== -->
-  <footer class="smart-footer">
-    <div class="container">
-      <div class="copyright">© 2026 أولاد شعلان جملة - جميع الحقوق محفوظة</div>
-      <div class="footer-links">
-        <a href="/gomla/admin/home.html">الرئيسية</a>
-        <a href="/gomla/admin/dashboard.html">لوحة التحكم</a>
-        <a href="/gomla/admin/generate-codes.html">توليد الأكواد</a>
-      </div>
-      <div class="social-icons">
-        <a href="#"><i class="fab fa-facebook-f"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-whatsapp"></i></a>
-        <a href="#"><i class="fab fa-youtube"></i></a>
-      </div>
-    </div>
-  </footer>
-
-  <!-- ===== زر المنيو ===== -->
-  <button class="sidebar-toggle" id="sidebarToggle">
-    <i class="fas fa-bars"></i>
-  </button>
-
-  <!-- ===== Firebase ===== -->
+  <!-- Firebase & Scripts -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
 
-  <!-- ===== الملفات ===== -->
-  <script src="../assets/js/firebase-config.js"></script>
-  <script src="../assets/js/core.js"></script>
-  <script src="../assets/js/sidebar.js"></script>
-  <script src="../assets/js/admin.js"></script>
+  <script src="/gomla/assets/js/firebase-config.js"></script>
+  <script src="/gomla/assets/js/main.js"></script>
 
   <script>
-    // ============================================
-    // 🔑 توليد أكواد العملاء - admin/generate-codes.html
-    // ============================================
+    // ============================================================
+    // 📄 generate-codes.html - إدارة الحسابات
+    // ============================================================
 
-    let generatedCustomerId = null;
-    let generatedCode = null;
+    // ============================================================
+    // 🔥 تهيئة النسخة الثانوية من Firebase
+    // ============================================================
+    // 📌 السبب: عند إنشاء حساب جديد باستخدام createUserWithEmailAndPassword
+    //    بيتسجل دخول المستخدم الجديد تلقائياً ويطرد السوبر أدمن
+    // 📌 الحل: استخدام نسخة ثانوية معزولة لإنشاء الحسابات
+    //    السوبر أدمن يفضل في جلسته الأصلية بدون أي تأثير
+    // ============================================================
 
-    // ===== التحقق من صلاحية السوبر أدمن =====
-    function checkSuperAdmin() {
-      const adminData = localStorage.getItem('admin');
-      if (!adminData) {
+    let secondaryApp = null;
+    let secondaryAuth = null;
+
+    try {
+      secondaryApp = firebase.initializeApp(firebaseConfig, 'Secondary');
+      secondaryAuth = secondaryApp.auth();
+      console.log('✅ Secondary Firebase App initialized');
+    } catch (e) {
+      if (e.code === 'app/duplicate-app') {
+        secondaryApp = firebase.app('Secondary');
+        secondaryAuth = secondaryApp.auth();
+        console.log('✅ Secondary Firebase App reused');
+      } else {
+        console.error('❌ Could not initialize Secondary App:', e);
+      }
+    }
+
+    // ===== المتغيرات =====
+    let currentAdminData = null;
+    let lastTraderData = null;
+    let lastCashierData = null;
+    let lastAdminData = null;
+    let lastAdminPlusData = null;
+
+    // ============================================================
+    // 🚀 تشغيل الصفحة
+    // ============================================================
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // 🔒 حماية: سوبر أدمن فقط
+      const user = getCurrentUser();
+      
+      if (!user || user.type !== 'admin') {
         window.location.href = '/gomla/admin/login.html';
-        return null;
+        return;
+      }
+      
+      if (user.data.role !== ROLES.SUPER) {
+        showToast('⚠️ هذه الصفحة للسوبر أدمن فقط', 'error');
+        setTimeout(() => {
+          window.location.href = '/gomla/admin/home.html';
+        }, 1500);
+        return;
       }
 
-      const admin = JSON.parse(adminData);
-      if (admin.role !== 'super') {
-        window.location.href = '/gomla/admin/dashboard.html';
-        return null;
-      }
+      currentAdminData = user.data;
 
-      // عرض اسم المدير
-      document.getElementById('adminName').textContent = admin.name || 'مدير';
-      return admin;
+      console.log('✅ generate-codes.html loaded');
+    });
+
+    // ============================================================
+    // 📑 التبديل بين التبويبات
+    // ============================================================
+
+    function switchRoleTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.role-tab').forEach(t => t.classList.remove('active'));
+
+      document.getElementById('tab-' + tabName).classList.add('active');
+      document.querySelector(`.role-tab[data-tab="${tabName}"]`).classList.add('active');
+
+      document.querySelectorAll('.result-box').forEach(b => b.classList.remove('show'));
+      document.querySelectorAll('.toast-inline').forEach(t => t.classList.remove('show'));
     }
 
-    // ===== توليد كود عشوائي =====
-    function generateRandomCode(prefix) {
-      const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
-      let result = '';
-      for (let i = 0; i < 5; i++) {
-        result += chars.charAt(Math.floor(Math.random() * chars.length));
+    // ============================================================
+    // 🔐 إظهار/إخفاء كلمة المرور
+    // ============================================================
+
+    function togglePassword(fieldId, btn) {
+      const field = document.getElementById(fieldId);
+      const icon = btn.querySelector('i');
+
+      if (field.type === 'password') {
+        field.type = 'text';
+        icon.classList.remove('fa-eye');
+        icon.classList.add('fa-eye-slash');
+      } else {
+        field.type = 'password';
+        icon.classList.remove('fa-eye-slash');
+        icon.classList.add('fa-eye');
       }
-      return `${prefix}-${result}`;
     }
 
-    // ===== توليد كود فريد =====
-    async function generateUniqueCode(city) {
-      const prefixMap = {
+    // ============================================================
+    // 🎲 توليد كلمة مرور قوية
+    // ============================================================
+
+    function generatePassword(fieldId) {
+      const length = 12;
+      const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789!@#$%';
+      let password = '';
+
+      for (let i = 0; i < length; i++) {
+        password += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+
+      const field = document.getElementById(fieldId);
+      field.value = password;
+      field.type = 'text';
+      
+      setTimeout(() => {
+        field.type = 'password';
+      }, 3000);
+
+      showToast('🎲 تم توليد كلمة مرور قوية', 'success');
+    }
+
+    // ============================================================
+    // 🛠️ رسائل التنبيه
+    // ============================================================
+
+    function showInlineToast(type, prefix, message) {
+      const toast = document.getElementById(prefix + 'Toast');
+      if (!toast) return;
+
+      toast.className = `toast-inline show ${type}`;
+      toast.innerHTML = `
+        <i class="fas ${type === 'error' ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i>
+        <span>${message}</span>
+      `;
+
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 6000);
+    }
+
+    // ============================================================
+    // 🏪 إنشاء حساب تاجر
+    // ============================================================
+
+    function updateTraderCodePreview() {
+      const city = document.getElementById('traderCity').value;
+      const preview = document.getElementById('traderCodePreview');
+      
+      if (!city) {
+        preview.value = '---';
+        return;
+      }
+
+      const cityCodes = {
         'المحلة': 'MHL',
         'المنصورة': 'MNS',
-        'طنطا': 'TNT'
+        'طنطا': 'TNT',
+        'أخرى': 'OTH'
       };
-      const prefix = prefixMap[city] || 'MHL';
 
-      let code;
+      const prefix = cityCodes[city] || 'OTH';
+      preview.value = `${prefix}-XXXX`;
+    }
+
+    async function generateUniqueTraderCode(city) {
+      const cityCodes = {
+        'المحلة': 'MHL',
+        'المنصورة': 'MNS',
+        'طنطا': 'TNT',
+        'أخرى': 'OTH'
+      };
+
+      const prefix = cityCodes[city] || 'OTH';
+      const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+      
+      let code = '';
       let exists = true;
       let attempts = 0;
 
       while (exists && attempts < 20) {
-        code = generateRandomCode(prefix);
-        const snapshot = await db.collection('customers')
+        code = `${prefix}-`;
+        for (let i = 0; i < 4; i++) {
+          code += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+
+        const snapshot = await db.collection(COLLECTIONS.CUSTOMERS)
           .where('code', '==', code)
+          .limit(1)
           .get();
+
         exists = !snapshot.empty;
         attempts++;
       }
@@ -1013,186 +1538,744 @@
       return code;
     }
 
-    // ===== توليد الباركود =====
-    function generateBarcodeUrl(code) {
-      const url = `https://barcode.tec-it.com/barcode.ashx?data=${encodeURIComponent(code)}&code=Code128&dpi=96`;
-      return url;
-    }
+    async function handleCreateTrader(event) {
+      event.preventDefault();
 
-    // ===== حفظ العميل في Firebase =====
-    async function saveCustomer(data) {
-      const customerRef = db.collection('customers').doc();
-      await customerRef.set({
-        ...data,
-        balance: 0,
-        type: 'cash',
-        createdAt: firebase.firestore.FieldValue.serverTimestamp()
-      });
-      return customerRef.id;
-    }
+      const name = document.getElementById('traderName').value.trim();
+      const shop = document.getElementById('traderShop').value.trim();
+      const phone = document.getElementById('traderPhone').value.trim();
+      const whatsapp = document.getElementById('traderWhatsapp').value.trim();
+      const city = document.getElementById('traderCity').value;
+      const address = document.getElementById('traderAddress').value.trim();
 
-    // ===== معالج النموذج =====
-    document.getElementById('generateForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-
-      const name = document.getElementById('customerName').value.trim();
-      const phone = document.getElementById('customerPhone').value.trim();
-      const shop = document.getElementById('customerShop').value.trim();
-      const city = document.getElementById('customerCity').value;
-      const address = document.getElementById('customerAddress').value.trim();
-      const btn = document.getElementById('generateBtn');
-      const preview = document.getElementById('codePreview');
-      const barcodePreview = document.getElementById('barcodePreview');
-      const actionsRow = document.getElementById('actionsRow');
-
-      if (!name || !phone || !city) {
-        showToast('⚠️ يرجى ملء جميع الحقول المطلوبة', 'warning');
+      if (!name || name.length < 3) {
+        showInlineToast('error', 'trader', 'يرجى إدخال الاسم الكامل');
         return;
       }
 
-      // التحقق من رقم الهاتف
-      const phoneRegex = /^[0-9]{11}$/;
-      if (!phoneRegex.test(phone)) {
-        showToast('⚠️ رقم الهاتف غير صحيح (11 رقم)', 'warning');
+      if (!shop || shop.length < 3) {
+        showInlineToast('error', 'trader', 'يرجى إدخال اسم المحل');
         return;
       }
 
+      if (!/^01[0-9]{9}$/.test(phone)) {
+        showInlineToast('error', 'trader', 'رقم الهاتف يجب أن يكون 11 رقم');
+        return;
+      }
+
+      if (!/^01[0-9]{9}$/.test(whatsapp)) {
+        showInlineToast('error', 'trader', 'رقم الواتساب يجب أن يكون 11 رقم');
+        return;
+      }
+
+      if (!city) {
+        showInlineToast('error', 'trader', 'يرجى اختيار المدينة');
+        return;
+      }
+
+      if (!address || address.length < 5) {
+        showInlineToast('error', 'trader', 'يرجى إدخال العنوان');
+        return;
+      }
+
+      const btn = document.getElementById('traderSubmitBtn');
+      const originalText = btn.innerHTML;
       btn.disabled = true;
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التوليد...';
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>جاري التوليد...</span>';
 
       try {
-        // توليد كود فريد
-        const code = await generateUniqueCode(city);
-        generatedCode = code;
+        const existingPhone = await db.collection(COLLECTIONS.CUSTOMERS)
+          .where('phone', '==', phone)
+          .limit(1)
+          .get();
 
-        // حفظ العميل
-        const customerId = await saveCustomer({
-          name: name,
-          phone: phone,
-          shop: shop || '',
-          city: city,
-          address: address || '',
-          code: code,
-          barcode: generateBarcodeUrl(code)
-        });
+        if (!existingPhone.empty) {
+          throw new Error('رقم الهاتف مسجل بالفعل');
+        }
 
-        generatedCustomerId = customerId;
+        const code = await generateUniqueTraderCode(city);
 
-        // عرض الكود
-        document.getElementById('generatedCode').textContent = code;
-        preview.classList.add('show');
+        const traderData = {
+          name,
+          shop,
+          phone,
+          whatsapp,
+          city,
+          address,
+          code,
+          role: ROLES.WHOLESALE,
+          type: 'wholesale',
+          avatar: '',
+          balance: 0,
+          active: true,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          createdBy: currentAdminData.id || currentAdminData.uid
+        };
 
-        // عرض الباركود
-        const barcodeUrl = generateBarcodeUrl(code);
-        document.getElementById('barcodeImage').src = barcodeUrl;
-        barcodePreview.classList.add('show');
+        const docRef = await db.collection(COLLECTIONS.CUSTOMERS).add(traderData);
+        traderData.id = docRef.id;
 
-        actionsRow.style.display = 'flex';
+        try {
+          await db.collection(COLLECTIONS.ACTIVITY_LOG).add({
+            userId: currentAdminData.id || currentAdminData.uid,
+            userName: currentAdminData.name || 'unknown',
+            userRole: ROLES.SUPER,
+            action: 'إنشاء حساب تاجر',
+            details: `${name} - ${code}`,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        } catch (e) {
+          console.warn('Could not log:', e);
+        }
 
-        showToast(`✅ تم توليد الكود بنجاح للعميل ${name}`, 'success');
+        lastTraderData = traderData;
+        renderTraderResult(traderData);
 
-        // تسجيل النشاط
-        logActivity('توليد كود عميل', `${name} - ${code}`);
+        showToast('✅ تم إنشاء حساب التاجر بنجاح', 'success');
 
       } catch (error) {
-        console.error('Error generating code:', error);
-        showToast('❌ حدث خطأ في توليد الكود', 'error');
+        console.error('Error:', error);
+        showInlineToast('error', 'trader', error.message || 'حدث خطأ');
+        showToast('❌ ' + (error.message || 'حدث خطأ'), 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalText;
       }
+    }
 
-      btn.disabled = false;
-      btn.innerHTML = '<i class="fas fa-sync-alt"></i> توليد الكود وحفظه';
-    });
+    function renderTraderResult(data) {
+      const container = document.getElementById('traderResultData');
+      
+      container.innerHTML = `
+        <div class="info-display-row">
+          <span class="info-label"><i class="fas fa-user"></i> الاسم</span>
+          <span class="info-value">${data.name}</span>
+        </div>
+        <div class="info-display-row">
+          <span class="info-label"><i class="fas fa-store"></i> المحل</span>
+          <span class="info-value">${data.shop}</span>
+        </div>
+        <div class="info-display-row">
+          <span class="info-label"><i class="fas fa-phone"></i> الهاتف</span>
+          <span class="info-value">${data.phone}
+            <button class="copy-mini-btn" onclick="copyText('${data.phone}')"><i class="fas fa-copy"></i></button>
+          </span>
+        </div>
+        <div class="info-display-row">
+          <span class="info-label"><i class="fas fa-map-marker-alt"></i> المدينة</span>
+          <span class="info-value">${data.city}</span>
+        </div>
+        <div class="info-display-row">
+          <span class="info-label"><i class="fas fa-key"></i> الكود</span>
+          <span class="info-value code-value">${data.code}
+            <button class="copy-mini-btn" onclick="copyText('${data.code}')"><i class="fas fa-copy"></i></button>
+          </span>
+        </div>
+      `;
 
-    // ===== إرسال عبر واتساب =====
-    function sendWhatsApp() {
-      const name = document.getElementById('customerName').value.trim();
-      const phone = document.getElementById('customerPhone').value.trim();
-      const code = generatedCode;
+      document.getElementById('traderResult').classList.add('show');
+    }
 
-      if (!code || !phone) {
-        showToast('⚠️ لا توجد بيانات للإرسال', 'warning');
-        return;
-      }
+    function copyTraderResult() {
+      if (!lastTraderData) return;
+      
+      const text = `
+🏪 حساب تاجر جديد - أولاد شعلان جملة
 
-      // تنظيف رقم الهاتف
-      let cleanPhone = phone.replace(/[^0-9]/g, '');
-      if (cleanPhone.startsWith('0')) cleanPhone = cleanPhone.substring(1);
-      if (!cleanPhone.startsWith('2')) cleanPhone = '2' + cleanPhone;
+👤 الاسم: ${lastTraderData.name}
+🏬 المحل: ${lastTraderData.shop}
+📞 الهاتف: ${lastTraderData.phone}
+📍 المدينة: ${lastTraderData.city}
+🔑 الكود: ${lastTraderData.code}
 
-      const message = `مرحباً ${name} 👋\n\n` +
-        `تم إنشاء حسابك في متجر أولاد شعلان جملة.\n` +
-        `🔑 كود الدخول الخاص بك هو: *${code}*\n\n` +
-        `يمكنك استخدام هذا الكود لتسجيل الدخول ومتابعة طلباتك وفواتيرك.\n\n` +
-        `رابط المتجر: https://awladsh3laan.github.io/gomla/\n\n` +
-        `شكراً لثقتك بنا 🙏`;
+🔗 رابط الدخول: https://awladsh3laan.github.io/gomla/trader-login.html
+      `.trim();
 
-      const url = `https://wa.me/${cleanPhone}?text=${encodeURIComponent(message)}`;
+      copyText(text);
+      showToast('✅ تم نسخ البيانات', 'success');
+    }
+
+    function sendTraderWhatsApp() {
+      if (!lastTraderData) return;
+
+      let phone = lastTraderData.whatsapp.replace(/[^0-9]/g, '');
+      if (phone.startsWith('0')) phone = phone.substring(1);
+      if (!phone.startsWith('2')) phone = '2' + phone;
+
+      const message = `
+مرحباً ${lastTraderData.name} 👋
+
+تم إنشاء حسابك في أولاد شعلان جملة.
+
+🔑 كود الدخول الخاص بك: *${lastTraderData.code}*
+
+📌 يمكنك استخدام هذا الكود لتسجيل الدخول ومتابعة طلباتك وفواتيرك.
+
+🔗 رابط الدخول: https://awladsh3laan.github.io/gomla/trader-login.html
+
+شكراً لثقتك بنا 🙏
+      `.trim();
+
+      const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
       window.open(url, '_blank');
-
-      logActivity('إرسال كود واتساب', `${name} - ${code}`);
     }
 
-    // ===== تحميل الباركود =====
-    function downloadBarcode() {
-      const img = document.getElementById('barcodeImage');
-      if (!img || !img.src) {
-        showToast('⚠️ لا يوجد باركود للتحميل', 'warning');
+    // ============================================================
+    // 🧑‍💻 إنشاء حساب كاشير
+    // ============================================================
+
+    async function handleCreateCashier(event) {
+      event.preventDefault();
+
+      const name = document.getElementById('cashierName').value.trim();
+      const phone = document.getElementById('cashierPhone').value.trim();
+      const email = document.getElementById('cashierEmail').value.trim().toLowerCase();
+      const branch = document.getElementById('cashierBranch').value.trim();
+      const password = document.getElementById('cashierPassword').value;
+
+      if (!name || name.length < 3) {
+        showInlineToast('error', 'cashier', 'يرجى إدخال الاسم');
         return;
       }
 
-      const link = document.createElement('a');
-      link.download = `barcode-${generatedCode}.png`;
-      link.href = img.src;
-      link.target = '_blank';
-      link.click();
+      if (!/^01[0-9]{9}$/.test(phone)) {
+        showInlineToast('error', 'cashier', 'رقم الهاتف يجب أن يكون 11 رقم');
+        return;
+      }
 
-      showToast('✅ جاري تحميل الباركود', 'success');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showInlineToast('error', 'cashier', 'بريد إلكتروني غير صحيح');
+        return;
+      }
+
+      if (!branch || branch.length < 3) {
+        showInlineToast('error', 'cashier', 'يرجى إدخال اسم الفرع');
+        return;
+      }
+
+      if (!password || password.length < 6) {
+        showInlineToast('error', 'cashier', 'كلمة المرور 6 أحرف على الأقل');
+        return;
+      }
+
+      await createUserAccount(
+        'cashier',
+        { name, phone, email, branch, password }
+      );
     }
 
-    // ===== إعادة تعيين النموذج =====
-    function resetForm() {
-      document.getElementById('generateForm').reset();
-      document.getElementById('codePreview').classList.remove('show');
-      document.getElementById('barcodePreview').classList.remove('show');
-      document.getElementById('actionsRow').style.display = 'none';
-      document.getElementById('generatedCode').textContent = '';
-      document.getElementById('barcodeImage').src = '';
-      generatedCustomerId = null;
-      generatedCode = null;
-      document.getElementById('customerName').focus();
+    // ============================================================
+    // 🛡️ إنشاء حساب أدمن
+    // ============================================================
+
+    async function handleCreateAdmin(event) {
+      event.preventDefault();
+
+      const name = document.getElementById('adminName').value.trim();
+      const phone = document.getElementById('adminPhone').value.trim();
+      const email = document.getElementById('adminEmail').value.trim().toLowerCase();
+      const password = document.getElementById('adminPassword').value;
+
+      if (!name || name.length < 3) {
+        showInlineToast('error', 'admin', 'يرجى إدخال الاسم');
+        return;
+      }
+
+      if (!/^01[0-9]{9}$/.test(phone)) {
+        showInlineToast('error', 'admin', 'رقم الهاتف غير صحيح');
+        return;
+      }
+
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showInlineToast('error', 'admin', 'بريد إلكتروني غير صحيح');
+        return;
+      }
+
+      if (!password || password.length < 6) {
+        showInlineToast('error', 'admin', 'كلمة المرور 6 أحرف على الأقل');
+        return;
+      }
+
+      await createUserAccount(
+        'admin',
+        { name, phone, email, password }
+      );
     }
 
-    // ===== تسجيل النشاط =====
-    function logActivity(action, details) {
-      const adminData = localStorage.getItem('admin');
-      const admin = adminData ? JSON.parse(adminData) : { name: 'غير معروف' };
+    // ============================================================
+    // 💎 إنشاء حساب أدمن بلص
+    // ============================================================
 
-      db.collection('activityLog').add({
-        adminId: localStorage.getItem('adminId') || 'unknown',
-        adminName: admin.name || 'غير معروف',
-        action: action,
-        details: details || '',
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
-      }).catch(() => {});
+    async function handleCreateAdminPlus(event) {
+      event.preventDefault();
+
+      const name = document.getElementById('adminPlusName').value.trim();
+      const phone = document.getElementById('adminPlusPhone').value.trim();
+      const email = document.getElementById('adminPlusEmail').value.trim().toLowerCase();
+      const password = document.getElementById('adminPlusPassword').value;
+
+      if (!name || name.length < 3) {
+        showInlineToast('error', 'adminPlus', 'يرجى إدخال الاسم');
+        return;
+      }
+
+      if (!/^01[0-9]{9}$/.test(phone)) {
+        showInlineToast('error', 'adminPlus', 'رقم الهاتف غير صحيح');
+        return;
+      }
+
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showInlineToast('error', 'adminPlus', 'بريد إلكتروني غير صحيح');
+        return;
+      }
+
+      if (!password || password.length < 6) {
+        showInlineToast('error', 'adminPlus', 'كلمة المرور 6 أحرف على الأقل');
+        return;
+      }
+
+      await createUserAccount(
+        'admin_plus',
+        { name, phone, email, password }
+      );
     }
 
-    // ============================================
-    // 🚀 تشغيل الصفحة
-    // ============================================
+    // ============================================================
+    // 🔐 إنشاء حساب Firebase Auth (باستخدام النسخة الثانوية)
+    // ============================================================
 
-    document.addEventListener('DOMContentLoaded', function() {
-      const admin = checkSuperAdmin();
-      if (!admin) return;
+    async function createUserAccount(roleType, userData) {
+      const config = {
+        cashier: {
+          btn: 'cashierSubmitBtn',
+          toastPrefix: 'cashier',
+          collection: COLLECTIONS.CASHIERS,
+          role: ROLES.CASHIER
+        },
+        admin: {
+          btn: 'adminSubmitBtn',
+          toastPrefix: 'admin',
+          collection: COLLECTIONS.ADMINS,
+          role: ROLES.ADMIN
+        },
+        admin_plus: {
+          btn: 'adminPlusSubmitBtn',
+          toastPrefix: 'adminPlus',
+          collection: COLLECTIONS.ADMINS,
+          role: ROLES.ADMIN_PLUS
+        }
+      };
 
-      // تحميل السايدبار
-      loadSidebar();
-    });
+      const cfg = config[roleType];
+      if (!cfg) return;
 
-    // تصدير الدوال للاستخدام العالمي
-    window.sendWhatsApp = sendWhatsApp;
-    window.downloadBarcode = downloadBarcode;
-    window.resetForm = resetForm;
-    window.logoutAdmin = logoutAdmin;
+      const btn = document.getElementById(cfg.btn);
+      const originalText = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>جاري الإنشاء...</span>';
+
+      try {
+        // 1️⃣ التحقق من تكرار البريد
+        const existingEmail = await db.collection(cfg.collection)
+          .where('email', '==', userData.email)
+          .limit(1)
+          .get();
+
+        if (!existingEmail.empty) {
+          throw new Error('هذا البريد الإلكتروني مسجل بالفعل');
+        }
+
+        // 2️⃣ إنشاء حساب Firebase Auth في النسخة الثانوية
+        // ⚠️ ملاحظة: هذا لن يؤثر على جلسة السوبر أدمن
+        if (!secondaryAuth) {
+          throw new Error('النسخة الثانوية غير متاحة. يرجى تحديث الصفحة.');
+        }
+
+        const userCredential = await secondaryAuth.createUserWithEmailAndPassword(
+          userData.email,
+          userData.password
+        );
+
+        const newUid = userCredential.user.uid;
+
+        // 3️⃣ تحديث displayName
+        try {
+          await userCredential.user.updateProfile({
+            displayName: userData.name
+          });
+        } catch (profileError) {
+          console.warn('Could not update display name:', profileError);
+        }
+
+        // 4️⃣ حفظ البيانات في Firestore
+        const firestoreData = {
+          id: newUid,
+          name: userData.name,
+          email: userData.email,
+          phone: userData.phone,
+          role: cfg.role,
+          avatar: '',
+          active: true,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          createdBy: currentAdminData.id || currentAdminData.uid
+        };
+
+        if (roleType === 'cashier' && userData.branch) {
+          firestoreData.branchName = userData.branch;
+          firestoreData.branchId = '';
+        }
+
+        if (roleType === 'admin' || roleType === 'admin_plus') {
+          firestoreData.balance = 0;
+        }
+
+        await db.collection(cfg.collection).doc(newUid).set(firestoreData);
+
+        // 5️⃣ تسجيل النشاط
+        try {
+          await db.collection(COLLECTIONS.ACTIVITY_LOG).add({
+            userId: currentAdminData.id || currentAdminData.uid,
+            userName: currentAdminData.name || 'unknown',
+            userRole: ROLES.SUPER,
+            action: `إنشاء حساب ${roleType}`,
+            details: `${userData.name} - ${userData.email}`,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        } catch (e) {
+          console.warn('Could not log:', e);
+        }
+
+        // 6️⃣ تسجيل خروج المستخدم الجديد من النسخة الثانوية
+        try {
+          await secondaryAuth.signOut();
+        } catch (signOutError) {
+          console.warn('Could not sign out from secondary:', signOutError);
+        }
+
+        // 7️⃣ عرض النتيجة
+        const resultData = { ...firestoreData, password: userData.password };
+
+        if (roleType === 'cashier') {
+          lastCashierData = resultData;
+          renderCashierResult(resultData);
+        } else if (roleType === 'admin') {
+          lastAdminData = resultData;
+          renderAdminResult(resultData);
+        } else if (roleType === 'admin_plus') {
+          lastAdminPlusData = resultData;
+          renderAdminPlusResult(resultData);
+        }
+
+        showToast('✅ تم إنشاء الحساب بنجاح', 'success');
+
+      } catch (error) {
+        console.error('Error creating account:', error);
+
+        let errorMessage = error.message || 'حدث خطأ';
+
+        if (error.code === 'auth/email-already-in-use') {
+          errorMessage = 'هذا البريد مسجل بالفعل في Firebase';
+        } else if (error.code === 'auth/weak-password') {
+          errorMessage = 'كلمة المرور ضعيفة جداً';
+        } else if (error.code === 'auth/invalid-email') {
+          errorMessage = 'البريد الإلكتروني غير صحيح';
+        } else if (error.code === 'auth/network-request-failed') {
+          errorMessage = 'فشل الاتصال بالإنترنت';
+        }
+
+        showInlineToast('error', cfg.toastPrefix, errorMessage);
+        showToast('❌ ' + errorMessage, 'error');
+
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+      }
+    }
+
+    // ============================================================
+    // 🎨 عرض نتائج الكاشير
+    // ============================================================
+
+    function renderCashierResult(data) {
+      const container = document.getElementById('cashierResultData');
+      
+      container.innerHTML = `
+        <div class="info-display-row">
+          <span class="info-label"><i class="fas fa-user"></i> الاسم</span>
+          <span class="info-value">${data.name}</span>
+        </div>
+        <div class="info-display-row">
+          <span class="info-label"><i class="fas fa-store"></i> الفرع</span>
+          <span class="info-value">${data.branchName || '-'}</span>
+        </div>
+        <div class="info-display-row">
+          <span class="info-label"><i class="fas fa-envelope"></i> البريد</span>
+          <span class="info-value">${data.email}
+            <button class="copy-mini-btn" onclick="copyText('${data.email}')"><i class="fas fa-copy"></i></button>
+          </span>
+        </div>
+        <div class="info-display-row">
+          <span class="info-label"><i class="fas fa-lock"></i> كلمة المرور</span>
+          <span class="info-value">${data.password || '(مخفية)'}
+            ${data.password ? `<button class="copy-mini-btn" onclick="copyText('${data.password}')"><i class="fas fa-copy"></i></button>` : ''}
+          </span>
+        </div>
+      `;
+
+      document.getElementById('cashierResult').classList.add('show');
+    }
+
+    function copyCashierResult() {
+      if (!lastCashierData) return;
+      const text = `
+🧑‍💻 حساب كاشير جديد - أولاد شعلان
+
+👤 الاسم: ${lastCashierData.name}
+🏬 الفرع: ${lastCashierData.branchName}
+📧 البريد: ${lastCashierData.email}
+🔑 كلمة المرور: ${lastCashierData.password || 'غير متوفرة'}
+
+🔗 رابط الدخول: https://awladsh3laan.github.io/gomla/cashier-login.html
+      `.trim();
+      copyText(text);
+      showToast('✅ تم نسخ البيانات', 'success');
+    }
+
+    function sendCashierWhatsApp() {
+      if (!lastCashierData) return;
+      let phone = (lastCashierData.phone || '').replace(/[^0-9]/g, '');
+      if (phone.startsWith('0')) phone = phone.substring(1);
+      if (!phone.startsWith('2')) phone = '2' + phone;
+
+      const message = `
+مرحباً ${lastCashierData.name} 👋
+
+تم إنشاء حسابك كاشير في أولاد شعلان.
+
+📧 البريد: ${lastCashierData.email}
+🔑 كلمة المرور: ${lastCashierData.password || '(سيتم إرسالها)'}
+🏬 الفرع: ${lastCashierData.branchName}
+
+🔗 رابط الدخول: https://awladsh3laan.github.io/gomla/cashier-login.html
+      `.trim();
+
+      const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+      window.open(url, '_blank');
+    }
+
+    // ============================================================
+    // 🎨 عرض نتائج الأدمن
+    // ============================================================
+
+    function renderAdminResult(data) {
+      const container = document.getElementById('adminResultData');
+      
+      container.innerHTML = `
+        <div class="info-display-row">
+          <span class="info-label"><i class="fas fa-user"></i> الاسم</span>
+          <span class="info-value">${data.name}</span>
+        </div>
+        <div class="info-display-row">
+          <span class="info-label"><i class="fas fa-envelope"></i> البريد</span>
+          <span class="info-value">${data.email}
+            <button class="copy-mini-btn" onclick="copyText('${data.email}')"><i class="fas fa-copy"></i></button>
+          </span>
+        </div>
+        <div class="info-display-row">
+          <span class="info-label"><i class="fas fa-lock"></i> كلمة المرور</span>
+          <span class="info-value">${data.password || '(مخفية)'}
+            ${data.password ? `<button class="copy-mini-btn" onclick="copyText('${data.password}')"><i class="fas fa-copy"></i></button>` : ''}
+          </span>
+        </div>
+        <div class="info-display-row">
+          <span class="info-label"><i class="fas fa-user-shield"></i> الصلاحية</span>
+          <span class="info-value">🛡️ مشرف</span>
+        </div>
+      `;
+
+      document.getElementById('adminResult').classList.add('show');
+    }
+
+    function copyAdminResult() {
+      if (!lastAdminData) return;
+      const text = `
+🛡️ حساب أدمن جديد - أولاد شعلان
+
+👤 الاسم: ${lastAdminData.name}
+📧 البريد: ${lastAdminData.email}
+🔑 كلمة المرور: ${lastAdminData.password || 'غير متوفرة'}
+
+🔗 رابط الدخول: https://awladsh3laan.github.io/gomla/admin/login.html
+      `.trim();
+      copyText(text);
+      showToast('✅ تم نسخ البيانات', 'success');
+    }
+
+    function sendAdminWhatsApp() {
+      if (!lastAdminData) return;
+      let phone = (lastAdminData.phone || '').replace(/[^0-9]/g, '');
+      if (phone.startsWith('0')) phone = phone.substring(1);
+      if (!phone.startsWith('2')) phone = '2' + phone;
+
+      const message = `
+مرحباً ${lastAdminData.name} 👋
+
+تم إنشاء حسابك كأدمن في أولاد شعلان.
+
+📧 البريد: ${lastAdminData.email}
+🔑 كلمة المرور: ${lastAdminData.password || '(سيتم إرسالها)'}
+
+🔗 رابط الدخول: https://awladsh3laan.github.io/gomla/admin/login.html
+      `.trim();
+
+      const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+      window.open(url, '_blank');
+    }
+
+    // ============================================================
+    // 🎨 عرض نتائج الأدمن بلص
+    // ============================================================
+
+    function renderAdminPlusResult(data) {
+      const container = document.getElementById('adminPlusResultData');
+      
+      container.innerHTML = `
+        <div class="info-display-row">
+          <span class="info-label"><i class="fas fa-user"></i> الاسم</span>
+          <span class="info-value">${data.name}</span>
+        </div>
+        <div class="info-display-row">
+          <span class="info-label"><i class="fas fa-envelope"></i> البريد</span>
+          <span class="info-value">${data.email}
+            <button class="copy-mini-btn" onclick="copyText('${data.email}')"><i class="fas fa-copy"></i></button>
+          </span>
+        </div>
+        <div class="info-display-row">
+          <span class="info-label"><i class="fas fa-lock"></i> كلمة المرور</span>
+          <span class="info-value">${data.password || '(مخفية)'}
+            ${data.password ? `<button class="copy-mini-btn" onclick="copyText('${data.password}')"><i class="fas fa-copy"></i></button>` : ''}
+          </span>
+        </div>
+        <div class="info-display-row">
+          <span class="info-label"><i class="fas fa-star"></i> الصلاحية</span>
+          <span class="info-value">💎 أدمن بلص</span>
+        </div>
+      `;
+
+      document.getElementById('adminPlusResult').classList.add('show');
+    }
+
+    function copyAdminPlusResult() {
+      if (!lastAdminPlusData) return;
+      const text = `
+💎 حساب أدمن بلص جديد - أولاد شعلان
+
+👤 الاسم: ${lastAdminPlusData.name}
+📧 البريد: ${lastAdminPlusData.email}
+🔑 كلمة المرور: ${lastAdminPlusData.password || 'غير متوفرة'}
+
+🔗 رابط الدخول: https://awladsh3laan.github.io/gomla/admin/login.html
+      `.trim();
+      copyText(text);
+      showToast('✅ تم نسخ البيانات', 'success');
+    }
+
+    function sendAdminPlusWhatsApp() {
+      if (!lastAdminPlusData) return;
+      let phone = (lastAdminPlusData.phone || '').replace(/[^0-9]/g, '');
+      if (phone.startsWith('0')) phone = phone.substring(1);
+      if (!phone.startsWith('2')) phone = '2' + phone;
+
+      const message = `
+مرحباً ${lastAdminPlusData.name} 👋
+
+تم إنشاء حسابك كأدمن بلص في أولاد شعلان.
+
+📧 البريد: ${lastAdminPlusData.email}
+🔑 كلمة المرور: ${lastAdminPlusData.password || '(سيتم إرسالها)'}
+
+🔗 رابط الدخول: https://awladsh3laan.github.io/gomla/admin/login.html
+      `.trim();
+
+      const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+      window.open(url, '_blank');
+    }
+
+    // ============================================================
+    // 🛠️ نسخ نص
+    // ============================================================
+
+    function copyText(text) {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text)
+          .then(() => showToast('✅ تم النسخ', 'success'))
+          .catch(() => fallbackCopy(text));
+      } else {
+        fallbackCopy(text);
+      }
+    }
+
+    function fallbackCopy(text) {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      ta.remove();
+      showToast('✅ تم النسخ', 'success');
+    }
+
+    // ============================================================
+    // ➕ إنشاء حساب آخر
+    // ============================================================
+
+    function createAnother(role) {
+      if (role === 'trader') {
+        document.getElementById('traderForm').reset();
+        document.getElementById('traderIdHidden').value = '';
+        document.getElementById('traderResult').classList.remove('show');
+        document.getElementById('traderToast').classList.remove('show');
+        document.getElementById('traderCodePreview').value = '---';
+      } else if (role === 'cashier') {
+        document.getElementById('cashierForm').reset();
+        document.getElementById('cashierResult').classList.remove('show');
+        document.getElementById('cashierToast').classList.remove('show');
+      } else if (role === 'admin') {
+        document.getElementById('adminForm').reset();
+        document.getElementById('adminResult').classList.remove('show');
+        document.getElementById('adminToast').classList.remove('show');
+      } else if (role === 'admin-plus') {
+        document.getElementById('adminPlusForm').reset();
+        document.getElementById('adminPlusResult').classList.remove('show');
+        document.getElementById('adminPlusToast').classList.remove('show');
+      }
+    }
+
+    // ============================================================
+    // 🌐 تصدير الدوال
+    // ============================================================
+
+    window.switchRoleTab = switchRoleTab;
+    window.togglePassword = togglePassword;
+    window.generatePassword = generatePassword;
+    window.updateTraderCodePreview = updateTraderCodePreview;
+    window.handleCreateTrader = handleCreateTrader;
+    window.handleCreateCashier = handleCreateCashier;
+    window.handleCreateAdmin = handleCreateAdmin;
+    window.handleCreateAdminPlus = handleCreateAdminPlus;
+    window.copyTraderResult = copyTraderResult;
+    window.sendTraderWhatsApp = sendTraderWhatsApp;
+    window.copyCashierResult = copyCashierResult;
+    window.sendCashierWhatsApp = sendCashierWhatsApp;
+    window.copyAdminResult = copyAdminResult;
+    window.sendAdminWhatsApp = sendAdminWhatsApp;
+    window.copyAdminPlusResult = copyAdminPlusResult;
+    window.sendAdminPlusWhatsApp = sendAdminPlusWhatsApp;
+    window.copyText = copyText;
+    window.createAnother = createAnother;
+
   </script>
 
 </body>
