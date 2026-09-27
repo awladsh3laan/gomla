@@ -898,20 +898,31 @@
       hideError();
 
       try {
-        // 1️⃣ البحث عن التاجر بكود التاجر في Firestore
-        const snapshot = await db.collection(COLLECTIONS.CUSTOMERS)
-          .where('code', '==', code)
-          .limit(1)
-          .get();
+              // 1️⃣ البحث عن التاجر بكود التاجر في trader_lookup
+        const lookupDoc = await db.collection('trader_lookup').doc(code).get();
 
-        if (snapshot.empty) {
+        if (!lookupDoc.exists) {
           throw new Error('الكود غير صحيح. تأكد من الكود أو تواصل مع الإدارة.');
         }
 
-        const traderDoc = snapshot.docs[0];
-        const traderData = traderDoc.data();
-        traderData.id = traderDoc.id;
-
+        const lookupData = lookupDoc.data();
+        const traderData = {
+          id: lookupData.customerId,
+          name: lookupData.name,
+          shop: lookupData.shop || '',
+          email: lookupData.email || '',
+          phone: lookupData.phone || '',
+          whatsapp: lookupData.whatsapp || '',
+          city: lookupData.city || '',
+          address: lookupData.address || '',
+          code: lookupData.code,
+          role: lookupData.role,
+          type: 'wholesale',
+          avatar: lookupData.avatar || '',
+          balance: lookupData.balance || 0,
+          active: lookupData.active
+        };
+        
         // 2️⃣ التحقق من الدور
         if (traderData.role !== ROLES.WHOLESALE) {
           throw new Error('هذا الكود ليس كود تاجر. تواصل مع الإدارة.');
