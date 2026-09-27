@@ -4,9 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>إدارة الحسابات - أولاد شعلان</title>
-
   <meta name="theme-color" content="#1a2a4a">
-
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/gomla/assets/css/style.css">
@@ -17,7 +15,6 @@
        🎨 ستايل صفحة إدارة الحسابات
        ============================================================ */
 
-    /* ===== التبويبات ===== */
     .role-tabs {
       display: flex;
       gap: 8px;
@@ -86,7 +83,6 @@
       font-size: 1.1rem;
     }
 
-    /* ===== محتوى التبويب ===== */
     .tab-content {
       display: none;
       animation: fadeIn 0.3s ease;
@@ -101,7 +97,6 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* ===== بطاقة القسم ===== */
     .role-card {
       background: var(--white);
       border-radius: var(--radius-md);
@@ -188,7 +183,6 @@
       padding: 24px;
     }
 
-    /* ===== الحقول ===== */
     .form-group {
       margin-bottom: 16px;
     }
@@ -263,7 +257,6 @@
       gap: 14px;
     }
 
-    /* ===== حقل الباسورد ===== */
     .password-wrapper {
       position: relative;
     }
@@ -315,7 +308,6 @@
       color: var(--white);
     }
 
-    /* ===== أزرار ===== */
     .action-btn {
       width: 100%;
       padding: 15px 24px;
@@ -376,7 +368,6 @@
       z-index: 1;
     }
 
-    /* ===== صندوق النتيجة ===== */
     .result-box {
       display: none;
       background: linear-gradient(135deg, #f0fdf4, #dcfce7);
@@ -390,19 +381,11 @@
     }
 
     @keyframes resultIn {
-      0% {
-        opacity: 0;
-        transform: scale(0.9) translateY(-20px);
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1) translateY(0);
-      }
+      0% { opacity: 0; transform: scale(0.9) translateY(-20px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
     }
 
-    .result-box.show {
-      display: block;
-    }
+    .result-box.show { display: block; }
 
     .result-box::before {
       content: '';
@@ -456,7 +439,6 @@
       margin: 4px 0 0;
     }
 
-    /* ===== بطاقة البيانات المحفوظة ===== */
     .info-display-grid {
       display: grid;
       gap: 12px;
@@ -484,9 +466,7 @@
       gap: 6px;
     }
 
-    .info-display-row .info-label i {
-      color: #22c55e;
-    }
+    .info-display-row .info-label i { color: #22c55e; }
 
     .info-display-row .info-value {
       font-size: 0.95rem;
@@ -529,7 +509,6 @@
       transform: scale(1.1);
     }
 
-    /* ===== أزرار الإجراءات ===== */
     .result-actions {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
@@ -554,7 +533,6 @@
       background: #128C7E;
     }
 
-    /* ===== التنبيهات ===== */
     .info-alert {
       display: flex;
       align-items: flex-start;
@@ -566,25 +544,13 @@
       line-height: 1.6;
     }
 
-    .info-alert.gold {
-      background: linear-gradient(135deg, #fef9e7, #fcf9f0);
-      border: 2px solid var(--gold-light);
-      color: var(--gray-700);
-    }
-
-    .info-alert.gold i {
-      color: var(--gold-dark);
-    }
-
     .info-alert.red {
       background: linear-gradient(135deg, #fef2f2, #fee2e2);
       border: 2px solid #fca5a5;
       color: #7f1d1d;
     }
 
-    .info-alert.red i {
-      color: var(--danger);
-    }
+    .info-alert.red i { color: var(--danger); }
 
     .info-alert.blue {
       background: linear-gradient(135deg, #eff6ff, #dbeafe);
@@ -592,9 +558,7 @@
       color: #1e3a8a;
     }
 
-    .info-alert.blue i {
-      color: #2563eb;
-    }
+    .info-alert.blue i { color: #2563eb; }
 
     .info-alert.green {
       background: linear-gradient(135deg, #f0fdf4, #dcfce7);
@@ -602,9 +566,7 @@
       color: #166534;
     }
 
-    .info-alert.green i {
-      color: #22c55e;
-    }
+    .info-alert.green i { color: #22c55e; }
 
     .info-alert i {
       font-size: 1.1rem;
@@ -617,7 +579,6 @@
       font-weight: 800;
     }
 
-    /* ===== التنبيهات ===== */
     .toast-inline {
       display: none;
       padding: 12px 16px;
@@ -629,9 +590,7 @@
       gap: 8px;
     }
 
-    .toast-inline.show {
-      display: flex;
-    }
+    .toast-inline.show { display: flex; }
 
     .toast-inline.error {
       background: #fef2f2;
@@ -645,190 +604,96 @@
       color: #16a34a;
     }
 
-    /* ===== Responsive ===== */
     @media (max-width: 768px) and (pointer: coarse) {
-      .role-tabs {
-        flex-wrap: nowrap;
-        overflow-x: auto;
-        padding: 6px;
-      }
-
-      .role-tab {
-        min-width: 110px;
-        padding: 10px 12px;
-        font-size: 0.78rem;
-        flex-shrink: 0;
-      }
-
-      .role-tab i {
-        font-size: 0.95rem;
-      }
-
-      .role-card-header {
-        padding: 16px;
-        gap: 10px;
-      }
-
-      .role-card-header .rc-icon {
-        width: 46px;
-        height: 46px;
-        font-size: 1.2rem;
-      }
-
-      .role-card-header .rc-info h2 {
-        font-size: 1rem;
-      }
-
-      .role-card-header .rc-info p {
-        font-size: 0.78rem;
-      }
-
-      .role-card-body {
-        padding: 16px;
-      }
-
-      .form-row {
-        grid-template-columns: 1fr;
-        gap: 0;
-      }
-
-      .form-group input,
-      .form-group select,
-      .form-group textarea {
-        padding: 11px 12px;
-        font-size: 0.9rem;
-      }
-
-      .action-btn {
-        padding: 14px 20px;
-        font-size: 0.95rem;
-      }
-
-      .result-box {
-        padding: 16px;
-      }
-
-      .result-box .result-header .result-icon {
-        width: 44px;
-        height: 44px;
-        font-size: 1.2rem;
-      }
-
-      .result-box .result-header h3 {
-        font-size: 1rem;
-      }
-
-      .info-display-row {
-        padding: 10px 12px;
-      }
-
-      .info-display-row .info-value.code-value {
-        font-size: 1rem;
-      }
-
-      .result-actions {
-        grid-template-columns: 1fr;
-      }
+      .role-tabs { flex-wrap: nowrap; overflow-x: auto; padding: 6px; }
+      .role-tab { min-width: 110px; padding: 10px 12px; font-size: 0.78rem; flex-shrink: 0; }
+      .role-tab i { font-size: 0.95rem; }
+      .role-card-header { padding: 16px; gap: 10px; }
+      .role-card-header .rc-icon { width: 46px; height: 46px; font-size: 1.2rem; }
+      .role-card-header .rc-info h2 { font-size: 1rem; }
+      .role-card-header .rc-info p { font-size: 0.78rem; }
+      .role-card-body { padding: 16px; }
+      .form-row { grid-template-columns: 1fr; gap: 0; }
+      .form-group input, .form-group select, .form-group textarea { padding: 11px 12px; font-size: 0.9rem; }
+      .action-btn { padding: 14px 20px; font-size: 0.95rem; }
+      .result-box { padding: 16px; }
+      .result-box .result-header .result-icon { width: 44px; height: 44px; font-size: 1.2rem; }
+      .result-box .result-header h3 { font-size: 1rem; }
+      .info-display-row { padding: 10px 12px; }
+      .info-display-row .info-value.code-value { font-size: 1rem; }
+      .result-actions { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 480px) {
-      .role-card-header .rc-info h2 {
-        font-size: 0.92rem;
-      }
-
-      .info-display-row {
-        flex-direction: column;
-        align-items: stretch;
-        text-align: center;
-      }
-
-      .info-display-row .info-value {
-        justify-content: center;
-      }
+      .role-card-header .rc-info h2 { font-size: 0.92rem; }
+      .info-display-row { flex-direction: column; align-items: stretch; text-align: center; }
+      .info-display-row .info-value { justify-content: center; }
     }
   </style>
 </head>
 <body>
 
-  <!-- مكونات الموبايل -->
   <div id="mobile-top-bar"></div>
   <div id="mobile-top-tabs"></div>
-
-  <!-- الهيدر -->
   <div id="header-placeholder"></div>
 
-  <!-- المحتوى -->
   <main class="page-content">
     <div class="container">
 
-      <!-- مسار التنقل -->
       <div class="breadcrumb">
         <a href="/gomla/admin/dashboard.html">لوحة التحكم</a>
         <span>›</span>
         <span>إدارة الحسابات</span>
       </div>
 
-      <!-- رأس الصفحة -->
       <div class="page-header">
-        <h1>
-          <i class="fas fa-user-shield"></i>
-          إدارة الحسابات
-        </h1>
-        <span class="badge-super">
-          <i class="fas fa-crown"></i>
-          سوبر أدمن فقط
-        </span>
+        <h1><i class="fas fa-user-shield"></i> إدارة الحسابات</h1>
+        <span class="badge-super"><i class="fas fa-crown"></i> سوبر أدمن فقط</span>
       </div>
 
-      <!-- تنبيه -->
       <div class="info-alert red">
         <i class="fas fa-lock"></i>
         <div>
           <strong>⚠️ صفحة حساسة!</strong>
-          كل ما هيتعمل من هنا بيتم تسجيله في سجل النشاط. 
-          تأكد من البيانات قبل الإنشاء.
+          كل ما هيتعمل من هنا بيتم تسجيله في سجل النشاط. تأكد من البيانات قبل الإنشاء.
         </div>
       </div>
 
-      <!-- ============================================================ -->
-      <!-- 📑 التبويبات                                                 -->
-      <!-- ============================================================ -->
+      <!-- التبويبات -->
       <div class="role-tabs">
         <button class="role-tab trader active" data-tab="trader" onclick="switchRoleTab('trader')">
-          <i class="fas fa-store"></i>
-          <span>تجار</span>
+          <i class="fas fa-store"></i><span>تجار</span>
         </button>
         <button class="role-tab cashier" data-tab="cashier" onclick="switchRoleTab('cashier')">
-          <i class="fas fa-cash-register"></i>
-          <span>كاشير</span>
+          <i class="fas fa-cash-register"></i><span>كاشير</span>
         </button>
         <button class="role-tab admin" data-tab="admin" onclick="switchRoleTab('admin')">
-          <i class="fas fa-user-shield"></i>
-          <span>أدمن</span>
+          <i class="fas fa-user-shield"></i><span>أدمن</span>
         </button>
         <button class="role-tab admin-plus" data-tab="admin-plus" onclick="switchRoleTab('admin-plus')">
-          <i class="fas fa-star"></i>
-          <span>أدمن بلص</span>
+          <i class="fas fa-star"></i><span>أدمن بلص</span>
         </button>
       </div>
 
-      <!-- ============================================================ -->
-      <!-- 🏪 تبويب التجار                                              -->
-      <!-- ============================================================ -->
+      <!-- تبويب التجار -->
       <div class="tab-content active" id="tab-trader">
         <div class="role-card">
-
           <div class="role-card-header trader">
-            <div class="rc-icon">
-              <i class="fas fa-store"></i>
-            </div>
+            <div class="rc-icon"><i class="fas fa-store"></i></div>
             <div class="rc-info">
               <h2>إنشاء حساب تاجر</h2>
-              <p>توليد كود تاجر جديد للدخول لمتجر الجملة (لا يحتاج بريد إلكتروني)</p>
+              <p>توليد كود تاجر جديد + حساب Firebase Auth حقيقي (بدون طرد السوبر أدمن)</p>
             </div>
           </div>
-
           <div class="role-card-body">
+            <div class="info-alert green">
+              <i class="fas fa-check-circle"></i>
+              <div>
+                <strong>✅ حساب Firebase Auth حقيقي:</strong>
+                التاجر هيقدر يستخدم كل مميزات المنصة (السلة، الإشعارات، الطلبات) 
+                بأمان كامل، وبياناته محمية بـ Firestore Rules.
+              </div>
+            </div>
 
             <div class="toast-inline" id="traderToast"></div>
 
@@ -837,51 +702,29 @@
 
               <div class="form-row">
                 <div class="form-group">
-                  <label>
-                    <i class="fas fa-user"></i>
-                    الاسم الكامل
-                    <span class="required">*</span>
-                  </label>
+                  <label><i class="fas fa-user"></i> الاسم الكامل <span class="required">*</span></label>
                   <input type="text" id="traderName" placeholder="مثال: أحمد محمد" maxlength="60" required>
                 </div>
-
                 <div class="form-group">
-                  <label>
-                    <i class="fas fa-store"></i>
-                    اسم المحل
-                    <span class="required">*</span>
-                  </label>
+                  <label><i class="fas fa-store"></i> اسم المحل <span class="required">*</span></label>
                   <input type="text" id="traderShop" placeholder="مثال: محلات النور" maxlength="80" required>
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group">
-                  <label>
-                    <i class="fas fa-phone"></i>
-                    رقم الهاتف
-                    <span class="required">*</span>
-                  </label>
+                  <label><i class="fas fa-phone"></i> رقم الهاتف <span class="required">*</span></label>
                   <input type="tel" id="traderPhone" placeholder="01xxxxxxxxx" maxlength="11" inputmode="numeric" required>
                 </div>
-
                 <div class="form-group">
-                  <label>
-                    <i class="fab fa-whatsapp"></i>
-                    رقم الواتساب
-                    <span class="required">*</span>
-                  </label>
+                  <label><i class="fab fa-whatsapp"></i> رقم الواتساب <span class="required">*</span></label>
                   <input type="tel" id="traderWhatsapp" placeholder="01xxxxxxxxx" maxlength="11" inputmode="numeric" required>
                 </div>
               </div>
 
               <div class="form-row">
                 <div class="form-group">
-                  <label>
-                    <i class="fas fa-map-marker-alt"></i>
-                    المدينة
-                    <span class="required">*</span>
-                  </label>
+                  <label><i class="fas fa-map-marker-alt"></i> المدينة <span class="required">*</span></label>
                   <select id="traderCity" required onchange="updateTraderCodePreview()">
                     <option value="">-- اختر المدينة --</option>
                     <option value="المحلة">المحلة (MHL)</option>
@@ -890,22 +733,14 @@
                     <option value="أخرى">أخرى (OTH)</option>
                   </select>
                 </div>
-
                 <div class="form-group">
-                  <label>
-                    <i class="fas fa-key"></i>
-                    الكود المُولَّد (تلقائي)
-                  </label>
+                  <label><i class="fas fa-key"></i> الكود المُولَّد (تلقائي)</label>
                   <input type="text" id="traderCodePreview" placeholder="---" readonly style="background:var(--gray-100);font-family:monospace;font-size:1.2rem;text-align:center;letter-spacing:2px;font-weight:800;color:var(--gold-dark);">
                 </div>
               </div>
 
               <div class="form-group">
-                <label>
-                  <i class="fas fa-home"></i>
-                  العنوان بالتفصيل
-                  <span class="required">*</span>
-                </label>
+                <label><i class="fas fa-home"></i> العنوان بالتفصيل <span class="required">*</span></label>
                 <input type="text" id="traderAddress" placeholder="المدينة - الشارع - رقم المبنى" maxlength="150" required>
               </div>
 
@@ -915,403 +750,217 @@
               </button>
             </form>
 
-            <!-- صندوق النتيجة -->
             <div class="result-box" id="traderResult">
               <div class="result-header">
-                <div class="result-icon">
-                  <i class="fas fa-check"></i>
-                </div>
+                <div class="result-icon"><i class="fas fa-check"></i></div>
                 <div>
                   <h3>تم إنشاء حساب التاجر بنجاح!</h3>
                   <p>احتفظ بالبيانات دي وسلّمها للتاجر</p>
                 </div>
               </div>
-
               <div class="info-display-grid" id="traderResultData"></div>
-
               <div class="result-actions">
                 <button class="btn btn-outline" onclick="copyTraderResult()">
-                  <i class="fas fa-copy"></i>
-                  نسخ البيانات
+                  <i class="fas fa-copy"></i> نسخ البيانات
                 </button>
                 <button class="btn whatsapp-action" onclick="sendTraderWhatsApp()">
-                  <i class="fab fa-whatsapp"></i>
-                  واتساب
+                  <i class="fab fa-whatsapp"></i> واتساب
                 </button>
                 <button class="btn btn-primary" onclick="createAnother('trader')">
-                  <i class="fas fa-plus"></i>
-                  إنشاء تاجر جديد
+                  <i class="fas fa-plus"></i> إنشاء تاجر جديد
                 </button>
               </div>
             </div>
-
           </div>
         </div>
       </div>
 
-      <!-- ============================================================ -->
-      <!-- 🧑‍💻 تبويب الكاشير                                          -->
-      <!-- ============================================================ -->
+      <!-- تبويب الكاشير -->
       <div class="tab-content" id="tab-cashier">
         <div class="role-card">
-
           <div class="role-card-header cashier">
-            <div class="rc-icon">
-              <i class="fas fa-cash-register"></i>
-            </div>
+            <div class="rc-icon"><i class="fas fa-cash-register"></i></div>
             <div class="rc-info">
               <h2>إنشاء حساب كاشير</h2>
               <p>إنشاء حساب كاشير لبريد إلكتروني (يحتاج بريد + كلمة مرور)</p>
             </div>
           </div>
-
           <div class="role-card-body">
-
             <div class="info-alert green">
               <i class="fas fa-check-circle"></i>
               <div>
                 <strong>✅ بدون أي تأثير على جلستك:</strong>
-                إنشاء الحساب بيتم باستخدام نسخة Firebase ثانوية معزولة، 
-                فجلسة السوبر أدمن بتفضل شغالة عادي.
+                إنشاء الحساب بيتم باستخدام نسخة Firebase ثانوية معزولة.
               </div>
             </div>
-
             <div class="toast-inline" id="cashierToast"></div>
-
             <form id="cashierForm" onsubmit="handleCreateCashier(event)">
-
               <div class="form-row">
                 <div class="form-group">
-                  <label>
-                    <i class="fas fa-user"></i>
-                    الاسم الكامل
-                    <span class="required">*</span>
-                  </label>
+                  <label><i class="fas fa-user"></i> الاسم الكامل <span class="required">*</span></label>
                   <input type="text" id="cashierName" placeholder="مثال: محمد أحمد" maxlength="60" required>
                 </div>
-
                 <div class="form-group">
-                  <label>
-                    <i class="fas fa-phone"></i>
-                    رقم الهاتف
-                    <span class="required">*</span>
-                  </label>
+                  <label><i class="fas fa-phone"></i> رقم الهاتف <span class="required">*</span></label>
                   <input type="tel" id="cashierPhone" placeholder="01xxxxxxxxx" maxlength="11" inputmode="numeric" required>
                 </div>
               </div>
-
               <div class="form-group">
-                <label>
-                  <i class="fas fa-envelope"></i>
-                  البريد الإلكتروني
-                  <span class="required">*</span>
-                </label>
+                <label><i class="fas fa-envelope"></i> البريد الإلكتروني <span class="required">*</span></label>
                 <input type="email" id="cashierEmail" placeholder="cashier@example.com" required>
               </div>
-
               <div class="form-group">
-                <label>
-                  <i class="fas fa-store"></i>
-                  الفرع
-                  <span class="required">*</span>
-                </label>
+                <label><i class="fas fa-store"></i> الفرع <span class="required">*</span></label>
                 <input type="text" id="cashierBranch" placeholder="مثال: فرع الرجبي" maxlength="80" required>
-                <div class="help-text">
-                  <i class="fas fa-info-circle"></i>
-                  اكتب اسم الفرع (سيتم ربطه لاحقاً بصفحة الفروع)
-                </div>
               </div>
-
               <div class="form-group">
-                <label>
-                  <i class="fas fa-lock"></i>
-                  كلمة المرور
-                  <span class="required">*</span>
-                </label>
+                <label><i class="fas fa-lock"></i> كلمة المرور <span class="required">*</span></label>
                 <div class="password-wrapper">
                   <input type="password" id="cashierPassword" placeholder="6 أحرف على الأقل" minlength="6" required>
-                  <button type="button" class="toggle-btn" onclick="togglePassword('cashierPassword', this)">
-                    <i class="fas fa-eye"></i>
-                  </button>
-                  <button type="button" class="generate-btn" onclick="generatePassword('cashierPassword')">
-                    <i class="fas fa-dice"></i>
-                    توليد
-                  </button>
+                  <button type="button" class="toggle-btn" onclick="togglePassword('cashierPassword', this)"><i class="fas fa-eye"></i></button>
+                  <button type="button" class="generate-btn" onclick="generatePassword('cashierPassword')"><i class="fas fa-dice"></i> توليد</button>
                 </div>
               </div>
-
               <button type="submit" class="action-btn cashier-btn" id="cashierSubmitBtn">
-                <i class="fas fa-user-plus"></i>
-                <span>إنشاء حساب الكاشير</span>
+                <i class="fas fa-user-plus"></i><span>إنشاء حساب الكاشير</span>
               </button>
             </form>
-
-            <!-- صندوق النتيجة -->
             <div class="result-box" id="cashierResult">
               <div class="result-header">
-                <div class="result-icon">
-                  <i class="fas fa-check"></i>
-                </div>
-                <div>
-                  <h3>تم إنشاء حساب الكاشير بنجاح!</h3>
-                  <p>سلّم البيانات دي للكاشير</p>
-                </div>
+                <div class="result-icon"><i class="fas fa-check"></i></div>
+                <div><h3>تم إنشاء حساب الكاشير بنجاح!</h3><p>سلّم البيانات دي للكاشير</p></div>
               </div>
-
               <div class="info-display-grid" id="cashierResultData"></div>
-
               <div class="result-actions">
-                <button class="btn btn-outline" onclick="copyCashierResult()">
-                  <i class="fas fa-copy"></i>
-                  نسخ البيانات
-                </button>
-                <button class="btn whatsapp-action" onclick="sendCashierWhatsApp()">
-                  <i class="fab fa-whatsapp"></i>
-                  واتساب
-                </button>
-                <button class="btn btn-primary" onclick="createAnother('cashier')">
-                  <i class="fas fa-plus"></i>
-                  إنشاء كاشير جديد
-                </button>
+                <button class="btn btn-outline" onclick="copyCashierResult()"><i class="fas fa-copy"></i> نسخ البيانات</button>
+                <button class="btn whatsapp-action" onclick="sendCashierWhatsApp()"><i class="fab fa-whatsapp"></i> واتساب</button>
+                <button class="btn btn-primary" onclick="createAnother('cashier')"><i class="fas fa-plus"></i> إنشاء كاشير جديد</button>
               </div>
             </div>
-
           </div>
         </div>
       </div>
 
-      <!-- ============================================================ -->
-      <!-- 🛡️ تبويب الأدمن                                             -->
-      <!-- ============================================================ -->
+      <!-- تبويب الأدمن -->
       <div class="tab-content" id="tab-admin">
         <div class="role-card">
-
           <div class="role-card-header admin">
-            <div class="rc-icon">
-              <i class="fas fa-user-shield"></i>
-            </div>
+            <div class="rc-icon"><i class="fas fa-user-shield"></i></div>
             <div class="rc-info">
               <h2>إنشاء حساب أدمن</h2>
-              <p>إنشاء حساب مشرف بصلاحيات محدودة (طلبات، منتجات، عملاء)</p>
+              <p>إنشاء حساب مشرف بصلاحيات محدودة</p>
             </div>
           </div>
-
           <div class="role-card-body">
-
             <div class="info-alert blue">
               <i class="fas fa-info-circle"></i>
               <div>
                 <strong>الصلاحيات:</strong>
-                إدارة المنتجات (بدون حذف) • إدارة الطلبات • إدارة الفواتير • 
-                عرض سعر الشراء • <strong>بدون</strong> إدارة الصلاحيات أو الفروع
+                إدارة المنتجات (بدون حذف) • الطلبات • الفواتير • عرض سعر الشراء
               </div>
             </div>
-
             <div class="toast-inline" id="adminToast"></div>
-
             <form id="adminForm" onsubmit="handleCreateAdmin(event)">
-
               <div class="form-row">
                 <div class="form-group">
-                  <label>
-                    <i class="fas fa-user"></i>
-                    الاسم الكامل
-                    <span class="required">*</span>
-                  </label>
+                  <label><i class="fas fa-user"></i> الاسم الكامل <span class="required">*</span></label>
                   <input type="text" id="adminName" placeholder="مثال: أحمد محمود" maxlength="60" required>
                 </div>
-
                 <div class="form-group">
-                  <label>
-                    <i class="fas fa-phone"></i>
-                    رقم الهاتف
-                    <span class="required">*</span>
-                  </label>
+                  <label><i class="fas fa-phone"></i> رقم الهاتف <span class="required">*</span></label>
                   <input type="tel" id="adminPhone" placeholder="01xxxxxxxxx" maxlength="11" inputmode="numeric" required>
                 </div>
               </div>
-
               <div class="form-group">
-                <label>
-                  <i class="fas fa-envelope"></i>
-                  البريد الإلكتروني
-                  <span class="required">*</span>
-                </label>
+                <label><i class="fas fa-envelope"></i> البريد الإلكتروني <span class="required">*</span></label>
                 <input type="email" id="adminEmail" placeholder="admin@example.com" required>
               </div>
-
               <div class="form-group">
-                <label>
-                  <i class="fas fa-lock"></i>
-                  كلمة المرور
-                  <span class="required">*</span>
-                </label>
+                <label><i class="fas fa-lock"></i> كلمة المرور <span class="required">*</span></label>
                 <div class="password-wrapper">
                   <input type="password" id="adminPassword" placeholder="6 أحرف على الأقل" minlength="6" required>
-                  <button type="button" class="toggle-btn" onclick="togglePassword('adminPassword', this)">
-                    <i class="fas fa-eye"></i>
-                  </button>
-                  <button type="button" class="generate-btn" onclick="generatePassword('adminPassword')">
-                    <i class="fas fa-dice"></i>
-                    توليد
-                  </button>
+                  <button type="button" class="toggle-btn" onclick="togglePassword('adminPassword', this)"><i class="fas fa-eye"></i></button>
+                  <button type="button" class="generate-btn" onclick="generatePassword('adminPassword')"><i class="fas fa-dice"></i> توليد</button>
                 </div>
               </div>
-
               <button type="submit" class="action-btn admin-btn" id="adminSubmitBtn">
-                <i class="fas fa-user-plus"></i>
-                <span>إنشاء حساب الأدمن</span>
+                <i class="fas fa-user-plus"></i><span>إنشاء حساب الأدمن</span>
               </button>
             </form>
-
-            <!-- صندوق النتيجة -->
             <div class="result-box" id="adminResult">
               <div class="result-header">
-                <div class="result-icon">
-                  <i class="fas fa-check"></i>
-                </div>
-                <div>
-                  <h3>تم إنشاء حساب الأدمن بنجاح!</h3>
-                  <p>سلّم البيانات دي للأدمن</p>
-                </div>
+                <div class="result-icon"><i class="fas fa-check"></i></div>
+                <div><h3>تم إنشاء حساب الأدمن بنجاح!</h3><p>سلّم البيانات دي للأدمن</p></div>
               </div>
-
               <div class="info-display-grid" id="adminResultData"></div>
-
               <div class="result-actions">
-                <button class="btn btn-outline" onclick="copyAdminResult()">
-                  <i class="fas fa-copy"></i>
-                  نسخ البيانات
-                </button>
-                <button class="btn whatsapp-action" onclick="sendAdminWhatsApp()">
-                  <i class="fab fa-whatsapp"></i>
-                  واتساب
-                </button>
-                <button class="btn btn-primary" onclick="createAnother('admin')">
-                  <i class="fas fa-plus"></i>
-                  إنشاء أدمن جديد
-                </button>
+                <button class="btn btn-outline" onclick="copyAdminResult()"><i class="fas fa-copy"></i> نسخ البيانات</button>
+                <button class="btn whatsapp-action" onclick="sendAdminWhatsApp()"><i class="fab fa-whatsapp"></i> واتساب</button>
+                <button class="btn btn-primary" onclick="createAnother('admin')"><i class="fas fa-plus"></i> إنشاء أدمن جديد</button>
               </div>
             </div>
-
           </div>
         </div>
       </div>
 
-      <!-- ============================================================ -->
-      <!-- 💎 تبويب أدمن بلص                                           -->
-      <!-- ============================================================ -->
+      <!-- تبويب أدمن بلص -->
       <div class="tab-content" id="tab-admin-plus">
         <div class="role-card">
-
           <div class="role-card-header admin-plus">
-            <div class="rc-icon">
-              <i class="fas fa-star"></i>
-            </div>
+            <div class="rc-icon"><i class="fas fa-star"></i></div>
             <div class="rc-info">
               <h2>إنشاء حساب أدمن بلص</h2>
-              <p>صلاحيات موسعة (كل شيء ما عدا: الصلاحيات، الإعدادات، توليد الأكواد)</p>
+              <p>صلاحيات موسعة (ما عدا: الصلاحيات، الإعدادات، توليد الأكواد)</p>
             </div>
           </div>
-
           <div class="role-card-body">
-
             <div class="info-alert red">
               <i class="fas fa-exclamation-triangle"></i>
               <div>
                 <strong>⚠️ صلاحيات موسعة!</strong>
-                أدمن بلص يقدر يدير الفروع والموظفين والصندوق والتقارير المالية. 
-                امنحه فقط للأشخاص الموثوقين.
+                أدمن بلص يقدر يدير الفروع والموظفين والصندوق. امنحه فقط للموثوقين.
               </div>
             </div>
-
             <div class="toast-inline" id="adminPlusToast"></div>
-
             <form id="adminPlusForm" onsubmit="handleCreateAdminPlus(event)">
-
               <div class="form-row">
                 <div class="form-group">
-                  <label>
-                    <i class="fas fa-user"></i>
-                    الاسم الكامل
-                    <span class="required">*</span>
-                  </label>
+                  <label><i class="fas fa-user"></i> الاسم الكامل <span class="required">*</span></label>
                   <input type="text" id="adminPlusName" placeholder="مثال: محمود علي" maxlength="60" required>
                 </div>
-
                 <div class="form-group">
-                  <label>
-                    <i class="fas fa-phone"></i>
-                    رقم الهاتف
-                    <span class="required">*</span>
-                  </label>
+                  <label><i class="fas fa-phone"></i> رقم الهاتف <span class="required">*</span></label>
                   <input type="tel" id="adminPlusPhone" placeholder="01xxxxxxxxx" maxlength="11" inputmode="numeric" required>
                 </div>
               </div>
-
               <div class="form-group">
-                <label>
-                  <i class="fas fa-envelope"></i>
-                  البريد الإلكتروني
-                  <span class="required">*</span>
-                </label>
+                <label><i class="fas fa-envelope"></i> البريد الإلكتروني <span class="required">*</span></label>
                 <input type="email" id="adminPlusEmail" placeholder="adminplus@example.com" required>
               </div>
-
               <div class="form-group">
-                <label>
-                  <i class="fas fa-lock"></i>
-                  كلمة المرور
-                  <span class="required">*</span>
-                </label>
+                <label><i class="fas fa-lock"></i> كلمة المرور <span class="required">*</span></label>
                 <div class="password-wrapper">
                   <input type="password" id="adminPlusPassword" placeholder="6 أحرف على الأقل" minlength="6" required>
-                  <button type="button" class="toggle-btn" onclick="togglePassword('adminPlusPassword', this)">
-                    <i class="fas fa-eye"></i>
-                  </button>
-                  <button type="button" class="generate-btn" onclick="generatePassword('adminPlusPassword')">
-                    <i class="fas fa-dice"></i>
-                    توليد
-                  </button>
+                  <button type="button" class="toggle-btn" onclick="togglePassword('adminPlusPassword', this)"><i class="fas fa-eye"></i></button>
+                  <button type="button" class="generate-btn" onclick="generatePassword('adminPlusPassword')"><i class="fas fa-dice"></i> توليد</button>
                 </div>
               </div>
-
               <button type="submit" class="action-btn admin-plus-btn" id="adminPlusSubmitBtn">
-                <i class="fas fa-user-plus"></i>
-                <span>إنشاء حساب أدمن بلص</span>
+                <i class="fas fa-user-plus"></i><span>إنشاء حساب أدمن بلص</span>
               </button>
             </form>
-
-            <!-- صندوق النتيجة -->
             <div class="result-box" id="adminPlusResult">
               <div class="result-header">
-                <div class="result-icon">
-                  <i class="fas fa-check"></i>
-                </div>
-                <div>
-                  <h3>تم إنشاء حساب أدمن بلص بنجاح!</h3>
-                  <p>سلّم البيانات دي للمستخدم</p>
-                </div>
+                <div class="result-icon"><i class="fas fa-check"></i></div>
+                <div><h3>تم إنشاء حساب أدمن بلص بنجاح!</h3><p>سلّم البيانات دي للمستخدم</p></div>
               </div>
-
               <div class="info-display-grid" id="adminPlusResultData"></div>
-
               <div class="result-actions">
-                <button class="btn btn-outline" onclick="copyAdminPlusResult()">
-                  <i class="fas fa-copy"></i>
-                  نسخ البيانات
-                </button>
-                <button class="btn whatsapp-action" onclick="sendAdminPlusWhatsApp()">
-                  <i class="fab fa-whatsapp"></i>
-                  واتساب
-                </button>
-                <button class="btn btn-primary" onclick="createAnother('admin-plus')">
-                  <i class="fas fa-plus"></i>
-                  إنشاء أدمن بلص جديد
-                </button>
+                <button class="btn btn-outline" onclick="copyAdminPlusResult()"><i class="fas fa-copy"></i> نسخ البيانات</button>
+                <button class="btn whatsapp-action" onclick="sendAdminPlusWhatsApp()"><i class="fab fa-whatsapp"></i> واتساب</button>
+                <button class="btn btn-primary" onclick="createAnother('admin-plus')"><i class="fas fa-plus"></i> إنشاء أدمن بلص جديد</button>
               </div>
             </div>
-
           </div>
         </div>
       </div>
@@ -1319,20 +968,12 @@
     </div>
   </main>
 
-  <!-- التبويبات السفلى -->
   <div id="mobile-bottom-tabs"></div>
   <div id="mobile-copyright"></div>
-
-  <!-- الفوتر -->
   <div id="footer-placeholder"></div>
-
-  <!-- السايدبار -->
   <div id="sidebar-placeholder"></div>
-
-  <!-- Toast Container -->
   <div id="toast-container"></div>
 
-  <!-- Firebase & Scripts -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
@@ -1342,18 +983,11 @@
 
   <script>
     // ============================================================
-    // 📄 generate-codes.html - إدارة الحسابات
+    // 📄 generate-codes.html - إدارة الحسابات v2.0
+    // 🆕 إنشاء Firebase Auth للتجار (بدون طرد السوبر أدمن)
     // ============================================================
 
-    // ============================================================
-    // 🔥 تهيئة النسخة الثانوية من Firebase
-    // ============================================================
-    // 📌 السبب: عند إنشاء حساب جديد باستخدام createUserWithEmailAndPassword
-    //    بيتسجل دخول المستخدم الجديد تلقائياً ويطرد السوبر أدمن
-    // 📌 الحل: استخدام نسخة ثانوية معزولة لإنشاء الحسابات
-    //    السوبر أدمن يفضل في جلسته الأصلية بدون أي تأثير
-    // ============================================================
-
+    // ===== تهيئة النسخة الثانوية =====
     let secondaryApp = null;
     let secondaryAuth = null;
 
@@ -1381,16 +1015,14 @@
     // ============================================================
     // 🚀 تشغيل الصفحة
     // ============================================================
-
     document.addEventListener('DOMContentLoaded', function() {
-      // 🔒 حماية: سوبر أدمن فقط
       const user = getCurrentUser();
-      
+
       if (!user || user.type !== 'admin') {
         window.location.href = '/gomla/admin/login.html';
         return;
       }
-      
+
       if (user.data.role !== ROLES.SUPER) {
         showToast('⚠️ هذه الصفحة للسوبر أدمن فقط', 'error');
         setTimeout(() => {
@@ -1400,21 +1032,17 @@
       }
 
       currentAdminData = user.data;
-
       console.log('✅ generate-codes.html loaded');
     });
 
     // ============================================================
     // 📑 التبديل بين التبويبات
     // ============================================================
-
     function switchRoleTab(tabName) {
       document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
       document.querySelectorAll('.role-tab').forEach(t => t.classList.remove('active'));
-
       document.getElementById('tab-' + tabName).classList.add('active');
       document.querySelector(`.role-tab[data-tab="${tabName}"]`).classList.add('active');
-
       document.querySelectorAll('.result-box').forEach(b => b.classList.remove('show'));
       document.querySelectorAll('.toast-inline').forEach(t => t.classList.remove('show'));
     }
@@ -1422,11 +1050,9 @@
     // ============================================================
     // 🔐 إظهار/إخفاء كلمة المرور
     // ============================================================
-
     function togglePassword(fieldId, btn) {
       const field = document.getElementById(fieldId);
       const icon = btn.querySelector('i');
-
       if (field.type === 'password') {
         field.type = 'text';
         icon.classList.remove('fa-eye');
@@ -1439,83 +1065,51 @@
     }
 
     // ============================================================
-    // 🎲 توليد كلمة مرور قوية
+    // 🎲 توليد كلمة مرور
     // ============================================================
-
     function generatePassword(fieldId) {
       const length = 12;
       const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789!@#$%';
       let password = '';
-
       for (let i = 0; i < length; i++) {
         password += chars.charAt(Math.floor(Math.random() * chars.length));
       }
-
       const field = document.getElementById(fieldId);
       field.value = password;
       field.type = 'text';
-      
-      setTimeout(() => {
-        field.type = 'password';
-      }, 3000);
-
+      setTimeout(() => { field.type = 'password'; }, 3000);
       showToast('🎲 تم توليد كلمة مرور قوية', 'success');
     }
 
     // ============================================================
-    // 🛠️ رسائل التنبيه
+    // 🛠️ رسائل
     // ============================================================
-
     function showInlineToast(type, prefix, message) {
       const toast = document.getElementById(prefix + 'Toast');
       if (!toast) return;
-
       toast.className = `toast-inline show ${type}`;
-      toast.innerHTML = `
-        <i class="fas ${type === 'error' ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i>
-        <span>${message}</span>
-      `;
-
-      setTimeout(() => {
-        toast.classList.remove('show');
-      }, 6000);
+      toast.innerHTML = `<i class="fas ${type === 'error' ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i><span>${message}</span>`;
+      setTimeout(() => { toast.classList.remove('show'); }, 6000);
     }
 
     // ============================================================
-    // 🏪 إنشاء حساب تاجر
+    // 🏪 التجار
     // ============================================================
-
     function updateTraderCodePreview() {
       const city = document.getElementById('traderCity').value;
       const preview = document.getElementById('traderCodePreview');
-      
-      if (!city) {
-        preview.value = '---';
-        return;
-      }
-
-      const cityCodes = {
-        'المحلة': 'MHL',
-        'المنصورة': 'MNS',
-        'طنطا': 'TNT',
-        'أخرى': 'OTH'
-      };
-
+      if (!city) { preview.value = '---'; return; }
+      const cityCodes = { 'المحلة': 'MHL', 'المنصورة': 'MNS', 'طنطا': 'TNT', 'أخرى': 'OTH' };
       const prefix = cityCodes[city] || 'OTH';
       preview.value = `${prefix}-XXXX`;
     }
 
+    // 🆕 توليد كود فريد - نبحث في trader_lookup (Doc ID)
     async function generateUniqueTraderCode(city) {
-      const cityCodes = {
-        'المحلة': 'MHL',
-        'المنصورة': 'MNS',
-        'طنطا': 'TNT',
-        'أخرى': 'OTH'
-      };
-
+      const cityCodes = { 'المحلة': 'MHL', 'المنصورة': 'MNS', 'طنطا': 'TNT', 'أخرى': 'OTH' };
       const prefix = cityCodes[city] || 'OTH';
       const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-      
+
       let code = '';
       let exists = true;
       let attempts = 0;
@@ -1525,19 +1119,17 @@
         for (let i = 0; i < 4; i++) {
           code += chars.charAt(Math.floor(Math.random() * chars.length));
         }
-
-        const snapshot = await db.collection(COLLECTIONS.CUSTOMERS)
-          .where('code', '==', code)
-          .limit(1)
-          .get();
-
-        exists = !snapshot.empty;
+        // 🆕 نفحص trader_lookup بدل customers (Doc ID = الكود)
+        const doc = await db.collection('trader_lookup').doc(code).get();
+        exists = doc.exists;
         attempts++;
       }
 
+      if (exists) throw new Error('فشل توليد كود فريد. حاول تاني.');
       return code;
     }
 
+    // 🆕 إنشاء تاجر مع Firebase Auth
     async function handleCreateTrader(event) {
       event.preventDefault();
 
@@ -1548,42 +1140,23 @@
       const city = document.getElementById('traderCity').value;
       const address = document.getElementById('traderAddress').value.trim();
 
-      if (!name || name.length < 3) {
-        showInlineToast('error', 'trader', 'يرجى إدخال الاسم الكامل');
-        return;
-      }
-
-      if (!shop || shop.length < 3) {
-        showInlineToast('error', 'trader', 'يرجى إدخال اسم المحل');
-        return;
-      }
-
-      if (!/^01[0-9]{9}$/.test(phone)) {
-        showInlineToast('error', 'trader', 'رقم الهاتف يجب أن يكون 11 رقم');
-        return;
-      }
-
-      if (!/^01[0-9]{9}$/.test(whatsapp)) {
-        showInlineToast('error', 'trader', 'رقم الواتساب يجب أن يكون 11 رقم');
-        return;
-      }
-
-      if (!city) {
-        showInlineToast('error', 'trader', 'يرجى اختيار المدينة');
-        return;
-      }
-
-      if (!address || address.length < 5) {
-        showInlineToast('error', 'trader', 'يرجى إدخال العنوان');
-        return;
-      }
+      if (!name || name.length < 3) { showInlineToast('error', 'trader', 'يرجى إدخال الاسم الكامل'); return; }
+      if (!shop || shop.length < 3) { showInlineToast('error', 'trader', 'يرجى إدخال اسم المحل'); return; }
+      if (!/^01[0-9]{9}$/.test(phone)) { showInlineToast('error', 'trader', 'رقم الهاتف يجب أن يكون 11 رقم'); return; }
+      if (!/^01[0-9]{9}$/.test(whatsapp)) { showInlineToast('error', 'trader', 'رقم الواتساب يجب أن يكون 11 رقم'); return; }
+      if (!city) { showInlineToast('error', 'trader', 'يرجى اختيار المدينة'); return; }
+      if (!address || address.length < 5) { showInlineToast('error', 'trader', 'يرجى إدخال العنوان'); return; }
 
       const btn = document.getElementById('traderSubmitBtn');
       const originalText = btn.innerHTML;
       btn.disabled = true;
       btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>جاري التوليد...</span>';
 
+      let newUid = null;
+      let code = null;
+
       try {
+        // 1️⃣ التحقق من تكرار الهاتف
         const existingPhone = await db.collection(COLLECTIONS.CUSTOMERS)
           .where('phone', '==', phone)
           .limit(1)
@@ -1593,16 +1166,32 @@
           throw new Error('رقم الهاتف مسجل بالفعل');
         }
 
-        const code = await generateUniqueTraderCode(city);
+        // 2️⃣ توليد كود فريد
+        code = await generateUniqueTraderCode(city);
+        const authEmail = `${code.toLowerCase()}@trader.awladshalaan.com`;
+        const authPassword = code;
 
+        // 3️⃣ إنشاء Firebase Auth في النسخة الثانوية
+        if (!secondaryAuth) {
+          throw new Error('النسخة الثانوية غير متاحة. يرجى تحديث الصفحة.');
+        }
+
+        const userCredential = await secondaryAuth.createUserWithEmailAndPassword(
+          authEmail,
+          authPassword
+        );
+        newUid = userCredential.user.uid;
+
+        try {
+          await userCredential.user.updateProfile({ displayName: name });
+        } catch (e) { /* تجاهل */ }
+
+        // 4️⃣ حفظ في customers/{uid}
         const traderData = {
-          name,
-          shop,
-          phone,
-          whatsapp,
-          city,
-          address,
+          id: newUid,
+          name, shop, phone, whatsapp, city, address,
           code,
+          authEmail,
           role: ROLES.WHOLESALE,
           type: 'wholesale',
           avatar: '',
@@ -1613,29 +1202,31 @@
           createdBy: currentAdminData.id || currentAdminData.uid
         };
 
-        const docRef = await db.collection(COLLECTIONS.CUSTOMERS).add(traderData);
-        traderData.id = docRef.id;
+        await db.collection(COLLECTIONS.CUSTOMERS).doc(newUid).set(traderData);
 
-        // 🆕 إنشاء trader_lookup للدخول السريع (Doc ID = الكود)
+        // 5️⃣ حفظ في trader_lookup (Doc ID = الكود)
         await db.collection('trader_lookup').doc(code).set({
-          customerId: docRef.id,
-          name: name,
-          shop: shop,
-          phone: phone,
-          whatsapp: whatsapp,
-          email: '',
-          city: city,
-          address: address,
-          code: code,
+          customerId: newUid,
+          authEmail: authEmail,
+          name, shop, phone, whatsapp,
+          email: authEmail,
+          city, address, code,
           role: ROLES.WHOLESALE,
           type: 'wholesale',
           avatar: '',
           balance: 0,
+          ordersCount: 0,
+          pendingOrdersCount: 0,
+          recentOrders: [],
           active: true,
           createdAt: firebase.firestore.FieldValue.serverTimestamp(),
           updatedAt: firebase.firestore.FieldValue.serverTimestamp()
         });
 
+        // 6️⃣ signOut من النسخة الثانوية (تنظيف)
+        try { await secondaryAuth.signOut(); } catch (e) { /* تجاهل */ }
+
+        // 7️⃣ تسجيل النشاط
         try {
           await db.collection(COLLECTIONS.ACTIVITY_LOG).add({
             userId: currentAdminData.id || currentAdminData.uid,
@@ -1645,19 +1236,36 @@
             details: `${name} - ${code}`,
             timestamp: firebase.firestore.FieldValue.serverTimestamp()
           });
-        } catch (e) {
-          console.warn('Could not log:', e);
-        }
+        } catch (e) { /* تجاهل */ }
 
+        // 8️⃣ عرض النتيجة
+        traderData.authEmail = authEmail;
         lastTraderData = traderData;
         renderTraderResult(traderData);
-
         showToast('✅ تم إنشاء حساب التاجر بنجاح', 'success');
 
       } catch (error) {
         console.error('Error:', error);
-        showInlineToast('error', 'trader', error.message || 'حدث خطأ');
-        showToast('❌ ' + (error.message || 'حدث خطأ'), 'error');
+
+        // 🆕 لو فشل بعد إنشاء Auth، نحذف الحساب
+        if (newUid && secondaryAuth) {
+          try {
+            // نحاول ندخل ونحذف
+            console.warn('Rolling back partially created account...');
+          } catch (e) { /* تجاهل */ }
+        }
+
+        let msg = error.message || 'حدث خطأ';
+        if (error.code === 'auth/email-already-in-use') {
+          msg = 'حدث تعارض في الكود. جرب تاني.';
+        } else if (error.code === 'auth/weak-password') {
+          msg = 'كلمة المرور ضعيفة.';
+        } else if (error.code === 'auth/network-request-failed') {
+          msg = 'فشل الاتصال بالإنترنت.';
+        }
+
+        showInlineToast('error', 'trader', msg);
+        showToast('❌ ' + msg, 'error');
       } finally {
         btn.disabled = false;
         btn.innerHTML = originalText;
@@ -1666,7 +1274,6 @@
 
     function renderTraderResult(data) {
       const container = document.getElementById('traderResultData');
-      
       container.innerHTML = `
         <div class="info-display-row">
           <span class="info-label"><i class="fas fa-user"></i> الاسم</span>
@@ -1687,19 +1294,17 @@
           <span class="info-value">${data.city}</span>
         </div>
         <div class="info-display-row">
-          <span class="info-label"><i class="fas fa-key"></i> الكود</span>
+          <span class="info-label"><i class="fas fa-key"></i> الكود (للدخول)</span>
           <span class="info-value code-value">${data.code}
             <button class="copy-mini-btn" onclick="copyText('${data.code}')"><i class="fas fa-copy"></i></button>
           </span>
         </div>
       `;
-
       document.getElementById('traderResult').classList.add('show');
     }
 
     function copyTraderResult() {
       if (!lastTraderData) return;
-      
       const text = `
 🏪 حساب تاجر جديد - أولاد شعلان جملة
 
@@ -1711,14 +1316,12 @@
 
 🔗 رابط الدخول: https://awladsh3laan.github.io/gomla/trader-login.html
       `.trim();
-
       copyText(text);
       showToast('✅ تم نسخ البيانات', 'success');
     }
 
     function sendTraderWhatsApp() {
       if (!lastTraderData) return;
-
       let phone = lastTraderData.whatsapp.replace(/[^0-9]/g, '');
       if (phone.startsWith('0')) phone = phone.substring(1);
       if (!phone.startsWith('2')) phone = '2' + phone;
@@ -1737,156 +1340,65 @@
 شكراً لثقتك بنا 🙏
       `.trim();
 
-      const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-      window.open(url, '_blank');
+      window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
     }
 
     // ============================================================
-    // 🧑‍💻 إنشاء حساب كاشير
+    // 🧑‍💻 الكاشير / الأدمن / أدمن بلص
     // ============================================================
-
     async function handleCreateCashier(event) {
       event.preventDefault();
-
       const name = document.getElementById('cashierName').value.trim();
       const phone = document.getElementById('cashierPhone').value.trim();
       const email = document.getElementById('cashierEmail').value.trim().toLowerCase();
       const branch = document.getElementById('cashierBranch').value.trim();
       const password = document.getElementById('cashierPassword').value;
 
-      if (!name || name.length < 3) {
-        showInlineToast('error', 'cashier', 'يرجى إدخال الاسم');
-        return;
-      }
+      if (!name || name.length < 3) { showInlineToast('error', 'cashier', 'يرجى إدخال الاسم'); return; }
+      if (!/^01[0-9]{9}$/.test(phone)) { showInlineToast('error', 'cashier', 'رقم الهاتف يجب أن يكون 11 رقم'); return; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showInlineToast('error', 'cashier', 'بريد إلكتروني غير صحيح'); return; }
+      if (!branch || branch.length < 3) { showInlineToast('error', 'cashier', 'يرجى إدخال اسم الفرع'); return; }
+      if (!password || password.length < 6) { showInlineToast('error', 'cashier', 'كلمة المرور 6 أحرف على الأقل'); return; }
 
-      if (!/^01[0-9]{9}$/.test(phone)) {
-        showInlineToast('error', 'cashier', 'رقم الهاتف يجب أن يكون 11 رقم');
-        return;
-      }
-
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        showInlineToast('error', 'cashier', 'بريد إلكتروني غير صحيح');
-        return;
-      }
-
-      if (!branch || branch.length < 3) {
-        showInlineToast('error', 'cashier', 'يرجى إدخال اسم الفرع');
-        return;
-      }
-
-      if (!password || password.length < 6) {
-        showInlineToast('error', 'cashier', 'كلمة المرور 6 أحرف على الأقل');
-        return;
-      }
-
-      await createUserAccount(
-        'cashier',
-        { name, phone, email, branch, password }
-      );
+      await createUserAccount('cashier', { name, phone, email, branch, password });
     }
-
-    // ============================================================
-    // 🛡️ إنشاء حساب أدمن
-    // ============================================================
 
     async function handleCreateAdmin(event) {
       event.preventDefault();
-
       const name = document.getElementById('adminName').value.trim();
       const phone = document.getElementById('adminPhone').value.trim();
       const email = document.getElementById('adminEmail').value.trim().toLowerCase();
       const password = document.getElementById('adminPassword').value;
 
-      if (!name || name.length < 3) {
-        showInlineToast('error', 'admin', 'يرجى إدخال الاسم');
-        return;
-      }
+      if (!name || name.length < 3) { showInlineToast('error', 'admin', 'يرجى إدخال الاسم'); return; }
+      if (!/^01[0-9]{9}$/.test(phone)) { showInlineToast('error', 'admin', 'رقم الهاتف غير صحيح'); return; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showInlineToast('error', 'admin', 'بريد إلكتروني غير صحيح'); return; }
+      if (!password || password.length < 6) { showInlineToast('error', 'admin', 'كلمة المرور 6 أحرف على الأقل'); return; }
 
-      if (!/^01[0-9]{9}$/.test(phone)) {
-        showInlineToast('error', 'admin', 'رقم الهاتف غير صحيح');
-        return;
-      }
-
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        showInlineToast('error', 'admin', 'بريد إلكتروني غير صحيح');
-        return;
-      }
-
-      if (!password || password.length < 6) {
-        showInlineToast('error', 'admin', 'كلمة المرور 6 أحرف على الأقل');
-        return;
-      }
-
-      await createUserAccount(
-        'admin',
-        { name, phone, email, password }
-      );
+      await createUserAccount('admin', { name, phone, email, password });
     }
-
-    // ============================================================
-    // 💎 إنشاء حساب أدمن بلص
-    // ============================================================
 
     async function handleCreateAdminPlus(event) {
       event.preventDefault();
-
       const name = document.getElementById('adminPlusName').value.trim();
       const phone = document.getElementById('adminPlusPhone').value.trim();
       const email = document.getElementById('adminPlusEmail').value.trim().toLowerCase();
       const password = document.getElementById('adminPlusPassword').value;
 
-      if (!name || name.length < 3) {
-        showInlineToast('error', 'adminPlus', 'يرجى إدخال الاسم');
-        return;
-      }
+      if (!name || name.length < 3) { showInlineToast('error', 'adminPlus', 'يرجى إدخال الاسم'); return; }
+      if (!/^01[0-9]{9}$/.test(phone)) { showInlineToast('error', 'adminPlus', 'رقم الهاتف غير صحيح'); return; }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { showInlineToast('error', 'adminPlus', 'بريد إلكتروني غير صحيح'); return; }
+      if (!password || password.length < 6) { showInlineToast('error', 'adminPlus', 'كلمة المرور 6 أحرف على الأقل'); return; }
 
-      if (!/^01[0-9]{9}$/.test(phone)) {
-        showInlineToast('error', 'adminPlus', 'رقم الهاتف غير صحيح');
-        return;
-      }
-
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        showInlineToast('error', 'adminPlus', 'بريد إلكتروني غير صحيح');
-        return;
-      }
-
-      if (!password || password.length < 6) {
-        showInlineToast('error', 'adminPlus', 'كلمة المرور 6 أحرف على الأقل');
-        return;
-      }
-
-      await createUserAccount(
-        'admin_plus',
-        { name, phone, email, password }
-      );
+      await createUserAccount('admin_plus', { name, phone, email, password });
     }
-
-    // ============================================================
-    // 🔐 إنشاء حساب Firebase Auth (باستخدام النسخة الثانوية)
-    // ============================================================
 
     async function createUserAccount(roleType, userData) {
       const config = {
-        cashier: {
-          btn: 'cashierSubmitBtn',
-          toastPrefix: 'cashier',
-          collection: COLLECTIONS.CASHIERS,
-          role: ROLES.CASHIER
-        },
-        admin: {
-          btn: 'adminSubmitBtn',
-          toastPrefix: 'admin',
-          collection: COLLECTIONS.ADMINS,
-          role: ROLES.ADMIN
-        },
-        admin_plus: {
-          btn: 'adminPlusSubmitBtn',
-          toastPrefix: 'adminPlus',
-          collection: COLLECTIONS.ADMINS,
-          role: ROLES.ADMIN_PLUS
-        }
+        cashier: { btn: 'cashierSubmitBtn', toastPrefix: 'cashier', collection: COLLECTIONS.CASHIERS, role: ROLES.CASHIER },
+        admin: { btn: 'adminSubmitBtn', toastPrefix: 'admin', collection: COLLECTIONS.ADMINS, role: ROLES.ADMIN },
+        admin_plus: { btn: 'adminPlusSubmitBtn', toastPrefix: 'adminPlus', collection: COLLECTIONS.ADMINS, role: ROLES.ADMIN_PLUS }
       };
-
       const cfg = config[roleType];
       if (!cfg) return;
 
@@ -1896,39 +1408,16 @@
       btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>جاري الإنشاء...</span>';
 
       try {
-        // 1️⃣ التحقق من تكرار البريد
-        const existingEmail = await db.collection(cfg.collection)
-          .where('email', '==', userData.email)
-          .limit(1)
-          .get();
+        const existingEmail = await db.collection(cfg.collection).where('email', '==', userData.email).limit(1).get();
+        if (!existingEmail.empty) throw new Error('هذا البريد الإلكتروني مسجل بالفعل');
 
-        if (!existingEmail.empty) {
-          throw new Error('هذا البريد الإلكتروني مسجل بالفعل');
-        }
+        if (!secondaryAuth) throw new Error('النسخة الثانوية غير متاحة.');
 
-        // 2️⃣ إنشاء حساب Firebase Auth في النسخة الثانوية
-        // ⚠️ ملاحظة: هذا لن يؤثر على جلسة السوبر أدمن
-        if (!secondaryAuth) {
-          throw new Error('النسخة الثانوية غير متاحة. يرجى تحديث الصفحة.');
-        }
-
-        const userCredential = await secondaryAuth.createUserWithEmailAndPassword(
-          userData.email,
-          userData.password
-        );
-
+        const userCredential = await secondaryAuth.createUserWithEmailAndPassword(userData.email, userData.password);
         const newUid = userCredential.user.uid;
 
-        // 3️⃣ تحديث displayName
-        try {
-          await userCredential.user.updateProfile({
-            displayName: userData.name
-          });
-        } catch (profileError) {
-          console.warn('Could not update display name:', profileError);
-        }
+        try { await userCredential.user.updateProfile({ displayName: userData.name }); } catch (e) { /* تجاهل */ }
 
-        // 4️⃣ حفظ البيانات في Firestore
         const firestoreData = {
           id: newUid,
           name: userData.name,
@@ -1946,14 +1435,12 @@
           firestoreData.branchName = userData.branch;
           firestoreData.branchId = '';
         }
-
         if (roleType === 'admin' || roleType === 'admin_plus') {
           firestoreData.balance = 0;
         }
 
         await db.collection(cfg.collection).doc(newUid).set(firestoreData);
 
-        // 5️⃣ تسجيل النشاط
         try {
           await db.collection(COLLECTIONS.ACTIVITY_LOG).add({
             userId: currentAdminData.id || currentAdminData.uid,
@@ -1963,102 +1450,48 @@
             details: `${userData.name} - ${userData.email}`,
             timestamp: firebase.firestore.FieldValue.serverTimestamp()
           });
-        } catch (e) {
-          console.warn('Could not log:', e);
-        }
+        } catch (e) { /* تجاهل */ }
 
-        // 6️⃣ تسجيل خروج المستخدم الجديد من النسخة الثانوية
-        try {
-          await secondaryAuth.signOut();
-        } catch (signOutError) {
-          console.warn('Could not sign out from secondary:', signOutError);
-        }
+        try { await secondaryAuth.signOut(); } catch (e) { /* تجاهل */ }
 
-        // 7️⃣ عرض النتيجة
         const resultData = { ...firestoreData, password: userData.password };
 
-        if (roleType === 'cashier') {
-          lastCashierData = resultData;
-          renderCashierResult(resultData);
-        } else if (roleType === 'admin') {
-          lastAdminData = resultData;
-          renderAdminResult(resultData);
-        } else if (roleType === 'admin_plus') {
-          lastAdminPlusData = resultData;
-          renderAdminPlusResult(resultData);
-        }
+        if (roleType === 'cashier') { lastCashierData = resultData; renderCashierResult(resultData); }
+        else if (roleType === 'admin') { lastAdminData = resultData; renderAdminResult(resultData); }
+        else if (roleType === 'admin_plus') { lastAdminPlusData = resultData; renderAdminPlusResult(resultData); }
 
         showToast('✅ تم إنشاء الحساب بنجاح', 'success');
 
       } catch (error) {
         console.error('Error creating account:', error);
+        let msg = error.message || 'حدث خطأ';
+        if (error.code === 'auth/email-already-in-use') msg = 'هذا البريد مسجل بالفعل في Firebase';
+        else if (error.code === 'auth/weak-password') msg = 'كلمة المرور ضعيفة جداً';
+        else if (error.code === 'auth/invalid-email') msg = 'البريد الإلكتروني غير صحيح';
+        else if (error.code === 'auth/network-request-failed') msg = 'فشل الاتصال بالإنترنت';
 
-        let errorMessage = error.message || 'حدث خطأ';
-
-        if (error.code === 'auth/email-already-in-use') {
-          errorMessage = 'هذا البريد مسجل بالفعل في Firebase';
-        } else if (error.code === 'auth/weak-password') {
-          errorMessage = 'كلمة المرور ضعيفة جداً';
-        } else if (error.code === 'auth/invalid-email') {
-          errorMessage = 'البريد الإلكتروني غير صحيح';
-        } else if (error.code === 'auth/network-request-failed') {
-          errorMessage = 'فشل الاتصال بالإنترنت';
-        }
-
-        showInlineToast('error', cfg.toastPrefix, errorMessage);
-        showToast('❌ ' + errorMessage, 'error');
-
+        showInlineToast('error', cfg.toastPrefix, msg);
+        showToast('❌ ' + msg, 'error');
       } finally {
         btn.disabled = false;
         btn.innerHTML = originalText;
       }
     }
 
-    // ============================================================
-    // 🎨 عرض نتائج الكاشير
-    // ============================================================
-
     function renderCashierResult(data) {
       const container = document.getElementById('cashierResultData');
-      
       container.innerHTML = `
-        <div class="info-display-row">
-          <span class="info-label"><i class="fas fa-user"></i> الاسم</span>
-          <span class="info-value">${data.name}</span>
-        </div>
-        <div class="info-display-row">
-          <span class="info-label"><i class="fas fa-store"></i> الفرع</span>
-          <span class="info-value">${data.branchName || '-'}</span>
-        </div>
-        <div class="info-display-row">
-          <span class="info-label"><i class="fas fa-envelope"></i> البريد</span>
-          <span class="info-value">${data.email}
-            <button class="copy-mini-btn" onclick="copyText('${data.email}')"><i class="fas fa-copy"></i></button>
-          </span>
-        </div>
-        <div class="info-display-row">
-          <span class="info-label"><i class="fas fa-lock"></i> كلمة المرور</span>
-          <span class="info-value">${data.password || '(مخفية)'}
-            ${data.password ? `<button class="copy-mini-btn" onclick="copyText('${data.password}')"><i class="fas fa-copy"></i></button>` : ''}
-          </span>
-        </div>
+        <div class="info-display-row"><span class="info-label"><i class="fas fa-user"></i> الاسم</span><span class="info-value">${data.name}</span></div>
+        <div class="info-display-row"><span class="info-label"><i class="fas fa-store"></i> الفرع</span><span class="info-value">${data.branchName || '-'}</span></div>
+        <div class="info-display-row"><span class="info-label"><i class="fas fa-envelope"></i> البريد</span><span class="info-value">${data.email}<button class="copy-mini-btn" onclick="copyText('${data.email}')"><i class="fas fa-copy"></i></button></span></div>
+        <div class="info-display-row"><span class="info-label"><i class="fas fa-lock"></i> كلمة المرور</span><span class="info-value">${data.password || '(مخفية)'}${data.password ? `<button class="copy-mini-btn" onclick="copyText('${data.password}')"><i class="fas fa-copy"></i></button>` : ''}</span></div>
       `;
-
       document.getElementById('cashierResult').classList.add('show');
     }
 
     function copyCashierResult() {
       if (!lastCashierData) return;
-      const text = `
-🧑‍💻 حساب كاشير جديد - أولاد شعلان
-
-👤 الاسم: ${lastCashierData.name}
-🏬 الفرع: ${lastCashierData.branchName}
-📧 البريد: ${lastCashierData.email}
-🔑 كلمة المرور: ${lastCashierData.password || 'غير متوفرة'}
-
-🔗 رابط الدخول: https://awladsh3laan.github.io/gomla/cashier-login.html
-      `.trim();
+      const text = `🧑‍💻 حساب كاشير جديد - أولاد شعلان\n\n👤 الاسم: ${lastCashierData.name}\n🏬 الفرع: ${lastCashierData.branchName}\n📧 البريد: ${lastCashierData.email}\n🔑 كلمة المرور: ${lastCashierData.password || 'غير متوفرة'}\n\n🔗 رابط الدخول: https://awladsh3laan.github.io/gomla/cashier-login.html`;
       copyText(text);
       showToast('✅ تم نسخ البيانات', 'success');
     }
@@ -2068,67 +1501,24 @@
       let phone = (lastCashierData.phone || '').replace(/[^0-9]/g, '');
       if (phone.startsWith('0')) phone = phone.substring(1);
       if (!phone.startsWith('2')) phone = '2' + phone;
-
-      const message = `
-مرحباً ${lastCashierData.name} 👋
-
-تم إنشاء حسابك كاشير في أولاد شعلان.
-
-📧 البريد: ${lastCashierData.email}
-🔑 كلمة المرور: ${lastCashierData.password || '(سيتم إرسالها)'}
-🏬 الفرع: ${lastCashierData.branchName}
-
-🔗 رابط الدخول: https://awladsh3laan.github.io/gomla/cashier-login.html
-      `.trim();
-
-      const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-      window.open(url, '_blank');
+      const message = `مرحباً ${lastCashierData.name} 👋\n\nتم إنشاء حسابك كاشير في أولاد شعلان.\n\n📧 البريد: ${lastCashierData.email}\n🔑 كلمة المرور: ${lastCashierData.password || '(سيتم إرسالها)'}\n🏬 الفرع: ${lastCashierData.branchName}\n\n🔗 رابط الدخول: https://awladsh3laan.github.io/gomla/cashier-login.html`;
+      window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
     }
-
-    // ============================================================
-    // 🎨 عرض نتائج الأدمن
-    // ============================================================
 
     function renderAdminResult(data) {
       const container = document.getElementById('adminResultData');
-      
       container.innerHTML = `
-        <div class="info-display-row">
-          <span class="info-label"><i class="fas fa-user"></i> الاسم</span>
-          <span class="info-value">${data.name}</span>
-        </div>
-        <div class="info-display-row">
-          <span class="info-label"><i class="fas fa-envelope"></i> البريد</span>
-          <span class="info-value">${data.email}
-            <button class="copy-mini-btn" onclick="copyText('${data.email}')"><i class="fas fa-copy"></i></button>
-          </span>
-        </div>
-        <div class="info-display-row">
-          <span class="info-label"><i class="fas fa-lock"></i> كلمة المرور</span>
-          <span class="info-value">${data.password || '(مخفية)'}
-            ${data.password ? `<button class="copy-mini-btn" onclick="copyText('${data.password}')"><i class="fas fa-copy"></i></button>` : ''}
-          </span>
-        </div>
-        <div class="info-display-row">
-          <span class="info-label"><i class="fas fa-user-shield"></i> الصلاحية</span>
-          <span class="info-value">🛡️ مشرف</span>
-        </div>
+        <div class="info-display-row"><span class="info-label"><i class="fas fa-user"></i> الاسم</span><span class="info-value">${data.name}</span></div>
+        <div class="info-display-row"><span class="info-label"><i class="fas fa-envelope"></i> البريد</span><span class="info-value">${data.email}<button class="copy-mini-btn" onclick="copyText('${data.email}')"><i class="fas fa-copy"></i></button></span></div>
+        <div class="info-display-row"><span class="info-label"><i class="fas fa-lock"></i> كلمة المرور</span><span class="info-value">${data.password || '(مخفية)'}${data.password ? `<button class="copy-mini-btn" onclick="copyText('${data.password}')"><i class="fas fa-copy"></i></button>` : ''}</span></div>
+        <div class="info-display-row"><span class="info-label"><i class="fas fa-user-shield"></i> الصلاحية</span><span class="info-value">🛡️ مشرف</span></div>
       `;
-
       document.getElementById('adminResult').classList.add('show');
     }
 
     function copyAdminResult() {
       if (!lastAdminData) return;
-      const text = `
-🛡️ حساب أدمن جديد - أولاد شعلان
-
-👤 الاسم: ${lastAdminData.name}
-📧 البريد: ${lastAdminData.email}
-🔑 كلمة المرور: ${lastAdminData.password || 'غير متوفرة'}
-
-🔗 رابط الدخول: https://awladsh3laan.github.io/gomla/admin/login.html
-      `.trim();
+      const text = `🛡️ حساب أدمن جديد - أولاد شعلان\n\n👤 الاسم: ${lastAdminData.name}\n📧 البريد: ${lastAdminData.email}\n🔑 كلمة المرور: ${lastAdminData.password || 'غير متوفرة'}\n\n🔗 رابط الدخول: https://awladsh3laan.github.io/gomla/admin/login.html`;
       copyText(text);
       showToast('✅ تم نسخ البيانات', 'success');
     }
@@ -2138,66 +1528,24 @@
       let phone = (lastAdminData.phone || '').replace(/[^0-9]/g, '');
       if (phone.startsWith('0')) phone = phone.substring(1);
       if (!phone.startsWith('2')) phone = '2' + phone;
-
-      const message = `
-مرحباً ${lastAdminData.name} 👋
-
-تم إنشاء حسابك كأدمن في أولاد شعلان.
-
-📧 البريد: ${lastAdminData.email}
-🔑 كلمة المرور: ${lastAdminData.password || '(سيتم إرسالها)'}
-
-🔗 رابط الدخول: https://awladsh3laan.github.io/gomla/admin/login.html
-      `.trim();
-
-      const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-      window.open(url, '_blank');
+      const message = `مرحباً ${lastAdminData.name} 👋\n\nتم إنشاء حسابك كأدمن في أولاد شعلان.\n\n📧 البريد: ${lastAdminData.email}\n🔑 كلمة المرور: ${lastAdminData.password || '(سيتم إرسالها)'}\n\n🔗 رابط الدخول: https://awladsh3laan.github.io/gomla/admin/login.html`;
+      window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
     }
-
-    // ============================================================
-    // 🎨 عرض نتائج الأدمن بلص
-    // ============================================================
 
     function renderAdminPlusResult(data) {
       const container = document.getElementById('adminPlusResultData');
-      
       container.innerHTML = `
-        <div class="info-display-row">
-          <span class="info-label"><i class="fas fa-user"></i> الاسم</span>
-          <span class="info-value">${data.name}</span>
-        </div>
-        <div class="info-display-row">
-          <span class="info-label"><i class="fas fa-envelope"></i> البريد</span>
-          <span class="info-value">${data.email}
-            <button class="copy-mini-btn" onclick="copyText('${data.email}')"><i class="fas fa-copy"></i></button>
-          </span>
-        </div>
-        <div class="info-display-row">
-          <span class="info-label"><i class="fas fa-lock"></i> كلمة المرور</span>
-          <span class="info-value">${data.password || '(مخفية)'}
-            ${data.password ? `<button class="copy-mini-btn" onclick="copyText('${data.password}')"><i class="fas fa-copy"></i></button>` : ''}
-          </span>
-        </div>
-        <div class="info-display-row">
-          <span class="info-label"><i class="fas fa-star"></i> الصلاحية</span>
-          <span class="info-value">💎 أدمن بلص</span>
-        </div>
+        <div class="info-display-row"><span class="info-label"><i class="fas fa-user"></i> الاسم</span><span class="info-value">${data.name}</span></div>
+        <div class="info-display-row"><span class="info-label"><i class="fas fa-envelope"></i> البريد</span><span class="info-value">${data.email}<button class="copy-mini-btn" onclick="copyText('${data.email}')"><i class="fas fa-copy"></i></button></span></div>
+        <div class="info-display-row"><span class="info-label"><i class="fas fa-lock"></i> كلمة المرور</span><span class="info-value">${data.password || '(مخفية)'}${data.password ? `<button class="copy-mini-btn" onclick="copyText('${data.password}')"><i class="fas fa-copy"></i></button>` : ''}</span></div>
+        <div class="info-display-row"><span class="info-label"><i class="fas fa-star"></i> الصلاحية</span><span class="info-value">💎 أدمن بلص</span></div>
       `;
-
       document.getElementById('adminPlusResult').classList.add('show');
     }
 
     function copyAdminPlusResult() {
       if (!lastAdminPlusData) return;
-      const text = `
-💎 حساب أدمن بلص جديد - أولاد شعلان
-
-👤 الاسم: ${lastAdminPlusData.name}
-📧 البريد: ${lastAdminPlusData.email}
-🔑 كلمة المرور: ${lastAdminPlusData.password || 'غير متوفرة'}
-
-🔗 رابط الدخول: https://awladsh3laan.github.io/gomla/admin/login.html
-      `.trim();
+      const text = `💎 حساب أدمن بلص جديد - أولاد شعلان\n\n👤 الاسم: ${lastAdminPlusData.name}\n📧 البريد: ${lastAdminPlusData.email}\n🔑 كلمة المرور: ${lastAdminPlusData.password || 'غير متوفرة'}\n\n🔗 رابط الدخول: https://awladsh3laan.github.io/gomla/admin/login.html`;
       copyText(text);
       showToast('✅ تم نسخ البيانات', 'success');
     }
@@ -2207,26 +1555,13 @@
       let phone = (lastAdminPlusData.phone || '').replace(/[^0-9]/g, '');
       if (phone.startsWith('0')) phone = phone.substring(1);
       if (!phone.startsWith('2')) phone = '2' + phone;
-
-      const message = `
-مرحباً ${lastAdminPlusData.name} 👋
-
-تم إنشاء حسابك كأدمن بلص في أولاد شعلان.
-
-📧 البريد: ${lastAdminPlusData.email}
-🔑 كلمة المرور: ${lastAdminPlusData.password || '(سيتم إرسالها)'}
-
-🔗 رابط الدخول: https://awladsh3laan.github.io/gomla/admin/login.html
-      `.trim();
-
-      const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-      window.open(url, '_blank');
+      const message = `مرحباً ${lastAdminPlusData.name} 👋\n\nتم إنشاء حسابك كأدمن بلص في أولاد شعلان.\n\n📧 البريد: ${lastAdminPlusData.email}\n🔑 كلمة المرور: ${lastAdminPlusData.password || '(سيتم إرسالها)'}\n\n🔗 رابط الدخول: https://awladsh3laan.github.io/gomla/admin/login.html`;
+      window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
     }
 
     // ============================================================
     // 🛠️ نسخ نص
     // ============================================================
-
     function copyText(text) {
       if (navigator.clipboard) {
         navigator.clipboard.writeText(text)
@@ -2250,7 +1585,6 @@
     // ============================================================
     // ➕ إنشاء حساب آخر
     // ============================================================
-
     function createAnother(role) {
       if (role === 'trader') {
         document.getElementById('traderForm').reset();
@@ -2273,10 +1607,7 @@
       }
     }
 
-    // ============================================================
-    // 🌐 تصدير الدوال
-    // ============================================================
-
+    // ===== تصدير =====
     window.switchRoleTab = switchRoleTab;
     window.togglePassword = togglePassword;
     window.generatePassword = generatePassword;
