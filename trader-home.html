@@ -1436,34 +1436,32 @@
 
     async function loadTraderStats() {
       try {
-        // جلب طلبات التاجر
-        const ordersSnapshot = await db.collection(COLLECTIONS.ORDERS)
-          .where('customerId', '==', traderId)
-          .get();
+        // ===== 1️⃣ قراءة الإحصائيات من trader_lookup =====
+        const lookupDoc = await db.collection('trader_lookup').doc(traderData.code).get();
 
-        let totalOrders = 0;
-        let pendingOrders = 0;
+        if (lookupDoc.exists) {
+          const data = lookupDoc.data();
+          document.getElementById('statOrders').textContent = data.ordersCount || 0;
+          document.getElementById('statPending').textContent = data.pendingOrdersCount || 0;
+        } else {
+          document.getElementById('statOrders').textContent = '0';
+          document.getElementById('statPending').textContent = '0';
+        }
 
-        ordersSnapshot.forEach(doc => {
-          const order = doc.data();
-          totalOrders++;
-          if (order.status === 'pending') {
-            pendingOrders++;
-          }
-        });
-
-        // جلب الخصومات النشطة
+        // ===== 2️⃣ عدد الخصومات من products (public read) =====
         const discountsSnapshot = await db.collection(COLLECTIONS.PRODUCTS)
           .where('available', '==', true)
           .where('hasWholesaleDiscount', '==', true)
           .get();
 
-        document.getElementById('statOrders').textContent = totalOrders;
-        document.getElementById('statPending').textContent = pendingOrders;
         document.getElementById('statDiscounts').textContent = discountsSnapshot.size;
 
       } catch (error) {
         console.error('Error loading stats:', error);
+        // في حالة الفشل، نعرض 0 بدل ما نكسر الصفحة
+        document.getElementById('statOrders').textContent = '0';
+        document.getElementById('statPending').textContent = '0';
+        document.getElementById('statDiscounts').textContent = '0';
       }
     }
 
@@ -1528,18 +1526,15 @@
     // 📦 تحميل آخر الطلبات
     // ============================================================
 
-    async function loadRecentOrders() {
+     async function loadRecentOrders() {
       const container = document.getElementById('recentOrders');
       if (!container) return;
 
       try {
-        const snapshot = await db.collection(COLLECTIONS.ORDERS)
-          .where('customerId', '==', traderId)
-          .orderBy('createdAt', 'desc')
-          .limit(5)
-          .get();
+        // ===== القراءة من trader_lookup.recentOrders =====
+        const lookupDoc = await db.collection('trader_lookup').doc(traderData.code).get();
 
-        if (snapshot.empty) {
+        if (!lookupDoc.exists) {
           container.innerHTML = `
             <div class="mini-empty">
               <i class="fas fa-shopping-bag"></i>
@@ -1553,7 +1548,23 @@
           return;
         }
 
-        let html = '';
+        const data = lookupDoc.data();
+        const recentOrders = data.recentOrders || [];
+
+        if (recentOrders.length === 0) {
+          container.innerHTML = `
+            <div class="mini-empty">
+              <i class="fas fa-shopping-bag"></i>
+              <p>لا توجد طلبات حتى الآن</p>
+              <a href="/gomla/store-wholesale.html" class="btn btn-primary btn-sm">
+                <i class="fas fa-store"></i>
+                ابدأ التسوق
+              </a>
+            </div>
+          `;
+          return;
+        }
+
         const statusMap = {
           pending: 'قيد الانتظار',
           processing: 'قيد المعالجة',
@@ -1562,9 +1573,17 @@
           cancelled: 'ملغي'
         };
 
-        snapshot.forEach(doc => {
-          const order = doc.data();
-          const orderNumber = doc.id.slice(-8).toUpperCase();
+        let html = '';
+
+        // ترتيب من الأحدث للأقدم (لو مش مرتبة)
+        const sortedOrders = [...recentOrders].sort((a, b) => {
+          const da = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt || 0);
+          const db2 = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt || 0);
+          return db2 - da;
+        });
+
+        sortedOrders.slice(0, 5).forEach(order => {
+          const orderNumber = order.orderId ? order.orderId.slice(-8).toUpperCase() : '--------';
           const date = order.createdAt ? 
             (order.createdAt.toDate ? order.createdAt.toDate() : new Date(order.createdAt)) : 
             new Date();
@@ -1577,7 +1596,7 @@
           const statusText = statusMap[status] || 'قيد الانتظار';
 
           html += `
-            <a href="/gomla/tracking.html?id=${doc.id}" class="recent-order-item">
+            <a href="/gomla/tracking.html?id=${order.orderId}" class="recent-order-item">
               <div class="order-icon">
                 <i class="fas fa-receipt"></i>
               </div>
