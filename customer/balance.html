@@ -1,0 +1,1853 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الذمة المالية - أولاد شعلان</title>
+  <meta name="description" content="الذمة المالية - أولاد شعلان">
+  <meta name="theme-color" content="#1a2a4a">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/gomla/assets/css/style.css">
+  <link rel="icon" href="/gomla/assets/images/favicon.ico">
+
+  <style>
+    /* ===== رأس الصفحة ===== */
+    .balance-header {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      margin-bottom: 20px;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(26, 42, 74, 0.25);
+      border-bottom: 4px solid var(--gold);
+    }
+
+    .balance-header::before {
+      content: '';
+      position: absolute;
+      top: -50%; right: -15%;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(201, 168, 76, 0.18) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .balance-header-content {
+      position: relative; z-index: 1;
+      display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+    }
+
+    .balance-header-content .header-icon {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; flex-shrink: 0;
+      box-shadow: 0 8px 24px rgba(201, 168, 76, 0.4);
+    }
+
+    .balance-header-content .header-text { flex: 1; min-width: 200px; }
+    .balance-header-content .header-text h1 {
+      font-size: 1.5rem; font-weight: 900; margin-bottom: 4px; color: var(--white);
+    }
+    .balance-header-content .header-text p {
+      font-size: 0.88rem; opacity: 0.9; color: rgba(255, 255, 255, 0.85);
+    }
+
+    /* ===== البطاقة الرئيسية للرصيد ===== */
+    .main-balance-card {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 60%, #3a5080 100%);
+      border-radius: var(--radius-lg);
+      padding: 32px 28px;
+      margin-bottom: 20px;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 15px 50px rgba(26, 42, 74, 0.35);
+      border: 2px solid var(--gold-light);
+    }
+
+    .main-balance-card::before {
+      content: '';
+      position: absolute;
+      top: -30%; right: -10%;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(201, 168, 76, 0.15) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 10s ease-in-out infinite;
+    }
+
+    .main-balance-card::after {
+      content: '';
+      position: absolute;
+      bottom: -30%; left: -10%;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(201, 168, 76, 0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 12s ease-in-out infinite reverse;
+    }
+
+    .main-balance-card > * { position: relative; z-index: 1; }
+
+    .main-balance-card .mb-label {
+      font-size: 0.85rem;
+      opacity: 0.85;
+      margin-bottom: 8px;
+      display: flex; align-items: center; gap: 8px;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .main-balance-card .mb-label i { color: var(--gold); }
+
+    .main-balance-card .mb-amount {
+      font-size: 2.8rem;
+      font-weight: 900;
+      color: var(--gold);
+      line-height: 1.1;
+      margin-bottom: 16px;
+      letter-spacing: -1px;
+      display: flex; align-items: baseline; gap: 8px;
+    }
+
+    .main-balance-card .mb-amount .currency {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--gold-light);
+    }
+
+    .main-balance-card .mb-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: var(--radius-full);
+      font-size: 0.9rem;
+      font-weight: 800;
+      backdrop-filter: blur(10px);
+    }
+
+    .main-balance-card .mb-status.clear {
+      background: rgba(34, 197, 94, 0.2);
+      color: #86efac;
+      border: 1px solid rgba(34, 197, 94, 0.4);
+    }
+
+    .main-balance-card .mb-status.due {
+      background: rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.4);
+    }
+
+    .main-balance-card .mb-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .main-balance-card .mb-action-btn {
+      padding: 12px 20px;
+      border-radius: var(--radius-full);
+      border: 2px solid;
+      background: transparent;
+      color: var(--white);
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .main-balance-card .mb-action-btn.report {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      border-color: var(--gold-dark);
+      box-shadow: 0 8px 24px rgba(201, 168, 76, 0.4);
+    }
+
+    .main-balance-card .mb-action-btn.report:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(201, 168, 76, 0.6);
+    }
+
+    .main-balance-card .mb-action-btn.secondary {
+      border-color: rgba(255, 255, 255, 0.3);
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .main-balance-card .mb-action-btn.secondary:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+
+    /* ===== إحصائيات سريعة ===== */
+    .balance-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .balance-stat-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: var(--transition);
+    }
+
+    .balance-stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--gold-light);
+    }
+
+    .balance-stat-card .stat-icon {
+      width: 46px; height: 46px;
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; flex-shrink: 0;
+    }
+
+    .stat-icon.blue { background: rgba(59, 130, 246, 0.12); color: #2563eb; }
+    .stat-icon.green { background: rgba(34, 197, 94, 0.12); color: #16a34a; }
+    .stat-icon.red { background: rgba(239, 68, 68, 0.12); color: #dc2626; }
+    .stat-icon.gold { background: rgba(201, 168, 76, 0.15); color: var(--gold-dark); }
+
+    .balance-stat-card .stat-info { flex: 1; min-width: 0; }
+    .balance-stat-card .stat-number {
+      font-size: 1.3rem; font-weight: 900; color: var(--navy);
+      line-height: 1.2; margin-bottom: 2px;
+    }
+    .balance-stat-card .stat-number.green { color: #16a34a; }
+    .balance-stat-card .stat-number.red { color: #dc2626; }
+    .balance-stat-card .stat-number.gold { color: var(--gold-dark); }
+    .balance-stat-card .stat-label {
+      font-size: 0.75rem; color: var(--gray-500); font-weight: 600;
+    }
+
+    /* ===== تنبيه حالة الطلبات المعلقة ===== */
+    .pending-alert {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 16px 18px;
+      background: linear-gradient(135deg, #fef9e7, #fcf9f0);
+      border: 2px solid var(--gold-light);
+      border-radius: var(--radius-md);
+      margin-bottom: 20px;
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    .pending-alert i {
+      color: var(--gold-dark);
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .pending-alert .pa-content { flex: 1; }
+    .pending-alert .pa-content strong {
+      color: var(--navy);
+      font-weight: 900;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .pending-alert .pa-content p {
+      color: var(--gray-600);
+      margin: 0;
+    }
+
+    .pending-alert .pa-content .pa-link {
+      color: var(--gold-dark);
+      font-weight: 800;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    /* ===== التبويبات ===== */
+    .balance-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      background: var(--white);
+      padding: 8px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      overflow-x: auto;
+    }
+
+    .balance-tab {
+      flex: 1;
+      min-width: 130px;
+      padding: 12px 16px;
+      border: none;
+      background: var(--gray-50);
+      color: var(--gray-600);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      white-space: nowrap;
+      position: relative;
+    }
+
+    .balance-tab:hover { background: var(--gray-100); }
+
+    .balance-tab.active {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      box-shadow: 0 6px 20px rgba(26, 42, 74, 0.3);
+    }
+
+    .balance-tab.active i { color: var(--gold); }
+
+    .balance-tab .tab-badge {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      background: var(--danger);
+      color: var(--white);
+      font-size: 0.62rem;
+      font-weight: 900;
+      padding: 2px 7px;
+      border-radius: 10px;
+      min-width: 18px;
+      text-align: center;
+    }
+
+    .tab-content { display: none; animation: fadeIn 0.3s ease; }
+    .tab-content.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== كشف الحساب ===== */
+    .statement-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .statement-card-header {
+      padding: 16px 20px;
+      background: linear-gradient(135deg, #fcf9f0, #f8f4e8);
+      border-bottom: 2px solid var(--gray-100);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .statement-card-header h3 {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .statement-card-header h3 i { color: var(--gold); }
+
+    .statement-list { padding: 8px; }
+
+    .statement-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px;
+      border-radius: var(--radius-sm);
+      transition: var(--transition);
+      border-bottom: 1px dashed var(--gray-200);
+    }
+
+    .statement-item:last-child { border-bottom: none; }
+    .statement-item:hover { background: var(--gray-50); }
+
+    .statement-item .si-icon {
+      width: 42px; height: 42px;
+      border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; flex-shrink: 0;
+    }
+
+    .si-icon.debit { background: rgba(239, 68, 68, 0.12); color: #dc2626; }
+    .si-icon.credit { background: rgba(34, 197, 94, 0.12); color: #16a34a; }
+    .si-icon.pending { background: rgba(245, 158, 11, 0.12); color: #d97706; }
+
+    .statement-item .si-info { flex: 1; min-width: 0; }
+    .statement-item .si-title {
+      font-size: 0.88rem; font-weight: 800; color: var(--navy);
+      margin-bottom: 3px;
+    }
+    .statement-item .si-date {
+      font-size: 0.72rem; color: var(--gray-500);
+      display: flex; align-items: center; gap: 4px;
+    }
+    .statement-item .si-date i { font-size: 0.65rem; color: var(--gold); }
+
+    .statement-item .si-amount {
+      font-size: 0.95rem; font-weight: 900;
+      flex-shrink: 0; text-align: left;
+      direction: ltr;
+    }
+
+    .si-amount.debit { color: #dc2626; }
+    .si-amount.credit { color: #16a34a; }
+    .si-amount.pending { color: #d97706; }
+
+    .si-amount small {
+      display: block; font-size: 0.65rem; color: var(--gray-400);
+      font-weight: 700; margin-top: 2px;
+    }
+
+    /* ===== حالة فارغة ===== */
+    .mini-empty {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--gray-400);
+    }
+
+    .mini-empty i {
+      font-size: 2.5rem;
+      display: block;
+      margin-bottom: 10px;
+      color: var(--gray-300);
+    }
+
+    .mini-empty p {
+      font-size: 0.9rem;
+      margin-bottom: 12px;
+    }
+
+    /* ===== التحميل ===== */
+    .loading-state { text-align: center; padding: 40px 20px; }
+    .loading-state i {
+      font-size: 2rem; color: var(--gold); margin-bottom: 10px;
+    }
+    .loading-state p {
+      font-size: 0.88rem; color: var(--gray-500); font-weight: 600;
+    }
+
+    /* ===== Modal إبلاغ السداد ===== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow-y: auto;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal-box {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      max-width: 560px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+      animation: modalIn 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.9) translateY(-20px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .modal-header {
+      padding: 20px 24px;
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+    }
+
+    .modal-header .mh-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .modal-header .mh-icon {
+      width: 46px; height: 46px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    .modal-header h3 {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--white);
+      margin: 0;
+      line-height: 1.3;
+    }
+
+    .modal-header p {
+      font-size: 0.78rem;
+      opacity: 0.85;
+      color: rgba(255, 255, 255, 0.9);
+      margin: 2px 0 0;
+    }
+
+    .modal-close-btn {
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      color: var(--white);
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .modal-close-btn:hover { background: rgba(255, 255, 255, 0.25); }
+
+    .modal-body {
+      padding: 24px;
+    }
+
+    .modal-info-alert {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 14px;
+      background: linear-gradient(135deg, #eff6ff, #dbeafe);
+      border: 2px solid #93c5fd;
+      border-radius: var(--radius-sm);
+      margin-bottom: 20px;
+      font-size: 0.82rem;
+      color: #1e3a8a;
+      line-height: 1.6;
+    }
+
+    .modal-info-alert i {
+      color: #2563eb;
+      font-size: 1rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* الحقول */
+    .form-group { margin-bottom: 16px; }
+
+    .form-group label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--gray-700);
+      margin-bottom: 6px;
+    }
+
+    .form-group label i { color: var(--gold); font-size: 0.82rem; }
+
+    .form-group label .required { color: var(--danger); margin-right: 2px; }
+
+    .form-group input[type="text"],
+    .form-group input[type="number"],
+    .form-group input[type="date"],
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.92rem;
+      background: var(--gray-50);
+      color: var(--gray-800);
+      transition: all 0.3s ease;
+    }
+
+    .form-group textarea { resize: vertical; min-height: 80px; }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.15);
+      background: var(--white);
+    }
+
+    .form-group input.error { border-color: var(--danger); background: #fef2f2; }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    /* رفع الإيصال */
+    .receipt-upload {
+      border: 2px dashed var(--gray-300);
+      border-radius: var(--radius-sm);
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: var(--gray-50);
+    }
+
+    .receipt-upload:hover {
+      border-color: var(--gold);
+      background: #fcf9f0;
+    }
+
+    .receipt-upload i {
+      font-size: 2rem;
+      color: var(--gold);
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .receipt-upload p {
+      font-size: 0.85rem;
+      color: var(--gray-600);
+      margin: 0;
+      font-weight: 700;
+    }
+
+    .receipt-upload small {
+      font-size: 0.72rem;
+      color: var(--gray-400);
+      display: block;
+      margin-top: 4px;
+    }
+
+    .receipt-preview {
+      position: relative;
+      margin-top: 10px;
+    }
+
+    .receipt-preview img {
+      width: 100%;
+      max-height: 200px;
+      object-fit: contain;
+      border-radius: var(--radius-sm);
+      background: var(--gray-100);
+    }
+
+    .receipt-preview .remove-btn {
+      position: absolute;
+      top: 8px; left: 8px;
+      background: var(--danger);
+      color: var(--white);
+      border: none;
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+
+    /* أزرار المودال */
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      padding: 16px 24px;
+      background: var(--gray-50);
+      border-top: 1px solid var(--gray-200);
+      border-radius: 0 0 var(--radius-md) var(--radius-md);
+      flex-wrap: wrap;
+    }
+
+    .modal-action-btn {
+      flex: 1;
+      padding: 13px 20px;
+      border: none;
+      border-radius: var(--radius-full);
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.92rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-width: 120px;
+    }
+
+    .modal-action-btn.submit {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      box-shadow: 0 6px 20px rgba(201, 168, 76, 0.4);
+    }
+
+    .modal-action-btn.submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(201, 168, 76, 0.5);
+    }
+
+    .modal-action-btn.submit:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .modal-action-btn.cancel {
+      background: var(--gray-200);
+      color: var(--gray-700);
+    }
+
+    .modal-action-btn.cancel:hover { background: var(--gray-300); }
+
+    /* Toast */
+    .toast-inline {
+      display: none;
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 16px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toast-inline.show { display: flex; }
+    .toast-inline.error {
+      background: #fef2f2;
+      border-right: 4px solid var(--danger);
+      color: #dc2626;
+    }
+    .toast-inline.success {
+      background: #f0fdf4;
+      border-right: 4px solid var(--success);
+      color: #16a34a;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) and (pointer: coarse) {
+      .balance-header { padding: 18px 16px; border-radius: var(--radius-md); }
+      .balance-header-content .header-icon { width: 50px; height: 50px; font-size: 1.3rem; }
+      .balance-header-content .header-text h1 { font-size: 1.15rem; }
+      .main-balance-card { padding: 24px 20px; }
+      .main-balance-card .mb-amount { font-size: 2rem; }
+      .main-balance-card .mb-actions { flex-direction: column; }
+      .main-balance-card .mb-action-btn { width: 100%; justify-content: center; }
+      .balance-stats { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .balance-stat-card { padding: 12px; gap: 10px; }
+      .balance-stat-card .stat-icon { width: 38px; height: 38px; font-size: 1.05rem; }
+      .balance-stat-card .stat-number { font-size: 1.05rem; }
+      .balance-tabs { padding: 6px; gap: 6px; }
+      .balance-tab { min-width: 100px; padding: 10px 12px; font-size: 0.75rem; }
+      .form-row { grid-template-columns: 1fr; }
+      .modal-body { padding: 18px; }
+      .modal-actions { flex-direction: column; }
+      .modal-action-btn { width: 100%; }
+    }
+
+    @media (max-width: 480px) {
+      .balance-header-content { flex-direction: column; text-align: center; }
+      .balance-header-content .header-text { text-align: center; }
+      .main-balance-card .mb-amount { font-size: 1.6rem; }
+      .statement-item { padding: 10px; gap: 10px; }
+      .statement-item .si-icon { width: 36px; height: 36px; font-size: 0.9rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="mobile-top-bar"></div>
+  <div id="mobile-top-tabs"></div>
+  <div id="header-placeholder"></div>
+
+  <main class="page-content">
+    <div class="container">
+
+      <!-- رأس الصفحة -->
+      <div class="balance-header">
+        <div class="balance-header-content">
+          <div class="header-icon">
+            <i class="fas fa-wallet"></i>
+          </div>
+          <div class="header-text">
+            <h1>الذمة المالية</h1>
+            <p id="headerSubtitle">تابع رصيدك وكشف حسابك بالكامل</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- البطاقة الرئيسية للرصيد -->
+      <div class="main-balance-card">
+        <div class="mb-label">
+          <i class="fas fa-coins"></i>
+          <span id="balanceLabelText">رصيدك الحالي</span>
+        </div>
+
+        <div class="mb-amount">
+          <span id="mainBalanceAmount">0.00</span>
+          <span class="currency">ج.م</span>
+        </div>
+
+        <div class="mb-status clear" id="mainBalanceStatus">
+          <i class="fas fa-check-circle"></i>
+          <span>لا توجد مديونيات</span>
+        </div>
+
+        <div class="mb-actions">
+          <button class="mb-action-btn report" onclick="openReportModal()">
+            <i class="fas fa-bullhorn"></i>
+            أبلغ عن سداد
+          </button>
+          <button class="mb-action-btn secondary" onclick="scrollToStatement()">
+            <i class="fas fa-list-alt"></i>
+            كشف الحساب
+          </button>
+        </div>
+      </div>
+
+      <!-- إحصائيات سريعة -->
+      <div class="balance-stats">
+        <div class="balance-stat-card">
+          <div class="stat-icon blue">
+            <i class="fas fa-file-invoice"></i>
+          </div>
+          <div class="stat-info">
+            <div class="stat-number" id="statInvoices">0</div>
+            <div class="stat-label">إجمالي الفواتير</div>
+          </div>
+        </div>
+
+        <div class="balance-stat-card">
+          <div class="stat-icon red">
+            <i class="fas fa-exclamation-circle"></i>
+          </div>
+          <div class="stat-info">
+            <div class="stat-number red" id="statUnpaid">0</div>
+            <div class="stat-label">غير مدفوعة</div>
+          </div>
+        </div>
+
+        <div class="balance-stat-card">
+          <div class="stat-icon green">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <div class="stat-info">
+            <div class="stat-number green" id="statPaid">0</div>
+            <div class="stat-label">مسددة بالكامل</div>
+          </div>
+        </div>
+
+        <div class="balance-stat-card">
+          <div class="stat-icon gold">
+            <i class="fas fa-hourglass-half"></i>
+          </div>
+          <div class="stat-info">
+            <div class="stat-number gold" id="statPendingReports">0</div>
+            <div class="stat-label">إبلاغات معلقة</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- تنبيه الإبلاغات المعلقة -->
+      <div class="pending-alert" id="pendingAlert" style="display:none;">
+        <i class="fas fa-info-circle"></i>
+        <div class="pa-content">
+          <strong>لديك إبلاغات سداد قيد المراجعة</strong>
+          <p>
+            الإدارة بتراجع إبلاغاتك، ولما يتم الاعتماد هيتحدّث الرصيد تلقائياً.
+            <span class="pa-link" onclick="switchTab('reports')">شوف الإبلاغات</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- التبويبات -->
+      <div class="balance-tabs">
+        <button class="balance-tab active" data-tab="invoices" onclick="switchTab('invoices')">
+          <i class="fas fa-file-invoice"></i>
+          الفواتير
+        </button>
+        <button class="balance-tab" data-tab="reports" onclick="switchTab('reports')">
+          <i class="fas fa-bullhorn"></i>
+          إبلاغاتي
+          <span class="tab-badge" id="reportsBadge" style="display:none;">0</span>
+        </button>
+      </div>
+
+      <!-- تبويب الفواتير -->
+      <div class="tab-content active" id="tab-invoices">
+        <div class="statement-card" id="statementCard">
+          <div class="statement-card-header">
+            <h3><i class="fas fa-list-alt"></i> كشف الفواتير</h3>
+            <span style="font-size:0.78rem;color:var(--gray-500);" id="statementCount"></span>
+          </div>
+          <div class="statement-list" id="statementList">
+            <div class="loading-state">
+              <i class="fas fa-spinner fa-spin"></i>
+              <p>جاري التحميل...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- تبويب الإبلاغات -->
+      <div class="tab-content" id="tab-reports">
+        <div class="statement-card">
+          <div class="statement-card-header">
+            <h3><i class="fas fa-bullhorn"></i> إبلاغات السداد</h3>
+            <button class="mb-action-btn report" onclick="openReportModal()" style="padding:8px 14px;font-size:0.8rem;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--navy);border:none;box-shadow:none;">
+              <i class="fas fa-plus"></i> إبلاغ جديد
+            </button>
+          </div>
+          <div class="statement-list" id="reportsList">
+            <div class="loading-state">
+              <i class="fas fa-spinner fa-spin"></i>
+              <p>جاري التحميل...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="mobile-bottom-tabs"></div>
+  <div id="mobile-copyright"></div>
+  <div id="footer-placeholder"></div>
+  <div id="sidebar-placeholder"></div>
+  <div id="toast-container"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/browser-image-compression/2.0.2/browser-image-compression.min.js"></script>
+
+  <script src="/gomla/assets/js/firebase-config.js"></script>
+  <script src="/gomla/assets/js/main.js"></script>
+
+  <script>
+    // ============================================================
+    // 📄 customer/balance.html - الذمة المالية
+    // 🆕 + نظام الإبلاغ عن السداد
+    // ============================================================
+
+    let userData = null;
+    let userId = null;
+    let userType = null;
+    let allInvoices = [];
+    let allReports = [];
+    let receiptFile = null;
+    let receiptPreviewUrl = null;
+
+    // ============================================================
+    // 🚀 تشغيل الصفحة
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', async function() {
+      const user = getCurrentUser();
+
+      if (!user) {
+        window.location.href = '/gomla/customer-login.html';
+        return;
+      }
+
+      const role = user.data.role;
+      if (role !== ROLES.RETAIL && role !== ROLES.WHOLESALE) {
+        if ([ROLES.SUPER, ROLES.ADMIN_PLUS, ROLES.ADMIN].includes(role)) {
+          window.location.href = '/gomla/admin/financial-transactions.html';
+        } else if (role === ROLES.CASHIER) {
+          window.location.href = '/gomla/cashier/home.html';
+        } else {
+          window.location.href = '/gomla/';
+        }
+        return;
+      }
+
+      userData = user.data;
+      userId = userData.id || userData.uid;
+      userType = role;
+
+      if (userType === ROLES.WHOLESALE) {
+        document.getElementById('headerSubtitle').textContent = 'تابع مديونيتك وكشف حسابك بالكامل';
+      }
+
+      await Promise.all([
+        loadBalance(),
+        loadInvoices(),
+        loadReports()
+      ]);
+
+      console.log('✅ customer/balance.html loaded');
+    });
+
+    // ============================================================
+    // 💰 تحميل الرصيد
+    // ============================================================
+    async function loadBalance() {
+      try {
+        const doc = await db.collection(COLLECTIONS.CUSTOMERS).doc(userId).get();
+        if (!doc.exists) return;
+
+        const data = doc.data();
+        const balance = data.balance || 0;
+
+        // البطاقة الرئيسية
+        document.getElementById('mainBalanceAmount').textContent = Math.abs(balance).toFixed(2);
+
+        const statusEl = document.getElementById('mainBalanceStatus');
+        const labelEl = document.getElementById('balanceLabelText');
+
+        if (balance > 0) {
+          labelEl.textContent = 'إجمالي المديونية';
+          statusEl.className = 'mb-status due';
+          statusEl.innerHTML = `<i class="fas fa-exclamation-circle"></i><span>مطلوب سداد ${balance.toFixed(2)} ج.م</span>`;
+        } else if (balance < 0) {
+          labelEl.textContent = 'رصيد دائن لك';
+          statusEl.className = 'mb-status clear';
+          statusEl.innerHTML = `<i class="fas fa-check-circle"></i><span>لك رصيد ${Math.abs(balance).toFixed(2)} ج.م</span>`;
+        } else {
+          labelEl.textContent = 'رصيدك الحالي';
+          statusEl.className = 'mb-status clear';
+          statusEl.innerHTML = `<i class="fas fa-check-circle"></i><span>لا توجد مديونيات</span>`;
+        }
+
+      } catch (error) {
+        console.error('Error loading balance:', error);
+      }
+    }
+
+    // ============================================================
+    // 📄 تحميل الفواتير
+    // ============================================================
+    async function loadInvoices() {
+      try {
+        const snapshot = await db.collection(COLLECTIONS.INVOICES)
+          .where('customerId', '==', userId)
+          .get();
+
+        allInvoices = [];
+        snapshot.forEach(doc => allInvoices.push({ id: doc.id, ...doc.data() }));
+
+        allInvoices.sort((a, b) => {
+          const da = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt || 0);
+          const db2 = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt || 0);
+          return db2 - da;
+        });
+
+        renderStatement();
+        updateInvoiceStats();
+
+      } catch (error) {
+        console.error('Error loading invoices:', error);
+        document.getElementById('statementList').innerHTML = `
+          <div class="mini-empty">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p>حدث خطأ في تحميل الفواتير</p>
+          </div>
+        `;
+      }
+    }
+
+    // ============================================================
+    // 🎨 عرض كشف الفواتير
+    // ============================================================
+    function renderStatement() {
+      const container = document.getElementById('statementList');
+
+      if (allInvoices.length === 0) {
+        container.innerHTML = `
+          <div class="mini-empty">
+            <i class="fas fa-file-invoice"></i>
+            <p>لا توجد فواتير بعد</p>
+            <a href="${userType === ROLES.WHOLESALE ? '/gomla/store-wholesale.html' : '/gomla/store-retail.html'}" 
+               style="display:inline-flex;align-items:center;gap:6px;padding:10px 20px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--navy);text-decoration:none;border-radius:var(--radius-full);font-weight:800;font-size:0.85rem;margin-top:8px;">
+              <i class="fas fa-store"></i> ابدأ التسوق
+            </a>
+          </div>
+        `;
+        document.getElementById('statementCount').textContent = '';
+        return;
+      }
+
+      let html = '';
+      allInvoices.forEach(inv => {
+        const invNum = inv.id.slice(-8).toUpperCase();
+        const total = inv.total || 0;
+        const paid = inv.paid || 0;
+        const remaining = inv.remaining !== undefined ? inv.remaining : (total - paid);
+
+        const date = inv.createdAt ?
+          (inv.createdAt.toDate ? inv.createdAt.toDate() : new Date(inv.createdAt)) :
+          new Date();
+        const dateStr = date.toLocaleDateString('ar-EG', {
+          year: 'numeric', month: 'short', day: 'numeric'
+        });
+
+        const isPaid = remaining <= 0;
+        const iconClass = isPaid ? 'credit' : 'debit';
+        const iconFa = isPaid ? 'fa-check-circle' : 'fa-file-invoice-dollar';
+        const amountClass = isPaid ? 'credit' : 'debit';
+
+        html += `
+          <div class="statement-item">
+            <div class="si-icon ${iconClass}">
+              <i class="fas ${iconFa}"></i>
+            </div>
+            <div class="si-info">
+              <div class="si-title">فاتورة #${invNum}</div>
+              <div class="si-date">
+                <i class="fas fa-calendar"></i>
+                ${dateStr}
+              </div>
+            </div>
+            <div class="si-amount ${amountClass}">
+              ${total.toFixed(2)} ج.م
+              <small>${isPaid ? 'مسددة' : `متبقي: ${remaining.toFixed(2)}`}</small>
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+      document.getElementById('statementCount').textContent = `${allInvoices.length} فاتورة`;
+    }
+
+    function updateInvoiceStats() {
+      let unpaidCount = 0;
+      let paidCount = 0;
+
+      allInvoices.forEach(inv => {
+        const total = inv.total || 0;
+        const paid = inv.paid || 0;
+        const remaining = inv.remaining !== undefined ? inv.remaining : (total - paid);
+
+        if (remaining <= 0) paidCount++;
+        else unpaidCount++;
+      });
+
+      document.getElementById('statInvoices').textContent = allInvoices.length;
+      document.getElementById('statUnpaid').textContent = unpaidCount;
+      document.getElementById('statPaid').textContent = paidCount;
+    }
+
+    // ============================================================
+    // 📢 تحميل الإبلاغات
+    // ============================================================
+    async function loadReports() {
+      try {
+        const snapshot = await db.collection('financial_notifications')
+          .where('senderId', '==', userId)
+          .get();
+
+        allReports = [];
+        snapshot.forEach(doc => allReports.push({ id: doc.id, ...doc.data() }));
+
+        allReports.sort((a, b) => {
+          const da = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt || 0);
+          const db2 = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt || 0);
+          return db2 - da;
+        });
+
+        renderReports();
+        updateReportsStats();
+
+      } catch (error) {
+        console.error('Error loading reports:', error);
+        document.getElementById('reportsList').innerHTML = `
+          <div class="mini-empty">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p>حدث خطأ في تحميل الإبلاغات</p>
+          </div>
+        `;
+      }
+    }
+
+    function updateReportsStats() {
+      const pending = allReports.filter(r => r.status === 'pending').length;
+
+      document.getElementById('statPendingReports').textContent = pending;
+
+      // Badge
+      const badge = document.getElementById('reportsBadge');
+      if (pending > 0) {
+        badge.textContent = pending;
+        badge.style.display = 'inline-block';
+      } else {
+        badge.style.display = 'none';
+      }
+
+      // Alert
+      const alertEl = document.getElementById('pendingAlert');
+      if (pending > 0) {
+        alertEl.style.display = 'flex';
+      } else {
+        alertEl.style.display = 'none';
+      }
+    }
+
+    function renderReports() {
+      const container = document.getElementById('reportsList');
+
+      if (allReports.length === 0) {
+        container.innerHTML = `
+          <div class="mini-empty">
+            <i class="fas fa-bullhorn"></i>
+            <p>لا توجد إبلاغات سداد بعد</p>
+            <p style="font-size:0.8rem;color:var(--gray-400);">
+              لو دفعت للمسؤول ومحصلش تسجيل، اضغط "إبلاغ جديد" من فوق.
+            </p>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+      allReports.forEach(report => {
+        const reportNum = report.id.slice(-8).toUpperCase();
+        const amount = report.amount || 0;
+
+        const date = report.createdAt ?
+          (report.createdAt.toDate ? report.createdAt.toDate() : new Date(report.createdAt)) :
+          new Date();
+        const dateStr = date.toLocaleDateString('ar-EG', {
+          year: 'numeric', month: 'short', day: 'numeric'
+        });
+        const timeStr = date.toLocaleTimeString('ar-EG', {
+          hour: '2-digit', minute: '2-digit'
+        });
+
+        const statusMap = {
+          pending: { text: 'قيد المراجعة', icon: 'fa-hourglass-half', class: 'pending' },
+          approved: { text: 'معتمد', icon: 'fa-check-circle', class: 'credit' },
+          rejected: { text: 'مرفوض', icon: 'fa-times-circle', class: 'debit' }
+        };
+        const statusInfo = statusMap[report.status] || statusMap.pending;
+
+        const methodMap = {
+          cash: 'كاش',
+          transfer: 'تحويل بنكي',
+          wallet: 'محفظة إلكترونية',
+          other: 'أخرى'
+        };
+        const methodText = methodMap[report.method] || report.method || '---';
+
+        html += `
+          <div class="statement-item" style="cursor:pointer;" onclick="showReportDetails('${report.id}')">
+            <div class="si-icon ${statusInfo.class}">
+              <i class="fas ${statusInfo.icon}"></i>
+            </div>
+            <div class="si-info">
+              <div class="si-title">
+                إبلاغ #${reportNum}
+                <span style="display:inline-block;padding:2px 8px;font-size:0.65rem;background:var(--gray-100);color:var(--gray-600);border-radius:10px;font-weight:800;margin-right:6px;">
+                  ${statusInfo.text}
+                </span>
+              </div>
+              <div class="si-date">
+                <i class="fas fa-calendar"></i>
+                ${dateStr} • ${timeStr}
+                • ${methodText}
+              </div>
+            </div>
+            <div class="si-amount ${statusInfo.class}">
+              ${amount.toFixed(2)} ج.م
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+
+    // ============================================================
+    // 🔀 التبويبات
+    // ============================================================
+    function switchTab(tabName) {
+      document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.balance-tab').forEach(t => t.classList.remove('active'));
+
+      document.getElementById('tab-' + tabName).classList.add('active');
+      document.querySelector(`.balance-tab[data-tab="${tabName}"]`).classList.add('active');
+    }
+
+    function scrollToStatement() {
+      document.getElementById('statementCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // ============================================================
+    // 📢 فتح موديل الإبلاغ عن السداد
+    // ============================================================
+    function openReportModal() {
+      const modalHtml = buildReportModal();
+
+      const existing = document.getElementById('reportModalOverlay');
+      if (existing) existing.remove();
+
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
+      document.body.style.overflow = 'hidden';
+
+      // تعيين تاريخ اليوم افتراضياً
+      const today = new Date().toISOString().split('T')[0];
+      setTimeout(() => {
+        const dateField = document.getElementById('reportDate');
+        if (dateField) dateField.value = today;
+      }, 50);
+    }
+
+    function buildReportModal() {
+      const currentBalance = parseFloat(document.getElementById('mainBalanceAmount').textContent.replace(/,/g, '')) || 0;
+
+      return `
+        <div class="modal-overlay" id="reportModalOverlay" onclick="closeReportModal(event)">
+          <div class="modal-box" onclick="event.stopPropagation()">
+
+            <div class="modal-header">
+              <div class="mh-title">
+                <div class="mh-icon"><i class="fas fa-bullhorn"></i></div>
+                <div>
+                  <h3>الإبلاغ عن سداد</h3>
+                  <p>إذا دفعت ولم يُسجل، أبلغنا وسنراجع فوراً</p>
+                </div>
+              </div>
+              <button class="modal-close-btn" onclick="closeReportModal()">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+
+            <div class="modal-body">
+
+              <div class="modal-info-alert">
+                <i class="fas fa-info-circle"></i>
+                <div>
+                  املأ البيانات بدقة وأرفق صورة الإيصال إن وُجد. 
+                  <strong>البيانات الكاذبة تؤدي لإيقاف الحساب.</strong>
+                </div>
+              </div>
+
+              <div class="toast-inline" id="reportToast"></div>
+
+              <form id="reportForm" onsubmit="handleSubmitReport(event)">
+
+                <div class="form-group">
+                  <label>
+                    <i class="fas fa-coins"></i>
+                    المبلغ المسدد
+                    <span class="required">*</span>
+                  </label>
+                  <input type="number" id="reportAmount" placeholder="مثال: 1500" min="1" step="0.01" required>
+                  ${currentBalance > 0 ? `<div style="font-size:0.75rem;color:var(--gray-500);margin-top:4px;">
+                    <i class="fas fa-info-circle" style="color:var(--gold);"></i>
+                    إجمالي مديونيتك: ${currentBalance.toFixed(2)} ج.م
+                  </div>` : ''}
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label>
+                      <i class="fas fa-calendar"></i>
+                      تاريخ السداد
+                      <span class="required">*</span>
+                    </label>
+                    <input type="date" id="reportDate" required>
+                  </div>
+
+                  <div class="form-group">
+                    <label>
+                      <i class="fas fa-credit-card"></i>
+                      طريقة الدفع
+                      <span class="required">*</span>
+                    </label>
+                    <select id="reportMethod" required>
+                      <option value="">-- اختر --</option>
+                      <option value="cash">كاش</option>
+                      <option value="transfer">تحويل بنكي</option>
+                      <option value="wallet">محفظة إلكترونية</option>
+                      <option value="other">أخرى</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>
+                    <i class="fas fa-user"></i>
+                    المستلم / المسؤول
+                  </label>
+                  <input type="text" id="reportReceiver" placeholder="اسم الشخص اللي استلم المبلغ (اختياري)" maxlength="60">
+                </div>
+
+                <div class="form-group">
+                  <label>
+                    <i class="fas fa-hashtag"></i>
+                    رقم مرجعي (اختياري)
+                  </label>
+                  <input type="text" id="reportReference" placeholder="رقم التحويل / رقم الفاتورة / رقم الإيصال" maxlength="80">
+                </div>
+
+                <div class="form-group">
+                  <label>
+                    <i class="fas fa-comment-alt"></i>
+                    ملاحظات إضافية
+                  </label>
+                  <textarea id="reportNotes" placeholder="أي تفاصيل تساعد في التحقق من السداد..." maxlength="500"></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label>
+                    <i class="fas fa-image"></i>
+                    صورة الإيصال (اختياري)
+                  </label>
+                  <div class="receipt-upload" id="receiptUploadBox" onclick="document.getElementById('receiptInput').click()">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <p>اضغط لرفع صورة الإيصال</p>
+                    <small>JPG, PNG - حتى 5MB</small>
+                  </div>
+                  <input type="file" id="receiptInput" accept="image/*" style="display:none;" onchange="handleReceiptUpload(event)">
+                  <div class="receipt-preview" id="receiptPreview" style="display:none;"></div>
+                </div>
+
+              </form>
+
+            </div>
+
+            <div class="modal-actions">
+              <button type="button" class="modal-action-btn cancel" onclick="closeReportModal()">
+                <i class="fas fa-times"></i>
+                إلغاء
+              </button>
+              <button type="button" class="modal-action-btn submit" id="reportSubmitBtn" onclick="handleSubmitReport(event)">
+                <i class="fas fa-paper-plane"></i>
+                <span>إرسال الإبلاغ</span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      `;
+    }
+
+    function closeReportModal(event) {
+      if (event && event.target !== event.currentTarget) return;
+      const modal = document.getElementById('reportModalOverlay');
+      if (modal) modal.remove();
+      document.body.style.overflow = '';
+      receiptFile = null;
+      if (receiptPreviewUrl) {
+        URL.revokeObjectURL(receiptPreviewUrl);
+        receiptPreviewUrl = null;
+      }
+    }
+
+    // ============================================================
+    // 📸 رفع الإيصال
+    // ============================================================
+    function handleReceiptUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+
+      if (!file.type.startsWith('image/')) {
+        showToast('⚠️ يرجى اختيار صورة صحيحة', 'error');
+        return;
+      }
+
+      if (file.size > 5 * 1024 * 1024) {
+        showToast('⚠️ حجم الصورة كبير جداً (أقصى 5MB)', 'error');
+        return;
+      }
+
+      receiptFile = file;
+
+      // معاينة
+      if (receiptPreviewUrl) URL.revokeObjectURL(receiptPreviewUrl);
+      receiptPreviewUrl = URL.createObjectURL(file);
+
+      const previewContainer = document.getElementById('receiptPreview');
+      previewContainer.innerHTML = `
+        <img src="${receiptPreviewUrl}" alt="معاينة الإيصال">
+        <button type="button" class="remove-btn" onclick="removeReceipt()">
+          <i class="fas fa-times"></i>
+        </button>
+      `;
+      previewContainer.style.display = 'block';
+      document.getElementById('receiptUploadBox').style.display = 'none';
+    }
+
+    function removeReceipt() {
+      receiptFile = null;
+      if (receiptPreviewUrl) {
+        URL.revokeObjectURL(receiptPreviewUrl);
+        receiptPreviewUrl = null;
+      }
+      document.getElementById('receiptPreview').style.display = 'none';
+      document.getElementById('receiptPreview').innerHTML = '';
+      document.getElementById('receiptUploadBox').style.display = 'block';
+      document.getElementById('receiptInput').value = '';
+    }
+
+    // ============================================================
+    // 📤 إرسال الإبلاغ
+    // ============================================================
+    async function handleSubmitReport(event) {
+      if (event) event.preventDefault();
+
+      const amount = parseFloat(document.getElementById('reportAmount').value);
+      const date = document.getElementById('reportDate').value;
+      const method = document.getElementById('reportMethod').value;
+      const receiver = document.getElementById('reportReceiver').value.trim();
+      const reference = document.getElementById('reportReference').value.trim();
+      const notes = document.getElementById('reportNotes').value.trim();
+
+      // التحقق
+      if (!amount || amount <= 0) {
+        showReportToast('error', 'يرجى إدخال مبلغ صحيح');
+        return;
+      }
+
+      if (!date) {
+        showReportToast('error', 'يرجى اختيار تاريخ السداد');
+        return;
+      }
+
+      if (!method) {
+        showReportToast('error', 'يرجى اختيار طريقة الدفع');
+        return;
+      }
+
+      // التحقق من التاريخ (مش في المستقبل)
+      const selectedDate = new Date(date);
+      const today = new Date();
+      today.setHours(23, 59, 59, 999);
+      if (selectedDate > today) {
+        showReportToast('error', 'تاريخ السداد لا يمكن أن يكون في المستقبل');
+        return;
+      }
+
+      const btn = document.getElementById('reportSubmitBtn');
+      const originalText = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>جاري الإرسال...</span>';
+
+      try {
+        // رفع الإيصال لو موجود
+        let receiptUrl = '';
+        if (receiptFile) {
+          receiptUrl = await uploadImage(receiptFile, (progress) => {
+            console.log(`Upload: ${progress}%`);
+          });
+          if (!receiptUrl && receiptFile) {
+            // لو الرفع فشل، نكمل من غير صورة
+            console.warn('Receipt upload failed, continuing without it');
+          }
+        }
+
+        // حفظ الإبلاغ
+        const reportData = {
+          // النوع
+          type: userType === ROLES.WHOLESALE ? 'trader_payment' : 'customer_payment',
+          
+          // المُرسل
+          senderId: userId,
+          senderName: userData.name || 'unknown',
+          senderRole: userType,
+          senderPhone: userData.phone || '',
+          senderCode: userData.code || '',
+
+          // بيانات السداد
+          amount: amount,
+          paymentDate: date,
+          method: method,
+          receiver: receiver || '',
+          reference: reference || '',
+          notes: notes || '',
+          receiptUrl: receiptUrl || '',
+
+          // الحالة
+          status: 'pending',
+          reviewedBy: null,
+          reviewedAt: null,
+          adminNotes: '',
+
+          // لقطة للرصيد الحالي وقت الإبلاغ
+          balanceAtReport: parseFloat(document.getElementById('mainBalanceAmount').textContent.replace(/,/g, '')) || 0,
+
+          // Meta
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+
+        await db.collection('financial_notifications').add(reportData);
+
+        // تسجيل النشاط
+        try {
+          await db.collection(COLLECTIONS.ACTIVITY_LOG).add({
+            userId: userId,
+            userName: userData.name || 'unknown',
+            userRole: userType,
+            action: 'إبلاغ عن سداد',
+            details: `مبلغ: ${amount} ج.م - طريقة: ${method}`,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        } catch (e) { /* تجاهل */ }
+
+        // نجاح
+        showToast('✅ تم إرسال الإبلاغ بنجاح', 'success');
+        
+        closeReportModal();
+        
+        // إعادة تحميل الإبلاغات
+        await loadReports();
+        
+        // الانتقال لتبويب الإبلاغات
+        switchTab('reports');
+
+        // Toast تأكيد
+        setTimeout(() => {
+          showToast('📢 الإدارة ستراجع إبلاغك قريباً', 'info');
+        }, 1500);
+
+      } catch (error) {
+        console.error('Error submitting report:', error);
+        let msg = 'حدث خطأ في الإرسال';
+        if (error.message) msg = error.message;
+        showReportToast('error', msg);
+        showToast('❌ ' + msg, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+      }
+    }
+
+    function showReportToast(type, message) {
+      const toast = document.getElementById('reportToast');
+      if (!toast) return;
+      toast.className = `toast-inline show ${type}`;
+      toast.innerHTML = `
+        <i class="fas ${type === 'error' ? 'fa-exclamation-circle' : 'fa-check-circle'}"></i>
+        <span>${message}</span>
+      `;
+      setTimeout(() => toast.classList.remove('show'), 5000);
+    }
+
+    // ============================================================
+    // 🔍 عرض تفاصيل الإبلاغ
+    // ============================================================
+    function showReportDetails(reportId) {
+      const report = allReports.find(r => r.id === reportId);
+      if (!report) return;
+
+      const reportNum = report.id.slice(-8).toUpperCase();
+      const amount = report.amount || 0;
+      
+      const date = report.createdAt ?
+        (report.createdAt.toDate ? report.createdAt.toDate() : new Date(report.createdAt)) :
+        new Date();
+      const dateStr = date.toLocaleDateString('ar-EG', {
+        year: 'numeric', month: 'long', day: 'numeric'
+      });
+      const timeStr = date.toLocaleTimeString('ar-EG', {
+        hour: '2-digit', minute: '2-digit'
+      });
+
+      const statusMap = {
+        pending: { text: 'قيد المراجعة', color: '#d97706', icon: 'fa-hourglass-half' },
+        approved: { text: 'معتمد', color: '#16a34a', icon: 'fa-check-circle' },
+        rejected: { text: 'مرفوض', color: '#dc2626', icon: 'fa-times-circle' }
+      };
+      const statusInfo = statusMap[report.status] || statusMap.pending;
+
+      const methodMap = {
+        cash: 'كاش',
+        transfer: 'تحويل بنكي',
+        wallet: 'محفظة إلكترونية',
+        other: 'أخرى'
+      };
+      const methodText = methodMap[report.method] || report.method || '---';
+
+      const paymentDate = report.paymentDate ? 
+        new Date(report.paymentDate).toLocaleDateString('ar-EG', {
+          year: 'numeric', month: 'long', day: 'numeric'
+        }) : '---';
+
+      const modalHtml = `
+        <div class="modal-overlay" id="reportDetailsOverlay" onclick="closeReportDetails(event)">
+          <div class="modal-box" onclick="event.stopPropagation()" style="max-width:600px;">
+
+            <div class="modal-header">
+              <div class="mh-title">
+                <div class="mh-icon"><i class="fas ${statusInfo.icon}"></i></div>
+                <div>
+                  <h3>إبلاغ #${reportNum}</h3>
+                  <p style="color:${statusInfo.color};font-weight:800;">${statusInfo.text}</p>
+                </div>
+              </div>
+              <button class="modal-close-btn" onclick="closeReportDetails()">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+
+            <div class="modal-body">
+
+              <div style="padding:20px;background:linear-gradient(135deg,#fcf9f0,#f8f4e8);border:2px solid var(--gold-light);border-radius:var(--radius-sm);text-align:center;margin-bottom:20px;">
+                <div style="font-size:0.8rem;color:var(--gold-dark);font-weight:800;margin-bottom:6px;">المبلغ المُبلَّغ عنه</div>
+                <div style="font-size:2rem;font-weight:900;color:var(--gold-dark);direction:ltr;">
+                  ${amount.toFixed(2)} <span style="font-size:1rem;">ج.م</span>
+                </div>
+              </div>
+
+              <div style="display:grid;gap:12px;">
+
+                <div style="display:flex;justify-content:space-between;padding:10px 14px;background:var(--gray-50);border-radius:var(--radius-sm);font-size:0.85rem;">
+                  <span style="color:var(--gray-500);font-weight:700;">
+                    <i class="fas fa-credit-card" style="color:var(--gold);"></i> طريقة الدفع
+                  </span>
+                  <span style="color:var(--navy);font-weight:800;">${methodText}</span>
+                </div>
+
+                <div style="display:flex;justify-content:space-between;padding:10px 14px;background:var(--gray-50);border-radius:var(--radius-sm);font-size:0.85rem;">
+                  <span style="color:var(--gray-500);font-weight:700;">
+                    <i class="fas fa-calendar" style="color:var(--gold);"></i> تاريخ السداد
+                  </span>
+                  <span style="color:var(--navy);font-weight:800;">${paymentDate}</span>
+                </div>
+
+                ${report.receiver ? `
+                  <div style="display:flex;justify-content:space-between;padding:10px 14px;background:var(--gray-50);border-radius:var(--radius-sm);font-size:0.85rem;">
+                    <span style="color:var(--gray-500);font-weight:700;">
+                      <i class="fas fa-user" style="color:var(--gold);"></i> المستلم
+                    </span>
+                    <span style="color:var(--navy);font-weight:800;">${escapeHtml(report.receiver)}</span>
+                  </div>
+                ` : ''}
+
+                ${report.reference ? `
+                  <div style="display:flex;justify-content:space-between;padding:10px 14px;background:var(--gray-50);border-radius:var(--radius-sm);font-size:0.85rem;">
+                    <span style="color:var(--gray-500);font-weight:700;">
+                      <i class="fas fa-hashtag" style="color:var(--gold);"></i> المرجع
+                    </span>
+                    <span style="color:var(--navy);font-weight:800;direction:ltr;">${escapeHtml(report.reference)}</span>
+                  </div>
+                ` : ''}
+
+                <div style="padding:10px 14px;background:var(--gray-50);border-radius:var(--radius-sm);font-size:0.85rem;">
+                  <div style="color:var(--gray-500);font-weight:700;margin-bottom:4px;">
+                    <i class="fas fa-clock" style="color:var(--gold);"></i> تاريخ الإرسال
+                  </div>
+                  <div style="color:var(--navy);font-weight:800;">${dateStr} - ${timeStr}</div>
+                </div>
+
+                ${report.notes ? `
+                  <div style="padding:10px 14px;background:var(--gray-50);border-radius:var(--radius-sm);font-size:0.85rem;">
+                    <div style="color:var(--gray-500);font-weight:700;margin-bottom:4px;">
+                      <i class="fas fa-comment-alt" style="color:var(--gold);"></i> ملاحظاتك
+                    </div>
+                    <div style="color:var(--navy);font-weight:600;line-height:1.6;">${escapeHtml(report.notes)}</div>
+                  </div>
+                ` : ''}
+
+                ${report.receiptUrl ? `
+                  <div style="padding:10px 14px;background:var(--gray-50);border-radius:var(--radius-sm);">
+                    <div style="color:var(--gray-500);font-weight:700;margin-bottom:8px;font-size:0.85rem;">
+                      <i class="fas fa-image" style="color:var(--gold);"></i> صورة الإيصال
+                    </div>
+                    <img src="${report.receiptUrl}" style="width:100%;max-height:250px;object-fit:contain;border-radius:var(--radius-sm);background:var(--white);" onclick="window.open('${report.receiptUrl}','_blank')">
+                  </div>
+                ` : ''}
+
+                ${report.adminNotes ? `
+                  <div style="padding:10px 14px;background:#fef9e7;border:1px solid var(--gold-light);border-radius:var(--radius-sm);font-size:0.85rem;">
+                    <div style="color:var(--gold-dark);font-weight:800;margin-bottom:4px;">
+                      <i class="fas fa-user-shield"></i> رد الإدارة
+                    </div>
+                    <div style="color:var(--navy);font-weight:600;line-height:1.6;">${escapeHtml(report.adminNotes)}</div>
+                  </div>
+                ` : ''}
+
+              </div>
+
+            </div>
+
+            <div class="modal-actions">
+              <button class="modal-action-btn cancel" onclick="closeReportDetails()" style="flex:1;">
+                <i class="fas fa-times"></i> إغلاق
+              </button>
+            </div>
+
+          </div>
+        </div>
+      `;
+
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeReportDetails(event) {
+      if (event && event.target !== event.currentTarget) return;
+      const modal = document.getElementById('reportDetailsOverlay');
+      if (modal) modal.remove();
+      document.body.style.overflow = '';
+    }
+
+    // ============================================================
+    // 🛠️ Helpers
+    // ============================================================
+    function escapeHtml(text) {
+      if (!text) return '';
+      const div = document.createElement('div');
+      div.textContent = String(text);
+      return div.innerHTML;
+    }
+
+    // إغلاق المودال بـ ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeReportModal();
+        closeReportDetails();
+      }
+    });
+
+    // ===== تصدير =====
+    window.switchTab = switchTab;
+    window.scrollToStatement = scrollToStatement;
+    window.openReportModal = openReportModal;
+    window.closeReportModal = closeReportModal;
+    window.handleSubmitReport = handleSubmitReport;
+    window.handleReceiptUpload = handleReceiptUpload;
+    window.removeReceipt = removeReceipt;
+    window.showReportDetails = showReportDetails;
+    window.closeReportDetails = closeReportDetails;
+    window.loadReports = loadReports;
+  </script>
+
+</body>
+</html>
