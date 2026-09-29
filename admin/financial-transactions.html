@@ -1,0 +1,2180 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>المعاملات المالية - أولاد شعلان</title>
+  <meta name="description" content="المعاملات المالية - أولاد شعلان">
+  <meta name="theme-color" content="#1a2a4a">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/gomla/assets/css/style.css">
+  <link rel="icon" href="/gomla/assets/images/favicon.ico">
+
+  <style>
+    /* ============================================================
+       🛡️ منع السكرول الأفقي على الصفحة كلها
+       ============================================================ */
+    html, body {
+      overflow-x: hidden !important;
+      max-width: 100vw;
+    }
+
+    .page-content,
+    .page-content .container {
+      overflow-x: hidden;
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    /* ============================================================
+       🎨 ستايل صفحة المعاملات المالية
+       ============================================================ */
+
+    /* ===== رأس الصفحة ===== */
+    .ft-header {
+      background: linear-gradient(135deg, #7f1d1d 0%, #991b1b 50%, #b91c1c 100%);
+      border-radius: var(--radius-lg);
+      padding: 22px 24px;
+      margin-bottom: 18px;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(127, 29, 29, 0.35);
+      border-bottom: 4px solid var(--gold);
+    }
+
+    .ft-header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -15%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(201, 168, 76, 0.25) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .ft-header-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .ft-header-content .header-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      box-shadow: 0 8px 24px rgba(201, 168, 76, 0.5);
+    }
+
+    .ft-header-content .header-text { flex: 1; min-width: 200px; }
+
+    .ft-header-content .header-text h1 {
+      font-size: 1.35rem;
+      font-weight: 900;
+      margin-bottom: 3px;
+      color: var(--white);
+    }
+
+    .ft-header-content .header-text p {
+      font-size: 0.83rem;
+      opacity: 0.9;
+      color: rgba(255, 255, 255, 0.9);
+      margin: 0;
+    }
+
+    .ft-header-content .header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: rgba(255, 255, 255, 0.15);
+      color: var(--gold-light);
+      border: 1px solid rgba(201, 168, 76, 0.5);
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 800;
+      backdrop-filter: blur(10px);
+    }
+
+    .ft-header-content .header-badge i { color: var(--gold); }
+
+    /* ===== الإحصائيات ===== */
+    .ft-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .ft-stat-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 14px 12px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition);
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .ft-stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 4px; height: 100%;
+      background: var(--gold);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.4s ease;
+    }
+
+    .ft-stat-card:hover::before { transform: scaleY(1); }
+
+    .ft-stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--gold-light);
+    }
+
+    .ft-stat-card .stat-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.05rem;
+      margin: 0 auto 8px;
+    }
+
+    .stat-icon.blue { background: rgba(59, 130, 246, 0.12); color: #2563eb; }
+    .stat-icon.gold { background: rgba(201, 168, 76, 0.15); color: var(--gold-dark); }
+    .stat-icon.green { background: rgba(34, 197, 94, 0.12); color: #16a34a; }
+    .stat-icon.red { background: rgba(239, 68, 68, 0.12); color: #dc2626; }
+    .stat-icon.purple { background: rgba(139, 92, 246, 0.12); color: #7c3aed; }
+
+    .ft-stat-card .stat-number {
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: var(--navy);
+      line-height: 1.2;
+      margin-bottom: 2px;
+    }
+
+    .ft-stat-card .stat-number.gold { color: var(--gold-dark); }
+    .ft-stat-card .stat-number.green { color: #16a34a; }
+    .ft-stat-card .stat-number.red { color: #dc2626; }
+
+    .ft-stat-card .stat-label {
+      font-size: 0.68rem;
+      color: var(--gray-500);
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    /* ===== أدوات الفلترة ===== */
+    .filter-bar {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      overflow: hidden;
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .search-box {
+      position: relative;
+      margin-bottom: 12px;
+      width: 100%;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 12px 42px 12px 14px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.9rem;
+      background: var(--gray-50);
+      transition: all 0.3s ease;
+    }
+
+    .search-box input:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.15);
+      background: var(--white);
+    }
+
+    .search-box .search-icon {
+      position: absolute;
+      right: 13px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray-400);
+      pointer-events: none;
+      font-size: 0.9rem;
+    }
+
+    /* الأزرار مع wrapper لمنع التسرب */
+    .status-tabs-wrapper {
+      position: relative;
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
+      overflow: hidden;
+    }
+
+    .status-tabs {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 2px 2px 8px;
+      scrollbar-width: thin;
+      -webkit-overflow-scrolling: touch;
+      max-width: 100%;
+      min-width: 0;
+      width: 100%;
+      overscroll-behavior-x: contain;
+    }
+
+    .status-tabs::-webkit-scrollbar { height: 4px; }
+    .status-tabs::-webkit-scrollbar-track {
+      background: var(--gray-100);
+      border-radius: 10px;
+    }
+    .status-tabs::-webkit-scrollbar-thumb {
+      background: var(--gold);
+      border-radius: 10px;
+    }
+
+    .status-tab {
+      padding: 8px 14px;
+      border: 2px solid var(--gray-200);
+      background: var(--white);
+      color: var(--gray-600);
+      border-radius: var(--radius-full);
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .status-tab:hover { border-color: var(--gold-light); }
+
+    .status-tab.active {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      border-color: var(--navy);
+      box-shadow: 0 4px 12px rgba(26, 42, 74, 0.25);
+    }
+
+    .status-tab.active i { color: var(--gold); }
+
+    .status-tab .tab-count {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 1px 7px;
+      border-radius: 10px;
+      font-size: 0.68rem;
+      font-weight: 800;
+      min-width: 18px;
+      text-align: center;
+    }
+
+    .status-tab:not(.active) .tab-count {
+      background: var(--gray-100);
+      color: var(--gray-600);
+    }
+
+    /* ===== قائمة التقارير ===== */
+    .reports-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 24px;
+      min-width: 0;
+      max-width: 100%;
+      overflow: hidden;
+    }
+
+    .report-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      overflow: hidden;
+      transition: var(--transition);
+      position: relative;
+      cursor: pointer;
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .report-card:hover {
+      box-shadow: var(--shadow-lg);
+      border-color: var(--gold-light);
+      transform: translateY(-2px);
+    }
+
+    /* شريط الحالة */
+    .report-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 5px;
+      height: 100%;
+      transition: var(--transition);
+    }
+
+    .report-card.pending::before { background: linear-gradient(180deg, #f59e0b, #d97706); }
+    .report-card.approved::before { background: linear-gradient(180deg, #22c55e, #16a34a); }
+    .report-card.rejected::before { background: linear-gradient(180deg, #ef4444, #dc2626); }
+
+    /* رأس الكارت */
+    .report-card-header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px 12px 18px;
+      background: linear-gradient(135deg, #fcf9f0, #f8f4e8);
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .report-header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .report-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      border: 2px solid var(--white);
+      box-shadow: 0 4px 12px rgba(201, 168, 76, 0.3);
+      overflow: hidden;
+    }
+
+    .report-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .report-info {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .report-info .sender-name {
+      font-size: 0.9rem;
+      font-weight: 900;
+      color: var(--navy);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .report-info .report-meta {
+      font-size: 0.7rem;
+      color: var(--gray-500);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+
+    .report-info .report-meta i {
+      color: var(--gold);
+      font-size: 0.62rem;
+    }
+
+    /* شارة الحالة */
+    .report-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 10px;
+      border-radius: var(--radius-full);
+      font-size: 0.68rem;
+      font-weight: 800;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .report-status-badge.pending {
+      background: rgba(245, 158, 11, 0.15);
+      color: #d97706;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .report-status-badge.approved {
+      background: rgba(34, 197, 94, 0.15);
+      color: #16a34a;
+      border: 1px solid rgba(34, 197, 94, 0.3);
+    }
+
+    .report-status-badge.rejected {
+      background: rgba(239, 68, 68, 0.15);
+      color: #dc2626;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    /* جسم الكارت */
+    .report-card-body {
+      padding: 12px 14px 12px 18px;
+    }
+
+    /* المبلغ */
+    .report-amount-block {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      background: linear-gradient(135deg, #fcf9f0, #f8f4e8);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--gold-light);
+      margin-bottom: 12px;
+    }
+
+    .report-amount-block .amount-info {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      min-width: 0;
+    }
+
+    .report-amount-block .amount-label {
+      font-size: 0.7rem;
+      color: var(--gold-dark);
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .report-amount-block .amount-value {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--gold-dark);
+      line-height: 1.1;
+      direction: ltr;
+      text-align: right;
+    }
+
+    .report-amount-block .amount-value small {
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .report-amount-block .amount-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(201, 168, 76, 0.3);
+    }
+
+    /* Chips معلومات */
+    .report-info-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .info-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 10px;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-full);
+      font-size: 0.72rem;
+      color: var(--gray-600);
+      font-weight: 700;
+      white-space: nowrap;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .info-chip i {
+      color: var(--gold);
+      font-size: 0.7rem;
+      flex-shrink: 0;
+    }
+
+    .info-chip strong {
+      color: var(--navy);
+      font-weight: 800;
+    }
+
+    /* الفوتر */
+    .report-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 12px 14px 12px 18px;
+      background: var(--gray-50);
+      border-top: 1px solid var(--gray-200);
+    }
+
+    .report-time {
+      font-size: 0.72rem;
+      color: var(--gray-500);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .report-time i {
+      color: var(--gold);
+      font-size: 0.65rem;
+    }
+
+    .report-view-btn {
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      border: none;
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+
+    .report-view-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(26, 42, 74, 0.3);
+    }
+
+    .report-view-btn i { font-size: 0.72rem; }
+
+    /* ===== حالة فارغة ===== */
+    .empty-state {
+      text-align: center;
+      padding: 50px 20px;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      border: 2px dashed var(--gray-200);
+      margin-bottom: 24px;
+    }
+
+    .empty-state .empty-icon {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gray-100), var(--gray-50));
+      color: var(--gray-400);
+      font-size: 2.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 18px;
+    }
+
+    .empty-state h3 {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .empty-state p {
+      font-size: 0.85rem;
+      color: var(--gray-500);
+      margin-bottom: 18px;
+      line-height: 1.6;
+    }
+
+    /* التحميل */
+    .loading-state {
+      text-align: center;
+      padding: 50px 20px;
+    }
+
+    .loading-state i {
+      font-size: 2.2rem;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .loading-state p {
+      font-size: 0.88rem;
+      color: var(--gray-500);
+      font-weight: 600;
+    }
+
+    /* ===== Modal ===== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      overflow-y: auto;
+      animation: fadeIn 0.25s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal-box {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      max-width: 620px;
+      width: 100%;
+      max-height: 92vh;
+      overflow-y: auto;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+      animation: modalIn 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.92) translateY(-20px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .modal-header {
+      padding: 18px 20px;
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+    }
+
+    .modal-header .header-info {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+    }
+
+    .modal-header .header-info small {
+      font-size: 0.72rem;
+      opacity: 0.85;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .modal-header .header-info strong {
+      font-family: 'Courier New', monospace;
+      font-size: 1.05rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+      direction: ltr;
+      text-align: right;
+    }
+
+    .modal-close-btn {
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      color: var(--white);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-close-btn:hover { background: rgba(255, 255, 255, 0.25); }
+
+    .modal-body { padding: 20px; }
+
+    .modal-section-title {
+      font-size: 0.88rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .modal-section-title i { color: var(--gold); font-size: 0.9rem; }
+
+    /* بطاقة بيانات المُرسل */
+    .sender-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px;
+      background: linear-gradient(135deg, #fcf9f0, #f8f4e8);
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--gold-light);
+      margin-bottom: 16px;
+    }
+
+    .sender-card .sender-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      border: 3px solid var(--white);
+      box-shadow: 0 4px 12px rgba(201, 168, 76, 0.3);
+      overflow: hidden;
+    }
+
+    .sender-card .sender-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .sender-card .sender-details {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .sender-card .sender-details h4 {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .sender-card .sender-details p {
+      font-size: 0.78rem;
+      color: var(--gray-600);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      direction: ltr;
+    }
+
+    .sender-card .sender-details p i {
+      color: var(--gold);
+      font-size: 0.7rem;
+      direction: rtl;
+    }
+
+    /* شبكة بيانات */
+    .details-grid {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 14px;
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .detail-row .detail-label {
+      font-size: 0.82rem;
+      color: var(--gray-500);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .detail-row .detail-label i {
+      color: var(--gold);
+      font-size: 0.8rem;
+    }
+
+    .detail-row .detail-value {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--navy);
+      text-align: left;
+    }
+
+    .detail-row .detail-value.amount {
+      font-size: 1.1rem;
+      color: var(--gold-dark);
+      direction: ltr;
+    }
+
+    /* صورة الإيصال */
+    .receipt-img {
+      width: 100%;
+      max-height: 300px;
+      object-fit: contain;
+      border-radius: var(--radius-sm);
+      background: var(--gray-100);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .receipt-img:hover { opacity: 0.9; }
+
+    /* ملاحظات */
+    .notes-box {
+      padding: 12px 14px;
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      color: var(--navy);
+      line-height: 1.6;
+    }
+
+    /* Modal actions */
+    .modal-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 20px;
+      padding-top: 18px;
+      border-top: 2px dashed var(--gray-200);
+    }
+
+    .modal-action-btn {
+      padding: 13px 16px;
+      border-radius: var(--radius-full);
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.88rem;
+      cursor: pointer;
+      border: 2px solid;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.25s ease;
+    }
+
+    .modal-action-btn.approve {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: var(--white);
+      border-color: #16a34a;
+      box-shadow: 0 6px 16px rgba(34, 197, 94, 0.3);
+    }
+
+    .modal-action-btn.approve:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(34, 197, 94, 0.5);
+    }
+
+    .modal-action-btn.reject {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: var(--white);
+      border-color: #dc2626;
+      box-shadow: 0 6px 16px rgba(239, 68, 68, 0.3);
+    }
+
+    .modal-action-btn.reject:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(239, 68, 68, 0.5);
+    }
+
+    .modal-action-btn.gray {
+      background: var(--gray-100);
+      color: var(--gray-700);
+      border-color: var(--gray-200);
+    }
+
+    .modal-action-btn.gray:hover { background: var(--gray-200); }
+
+    /* Modal إجراء (اعتماد/رفض) */
+    .action-modal-box {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      max-width: 480px;
+      width: 100%;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+      animation: modalIn 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .action-modal-header {
+      padding: 20px 24px;
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+      color: var(--white);
+      text-align: center;
+    }
+
+    .action-modal-header.approve {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+    }
+
+    .action-modal-header.reject {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+    }
+
+    .action-modal-header .action-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 10px;
+      font-size: 1.6rem;
+      border: 3px solid rgba(255, 255, 255, 0.4);
+    }
+
+    .action-modal-header h3 {
+      font-size: 1.1rem;
+      font-weight: 900;
+      margin-bottom: 4px;
+    }
+
+    .action-modal-header p {
+      font-size: 0.82rem;
+      opacity: 0.9;
+      margin: 0;
+    }
+
+    .action-modal-body {
+      padding: 20px 24px;
+    }
+
+    .action-info-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
+      margin-bottom: 16px;
+      font-size: 0.85rem;
+    }
+
+    .action-info-box .info-amount {
+      font-weight: 900;
+      color: var(--gold-dark);
+      font-size: 1.1rem;
+      direction: ltr;
+      margin-right: auto;
+    }
+
+    .action-form-group { margin-bottom: 16px; }
+
+    .action-form-group label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--gray-700);
+      margin-bottom: 6px;
+    }
+
+    .action-form-group label i { color: var(--gold); font-size: 0.82rem; }
+
+    .action-form-group textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.9rem;
+      background: var(--gray-50);
+      resize: vertical;
+      min-height: 90px;
+      transition: all 0.3s ease;
+    }
+
+    .action-form-group textarea:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.15);
+      background: var(--white);
+    }
+
+    .action-warning {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 14px;
+      background: linear-gradient(135deg, #fef9e7, #fcf9f0);
+      border: 2px solid var(--gold-light);
+      border-radius: var(--radius-sm);
+      font-size: 0.8rem;
+      color: var(--gray-700);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .action-warning i {
+      color: var(--gold-dark);
+      font-size: 1rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .action-modal-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      padding: 16px 24px 20px;
+      border-top: 1px solid var(--gray-200);
+    }
+
+    /* Toast */
+    .toast-inline {
+      display: none;
+      padding: 12px 16px;
+      border-radius: var(--radius-sm);
+      margin-bottom: 16px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toast-inline.show { display: flex; }
+
+    .toast-inline.error {
+      background: #fef2f2;
+      border-right: 4px solid var(--danger);
+      color: #dc2626;
+    }
+
+    .toast-inline.success {
+      background: #f0fdf4;
+      border-right: 4px solid var(--success);
+      color: #16a34a;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) and (pointer: coarse) {
+      .ft-header { padding: 18px 16px; border-radius: var(--radius-md); }
+      .ft-header-content .header-icon { width: 48px; height: 48px; font-size: 1.2rem; }
+      .ft-header-content .header-text h1 { font-size: 1.05rem; }
+      .ft-header-content .header-text p { font-size: 0.72rem; }
+      .ft-header-content .header-badge { font-size: 0.68rem; padding: 4px 10px; }
+
+      .ft-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+      .ft-stat-card { padding: 12px 10px; }
+      .ft-stat-card .stat-icon { width: 34px; height: 34px; font-size: 0.92rem; margin-bottom: 6px; }
+      .ft-stat-card .stat-number { font-size: 1.02rem; }
+      .ft-stat-card .stat-label { font-size: 0.63rem; }
+
+      .filter-bar { padding: 12px; margin-bottom: 14px; }
+      .search-box { margin-bottom: 10px; }
+      .search-box input { padding: 10px 38px 10px 12px; font-size: 0.85rem; }
+      .status-tab { padding: 7px 12px; font-size: 0.72rem; }
+
+      .report-card-header { padding: 11px 12px; }
+      .report-avatar { width: 38px; height: 38px; font-size: 0.95rem; }
+      .report-info .sender-name { font-size: 0.82rem; }
+      .report-info .report-meta { font-size: 0.65rem; }
+      .report-status-badge { padding: 4px 8px; font-size: 0.63rem; }
+
+      .report-card-body { padding: 11px 12px; }
+      .report-amount-block { padding: 10px 12px; gap: 10px; }
+      .report-amount-block .amount-value { font-size: 1.25rem; }
+      .report-amount-block .amount-icon { width: 40px; height: 40px; font-size: 1.1rem; }
+      .info-chip { padding: 4px 8px; font-size: 0.68rem; }
+
+      .report-card-footer { padding: 10px 12px; }
+      .report-time { font-size: 0.68rem; }
+      .report-view-btn { padding: 7px 12px; font-size: 0.72rem; }
+
+      .modal-overlay { padding: 8px; }
+      .modal-box { max-height: 94vh; }
+      .modal-header { padding: 14px 16px; }
+      .modal-body { padding: 16px; }
+      .sender-card { padding: 12px; }
+      .sender-card .sender-avatar { width: 48px; height: 48px; font-size: 1.2rem; }
+      .detail-row { padding: 10px 12px; font-size: 0.82rem; }
+      .modal-actions { grid-template-columns: 1fr; }
+
+      .action-modal-header { padding: 18px 20px; }
+      .action-modal-header .action-icon { width: 52px; height: 52px; font-size: 1.4rem; }
+      .action-modal-body { padding: 16px 20px; }
+      .action-modal-actions { padding: 14px 20px 18px; }
+    }
+
+    @media (max-width: 480px) {
+      .modal-actions { grid-template-columns: 1fr; }
+      .action-modal-actions { grid-template-columns: 1fr; }
+      .detail-row { flex-direction: column; align-items: stretch; text-align: center; }
+      .detail-row .detail-value { text-align: center; }
+    }
+
+    @media (max-width: 400px) {
+      .status-tab span:not(.tab-count) { display: none; }
+      .status-tab { padding: 7px 10px; gap: 4px; }
+      .status-tab i { font-size: 0.85rem; }
+      .status-tab .tab-count { display: inline-block; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="mobile-top-bar"></div>
+  <div id="mobile-top-tabs"></div>
+  <div id="header-placeholder"></div>
+
+  <main class="page-content">
+    <div class="container">
+
+      <!-- رأس الصفحة -->
+      <div class="ft-header">
+        <div class="ft-header-content">
+          <div class="header-icon">
+            <i class="fas fa-file-invoice-dollar"></i>
+          </div>
+          <div class="header-text">
+            <h1>المعاملات المالية</h1>
+            <p>إدارة إبلاغات السداد والنزاعات المالية</p>
+          </div>
+          <span class="header-badge">
+            <i class="fas fa-crown"></i>
+            سوبر أدمن / أدمن بلص
+          </span>
+        </div>
+      </div>
+
+      <!-- الإحصائيات -->
+      <div class="ft-stats">
+        <div class="ft-stat-card" onclick="filterByStatus('all')">
+          <div class="stat-icon blue">
+            <i class="fas fa-list"></i>
+          </div>
+          <div class="stat-number" id="statTotal">0</div>
+          <div class="stat-label">إجمالي الإبلاغات</div>
+        </div>
+
+        <div class="ft-stat-card" onclick="filterByStatus('pending')">
+          <div class="stat-icon gold">
+            <i class="fas fa-hourglass-half"></i>
+          </div>
+          <div class="stat-number gold" id="statPending">0</div>
+          <div class="stat-label">قيد المراجعة</div>
+        </div>
+
+        <div class="ft-stat-card" onclick="filterByStatus('approved')">
+          <div class="stat-icon green">
+            <i class="fas fa-check-circle"></i>
+          </div>
+          <div class="stat-number green" id="statApproved">0</div>
+          <div class="stat-label">معتمد</div>
+        </div>
+
+        <div class="ft-stat-card" onclick="filterByStatus('rejected')">
+          <div class="stat-icon red">
+            <i class="fas fa-times-circle"></i>
+          </div>
+          <div class="stat-number red" id="statRejected">0</div>
+          <div class="stat-label">مرفوض</div>
+        </div>
+      </div>
+
+      <!-- إجمالي المبالغ المعلقة -->
+      <div style="background:linear-gradient(135deg,#fef9e7,#fcf9f0);border:2px solid var(--gold-light);border-radius:var(--radius-md);padding:16px;margin-bottom:18px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+        <div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--navy);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;">
+          <i class="fas fa-coins"></i>
+        </div>
+        <div style="flex:1;min-width:150px;">
+          <div style="font-size:0.75rem;color:var(--gold-dark);font-weight:800;margin-bottom:2px;">إجمالي المبالغ المعلقة (قيد المراجعة)</div>
+          <div style="font-size:1.5rem;font-weight:900;color:var(--gold-dark);direction:ltr;text-align:right;" id="statPendingAmount">0.00 <small style="font-size:0.8rem;font-weight:700;">ج.م</small></div>
+        </div>
+      </div>
+
+      <!-- أدوات الفلترة -->
+      <div class="filter-bar">
+        <div class="search-box">
+          <input type="text" id="searchInput" placeholder="ابحث بالاسم أو الهاتف أو رقم الإبلاغ..." autocomplete="off" oninput="handleSearch(this.value)">
+          <i class="fas fa-search search-icon"></i>
+        </div>
+
+        <div class="status-tabs-wrapper">
+          <div class="status-tabs" id="statusTabs">
+            <button class="status-tab active" data-status="all" onclick="filterByStatus('all')">
+              <i class="fas fa-list"></i>
+              <span>الكل</span>
+              <span class="tab-count" id="countAll">0</span>
+            </button>
+            <button class="status-tab" data-status="pending" onclick="filterByStatus('pending')">
+              <i class="fas fa-hourglass-half"></i>
+              <span>قيد المراجعة</span>
+              <span class="tab-count" id="countPending">0</span>
+            </button>
+            <button class="status-tab" data-status="approved" onclick="filterByStatus('approved')">
+              <i class="fas fa-check-circle"></i>
+              <span>معتمد</span>
+              <span class="tab-count" id="countApproved">0</span>
+            </button>
+            <button class="status-tab" data-status="rejected" onclick="filterByStatus('rejected')">
+              <i class="fas fa-times-circle"></i>
+              <span>مرفوض</span>
+              <span class="tab-count" id="countRejected">0</span>
+            </button>
+            <button class="status-tab" data-status="customer_payment" onclick="filterByType('customer_payment')">
+              <i class="fas fa-user"></i>
+              <span>عملاء</span>
+              <span class="tab-count" id="countCustomer">0</span>
+            </button>
+            <button class="status-tab" data-status="trader_payment" onclick="filterByType('trader_payment')">
+              <i class="fas fa-store"></i>
+              <span>تجار</span>
+              <span class="tab-count" id="countTrader">0</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- قائمة الإبلاغات -->
+      <div class="reports-list" id="reportsList">
+        <div class="loading-state">
+          <i class="fas fa-spinner fa-spin"></i>
+          <p>جاري تحميل الإبلاغات...</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="mobile-bottom-tabs"></div>
+  <div id="mobile-copyright"></div>
+  <div id="footer-placeholder"></div>
+  <div id="sidebar-placeholder"></div>
+  <div id="toast-container"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+  <script src="/gomla/assets/js/firebase-config.js"></script>
+  <script src="/gomla/assets/js/main.js"></script>
+
+  <script>
+    // ============================================================
+    // 📄 admin/financial-transactions.html
+    // إدارة الإبلاغات المالية + المعاملات
+    // ============================================================
+
+    let adminData = null;
+    let adminId = null;
+    let adminRole = null;
+    let allReports = [];
+    let filteredReports = [];
+    let currentFilter = 'all';    // all | pending | approved | rejected | customer_payment | trader_payment
+    let currentSearch = '';
+    let currentReport = null;     // للتعديل
+
+    // ============================================================
+    // 🚀 تشغيل الصفحة
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', async function() {
+      const user = getCurrentUser();
+
+      if (!user) {
+        window.location.href = '/gomla/admin/login.html';
+        return;
+      }
+
+      // 🔒 حماية: سوبر أدمن + أدمن بلص فقط
+      const role = user.data.role;
+      if (role !== ROLES.SUPER && role !== ROLES.ADMIN_PLUS) {
+        showToast('⚠️ هذه الصفحة للسوبر أدمن وأدمن بلص فقط', 'error');
+        setTimeout(() => {
+          window.location.href = '/gomla/admin/home.html';
+        }, 1500);
+        return;
+      }
+
+      adminData = user.data;
+      adminId = adminData.id || adminData.uid;
+      adminRole = role;
+
+      await loadReports();
+      console.log('✅ financial-transactions.html loaded');
+    });
+
+    // ============================================================
+    // 📥 تحميل الإبلاغات
+    // ============================================================
+    async function loadReports() {
+      try {
+        const snapshot = await db.collection('financial_notifications')
+          .orderBy('createdAt', 'desc')
+          .get();
+
+        allReports = [];
+        snapshot.forEach(doc => {
+          allReports.push({ id: doc.id, ...doc.data() });
+        });
+
+        updateStats();
+        applyFilters();
+
+      } catch (error) {
+        console.error('Error loading reports:', error);
+        
+        let errMsg = 'حدث خطأ في تحميل الإبلاغات';
+        if (error.code === 'permission-denied') {
+          errMsg = 'ليس لديك صلاحية لعرض الإبلاغات';
+        } else if (error.code === 'failed-precondition') {
+          // index مفقود
+          errMsg = 'يجب إنشاء فهرس للكولكشن (شوف Console)';
+        }
+
+        document.getElementById('reportsList').innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon"><i class="fas fa-exclamation-triangle"></i></div>
+            <h3>خطأ في التحميل</h3>
+            <p>${errMsg}</p>
+            <button class="btn-shop" onclick="loadReports()" style="background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--navy);padding:11px 22px;border:none;border-radius:var(--radius-full);font-family:inherit;font-weight:800;font-size:0.88rem;cursor:pointer;">
+              <i class="fas fa-sync-alt"></i> إعادة المحاولة
+            </button>
+          </div>
+        `;
+      }
+    }
+
+    // ============================================================
+    // 📊 حساب الإحصائيات
+    // ============================================================
+    function updateStats() {
+      const total = allReports.length;
+      let pending = 0, approved = 0, rejected = 0;
+      let customerCount = 0, traderCount = 0;
+      let pendingAmount = 0;
+
+      allReports.forEach(r => {
+        const status = r.status || 'pending';
+        if (status === 'pending') {
+          pending++;
+          pendingAmount += r.amount || 0;
+        } else if (status === 'approved') approved++;
+        else if (status === 'rejected') rejected++;
+
+        if (r.type === 'customer_payment') customerCount++;
+        else if (r.type === 'trader_payment') traderCount++;
+      });
+
+      document.getElementById('statTotal').textContent = total;
+      document.getElementById('statPending').textContent = pending;
+      document.getElementById('statApproved').textContent = approved;
+      document.getElementById('statRejected').textContent = rejected;
+
+      // المبالغ المعلقة
+      const amtText = pendingAmount > 9999
+        ? `${(pendingAmount / 1000).toFixed(1)}k`
+        : pendingAmount.toFixed(2);
+      document.getElementById('statPendingAmount').innerHTML = 
+        `${amtText} <small style="font-size:0.8rem;font-weight:700;">ج.م</small>`;
+
+      // العدادات في التبويبات
+      document.getElementById('countAll').textContent = total;
+      document.getElementById('countPending').textContent = pending;
+      document.getElementById('countApproved').textContent = approved;
+      document.getElementById('countRejected').textContent = rejected;
+      document.getElementById('countCustomer').textContent = customerCount;
+      document.getElementById('countTrader').textContent = traderCount;
+    }
+
+    // ============================================================
+    // 🔍 البحث
+    // ============================================================
+    let searchTimeout = null;
+    function handleSearch(value) {
+      if (searchTimeout) clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        currentSearch = value.trim().toLowerCase();
+        applyFilters();
+      }, 250);
+    }
+
+    // ============================================================
+    // 🎯 الفلترة
+    // ============================================================
+    function filterByStatus(status) {
+      currentFilter = status;
+      updateActiveTab(status);
+      applyFilters();
+    }
+
+    function filterByType(type) {
+      currentFilter = type;
+      updateActiveTab(type);
+      applyFilters();
+    }
+
+    function updateActiveTab(filter) {
+      document.querySelectorAll('.status-tab').forEach(t => {
+        t.classList.toggle('active', t.dataset.status === filter);
+      });
+    }
+
+    function applyFilters() {
+      filteredReports = allReports.filter(r => {
+        // فلتر
+        if (currentFilter !== 'all') {
+          if (currentFilter === 'pending' || currentFilter === 'approved' || currentFilter === 'rejected') {
+            if ((r.status || 'pending') !== currentFilter) return false;
+          } else if (currentFilter === 'customer_payment' || currentFilter === 'trader_payment') {
+            if (r.type !== currentFilter) return false;
+          }
+        }
+
+        // بحث
+        if (currentSearch) {
+          const search = currentSearch;
+          const name = (r.senderName || '').toLowerCase();
+          const phone = (r.senderPhone || '').toLowerCase();
+          const reportNum = r.id.slice(-8).toLowerCase();
+          const fullId = r.id.toLowerCase();
+          const receiver = (r.receiver || '').toLowerCase();
+          const reference = (r.reference || '').toLowerCase();
+
+          if (!name.includes(search) &&
+              !phone.includes(search) &&
+              !reportNum.includes(search) &&
+              !fullId.includes(search) &&
+              !receiver.includes(search) &&
+              !reference.includes(search)) {
+            return false;
+          }
+        }
+
+        return true;
+      });
+
+      renderReports();
+    }
+
+    // ============================================================
+    // 🎨 عرض الإبلاغات
+    // ============================================================
+    function renderReports() {
+      const container = document.getElementById('reportsList');
+
+      if (filteredReports.length === 0) {
+        const emptyMsg = currentSearch
+          ? `لم نجد إبلاغات تطابق "${escapeHtml(currentSearch)}"`
+          : 'لا توجد إبلاغات في هذا التصنيف';
+
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon"><i class="fas fa-inbox"></i></div>
+            <h3>لا توجد نتائج</h3>
+            <p>${emptyMsg}</p>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+      filteredReports.forEach(report => {
+        html += renderReportCard(report);
+      });
+
+      container.innerHTML = html;
+    }
+
+    function renderReportCard(report) {
+      const reportNum = report.id.slice(-8).toUpperCase();
+      const status = report.status || 'pending';
+      const statusMap = {
+        pending: { text: 'قيد المراجعة', icon: 'fa-hourglass-half' },
+        approved: { text: 'معتمد', icon: 'fa-check-circle' },
+        rejected: { text: 'مرفوض', icon: 'fa-times-circle' }
+      };
+      const statusInfo = statusMap[status] || statusMap.pending;
+
+      const typeMap = {
+        customer_payment: { text: 'دفع عميل', icon: 'fa-user', color: '#2563eb' },
+        trader_payment: { text: 'دفع تاجر', icon: 'fa-store', color: '#7c3aed' },
+        purchase_payment: { text: 'دفع مشتريات', icon: 'fa-shopping-cart', color: '#d97706' },
+        debt_claim: { text: 'مطالبة مديونية', icon: 'fa-exclamation-circle', color: '#dc2626' },
+        dispute: { text: 'نزاع مالي', icon: 'fa-balance-scale', color: '#0891b2' }
+      };
+      const typeInfo = typeMap[report.type] || typeMap.customer_payment;
+
+      const methodMap = {
+        cash: 'كاش',
+        transfer: 'تحويل بنكي',
+        wallet: 'محفظة إلكترونية',
+        other: 'أخرى'
+      };
+      const methodText = methodMap[report.method] || report.method || '---';
+
+      const date = report.createdAt
+        ? (report.createdAt.toDate ? report.createdAt.toDate() : new Date(report.createdAt))
+        : new Date();
+      const dateStr = date.toLocaleDateString('ar-EG', {
+        year: 'numeric', month: 'short', day: 'numeric'
+      });
+      const timeStr = date.toLocaleTimeString('ar-EG', {
+        hour: '2-digit', minute: '2-digit'
+      });
+
+      // initials للصورة
+      const initials = (report.senderName || '?').trim().charAt(0).toUpperCase();
+      const avatarHtml = report.senderAvatar
+        ? `<img src="${report.senderAvatar}" alt="${escapeHtml(report.senderName)}" onerror="this.parentElement.textContent='${initials}'">`
+        : initials;
+
+      return `
+        <div class="report-card ${status}" onclick="showReportDetails('${report.id}')">
+          <div class="report-card-header">
+            <div class="report-header-left">
+              <div class="report-avatar">${avatarHtml}</div>
+              <div class="report-info">
+                <div class="sender-name">${escapeHtml(report.senderName || 'غير معروف')}</div>
+                <div class="report-meta">
+                  <i class="fas ${typeInfo.icon}" style="color:${typeInfo.color};"></i>
+                  <span style="color:${typeInfo.color};font-weight:800;">${typeInfo.text}</span>
+                  <span>•</span>
+                  <span>#${reportNum}</span>
+                </div>
+              </div>
+            </div>
+            <span class="report-status-badge ${status}">
+              <i class="fas ${statusInfo.icon}"></i>
+              ${statusInfo.text}
+            </span>
+          </div>
+
+          <div class="report-card-body">
+            <div class="report-amount-block">
+              <div class="amount-info">
+                <div class="amount-label">
+                  <i class="fas fa-coins"></i>
+                  المبلغ المُبلَّغ عنه
+                </div>
+                <div class="amount-value">
+                  ${(report.amount || 0).toFixed(2)} <small>ج.م</small>
+                </div>
+              </div>
+              <div class="amount-icon">
+                <i class="fas fa-money-bill-wave"></i>
+              </div>
+            </div>
+
+            <div class="report-info-chips">
+              <span class="info-chip">
+                <i class="fas fa-credit-card"></i>
+                <strong>${methodText}</strong>
+              </span>
+              ${report.paymentDate ? `
+                <span class="info-chip">
+                  <i class="fas fa-calendar"></i>
+                  <strong>${new Date(report.paymentDate).toLocaleDateString('ar-EG', {month:'short', day:'numeric'})}</strong>
+                </span>
+              ` : ''}
+              ${report.senderPhone ? `
+                <span class="info-chip">
+                  <i class="fas fa-phone"></i>
+                  <strong style="direction:ltr;">${escapeHtml(report.senderPhone)}</strong>
+                </span>
+              ` : ''}
+              ${report.receiptUrl ? `
+                <span class="info-chip" style="background:#f0fdf4;border-color:#86efac;color:#16a34a;">
+                  <i class="fas fa-image" style="color:#16a34a;"></i>
+                  <strong style="color:#16a34a;">إيصال</strong>
+                </span>
+              ` : ''}
+            </div>
+          </div>
+
+          <div class="report-card-footer">
+            <div class="report-time">
+              <i class="fas fa-clock"></i>
+              ${dateStr} • ${timeStr}
+            </div>
+            <button class="report-view-btn" onclick="event.stopPropagation(); showReportDetails('${report.id}')">
+              <i class="fas fa-eye"></i>
+              عرض التفاصيل
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    // ============================================================
+    // 📋 عرض تفاصيل الإبلاغ
+    // ============================================================
+    function showReportDetails(reportId) {
+      const report = allReports.find(r => r.id === reportId);
+      if (!report) return;
+
+      currentReport = report;
+
+      const reportNum = report.id.slice(-8).toUpperCase();
+      const status = report.status || 'pending';
+      const statusMap = {
+        pending: { text: 'قيد المراجعة', color: '#d97706', icon: 'fa-hourglass-half' },
+        approved: { text: 'معتمد', color: '#16a34a', icon: 'fa-check-circle' },
+        rejected: { text: 'مرفوض', color: '#dc2626', icon: 'fa-times-circle' }
+      };
+      const statusInfo = statusMap[status] || statusMap.pending;
+
+      const methodMap = {
+        cash: 'كاش',
+        transfer: 'تحويل بنكي',
+        wallet: 'محفظة إلكترونية',
+        other: 'أخرى'
+      };
+      const methodText = methodMap[report.method] || report.method || '---';
+
+      const typeMap = {
+        customer_payment: 'دفع عميل',
+        trader_payment: 'دفع تاجر',
+        purchase_payment: 'دفع مشتريات',
+        debt_claim: 'مطالبة مديونية',
+        dispute: 'نزاع مالي'
+      };
+      const typeText = typeMap[report.type] || report.type || '---';
+
+      const paymentDate = report.paymentDate 
+        ? new Date(report.paymentDate).toLocaleDateString('ar-EG', {
+            year: 'numeric', month: 'long', day: 'numeric'
+          }) : '---';
+
+      const date = report.createdAt
+        ? (report.createdAt.toDate ? report.createdAt.toDate() : new Date(report.createdAt))
+        : new Date();
+      const dateStr = date.toLocaleDateString('ar-EG', {
+        year: 'numeric', month: 'long', day: 'numeric'
+      });
+      const timeStr = date.toLocaleTimeString('ar-EG', {
+        hour: '2-digit', minute: '2-digit'
+      });
+
+      const initials = (report.senderName || '?').trim().charAt(0).toUpperCase();
+      const avatarHtml = report.senderAvatar
+        ? `<img src="${report.senderAvatar}" alt="${escapeHtml(report.senderName)}" onerror="this.parentElement.textContent='${initials}'">`
+        : initials;
+
+      // أزرار الإجراءات حسب الحالة
+      let actionsHtml = '';
+      if (status === 'pending') {
+        actionsHtml = `
+          <button class="modal-action-btn approve" onclick="openActionModal('approve')">
+            <i class="fas fa-check"></i>
+            اعتماد السداد
+          </button>
+          <button class="modal-action-btn reject" onclick="openActionModal('reject')">
+            <i class="fas fa-times"></i>
+            رفض الإبلاغ
+          </button>
+        `;
+      } else if (status === 'approved') {
+        actionsHtml = `
+          <button class="modal-action-btn gray" onclick="closeReportModal()">
+            <i class="fas fa-times"></i>
+            إغلاق
+          </button>
+        `;
+      } else {
+        actionsHtml = `
+          <button class="modal-action-btn gray" onclick="closeReportModal()">
+            <i class="fas fa-times"></i>
+            إغلاق
+          </button>
+        `;
+      }
+
+      const modalHtml = `
+        <div class="modal-overlay" id="reportDetailsModal" onclick="closeReportModal(event)">
+          <div class="modal-box" onclick="event.stopPropagation()">
+
+            <div class="modal-header">
+              <div class="header-info">
+                <small>تفاصيل الإبلاغ</small>
+                <strong>#${reportNum}</strong>
+              </div>
+              <button class="modal-close-btn" onclick="closeReportModal()">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+
+            <div class="modal-body">
+
+              <!-- المُرسل -->
+              <div class="sender-card">
+                <div class="sender-avatar">${avatarHtml}</div>
+                <div class="sender-details">
+                  <h4>${escapeHtml(report.senderName || 'غير معروف')}</h4>
+                  <p>
+                    <i class="fas fa-user-tag"></i>
+                    ${typeText}
+                  </p>
+                  ${report.senderPhone ? `
+                    <p style="margin-top:4px;">
+                      <i class="fas fa-phone"></i>
+                      ${escapeHtml(report.senderPhone)}
+                    </p>
+                  ` : ''}
+                </div>
+                <span class="report-status-badge ${status}">
+                  <i class="fas ${statusInfo.icon}"></i>
+                  ${statusInfo.text}
+                </span>
+              </div>
+
+              <!-- البيانات -->
+              <h4 class="modal-section-title">
+                <i class="fas fa-info-circle"></i>
+                بيانات الإبلاغ
+              </h4>
+
+              <div class="details-grid">
+                <div class="detail-row" style="background:linear-gradient(135deg,#fcf9f0,#f8f4e8);border:1px solid var(--gold-light);">
+                  <span class="detail-label" style="color:var(--gold-dark);">
+                    <i class="fas fa-coins"></i>
+                    المبلغ المُبلَّغ عنه
+                  </span>
+                  <span class="detail-value amount">
+                    ${(report.amount || 0).toFixed(2)} ج.م
+                  </span>
+                </div>
+
+                <div class="detail-row">
+                  <span class="detail-label">
+                    <i class="fas fa-credit-card"></i>
+                    طريقة الدفع
+                  </span>
+                  <span class="detail-value">${methodText}</span>
+                </div>
+
+                <div class="detail-row">
+                  <span class="detail-label">
+                    <i class="fas fa-calendar"></i>
+                    تاريخ السداد
+                  </span>
+                  <span class="detail-value">${paymentDate}</span>
+                </div>
+
+                ${report.receiver ? `
+                  <div class="detail-row">
+                    <span class="detail-label">
+                      <i class="fas fa-user"></i>
+                      المستلم / المسؤول
+                    </span>
+                    <span class="detail-value">${escapeHtml(report.receiver)}</span>
+                  </div>
+                ` : ''}
+
+                ${report.reference ? `
+                  <div class="detail-row">
+                    <span class="detail-label">
+                      <i class="fas fa-hashtag"></i>
+                      المرجع
+                    </span>
+                    <span class="detail-value" style="direction:ltr;">${escapeHtml(report.reference)}</span>
+                  </div>
+                ` : ''}
+
+                ${report.balanceAtReport !== undefined ? `
+                  <div class="detail-row">
+                    <span class="detail-label">
+                      <i class="fas fa-wallet"></i>
+                      الرصيد وقت الإبلاغ
+                    </span>
+                    <span class="detail-value">${report.balanceAtReport.toFixed(2)} ج.م</span>
+                  </div>
+                ` : ''}
+
+                <div class="detail-row">
+                  <span class="detail-label">
+                    <i class="fas fa-clock"></i>
+                    تاريخ الإرسال
+                  </span>
+                  <span class="detail-value" style="font-size:0.82rem;">${dateStr} - ${timeStr}</span>
+                </div>
+              </div>
+
+              ${report.notes ? `
+                <h4 class="modal-section-title" style="margin-top:16px;">
+                  <i class="fas fa-comment-alt"></i>
+                  ملاحظات المُرسل
+                </h4>
+                <div class="notes-box">${escapeHtml(report.notes)}</div>
+              ` : ''}
+
+              ${report.receiptUrl ? `
+                <h4 class="modal-section-title" style="margin-top:18px;">
+                  <i class="fas fa-image"></i>
+                  صورة الإيصال
+                </h4>
+                <img src="${report.receiptUrl}" 
+                     class="receipt-img" 
+                     onclick="window.open('${report.receiptUrl}','_blank')"
+                     onerror="this.style.display='none'">
+              ` : ''}
+
+              ${report.adminNotes ? `
+                <h4 class="modal-section-title" style="margin-top:18px;">
+                  <i class="fas fa-user-shield"></i>
+                  ${status === 'approved' ? 'ملاحظات الاعتماد' : 'سبب الرفض'}
+                </h4>
+                <div class="notes-box" style="${status === 'rejected' ? 'background:#fef2f2;border:1px solid #fca5a5;color:#7f1d1d;' : ''}">
+                  ${escapeHtml(report.adminNotes)}
+                </div>
+              ` : ''}
+
+              ${report.reviewedBy ? `
+                <div style="margin-top:14px;padding:10px 14px;background:var(--gray-50);border-radius:var(--radius-sm);font-size:0.75rem;color:var(--gray-500);text-align:center;">
+                  <i class="fas fa-shield-alt" style="color:var(--gold);"></i>
+                  تم المراجعة بواسطة: <strong style="color:var(--navy);">${escapeHtml(report.reviewedByName || 'غير معروف')}</strong>
+                </div>
+              ` : ''}
+
+              <div class="modal-actions">
+                ${actionsHtml}
+              </div>
+
+            </div>
+          </div>
+        </div>
+      `;
+
+      const existing = document.getElementById('reportDetailsModal');
+      if (existing) existing.remove();
+
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeReportModal(event) {
+      if (event && event.target !== event.currentTarget) return;
+      const modal = document.getElementById('reportDetailsModal');
+      if (modal) modal.remove();
+      document.body.style.overflow = '';
+    }
+
+    // ============================================================
+    // ✅ فتح Modal اعتماد / رفض
+    // ============================================================
+    function openActionModal(action) {
+      if (!currentReport) return;
+
+      const report = currentReport;
+      const isApprove = action === 'approve';
+
+      // إغلاق تفاصيل أولاً
+      const detailsModal = document.getElementById('reportDetailsModal');
+      if (detailsModal) detailsModal.remove();
+
+      const modalHtml = `
+        <div class="modal-overlay" id="actionModal" onclick="closeActionModal(event)">
+          <div class="action-modal-box" onclick="event.stopPropagation()">
+
+            <div class="action-modal-header ${isApprove ? 'approve' : 'reject'}">
+              <div class="action-icon">
+                <i class="fas ${isApprove ? 'fa-check' : 'fa-times'}"></i>
+              </div>
+              <h3>${isApprove ? 'اعتماد السداد' : 'رفض الإبلاغ'}</h3>
+              <p>${isApprove ? 'سيتم خصم المبلغ من مديونية ' + escapeHtml(report.senderName || 'المستخدم') : 'سيتم إخطار المستخدم بالرفض'}</p>
+            </div>
+
+            <div class="action-modal-body">
+
+              <div class="action-info-box">
+                <i class="fas fa-coins" style="color:var(--gold);font-size:1rem;"></i>
+                <span>المبلغ المُبلَّغ عنه</span>
+                <span class="info-amount">${(report.amount || 0).toFixed(2)} ج.م</span>
+              </div>
+
+              ${isApprove ? `
+                <div class="action-warning">
+                  <i class="fas fa-exclamation-triangle"></i>
+                  <div>
+                    <strong>ملاحظة:</strong>
+                    عند الاعتماد، سيتم <strong>خصم ${(report.amount || 0).toFixed(2)} ج.م</strong> 
+                    من رصيد <strong>${escapeHtml(report.senderName || 'المستخدم')}</strong> تلقائياً.
+                  </div>
+                </div>
+              ` : `
+                <div class="action-warning" style="background:#fef2f2;border-color:#fca5a5;color:#7f1d1d;">
+                  <i class="fas fa-info-circle" style="color:#dc2626;"></i>
+                  <div>
+                    اكتب سبب الرفض بوضوح — سيظهر للمستخدم في صفحة الذمة المالية.
+                  </div>
+                </div>
+              `}
+
+              <div class="action-form-group">
+                <label>
+                  <i class="fas fa-comment-alt"></i>
+                  ${isApprove ? 'ملاحظات الاعتماد (اختياري)' : 'سبب الرفض'}
+                  ${!isApprove ? '<span style="color:#dc2626;">*</span>' : ''}
+                </label>
+                <textarea 
+                  id="actionNotes" 
+                  placeholder="${isApprove ? 'مثال: تم التحقق من الإيصال والسداد مطابق' : 'مثال: الصورة غير واضحة / المبلغ غير مطابق / لم يتم استلام المبلغ'}"
+                  ${!isApprove ? 'required' : ''}
+                  maxlength="500"></textarea>
+              </div>
+
+            </div>
+
+            <div class="action-modal-actions">
+              <button class="modal-action-btn gray" onclick="closeActionModal()">
+                <i class="fas fa-times"></i>
+                إلغاء
+              </button>
+              <button class="modal-action-btn ${isApprove ? 'approve' : 'reject'}" 
+                      id="confirmActionBtn"
+                      onclick="confirmAction('${action}')">
+                <i class="fas ${isApprove ? 'fa-check' : 'fa-times'}"></i>
+                ${isApprove ? 'تأكيد الاعتماد' : 'تأكيد الرفض'}
+              </button>
+            </div>
+
+          </div>
+        </div>
+      `;
+
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
+    }
+
+    function closeActionModal(event) {
+      if (event && event.target !== event.currentTarget) return;
+      const modal = document.getElementById('actionModal');
+      if (modal) modal.remove();
+      document.body.style.overflow = '';
+    }
+
+    // ============================================================
+    // ✅ تنفيذ الإجراء (اعتماد / رفض)
+    // ============================================================
+    async function confirmAction(action) {
+      if (!currentReport) return;
+
+      const report = currentReport;
+      const isApprove = action === 'approve';
+      const notes = document.getElementById('actionNotes').value.trim();
+
+      // تحقق
+      if (!isApprove && !notes) {
+        showToast('⚠️ يرجى كتابة سبب الرفض', 'error');
+        document.getElementById('actionNotes').focus();
+        return;
+      }
+
+      const btn = document.getElementById('confirmActionBtn');
+      const originalText = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i><span>جاري التنفيذ...</span>';
+
+      try {
+        // ============================================================
+        // 1️⃣ تحديث حالة الإبلاغ
+        // ============================================================
+        const updateData = {
+          status: isApprove ? 'approved' : 'rejected',
+          reviewedBy: adminId,
+          reviewedByName: adminData.name || 'غير معروف',
+          reviewedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          adminNotes: notes || (isApprove ? 'تم الاعتماد' : 'مرفوض'),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+
+        await db.collection('financial_notifications').doc(report.id).update(updateData);
+
+        // ============================================================
+        // 2️⃣ إذا اعتماد: خصم من رصيد المستخدم
+        // ============================================================
+        if (isApprove && report.senderId) {
+          try {
+            const userRef = db.collection(COLLECTIONS.CUSTOMERS).doc(report.senderId);
+            const userDoc = await userRef.get();
+
+            if (userDoc.exists) {
+              const currentBalance = userDoc.data().balance || 0;
+              const amount = report.amount || 0;
+              const newBalance = currentBalance - amount;
+
+              await userRef.update({
+                balance: newBalance,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+              });
+
+              // 🆕 تحديث trader_lookup لو تاجر
+              if (report.senderRole === ROLES.WHOLESALE && report.senderCode) {
+                try {
+                  await db.collection('trader_lookup').doc(report.senderCode).update({
+                    balance: newBalance,
+                    updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+                  });
+                } catch (e) {
+                  console.warn('Could not update trader_lookup:', e);
+                }
+              }
+
+              console.log(`✅ Balance updated: ${currentBalance} → ${newBalance}`);
+            }
+          } catch (e) {
+            console.error('Error updating user balance:', e);
+            // نكمل بدل ما نوقف — الإبلاغ اتحدّث ع الأقل
+          }
+        }
+
+        // ============================================================
+        // 3️⃣ إشعار للمستخدم
+        // ============================================================
+        try {
+          await db.collection('customer_notifications').add({
+            userId: report.senderId,
+            title: isApprove ? '✅ تم اعتماد سدادك' : '❌ تم رفض إبلاغك',
+            body: isApprove
+              ? `تم اعتماد سداد بقيمة ${report.amount.toFixed(2)} ج.م وتم خصمها من مديونيتك.${notes ? '\nملاحظة: ' + notes : ''}`
+              : `تم رفض إبلاغ سداد بقيمة ${report.amount.toFixed(2)} ج.م.\nالسبب: ${notes}`,
+            type: 'financial',
+            read: false,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        } catch (e) {
+          console.warn('Could not send notification:', e);
+        }
+
+        // ============================================================
+        // 4️⃣ تسجيل النشاط
+        // ============================================================
+        try {
+          await db.collection(COLLECTIONS.ACTIVITY_LOG).add({
+            userId: adminId,
+            userName: adminData.name || 'unknown',
+            userRole: adminRole,
+            action: isApprove ? 'اعتماد إبلاغ مالي' : 'رفض إبلاغ مالي',
+            details: `إبلاغ #${report.id.slice(-8).toUpperCase()} - ${report.amount.toFixed(2)} ج.م - ${report.senderName}`,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        } catch (e) { /* تجاهل */ }
+
+        // ============================================================
+        // 5️⃣ نجاح
+        // ============================================================
+        closeActionModal();
+        
+        showToast(
+          isApprove ? `✅ تم اعتماد السداد بنجاح` : `✅ تم رفض الإبلاغ`,
+          'success'
+        );
+
+        // إعادة تحميل
+        await loadReports();
+
+      } catch (error) {
+        console.error('Error processing action:', error);
+        
+        let msg = 'حدث خطأ';
+        if (error.code === 'permission-denied') {
+          msg = 'ليس لديك صلاحية لتنفيذ هذا الإجراء';
+        } else if (error.message) {
+          msg = error.message;
+        }
+
+        showToast('❌ ' + msg, 'error');
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+      }
+    }
+
+    // ============================================================
+    // 🛠️ Helpers
+    // ============================================================
+    function escapeHtml(text) {
+      if (!text) return '';
+      const div = document.createElement('div');
+      div.textContent = String(text);
+      return div.innerHTML;
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeActionModal();
+        closeReportModal();
+      }
+    });
+
+    // ===== تصدير =====
+    window.filterByStatus = filterByStatus;
+    window.filterByType = filterByType;
+    window.handleSearch = handleSearch;
+    window.showReportDetails = showReportDetails;
+    window.closeReportModal = closeReportModal;
+    window.openActionModal = openActionModal;
+    window.closeActionModal = closeActionModal;
+    window.confirmAction = confirmAction;
+    window.loadReports = loadReports;
+  </script>
+
+</body>
+</html>
