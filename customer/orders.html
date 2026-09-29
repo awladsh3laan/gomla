@@ -13,15 +13,15 @@
 
   <style>
     /* ============================================================
-       🎨 ستايل صفحة طلباتي
+       🎨 ستايل صفحة طلباتي v2.0 - Mobile-First
        ============================================================ */
 
     /* ===== رأس الصفحة ===== */
     .orders-header {
       background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
       border-radius: var(--radius-lg);
-      padding: 24px;
-      margin-bottom: 20px;
+      padding: 22px 24px;
+      margin-bottom: 18px;
       color: var(--white);
       position: relative;
       overflow: hidden;
@@ -46,71 +46,64 @@
       z-index: 1;
       display: flex;
       align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
+      gap: 16px;
     }
 
     .orders-header-content .header-icon {
-      width: 64px;
-      height: 64px;
+      width: 56px;
+      height: 56px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--gold), var(--gold-dark));
       color: var(--navy);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       flex-shrink: 0;
       box-shadow: 0 8px 24px rgba(201, 168, 76, 0.4);
     }
 
-    .orders-header-content .header-text {
-      flex: 1;
-      min-width: 200px;
-    }
+    .orders-header-content .header-text { flex: 1; min-width: 0; }
 
     .orders-header-content .header-text h1 {
-      font-size: 1.5rem;
+      font-size: 1.35rem;
       font-weight: 900;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
       color: var(--white);
     }
 
     .orders-header-content .header-text p {
-      font-size: 0.88rem;
-      opacity: 0.9;
+      font-size: 0.83rem;
+      opacity: 0.88;
       color: rgba(255, 255, 255, 0.85);
+      margin: 0;
     }
 
     /* ===== الإحصائيات السريعة ===== */
     .quick-stats {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-      gap: 12px;
-      margin-bottom: 20px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
     }
 
     .quick-stat-card {
       background: var(--white);
       border-radius: var(--radius-md);
-      padding: 16px;
+      padding: 14px 12px;
       box-shadow: var(--shadow-sm);
       border: 1px solid var(--gray-200);
-      display: flex;
-      align-items: center;
-      gap: 12px;
       position: relative;
       overflow: hidden;
       transition: var(--transition);
+      text-align: center;
     }
 
     .quick-stat-card::before {
       content: '';
       position: absolute;
-      top: 0;
-      right: 0;
-      width: 4px;
-      height: 100%;
+      top: 0; right: 0;
+      width: 4px; height: 100%;
       background: var(--gold);
       transform: scaleY(0);
       transform-origin: bottom;
@@ -120,20 +113,20 @@
     .quick-stat-card:hover::before { transform: scaleY(1); }
 
     .quick-stat-card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-3px);
       box-shadow: var(--shadow-lg);
       border-color: var(--gold-light);
     }
 
     .quick-stat-card .stat-icon {
-      width: 46px;
-      height: 46px;
-      border-radius: var(--radius-sm);
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.3rem;
-      flex-shrink: 0;
+      font-size: 1rem;
+      margin: 0 auto 8px;
     }
 
     .stat-icon.blue { background: rgba(59, 130, 246, 0.12); color: #2563eb; }
@@ -141,10 +134,8 @@
     .stat-icon.green { background: rgba(34, 197, 94, 0.12); color: #16a34a; }
     .stat-icon.purple { background: rgba(139, 92, 246, 0.12); color: #7c3aed; }
 
-    .quick-stat-card .stat-info { flex: 1; min-width: 0; }
-
     .quick-stat-card .stat-number {
-      font-size: 1.4rem;
+      font-size: 1.15rem;
       font-weight: 900;
       color: var(--navy);
       line-height: 1.2;
@@ -155,33 +146,34 @@
     .quick-stat-card .stat-number.green { color: #16a34a; }
 
     .quick-stat-card .stat-label {
-      font-size: 0.75rem;
+      font-size: 0.68rem;
       color: var(--gray-500);
-      font-weight: 600;
+      font-weight: 700;
+      line-height: 1.2;
     }
 
-    /* ===== أدوات البحث والفلترة ===== */
+    /* ===== أدوات الفلترة ===== */
     .filter-bar {
       background: var(--white);
       border-radius: var(--radius-md);
-      padding: 16px;
-      margin-bottom: 20px;
+      padding: 14px;
+      margin-bottom: 18px;
       box-shadow: var(--shadow-sm);
       border: 1px solid var(--gray-200);
     }
 
     .search-box {
       position: relative;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     .search-box input {
       width: 100%;
-      padding: 12px 44px 12px 14px;
+      padding: 12px 42px 12px 14px;
       border: 2px solid var(--gray-200);
       border-radius: var(--radius-sm);
       font-family: inherit;
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       background: var(--gray-50);
       transition: all 0.3s ease;
     }
@@ -195,44 +187,48 @@
 
     .search-box .search-icon {
       position: absolute;
-      right: 14px;
+      right: 13px;
       top: 50%;
       transform: translateY(-50%);
       color: var(--gray-400);
       pointer-events: none;
+      font-size: 0.9rem;
     }
 
-    /* تبويبات الحالة */
+    /* تبويبات الحالة - سكرول أفقي محسّن */
     .status-tabs {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       overflow-x: auto;
-      padding-bottom: 4px;
+      padding: 2px 2px 8px;
       scrollbar-width: thin;
+      scroll-snap-type: x proximity;
+      -webkit-overflow-scrolling: touch;
     }
 
-    .status-tabs::-webkit-scrollbar { height: 4px; }
+    .status-tabs::-webkit-scrollbar { height: 3px; }
     .status-tabs::-webkit-scrollbar-thumb {
       background: var(--gold);
       border-radius: 10px;
     }
 
     .status-tab {
-      padding: 10px 16px;
+      padding: 8px 14px;
       border: 2px solid var(--gray-200);
       background: var(--white);
       color: var(--gray-600);
       border-radius: var(--radius-full);
       font-family: inherit;
       font-weight: 700;
-      font-size: 0.82rem;
+      font-size: 0.78rem;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.25s ease;
       display: flex;
       align-items: center;
       gap: 6px;
       white-space: nowrap;
       flex-shrink: 0;
+      scroll-snap-align: start;
     }
 
     .status-tab:hover { border-color: var(--gold-light); }
@@ -250,9 +246,9 @@
       background: rgba(255, 255, 255, 0.2);
       padding: 1px 7px;
       border-radius: 10px;
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       font-weight: 800;
-      min-width: 20px;
+      min-width: 18px;
       text-align: center;
     }
 
@@ -265,7 +261,7 @@
     .orders-list {
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
       margin-bottom: 24px;
     }
 
@@ -282,96 +278,88 @@
     .order-card:hover {
       box-shadow: var(--shadow-lg);
       border-color: var(--gold-light);
-      transform: translateY(-2px);
     }
 
-    .order-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 4px;
-      height: 100%;
-      background: var(--gold);
-      transform: scaleY(0);
-      transform-origin: bottom;
-      transition: transform 0.4s ease;
-    }
-
-    .order-card:hover::before { transform: scaleY(1); }
-
-    /* رأس الكارت */
+    /* ===== رأس الكارت ===== */
     .order-card-header {
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr auto;
       align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 14px 18px;
+      gap: 10px;
+      padding: 12px 14px;
       background: linear-gradient(135deg, #fcf9f0, #f8f4e8);
-      border-bottom: 2px solid var(--gray-100);
-      flex-wrap: wrap;
+      border-bottom: 1px solid var(--gray-200);
     }
 
-    .order-card-header .order-number-wrap {
+    .order-header-left {
       display: flex;
       align-items: center;
       gap: 10px;
       min-width: 0;
-      flex: 1;
     }
 
-    .order-card-header .order-icon-wrap {
-      width: 42px;
-      height: 42px;
+    .order-icon-wrap {
+      width: 40px;
+      height: 40px;
       border-radius: var(--radius-sm);
       background: linear-gradient(135deg, var(--gold-light), var(--gold));
       color: var(--navy);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1rem;
+      font-size: 0.95rem;
       flex-shrink: 0;
     }
 
-    .order-card-header .order-num-wrap {
+    .order-num-wrap {
       min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
     }
 
-    .order-card-header .order-num {
+    .order-num {
       font-family: 'Courier New', monospace;
-      font-size: 0.92rem;
+      font-size: 0.88rem;
       font-weight: 900;
       color: var(--navy);
       letter-spacing: 0.5px;
-      margin-bottom: 2px;
       direction: ltr;
+      text-align: right;
+      white-space: nowrap;
     }
 
-    .order-card-header .order-date {
-      font-size: 0.72rem;
+    .order-date {
+      font-size: 0.7rem;
       color: var(--gray-500);
       display: flex;
       align-items: center;
       gap: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .order-card-header .order-date i {
+    .order-date i {
       color: var(--gold);
-      font-size: 0.65rem;
+      font-size: 0.62rem;
+      flex-shrink: 0;
     }
 
     /* شارة الحالة */
     .status-badge {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
+      gap: 5px;
+      padding: 5px 10px;
       border-radius: var(--radius-full);
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       font-weight: 800;
       white-space: nowrap;
       flex-shrink: 0;
     }
+
+    .status-badge i { font-size: 0.68rem; }
 
     .status-badge.pending {
       background: rgba(245, 158, 11, 0.15);
@@ -403,122 +391,153 @@
       border: 1px solid rgba(239, 68, 68, 0.3);
     }
 
-    /* جسم الكارت */
+    /* ===== جسم الكارت ===== */
     .order-card-body {
-      padding: 16px 18px;
+      padding: 12px 14px;
     }
 
-    /* معاينة المنتجات */
-    .items-preview {
+    /* معاينة المنتجات - سكرول أفقي */
+    .items-preview-wrap {
       display: flex;
       align-items: center;
-      gap: 10px;
-      margin-bottom: 14px;
-      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px dashed var(--gray-200);
     }
 
+    .items-preview-scroll {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      flex: 1;
+      padding: 2px;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .items-preview-scroll::-webkit-scrollbar { display: none; }
+
     .item-thumb {
-      width: 50px;
-      height: 50px;
-      border-radius: var(--radius-sm);
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
       object-fit: cover;
       border: 2px solid var(--gray-200);
       background: var(--gray-50);
+      flex-shrink: 0;
       transition: transform 0.2s ease;
     }
 
-    .item-thumb:hover { transform: scale(1.05); }
+    .item-thumb:hover {
+      transform: scale(1.05);
+      border-color: var(--gold);
+    }
 
     .items-more {
-      width: 50px;
-      height: 50px;
-      border-radius: var(--radius-sm);
+      width: 44px;
+      height: 44px;
+      border-radius: 8px;
       background: linear-gradient(135deg, var(--navy), var(--navy-light));
       color: var(--gold);
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 900;
-      font-size: 0.85rem;
-      border: 2px solid var(--gray-200);
+      font-size: 0.78rem;
       flex-shrink: 0;
     }
 
-    .items-count-text {
-      font-size: 0.8rem;
-      color: var(--gray-500);
-      font-weight: 600;
-      margin-right: 6px;
-    }
-
-    /* تفاصيل الطلب */
-    .order-details-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      padding: 12px 0;
-      border-top: 1px dashed var(--gray-200);
-      border-bottom: 1px dashed var(--gray-200);
-      margin-bottom: 14px;
-    }
-
-    .detail-item {
-      display: flex;
+    .items-count-badge {
+      display: inline-flex;
       align-items: center;
-      gap: 6px;
-      font-size: 0.82rem;
+      gap: 4px;
+      padding: 4px 10px;
+      background: var(--gray-100);
       color: var(--gray-600);
-    }
-
-    .detail-item i {
-      color: var(--gold);
-      font-size: 0.8rem;
-      width: 16px;
-      text-align: center;
+      border-radius: var(--radius-full);
+      font-size: 0.72rem;
+      font-weight: 800;
+      white-space: nowrap;
       flex-shrink: 0;
     }
 
-    .detail-item strong {
+    .items-count-badge i { color: var(--gold); font-size: 0.68rem; }
+
+    /* صف التفاصيل - Chips */
+    .order-info-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .info-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 10px;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-full);
+      font-size: 0.72rem;
+      color: var(--gray-600);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .info-chip i {
+      color: var(--gold);
+      font-size: 0.7rem;
+    }
+
+    .info-chip strong {
       color: var(--navy);
       font-weight: 800;
+      margin-right: 2px;
     }
 
-    /* الفوتر */
+    /* ===== الفوتر ===== */
     .order-card-footer {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
+      gap: 10px;
+      padding-top: 12px;
+      border-top: 2px dashed var(--gray-200);
     }
 
     .order-total-wrap {
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 3px;
+      min-width: 0;
+      flex-shrink: 0;
     }
 
-    .order-total-wrap .total-label {
-      font-size: 0.72rem;
+    .total-label {
+      font-size: 0.68rem;
       color: var(--gray-500);
-      font-weight: 600;
+      font-weight: 700;
     }
 
-    .order-total-wrap .total-amount {
-      font-size: 1.2rem;
+    .total-amount {
+      font-size: 1.15rem;
       font-weight: 900;
       color: var(--gold-dark);
-      line-height: 1.2;
+      line-height: 1.1;
+      white-space: nowrap;
     }
 
-    .order-total-wrap .payment-status {
-      font-size: 0.7rem;
+    .payment-status {
+      font-size: 0.65rem;
       font-weight: 800;
-      padding: 3px 10px;
+      padding: 2px 8px;
       border-radius: var(--radius-full);
-      margin-top: 2px;
-      display: inline-block;
       width: fit-content;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
     }
 
     .payment-status.paid {
@@ -538,24 +557,26 @@
 
     .order-actions {
       display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
+      gap: 6px;
+      flex-wrap: nowrap;
     }
 
     .order-action-btn {
-      padding: 9px 14px;
+      padding: 9px 12px;
       border-radius: var(--radius-sm);
       text-decoration: none;
-      font-weight: 700;
-      font-size: 0.8rem;
+      font-weight: 800;
+      font-size: 0.75rem;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      justify-content: center;
+      gap: 5px;
       transition: all 0.2s ease;
       border: 2px solid;
       cursor: pointer;
       font-family: inherit;
       background: var(--white);
+      white-space: nowrap;
     }
 
     .order-action-btn.primary {
@@ -580,12 +601,12 @@
       background: #fcf9f0;
     }
 
-    .order-action-btn i { font-size: 0.85rem; }
+    .order-action-btn i { font-size: 0.78rem; }
 
-    /* حالة فارغة */
+    /* ===== حالة فارغة ===== */
     .empty-state {
       text-align: center;
-      padding: 60px 20px;
+      padding: 50px 20px;
       background: var(--white);
       border-radius: var(--radius-md);
       border: 2px dashed var(--gray-200);
@@ -593,29 +614,29 @@
     }
 
     .empty-state .empty-icon {
-      width: 100px;
-      height: 100px;
+      width: 90px;
+      height: 90px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--gray-100), var(--gray-50));
       color: var(--gray-400);
-      font-size: 2.5rem;
+      font-size: 2.2rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 20px;
+      margin: 0 auto 18px;
     }
 
     .empty-state h3 {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: 900;
       color: var(--navy);
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .empty-state p {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: var(--gray-500);
-      margin-bottom: 20px;
+      margin-bottom: 18px;
       line-height: 1.6;
     }
 
@@ -623,15 +644,18 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 12px 24px;
+      padding: 11px 22px;
       background: linear-gradient(135deg, var(--gold), var(--gold-dark));
       color: var(--navy);
       text-decoration: none;
       border-radius: var(--radius-full);
       font-weight: 800;
-      font-size: 0.92rem;
+      font-size: 0.88rem;
       transition: all 0.3s ease;
       box-shadow: 0 6px 20px rgba(201, 168, 76, 0.35);
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
     }
 
     .empty-state .btn-shop:hover {
@@ -642,48 +666,332 @@
     /* التحميل */
     .loading-state {
       text-align: center;
-      padding: 60px 20px;
+      padding: 50px 20px;
     }
 
     .loading-state i {
-      font-size: 2.5rem;
+      font-size: 2.2rem;
       color: var(--gold);
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .loading-state p {
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       color: var(--gray-500);
       font-weight: 600;
     }
 
+    /* ===== Modal تفاصيل الطلب ===== */
+    .order-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      overflow-y: auto;
+      animation: fadeIn 0.25s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .order-modal {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      max-width: 560px;
+      width: 100%;
+      max-height: 92vh;
+      overflow-y: auto;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+      animation: modalIn 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.92) translateY(-20px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .order-modal-header {
+      padding: 18px 20px;
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+    }
+
+    .order-modal-header .header-info {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      min-width: 0;
+    }
+
+    .order-modal-header .header-info small {
+      font-size: 0.72rem;
+      opacity: 0.85;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .order-modal-header .header-info strong {
+      font-family: 'Courier New', monospace;
+      font-size: 1.1rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+      direction: ltr;
+      text-align: right;
+    }
+
+    .modal-close-btn {
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      color: var(--white);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-close-btn:hover { background: rgba(255, 255, 255, 0.25); }
+
+    .order-modal-body { padding: 18px 20px; }
+
+    .modal-section-title {
+      font-size: 0.85rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .modal-section-title i { color: var(--gold); font-size: 0.9rem; }
+
+    .modal-item-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
+      margin-bottom: 8px;
+    }
+
+    .modal-item-row img {
+      width: 44px;
+      height: 44px;
+      border-radius: 6px;
+      object-fit: cover;
+      background: var(--gray-200);
+      flex-shrink: 0;
+    }
+
+    .modal-item-info { flex: 1; min-width: 0; }
+
+    .modal-item-name {
+      font-weight: 800;
+      color: var(--navy);
+      font-size: 0.83rem;
+      margin-bottom: 3px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .modal-item-meta {
+      font-size: 0.72rem;
+      color: var(--gray-500);
+    }
+
+    .modal-item-price {
+      font-weight: 900;
+      color: var(--gold-dark);
+      font-size: 0.85rem;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .modal-summary {
+      background: var(--gray-50);
+      padding: 14px;
+      border-radius: var(--radius-sm);
+      margin-top: 16px;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 0;
+      font-size: 0.83rem;
+      color: var(--gray-600);
+    }
+
+    .summary-row strong {
+      color: var(--navy);
+      font-weight: 800;
+    }
+
+    .summary-row.total {
+      padding: 12px 0 0;
+      margin-top: 8px;
+      border-top: 2px dashed var(--gray-300);
+      font-size: 1rem;
+    }
+
+    .summary-row.total span:first-child {
+      font-weight: 800;
+      color: var(--navy);
+    }
+
+    .summary-row.total strong {
+      color: var(--gold-dark);
+      font-size: 1.15rem;
+      font-weight: 900;
+    }
+
+    .modal-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .modal-action-btn {
+      padding: 11px 14px;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.82rem;
+      cursor: pointer;
+      border: 2px solid;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .modal-action-btn.gold {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      border-color: var(--gold-dark);
+    }
+
+    .modal-action-btn.gold:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(201, 168, 76, 0.4);
+    }
+
+    .modal-action-btn.gray {
+      background: var(--gray-100);
+      color: var(--gray-700);
+      border-color: var(--gray-200);
+    }
+
+    .modal-action-btn.gray:hover { background: var(--gray-200); }
+
     /* ===== Responsive ===== */
     @media (max-width: 768px) and (pointer: coarse) {
       .orders-header { padding: 18px 16px; border-radius: var(--radius-md); }
-      .orders-header-content .header-icon { width: 50px; height: 50px; font-size: 1.3rem; }
-      .orders-header-content .header-text h1 { font-size: 1.15rem; }
-      .orders-header-content .header-text p { font-size: 0.8rem; }
-      .quick-stats { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-      .quick-stat-card { padding: 12px; gap: 10px; }
-      .quick-stat-card .stat-icon { width: 38px; height: 38px; font-size: 1.05rem; }
-      .quick-stat-card .stat-number { font-size: 1.1rem; }
-      .quick-stat-card .stat-label { font-size: 0.68rem; }
-      .filter-bar { padding: 12px; }
-      .order-card-header { padding: 12px 14px; }
-      .order-card-body { padding: 14px; }
-      .order-details-row { grid-template-columns: 1fr; }
-      .order-card-footer { flex-direction: column; align-items: stretch; }
-      .order-actions { width: 100%; }
-      .order-action-btn { flex: 1; justify-content: center; }
-      .item-thumb, .items-more { width: 42px; height: 42px; }
-      .items-more { font-size: 0.75rem; }
+      .orders-header-content .header-icon { width: 48px; height: 48px; font-size: 1.2rem; }
+      .orders-header-content .header-text h1 { font-size: 1.1rem; }
+      .orders-header-content .header-text p { font-size: 0.75rem; }
+
+      .quick-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+      .quick-stat-card { padding: 12px 10px; }
+      .quick-stat-card .stat-icon { width: 34px; height: 34px; font-size: 0.92rem; margin-bottom: 6px; }
+      .quick-stat-card .stat-number { font-size: 1.05rem; }
+      .quick-stat-card .stat-label { font-size: 0.65rem; }
+
+      .filter-bar { padding: 12px; margin-bottom: 14px; }
+      .search-box { margin-bottom: 10px; }
+      .search-box input { padding: 10px 38px 10px 12px; font-size: 0.85rem; }
+      .status-tab { padding: 7px 12px; font-size: 0.72rem; }
+
+      .order-card-header { padding: 11px 12px; }
+      .order-icon-wrap { width: 36px; height: 36px; font-size: 0.85rem; }
+      .order-num { font-size: 0.82rem; }
+      .order-date { font-size: 0.65rem; }
+      .status-badge { padding: 4px 8px; font-size: 0.66rem; }
+
+      .order-card-body { padding: 11px 12px; }
+
+      .item-thumb, .items-more { width: 40px; height: 40px; }
+      .items-more { font-size: 0.72rem; }
+      .items-count-badge { font-size: 0.68rem; padding: 3px 8px; }
+
+      .info-chip { padding: 4px 8px; font-size: 0.68rem; }
+
+      .order-card-footer {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        padding-top: 10px;
+      }
+      .order-total-wrap {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+      .order-total-wrap .total-label { display: none; }
+      .total-amount { font-size: 1.1rem; }
+      .payment-status { font-size: 0.62rem; }
+
+      .order-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        width: 100%;
+      }
+      .order-action-btn {
+        padding: 10px 8px;
+        font-size: 0.72rem;
+        justify-content: center;
+      }
     }
 
+    @media (max-width: 400px) {
+      .quick-stats { grid-template-columns: repeat(2, 1fr); }
+      .status-tab span:not(.tab-count) { display: none; }
+      .status-tab { padding: 7px 10px; }
+      .status-tab i { font-size: 0.85rem; }
+      .status-tab .tab-count { display: inline-block; }
+    }
+
+    /* ===== Modal Responsive ===== */
     @media (max-width: 480px) {
-      .orders-header-content { flex-direction: column; text-align: center; }
-      .orders-header-content .header-text { text-align: center; }
-      .order-actions { flex-direction: column; }
-      .order-action-btn { width: 100%; }
+      .order-modal-overlay { padding: 8px; }
+      .order-modal { max-height: 94vh; border-radius: var(--radius-md); }
+      .order-modal-header { padding: 14px 16px; }
+      .order-modal-header .header-info strong { font-size: 0.95rem; }
+      .order-modal-body { padding: 14px 16px; }
+      .modal-actions { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -715,40 +1023,32 @@
           <div class="stat-icon blue">
             <i class="fas fa-shopping-bag"></i>
           </div>
-          <div class="stat-info">
-            <div class="stat-number" id="statTotal">0</div>
-            <div class="stat-label">إجمالي الطلبات</div>
-          </div>
+          <div class="stat-number" id="statTotal">0</div>
+          <div class="stat-label">إجمالي الطلبات</div>
         </div>
 
         <div class="quick-stat-card">
           <div class="stat-icon gold">
             <i class="fas fa-clock"></i>
           </div>
-          <div class="stat-info">
-            <div class="stat-number gold" id="statPending">0</div>
-            <div class="stat-label">قيد الانتظار</div>
-          </div>
+          <div class="stat-number gold" id="statPending">0</div>
+          <div class="stat-label">قيد الانتظار</div>
         </div>
 
         <div class="quick-stat-card">
           <div class="stat-icon green">
             <i class="fas fa-check-circle"></i>
           </div>
-          <div class="stat-info">
-            <div class="stat-number green" id="statDelivered">0</div>
-            <div class="stat-label">تم التسليم</div>
-          </div>
+          <div class="stat-number green" id="statDelivered">0</div>
+          <div class="stat-label">تم التسليم</div>
         </div>
 
         <div class="quick-stat-card">
           <div class="stat-icon purple">
             <i class="fas fa-coins"></i>
           </div>
-          <div class="stat-info">
-            <div class="stat-number" id="statSpent">0</div>
-            <div class="stat-label">إجمالي المبالغ</div>
-          </div>
+          <div class="stat-number" id="statSpent">0</div>
+          <div class="stat-label">إجمالي المبالغ</div>
         </div>
       </div>
 
@@ -819,7 +1119,7 @@
 
   <script>
     // ============================================================
-    // 📄 customer/orders.html - صفحة طلباتي
+    // 📄 customer/orders.html - صفحة طلباتي v2.0
     // ============================================================
 
     let userData = null;
@@ -857,12 +1157,10 @@
       userId = userData.id || userData.uid;
       userType = role;
 
-      // تغيير العنوان حسب النوع
       if (userType === ROLES.WHOLESALE) {
         document.getElementById('headerSubtitle').textContent = 'تابع كل طلباتك من متجر الجملة';
       }
 
-      // قراءة الفلتر من URL
       const params = new URLSearchParams(window.location.search);
       const statusFromUrl = params.get('status');
       if (statusFromUrl) {
@@ -871,7 +1169,7 @@
       }
 
       await loadOrders();
-      console.log('✅ customer/orders.html loaded');
+      console.log('✅ customer/orders.html v2.0 loaded');
     });
 
     // ============================================================
@@ -888,17 +1186,13 @@
           allOrders.push({ id: doc.id, ...doc.data() });
         });
 
-        // ترتيب حسب التاريخ (الأحدث أولاً)
         allOrders.sort((a, b) => {
           const da = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt || 0);
           const db2 = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt || 0);
           return db2 - da;
         });
 
-        // حساب الإحصائيات
         updateStats();
-
-        // تطبيق الفلتر الحالي
         applyFilters();
 
       } catch (error) {
@@ -941,13 +1235,11 @@
       document.getElementById('statPending').textContent = pending;
       document.getElementById('statDelivered').textContent = delivered;
 
-      // إجمالي المبالغ (مختصر لو كبير)
-      const spentText = totalSpent > 9999 
-        ? `${(totalSpent / 1000).toFixed(1)}k` 
+      const spentText = totalSpent > 9999
+        ? `${(totalSpent / 1000).toFixed(1)}k`
         : totalSpent.toFixed(0);
       document.getElementById('statSpent').textContent = spentText;
 
-      // عدادات التبويبات
       document.getElementById('countAll').textContent = total;
       document.getElementById('countPending').textContent = cntPending;
       document.getElementById('countProcessing').textContent = cntProcessing;
@@ -969,7 +1261,7 @@
     }
 
     // ============================================================
-    // 🎯 الفلترة حسب الحالة
+    // 🎯 الفلترة
     // ============================================================
     function filterByStatus(status) {
       currentStatus = status;
@@ -983,25 +1275,18 @@
       });
     }
 
-    // ============================================================
-    // 🎨 تطبيق الفلاتر والعرض
-    // ============================================================
     function applyFilters() {
       filteredOrders = allOrders.filter(order => {
-        // فلتر الحالة
         if (currentStatus !== 'all') {
           const orderStatus = order.status || 'pending';
           if (orderStatus !== currentStatus) return false;
         }
 
-        // فلتر البحث
         if (currentSearch) {
           const search = currentSearch.toUpperCase();
           const orderNumber = order.id.slice(-8).toUpperCase();
           const fullId = order.id.toUpperCase();
-          if (!orderNumber.includes(search) && !fullId.includes(search)) {
-            return false;
-          }
+          if (!orderNumber.includes(search) && !fullId.includes(search)) return false;
         }
 
         return true;
@@ -1081,25 +1366,20 @@
       };
       const statusInfo = statusMap[status] || statusMap.pending;
 
-      const date = order.createdAt ?
-        (order.createdAt.toDate ? order.createdAt.toDate() : new Date(order.createdAt)) :
-        new Date();
+      const date = order.createdAt
+        ? (order.createdAt.toDate ? order.createdAt.toDate() : new Date(order.createdAt))
+        : new Date();
       const dateStr = date.toLocaleDateString('ar-EG', {
         year: 'numeric', month: 'short', day: 'numeric'
       });
-      const timeStr = date.toLocaleTimeString('ar-EG', {
-        hour: '2-digit', minute: '2-digit'
-      });
 
-      // معاينة المنتجات
       const items = order.items || [];
       const itemsCount = items.length;
 
+      // معاينة المنتجات - سكرول أفقي
       let itemsPreviewHtml = '';
       if (itemsCount > 0) {
-        const maxThumbs = 4;
-        const thumbsToShow = items.slice(0, maxThumbs);
-        thumbsToShow.forEach(item => {
+        items.forEach(item => {
           itemsPreviewHtml += `
             <img src="${item.imageUrl || '/gomla/assets/images/no-image.png'}"
                  alt="${escapeHtml(item.productName || item.name || 'منتج')}"
@@ -1107,9 +1387,6 @@
                  onerror="this.src='/gomla/assets/images/no-image.png'">
           `;
         });
-        if (itemsCount > maxThumbs) {
-          itemsPreviewHtml += `<div class="items-more">+${itemsCount - maxThumbs}</div>`;
-        }
       }
 
       // حالة الدفع
@@ -1123,13 +1400,12 @@
         paymentStatusHtml = '<span class="payment-status unpaid"><i class="fas fa-times"></i> غير مدفوع</span>';
       }
 
-      // اسم المنطقة
       const region = order.region || '---';
 
       return `
         <div class="order-card">
           <div class="order-card-header">
-            <div class="order-number-wrap">
+            <div class="order-header-left">
               <div class="order-icon-wrap">
                 <i class="fas fa-receipt"></i>
               </div>
@@ -1137,7 +1413,7 @@
                 <div class="order-num">#${orderNumber}</div>
                 <div class="order-date">
                   <i class="fas fa-calendar"></i>
-                  ${dateStr} • ${timeStr}
+                  ${dateStr}
                 </div>
               </div>
             </div>
@@ -1149,34 +1425,39 @@
 
           <div class="order-card-body">
             ${itemsCount > 0 ? `
-              <div class="items-preview">
-                ${itemsPreviewHtml}
-                <span class="items-count-text">${itemsCount} ${itemsCount === 1 ? 'منتج' : 'منتجات'}</span>
+              <div class="items-preview-wrap">
+                <div class="items-preview-scroll">
+                  ${itemsPreviewHtml}
+                </div>
+                <span class="items-count-badge">
+                  <i class="fas fa-box"></i>
+                  ${itemsCount}
+                </span>
               </div>
             ` : ''}
 
-            <div class="order-details-row">
-              <div class="detail-item">
+            <div class="order-info-chips">
+              <span class="info-chip">
                 <i class="fas fa-map-marker-alt"></i>
-                <span>المنطقة: <strong>${escapeHtml(region)}</strong></span>
-              </div>
-              <div class="detail-item">
-                <i class="fas fa-shopping-cart"></i>
-                <span>عدد الأصناف: <strong>${itemsCount}</strong></span>
-              </div>
+                <strong>${escapeHtml(region)}</strong>
+              </span>
+              <span class="info-chip">
+                <i class="fas fa-boxes"></i>
+                <strong>${itemsCount}</strong> صنف
+              </span>
             </div>
 
             <div class="order-card-footer">
               <div class="order-total-wrap">
-                <div class="total-label">إجمالي الطلب</div>
-                <div class="total-amount">${(order.total || 0).toFixed(2)} ج.م</div>
+                <span class="total-label">إجمالي الطلب</span>
+                <span class="total-amount">${(order.total || 0).toFixed(2)} ج.م</span>
                 ${paymentStatusHtml}
               </div>
 
               <div class="order-actions">
                 <a href="/gomla/tracking.html?id=${order.id}" class="order-action-btn primary">
                   <i class="fas fa-map-marked-alt"></i>
-                  تتبع الطلب
+                  تتبع
                 </a>
                 <button class="order-action-btn secondary" onclick="showOrderDetails('${order.id}')">
                   <i class="fas fa-info-circle"></i>
@@ -1199,7 +1480,7 @@
     }
 
     // ============================================================
-    // 📋 عرض تفاصيل الطلب (Modal بسيط)
+    // 📋 عرض تفاصيل الطلب
     // ============================================================
     function showOrderDetails(orderId) {
       const order = allOrders.find(o => o.id === orderId);
@@ -1211,98 +1492,95 @@
       let itemsHtml = '';
       items.forEach(item => {
         itemsHtml += `
-          <div style="display:flex;align-items:center;gap:12px;padding:12px;background:var(--gray-50);border-radius:var(--radius-sm);margin-bottom:8px;">
-            <img src="${item.imageUrl || '/gomla/assets/images/no-image.png'}" 
-                 alt="${escapeHtml(item.productName || item.name)}" 
-                 style="width:50px;height:50px;border-radius:6px;object-fit:cover;background:var(--gray-200);"
+          <div class="modal-item-row">
+            <img src="${item.imageUrl || '/gomla/assets/images/no-image.png'}"
+                 alt="${escapeHtml(item.productName || item.name)}"
                  onerror="this.src='/gomla/assets/images/no-image.png'">
-            <div style="flex:1;min-width:0;">
-              <div style="font-weight:800;color:var(--navy);font-size:0.88rem;margin-bottom:4px;">
-                ${escapeHtml(item.productName || item.name || 'منتج')}
-              </div>
-              <div style="font-size:0.78rem;color:var(--gray-500);">
+            <div class="modal-item-info">
+              <div class="modal-item-name">${escapeHtml(item.productName || item.name || 'منتج')}</div>
+              <div class="modal-item-meta">
                 ${item.quantity} ${item.unit || 'قطعة'} × ${(item.price || 0).toFixed(2)} ج.م
               </div>
             </div>
-            <div style="font-weight:900;color:var(--gold-dark);font-size:0.9rem;">
-              ${((item.price || 0) * (item.quantity || 0)).toFixed(2)} ج.م
-            </div>
+            <div class="modal-item-price">${((item.price || 0) * (item.quantity || 0)).toFixed(2)} ج.م</div>
           </div>
         `;
       });
 
-      // إنشاء modal
       const modalHtml = `
-        <div id="orderDetailsModal" style="position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto;">
-          <div style="background:var(--white);border-radius:var(--radius-md);max-width:600px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 25px 70px rgba(0,0,0,0.4);">
-            
-            <div style="padding:20px 24px;background:linear-gradient(135deg,var(--navy),var(--navy-light));color:var(--white);display:flex;align-items:center;justify-content:space-between;border-radius:var(--radius-md) var(--radius-md) 0 0;">
-              <div>
-                <div style="font-size:0.75rem;opacity:0.85;margin-bottom:2px;">تفاصيل الطلب</div>
-                <div style="font-family:'Courier New',monospace;font-size:1.1rem;font-weight:900;letter-spacing:1px;">
-                  #${orderNumber}
-                </div>
+        <div class="order-modal-overlay" id="orderDetailsModal" onclick="closeOrderModal(event)">
+          <div class="order-modal" onclick="event.stopPropagation()">
+
+            <div class="order-modal-header">
+              <div class="header-info">
+                <small>تفاصيل الطلب</small>
+                <strong>#${orderNumber}</strong>
               </div>
-              <button onclick="closeOrderModal()" style="background:rgba(255,255,255,0.15);border:none;color:var(--white);width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:1rem;">
+              <button class="modal-close-btn" onclick="closeOrderModal()">
                 <i class="fas fa-times"></i>
               </button>
             </div>
 
-            <div style="padding:20px 24px;">
-              <h4 style="font-size:0.9rem;font-weight:800;color:var(--navy);margin-bottom:12px;">
-                <i class="fas fa-box" style="color:var(--gold);"></i> المنتجات (${items.length})
-              </h4>
-              ${itemsHtml || '<p style="text-align:center;color:var(--gray-400);padding:20px;">لا توجد منتجات</p>'}
+            <div class="order-modal-body">
 
-              <h4 style="font-size:0.9rem;font-weight:800;color:var(--navy);margin:20px 0 12px;">
-                <i class="fas fa-calculator" style="color:var(--gold);"></i> الملخص المالي
+              <h4 class="modal-section-title">
+                <i class="fas fa-box"></i>
+                المنتجات (${items.length})
               </h4>
-              <div style="background:var(--gray-50);padding:16px;border-radius:var(--radius-sm);">
-                <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:0.85rem;color:var(--gray-600);">
+              ${itemsHtml || '<p style="text-align:center;color:var(--gray-400);padding:16px;font-size:0.85rem;">لا توجد منتجات</p>'}
+
+              <h4 class="modal-section-title" style="margin-top:18px;">
+                <i class="fas fa-calculator"></i>
+                الملخص المالي
+              </h4>
+              <div class="modal-summary">
+                <div class="summary-row">
                   <span>المجموع الفرعي</span>
-                  <span style="font-weight:800;color:var(--navy);">${(order.subtotal || 0).toFixed(2)} ج.م</span>
+                  <strong>${(order.subtotal || 0).toFixed(2)} ج.م</strong>
                 </div>
-                <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:0.85rem;color:var(--gray-600);">
+                <div class="summary-row">
                   <span>الشحن</span>
-                  <span style="font-weight:800;color:${order.shippingCost > 0 ? 'var(--navy)' : '#16a34a'};">
+                  <strong style="color:${order.shippingCost > 0 ? 'var(--navy)' : '#16a34a'};">
                     ${order.shippingCost > 0 ? order.shippingCost.toFixed(2) + ' ج.م' : 'مجاني'}
-                  </span>
+                  </strong>
                 </div>
-                <div style="display:flex;justify-content:space-between;padding:12px 0 0;margin-top:8px;border-top:2px dashed var(--gray-300);font-size:1rem;">
-                  <span style="font-weight:800;color:var(--navy);">الإجمالي</span>
-                  <span style="font-weight:900;color:var(--gold-dark);font-size:1.2rem;">${(order.total || 0).toFixed(2)} ج.م</span>
+                <div class="summary-row total">
+                  <span>الإجمالي</span>
+                  <strong>${(order.total || 0).toFixed(2)} ج.م</strong>
                 </div>
               </div>
 
-              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px;">
-                <a href="/gomla/tracking.html?id=${order.id}" style="padding:12px;background:linear-gradient(135deg,var(--gold),var(--gold-dark));color:var(--navy);text-decoration:none;text-align:center;border-radius:var(--radius-sm);font-weight:800;font-size:0.85rem;">
-                  <i class="fas fa-map-marked-alt"></i> تتبع الطلب
+              <div class="modal-actions">
+                <a href="/gomla/tracking.html?id=${order.id}" class="modal-action-btn gold">
+                  <i class="fas fa-map-marked-alt"></i>
+                  تتبع الطلب
                 </a>
-                <button onclick="closeOrderModal()" style="padding:12px;background:var(--gray-100);color:var(--gray-700);border:none;border-radius:var(--radius-sm);font-family:inherit;font-weight:800;font-size:0.85rem;cursor:pointer;">
-                  <i class="fas fa-times"></i> إغلاق
+                <button class="modal-action-btn gray" onclick="closeOrderModal()">
+                  <i class="fas fa-times"></i>
+                  إغلاق
                 </button>
               </div>
+
             </div>
 
           </div>
         </div>
       `;
 
-      // إزالة أي modal موجود
-      const existingModal = document.getElementById('orderDetailsModal');
-      if (existingModal) existingModal.remove();
+      const existing = document.getElementById('orderDetailsModal');
+      if (existing) existing.remove();
 
       document.body.insertAdjacentHTML('beforeend', modalHtml);
       document.body.style.overflow = 'hidden';
     }
 
-    function closeOrderModal() {
+    function closeOrderModal(event) {
+      if (event && event.target !== event.currentTarget) return;
       const modal = document.getElementById('orderDetailsModal');
       if (modal) modal.remove();
       document.body.style.overflow = '';
     }
 
-    // إغلاق المودال بـ ESC
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeOrderModal();
     });
@@ -1317,7 +1595,6 @@
       return div.innerHTML;
     }
 
-    // ===== تصدير =====
     window.filterByStatus = filterByStatus;
     window.handleSearch = handleSearch;
     window.clearSearch = clearSearch;
