@@ -12,7 +12,7 @@
 
 /**
  * الحصول على بيانات المستخدم الحالي
- * @returns {Object|null} { type: 'admin'|'customer', data: {...} }
+ * @returns {Object|null} { type: 'admin'|'customer'|'cashier', data: {...} }
  */
 function getCurrentUser() {
   const adminData = localStorage.getItem('admin');
@@ -34,25 +34,43 @@ function getUserRole() {
   return user.data.role || ROLES.GUEST;
 }
 
+// ============================================================
+// 🎭 دوال التحقق من الأدوار
+// ============================================================
+
 function isSuperAdmin() {
-  return getUserRole() === ROLES.SUPER;
+  const user = getCurrentUser();
+  return !!(user && user.type === 'admin' && user.data.role === ROLES.SUPER);
+}
+
+function isAdminPlus() {
+  const user = getCurrentUser();
+  return !!(user && user.type === 'admin' && user.data.role === ROLES.ADMIN_PLUS);
 }
 
 function isAdmin() {
-  const role = getUserRole();
-  return role === ROLES.ADMIN || role === ROLES.SUPER;
+  const user = getCurrentUser();
+  if (!user || user.type !== 'admin') return false;
+  return [ROLES.SUPER, ROLES.ADMIN_PLUS, ROLES.ADMIN].includes(user.data.role);
 }
 
 function isCashier() {
-  return getUserRole() === ROLES.CASHIER;
+  const user = getCurrentUser();
+  return !!(user && user.type === 'cashier');
 }
 
 function isWholesale() {
-  return getUserRole() === ROLES.WHOLESALE;
+  const user = getCurrentUser();
+  return !!(user && user.type === 'customer' && user.data.role === ROLES.WHOLESALE);
 }
 
 function isRetail() {
-  return getUserRole() === ROLES.RETAIL;
+  const user = getCurrentUser();
+  return !!(user && user.type === 'customer' && user.data.role === ROLES.RETAIL);
+}
+
+function isCustomer() {
+  return isWholesale() || isRetail();
 }
 
 function isGuest() {
@@ -60,78 +78,245 @@ function isGuest() {
 }
 
 /**
+ * اسم الدور بالعربي (للعرض)
+ */
+function getRoleArabicName(role) {
+  const names = {
+    [ROLES.SUPER]: 'سوبر أدمن',
+    [ROLES.ADMIN_PLUS]: 'أدمن بلص',
+    [ROLES.ADMIN]: 'أدمن',
+    [ROLES.CASHIER]: 'كاشير',
+    [ROLES.WHOLESALE]: 'تاجر',
+    [ROLES.RETAIL]: 'عميل',
+    [ROLES.GUEST]: 'زائر'
+  };
+  return names[role] || role || 'غير معروف';
+}
+
+/**
  * التحقق من صلاحية معينة
  */
 function hasPermission(permission) {
   const role = getUserRole();
-  const perms = PERMISSIONS[role] || [];
+  const perms = (typeof PERMISSIONS !== 'undefined' && PERMISSIONS[role]) || [];
   if (perms.includes('*')) return true;
   return perms.includes(permission);
 }
 
+// ============================================================
+// 🛡️ دوال الحماية - النسخة المطوّرة
+// ============================================================
+
 /**
- * حماية الصفحات - تتطلب تسجيل دخول
+ * إعادة توجيه ذكية مع رسالة Toast (تأخير 1.5 ثانية)
  */
-function protectPage() {
+function _redirectWithToast(url, message, delay = 1500) {
+  if (message && typeof showToast === 'function') {
+    showToast(message, 'error');
+  }
+  setTimeout(() => {
+    window.location.href = url;
+  }, delay);
+}
+
+/**
+ * ============================================================
+ * 🔒 حماية الصفحات العامة (تحتاج تسجيل دخول)
+ * ============================================================
+ * @param {string} redirectUrl - لو مش مسجل (افتراضي: customer-login)
+ */
+function protectPage(redirectUrl = '/gomla/customer-login.html') {
   const user = getCurrentUser();
+  if (!user) {
+    window.location.href = redirectUrl;
+    return false;
+  }
+  return true;
+}
+
+/**
+ * ============================================================
+ * 🔒 حماية صفحات الأدمن - النسخة المطوّرة
+ * ============================================================
+ * 
+ * @param {Array<string>|string|null} requiredRoles - الأدوار المسموح بها
+ *   - null (افتراضي): يقبل SUPER + ADMIN_PLUS + ADMIN
+ *   - string: دور واحد
+ *   - Array: أي دور من القائمة
+ * 
+ * المنطق:
+ *   1) مش مسجل → admin/login.html
+ *   2) مسجل لكن type !== 'admin' → الرئيسية + Toast
+ *   3) مسجل كأدمن لكن دوره غير مصرح → admin/home.html + Toast
+ *   4) OK → يرجع true
+ */
+function protectAdminPage(requiredRoles = null) {
+  const user = getCurrentUser();
+  
+  // ===== 1) مش مسجل دخول =====
+  if (!user) {
+    window.location.href = '/gomla/admin/login.html';
+    return false;
+  }
+  
+  // ===== 2) مسجل لكن مش من نوع admin (عميل/تاجر/كاشير) =====
+  if (user.type !== 'admin') {
+    _redirectWithToast(
+      '/gomla/',
+      '⚠️ ليس لديك صلاحية للوصول لهذه الصفحة'
+    );
+    return false;
+  }
+  
+  // ===== 3) تحديد الأدوار المسموح بها =====
+  let allowedRoles;
+  
+  if (requiredRoles === null || requiredRoles === undefined) {
+    allowedRoles = [ROLES.SUPER, ROLES.ADMIN_PLUS, ROLES.ADMIN];
+  } else if (Array.isArray(requiredRoles)) {
+    allowedRoles = requiredRoles;
+  } else {
+    allowedRoles = [requiredRoles];
+  }
+  
+  // ===== 4) التحقق من الدور =====
+  const userRole = user.data.role;
+  
+  if (!allowedRoles.includes(userRole)) {
+    const requiredNames = allowedRoles.map(r => getRoleArabicName(r)).join(' أو ');
+    _redirectWithToast(
+      '/gomla/admin/home.html',
+      `⚠️ هذه الصفحة تتطلب: ${requiredNames}`
+    );
+    return false;
+  }
+  
+  return true;
+}
+
+/**
+ * 🔒 حماية السوبر أدمن فقط
+ */
+function protectSuperAdminPage() {
+  return protectAdminPage([ROLES.SUPER]);
+}
+
+/**
+ * 🔒 حماية أدمن بلص + سوبر أدمن
+ */
+function protectAdminPlusPage() {
+  return protectAdminPage([ROLES.SUPER, ROLES.ADMIN_PLUS]);
+}
+
+/**
+ * 🔒 حماية الأدمن (أي مستوى أدمن)
+ */
+function protectAnyAdminPage() {
+  return protectAdminPage(); // افتراضي: كل الأدمن
+}
+
+/**
+ * ============================================================
+ * 🔒 حماية صفحات الكاشير
+ * ============================================================
+ * يقبل: cashier + أي أدمن
+ */
+function protectCashierPage() {
+  const user = getCurrentUser();
+  
+  // مش مسجل → صفحة دخول الكاشير
+  if (!user) {
+    window.location.href = '/gomla/cashier-login.html';
+    return false;
+  }
+  
+  // أدمن → مسموح
+  if (user.type === 'admin') {
+    if ([ROLES.SUPER, ROLES.ADMIN_PLUS, ROLES.ADMIN].includes(user.data.role)) {
+      return true;
+    }
+  }
+  
+  // كاشير → مسموح
+  if (user.type === 'cashier') {
+    return true;
+  }
+  
+  // أي حد تاني → الرئيسية
+  _redirectWithToast(
+    '/gomla/',
+    '⚠️ ليس لديك صلاحية للوصول لهذه الصفحة'
+  );
+  return false;
+}
+
+/**
+ * ============================================================
+ * 🔒 حماية صفحات العميل / التاجر
+ * ============================================================
+ * @param {Array<string>} allowedRoles - افتراضي: RETAIL + WHOLESALE
+ */
+function protectCustomerPage(allowedRoles = [ROLES.RETAIL, ROLES.WHOLESALE]) {
+  const user = getCurrentUser();
+  
+  // مش مسجل → صفحة دخول العملاء
   if (!user) {
     window.location.href = '/gomla/customer-login.html';
     return false;
   }
-  return true;
-}
-
-/**
- * حماية صفحات الأدمن
- */
-function protectAdminPage() {
-  const user = getCurrentUser();
-  if (!user || (user.type !== 'admin')) {
-    window.location.href = '/gomla/';
+  
+  // أدمن → لوحة التحكم
+  if (user.type === 'admin') {
+    _redirectWithToast('/gomla/admin/home.html', '⚠️ هذه الصفحة للعملاء فقط');
     return false;
   }
-  return true;
-}
-
-/**
- * حماية صفحات السوبر أدمن
- */
-function protectSuperAdminPage() {
-  const user = getCurrentUser();
-  if (!user || user.type !== 'admin' || user.data.role !== ROLES.SUPER) {
-    window.location.href = '/gomla';
+  
+  // كاشير → صفحة الكاشير
+  if (user.type === 'cashier') {
+    _redirectWithToast('/gomla/cashier/home.html', '⚠️ هذه الصفحة للعملاء فقط');
     return false;
   }
-  return true;
-}
-
-/**
- * حماية صفحات الكاشير
- */
-function protectCashierPage() {
-  const user = getCurrentUser();
-  if (!user || (user.type !== 'cashier' && user.type !== 'admin')) {
-    window.location.href = '/gomla';
+  
+  // عميل/تاجر لكن دوره غير مسموح
+  if (!allowedRoles.includes(user.data.role)) {
+    _redirectWithToast('/gomla/', '⚠️ ليس لديك صلاحية للوصول لهذه الصفحة');
     return false;
   }
+  
   return true;
 }
 
-/**
- * تسجيل الخروج
- */
+// ============================================================
+// 🚪 تسجيل الخروج
+// ============================================================
+
 function logoutUser() {
   if (!confirm('هل أنت متأكد من تسجيل الخروج؟')) return;
   
-  firebase.auth().signOut().catch(() => {}).finally(() => {
-    localStorage.removeItem('admin');
-    localStorage.removeItem('customer');
-    localStorage.removeItem('cashier');
-    localStorage.removeItem('adminId');
-    localStorage.removeItem('customerCode');
-    window.location.href = '/gomla/';
-  });
+  // مسح البيانات مع إغلاق جلسة Firebase
+  firebase.auth().signOut()
+    .catch((err) => console.warn('SignOut error:', err))
+    .finally(() => {
+      localStorage.removeItem('admin');
+      localStorage.removeItem('customer');
+      localStorage.removeItem('cashier');
+      localStorage.removeItem('adminId');
+      localStorage.removeItem('customerCode');
+      
+      window.location.href = '/gomla/';
+    });
 }
+
+// ============================================================
+// 🔗 تصدير الدوال الجديدة
+// ============================================================
+
+window.isAdminPlus = isAdminPlus;
+window.isCustomer = isCustomer;
+window.getRoleArabicName = getRoleArabicName;
+window.protectAdminPlusPage = protectAdminPlusPage;
+window.protectAnyAdminPage = protectAnyAdminPage;
+window.protectCustomerPage = protectCustomerPage;
 
 // ============================================================
 // 2️⃣ نظام Toast
