@@ -761,25 +761,28 @@
   <script src="/gomla/assets/js/firebase-config.js"></script>
   <script src="/gomla/assets/js/main.js"></script>
 
-  <script>
+   <script>
     // ============================================================
     // 📄 checkout.html - إتمام الطلب
+    // ✅ الإصدار: 2.0 (متوافق مع main.js v6.0)
     // ============================================================
 
     // ===== المتغيرات =====
+    // ⚠️ ملاحظة: استخدمنا isGuestUser بدلاً من isGuest
+    //    لتجنب التعارض مع دالة isGuest() في main.js
     let cartItems = [];
-    let isGuest = false;
-    let userId = null;
-    let userRole = ROLES.GUEST;
-    let storeType = 'retail';
-    let userData = null;
+    let isGuestUser = false;
+    let checkoutUserId = null;
+    let checkoutUserRole = ROLES.GUEST;
+    let checkoutStoreType = 'retail';
+    let checkoutUserData = null;
     let shippingCost = 0;
     let subtotal = 0;
-    let total = 0;
+    let totalAmount = 0;
     let selectedRegion = '';
     let isFreeShipping = false;
     let minOrderAmount = 0;
-    let isSubmitting = false;
+    let isCheckoutSubmitting = false;
 
     // ============================================================
     // 🚀 تحميل الصفحة
@@ -791,33 +794,49 @@
 
       // جلب نوع المتجر من الرابط
       const urlParams = new URLSearchParams(window.location.search);
-      storeType = urlParams.get('type') || 'retail';
+      const urlStoreType = urlParams.get('type');
 
-      // جلب بيانات المستخدم
       const user = getCurrentUser();
 
       if (user) {
-        isGuest = false;
-        userId = user.data.id || user.data.uid;
-        userRole = user.data.role || ROLES.RETAIL;
-        userData = user.data;
+        // ===== مستخدم مسجل =====
+        isGuestUser = false;
+        checkoutUserId = user.data.id || user.data.uid;
+        checkoutUserRole = user.data.role || ROLES.RETAIL;
+        checkoutUserData = user.data;
 
-        // التحقق من نوع المتجر
-        if (userRole === ROLES.WHOLESALE || userRole === ROLES.ADMIN || userRole === ROLES.SUPER || userRole === ROLES.ADMIN_PLUS) {
-          storeType = 'wholesale';
+        // ✅ تحديد نوع المتجر حسب الدور
+        if (checkoutUserRole === ROLES.WHOLESALE) {
+          // تاجر → جملة إجباري
+          checkoutStoreType = 'wholesale';
           minOrderAmount = window.WHOLESALE_MIN_ORDER || 1500;
+        } else if (checkoutUserRole === ROLES.RETAIL) {
+          // عميل قطاعي → قطاعي إجباري
+          checkoutStoreType = 'retail';
+          minOrderAmount = 0;
+        } else if (
+          checkoutUserRole === ROLES.ADMIN ||
+          checkoutUserRole === ROLES.SUPER ||
+          checkoutUserRole === ROLES.CASHIER
+        ) {
+          // ✅ أدوار إدارية → حسب الرابط (أو جملة افتراضي)
+          checkoutStoreType = urlStoreType === 'retail' ? 'retail' : 'wholesale';
+          minOrderAmount = checkoutStoreType === 'wholesale' 
+            ? (window.WHOLESALE_MIN_ORDER || 1500) 
+            : 0;
         } else {
-          storeType = 'retail';
+          checkoutStoreType = 'retail';
           minOrderAmount = 0;
         }
 
         await loadUserCart();
 
       } else {
-        isGuest = true;
-        userId = null;
-        userRole = ROLES.GUEST;
-        storeType = 'retail';
+        // ===== زائر =====
+        isGuestUser = true;
+        checkoutUserId = null;
+        checkoutUserRole = ROLES.GUEST;
+        checkoutStoreType = 'retail';
         minOrderAmount = 0;
 
         loadGuestCart();
@@ -831,7 +850,7 @@
     async function loadUserCart() {
       try {
         const snapshot = await db.collection(COLLECTIONS.CART)
-          .where('userId', '==', userId)
+          .where('userId', '==', checkoutUserId)
           .get();
 
         if (snapshot.empty) {
@@ -888,7 +907,7 @@
         subtotal += (item.price || 0) * (item.quantity || 1);
       });
 
-      const isWholesale = storeType === 'wholesale';
+      const isWholesale = checkoutStoreType === 'wholesale';
 
       // قائمة المناطق
       const regions = isWholesale ? 
@@ -899,9 +918,9 @@
       const regionPlaceholder = isWholesale ? 'طنطا، المنصورة، المحلة' : 'الرجبي، السبع بنات، الزراعة...';
 
       // البيانات التلقائية للمسجل
-      const autoName = !isGuest && userData?.name ? userData.name : '';
-      const autoPhone = !isGuest && userData?.phone ? userData.phone : '';
-      const autoAddress = !isGuest && userData?.address ? userData.address : '';
+      const autoName = !isGuestUser && checkoutUserData?.name ? checkoutUserData.name : '';
+      const autoPhone = !isGuestUser && checkoutUserData?.phone ? checkoutUserData.phone : '';
+      const autoAddress = !isGuestUser && checkoutUserData?.address ? checkoutUserData.address : '';
 
       // بناء HTML
       let html = `
@@ -932,7 +951,7 @@
                     <i class="fas fa-user"></i>
                   </div>
                   <h2>بيانات العميل</h2>
-                  ${!isGuest ? `<span class="section-badge">جلب تلقائي</span>` : `<span class="section-badge">إدخال يدوي</span>`}
+                  ${!isGuestUser ? `<span class="section-badge">جلب تلقائي</span>` : `<span class="section-badge">إدخال يدوي</span>`}
                 </div>
 
                 <div class="form-group">
@@ -940,7 +959,7 @@
                     <i class="fas fa-user"></i>
                     الاسم الكامل
                     <span class="required">*</span>
-                    ${!isGuest ? `<span class="locked-badge"><i class="fas fa-lock"></i> مقروء</span>` : ''}
+                    ${!isGuestUser ? `<span class="locked-badge"><i class="fas fa-lock"></i> مقروء</span>` : ''}
                   </label>
                   <input 
                     type="text" 
@@ -948,7 +967,7 @@
                     value="${autoName}"
                     placeholder="الاسم الثلاثي"
                     maxlength="60"
-                    ${!isGuest ? 'readonly' : 'required'}>
+                    ${!isGuestUser ? 'readonly' : 'required'}>
                 </div>
 
                 <div class="form-row">
@@ -957,7 +976,7 @@
                       <i class="fas fa-phone"></i>
                       رقم الهاتف
                       <span class="required">*</span>
-                      ${!isGuest ? `<span class="locked-badge"><i class="fas fa-lock"></i></span>` : ''}
+                      ${!isGuestUser ? `<span class="locked-badge"><i class="fas fa-lock"></i></span>` : ''}
                     </label>
                     <input 
                       type="tel" 
@@ -966,7 +985,7 @@
                       placeholder="01xxxxxxxxx"
                       maxlength="11"
                       inputmode="numeric"
-                      ${!isGuest ? 'readonly' : 'required'}>
+                      ${!isGuestUser ? 'readonly' : 'required'}>
                   </div>
 
                   <div class="form-group">
@@ -990,7 +1009,7 @@
                     <i class="fas fa-map-marker-alt"></i>
                     العنوان الأساسي
                     <span class="required">*</span>
-                    ${!isGuest ? `<span class="locked-badge"><i class="fas fa-lock"></i></span>` : ''}
+                    ${!isGuestUser ? `<span class="locked-badge"><i class="fas fa-lock"></i></span>` : ''}
                   </label>
                   <input 
                     type="text" 
@@ -998,7 +1017,7 @@
                     value="${autoAddress}"
                     placeholder="المدينة - الشارع - رقم المبنى"
                     maxlength="150"
-                    ${!isGuest ? 'readonly' : 'required'}>
+                    ${!isGuestUser ? 'readonly' : 'required'}>
                 </div>
 
                 <div class="form-group">
@@ -1158,7 +1177,7 @@
           <p>
             شكراً لثقتك بنا! سيتم التواصل معك قريباً لتأكيد الطلب وتفاصيل التوصيل.
             <br>
-            ${isGuest ? 
+            ${isGuestUser ? 
               '<strong>ملاحظة:</strong> أنت تطلب كزائر. يمكنك التسجيل لتتبع طلباتك.' : 
               'يمكنك متابعة طلبك من صفحة "طلباتي".'}
           </p>
@@ -1167,7 +1186,7 @@
               <i class="fas fa-shopping-cart"></i>
               متابعة التسوق
             </a>
-            ${!isGuest ? `
+            ${!isGuestUser ? `
               <a href="/gomla/customer/orders.html" class="btn btn-outline">
                 <i class="fas fa-list"></i>
                 طلباتي
@@ -1186,7 +1205,7 @@
 
       // التركيز التلقائي على أول حقل فارغ
       setTimeout(() => {
-        if (isGuest) {
+        if (isGuestUser) {
           document.getElementById('customerName')?.focus();
         } else {
           document.getElementById('customerPhone2')?.focus();
@@ -1206,7 +1225,7 @@
       cartItems.forEach(item => {
         const qty = item.quantity || 1;
         const price = item.price || 0;
-        const total = price * qty;
+        const itemTotal = price * qty;
         const productName = item.productName || item.name || 'منتج';
         const productImage = item.imageUrl || '/gomla/assets/images/no-image.png';
         const unit = item.unit || 'قطعة';
@@ -1223,7 +1242,7 @@
                 ${qty} ${unit}
               </div>
             </div>
-            <div class="item-total">${total.toFixed(2)} ج.م</div>
+            <div class="item-total">${itemTotal.toFixed(2)} ج.م</div>
           </div>
         `;
       });
@@ -1257,7 +1276,7 @@
         return;
       }
 
-      const rates = SHIPPING_RATES[storeType];
+      const rates = SHIPPING_RATES[checkoutStoreType];
       const rate = rates[region];
 
       if (!rate) {
@@ -1291,8 +1310,8 @@
       }
 
       // حساب الإجمالي
-      total = subtotal + shippingCost;
-      totalValue.textContent = `${total.toFixed(2)} ج.م`;
+      totalAmount = subtotal + shippingCost;
+      totalValue.textContent = `${totalAmount.toFixed(2)} ج.م`;
       totalValue.style.color = 'var(--gold-dark)';
     }
 
@@ -1302,7 +1321,7 @@
 
     function getMinDate() {
       const today = new Date();
-      today.setDate(today.getDate() + 1); // يبدأ من الغد
+      today.setDate(today.getDate() + 1);
       const dd = String(today.getDate()).padStart(2, '0');
       const mm = String(today.getMonth() + 1).padStart(2, '0');
       const yyyy = today.getFullYear();
@@ -1316,7 +1335,7 @@
     async function handleSubmit(event) {
       event.preventDefault();
 
-      if (isSubmitting) return;
+      if (isCheckoutSubmitting) return;
 
       // جمع البيانات
       const name = document.getElementById('customerName').value.trim();
@@ -1365,14 +1384,14 @@
       }
 
       // التحقق من الحد الأدنى للجملة
-      if (storeType === 'wholesale' && subtotal < minOrderAmount) {
+      if (checkoutStoreType === 'wholesale' && subtotal < minOrderAmount) {
         const remaining = minOrderAmount - subtotal;
         showToast(`⚠️ الحد الأدنى للطلب ${minOrderAmount} ج.م - المتبقي ${remaining.toFixed(2)} ج.م`, 'warning');
         return;
       }
 
       // ===== بدء الإرسال =====
-      isSubmitting = true;
+      isCheckoutSubmitting = true;
       const btn = document.getElementById('confirmBtn');
       const originalText = btn.innerHTML;
       btn.disabled = true;
@@ -1382,7 +1401,7 @@
         // ===== بناء بيانات الطلب =====
         const orderData = {
           // العميل
-          customerId: userId || null,
+          customerId: checkoutUserId || null,
           customerName: name,
           customerPhone: phone,
           customerPhone2: phone2,
@@ -1390,9 +1409,9 @@
           customerAddress2: address2 || '',
           
           // نوع الطلب
-          isGuest: isGuest,
-          storeType: storeType,
-          userRole: userRole,
+          isGuest: isGuestUser,
+          storeType: checkoutStoreType,
+          userRole: checkoutUserRole,
           
           // الشحن
           region: selectedRegion,
@@ -1413,14 +1432,14 @@
           // المبالغ
           subtotal: subtotal,
           shippingCost: shippingCost,
-          total: total,
+          total: totalAmount,
           isFreeShipping: isFreeShipping,
           
           // الحالة
           status: 'pending',
           paymentStatus: 'unpaid',
           paid: 0,
-          remaining: total,
+          remaining: totalAmount,
           
           // الطوابع الزمنية
           orderDate: new Date().toISOString().slice(0, 10),
@@ -1433,12 +1452,11 @@
         const orderNumber = orderRef.id.slice(-8).toUpperCase();
 
         // ===== حذف السلة =====
-        if (isGuest) {
+        if (isGuestUser) {
           localStorage.removeItem('guest_cart');
         } else {
-          // حذف من Firestore (batch)
           const cartSnapshot = await db.collection(COLLECTIONS.CART)
-            .where('userId', '==', userId)
+            .where('userId', '==', checkoutUserId)
             .get();
 
           const batch = db.batch();
@@ -1449,11 +1467,11 @@
         // ===== تسجيل النشاط =====
         try {
           await db.collection(COLLECTIONS.ACTIVITY_LOG).add({
-            userId: userId || 'guest',
+            userId: checkoutUserId || 'guest',
             userName: name,
-            userRole: userRole,
+            userRole: checkoutUserRole,
             action: 'إنشاء طلب جديد',
-            details: `الطلب #${orderNumber} - ${total.toFixed(2)} ج.م`,
+            details: `الطلب #${orderNumber} - ${totalAmount.toFixed(2)} ج.م`,
             timestamp: firebase.firestore.FieldValue.serverTimestamp()
           });
         } catch (logError) {
@@ -1474,29 +1492,8 @@
         
         btn.disabled = false;
         btn.innerHTML = originalText;
-        isSubmitting = false;
+        isCheckoutSubmitting = false;
       }
-    }
-
-    // ============================================================
-    // ✅ شاشة النجاح
-    // ============================================================
-
-    function showSuccess(orderNumber) {
-      // إخفاء الـ layout
-      const layout = document.querySelector('.checkout-layout');
-      const header = document.querySelector('.checkout-header');
-      if (layout) layout.style.display = 'none';
-      if (header) header.style.display = 'none';
-
-      // عرض شاشة النجاح
-      document.getElementById('successOrderNumber').textContent = `#${orderNumber}`;
-      document.getElementById('successScreen').classList.add('show');
-
-      // Scroll للأعلى
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-
-      showToast('🎉 تم استلام طلبك بنجاح!', 'success');
     }
 
     // ============================================================
