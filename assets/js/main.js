@@ -1773,6 +1773,7 @@ function updateSidebar() {
       { icon: 'fa-users', text: 'العملاء والتجار', url: '/gomla/admin/customers.html' },
       { icon: 'fa-shopping-bag', text: 'الطلبات', url: '/gomla/admin/orders.html' },
       { icon: 'fa-file-invoice', text: 'الفواتير', url: '/gomla/admin/invoices.html' },
+      { icon: 'fa-file-invoice-dollar', text: 'لوحة التحكم', url: '/gomla/admin/financial-transactions.html' },
       { icon: 'fa-truck', text: 'الموردين', url: '/gomla/admin/suppliers.html' },
       { icon: 'fa-shopping-cart', text: 'المشتريات', url: '/gomla/admin/purchases.html' },
       { icon: 'fa-file-pdf', text: 'استخراج PDF', url: '/gomla/admin/extract-pdf.html' },
