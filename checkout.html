@@ -755,6 +755,22 @@
         flex-direction: column;
       }
     }
+        /* ===== حقل المنطقة المقفول (للتاجر) ===== */
+    .region-select-wrapper select:disabled {
+      background: linear-gradient(135deg, #f0fdf4, #dcfce7) !important;
+      color: #166534 !important;
+      cursor: not-allowed !important;
+      font-weight: 800;
+      border-color: #22c55e !important;
+      opacity: 1;
+      appearance: none;
+    }
+
+    .region-select-wrapper:has(select:disabled)::after {
+      content: '\f023'; /* 🔒 أيقونة القفل */
+      color: #22c55e;
+      font-size: 0.9rem;
+    }
   </style>
 </head>
 <body>
@@ -835,7 +851,8 @@
     let isFreeShipping = false;
     let minOrderAmount = 0;
     let isCheckoutSubmitting = false;
-
+    let isRegionLocked = false;      // ✅ قفل حقل المدينة للتاجر
+    let traderCity = '';              // ✅ مدينة التاجر من الكود
     // ============================================================
     // 💾 حفظ/قراءة بيانات الفورم من localStorage
     // ============================================================
@@ -880,6 +897,19 @@
 
         // ✅ قفل الحقول للتاجر والعميل فقط
         lockFields = (checkoutUserRole === ROLES.WHOLESALE || checkoutUserRole === ROLES.RETAIL);
+
+        // ✅ للتاجر: اجلب مدينته من بياناته واقفلها
+        if (checkoutUserRole === ROLES.WHOLESALE && checkoutUserData) {
+          traderCity = checkoutUserData.city 
+                    || checkoutUserData.region 
+                    || checkoutUserData.governorate 
+                    || '';
+          isRegionLocked = true;
+          
+          if (!traderCity) {
+            console.warn('⚠️ التاجر ليس له مدينة محددة!');
+          }
+        }
 
         // ===== تحديد نوع المتجر =====
         if (checkoutUserRole === ROLES.WHOLESALE) {
@@ -974,7 +1004,11 @@
       const regions = isWholesale
         ? Object.keys(SHIPPING_RATES.wholesale)
         : Object.keys(SHIPPING_RATES.retail);
-
+      // ✅ للتاجر: تعيين المدينة تلقائياً
+      if (isRegionLocked && traderCity) {
+        selectedRegion = traderCity;
+      }
+      
       const regionLabel = isWholesale ? 'اختر المدينة' : 'اختر المنطقة';
       const regionPlaceholder = isWholesale
         ? 'طنطا، المنصورة، المحلة'
@@ -1183,18 +1217,34 @@
                     ${regionLabel}
                     <span class="required">*</span>
                   </label>
-                  <div class="region-select-wrapper">
-                    <select id="regionSelect" onchange="handleRegionChange()" required>
+                <div class="region-select-wrapper">
+                    <select 
+                      id="regionSelect" 
+                      onchange="handleRegionChange()" 
+                      required
+                      ${isRegionLocked ? 'disabled' : ''}>
                       <option value="">-- ${regionPlaceholder} --</option>
-                      ${regions.map(r => `<option value="${r}">${r}</option>`).join('')}
+                      ${regions.map(r => `
+                        <option value="${r}" ${isRegionLocked && r === traderCity ? 'selected' : ''}>
+                          ${r}
+                        </option>
+                      `).join('')}
                     </select>
                   </div>
-                  <div class="help-text warning">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    ${isWholesale
-                      ? 'يتم التوصيل للمدن المذكورة فقط - يرجى التواصل مع الدعم للمدن الأخرى'
-                      : 'التوصيل متاح داخل المحلة الكبرى فقط'}
-                  </div>
+                  
+                  ${isRegionLocked ? `
+                    <div class="help-text" style="color:#16a34a;background:#f0fdf4;padding:6px 10px;border-radius:6px;border-right:3px solid #22c55e;margin-top:8px;">
+                      <i class="fas fa-lock" style="color:#22c55e;"></i>
+                      مدينتك محددة تلقائياً حسب الكود السري: <strong>${traderCity || 'غير محدد'}</strong>
+                    </div>
+                  ` : `
+                    <div class="help-text warning">
+                      <i class="fas fa-exclamation-triangle"></i>
+                      ${isWholesale
+                        ? 'يتم التوصيل للمدن المذكورة فقط - يرجى التواصل مع الدعم للمدن الأخرى'
+                        : 'التوصيل متاح داخل المحلة الكبرى فقط'}
+                    </div>
+                  `}
                 </div>
 
                 <div class="shipping-info" id="shippingInfo">
@@ -1297,6 +1347,12 @@
 
       container.innerHTML = html;
 
+            // ✅ للتاجر: احسب الشحن تلقائياً بعد ما الصفحة تترسم
+      if (isRegionLocked && traderCity) {
+        setTimeout(() => {
+          handleRegionChange();
+        }, 100);
+      }
       setTimeout(() => {
         if (!autoName) {
           document.getElementById('customerName')?.focus();
@@ -1481,10 +1537,19 @@
         }
       }
 
-      if (!selectedRegion) {
-        showToast('⚠️ يرجى اختيار المنطقة', 'warning');
-        document.getElementById('regionSelect').focus();
-        return;
+      // ✅ للتاجر: المنطقة مقفولة ومحددة تلقائياً
+      if (isRegionLocked) {
+        if (!traderCity) {
+          showToast('❌ لم يتم تحديد مدينتك - تواصل مع الإدارة', 'error');
+          return;
+        }
+        selectedRegion = traderCity;
+      } else {
+        if (!selectedRegion) {
+          showToast('⚠️ يرجى اختيار المنطقة', 'warning');
+          document.getElementById('regionSelect').focus();
+          return;
+        }
       }
 
       if (!deliveryDate) {
@@ -1531,6 +1596,7 @@
           
           // الشحن
           region: selectedRegion,
+          regionLocked: isRegionLocked,   // ✅ لتسجيل إن التاجر كانت مدينته مقفولة
           deliveryDate: deliveryDate,
           notes: notes || '',
           
