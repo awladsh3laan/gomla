@@ -1320,15 +1320,14 @@
   <script src="/gomla/assets/js/main.js"></script>
 
   <script>
-    
-    document.addEventListener('DOMContentLoaded', function() {
-  if (!protectAdminPlusPage()) return;
-
     // ============================================================
     // 📄 admin/financial-transactions.html
     // إدارة الإبلاغات المالية + المعاملات
     // ============================================================
 
+    // ------------------------------------------------------------
+    // 📦 المتغيرات العامة (خارج أي listener عشان تكون متاحة لكل الدوال)
+    // ------------------------------------------------------------
     let adminData = null;
     let adminId = null;
     let adminRole = null;
@@ -1336,33 +1335,60 @@
     let filteredReports = [];
     let currentFilter = 'all';    // all | pending | approved | rejected | customer_payment | trader_payment
     let currentSearch = '';
-    let currentReport = null;     // للتعديل
+    let currentReport = null;
+    let searchTimeout = null;
 
     // ============================================================
-    // 🚀 تشغيل الصفحة
+    // 🚀 تشغيل الصفحة — listener واحد بس
     // ============================================================
-    document.addEventListener('DOMContentLoaded', async function() {
-      const user = getCurrentUser();
+    document.addEventListener('DOMContentLoaded', async function () {
 
-      if (!user) {
+      // 1) حماية موحّدة
+      if (typeof protectAdminPlusPage === 'function') {
+        const isProtected = protectAdminPlusPage();
+        if (isProtected === false) return;
+        // لو بترجّع undefined نكمل عادي (الاحتياطي تحت)
+      }
+
+      // 2) جلب المستخدم
+      if (typeof getCurrentUser !== 'function') {
+        console.error('❌ getCurrentUser مش موجودة');
         window.location.href = '/gomla/admin/login.html';
         return;
       }
 
-      // 🔒 حماية: سوبر أدمن + أدمن بلص فقط
+      const user = getCurrentUser();
+      if (!user || !user.data) {
+        window.location.href = '/gomla/admin/login.html';
+        return;
+      }
+
+      // 3) فحص الدور
       const role = user.data.role;
       if (role !== ROLES.SUPER && role !== ROLES.ADMIN_PLUS) {
-        showToast('⚠️ هذه الصفحة للسوبر أدمن وأدمن بلص فقط', 'error');
+        if (typeof showToast === 'function') {
+          showToast('⚠️ هذه الصفحة للسوبر أدمن وأدمن بلص فقط', 'error');
+        }
         setTimeout(() => {
           window.location.href = '/gomla/admin/home.html';
         }, 1500);
         return;
       }
 
+      // 4) تهيئة المتغيرات
       adminData = user.data;
-      adminId = adminData.id || adminData.uid;
+      adminId = user.uid || user.data.uid || user.data.id;
       adminRole = role;
 
+      if (!adminId) {
+        console.error('❌ adminId مش موجود في بيانات المستخدم:', user);
+        if (typeof showToast === 'function') {
+          showToast('❌ خطأ في بيانات المستخدم', 'error');
+        }
+        return;
+      }
+
+      // 5) تحميل البيانات
       await loadReports();
       console.log('✅ financial-transactions.html loaded');
     });
@@ -1386,12 +1412,11 @@
 
       } catch (error) {
         console.error('Error loading reports:', error);
-        
+
         let errMsg = 'حدث خطأ في تحميل الإبلاغات';
         if (error.code === 'permission-denied') {
           errMsg = 'ليس لديك صلاحية لعرض الإبلاغات';
         } else if (error.code === 'failed-precondition') {
-          // index مفقود
           errMsg = 'يجب إنشاء فهرس للكولكشن (شوف Console)';
         }
 
@@ -1438,7 +1463,7 @@
       const amtText = pendingAmount > 9999
         ? `${(pendingAmount / 1000).toFixed(1)}k`
         : pendingAmount.toFixed(2);
-      document.getElementById('statPendingAmount').innerHTML = 
+      document.getElementById('statPendingAmount').innerHTML =
         `${amtText} <small style="font-size:0.8rem;font-weight:700;">ج.م</small>`;
 
       // العدادات في التبويبات
@@ -1453,7 +1478,6 @@
     // ============================================================
     // 🔍 البحث
     // ============================================================
-    let searchTimeout = null;
     function handleSearch(value) {
       if (searchTimeout) clearTimeout(searchTimeout);
       searchTimeout = setTimeout(() => {
@@ -1704,7 +1728,7 @@
       };
       const typeText = typeMap[report.type] || report.type || '---';
 
-      const paymentDate = report.paymentDate 
+      const paymentDate = report.paymentDate
         ? new Date(report.paymentDate).toLocaleDateString('ar-EG', {
             year: 'numeric', month: 'long', day: 'numeric'
           }) : '---';
@@ -1735,13 +1759,6 @@
           <button class="modal-action-btn reject" onclick="openActionModal('reject')">
             <i class="fas fa-times"></i>
             رفض الإبلاغ
-          </button>
-        `;
-      } else if (status === 'approved') {
-        actionsHtml = `
-          <button class="modal-action-btn gray" onclick="closeReportModal()">
-            <i class="fas fa-times"></i>
-            إغلاق
           </button>
         `;
       } else {
@@ -1876,8 +1893,8 @@
                   <i class="fas fa-image"></i>
                   صورة الإيصال
                 </h4>
-                <img src="${report.receiptUrl}" 
-                     class="receipt-img" 
+                <img src="${report.receiptUrl}"
+                     class="receipt-img"
                      onclick="window.open('${report.receiptUrl}','_blank')"
                      onerror="this.style.display='none'">
               ` : ''}
@@ -1960,7 +1977,7 @@
                   <i class="fas fa-exclamation-triangle"></i>
                   <div>
                     <strong>ملاحظة:</strong>
-                    عند الاعتماد، سيتم <strong>خصم ${(report.amount || 0).toFixed(2)} ج.م</strong> 
+                    عند الاعتماد، سيتم <strong>خصم ${(report.amount || 0).toFixed(2)} ج.م</strong>
                     من رصيد <strong>${escapeHtml(report.senderName || 'المستخدم')}</strong> تلقائياً.
                   </div>
                 </div>
@@ -1979,8 +1996,8 @@
                   ${isApprove ? 'ملاحظات الاعتماد (اختياري)' : 'سبب الرفض'}
                   ${!isApprove ? '<span style="color:#dc2626;">*</span>' : ''}
                 </label>
-                <textarea 
-                  id="actionNotes" 
+                <textarea
+                  id="actionNotes"
                   placeholder="${isApprove ? 'مثال: تم التحقق من الإيصال والسداد مطابق' : 'مثال: الصورة غير واضحة / المبلغ غير مطابق / لم يتم استلام المبلغ'}"
                   ${!isApprove ? 'required' : ''}
                   maxlength="500"></textarea>
@@ -1993,7 +2010,7 @@
                 <i class="fas fa-times"></i>
                 إلغاء
               </button>
-              <button class="modal-action-btn ${isApprove ? 'approve' : 'reject'}" 
+              <button class="modal-action-btn ${isApprove ? 'approve' : 'reject'}"
                       id="confirmActionBtn"
                       onclick="confirmAction('${action}')">
                 <i class="fas ${isApprove ? 'fa-check' : 'fa-times'}"></i>
@@ -2044,7 +2061,7 @@
         const updateData = {
           status: isApprove ? 'approved' : 'rejected',
           reviewedBy: adminId,
-          reviewedByName: adminData.name || 'غير معروف',
+          reviewedByName: (adminData && adminData.name) || 'غير معروف',
           reviewedAt: firebase.firestore.FieldValue.serverTimestamp(),
           adminNotes: notes || (isApprove ? 'تم الاعتماد' : 'مرفوض'),
           updatedAt: firebase.firestore.FieldValue.serverTimestamp()
@@ -2114,7 +2131,7 @@
         try {
           await db.collection(COLLECTIONS.ACTIVITY_LOG).add({
             userId: adminId,
-            userName: adminData.name || 'unknown',
+            userName: (adminData && adminData.name) || 'unknown',
             userRole: adminRole,
             action: isApprove ? 'اعتماد إبلاغ مالي' : 'رفض إبلاغ مالي',
             details: `إبلاغ #${report.id.slice(-8).toUpperCase()} - ${report.amount.toFixed(2)} ج.م - ${report.senderName}`,
@@ -2126,7 +2143,7 @@
         // 5️⃣ نجاح
         // ============================================================
         closeActionModal();
-        
+
         showToast(
           isApprove ? `✅ تم اعتماد السداد بنجاح` : `✅ تم رفض الإبلاغ`,
           'success'
@@ -2137,7 +2154,7 @@
 
       } catch (error) {
         console.error('Error processing action:', error);
-        
+
         let msg = 'حدث خطأ';
         if (error.code === 'permission-denied') {
           msg = 'ليس لديك صلاحية لتنفيذ هذا الإجراء';
@@ -2168,7 +2185,9 @@
       }
     });
 
-    // ===== تصدير =====
+    // ============================================================
+    // 🌐 تصدير الدوال على window (عشان تشتغل من onclick)
+    // ============================================================
     window.filterByStatus = filterByStatus;
     window.filterByType = filterByType;
     window.handleSearch = handleSearch;
