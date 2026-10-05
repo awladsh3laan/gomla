@@ -317,7 +317,645 @@ window.getRoleArabicName = getRoleArabicName;
 window.protectAdminPlusPage = protectAdminPlusPage;
 window.protectAnyAdminPage = protectAnyAdminPage;
 window.protectCustomerPage = protectCustomerPage;
+// ============================================================
+// 3️⃣ مراقب الجلسات المتعددة (Multi-Session Watcher)
+// ============================================================
+// 📌 المشكلة: Firebase Auth بيستخدم جلسة واحدة لكل browser
+// 📌 عند تسجيل دخول جديد في tab تاني، الـ tab الحالي مش حاسس
+// 📌 الحل: نراقب localStorage + نعرض Overlay + إعادة تحميل
+// ============================================================
 
+(function() {
+  'use strict';
+
+  // ===== الإعدادات =====
+  const WATCHED_KEYS = ['admin', 'customer', 'cashier'];
+  const COUNTDOWN_SECONDS = 5;
+  const EXCLUDED_PAGES = [
+    '/login.html',
+    '/customer-login.html',
+    '/trader-login.html',
+    '/cashier-login.html',
+    '/admin/login.html'
+  ];
+
+  // ===== الحالة =====
+  let lastSnapshot = null;
+  let overlayShown = false;
+  let countdownTimer = null;
+
+  // ============================================================
+  // 📸 أخذ Snapshot للمفاتيح
+  // ============================================================
+  function takeSnapshot() {
+    return {
+      admin: localStorage.getItem('admin'),
+      customer: localStorage.getItem('customer'),
+      cashier: localStorage.getItem('cashier')
+    };
+  }
+
+  function snapshotsAreEqual(a, b) {
+    if (!a || !b) return false;
+    return a.admin === b.admin &&
+           a.customer === b.customer &&
+           a.cashier === b.cashier;
+  }
+
+  // ============================================================
+  // 🚫 هل الصفحة الحالية مستثناة؟
+  // ============================================================
+  function isExcludedPage() {
+    const path = window.location.pathname;
+    return EXCLUDED_PAGES.some(excluded => path.endsWith(excluded));
+  }
+
+  // ============================================================
+  // 🎭 اسم الدور بالعربي (من الـ localStorage key + البيانات)
+  // ============================================================
+  function getRoleNameFromKey(key, data) {
+    if (!data) return 'حساب آخر';
+    
+    if (key === 'admin') {
+      const names = {
+        super: 'سوبر أدمن',
+        admin_plus: 'أدمن بلص',
+        admin: 'أدمن'
+      };
+      return names[data.role] || 'أدمن';
+    }
+    
+    if (key === 'cashier') return 'كاشير';
+    
+    if (key === 'customer') {
+      if (data.role === 'wholesale') return 'تاجر';
+      if (data.role === 'retail') return 'عميل';
+    }
+    
+    return 'حساب آخر';
+  }
+
+  // ============================================================
+  // 🎨 بناء الـ Overlay
+  // ============================================================
+  function buildOverlayHTML(type, roleName) {
+    const isLogin = type === 'login';
+    const isLogout = type === 'logout';
+
+    // الألوان والأيقونات
+    const config = isLogin
+      ? {
+          iconClass: 'fa-user-check',
+          iconBg: 'linear-gradient(135deg, #22c55e, #16a34a)',
+          iconColor: '#ffffff',
+          title: 'تم تسجيل الدخول بحساب آخر',
+          titleColor: '#16a34a',
+          message: `تم تسجيل الدخول بحساب <strong>${roleName}</strong> في نافذة أخرى`,
+          subMessage: 'سيتم إعادة تحميل الصفحة تلقائياً لتحديث الجلسة'
+        }
+      : {
+          iconClass: 'fa-sign-out-alt',
+          iconBg: 'linear-gradient(135deg, #ef4444, #dc2626)',
+          iconColor: '#ffffff',
+          title: 'تم تسجيل الخروج',
+          titleColor: '#dc2626',
+          message: 'تم تسجيل الخروج من حسابك في نافذة أخرى',
+          subMessage: 'سيتم تحويلك إلى الصفحة الرئيسية'
+        };
+
+    return `
+      <div class="session-notice-overlay" id="sessionNoticeOverlay">
+        <div class="session-notice-box">
+          
+          <!-- شريط علوي ملون -->
+          <div class="session-notice-top-bar" style="background:${config.iconBg};"></div>
+
+          <!-- الأيقونة -->
+          <div class="session-notice-icon" style="background:${config.iconBg};">
+            <i class="fas ${config.iconClass}" style="color:${config.iconColor};"></i>
+          </div>
+
+          <!-- العنوان -->
+          <h2 class="session-notice-title" style="color:${config.titleColor};">
+            ${config.title}
+          </h2>
+
+          <!-- الرسالة -->
+          <p class="session-notice-message">
+            ${config.message}
+          </p>
+
+          <!-- الرسالة الفرعية -->
+          <p class="session-notice-submessage">
+            <i class="fas fa-info-circle"></i>
+            ${config.subMessage}
+          </p>
+
+          <!-- العدّاد الدائري -->
+          <div class="session-notice-counter-wrap">
+            <svg class="session-counter-svg" viewBox="0 0 120 120">
+              <!-- الدائرة الخلفية -->
+              <circle 
+                cx="60" cy="60" r="52" 
+                fill="none" 
+                stroke="#e5e7eb" 
+                stroke-width="8" />
+              <!-- الدائرة المتحركة -->
+              <circle 
+                id="sessionCounterCircle"
+                cx="60" cy="60" r="52" 
+                fill="none" 
+                stroke="url(#counterGradient)" 
+                stroke-width="8" 
+                stroke-linecap="round"
+                stroke-dasharray="326.7"
+                stroke-dashoffset="0"
+                transform="rotate(-90 60 60)" />
+              <!-- تدرج لوني -->
+              <defs>
+                <linearGradient id="counterGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#c9a84c" />
+                  <stop offset="100%" stop-color="#b8942a" />
+                </linearGradient>
+              </defs>
+            </svg>
+            
+            <!-- الرقم في الوسط -->
+            <div class="session-counter-number" id="sessionCounterNumber">
+              ${COUNTDOWN_SECONDS}
+            </div>
+          </div>
+
+          <!-- النص التوضيحي -->
+          <div class="session-notice-hint">
+            سيتم التنفيذ خلال <strong id="sessionCounterHint">${COUNTDOWN_SECONDS}</strong> ثواني
+          </div>
+
+          <!-- زر الانتقال الفوري -->
+          <button class="session-notice-btn" id="sessionGoBtn" style="background:${config.iconBg};">
+            <i class="fas fa-arrow-left"></i>
+            الانتقال الآن
+          </button>
+
+        </div>
+      </div>
+    `;
+  }
+
+  // ============================================================
+  // 🎬 عرض الـ Overlay
+  // ============================================================
+  function showOverlay(type, roleName) {
+    if (overlayShown) return;
+    overlayShown = true;
+
+    // حقن CSS إذا لم يكن موجوداً
+    injectStyles();
+
+    // إنشاء الـ Overlay
+    const container = document.createElement('div');
+    container.innerHTML = buildOverlayHTML(type, roleName);
+    const overlay = container.firstElementChild;
+    document.body.appendChild(overlay);
+
+    // منع السكرول
+    document.body.style.overflow = 'hidden';
+
+    // ===== بدء العدّاد =====
+    let seconds = COUNTDOWN_SECONDS;
+    const numberEl = document.getElementById('sessionCounterNumber');
+    const hintEl = document.getElementById('sessionCounterHint');
+    const circleEl = document.getElementById('sessionCounterCircle');
+    const goBtn = document.getElementById('sessionGoBtn');
+
+    // طول محيط الدائرة
+    const CIRCUMFERENCE = 326.7;
+    let elapsed = 0;
+
+    // دالة التنفيذ
+    function executeAction() {
+      if (countdownTimer) clearInterval(countdownTimer);
+      
+      if (type === 'logout') {
+        // مسح localStorage وإعادة توجيه
+        localStorage.removeItem('admin');
+        localStorage.removeItem('customer');
+        localStorage.removeItem('cashier');
+        localStorage.removeItem('adminId');
+        localStorage.removeItem('customerCode');
+        window.location.href = '/gomla/';
+      } else {
+        // login بحساب جديد → reload
+        window.location.reload();
+      }
+    }
+
+    // زر الانتقال الفوري
+    goBtn.addEventListener('click', executeAction);
+
+    // العدّاد كل ثانية
+    countdownTimer = setInterval(() => {
+      seconds--;
+      elapsed += 1;
+
+      // تحديث الرقم
+      if (numberEl) numberEl.textContent = Math.max(0, seconds);
+      if (hintEl) hintEl.textContent = Math.max(0, seconds);
+
+      // تحديث الدائرة (تدريجياً)
+      const progress = Math.min(elapsed / COUNTDOWN_SECONDS, 1);
+      const offset = CIRCUMFERENCE * progress;
+      if (circleEl) circleEl.style.strokeDashoffset = offset;
+
+      // نهاية العدّاد
+      if (seconds <= 0) {
+        clearInterval(countdownTimer);
+        countdownTimer = null;
+        executeAction();
+      }
+    }, 1000);
+  }
+
+  // ============================================================
+  // 💉 حقن CSS (مرة واحدة فقط)
+  // ============================================================
+  function injectStyles() {
+    if (document.getElementById('sessionNoticeStyles')) return;
+
+    const style = document.createElement('style');
+    style.id = 'sessionNoticeStyles';
+    style.textContent = `
+      /* ============================================================
+         🎨 Overlay الجلسات المتعددة
+         ============================================================ */
+      .session-notice-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 26, 46, 0.88);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        z-index: 999999;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        animation: snFadeIn 0.3s ease;
+        overflow-y: auto;
+      }
+
+      @keyframes snFadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+
+      .session-notice-box {
+        background: #ffffff;
+        border-radius: 20px;
+        padding: 32px 28px 28px;
+        max-width: 440px;
+        width: 100%;
+        box-shadow: 
+          0 25px 70px rgba(0, 0, 0, 0.5),
+          0 0 0 1px rgba(201, 168, 76, 0.2);
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        animation: snSlideUp 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      @keyframes snSlideUp {
+        0% {
+          opacity: 0;
+          transform: translateY(30px) scale(0.95);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
+      }
+
+      /* شريط علوي */
+      .session-notice-top-bar {
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 0;
+        height: 6px;
+      }
+
+      /* الأيقونة الدائرية */
+      .session-notice-icon {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 20px;
+        font-size: 2.2rem;
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+        animation: snIconPulse 2s ease-in-out infinite;
+        position: relative;
+      }
+
+      .session-notice-icon::before {
+        content: '';
+        position: absolute;
+        inset: -8px;
+        border-radius: 50%;
+        background: inherit;
+        opacity: 0.2;
+        animation: snIconRipple 2s ease-out infinite;
+      }
+
+      @keyframes snIconPulse {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+      }
+
+      @keyframes snIconRipple {
+        0% {
+          transform: scale(1);
+          opacity: 0.3;
+        }
+        100% {
+          transform: scale(1.4);
+          opacity: 0;
+        }
+      }
+
+      /* العنوان */
+      .session-notice-title {
+        font-size: 1.4rem;
+        font-weight: 900;
+        margin-bottom: 10px;
+        line-height: 1.3;
+        font-family: 'Tajawal', sans-serif;
+      }
+
+      /* الرسالة */
+      .session-notice-message {
+        font-size: 0.95rem;
+        color: #4b5563;
+        line-height: 1.6;
+        margin-bottom: 8px;
+        font-family: 'Tajawal', sans-serif;
+      }
+
+      .session-notice-message strong {
+        color: #1a2a4a;
+        font-weight: 900;
+      }
+
+      /* الرسالة الفرعية */
+      .session-notice-submessage {
+        font-size: 0.82rem;
+        color: #9ca3af;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        margin-bottom: 22px;
+        padding: 6px 14px;
+        background: #f9fafb;
+        border-radius: 20px;
+        font-family: 'Tajawal', sans-serif;
+      }
+
+      .session-notice-submessage i {
+        color: #c9a84c;
+        font-size: 0.75rem;
+      }
+
+      /* العدّاد الدائري */
+      .session-notice-counter-wrap {
+        position: relative;
+        width: 130px;
+        height: 130px;
+        margin: 0 auto 16px;
+      }
+
+      .session-counter-svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+
+      #sessionCounterCircle {
+        transition: stroke-dashoffset 1s linear;
+      }
+
+      .session-counter-number {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 2.8rem;
+        font-weight: 900;
+        color: #1a2a4a;
+        font-family: 'Tajawal', sans-serif;
+        line-height: 1;
+        animation: snNumberPulse 1s ease-in-out infinite;
+      }
+
+      @keyframes snNumberPulse {
+        0%, 100% { transform: translate(-50%, -50%) scale(1); }
+        50% { transform: translate(-50%, -50%) scale(1.08); }
+      }
+
+      /* النص التوضيحي */
+      .session-notice-hint {
+        font-size: 0.85rem;
+        color: #6b7280;
+        margin-bottom: 22px;
+        font-family: 'Tajawal', sans-serif;
+      }
+
+      .session-notice-hint strong {
+        color: #c9a84c;
+        font-weight: 900;
+        font-size: 1rem;
+      }
+
+      /* الزر */
+      .session-notice-btn {
+        width: 100%;
+        padding: 15px 24px;
+        border: none;
+        border-radius: 100px;
+        color: #ffffff;
+        font-family: 'Tajawal', sans-serif;
+        font-weight: 900;
+        font-size: 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .session-notice-btn::before {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 0;
+        height: 0;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.25);
+        transform: translate(-50%, -50%);
+        transition: width 0.5s ease, height 0.5s ease;
+      }
+
+      .session-notice-btn:hover::before {
+        width: 500px;
+        height: 500px;
+      }
+
+      .session-notice-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+      }
+
+      .session-notice-btn:active {
+        transform: translateY(0);
+      }
+
+      .session-notice-btn i,
+      .session-notice-btn span {
+        position: relative;
+        z-index: 1;
+      }
+
+      /* ============================================================
+         📱 Responsive
+         ============================================================ */
+      @media (max-width: 480px) {
+        .session-notice-overlay {
+          padding: 14px;
+        }
+
+        .session-notice-box {
+          padding: 26px 20px 22px;
+          border-radius: 16px;
+        }
+
+        .session-notice-icon {
+          width: 68px;
+          height: 68px;
+          font-size: 1.8rem;
+          margin-bottom: 16px;
+        }
+
+        .session-notice-title {
+          font-size: 1.15rem;
+        }
+
+        .session-notice-message {
+          font-size: 0.88rem;
+        }
+
+        .session-notice-submessage {
+          font-size: 0.75rem;
+          padding: 5px 12px;
+        }
+
+        .session-notice-counter-wrap {
+          width: 110px;
+          height: 110px;
+        }
+
+        .session-counter-number {
+          font-size: 2.3rem;
+        }
+
+        .session-notice-hint {
+          font-size: 0.78rem;
+          margin-bottom: 18px;
+        }
+
+        .session-notice-btn {
+          padding: 13px 20px;
+          font-size: 0.92rem;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  }
+
+  // ============================================================
+  // 🎯 معالج storage event
+  // ============================================================
+  function handleStorageChange(e) {
+    // تجاهل لو مش مفتاح من اللي بنراقبهم
+    if (!e.key || !WATCHED_KEYS.includes(e.key)) return;
+
+    // تجاهل لو الـ Overlay ظاهر بالفعل
+    if (overlayShown) return;
+
+    // تجاهل لو الصفحة الحالية مستثناة
+    if (isExcludedPage()) return;
+
+    // خذ snapshot جديدة
+    const newSnapshot = takeSnapshot();
+
+    // لو مفيش تغيير فعلي، تجاهل
+    if (snapshotsAreEqual(newSnapshot, lastSnapshot)) return;
+
+    // في تغيير فعلي!
+    const oldSnapshot = lastSnapshot;
+    lastSnapshot = newSnapshot;
+
+    // حدد نوع التغيير
+    if (e.newValue === null) {
+      // ===== حالة logout =====
+      console.log('🔄 Session change detected: LOGOUT');
+      showOverlay('logout', null);
+    } else {
+      // ===== حالة login جديد =====
+      let newUser = null;
+      try {
+        newUser = JSON.parse(e.newValue);
+      } catch (err) {
+        console.warn('Could not parse new user data:', err);
+      }
+
+      const roleName = getRoleNameFromKey(e.key, newUser);
+      console.log(`🔄 Session change detected: LOGIN as ${roleName}`);
+      showOverlay('login', roleName);
+    }
+  }
+
+  // ============================================================
+  // 🚀 بدء المراقبة
+  // ============================================================
+  function initSessionWatcher() {
+    // تجاهل لو الصفحة مستثناة
+    if (isExcludedPage()) {
+      console.log('ℹ️ Session watcher: excluded page');
+      return;
+    }
+
+    // خذ snapshot أولية
+    lastSnapshot = takeSnapshot();
+
+    // استمع للتغييرات
+    window.addEventListener('storage', handleStorageChange);
+
+    console.log('✅ Session watcher initialized');
+  }
+
+  // بدء عند تحميل الصفحة
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initSessionWatcher);
+  } else {
+    initSessionWatcher();
+  }
+
+})();
 // ============================================================
 // 2️⃣ نظام Toast
 // ============================================================
