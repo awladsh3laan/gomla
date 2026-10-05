@@ -1320,6 +1320,10 @@
   <script src="/gomla/assets/js/main.js"></script>
 
   <script>
+    
+    document.addEventListener('DOMContentLoaded', function() {
+  if (!protectAdminPlusPage()) return;
+
     // ============================================================
     // 📄 admin/financial-transactions.html
     // إدارة الإبلاغات المالية + المعاملات
