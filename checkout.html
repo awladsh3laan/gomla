@@ -703,6 +703,58 @@
         font-size: 0.88rem;
       }
     }
+        /* ===== اختيار عنوان التوصيل ===== */
+    .delivery-choice {
+      display: flex;
+      gap: 12px;
+      margin-top: 6px;
+    }
+
+    .delivery-option {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 14px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.25s ease;
+      background: var(--gray-50);
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: var(--gray-700);
+    }
+
+    .delivery-option:hover {
+      border-color: var(--gold);
+      background: var(--white);
+    }
+
+    .delivery-option input[type="radio"] {
+      accent-color: var(--gold);
+      cursor: pointer;
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .delivery-option:has(input:checked) {
+      border-color: var(--gold);
+      background: #fcf9f0;
+      color: var(--navy);
+      box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.15);
+    }
+
+    .delivery-option i {
+      color: var(--gold);
+    }
+
+    @media (max-width: 480px) {
+      .delivery-choice {
+        flex-direction: column;
+      }
+    }
   </style>
 </head>
 <body>
@@ -764,18 +816,18 @@
    <script>
     // ============================================================
     // 📄 checkout.html - إتمام الطلب
-    // ✅ الإصدار: 2.0 (متوافق مع main.js v6.0)
+    // ✅ الإصدار: 3.0 (متوافق مع main.js v6.0)
+    // 📌 ملئ تلقائي لكل الأدوار + قفل انتقائي + اختيار عنوان التوصيل
     // ============================================================
 
-    // ===== المتغيرات =====
-    // ⚠️ ملاحظة: استخدمنا isGuestUser بدلاً من isGuest
-    //    لتجنب التعارض مع دالة isGuest() في main.js
+    // ===== المتغيرات (أسماء مميزة لتجنب التعارض) =====
     let cartItems = [];
     let isGuestUser = false;
     let checkoutUserId = null;
     let checkoutUserRole = ROLES.GUEST;
     let checkoutStoreType = 'retail';
     let checkoutUserData = null;
+    let lockFields = false;              // ✅ هل نقفل الاسم/الهاتف/العنوان؟
     let shippingCost = 0;
     let subtotal = 0;
     let totalAmount = 0;
@@ -785,6 +837,28 @@
     let isCheckoutSubmitting = false;
 
     // ============================================================
+    // 💾 حفظ/قراءة بيانات الفورم من localStorage
+    // ============================================================
+
+    const CHECKOUT_FORM_KEY = 'checkout_form_data';
+
+    function getSavedFormData() {
+      try {
+        return JSON.parse(localStorage.getItem(CHECKOUT_FORM_KEY) || '{}');
+      } catch {
+        return {};
+      }
+    }
+
+    function saveFormData(data) {
+      try {
+        localStorage.setItem(CHECKOUT_FORM_KEY, JSON.stringify(data));
+      } catch (e) {
+        console.warn('Could not save form data:', e);
+      }
+    }
+
+    // ============================================================
     // 🚀 تحميل الصفحة
     // ============================================================
 
@@ -792,7 +866,6 @@
       const container = document.getElementById('checkoutContainer');
       if (!container) return;
 
-      // جلب نوع المتجر من الرابط
       const urlParams = new URLSearchParams(window.location.search);
       const urlStoreType = urlParams.get('type');
 
@@ -805,28 +878,22 @@
         checkoutUserRole = user.data.role || ROLES.RETAIL;
         checkoutUserData = user.data;
 
-        // ✅ تحديد نوع المتجر حسب الدور
+        // ✅ قفل الحقول للتاجر والعميل فقط
+        lockFields = (checkoutUserRole === ROLES.WHOLESALE || checkoutUserRole === ROLES.RETAIL);
+
+        // ===== تحديد نوع المتجر =====
         if (checkoutUserRole === ROLES.WHOLESALE) {
-          // تاجر → جملة إجباري
           checkoutStoreType = 'wholesale';
           minOrderAmount = window.WHOLESALE_MIN_ORDER || 1500;
         } else if (checkoutUserRole === ROLES.RETAIL) {
-          // عميل قطاعي → قطاعي إجباري
           checkoutStoreType = 'retail';
           minOrderAmount = 0;
-        } else if (
-          checkoutUserRole === ROLES.ADMIN ||
-          checkoutUserRole === ROLES.SUPER ||
-          checkoutUserRole === ROLES.CASHIER
-        ) {
-          // ✅ أدوار إدارية → حسب الرابط (أو جملة افتراضي)
-          checkoutStoreType = urlStoreType === 'retail' ? 'retail' : 'wholesale';
-          minOrderAmount = checkoutStoreType === 'wholesale' 
-            ? (window.WHOLESALE_MIN_ORDER || 1500) 
-            : 0;
         } else {
-          checkoutStoreType = 'retail';
-          minOrderAmount = 0;
+          // ✅ أدوار إدارية (سوبر/أدمن/كاشير/admin_plus) → حسب الرابط
+          checkoutStoreType = urlStoreType === 'retail' ? 'retail' : 'wholesale';
+          minOrderAmount = checkoutStoreType === 'wholesale'
+            ? (window.WHOLESALE_MIN_ORDER || 1500)
+            : 0;
         }
 
         await loadUserCart();
@@ -837,6 +904,7 @@
         checkoutUserId = null;
         checkoutUserRole = ROLES.GUEST;
         checkoutStoreType = 'retail';
+        lockFields = false;
         minOrderAmount = 0;
 
         loadGuestCart();
@@ -844,7 +912,7 @@
     }
 
     // ============================================================
-    // 📥 تحميل سلة المستخدم المسجل
+    // 📥 تحميل سلة المستخدم
     // ============================================================
 
     async function loadUserCart() {
@@ -870,10 +938,6 @@
         showToast('❌ حدث خطأ في تحميل السلة', 'error');
       }
     }
-
-    // ============================================================
-    // 📥 تحميل سلة الزائر
-    // ============================================================
 
     function loadGuestCart() {
       const saved = localStorage.getItem('guest_cart');
@@ -901,30 +965,59 @@
       const container = document.getElementById('checkoutContainer');
       if (!container) return;
 
-      // حساب المجموع الفرعي
       subtotal = 0;
       cartItems.forEach(item => {
         subtotal += (item.price || 0) * (item.quantity || 1);
       });
 
       const isWholesale = checkoutStoreType === 'wholesale';
+      const regions = isWholesale
+        ? Object.keys(SHIPPING_RATES.wholesale)
+        : Object.keys(SHIPPING_RATES.retail);
 
-      // قائمة المناطق
-      const regions = isWholesale ? 
-        Object.keys(SHIPPING_RATES.wholesale) : 
-        Object.keys(SHIPPING_RATES.retail);
-      
       const regionLabel = isWholesale ? 'اختر المدينة' : 'اختر المنطقة';
-      const regionPlaceholder = isWholesale ? 'طنطا، المنصورة، المحلة' : 'الرجبي، السبع بنات، الزراعة...';
+      const regionPlaceholder = isWholesale
+        ? 'طنطا، المنصورة، المحلة'
+        : 'الرجبي، السبع بنات، الزراعة...';
 
-      // البيانات التلقائية للمسجل
-      const autoName = !isGuestUser && checkoutUserData?.name ? checkoutUserData.name : '';
-      const autoPhone = !isGuestUser && checkoutUserData?.phone ? checkoutUserData.phone : '';
-      const autoAddress = !isGuestUser && checkoutUserData?.address ? checkoutUserData.address : '';
+      // ===== 📥 جلب البيانات المحفوظة =====
+      const savedForm = getSavedFormData();
 
-      // بناء HTML
+      // ===== 🎯 تحديد قيم الملئ التلقائي =====
+      // الاسم/الهاتف/العنوان: من الحفظ المحلي أولاً، ثم من الحساب
+      let autoName = savedForm.name || '';
+      let autoPhone = savedForm.phone || '';
+      let autoAddress = savedForm.address || '';
+
+      // للمستخدمين المسجلين: لو مفيش حفظ محلي، نستخدم بيانات الحساب
+      if (!isGuestUser && checkoutUserData) {
+        if (!autoName) autoName = checkoutUserData.name || '';
+        if (!autoPhone) autoPhone = checkoutUserData.phone || '';
+        if (!autoAddress) autoAddress = checkoutUserData.address || '';
+      }
+
+      // باقي الحقول: من الحفظ المحلي دائماً
+      let autoPhone2 = savedForm.phone2 || '';
+      let autoAddress2 = savedForm.address2 || '';
+      let autoNotes = savedForm.notes || '';
+      let autoDeliveryChoice = savedForm.deliveryChoice || 'address1';
+
+      // ===== 🧩 حالة القفل/الفتح =====
+      // القفل: للتاجر والعميل فقط
+      // الفتح: للزائر وللأدوار الإدارية
+      const nameReadonly = lockFields ? 'readonly' : '';
+      const phoneReadonly = lockFields ? 'readonly' : '';
+      const addressReadonly = lockFields ? 'readonly' : '';
+
+      const nameRequired = (!lockFields) ? 'required' : '';
+      const phoneRequired = (!lockFields) ? 'required' : '';
+      const addressRequired = (!lockFields) ? 'required' : '';
+
+      // الزائر: الحقول الإجبارية تشمل العنوان البديل أيضاً
+      // (هيتم التحقق منها في الكود حسب اختيار عنوان التوصيل)
+
+      // ===== HTML =====
       let html = `
-        <!-- رأس الصفحة -->
         <div class="checkout-header">
           <div class="header-left">
             <div class="header-icon">
@@ -940,7 +1033,6 @@
 
         <div class="checkout-layout">
           
-          <!-- النموذج -->
           <div class="checkout-form-container">
             <form id="checkoutForm" onsubmit="handleSubmit(event)">
               
@@ -951,7 +1043,9 @@
                     <i class="fas fa-user"></i>
                   </div>
                   <h2>بيانات العميل</h2>
-                  ${!isGuestUser ? `<span class="section-badge">جلب تلقائي</span>` : `<span class="section-badge">إدخال يدوي</span>`}
+                  ${lockFields 
+                    ? `<span class="section-badge">جلب تلقائي</span>` 
+                    : `<span class="section-badge">${isGuestUser ? 'إدخال يدوي' : 'قابل للتعديل'}</span>`}
                 </div>
 
                 <div class="form-group">
@@ -959,7 +1053,7 @@
                     <i class="fas fa-user"></i>
                     الاسم الكامل
                     <span class="required">*</span>
-                    ${!isGuestUser ? `<span class="locked-badge"><i class="fas fa-lock"></i> مقروء</span>` : ''}
+                    ${lockFields ? `<span class="locked-badge"><i class="fas fa-lock"></i> مقروء</span>` : ''}
                   </label>
                   <input 
                     type="text" 
@@ -967,7 +1061,8 @@
                     value="${autoName}"
                     placeholder="الاسم الثلاثي"
                     maxlength="60"
-                    ${!isGuestUser ? 'readonly' : 'required'}>
+                    ${nameReadonly}
+                    ${nameRequired}>
                 </div>
 
                 <div class="form-row">
@@ -976,7 +1071,7 @@
                       <i class="fas fa-phone"></i>
                       رقم الهاتف
                       <span class="required">*</span>
-                      ${!isGuestUser ? `<span class="locked-badge"><i class="fas fa-lock"></i></span>` : ''}
+                      ${lockFields ? `<span class="locked-badge"><i class="fas fa-lock"></i></span>` : ''}
                     </label>
                     <input 
                       type="tel" 
@@ -985,22 +1080,22 @@
                       placeholder="01xxxxxxxxx"
                       maxlength="11"
                       inputmode="numeric"
-                      ${!isGuestUser ? 'readonly' : 'required'}>
+                      ${phoneReadonly}
+                      ${phoneRequired}>
                   </div>
 
                   <div class="form-group">
                     <label>
                       <i class="fas fa-phone-volume"></i>
-                      رقم هاتف بديل
-                      <span class="required">*</span>
+                      رقم هاتف بديل (اختياري)
                     </label>
                     <input 
                       type="tel" 
                       id="customerPhone2" 
+                      value="${autoPhone2}"
                       placeholder="01xxxxxxxxx"
                       maxlength="11"
-                      inputmode="numeric"
-                      required>
+                      inputmode="numeric">
                   </div>
                 </div>
 
@@ -1009,7 +1104,7 @@
                     <i class="fas fa-map-marker-alt"></i>
                     العنوان الأساسي
                     <span class="required">*</span>
-                    ${!isGuestUser ? `<span class="locked-badge"><i class="fas fa-lock"></i></span>` : ''}
+                    ${lockFields ? `<span class="locked-badge"><i class="fas fa-lock"></i></span>` : ''}
                   </label>
                   <input 
                     type="text" 
@@ -1017,7 +1112,8 @@
                     value="${autoAddress}"
                     placeholder="المدينة - الشارع - رقم المبنى"
                     maxlength="150"
-                    ${!isGuestUser ? 'readonly' : 'required'}>
+                    ${addressReadonly}
+                    ${addressRequired}>
                 </div>
 
                 <div class="form-group">
@@ -1028,6 +1124,7 @@
                   <input 
                     type="text" 
                     id="customerAddress2" 
+                    value="${autoAddress2}"
                     placeholder="عنوان آخر للتوصيل"
                     maxlength="150">
                   <div class="help-text">
@@ -1035,6 +1132,40 @@
                     يمكنك إضافة عنوان مختلف لتوصيل الطلب إليه
                   </div>
                 </div>
+
+                <!-- ===== 🆕 اختيار عنوان التوصيل ===== -->
+                <div class="form-group">
+                  <label>
+                    <i class="fas fa-truck-loading"></i>
+                    عنوان التوصيل
+                    <span class="required">*</span>
+                  </label>
+                  <div class="delivery-choice">
+                    <label class="delivery-option">
+                      <input 
+                        type="radio" 
+                        name="deliveryChoice" 
+                        value="address1"
+                        ${autoDeliveryChoice === 'address1' ? 'checked' : ''}>
+                      <i class="fas fa-home"></i>
+                      <span>العنوان الأساسي</span>
+                    </label>
+                    <label class="delivery-option">
+                      <input 
+                        type="radio" 
+                        name="deliveryChoice" 
+                        value="address2"
+                        ${autoDeliveryChoice === 'address2' ? 'checked' : ''}>
+                      <i class="fas fa-map-marker-alt"></i>
+                      <span>العنوان البديل</span>
+                    </label>
+                  </div>
+                  <div class="help-text">
+                    <i class="fas fa-info-circle"></i>
+                    اختر العنوان الذي تريد توصيل الطلب إليه
+                  </div>
+                </div>
+
               </div>
 
               <!-- ===== قسم التوصيل ===== -->
@@ -1060,13 +1191,12 @@
                   </div>
                   <div class="help-text warning">
                     <i class="fas fa-exclamation-triangle"></i>
-                    ${isWholesale ? 
-                      'يتم التوصيل للمدن المذكورة فقط - يرجى التواصل مع الدعم للمدن الأخرى' : 
-                      'التوصيل متاح داخل المحلة الكبرى فقط'}
+                    ${isWholesale
+                      ? 'يتم التوصيل للمدن المذكورة فقط - يرجى التواصل مع الدعم للمدن الأخرى'
+                      : 'التوصيل متاح داخل المحلة الكبرى فقط'}
                   </div>
                 </div>
 
-                <!-- معلومات الشحن -->
                 <div class="shipping-info" id="shippingInfo">
                   <i class="fas fa-info-circle"></i>
                   <div id="shippingInfoText"></div>
@@ -1085,7 +1215,7 @@
                     required>
                   <div class="help-text">
                     <i class="fas fa-clock"></i>
-                    قد تستغرق عملية التوصيل من ساعتين إلى 4 أيام عمل حسب الظروف والحالة
+                    قد تستغرق عملية التوصيل من ساعتين إلى 4 أيام عمل حسب الظروف
                   </div>
                 </div>
 
@@ -1098,7 +1228,7 @@
                     id="orderNotes" 
                     rows="3"
                     placeholder="أي تعليمات إضافية للتوصيل أو ملاحظات..."
-                    maxlength="300"></textarea>
+                    maxlength="300">${autoNotes}</textarea>
                 </div>
               </div>
 
@@ -1163,60 +1293,25 @@
           </div>
 
         </div>
-
-        <!-- شاشة النجاح -->
-        <div class="success-screen" id="successScreen">
-          <div class="success-icon">
-            <i class="fas fa-check"></i>
-          </div>
-          <h2>🎉 تم استلام طلبك بنجاح!</h2>
-          <div class="order-number">
-            <i class="fas fa-hashtag"></i>
-            <span id="successOrderNumber">--</span>
-          </div>
-          <p>
-            شكراً لثقتك بنا! سيتم التواصل معك قريباً لتأكيد الطلب وتفاصيل التوصيل.
-            <br>
-            ${isGuestUser ? 
-              '<strong>ملاحظة:</strong> أنت تطلب كزائر. يمكنك التسجيل لتتبع طلباتك.' : 
-              'يمكنك متابعة طلبك من صفحة "طلباتي".'}
-          </p>
-          <div class="success-actions">
-            <a href="/gomla/${isWholesale ? 'store-wholesale' : 'store-retail'}.html" class="btn btn-primary">
-              <i class="fas fa-shopping-cart"></i>
-              متابعة التسوق
-            </a>
-            ${!isGuestUser ? `
-              <a href="/gomla/customer/orders.html" class="btn btn-outline">
-                <i class="fas fa-list"></i>
-                طلباتي
-              </a>
-            ` : `
-              <a href="/gomla/customer-register.html" class="btn btn-outline">
-                <i class="fas fa-user-plus"></i>
-                أنشئ حساب
-              </a>
-            `}
-          </div>
-        </div>
       `;
 
       container.innerHTML = html;
 
-      // التركيز التلقائي على أول حقل فارغ
       setTimeout(() => {
-        if (isGuestUser) {
+        if (!autoName) {
           document.getElementById('customerName')?.focus();
-        } else {
+        } else if (!autoPhone2) {
           document.getElementById('customerPhone2')?.focus();
+        } else {
+          document.getElementById('regionSelect')?.focus();
         }
       }, 300);
 
-      console.log('✅ Checkout page rendered');
+      console.log('✅ Checkout page rendered | lockFields =', lockFields);
     }
 
     // ============================================================
-    // 📋 عرض المنتجات في الملخص
+    // 📋 عرض المنتجات
     // ============================================================
 
     function renderSummaryItems() {
@@ -1286,7 +1381,6 @@
         return;
       }
 
-      // حساب الشحن
       const isFree = subtotal >= rate.freeThreshold;
       isFreeShipping = isFree;
       shippingCost = isFree ? 0 : rate.cost;
@@ -1300,7 +1394,7 @@
       } else {
         shippingValue.textContent = `${shippingCost.toFixed(2)} ج.م`;
         shippingValue.style.color = 'var(--gold-dark)';
-        
+
         const remaining = rate.freeThreshold - subtotal;
         shippingInfoText.innerHTML = `
           💡 أضف <strong>${remaining.toFixed(2)} ج.م</strong> للحصول على شحن مجاني
@@ -1309,14 +1403,13 @@
         shippingInfo.classList.add('show');
       }
 
-      // حساب الإجمالي
       totalAmount = subtotal + shippingCost;
       totalValue.textContent = `${totalAmount.toFixed(2)} ج.م`;
       totalValue.style.color = 'var(--gold-dark)';
     }
 
     // ============================================================
-    // 📅 تاريخ أدنى للتوصيل
+    // 📅 تاريخ أدنى
     // ============================================================
 
     function getMinDate() {
@@ -1343,6 +1436,7 @@
       const phone2 = document.getElementById('customerPhone2').value.trim();
       const address = document.getElementById('customerAddress').value.trim();
       const address2 = document.getElementById('customerAddress2').value.trim();
+      const deliveryChoice = document.querySelector('input[name="deliveryChoice"]:checked')?.value;
       const deliveryDate = document.getElementById('deliveryDate').value;
       const notes = document.getElementById('orderNotes').value.trim();
 
@@ -1354,21 +1448,37 @@
       }
 
       if (!phone || !/^01[0-9]{9}$/.test(phone)) {
-        showToast('⚠️ رقم الهاتف يجب أن يكون 11 رقم', 'warning');
+        showToast('⚠️ رقم الهاتف يجب أن يكون 11 رقم ويبدأ بـ 01', 'warning');
         document.getElementById('customerPhone').focus();
         return;
       }
 
-      if (!phone2 || !/^01[0-9]{9}$/.test(phone2)) {
-        showToast('⚠️ رقم الهاتف البديل يجب أن يكون 11 رقم', 'warning');
+      // الهاتف البديل: اختياري - لو مكتوب، نتحقق من الصيغة
+      if (phone2 && !/^01[0-9]{9}$/.test(phone2)) {
+        showToast('⚠️ رقم الهاتف البديل غير صحيح', 'warning');
         document.getElementById('customerPhone2').focus();
         return;
       }
 
       if (!address || address.length < 5) {
-        showToast('⚠️ يرجى إدخال العنوان بالتفصيل', 'warning');
+        showToast('⚠️ يرجى إدخال العنوان الأساسي بالتفصيل', 'warning');
         document.getElementById('customerAddress').focus();
         return;
+      }
+
+      // ✅ التحقق من اختيار عنوان التوصيل
+      if (!deliveryChoice) {
+        showToast('⚠️ يرجى اختيار عنوان التوصيل', 'warning');
+        return;
+      }
+
+      // ✅ لو اختار العنوان البديل، لازم يكتبه
+      if (deliveryChoice === 'address2') {
+        if (!address2 || address2.length < 5) {
+          showToast('⚠️ يرجى إدخال العنوان البديل أو تغيير اختيار التوصيل', 'warning');
+          document.getElementById('customerAddress2').focus();
+          return;
+        }
       }
 
       if (!selectedRegion) {
@@ -1390,6 +1500,9 @@
         return;
       }
 
+      // ===== تحديد عنوان التوصيل الفعلي =====
+      const deliveryAddress = deliveryChoice === 'address2' ? address2 : address;
+
       // ===== بدء الإرسال =====
       isCheckoutSubmitting = true;
       const btn = document.getElementById('confirmBtn');
@@ -1398,15 +1511,18 @@
       btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري إرسال الطلب...';
 
       try {
-        // ===== بناء بيانات الطلب =====
         const orderData = {
           // العميل
           customerId: checkoutUserId || null,
           customerName: name,
           customerPhone: phone,
-          customerPhone2: phone2,
+          customerPhone2: phone2 || '',
           customerAddress: address,
           customerAddress2: address2 || '',
+          
+          // ✅ عنوان التوصيل
+          deliveryChoice: deliveryChoice,
+          deliveryAddress: deliveryAddress,
           
           // نوع الطلب
           isGuest: isGuestUser,
@@ -1451,6 +1567,17 @@
         const orderRef = await db.collection(COLLECTIONS.ORDERS).add(orderData);
         const orderNumber = orderRef.id.slice(-8).toUpperCase();
 
+        // ===== 💾 حفظ بيانات الفورم للاستخدام المستقبلي =====
+        saveFormData({
+          name: name,
+          phone: phone,
+          phone2: phone2,
+          address: address,
+          address2: address2,
+          deliveryChoice: deliveryChoice,
+          notes: notes
+        });
+
         // ===== حذف السلة =====
         if (isGuestUser) {
           localStorage.removeItem('guest_cart');
@@ -1478,18 +1605,16 @@
           console.warn('Could not log activity:', logError);
         }
 
-        // ===== تحديث شارة السلة =====
         if (typeof updateCartBadge === 'function') {
           updateCartBadge();
         }
 
-        // ===== الانتقال لصفحة النجاح =====
         window.location.href = `/gomla/order-success.html?id=${orderRef.id}`;
 
       } catch (error) {
         console.error('Error submitting order:', error);
         showToast('❌ حدث خطأ في إرسال الطلب: ' + error.message, 'error');
-        
+
         btn.disabled = false;
         btn.innerHTML = originalText;
         isCheckoutSubmitting = false;
@@ -1502,12 +1627,8 @@
 
     document.addEventListener('DOMContentLoaded', function() {
       loadCheckout();
-      console.log('✅ checkout.html loaded');
+      console.log('✅ checkout.html v3.0 loaded');
     });
-
-    // ============================================================
-    // 🌐 تصدير الدوال
-    // ============================================================
 
     window.loadCheckout = loadCheckout;
     window.handleRegionChange = handleRegionChange;
