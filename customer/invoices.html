@@ -13,15 +13,30 @@
 
   <style>
     /* ============================================================
-       🎨 ستايل صفحة فواتيري
+       🛡️ منع السكرول الأفقي على الصفحة كلها
+       ============================================================ */
+    html, body {
+      overflow-x: hidden !important;
+      max-width: 100vw;
+    }
+
+    .page-content,
+    .page-content .container {
+      overflow-x: hidden;
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    /* ============================================================
+       🎨 ستايل صفحة فواتيري v2.1
        ============================================================ */
 
     /* ===== رأس الصفحة ===== */
     .invoices-header {
       background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
       border-radius: var(--radius-lg);
-      padding: 24px;
-      margin-bottom: 20px;
+      padding: 22px 24px;
+      margin-bottom: 18px;
       color: var(--white);
       position: relative;
       overflow: hidden;
@@ -46,64 +61,60 @@
       z-index: 1;
       display: flex;
       align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
+      gap: 16px;
     }
 
     .invoices-header-content .header-icon {
-      width: 64px;
-      height: 64px;
+      width: 56px;
+      height: 56px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--gold), var(--gold-dark));
       color: var(--navy);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       flex-shrink: 0;
       box-shadow: 0 8px 24px rgba(201, 168, 76, 0.4);
     }
 
     .invoices-header-content .header-text {
       flex: 1;
-      min-width: 200px;
+      min-width: 0;
     }
 
     .invoices-header-content .header-text h1 {
-      font-size: 1.5rem;
+      font-size: 1.35rem;
       font-weight: 900;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
       color: var(--white);
     }
 
     .invoices-header-content .header-text p {
-      font-size: 0.88rem;
-      opacity: 0.9;
+      font-size: 0.83rem;
+      opacity: 0.88;
       color: rgba(255, 255, 255, 0.85);
+      margin: 0;
     }
 
     /* ===== بطاقات الإحصائيات المالية ===== */
     .financial-stats {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 12px;
-      margin-bottom: 20px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
     }
 
     .financial-card {
       background: var(--white);
       border-radius: var(--radius-md);
-      padding: 18px;
+      padding: 14px 12px;
       box-shadow: var(--shadow-sm);
       border: 1px solid var(--gray-200);
       position: relative;
       overflow: hidden;
       transition: var(--transition);
-    }
-
-    .financial-card:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-lg);
+      text-align: center;
     }
 
     .financial-card::before {
@@ -114,6 +125,16 @@
       width: 4px;
       height: 100%;
       transition: transform 0.4s ease;
+      transform: scaleY(0);
+      transform-origin: bottom;
+    }
+
+    .financial-card:hover::before { transform: scaleY(1); }
+
+    .financial-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--gold-light);
     }
 
     .financial-card.total::before { background: var(--gold); }
@@ -122,14 +143,14 @@
     .financial-card.count::before { background: #2563eb; }
 
     .financial-card .fc-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: var(--radius-sm);
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2rem;
-      margin-bottom: 12px;
+      font-size: 1rem;
+      margin: 0 auto 8px;
     }
 
     .fc-icon.gold { background: rgba(201, 168, 76, 0.15); color: var(--gold-dark); }
@@ -138,17 +159,20 @@
     .fc-icon.blue { background: rgba(59, 130, 246, 0.12); color: #2563eb; }
 
     .financial-card .fc-label {
-      font-size: 0.78rem;
+      font-size: 0.68rem;
       color: var(--gray-500);
       font-weight: 700;
       margin-bottom: 4px;
+      line-height: 1.2;
     }
 
     .financial-card .fc-value {
-      font-size: 1.35rem;
+      font-size: 1.15rem;
       font-weight: 900;
       color: var(--navy);
       line-height: 1.2;
+      direction: ltr;
+      text-align: center;
     }
 
     .financial-card .fc-value.gold { color: var(--gold-dark); }
@@ -156,28 +180,39 @@
     .financial-card .fc-value.red { color: #dc2626; }
     .financial-card .fc-value.blue { color: #2563eb; }
 
+    .financial-card .fc-currency {
+      font-size: 0.65rem;
+      color: var(--gray-400);
+      margin-top: 2px;
+      font-weight: 700;
+    }
+
     /* ===== أدوات الفلترة ===== */
     .filter-bar {
       background: var(--white);
       border-radius: var(--radius-md);
-      padding: 16px;
-      margin-bottom: 20px;
+      padding: 14px;
+      margin-bottom: 18px;
       box-shadow: var(--shadow-sm);
       border: 1px solid var(--gray-200);
+      overflow: hidden;
+      min-width: 0;
+      max-width: 100%;
     }
 
     .search-box {
       position: relative;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
+      width: 100%;
     }
 
     .search-box input {
       width: 100%;
-      padding: 12px 44px 12px 14px;
+      padding: 12px 42px 12px 14px;
       border: 2px solid var(--gray-200);
       border-radius: var(--radius-sm);
       font-family: inherit;
-      font-size: 0.92rem;
+      font-size: 0.9rem;
       background: var(--gray-50);
       transition: all 0.3s ease;
     }
@@ -191,39 +226,58 @@
 
     .search-box .search-icon {
       position: absolute;
-      right: 14px;
+      right: 13px;
       top: 50%;
       transform: translateY(-50%);
       color: var(--gray-400);
       pointer-events: none;
+      font-size: 0.9rem;
     }
 
-    /* تبويبات الحالة */
+    /* 🛡️ wrapper لمنع تسرب السكرول */
+    .payment-tabs-wrapper {
+      position: relative;
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
+      overflow: hidden;
+    }
+
     .payment-tabs {
       display: flex;
-      gap: 8px;
+      gap: 6px;
       overflow-x: auto;
-      padding-bottom: 4px;
+      overflow-y: hidden;
+      padding: 2px 2px 8px;
       scrollbar-width: thin;
+      -webkit-overflow-scrolling: touch;
+      max-width: 100%;
+      min-width: 0;
+      width: 100%;
+      overscroll-behavior-x: contain;
     }
 
     .payment-tabs::-webkit-scrollbar { height: 4px; }
+    .payment-tabs::-webkit-scrollbar-track {
+      background: var(--gray-100);
+      border-radius: 10px;
+    }
     .payment-tabs::-webkit-scrollbar-thumb {
       background: var(--gold);
       border-radius: 10px;
     }
 
     .payment-tab {
-      padding: 10px 16px;
+      padding: 8px 14px;
       border: 2px solid var(--gray-200);
       background: var(--white);
       color: var(--gray-600);
       border-radius: var(--radius-full);
       font-family: inherit;
       font-weight: 700;
-      font-size: 0.82rem;
+      font-size: 0.78rem;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.25s ease;
       display: flex;
       align-items: center;
       gap: 6px;
@@ -246,9 +300,9 @@
       background: rgba(255, 255, 255, 0.2);
       padding: 1px 7px;
       border-radius: 10px;
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       font-weight: 800;
-      min-width: 20px;
+      min-width: 18px;
       text-align: center;
     }
 
@@ -261,8 +315,11 @@
     .invoices-list {
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 12px;
       margin-bottom: 24px;
+      min-width: 0;
+      max-width: 100%;
+      overflow: hidden;
     }
 
     .invoice-card {
@@ -273,12 +330,13 @@
       overflow: hidden;
       transition: var(--transition);
       position: relative;
+      min-width: 0;
+      max-width: 100%;
     }
 
     .invoice-card:hover {
       box-shadow: var(--shadow-lg);
       border-color: var(--gold-light);
-      transform: translateY(-2px);
     }
 
     .invoice-card::before {
@@ -298,74 +356,84 @@
 
     /* رأس الكارت */
     .invoice-card-header {
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr auto;
       align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 14px 18px;
+      gap: 10px;
+      padding: 12px 14px;
       background: linear-gradient(135deg, #fcf9f0, #f8f4e8);
-      border-bottom: 2px solid var(--gray-100);
-      flex-wrap: wrap;
+      border-bottom: 1px solid var(--gray-200);
     }
 
-    .invoice-card-header .invoice-number-wrap {
+    .invoice-header-left {
       display: flex;
       align-items: center;
       gap: 10px;
       min-width: 0;
-      flex: 1;
     }
 
-    .invoice-card-header .invoice-icon-wrap {
-      width: 42px;
-      height: 42px;
+    .invoice-icon-wrap {
+      width: 40px;
+      height: 40px;
       border-radius: var(--radius-sm);
       background: linear-gradient(135deg, var(--gold-light), var(--gold));
       color: var(--navy);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1rem;
+      font-size: 0.95rem;
       flex-shrink: 0;
     }
 
-    .invoice-card-header .invoice-num-wrap { min-width: 0; }
+    .invoice-num-wrap {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
 
-    .invoice-card-header .invoice-num {
+    .invoice-num {
       font-family: 'Courier New', monospace;
-      font-size: 0.92rem;
+      font-size: 0.88rem;
       font-weight: 900;
       color: var(--navy);
       letter-spacing: 0.5px;
-      margin-bottom: 2px;
       direction: ltr;
+      text-align: right;
+      white-space: nowrap;
     }
 
-    .invoice-card-header .invoice-date {
-      font-size: 0.72rem;
+    .invoice-date {
+      font-size: 0.7rem;
       color: var(--gray-500);
       display: flex;
       align-items: center;
       gap: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .invoice-card-header .invoice-date i {
+    .invoice-date i {
       color: var(--gold);
-      font-size: 0.65rem;
+      font-size: 0.62rem;
+      flex-shrink: 0;
     }
 
     /* شارة حالة الدفع */
     .payment-badge {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
+      gap: 5px;
+      padding: 5px 10px;
       border-radius: var(--radius-full);
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       font-weight: 800;
       white-space: nowrap;
       flex-shrink: 0;
     }
+
+    .payment-badge i { font-size: 0.68rem; }
 
     .payment-badge.paid {
       background: rgba(34, 197, 94, 0.15);
@@ -386,52 +454,60 @@
     }
 
     /* جسم الكارت */
-    .invoice-card-body { padding: 16px 18px; }
-
-    /* تفاصيل الفاتورة */
-    .invoice-details-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      padding: 12px 0;
-      border-bottom: 1px dashed var(--gray-200);
-      margin-bottom: 14px;
+    .invoice-card-body {
+      padding: 12px 14px;
     }
 
-    .detail-item {
+    /* ===== معلومات الفاتورة كـ Chips ===== */
+    .invoice-info-chips {
       display: flex;
-      align-items: center;
+      flex-wrap: wrap;
       gap: 6px;
-      font-size: 0.82rem;
-      color: var(--gray-600);
+      margin-bottom: 12px;
     }
 
-    .detail-item i {
+    .info-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 10px;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-full);
+      font-size: 0.72rem;
+      color: var(--gray-600);
+      font-weight: 700;
+      white-space: nowrap;
+      max-width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .info-chip i {
       color: var(--gold);
-      font-size: 0.8rem;
-      width: 16px;
-      text-align: center;
+      font-size: 0.7rem;
       flex-shrink: 0;
     }
 
-    .detail-item strong {
+    .info-chip strong {
       color: var(--navy);
       font-weight: 800;
     }
 
-    /* ملخص المبالغ */
+    /* ===== ملخص المبالغ - 3 بطاقات ===== */
     .amounts-summary {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-bottom: 14px;
+      gap: 8px;
+      margin-bottom: 12px;
     }
 
     .amount-box {
-      padding: 12px;
+      padding: 10px 8px;
       border-radius: var(--radius-sm);
       text-align: center;
       border: 1px solid var(--gray-200);
+      min-width: 0;
     }
 
     .amount-box.total {
@@ -455,14 +531,14 @@
     }
 
     .amount-box .ab-label {
-      font-size: 0.7rem;
+      font-size: 0.62rem;
       font-weight: 700;
       color: var(--gray-500);
       margin-bottom: 4px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 4px;
+      gap: 3px;
     }
 
     .amount-box.total .ab-label { color: var(--gold-dark); }
@@ -471,10 +547,12 @@
     .amount-box.remaining.clear .ab-label { color: #16a34a; }
 
     .amount-box .ab-value {
-      font-size: 1rem;
+      font-size: 0.92rem;
       font-weight: 900;
       color: var(--navy);
       line-height: 1.2;
+      direction: ltr;
+      text-align: center;
     }
 
     .amount-box.total .ab-value { color: var(--gold-dark); }
@@ -482,40 +560,53 @@
     .amount-box.remaining .ab-value { color: #dc2626; }
     .amount-box.remaining.clear .ab-value { color: #16a34a; }
 
-    /* الفوتر */
+    /* ===== الفوتر - أزرار ===== */
     .invoice-card-footer {
       display: flex;
       align-items: center;
-      justify-content: flex-end;
+      justify-content: space-between;
       gap: 8px;
+      padding-top: 12px;
+      border-top: 2px dashed var(--gray-200);
       flex-wrap: wrap;
     }
 
-    .invoice-action-btn {
-      padding: 9px 14px;
-      border-radius: var(--radius-sm);
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 0.8rem;
-      display: inline-flex;
+    .invoice-footer-info {
+      display: flex;
       align-items: center;
       gap: 6px;
+      font-size: 0.72rem;
+      color: var(--gray-500);
+      font-weight: 700;
+    }
+
+    .invoice-footer-info i {
+      color: var(--gold);
+      font-size: 0.7rem;
+    }
+
+    .invoice-actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: nowrap;
+    }
+
+    .invoice-action-btn {
+      padding: 9px 12px;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 0.75rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
       transition: all 0.2s ease;
       border: 2px solid;
       cursor: pointer;
       font-family: inherit;
       background: var(--white);
-    }
-
-    .invoice-action-btn.primary {
-      background: linear-gradient(135deg, var(--navy), var(--navy-light));
-      color: var(--white);
-      border-color: var(--navy);
-    }
-
-    .invoice-action-btn.primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(26, 42, 74, 0.3);
+      white-space: nowrap;
     }
 
     .invoice-action-btn.gold {
@@ -540,12 +631,12 @@
       background: #fcf9f0;
     }
 
-    .invoice-action-btn i { font-size: 0.85rem; }
+    .invoice-action-btn i { font-size: 0.78rem; }
 
-    /* حالة فارغة */
+    /* ===== حالة فارغة ===== */
     .empty-state {
       text-align: center;
-      padding: 60px 20px;
+      padding: 50px 20px;
       background: var(--white);
       border-radius: var(--radius-md);
       border: 2px dashed var(--gray-200);
@@ -553,29 +644,29 @@
     }
 
     .empty-state .empty-icon {
-      width: 100px;
-      height: 100px;
+      width: 90px;
+      height: 90px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--gray-100), var(--gray-50));
       color: var(--gray-400);
-      font-size: 2.5rem;
+      font-size: 2.2rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 20px;
+      margin: 0 auto 18px;
     }
 
     .empty-state h3 {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: 900;
       color: var(--navy);
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .empty-state p {
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       color: var(--gray-500);
-      margin-bottom: 20px;
+      margin-bottom: 18px;
       line-height: 1.6;
     }
 
@@ -583,15 +674,18 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 12px 24px;
+      padding: 11px 22px;
       background: linear-gradient(135deg, var(--gold), var(--gold-dark));
       color: var(--navy);
       text-decoration: none;
       border-radius: var(--radius-full);
       font-weight: 800;
-      font-size: 0.92rem;
+      font-size: 0.88rem;
       transition: all 0.3s ease;
       box-shadow: 0 6px 20px rgba(201, 168, 76, 0.35);
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
     }
 
     .empty-state .btn-shop:hover {
@@ -602,22 +696,24 @@
     /* التحميل */
     .loading-state {
       text-align: center;
-      padding: 60px 20px;
+      padding: 50px 20px;
     }
 
     .loading-state i {
-      font-size: 2.5rem;
+      font-size: 2.2rem;
       color: var(--gold);
-      margin-bottom: 12px;
+      margin-bottom: 10px;
     }
 
     .loading-state p {
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       color: var(--gray-500);
       font-weight: 600;
     }
 
-    /* ===== Modal الفاتورة (للطباعة) ===== */
+    /* ============================================================
+       🖨️ Modal الفاتورة
+       ============================================================ */
     .invoice-modal-overlay {
       position: fixed;
       inset: 0;
@@ -626,8 +722,14 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 16px;
       overflow-y: auto;
+      animation: fadeIn 0.25s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     .invoice-modal {
@@ -635,13 +737,19 @@
       border-radius: var(--radius-md);
       max-width: 800px;
       width: 100%;
-      max-height: 90vh;
+      max-height: 92vh;
       overflow-y: auto;
       box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+      animation: modalIn 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.92) translateY(-20px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
     }
 
     .invoice-printable {
-      padding: 30px;
+      padding: 24px;
       background: var(--white);
     }
 
@@ -650,9 +758,9 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
-      padding-bottom: 20px;
-      margin-bottom: 20px;
+      gap: 14px;
+      padding-bottom: 16px;
+      margin-bottom: 16px;
       border-bottom: 3px double var(--navy);
       flex-wrap: wrap;
     }
@@ -660,33 +768,35 @@
     .inv-brand {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
 
     .inv-brand .inv-logo {
-      width: 60px;
-      height: 60px;
+      width: 52px;
+      height: 52px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--gold), var(--gold-dark));
       color: var(--navy);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       font-weight: 900;
       box-shadow: 0 4px 12px rgba(201, 168, 76, 0.4);
+      flex-shrink: 0;
     }
 
     .inv-brand .inv-brand-info h2 {
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       font-weight: 900;
       color: var(--navy);
       margin-bottom: 2px;
     }
 
     .inv-brand .inv-brand-info p {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       color: var(--gray-500);
+      margin: 0;
     }
 
     .inv-number-block {
@@ -694,7 +804,7 @@
     }
 
     .inv-number-block .inv-label {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       color: var(--gray-500);
       font-weight: 700;
       margin-bottom: 2px;
@@ -702,7 +812,7 @@
 
     .inv-number-block .inv-number {
       font-family: 'Courier New', monospace;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: 900;
       color: var(--gold-dark);
       letter-spacing: 1px;
@@ -710,45 +820,91 @@
     }
 
     .inv-number-block .inv-date {
-      font-size: 0.78rem;
+      font-size: 0.72rem;
       color: var(--gray-600);
       margin-top: 4px;
+    }
+
+    /* حالة الدفع + رقم الطلب */
+    .inv-status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .inv-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: var(--radius-full);
+      font-weight: 800;
+      font-size: 0.75rem;
+    }
+
+    .inv-order-ref {
+      font-size: 0.75rem;
+      color: var(--gray-500);
+      direction: ltr;
+    }
+
+    .inv-order-ref strong {
+      color: var(--navy);
+      font-family: monospace;
+      font-weight: 900;
     }
 
     /* بيانات العميل */
     .inv-customer {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      padding: 16px;
+      gap: 12px;
+      padding: 14px;
       background: var(--gray-50);
       border-radius: var(--radius-sm);
-      margin-bottom: 20px;
+      margin-bottom: 16px;
       border-right: 4px solid var(--gold);
     }
 
     .inv-customer-block h4 {
-      font-size: 0.78rem;
+      font-size: 0.7rem;
       color: var(--gray-500);
       font-weight: 800;
-      margin-bottom: 6px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .inv-customer-block h4 i {
+      color: var(--gold);
+      font-size: 0.7rem;
     }
 
     .inv-customer-block p {
-      font-size: 0.88rem;
+      font-size: 0.85rem;
       color: var(--navy);
       font-weight: 700;
-      line-height: 1.6;
+      line-height: 1.5;
+      margin: 0;
+      word-break: break-word;
     }
 
-    /* جدول المنتجات */
+    .inv-customer-block.full-width {
+      grid-column: 1 / -1;
+    }
+
+    /* ============================================================
+       📋 جدول المنتجات - Desktop
+       ============================================================ */
     .inv-items-table {
       width: 100%;
       border-collapse: collapse;
-      margin-bottom: 20px;
-      font-size: 0.85rem;
+      margin-bottom: 16px;
+      font-size: 0.82rem;
     }
 
     .inv-items-table thead {
@@ -757,19 +913,20 @@
     }
 
     .inv-items-table th {
-      padding: 12px 10px;
+      padding: 10px 8px;
       text-align: right;
       font-weight: 800;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
     }
 
     .inv-items-table th:first-child { border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
     .inv-items-table th:last-child { border-radius: var(--radius-sm) 0 0 var(--radius-sm); }
 
     .inv-items-table td {
-      padding: 12px 10px;
+      padding: 10px 8px;
       border-bottom: 1px solid var(--gray-200);
       color: var(--navy);
+      vertical-align: middle;
     }
 
     .inv-items-table tbody tr:hover {
@@ -785,33 +942,96 @@
     }
 
     .inv-items-table .item-name img {
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
       border-radius: 6px;
       object-fit: cover;
       background: var(--gray-100);
+      flex-shrink: 0;
     }
 
     .inv-items-table td.text-center { text-align: center; }
     .inv-items-table td.text-left { text-align: left; }
 
-    /* الملخص المالي */
+    /* 🆕 Cards بديلة للجدول على الموبايل */
+    .inv-items-cards {
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .inv-item-card {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+    }
+
+    .inv-item-card img {
+      width: 44px;
+      height: 44px;
+      border-radius: 6px;
+      object-fit: cover;
+      background: var(--gray-200);
+      flex-shrink: 0;
+    }
+
+    .inv-item-card .item-details {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .inv-item-card .item-name-text {
+      font-weight: 800;
+      color: var(--navy);
+      font-size: 0.83rem;
+      margin-bottom: 3px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .inv-item-card .item-meta {
+      font-size: 0.72rem;
+      color: var(--gray-500);
+    }
+
+    .inv-item-card .item-meta strong {
+      color: var(--navy);
+      font-weight: 800;
+    }
+
+    .inv-item-card .item-price-total {
+      font-weight: 900;
+      color: var(--gold-dark);
+      font-size: 0.88rem;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* ===== الملخص المالي ===== */
     .inv-summary {
       display: flex;
-      justify-content: flex-end;
-      margin-bottom: 20px;
+      justify-content: flex-start;
+      margin-bottom: 16px;
     }
 
     .inv-summary-table {
       width: 100%;
-      max-width: 350px;
+      max-width: 380px;
     }
 
     .inv-summary-row {
       display: flex;
       justify-content: space-between;
-      padding: 10px 16px;
-      font-size: 0.88rem;
+      padding: 8px 14px;
+      font-size: 0.85rem;
       border-bottom: 1px solid var(--gray-200);
     }
 
@@ -823,6 +1043,7 @@
     .inv-summary-row .value {
       color: var(--navy);
       font-weight: 800;
+      direction: ltr;
     }
 
     .inv-summary-row.total {
@@ -830,65 +1051,73 @@
       border-bottom: 3px double var(--gold);
       border-top: 2px solid var(--gold-light);
       border-radius: var(--radius-sm);
-      padding: 14px 16px;
+      padding: 12px 14px;
       margin-top: 8px;
     }
 
     .inv-summary-row.total .label {
       color: var(--gold-dark);
-      font-size: 1rem;
+      font-size: 0.95rem;
       font-weight: 900;
     }
 
     .inv-summary-row.total .value {
       color: var(--gold-dark);
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-weight: 900;
     }
 
     /* الفوتر */
     .inv-footer {
-      padding-top: 20px;
+      padding-top: 16px;
       border-top: 2px dashed var(--gray-300);
       text-align: center;
     }
 
     .inv-footer p {
-      font-size: 0.82rem;
+      font-size: 0.78rem;
       color: var(--gray-600);
-      margin-bottom: 6px;
-      line-height: 1.6;
+      margin-bottom: 5px;
+      line-height: 1.5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .inv-footer p i {
+      color: var(--gold);
+      font-size: 0.75rem;
     }
 
     .inv-footer .thanks {
-      font-size: 0.95rem;
+      font-size: 0.9rem;
       font-weight: 900;
       color: var(--gold-dark);
-      margin-top: 10px;
+      margin-top: 8px;
     }
 
     .inv-footer .powered {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       color: var(--gray-400);
-      margin-top: 12px;
+      margin-top: 10px;
     }
 
     /* Modal actions */
     .inv-actions {
-      display: flex;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 10px;
       padding: 16px 20px;
       background: var(--gray-50);
       border-top: 1px solid var(--gray-200);
       border-radius: 0 0 var(--radius-md) var(--radius-md);
-      flex-wrap: wrap;
     }
 
-    .inv-action-btn {
-      flex: 1;
+    .inv-action-btn-modal {
       padding: 12px 18px;
       border: none;
-      border-radius: var(--radius-sm);
+      border-radius: var(--radius-full);
       font-family: inherit;
       font-weight: 800;
       font-size: 0.88rem;
@@ -898,61 +1127,150 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
-      min-width: 120px;
     }
 
-    .inv-action-btn.print {
+    .inv-action-btn-modal.print {
       background: linear-gradient(135deg, var(--navy), var(--navy-light));
       color: var(--white);
     }
 
-    .inv-action-btn.print:hover {
+    .inv-action-btn-modal.print:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 16px rgba(26, 42, 74, 0.3);
     }
 
-    .inv-action-btn.close {
+    .inv-action-btn-modal.close {
       background: var(--gray-200);
       color: var(--gray-700);
     }
 
-    .inv-action-btn.close:hover { background: var(--gray-300); }
+    .inv-action-btn-modal.close:hover { background: var(--gray-300); }
 
-    /* ===== Responsive ===== */
+    /* ============================================================
+       📱 Responsive
+       ============================================================ */
     @media (max-width: 768px) and (pointer: coarse) {
       .invoices-header { padding: 18px 16px; border-radius: var(--radius-md); }
-      .invoices-header-content .header-icon { width: 50px; height: 50px; font-size: 1.3rem; }
-      .invoices-header-content .header-text h1 { font-size: 1.15rem; }
-      .invoices-header-content .header-text p { font-size: 0.8rem; }
-      .financial-stats { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-      .financial-card { padding: 14px; }
-      .financial-card .fc-icon { width: 38px; height: 38px; font-size: 1.05rem; margin-bottom: 10px; }
-      .financial-card .fc-value { font-size: 1.15rem; }
-      .filter-bar { padding: 12px; }
-      .invoice-card-header { padding: 12px 14px; }
-      .invoice-card-body { padding: 14px; }
-      .invoice-details-row { grid-template-columns: 1fr; }
-      .amounts-summary { grid-template-columns: 1fr; }
-      .invoice-card-footer { justify-content: stretch; }
-      .invoice-action-btn { flex: 1; justify-content: center; }
-      
-      /* Modal للطباعة */
+      .invoices-header-content .header-icon { width: 48px; height: 48px; font-size: 1.2rem; }
+      .invoices-header-content .header-text h1 { font-size: 1.1rem; }
+      .invoices-header-content .header-text p { font-size: 0.75rem; }
+
+      /* الإحصائيات → 2x2 */
+      .financial-stats {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 8px;
+        margin-bottom: 14px;
+      }
+      .financial-card { padding: 12px 10px; }
+      .financial-card .fc-icon { width: 34px; height: 34px; font-size: 0.92rem; margin-bottom: 6px; }
+      .financial-card .fc-value { font-size: 1rem; }
+      .financial-card .fc-label { font-size: 0.63rem; }
+
+      .filter-bar { padding: 12px; margin-bottom: 14px; }
+      .search-box { margin-bottom: 10px; }
+      .search-box input { padding: 10px 38px 10px 12px; font-size: 0.85rem; }
+      .payment-tab { padding: 7px 12px; font-size: 0.72rem; }
+
+      .invoice-card-header { padding: 11px 12px; }
+      .invoice-icon-wrap { width: 36px; height: 36px; font-size: 0.85rem; }
+      .invoice-num { font-size: 0.82rem; }
+      .invoice-date { font-size: 0.65rem; }
+      .payment-badge { padding: 4px 8px; font-size: 0.65rem; }
+
+      .invoice-card-body { padding: 11px 12px; }
+      .info-chip { padding: 4px 8px; font-size: 0.68rem; }
+
+      /* ملخص المبالغ → 3 أعمدة بس font أصغر */
+      .amounts-summary { gap: 6px; margin-bottom: 10px; }
+      .amount-box { padding: 8px 6px; }
+      .amount-box .ab-label { font-size: 0.58rem; margin-bottom: 3px; }
+      .amount-box .ab-value { font-size: 0.82rem; }
+
+      /* الفوتر */
+      .invoice-card-footer {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+        padding-top: 10px;
+      }
+
+      .invoice-footer-info {
+        justify-content: center;
+        font-size: 0.68rem;
+      }
+
+      .invoice-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+        width: 100%;
+      }
+
+      .invoice-action-btn {
+        padding: 10px 8px;
+        font-size: 0.72rem;
+        justify-content: center;
+      }
+
+      /* ============================================================
+         Modal
+         ============================================================ */
       .invoice-modal-overlay { padding: 8px; }
-      .invoice-printable { padding: 18px 14px; }
-      .inv-header { flex-direction: column; text-align: center; }
-      .inv-number-block { text-align: center; }
-      .inv-customer { grid-template-columns: 1fr; }
-      .inv-items-table { font-size: 0.75rem; }
-      .inv-items-table th, .inv-items-table td { padding: 8px 6px; }
-      .inv-items-table .item-name img { display: none; }
-      .inv-actions { flex-direction: column; }
+      .invoice-modal { max-height: 94vh; border-radius: var(--radius-md); }
+      .invoice-printable { padding: 14px; }
+
+      .inv-header { gap: 10px; }
+      .inv-brand .inv-logo { width: 44px; height: 44px; font-size: 1.2rem; }
+      .inv-brand .inv-brand-info h2 { font-size: 0.95rem; }
+      .inv-brand .inv-brand-info p { font-size: 0.65rem; }
+      .inv-number-block { text-align: right; width: 100%; padding-top: 8px; border-top: 1px dashed var(--gray-200); }
+      .inv-number-block .inv-number { font-size: 0.95rem; }
+      .inv-number-block .inv-date { font-size: 0.68rem; }
+
+      .inv-status-bar { justify-content: center; }
+
+      .inv-customer {
+        grid-template-columns: 1fr;
+        padding: 12px;
+        gap: 10px;
+      }
+
+      /* 🆕 إخفاء الجدول وإظهار Cards */
+      .inv-items-table { display: none; }
+      .inv-items-cards { display: flex; }
+
+      .inv-summary-table { max-width: 100%; }
+      .inv-summary-row { padding: 7px 12px; font-size: 0.8rem; }
+      .inv-summary-row.total { padding: 10px 12px; }
+      .inv-summary-row.total .value { font-size: 1rem; }
+
+      .inv-footer p { font-size: 0.72rem; }
+      .inv-footer .thanks { font-size: 0.83rem; }
+      .inv-footer .powered { font-size: 0.62rem; }
+
+      .inv-actions {
+        grid-template-columns: 1fr 1fr;
+        padding: 12px 14px;
+        gap: 8px;
+      }
+
+      .inv-action-btn-modal {
+        padding: 11px 14px;
+        font-size: 0.82rem;
+      }
     }
 
     @media (max-width: 480px) {
-      .invoices-header-content { flex-direction: column; text-align: center; }
-      .invoices-header-content .header-text { text-align: center; }
-      .invoice-card-footer { flex-direction: column; }
-      .invoice-action-btn { width: 100%; }
+      .invoice-modal-overlay { padding: 6px; }
+      .inv-actions { grid-template-columns: 1fr; }
+      .inv-items-table .item-name img { display: none; }
+    }
+
+    @media (max-width: 400px) {
+      .payment-tab span:not(.tab-count) { display: none; }
+      .payment-tab { padding: 7px 10px; gap: 4px; }
+      .payment-tab i { font-size: 0.85rem; }
+      .payment-tab .tab-count { display: inline-block; }
     }
 
     /* ===== Print Styles ===== */
@@ -973,6 +1291,8 @@
       }
       .inv-actions { display: none !important; }
       .invoice-printable { padding: 20px; }
+      .inv-items-table { display: table !important; }
+      .inv-items-cards { display: none !important; }
     }
   </style>
 </head>
@@ -1006,7 +1326,7 @@
           </div>
           <div class="fc-label">إجمالي الفواتير</div>
           <div class="fc-value gold" id="statTotal">0.00</div>
-          <div style="font-size:0.7rem;color:var(--gray-400);margin-top:2px;">ج.م</div>
+          <div class="fc-currency">ج.م</div>
         </div>
 
         <div class="financial-card paid">
@@ -1015,7 +1335,7 @@
           </div>
           <div class="fc-label">المدفوع</div>
           <div class="fc-value green" id="statPaid">0.00</div>
-          <div style="font-size:0.7rem;color:var(--gray-400);margin-top:2px;">ج.م</div>
+          <div class="fc-currency">ج.م</div>
         </div>
 
         <div class="financial-card remaining">
@@ -1024,7 +1344,7 @@
           </div>
           <div class="fc-label">المتبقي</div>
           <div class="fc-value red" id="statRemaining">0.00</div>
-          <div style="font-size:0.7rem;color:var(--gray-400);margin-top:2px;">ج.م</div>
+          <div class="fc-currency">ج.م</div>
         </div>
 
         <div class="financial-card count">
@@ -1033,7 +1353,7 @@
           </div>
           <div class="fc-label">عدد الفواتير</div>
           <div class="fc-value blue" id="statCount">0</div>
-          <div style="font-size:0.7rem;color:var(--gray-400);margin-top:2px;">فاتورة</div>
+          <div class="fc-currency">فاتورة</div>
         </div>
       </div>
 
@@ -1044,27 +1364,29 @@
           <i class="fas fa-search search-icon"></i>
         </div>
 
-        <div class="payment-tabs" id="paymentTabs">
-          <button class="payment-tab active" data-status="all" onclick="filterByPayment('all')">
-            <i class="fas fa-list"></i>
-            <span>الكل</span>
-            <span class="tab-count" id="countAll">0</span>
-          </button>
-          <button class="payment-tab" data-status="paid" onclick="filterByPayment('paid')">
-            <i class="fas fa-check-circle"></i>
-            <span>مدفوع</span>
-            <span class="tab-count" id="countPaid">0</span>
-          </button>
-          <button class="payment-tab" data-status="partial" onclick="filterByPayment('partial')">
-            <i class="fas fa-hourglass-half"></i>
-            <span>دفع جزئي</span>
-            <span class="tab-count" id="countPartial">0</span>
-          </button>
-          <button class="payment-tab" data-status="unpaid" onclick="filterByPayment('unpaid')">
-            <i class="fas fa-times-circle"></i>
-            <span>غير مدفوع</span>
-            <span class="tab-count" id="countUnpaid">0</span>
-          </button>
+        <div class="payment-tabs-wrapper">
+          <div class="payment-tabs" id="paymentTabs">
+            <button class="payment-tab active" data-status="all" onclick="filterByPayment('all')">
+              <i class="fas fa-list"></i>
+              <span>الكل</span>
+              <span class="tab-count" id="countAll">0</span>
+            </button>
+            <button class="payment-tab" data-status="paid" onclick="filterByPayment('paid')">
+              <i class="fas fa-check-circle"></i>
+              <span>مدفوع</span>
+              <span class="tab-count" id="countPaid">0</span>
+            </button>
+            <button class="payment-tab" data-status="partial" onclick="filterByPayment('partial')">
+              <i class="fas fa-hourglass-half"></i>
+              <span>دفع جزئي</span>
+              <span class="tab-count" id="countPartial">0</span>
+            </button>
+            <button class="payment-tab" data-status="unpaid" onclick="filterByPayment('unpaid')">
+              <i class="fas fa-times-circle"></i>
+              <span>غير مدفوع</span>
+              <span class="tab-count" id="countUnpaid">0</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -1094,7 +1416,7 @@
 
   <script>
     // ============================================================
-    // 📄 customer/invoices.html - صفحة فواتيري
+    // 📄 customer/invoices.html - صفحة فواتيري v2.1
     // ============================================================
 
     let userData = null;
@@ -1137,7 +1459,7 @@
       }
 
       await loadInvoices();
-      console.log('✅ customer/invoices.html loaded');
+      console.log('✅ customer/invoices.html v2.1 loaded');
     });
 
     // ============================================================
@@ -1154,7 +1476,6 @@
           allInvoices.push({ id: doc.id, ...doc.data() });
         });
 
-        // ترتيب حسب التاريخ
         allInvoices.sort((a, b) => {
           const da = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt || 0);
           const db2 = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt || 0);
@@ -1195,7 +1516,7 @@
         paid += invPaid;
         remaining += invRemaining;
 
-        const status = inv.paymentStatus || 
+        const status = inv.paymentStatus ||
           (invRemaining <= 0 ? 'paid' : (invPaid > 0 ? 'partial' : 'unpaid'));
 
         if (status === 'paid') cntPaid++;
@@ -1233,7 +1554,7 @@
     }
 
     // ============================================================
-    // 🎯 فلترة حسب حالة الدفع
+    // 🎯 فلترة
     // ============================================================
     function filterByPayment(status) {
       currentPayment = status;
@@ -1243,31 +1564,26 @@
       applyFilters();
     }
 
-    // ============================================================
-    // 🎨 تطبيق الفلاتر
-    // ============================================================
     function applyFilters() {
       filteredInvoices = allInvoices.filter(inv => {
-        // فلتر حالة الدفع
         if (currentPayment !== 'all') {
           const invTotal = inv.total || 0;
           const invPaid = inv.paid || 0;
           const invRemaining = inv.remaining !== undefined ? inv.remaining : (invTotal - invPaid);
-          const status = inv.paymentStatus || 
+          const status = inv.paymentStatus ||
             (invRemaining <= 0 ? 'paid' : (invPaid > 0 ? 'partial' : 'unpaid'));
 
           if (status !== currentPayment) return false;
         }
 
-        // فلتر البحث
         if (currentSearch) {
           const search = currentSearch.toUpperCase();
           const invNumber = inv.id.slice(-8).toUpperCase();
           const fullId = inv.id.toUpperCase();
           const orderNum = (inv.orderId || '').slice(-8).toUpperCase();
-          
-          if (!invNumber.includes(search) && 
-              !fullId.includes(search) && 
+
+          if (!invNumber.includes(search) &&
+              !fullId.includes(search) &&
               !orderNum.includes(search)) {
             return false;
           }
@@ -1338,12 +1654,12 @@
 
     function renderInvoiceCard(inv) {
       const invNumber = inv.id.slice(-8).toUpperCase();
-      
-      // حساب حالة الدفع
+
+      // حالة الدفع
       const invTotal = inv.total || 0;
       const invPaid = inv.paid || 0;
       const invRemaining = inv.remaining !== undefined ? inv.remaining : (invTotal - invPaid);
-      const status = inv.paymentStatus || 
+      const status = inv.paymentStatus ||
         (invRemaining <= 0 ? 'paid' : (invPaid > 0 ? 'partial' : 'unpaid'));
 
       const statusMap = {
@@ -1353,14 +1669,11 @@
       };
       const statusInfo = statusMap[status] || statusMap.unpaid;
 
-      const date = inv.createdAt ?
-        (inv.createdAt.toDate ? inv.createdAt.toDate() : new Date(inv.createdAt)) :
-        new Date();
+      const date = inv.createdAt
+        ? (inv.createdAt.toDate ? inv.createdAt.toDate() : new Date(inv.createdAt))
+        : new Date();
       const dateStr = date.toLocaleDateString('ar-EG', {
         year: 'numeric', month: 'short', day: 'numeric'
-      });
-      const timeStr = date.toLocaleTimeString('ar-EG', {
-        hour: '2-digit', minute: '2-digit'
       });
 
       const itemsCount = (inv.items || []).length;
@@ -1369,7 +1682,7 @@
       return `
         <div class="invoice-card">
           <div class="invoice-card-header">
-            <div class="invoice-number-wrap">
+            <div class="invoice-header-left">
               <div class="invoice-icon-wrap">
                 <i class="fas fa-file-invoice"></i>
               </div>
@@ -1377,7 +1690,7 @@
                 <div class="invoice-num">#${invNumber}</div>
                 <div class="invoice-date">
                   <i class="fas fa-calendar"></i>
-                  ${dateStr} • ${timeStr}
+                  ${dateStr}
                 </div>
               </div>
             </div>
@@ -1388,15 +1701,16 @@
           </div>
 
           <div class="invoice-card-body">
-            <div class="invoice-details-row">
-              <div class="detail-item">
+
+            <div class="invoice-info-chips">
+              <span class="info-chip">
                 <i class="fas fa-receipt"></i>
-                <span>الطلب: <strong style="font-family:monospace;direction:ltr;">#${orderNum}</strong></span>
-              </div>
-              <div class="detail-item">
+                طلب: <strong style="font-family:monospace;direction:ltr;">#${orderNum}</strong>
+              </span>
+              <span class="info-chip">
                 <i class="fas fa-box"></i>
-                <span>الأصناف: <strong>${itemsCount}</strong></span>
-              </div>
+                <strong>${itemsCount}</strong> صنف
+              </span>
             </div>
 
             <div class="amounts-summary">
@@ -1418,22 +1732,30 @@
             </div>
 
             <div class="invoice-card-footer">
-              <button class="invoice-action-btn gold" onclick="openInvoiceModal('${inv.id}')">
-                <i class="fas fa-file-invoice"></i>
-                عرض / طباعة
-              </button>
-              <button class="invoice-action-btn primary" onclick="printInvoiceDirect('${inv.id}')">
-                <i class="fas fa-print"></i>
-                طباعة سريعة
-              </button>
+              <div class="invoice-footer-info">
+                <i class="fas fa-coins"></i>
+                ${invRemaining <= 0 ? 'تم السداد بالكامل' : `متبقي ${invRemaining.toFixed(2)} ج.م`}
+              </div>
+
+              <div class="invoice-actions">
+                <button class="invoice-action-btn gold" onclick="openInvoiceModal('${inv.id}')">
+                  <i class="fas fa-file-invoice"></i>
+                  عرض / طباعة
+                </button>
+                <button class="invoice-action-btn secondary" onclick="printInvoiceDirect('${inv.id}')">
+                  <i class="fas fa-print"></i>
+                  طباعة
+                </button>
+              </div>
             </div>
+
           </div>
         </div>
       `;
     }
 
     // ============================================================
-    // 🖼️ فتح Modal الفاتورة
+    // 🖼️ Modal الفاتورة
     // ============================================================
     function openInvoiceModal(invoiceId) {
       const inv = allInvoices.find(i => i.id === invoiceId);
@@ -1441,8 +1763,8 @@
 
       const modalHtml = buildInvoiceModal(inv);
 
-      const existingModal = document.getElementById('invoiceModalOverlay');
-      if (existingModal) existingModal.remove();
+      const existing = document.getElementById('invoiceModalOverlay');
+      if (existing) existing.remove();
 
       document.body.insertAdjacentHTML('beforeend', modalHtml);
       document.body.style.overflow = 'hidden';
@@ -1456,19 +1778,19 @@
       const invTotal = inv.total || 0;
       const invPaid = inv.paid || 0;
       const invRemaining = inv.remaining !== undefined ? inv.remaining : (invTotal - invPaid);
-      const status = inv.paymentStatus || 
+      const status = inv.paymentStatus ||
         (invRemaining <= 0 ? 'paid' : (invPaid > 0 ? 'partial' : 'unpaid'));
 
       const statusMap = {
-        paid: { text: 'مدفوع بالكامل', color: '#16a34a' },
-        partial: { text: 'دفع جزئي', color: '#d97706' },
-        unpaid: { text: 'غير مدفوع', color: '#dc2626' }
+        paid: { text: 'مدفوع بالكامل', color: '#16a34a', bg: 'rgba(34,197,94,0.15)', icon: 'fa-check-circle' },
+        partial: { text: 'دفع جزئي', color: '#d97706', bg: 'rgba(245,158,11,0.15)', icon: 'fa-hourglass-half' },
+        unpaid: { text: 'غير مدفوع', color: '#dc2626', bg: 'rgba(239,68,68,0.15)', icon: 'fa-times-circle' }
       };
       const statusInfo = statusMap[status] || statusMap.unpaid;
 
-      const date = inv.createdAt ?
-        (inv.createdAt.toDate ? inv.createdAt.toDate() : new Date(inv.createdAt)) :
-        new Date();
+      const date = inv.createdAt
+        ? (inv.createdAt.toDate ? inv.createdAt.toDate() : new Date(inv.createdAt))
+        : new Date();
       const dateStr = date.toLocaleDateString('ar-EG', {
         year: 'numeric', month: 'long', day: 'numeric'
       });
@@ -1476,24 +1798,26 @@
         hour: '2-digit', minute: '2-digit'
       });
 
-      // المنتجات
+      // المنتجات - جدول (Desktop) + Cards (Mobile)
       const items = inv.items || [];
-      let itemsRows = '';
+      let itemsTableRows = '';
+      let itemsCardsHtml = '';
+
       items.forEach((item, index) => {
         const itemName = item.productName || item.name || 'منتج';
         const itemQty = item.quantity || 0;
         const itemPrice = item.price || 0;
         const itemTotal = itemQty * itemPrice;
         const unit = item.unit || 'قطعة';
+        const imgSrc = item.imageUrl || '/gomla/assets/images/no-image.png';
 
-        itemsRows += `
+        // Row للجدول
+        itemsTableRows += `
           <tr>
             <td class="text-center">${index + 1}</td>
             <td>
               <div class="item-name">
-                <img src="${item.imageUrl || '/gomla/assets/images/no-image.png'}"
-                     alt="${escapeHtml(itemName)}"
-                     onerror="this.src='/gomla/assets/images/no-image.png'">
+                <img src="${imgSrc}" alt="${escapeHtml(itemName)}" onerror="this.src='/gomla/assets/images/no-image.png'">
                 <span>${escapeHtml(itemName)}</span>
               </div>
             </td>
@@ -1502,23 +1826,35 @@
             <td class="text-left" style="font-weight:800;color:var(--gold-dark);">${itemTotal.toFixed(2)}</td>
           </tr>
         `;
+
+        // Card للموبايل
+        itemsCardsHtml += `
+          <div class="inv-item-card">
+            <img src="${imgSrc}" alt="${escapeHtml(itemName)}" onerror="this.src='/gomla/assets/images/no-image.png'">
+            <div class="item-details">
+              <div class="item-name-text">${escapeHtml(itemName)}</div>
+              <div class="item-meta">
+                ${itemQty} ${unit} × <strong>${itemPrice.toFixed(2)}</strong> ج.م
+              </div>
+            </div>
+            <div class="item-price-total">${itemTotal.toFixed(2)} ج.م</div>
+          </div>
+        `;
       });
 
-      // بيانات العميل
       const customerName = inv.customerName || userData.name || '---';
       const customerPhone = inv.customerPhone || userData.phone || '---';
       const customerAddress = inv.customerAddress || userData.address || '---';
 
-      // الشحن
       const shippingCost = inv.shippingCost || 0;
       const subtotal = inv.subtotal || (invTotal - shippingCost);
 
       return `
         <div class="invoice-modal-overlay" id="invoiceModalOverlay" onclick="closeInvoiceModal(event)">
           <div class="invoice-modal" onclick="event.stopPropagation()">
-            
+
             <div class="invoice-printable" id="invoicePrintable">
-              
+
               <!-- رأس الفاتورة -->
               <div class="inv-header">
                 <div class="inv-brand">
@@ -1536,47 +1872,52 @@
               </div>
 
               <!-- حالة الدفع + رقم الطلب -->
-              <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
-                <div style="display:inline-flex;align-items:center;gap:6px;padding:8px 14px;background:${statusInfo.color}15;border:1px solid ${statusInfo.color}40;border-radius:var(--radius-full);color:${statusInfo.color};font-weight:800;font-size:0.82rem;">
-                  <i class="fas fa-circle" style="font-size:0.6rem;"></i>
+              <div class="inv-status-bar">
+                <div class="inv-status-badge" style="background:${statusInfo.bg};color:${statusInfo.color};border:1px solid ${statusInfo.color}40;">
+                  <i class="fas ${statusInfo.icon}"></i>
                   ${statusInfo.text}
                 </div>
-                <div style="font-size:0.82rem;color:var(--gray-500);">
-                  رقم الطلب: <strong style="font-family:monospace;color:var(--navy);direction:ltr;">#${orderNum}</strong>
+                <div class="inv-order-ref">
+                  الطلب: <strong>#${orderNum}</strong>
                 </div>
               </div>
 
               <!-- بيانات العميل -->
               <div class="inv-customer">
                 <div class="inv-customer-block">
-                  <h4><i class="fas fa-user"></i> بيانات العميل</h4>
+                  <h4><i class="fas fa-user"></i> العميل</h4>
                   <p>${escapeHtml(customerName)}</p>
                 </div>
                 <div class="inv-customer-block">
-                  <h4><i class="fas fa-phone"></i> رقم الهاتف</h4>
-                  <p style="direction:ltr;">${escapeHtml(customerPhone)}</p>
+                  <h4><i class="fas fa-phone"></i> الهاتف</h4>
+                  <p style="direction:ltr;text-align:left;">${escapeHtml(customerPhone)}</p>
                 </div>
-                <div class="inv-customer-block" style="grid-column:1/-1;">
+                <div class="inv-customer-block full-width">
                   <h4><i class="fas fa-map-marker-alt"></i> العنوان</h4>
                   <p>${escapeHtml(customerAddress)}</p>
                 </div>
               </div>
 
-              <!-- جدول المنتجات -->
+              <!-- جدول المنتجات (Desktop) -->
               <table class="inv-items-table">
                 <thead>
                   <tr>
-                    <th style="width:40px;">#</th>
+                    <th style="width:36px;">#</th>
                     <th>المنتج</th>
-                    <th style="text-align:center;width:80px;">الكمية</th>
-                    <th style="text-align:center;width:90px;">السعر</th>
-                    <th style="text-align:left;width:100px;">الإجمالي</th>
+                    <th style="text-align:center;width:75px;">الكمية</th>
+                    <th style="text-align:center;width:85px;">السعر</th>
+                    <th style="text-align:left;width:95px;">الإجمالي</th>
                   </tr>
                 </thead>
                 <tbody>
-                  ${itemsRows || '<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--gray-400);">لا توجد منتجات</td></tr>'}
+                  ${itemsTableRows || '<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--gray-400);">لا توجد منتجات</td></tr>'}
                 </tbody>
               </table>
+
+              <!-- Cards للموبايل -->
+              <div class="inv-items-cards">
+                ${itemsCardsHtml || '<p style="text-align:center;color:var(--gray-400);padding:16px;font-size:0.85rem;">لا توجد منتجات</p>'}
+              </div>
 
               <!-- الملخص -->
               <div class="inv-summary">
@@ -1610,8 +1951,8 @@
 
               <!-- الفوتر -->
               <div class="inv-footer">
-                <p><i class="fas fa-phone-alt" style="color:var(--gold);"></i> للاستفسار: 01120282953</p>
-                <p><i class="fas fa-map-marker-alt" style="color:var(--gold);"></i> المحلة الكبرى - شارع البحر</p>
+                <p><i class="fas fa-phone-alt"></i> للاستفسار: 01120282953</p>
+                <p><i class="fas fa-map-marker-alt"></i> المحلة الكبرى - شارع البحر</p>
                 <div class="thanks">شكراً لتعاملكم معنا 🌟</div>
                 <div class="powered">تم تنفيذ النظام بواسطة Famo</div>
               </div>
@@ -1620,11 +1961,11 @@
 
             <!-- أزرار الإجراءات -->
             <div class="inv-actions">
-              <button class="inv-action-btn print" onclick="printCurrentInvoice()">
+              <button class="inv-action-btn-modal print" onclick="printCurrentInvoice()">
                 <i class="fas fa-print"></i>
                 طباعة
               </button>
-              <button class="inv-action-btn close" onclick="closeInvoiceModal()">
+              <button class="inv-action-btn-modal close" onclick="closeInvoiceModal()">
                 <i class="fas fa-times"></i>
                 إغلاق
               </button>
@@ -1643,7 +1984,7 @@
     }
 
     // ============================================================
-    // 🖨️ طباعة الفاتورة
+    // 🖨️ طباعة
     // ============================================================
     function printCurrentInvoice() {
       window.print();
@@ -1656,7 +1997,7 @@
       }, 500);
     }
 
-    // إغلاق المودال بـ ESC
+    // إغلاق بـ ESC
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') closeInvoiceModal();
     });
