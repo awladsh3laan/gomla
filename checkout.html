@@ -1665,7 +1665,10 @@
             userRole: checkoutUserRole,
             action: 'إنشاء طلب جديد',
             details: `الطلب #${orderNumber} - ${totalAmount.toFixed(2)} ج.م`,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            proposedDeliveryDate: deliveryDate,
+            confirmedDeliveryDate: null,
+            pendingChanges: null,
+             timestamp: firebase.firestore.FieldValue.serverTimestamp()
           });
         } catch (logError) {
           console.warn('Could not log activity:', logError);
