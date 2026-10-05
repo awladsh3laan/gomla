@@ -12,29 +12,9 @@
   <link rel="icon" href="/gomla/assets/images/favicon.ico">
 
   <style>
-    /* ============================================================
-       🛡️ منع السكرول الأفقي على الصفحة كلها
-       ============================================================ */
-    html, body {
-      overflow-x: hidden !important;
-      max-width: 100vw;
-    }
-
-    .page-content {
-      overflow-x: hidden;
-      min-width: 0;
-      max-width: 100%;
-    }
-
-    .page-content .container {
-      overflow-x: hidden;
-      min-width: 0;
-      max-width: 100%;
-    }
-
-    /* ============================================================
-       🎨 ستايل صفحة طلباتي v2.1 - Mobile-First
-       ============================================================ */
+    html, body { overflow-x: hidden !important; max-width: 100vw; }
+    .page-content { overflow-x: hidden; min-width: 0; max-width: 100%; }
+    .page-content .container { overflow-x: hidden; min-width: 0; max-width: 100%; }
 
     /* ===== رأس الصفحة ===== */
     .orders-header {
@@ -48,1015 +28,427 @@
       box-shadow: 0 12px 40px rgba(26, 42, 74, 0.25);
       border-bottom: 4px solid var(--gold);
     }
-
     .orders-header::before {
-      content: '';
-      position: absolute;
-      top: -50%;
-      right: -15%;
-      width: 300px;
-      height: 300px;
+      content: ''; position: absolute; top: -50%; right: -15%;
+      width: 300px; height: 300px;
       background: radial-gradient(circle, rgba(201, 168, 76, 0.18) 0%, transparent 70%);
-      border-radius: 50%;
-      animation: float 8s ease-in-out infinite;
+      border-radius: 50%; animation: float 8s ease-in-out infinite;
     }
-
-    .orders-header-content {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
+    .orders-header-content { position: relative; z-index: 1; display: flex; align-items: center; gap: 16px; }
     .orders-header-content .header-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 50%;
+      width: 56px; height: 56px; border-radius: 50%;
       background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-      color: var(--navy);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-      flex-shrink: 0;
+      color: var(--navy); display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
       box-shadow: 0 8px 24px rgba(201, 168, 76, 0.4);
     }
-
     .orders-header-content .header-text { flex: 1; min-width: 0; }
+    .orders-header-content .header-text h1 { font-size: 1.35rem; font-weight: 900; margin-bottom: 3px; color: var(--white); }
+    .orders-header-content .header-text p { font-size: 0.83rem; opacity: 0.88; color: rgba(255, 255, 255, 0.85); margin: 0; }
 
-    .orders-header-content .header-text h1 {
-      font-size: 1.35rem;
-      font-weight: 900;
-      margin-bottom: 3px;
-      color: var(--white);
-    }
-
-    .orders-header-content .header-text p {
-      font-size: 0.83rem;
-      opacity: 0.88;
-      color: rgba(255, 255, 255, 0.85);
-      margin: 0;
-    }
-
-    /* ===== الإحصائيات السريعة ===== */
-    .quick-stats {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      margin-bottom: 18px;
-    }
-
+    /* ===== الإحصائيات ===== */
+    .quick-stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 18px; }
     .quick-stat-card {
-      background: var(--white);
-      border-radius: var(--radius-md);
-      padding: 14px 12px;
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--gray-200);
-      position: relative;
-      overflow: hidden;
-      transition: var(--transition);
-      text-align: center;
+      background: var(--white); border-radius: var(--radius-md); padding: 14px 12px;
+      box-shadow: var(--shadow-sm); border: 1px solid var(--gray-200);
+      position: relative; overflow: hidden; transition: var(--transition); text-align: center;
     }
-
     .quick-stat-card::before {
-      content: '';
-      position: absolute;
-      top: 0; right: 0;
-      width: 4px; height: 100%;
-      background: var(--gold);
-      transform: scaleY(0);
-      transform-origin: bottom;
-      transition: transform 0.4s ease;
+      content: ''; position: absolute; top: 0; right: 0;
+      width: 4px; height: 100%; background: var(--gold);
+      transform: scaleY(0); transform-origin: bottom; transition: transform 0.4s ease;
     }
-
     .quick-stat-card:hover::before { transform: scaleY(1); }
-
-    .quick-stat-card:hover {
-      transform: translateY(-3px);
-      box-shadow: var(--shadow-lg);
-      border-color: var(--gold-light);
-    }
-
+    .quick-stat-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); border-color: var(--gold-light); }
     .quick-stat-card .stat-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-      margin: 0 auto 8px;
+      width: 38px; height: 38px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; margin: 0 auto 8px;
     }
-
     .stat-icon.blue { background: rgba(59, 130, 246, 0.12); color: #2563eb; }
     .stat-icon.gold { background: rgba(201, 168, 76, 0.15); color: var(--gold-dark); }
     .stat-icon.green { background: rgba(34, 197, 94, 0.12); color: #16a34a; }
     .stat-icon.purple { background: rgba(139, 92, 246, 0.12); color: #7c3aed; }
-
-    .quick-stat-card .stat-number {
-      font-size: 1.15rem;
-      font-weight: 900;
-      color: var(--navy);
-      line-height: 1.2;
-      margin-bottom: 2px;
-    }
-
+    .stat-icon.orange { background: rgba(245, 158, 11, 0.12); color: #d97706; }
+    .stat-icon.pink { background: rgba(236, 72, 153, 0.12); color: #db2777; }
+    .quick-stat-card .stat-number { font-size: 1.15rem; font-weight: 900; color: var(--navy); line-height: 1.2; margin-bottom: 2px; }
     .quick-stat-card .stat-number.gold { color: var(--gold-dark); }
     .quick-stat-card .stat-number.green { color: #16a34a; }
+    .quick-stat-card .stat-label { font-size: 0.68rem; color: var(--gray-500); font-weight: 700; line-height: 1.2; }
 
-    .quick-stat-card .stat-label {
-      font-size: 0.68rem;
-      color: var(--gray-500);
-      font-weight: 700;
-      line-height: 1.2;
-    }
-
-    /* ===== أدوات الفلترة ===== */
+    /* ===== الفلترة ===== */
     .filter-bar {
-      background: var(--white);
-      border-radius: var(--radius-md);
-      padding: 14px;
-      margin-bottom: 18px;
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--gray-200);
-      /* 🛡️ مهم جداً: منع تسرب السكرول */
-      overflow: hidden;
-      min-width: 0;
-      max-width: 100%;
+      background: var(--white); border-radius: var(--radius-md); padding: 14px;
+      margin-bottom: 18px; box-shadow: var(--shadow-sm); border: 1px solid var(--gray-200);
+      overflow: hidden; min-width: 0; max-width: 100%;
     }
-
-    .search-box {
-      position: relative;
-      margin-bottom: 12px;
-      width: 100%;
-    }
-
+    .search-box { position: relative; margin-bottom: 12px; width: 100%; }
     .search-box input {
-      width: 100%;
-      padding: 12px 42px 12px 14px;
-      border: 2px solid var(--gray-200);
-      border-radius: var(--radius-sm);
-      font-family: inherit;
-      font-size: 0.9rem;
-      background: var(--gray-50);
-      transition: all 0.3s ease;
+      width: 100%; padding: 12px 42px 12px 14px;
+      border: 2px solid var(--gray-200); border-radius: var(--radius-sm);
+      font-family: inherit; font-size: 0.9rem; background: var(--gray-50); transition: all 0.3s ease;
     }
+    .search-box input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.15); background: var(--white); }
+    .search-box .search-icon { position: absolute; right: 13px; top: 50%; transform: translateY(-50%); color: var(--gray-400); pointer-events: none; font-size: 0.9rem; }
 
-    .search-box input:focus {
-      outline: none;
-      border-color: var(--gold);
-      box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.15);
-      background: var(--white);
-    }
-
-    .search-box .search-icon {
-      position: absolute;
-      right: 13px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--gray-400);
-      pointer-events: none;
-      font-size: 0.9rem;
-    }
-
-    /* ============================================================
-       🎯 الأزرار - الحل النهائي لمنع السكرول الخارجي
-       ============================================================ */
-    .status-tabs-wrapper {
-      position: relative;
-      width: 100%;
-      min-width: 0;
-      max-width: 100%;
-      overflow: hidden;
-    }
-
+    .status-tabs-wrapper { position: relative; width: 100%; min-width: 0; max-width: 100%; overflow: hidden; }
     .status-tabs {
-      display: flex;
-      gap: 6px;
-      overflow-x: auto;
-      overflow-y: hidden;
-      padding: 2px 2px 8px;
-      scrollbar-width: thin;
-      -webkit-overflow-scrolling: touch;
-      max-width: 100%;
-      min-width: 0;
-      width: 100%;
-      /* 🛡️ منع تسرب السكرول */
-      overscroll-behavior-x: contain;
+      display: flex; gap: 6px; overflow-x: auto; overflow-y: hidden;
+      padding: 2px 2px 8px; scrollbar-width: thin; -webkit-overflow-scrolling: touch;
+      max-width: 100%; min-width: 0; width: 100%; overscroll-behavior-x: contain;
     }
-
     .status-tabs::-webkit-scrollbar { height: 4px; }
-    .status-tabs::-webkit-scrollbar-track {
-      background: var(--gray-100);
-      border-radius: 10px;
-    }
-    .status-tabs::-webkit-scrollbar-thumb {
-      background: var(--gold);
-      border-radius: 10px;
-    }
-
+    .status-tabs::-webkit-scrollbar-track { background: var(--gray-100); border-radius: 10px; }
+    .status-tabs::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
     .status-tab {
-      padding: 8px 14px;
-      border: 2px solid var(--gray-200);
-      background: var(--white);
-      color: var(--gray-600);
-      border-radius: var(--radius-full);
-      font-family: inherit;
-      font-weight: 700;
-      font-size: 0.78rem;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      white-space: nowrap;
-      flex-shrink: 0;
+      padding: 8px 14px; border: 2px solid var(--gray-200);
+      background: var(--white); color: var(--gray-600);
+      border-radius: var(--radius-full); font-family: inherit; font-weight: 700;
+      font-size: 0.78rem; cursor: pointer; transition: all 0.25s ease;
+      display: flex; align-items: center; gap: 6px; white-space: nowrap; flex-shrink: 0;
     }
-
     .status-tab:hover { border-color: var(--gold-light); }
-
     .status-tab.active {
       background: linear-gradient(135deg, var(--navy), var(--navy-light));
-      color: var(--white);
-      border-color: var(--navy);
+      color: var(--white); border-color: var(--navy);
       box-shadow: 0 4px 12px rgba(26, 42, 74, 0.25);
     }
-
     .status-tab.active i { color: var(--gold); }
-
     .status-tab .tab-count {
-      background: rgba(255, 255, 255, 0.2);
-      padding: 1px 7px;
-      border-radius: 10px;
-      font-size: 0.68rem;
-      font-weight: 800;
-      min-width: 18px;
-      text-align: center;
+      background: rgba(255, 255, 255, 0.2); padding: 1px 7px;
+      border-radius: 10px; font-size: 0.68rem; font-weight: 800;
+      min-width: 18px; text-align: center;
     }
-
-    .status-tab:not(.active) .tab-count {
-      background: var(--gray-100);
-      color: var(--gray-600);
+    .status-tab:not(.active) .tab-count { background: var(--gray-100); color: var(--gray-600); }
+    .status-tab.has-urgent { animation: tabPulse 2s ease-in-out infinite; }
+    @keyframes tabPulse {
+      0%,100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.7); }
+      50% { box-shadow: 0 0 0 8px rgba(245, 158, 11, 0); }
     }
 
     /* ===== قائمة الطلبات ===== */
-    .orders-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      margin-bottom: 24px;
-      min-width: 0;
-      max-width: 100%;
-      overflow: hidden;
-    }
-
+    .orders-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; min-width: 0; max-width: 100%; overflow: hidden; }
     .order-card {
-      background: var(--white);
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--gray-200);
-      overflow: hidden;
-      transition: var(--transition);
-      position: relative;
-      min-width: 0;
-      max-width: 100%;
+      background: var(--white); border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm); border: 1px solid var(--gray-200);
+      overflow: hidden; transition: var(--transition); position: relative;
+      min-width: 0; max-width: 100%;
     }
-
-    .order-card:hover {
-      box-shadow: var(--shadow-lg);
-      border-color: var(--gold-light);
+    .order-card:hover { box-shadow: var(--shadow-lg); border-color: var(--gold-light); }
+    .order-card.needs-action {
+      border: 2px solid #f59e0b;
+      box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.15);
+      animation: cardAttention 2s ease-in-out infinite;
+    }
+    @keyframes cardAttention {
+      0%,100% { box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.15); }
+      50% { box-shadow: 0 0 0 10px rgba(245, 158, 11, 0.08); }
     }
 
     /* ===== رأس الكارت ===== */
     .order-card-header {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      align-items: center;
-      gap: 10px;
-      padding: 12px 14px;
+      display: grid; grid-template-columns: 1fr auto;
+      align-items: center; gap: 10px; padding: 12px 14px;
       background: linear-gradient(135deg, #fcf9f0, #f8f4e8);
       border-bottom: 1px solid var(--gray-200);
     }
-
-    .order-header-left {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      min-width: 0;
+    .order-card-header.urgent {
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
     }
-
+    .order-header-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
     .order-icon-wrap {
-      width: 40px;
-      height: 40px;
-      border-radius: var(--radius-sm);
+      width: 40px; height: 40px; border-radius: var(--radius-sm);
       background: linear-gradient(135deg, var(--gold-light), var(--gold));
-      color: var(--navy);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.95rem;
-      flex-shrink: 0;
+      color: var(--navy); display: flex; align-items: center; justify-content: center;
+      font-size: 0.95rem; flex-shrink: 0;
     }
-
-    .order-num-wrap {
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
+    .order-icon-wrap.urgent { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; animation: iconShake 1s ease-in-out infinite; }
+    @keyframes iconShake {
+      0%,100% { transform: rotate(0); }
+      25% { transform: rotate(-5deg); }
+      75% { transform: rotate(5deg); }
     }
-
+    .order-num-wrap { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
     .order-num {
-      font-family: 'Courier New', monospace;
-      font-size: 0.88rem;
-      font-weight: 900;
-      color: var(--navy);
-      letter-spacing: 0.5px;
-      direction: ltr;
-      text-align: right;
-      white-space: nowrap;
+      font-family: 'Courier New', monospace; font-size: 0.88rem; font-weight: 900;
+      color: var(--navy); letter-spacing: 0.5px; direction: ltr;
+      text-align: right; white-space: nowrap;
     }
+    .order-date { font-size: 0.7rem; color: var(--gray-500); display: flex; align-items: center; gap: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .order-date i { color: var(--gold); font-size: 0.62rem; flex-shrink: 0; }
 
-    .order-date {
-      font-size: 0.7rem;
-      color: var(--gray-500);
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .order-date i {
-      color: var(--gold);
-      font-size: 0.62rem;
-      flex-shrink: 0;
-    }
-
-    /* شارة الحالة */
+    /* ===== شارة الحالة ===== */
     .status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 5px 10px;
-      border-radius: var(--radius-full);
-      font-size: 0.7rem;
-      font-weight: 800;
-      white-space: nowrap;
-      flex-shrink: 0;
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 5px 10px; border-radius: var(--radius-full);
+      font-size: 0.7rem; font-weight: 800; white-space: nowrap; flex-shrink: 0;
     }
-
     .status-badge i { font-size: 0.68rem; }
-
-    .status-badge.pending {
-      background: rgba(245, 158, 11, 0.15);
-      color: #d97706;
-      border: 1px solid rgba(245, 158, 11, 0.3);
+    .status-badge.pending { background: rgba(245, 158, 11, 0.15); color: #d97706; border: 1px solid rgba(245, 158, 11, 0.3); }
+    .status-badge.processing { background: rgba(59, 130, 246, 0.15); color: #2563eb; border: 1px solid rgba(59, 130, 246, 0.3); }
+    .status-badge.preparing { background: rgba(52, 152, 219, 0.15); color: #3498db; border: 1px solid rgba(52, 152, 219, 0.3); }
+    .status-badge.awaiting_approval { background: rgba(245, 158, 11, 0.2); color: #b45309; border: 2px solid #f59e0b; animation: badgeGlow 1.5s ease-in-out infinite; }
+    .status-badge.shipped { background: rgba(139, 92, 246, 0.15); color: #7c3aed; border: 1px solid rgba(139, 92, 246, 0.3); }
+    .status-badge.delivered { background: rgba(34, 197, 94, 0.15); color: #16a34a; border: 1px solid rgba(34, 197, 94, 0.3); }
+    .status-badge.cancelled { background: rgba(239, 68, 68, 0.15); color: #dc2626; border: 1px solid rgba(239, 68, 68, 0.3); }
+    @keyframes badgeGlow {
+      0%,100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.6); }
+      50% { box-shadow: 0 0 0 6px rgba(245, 158, 11, 0); }
     }
 
-    .status-badge.processing {
-      background: rgba(59, 130, 246, 0.15);
-      color: #2563eb;
-      border: 1px solid rgba(59, 130, 246, 0.3);
-    }
-
-    .status-badge.shipped {
-      background: rgba(139, 92, 246, 0.15);
-      color: #7c3aed;
-      border: 1px solid rgba(139, 92, 246, 0.3);
-    }
-
-    .status-badge.delivered {
-      background: rgba(34, 197, 94, 0.15);
-      color: #16a34a;
-      border: 1px solid rgba(34, 197, 94, 0.3);
-    }
-
-    .status-badge.cancelled {
-      background: rgba(239, 68, 68, 0.15);
-      color: #dc2626;
-      border: 1px solid rgba(239, 68, 68, 0.3);
-    }
-
-    /* ===== جسم الكارت ===== */
-    .order-card-body {
+    /* ===== تنبيه التعديلات ===== */
+    .changes-alert {
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      border-right: 4px solid #f59e0b;
       padding: 12px 14px;
-    }
-
-    /* معاينة المنتجات - سكرول أفقي داخلي */
-    .items-preview-wrap {
+      margin: 0 14px 12px;
+      border-radius: var(--radius-sm);
       display: flex;
-      align-items: center;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .changes-alert .alert-icon {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: #f59e0b; color: white;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; flex-shrink: 0;
+      animation: iconShake 1s ease-in-out infinite;
+    }
+    .changes-alert .alert-content { flex: 1; min-width: 0; }
+    .changes-alert .alert-title { font-weight: 900; color: #92400e; font-size: 0.85rem; margin-bottom: 4px; }
+    .changes-alert .alert-desc { font-size: 0.75rem; color: #78350f; line-height: 1.5; margin-bottom: 8px; }
+
+    /* ===== العدّاد التنازلي ===== */
+    .countdown-box {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(220, 38, 38, 0.1); border: 2px solid #dc2626;
+      padding: 8px 12px; border-radius: var(--radius-sm);
+      margin-top: 8px;
+    }
+    .countdown-box.urgent { background: rgba(220, 38, 38, 0.2); animation: countdownPulse 1s ease-in-out infinite; }
+    @keyframes countdownPulse {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+    }
+    .countdown-box i { color: #dc2626; font-size: 1rem; }
+    .countdown-box .countdown-text { font-weight: 900; color: #991b1b; font-size: 0.85rem; }
+    .countdown-box .countdown-text strong { font-family: 'Courier New', monospace; font-size: 0.95rem; }
+
+    /* ===== أزرار الموافقة ===== */
+    .approval-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
       gap: 8px;
-      margin-bottom: 12px;
-      padding-bottom: 10px;
-      border-bottom: 1px dashed var(--gray-200);
-      min-width: 0;
-      overflow: hidden;
+      margin-top: 10px;
     }
-
-    .items-preview-scroll {
-      display: flex;
-      gap: 6px;
-      overflow-x: auto;
-      overflow-y: hidden;
-      flex: 1;
-      min-width: 0;
-      padding: 2px;
-      scrollbar-width: none;
-      -ms-overflow-style: none;
-      overscroll-behavior-x: contain;
-    }
-
-    .items-preview-scroll::-webkit-scrollbar { display: none; }
-
-    .item-thumb {
-      width: 44px;
-      height: 44px;
-      border-radius: 8px;
-      object-fit: cover;
-      border: 2px solid var(--gray-200);
-      background: var(--gray-50);
-      flex-shrink: 0;
-      transition: transform 0.2s ease;
-    }
-
-    .item-thumb:hover {
-      transform: scale(1.05);
-      border-color: var(--gold);
-    }
-
-    .items-count-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 4px 10px;
-      background: var(--gray-100);
-      color: var(--gray-600);
-      border-radius: var(--radius-full);
-      font-size: 0.72rem;
-      font-weight: 800;
+    .approval-btn {
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      font-family: inherit; font-weight: 800; font-size: 0.78rem;
+      cursor: pointer; border: 2px solid;
+      display: inline-flex; align-items: center; justify-content: center; gap: 5px;
+      transition: all 0.2s ease;
       white-space: nowrap;
-      flex-shrink: 0;
     }
+    .approval-btn.approve {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: white; border-color: #16a34a;
+    }
+    .approval-btn.approve:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(34, 197, 94, 0.4); }
+    .approval-btn.reject {
+      background: white; color: #dc2626; border-color: #dc2626;
+    }
+    .approval-btn.reject:hover { background: #dc2626; color: white; }
+    .approval-btn.modify {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy); border-color: var(--gold-dark);
+    }
+    .approval-btn.modify:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(201, 168, 76, 0.4); }
+    .approval-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
 
+    /* ===== باقي الكارت ===== */
+    .order-card-body { padding: 12px 14px; }
+    .items-preview-wrap { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px dashed var(--gray-200); min-width: 0; overflow: hidden; }
+    .items-preview-scroll { display: flex; gap: 6px; overflow-x: auto; overflow-y: hidden; flex: 1; min-width: 0; padding: 2px; scrollbar-width: none; -ms-overflow-style: none; overscroll-behavior-x: contain; }
+    .items-preview-scroll::-webkit-scrollbar { display: none; }
+    .item-thumb { width: 44px; height: 44px; border-radius: 8px; object-fit: cover; border: 2px solid var(--gray-200); background: var(--gray-50); flex-shrink: 0; transition: transform 0.2s ease; }
+    .item-thumb:hover { transform: scale(1.05); border-color: var(--gold); }
+    .items-count-badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; background: var(--gray-100); color: var(--gray-600); border-radius: var(--radius-full); font-size: 0.72rem; font-weight: 800; white-space: nowrap; flex-shrink: 0; }
     .items-count-badge i { color: var(--gold); font-size: 0.68rem; }
 
-    /* صف التفاصيل - Chips */
-    .order-info-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-bottom: 12px;
-    }
-
+    .order-info-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
     .info-chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 5px 10px;
-      background: var(--gray-50);
-      border: 1px solid var(--gray-200);
-      border-radius: var(--radius-full);
-      font-size: 0.72rem;
-      color: var(--gray-600);
-      font-weight: 700;
-      white-space: nowrap;
-      max-width: 100%;
-      overflow: hidden;
-      text-overflow: ellipsis;
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 5px 10px; background: var(--gray-50);
+      border: 1px solid var(--gray-200); border-radius: var(--radius-full);
+      font-size: 0.72rem; color: var(--gray-600); font-weight: 700;
+      white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis;
     }
+    .info-chip i { color: var(--gold); font-size: 0.7rem; flex-shrink: 0; }
+    .info-chip strong { color: var(--navy); font-weight: 800; margin-right: 2px; overflow: hidden; text-overflow: ellipsis; }
 
-    .info-chip i {
-      color: var(--gold);
-      font-size: 0.7rem;
-      flex-shrink: 0;
-    }
+    .order-card-footer { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-top: 12px; border-top: 2px dashed var(--gray-200); }
+    .order-total-wrap { display: flex; flex-direction: column; gap: 3px; min-width: 0; flex-shrink: 0; }
+    .total-label { font-size: 0.68rem; color: var(--gray-500); font-weight: 700; }
+    .total-amount { font-size: 1.15rem; font-weight: 900; color: var(--gold-dark); line-height: 1.1; white-space: nowrap; }
+    .payment-status { font-size: 0.65rem; font-weight: 800; padding: 2px 8px; border-radius: var(--radius-full); width: fit-content; display: inline-flex; align-items: center; gap: 3px; }
+    .payment-status.paid { background: rgba(34, 197, 94, 0.15); color: #16a34a; }
+    .payment-status.unpaid { background: rgba(239, 68, 68, 0.15); color: #dc2626; }
+    .payment-status.partial { background: rgba(245, 158, 11, 0.15); color: #d97706; }
 
-    .info-chip strong {
-      color: var(--navy);
-      font-weight: 800;
-      margin-right: 2px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    /* ===== الفوتر ===== */
-    .order-card-footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      padding-top: 12px;
-      border-top: 2px dashed var(--gray-200);
-    }
-
-    .order-total-wrap {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-      min-width: 0;
-      flex-shrink: 0;
-    }
-
-    .total-label {
-      font-size: 0.68rem;
-      color: var(--gray-500);
-      font-weight: 700;
-    }
-
-    .total-amount {
-      font-size: 1.15rem;
-      font-weight: 900;
-      color: var(--gold-dark);
-      line-height: 1.1;
-      white-space: nowrap;
-    }
-
-    .payment-status {
-      font-size: 0.65rem;
-      font-weight: 800;
-      padding: 2px 8px;
-      border-radius: var(--radius-full);
-      width: fit-content;
-      display: inline-flex;
-      align-items: center;
-      gap: 3px;
-    }
-
-    .payment-status.paid {
-      background: rgba(34, 197, 94, 0.15);
-      color: #16a34a;
-    }
-
-    .payment-status.unpaid {
-      background: rgba(239, 68, 68, 0.15);
-      color: #dc2626;
-    }
-
-    .payment-status.partial {
-      background: rgba(245, 158, 11, 0.15);
-      color: #d97706;
-    }
-
-    .order-actions {
-      display: flex;
-      gap: 6px;
-      flex-wrap: nowrap;
-    }
-
+    .order-actions { display: flex; gap: 6px; flex-wrap: nowrap; }
     .order-action-btn {
-      padding: 9px 12px;
-      border-radius: var(--radius-sm);
-      text-decoration: none;
-      font-weight: 800;
-      font-size: 0.75rem;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      transition: all 0.2s ease;
-      border: 2px solid;
-      cursor: pointer;
-      font-family: inherit;
-      background: var(--white);
-      white-space: nowrap;
+      padding: 9px 12px; border-radius: var(--radius-sm); text-decoration: none;
+      font-weight: 800; font-size: 0.75rem;
+      display: inline-flex; align-items: center; justify-content: center; gap: 5px;
+      transition: all 0.2s ease; border: 2px solid; cursor: pointer;
+      font-family: inherit; background: var(--white); white-space: nowrap;
     }
-
-    .order-action-btn.primary {
-      background: linear-gradient(135deg, var(--navy), var(--navy-light));
-      color: var(--white);
-      border-color: var(--navy);
-    }
-
-    .order-action-btn.primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(26, 42, 74, 0.3);
-    }
-
-    .order-action-btn.secondary {
-      color: var(--gray-700);
-      border-color: var(--gray-200);
-    }
-
-    .order-action-btn.secondary:hover {
-      border-color: var(--gold);
-      color: var(--gold-dark);
-      background: #fcf9f0;
-    }
-
+    .order-action-btn.primary { background: linear-gradient(135deg, var(--navy), var(--navy-light)); color: var(--white); border-color: var(--navy); }
+    .order-action-btn.primary:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(26, 42, 74, 0.3); }
+    .order-action-btn.secondary { color: var(--gray-700); border-color: var(--gray-200); }
+    .order-action-btn.secondary:hover { border-color: var(--gold); color: var(--gold-dark); background: #fcf9f0; }
     .order-action-btn i { font-size: 0.78rem; }
 
     /* ===== حالة فارغة ===== */
-    .empty-state {
-      text-align: center;
-      padding: 50px 20px;
-      background: var(--white);
-      border-radius: var(--radius-md);
-      border: 2px dashed var(--gray-200);
-      margin-bottom: 24px;
-    }
-
-    .empty-state .empty-icon {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--gray-100), var(--gray-50));
-      color: var(--gray-400);
-      font-size: 2.2rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 18px;
-    }
-
-    .empty-state h3 {
-      font-size: 1.1rem;
-      font-weight: 900;
-      color: var(--navy);
-      margin-bottom: 6px;
-    }
-
-    .empty-state p {
-      font-size: 0.85rem;
-      color: var(--gray-500);
-      margin-bottom: 18px;
-      line-height: 1.6;
-    }
-
+    .empty-state { text-align: center; padding: 50px 20px; background: var(--white); border-radius: var(--radius-md); border: 2px dashed var(--gray-200); margin-bottom: 24px; }
+    .empty-state .empty-icon { width: 90px; height: 90px; border-radius: 50%; background: linear-gradient(135deg, var(--gray-100), var(--gray-50)); color: var(--gray-400); font-size: 2.2rem; display: flex; align-items: center; justify-content: center; margin: 0 auto 18px; }
+    .empty-state h3 { font-size: 1.1rem; font-weight: 900; color: var(--navy); margin-bottom: 6px; }
+    .empty-state p { font-size: 0.85rem; color: var(--gray-500); margin-bottom: 18px; line-height: 1.6; }
     .empty-state .btn-shop {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 11px 22px;
-      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-      color: var(--navy);
-      text-decoration: none;
-      border-radius: var(--radius-full);
-      font-weight: 800;
-      font-size: 0.88rem;
-      transition: all 0.3s ease;
-      box-shadow: 0 6px 20px rgba(201, 168, 76, 0.35);
-      cursor: pointer;
-      border: none;
-      font-family: inherit;
+      display: inline-flex; align-items: center; gap: 8px; padding: 11px 22px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: var(--navy);
+      text-decoration: none; border-radius: var(--radius-full); font-weight: 800; font-size: 0.88rem;
+      transition: all 0.3s ease; box-shadow: 0 6px 20px rgba(201, 168, 76, 0.35);
+      cursor: pointer; border: none; font-family: inherit;
     }
+    .empty-state .btn-shop:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(201, 168, 76, 0.5); }
+    .loading-state { text-align: center; padding: 50px 20px; }
+    .loading-state i { font-size: 2.2rem; color: var(--gold); margin-bottom: 10px; }
+    .loading-state p { font-size: 0.88rem; color: var(--gray-500); font-weight: 600; }
 
-    .empty-state .btn-shop:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 28px rgba(201, 168, 76, 0.5);
-    }
-
-    /* التحميل */
-    .loading-state {
-      text-align: center;
-      padding: 50px 20px;
-    }
-
-    .loading-state i {
-      font-size: 2.2rem;
-      color: var(--gold);
-      margin-bottom: 10px;
-    }
-
-    .loading-state p {
-      font-size: 0.88rem;
-      color: var(--gray-500);
-      font-weight: 600;
-    }
-
-    /* ===== Modal تفاصيل الطلب ===== */
+    /* ===== Modal ===== */
     .order-modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.75);
-      z-index: 9999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-      overflow-y: auto;
-      animation: fadeIn 0.25s ease;
+      position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75);
+      z-index: 9999; display: flex; align-items: center; justify-content: center;
+      padding: 16px; overflow-y: auto; animation: fadeIn 0.25s ease;
     }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     .order-modal {
-      background: var(--white);
-      border-radius: var(--radius-md);
-      max-width: 560px;
-      width: 100%;
-      max-height: 92vh;
-      overflow-y: auto;
+      background: var(--white); border-radius: var(--radius-md);
+      max-width: 620px; width: 100%; max-height: 92vh; overflow-y: auto;
       box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
       animation: modalIn 0.35s cubic-bezier(0.22, 1, 0.36, 1);
     }
-
-    @keyframes modalIn {
-      from { opacity: 0; transform: scale(0.92) translateY(-20px); }
-      to { opacity: 1; transform: scale(1) translateY(0); }
-    }
-
+    @keyframes modalIn { from { opacity: 0; transform: scale(0.92) translateY(-20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
     .order-modal-header {
-      padding: 18px 20px;
-      background: linear-gradient(135deg, var(--navy), var(--navy-light));
-      color: var(--white);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      position: sticky;
-      top: 0;
-      z-index: 10;
+      padding: 18px 20px; background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white); display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; position: sticky; top: 0; z-index: 10;
       border-radius: var(--radius-md) var(--radius-md) 0 0;
     }
-
-    .order-modal-header .header-info {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-      min-width: 0;
-    }
-
-    .order-modal-header .header-info small {
-      font-size: 0.72rem;
-      opacity: 0.85;
-      color: rgba(255, 255, 255, 0.9);
-    }
-
-    .order-modal-header .header-info strong {
-      font-family: 'Courier New', monospace;
-      font-size: 1.1rem;
-      font-weight: 900;
-      letter-spacing: 1px;
-      direction: ltr;
-      text-align: right;
-    }
-
+    .order-modal-header.warning { background: linear-gradient(135deg, #b45309, #d97706); }
+    .order-modal-header .header-info { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+    .order-modal-header .header-info small { font-size: 0.72rem; opacity: 0.85; }
+    .order-modal-header .header-info strong { font-family: 'Courier New', monospace; font-size: 1.1rem; font-weight: 900; letter-spacing: 1px; direction: ltr; text-align: right; }
     .modal-close-btn {
-      background: rgba(255, 255, 255, 0.15);
-      border: none;
-      color: var(--white);
-      width: 34px;
-      height: 34px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 0.95rem;
-      transition: all 0.2s ease;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      background: rgba(255, 255, 255, 0.15); border: none; color: var(--white);
+      width: 34px; height: 34px; border-radius: 50%; cursor: pointer;
+      font-size: 0.95rem; transition: all 0.2s ease; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
     }
-
     .modal-close-btn:hover { background: rgba(255, 255, 255, 0.25); }
-
     .order-modal-body { padding: 18px 20px; }
-
-    .modal-section-title {
-      font-size: 0.85rem;
-      font-weight: 900;
-      color: var(--navy);
-      margin-bottom: 10px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
+    .modal-section-title { font-size: 0.85rem; font-weight: 900; color: var(--navy); margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
     .modal-section-title i { color: var(--gold); font-size: 0.9rem; }
-
-    .modal-item-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px;
-      background: var(--gray-50);
-      border-radius: var(--radius-sm);
-      margin-bottom: 8px;
-    }
-
-    .modal-item-row img {
-      width: 44px;
-      height: 44px;
-      border-radius: 6px;
-      object-fit: cover;
-      background: var(--gray-200);
-      flex-shrink: 0;
-    }
-
+    .modal-item-row { display: flex; align-items: center; gap: 10px; padding: 10px; background: var(--gray-50); border-radius: var(--radius-sm); margin-bottom: 8px; }
+    .modal-item-row.changed { background: #fef3c7; border-right: 3px solid #f59e0b; }
+    .modal-item-row.new { background: #dcfce7; border-right: 3px solid #22c55e; }
+    .modal-item-row img { width: 44px; height: 44px; border-radius: 6px; object-fit: cover; background: var(--gray-200); flex-shrink: 0; }
     .modal-item-info { flex: 1; min-width: 0; }
+    .modal-item-name { font-weight: 800; color: var(--navy); font-size: 0.83rem; margin-bottom: 3px; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+    .modal-item-meta { font-size: 0.72rem; color: var(--gray-500); }
+    .modal-item-price { font-weight: 900; color: var(--gold-dark); font-size: 0.85rem; white-space: nowrap; flex-shrink: 0; }
+    .modal-summary { background: var(--gray-50); padding: 14px; border-radius: var(--radius-sm); margin-top: 16px; }
+    .summary-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 0.83rem; color: var(--gray-600); }
+    .summary-row strong { color: var(--navy); font-weight: 800; }
+    .summary-row.total { padding: 12px 0 0; margin-top: 8px; border-top: 2px dashed var(--gray-300); font-size: 1rem; }
+    .summary-row.total span:first-child { font-weight: 800; color: var(--navy); }
+    .summary-row.total strong { color: var(--gold-dark); font-size: 1.15rem; font-weight: 900; }
+    .summary-row.changed strong { color: #d97706; }
 
-    .modal-item-name {
-      font-weight: 800;
-      color: var(--navy);
-      font-size: 0.83rem;
-      margin-bottom: 3px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-    }
+    /* ===== جدول الفروقات ===== */
+    .diff-table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 0.8rem; }
+    .diff-table th { background: var(--gray-100); padding: 8px; text-align: right; color: var(--gray-600); font-weight: 800; border-bottom: 1px solid var(--gray-200); }
+    .diff-table td { padding: 8px; border-bottom: 1px solid var(--gray-100); }
+    .diff-old { color: #dc2626; text-decoration: line-through; font-size: 0.78rem; }
+    .diff-new { color: #16a34a; font-weight: 800; }
 
-    .modal-item-meta {
-      font-size: 0.72rem;
-      color: var(--gray-500);
-    }
-
-    .modal-item-price {
-      font-weight: 900;
-      color: var(--gold-dark);
-      font-size: 0.85rem;
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-
-    .modal-summary {
-      background: var(--gray-50);
-      padding: 14px;
-      border-radius: var(--radius-sm);
-      margin-top: 16px;
-    }
-
-    .summary-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 6px 0;
-      font-size: 0.83rem;
-      color: var(--gray-600);
-    }
-
-    .summary-row strong {
-      color: var(--navy);
-      font-weight: 800;
-    }
-
-    .summary-row.total {
-      padding: 12px 0 0;
-      margin-top: 8px;
-      border-top: 2px dashed var(--gray-300);
-      font-size: 1rem;
-    }
-
-    .summary-row.total span:first-child {
-      font-weight: 800;
-      color: var(--navy);
-    }
-
-    .summary-row.total strong {
-      color: var(--gold-dark);
-      font-size: 1.15rem;
-      font-weight: 900;
-    }
-
-    .modal-actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      margin-top: 16px;
-    }
-
+    .modal-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 16px; }
+    .modal-actions.single { grid-template-columns: 1fr; }
+    .modal-actions.three { grid-template-columns: 1fr 1fr 1fr; }
     .modal-action-btn {
-      padding: 11px 14px;
-      border-radius: var(--radius-sm);
-      text-decoration: none;
-      font-family: inherit;
-      font-weight: 800;
-      font-size: 0.82rem;
-      cursor: pointer;
-      border: 2px solid;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: all 0.2s ease;
+      padding: 11px 14px; border-radius: var(--radius-sm); text-decoration: none;
+      font-family: inherit; font-weight: 800; font-size: 0.82rem; cursor: pointer;
+      border: 2px solid; display: inline-flex; align-items: center; justify-content: center;
+      gap: 6px; transition: all 0.2s ease;
     }
-
-    .modal-action-btn.gold {
-      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-      color: var(--navy);
-      border-color: var(--gold-dark);
-    }
-
-    .modal-action-btn.gold:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(201, 168, 76, 0.4);
-    }
-
-    .modal-action-btn.gray {
-      background: var(--gray-100);
-      color: var(--gray-700);
-      border-color: var(--gray-200);
-    }
-
+    .modal-action-btn.gold { background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: var(--navy); border-color: var(--gold-dark); }
+    .modal-action-btn.gold:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(201, 168, 76, 0.4); }
+    .modal-action-btn.gray { background: var(--gray-100); color: var(--gray-700); border-color: var(--gray-200); }
     .modal-action-btn.gray:hover { background: var(--gray-200); }
+    .modal-action-btn.green { background: linear-gradient(135deg, #22c55e, #16a34a); color: white; border-color: #16a34a; }
+    .modal-action-btn.green:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(34, 197, 94, 0.4); }
+    .modal-action-btn.red { background: white; color: #dc2626; border-color: #dc2626; }
+    .modal-action-btn.red:hover { background: #dc2626; color: white; }
+    .modal-action-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
 
-    /* ============================================================
-       📱 Responsive
-       ============================================================ */
+    /* ===== Responsive ===== */
     @media (max-width: 768px) and (pointer: coarse) {
       .orders-header { padding: 18px 16px; border-radius: var(--radius-md); }
       .orders-header-content .header-icon { width: 48px; height: 48px; font-size: 1.2rem; }
       .orders-header-content .header-text h1 { font-size: 1.1rem; }
       .orders-header-content .header-text p { font-size: 0.75rem; }
-
-      .quick-stats {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
-        margin-bottom: 14px;
-      }
+      .quick-stats { grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 14px; }
       .quick-stat-card { padding: 12px 10px; }
       .quick-stat-card .stat-icon { width: 34px; height: 34px; font-size: 0.92rem; margin-bottom: 6px; }
       .quick-stat-card .stat-number { font-size: 1.05rem; }
       .quick-stat-card .stat-label { font-size: 0.65rem; }
-
-      .filter-bar {
-        padding: 12px;
-        margin-bottom: 14px;
-        overflow: hidden;
-      }
-
+      .filter-bar { padding: 12px; margin-bottom: 14px; overflow: hidden; }
       .search-box { margin-bottom: 10px; }
       .search-box input { padding: 10px 38px 10px 12px; font-size: 0.85rem; }
-
-      /* ============================================================
-         🎯 الأزرار على الموبايل - حل نهائي
-         ============================================================ */
-      .status-tabs-wrapper {
-        overflow: hidden;
-        max-width: 100%;
-      }
-
-      .status-tabs {
-        padding: 2px 2px 6px;
-        gap: 6px;
-        max-width: 100%;
-      }
-
-      .status-tab {
-        padding: 7px 12px;
-        font-size: 0.72rem;
-        flex-shrink: 0;
-      }
-
+      .status-tabs-wrapper { overflow: hidden; max-width: 100%; }
+      .status-tabs { padding: 2px 2px 6px; gap: 6px; max-width: 100%; }
+      .status-tab { padding: 7px 12px; font-size: 0.72rem; flex-shrink: 0; }
       .status-tab i { font-size: 0.78rem; }
-
       .order-card-header { padding: 11px 12px; }
       .order-icon-wrap { width: 36px; height: 36px; font-size: 0.85rem; }
       .order-num { font-size: 0.82rem; }
       .order-date { font-size: 0.65rem; }
       .status-badge { padding: 4px 8px; font-size: 0.66rem; }
-
       .order-card-body { padding: 11px 12px; }
-
       .item-thumb { width: 40px; height: 40px; }
       .items-count-badge { font-size: 0.68rem; padding: 3px 8px; }
-
       .info-chip { padding: 4px 8px; font-size: 0.68rem; }
-
-      .order-card-footer {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
-        padding-top: 10px;
-      }
-      .order-total-wrap {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        gap: 8px;
-      }
+      .order-card-footer { flex-direction: column; align-items: stretch; gap: 10px; padding-top: 10px; }
+      .order-total-wrap { flex-direction: row; align-items: center; justify-content: space-between; gap: 8px; }
       .order-total-wrap .total-label { display: none; }
       .total-amount { font-size: 1.1rem; }
       .payment-status { font-size: 0.62rem; }
-
-      .order-actions {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 8px;
-        width: 100%;
-      }
-      .order-action-btn {
-        padding: 10px 8px;
-        font-size: 0.72rem;
-        justify-content: center;
-      }
+      .order-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; }
+      .order-action-btn { padding: 10px 8px; font-size: 0.72rem; justify-content: center; }
+      .approval-buttons { grid-template-columns: 1fr; gap: 6px; }
+      .changes-alert { margin: 0 12px 10px; padding: 10px 12px; }
     }
-
     @media (max-width: 480px) {
       .order-modal-overlay { padding: 8px; }
-      .order-modal { max-height: 94vh; border-radius: var(--radius-md); }
+      .order-modal { max-height: 94vh; }
       .order-modal-header { padding: 14px 16px; }
       .order-modal-header .header-info strong { font-size: 0.95rem; }
       .order-modal-body { padding: 14px 16px; }
       .modal-actions { grid-template-columns: 1fr; }
+      .modal-actions.three { grid-template-columns: 1fr; }
     }
-
     @media (max-width: 400px) {
       .status-tab span:not(.tab-count) { display: none; }
       .status-tab { padding: 7px 10px; gap: 4px; }
@@ -1074,12 +466,9 @@
   <main class="page-content">
     <div class="container">
 
-      <!-- رأس الصفحة -->
       <div class="orders-header">
         <div class="orders-header-content">
-          <div class="header-icon">
-            <i class="fas fa-shopping-bag"></i>
-          </div>
+          <div class="header-icon"><i class="fas fa-shopping-bag"></i></div>
           <div class="header-text">
             <h1>طلباتي</h1>
             <p id="headerSubtitle">تابع كل طلباتك من مكان واحد</p>
@@ -1087,86 +476,69 @@
         </div>
       </div>
 
-      <!-- الإحصائيات السريعة -->
       <div class="quick-stats">
         <div class="quick-stat-card">
-          <div class="stat-icon blue">
-            <i class="fas fa-shopping-bag"></i>
-          </div>
+          <div class="stat-icon blue"><i class="fas fa-shopping-bag"></i></div>
           <div class="stat-number" id="statTotal">0</div>
           <div class="stat-label">إجمالي الطلبات</div>
         </div>
-
         <div class="quick-stat-card">
-          <div class="stat-icon gold">
-            <i class="fas fa-clock"></i>
-          </div>
+          <div class="stat-icon gold"><i class="fas fa-clock"></i></div>
           <div class="stat-number gold" id="statPending">0</div>
           <div class="stat-label">قيد الانتظار</div>
         </div>
-
         <div class="quick-stat-card">
-          <div class="stat-icon green">
-            <i class="fas fa-check-circle"></i>
-          </div>
+          <div class="stat-icon orange"><i class="fas fa-exclamation-triangle"></i></div>
+          <div class="stat-number" style="color:#d97706;" id="statAwaiting">0</div>
+          <div class="stat-label">بانتظار موافقتك</div>
+        </div>
+        <div class="quick-stat-card">
+          <div class="stat-icon green"><i class="fas fa-check-circle"></i></div>
           <div class="stat-number green" id="statDelivered">0</div>
           <div class="stat-label">تم التسليم</div>
         </div>
-
         <div class="quick-stat-card">
-          <div class="stat-icon purple">
-            <i class="fas fa-coins"></i>
-          </div>
+          <div class="stat-icon purple"><i class="fas fa-coins"></i></div>
           <div class="stat-number" id="statSpent">0</div>
           <div class="stat-label">إجمالي المبالغ</div>
         </div>
       </div>
 
-      <!-- أدوات الفلترة -->
       <div class="filter-bar">
         <div class="search-box">
           <input type="text" id="searchInput" placeholder="ابحث برقم الطلب..." autocomplete="off" oninput="handleSearch(this.value)">
           <i class="fas fa-search search-icon"></i>
         </div>
-
-        <!-- 🛡️ wrapper لمنع تسرب السكرول -->
         <div class="status-tabs-wrapper">
           <div class="status-tabs" id="statusTabs">
             <button class="status-tab active" data-status="all" onclick="filterByStatus('all')">
-              <i class="fas fa-list"></i>
-              <span>الكل</span>
-              <span class="tab-count" id="countAll">0</span>
+              <i class="fas fa-list"></i><span>الكل</span><span class="tab-count" id="countAll">0</span>
+            </button>
+            <button class="status-tab" data-status="awaiting_approval" onclick="filterByStatus('awaiting_approval')" id="tabAwaiting">
+              <i class="fas fa-exclamation-circle"></i><span>بانتظار موافقتك</span><span class="tab-count" id="countAwaiting">0</span>
             </button>
             <button class="status-tab" data-status="pending" onclick="filterByStatus('pending')">
-              <i class="fas fa-clock"></i>
-              <span>قيد الانتظار</span>
-              <span class="tab-count" id="countPending">0</span>
+              <i class="fas fa-clock"></i><span>قيد الانتظار</span><span class="tab-count" id="countPending">0</span>
             </button>
             <button class="status-tab" data-status="processing" onclick="filterByStatus('processing')">
-              <i class="fas fa-cog"></i>
-              <span>قيد المعالجة</span>
-              <span class="tab-count" id="countProcessing">0</span>
+              <i class="fas fa-cog"></i><span>قيد المعالجة</span><span class="tab-count" id="countProcessing">0</span>
+            </button>
+            <button class="status-tab" data-status="preparing" onclick="filterByStatus('preparing')">
+              <i class="fas fa-boxes"></i><span>جاري التحضير</span><span class="tab-count" id="countPreparing">0</span>
             </button>
             <button class="status-tab" data-status="shipped" onclick="filterByStatus('shipped')">
-              <i class="fas fa-truck"></i>
-              <span>تم الشحن</span>
-              <span class="tab-count" id="countShipped">0</span>
+              <i class="fas fa-truck"></i><span>تم الشحن</span><span class="tab-count" id="countShipped">0</span>
             </button>
             <button class="status-tab" data-status="delivered" onclick="filterByStatus('delivered')">
-              <i class="fas fa-check-circle"></i>
-              <span>تم التسليم</span>
-              <span class="tab-count" id="countDelivered">0</span>
+              <i class="fas fa-check-circle"></i><span>تم التسليم</span><span class="tab-count" id="countDelivered">0</span>
             </button>
             <button class="status-tab" data-status="cancelled" onclick="filterByStatus('cancelled')">
-              <i class="fas fa-times-circle"></i>
-              <span>ملغي</span>
-              <span class="tab-count" id="countCancelled">0</span>
+              <i class="fas fa-times-circle"></i><span>ملغي</span><span class="tab-count" id="countCancelled">0</span>
             </button>
           </div>
         </div>
       </div>
 
-      <!-- قائمة الطلبات -->
       <div class="orders-list" id="ordersList">
         <div class="loading-state">
           <i class="fas fa-spinner fa-spin"></i>
@@ -1186,13 +558,13 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-
   <script src="/gomla/assets/js/firebase-config.js"></script>
   <script src="/gomla/assets/js/main.js"></script>
 
   <script>
     // ============================================================
-    // 📄 customer/orders.html - صفحة طلباتي v2.1
+    // 📄 customer/orders.html - طلبات العميل v3.0
+    // 📌 يدعم: موافقة/رفض/تعديل تعديلات المسئول + عدّاد 12 ساعة
     // ============================================================
 
     let userData = null;
@@ -1202,17 +574,14 @@
     let filteredOrders = [];
     let currentStatus = 'all';
     let currentSearch = '';
+    let countdownIntervals = [];
 
     // ============================================================
     // 🚀 تشغيل الصفحة
     // ============================================================
     document.addEventListener('DOMContentLoaded', async function() {
       const user = getCurrentUser();
-
-      if (!user) {
-        window.location.href = '/gomla/customer-login.html';
-        return;
-      }
+      if (!user) { window.location.href = '/gomla/customer-login.html'; return; }
 
       const role = user.data.role;
       if (role !== ROLES.RETAIL && role !== ROLES.WHOLESALE) {
@@ -1236,13 +605,10 @@
 
       const params = new URLSearchParams(window.location.search);
       const statusFromUrl = params.get('status');
-      if (statusFromUrl) {
-        currentStatus = statusFromUrl;
-        updateActiveTab(statusFromUrl);
-      }
+      if (statusFromUrl) { currentStatus = statusFromUrl; updateActiveTab(statusFromUrl); }
 
       await loadOrders();
-      console.log('✅ customer/orders.html v2.1 loaded');
+      console.log('✅ customer/orders.html v3.0 loaded');
     });
 
     // ============================================================
@@ -1255,9 +621,7 @@
           .get();
 
         allOrders = [];
-        snapshot.forEach(doc => {
-          allOrders.push({ id: doc.id, ...doc.data() });
-        });
+        snapshot.forEach(doc => allOrders.push({ id: doc.id, ...doc.data() }));
 
         allOrders.sort((a, b) => {
           const da = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt || 0);
@@ -1275,50 +639,52 @@
             <div class="empty-icon"><i class="fas fa-exclamation-triangle"></i></div>
             <h3>حدث خطأ في التحميل</h3>
             <p>تعذر تحميل طلباتك. حاول مرة أخرى.</p>
-            <button class="btn-shop" onclick="loadOrders()">
-              <i class="fas fa-sync-alt"></i> إعادة المحاولة
-            </button>
+            <button class="btn-shop" onclick="loadOrders()"><i class="fas fa-sync-alt"></i> إعادة المحاولة</button>
           </div>
         `;
       }
     }
 
     // ============================================================
-    // 📊 تحديث الإحصائيات
+    // 📊 الإحصائيات
     // ============================================================
     function updateStats() {
-      const total = allOrders.length;
-      let pending = 0, delivered = 0, totalSpent = 0;
-      let cntPending = 0, cntProcessing = 0, cntShipped = 0, cntDelivered = 0, cntCancelled = 0;
+      let cntPending = 0, cntProcessing = 0, cntPreparing = 0, cntAwaiting = 0,
+          cntShipped = 0, cntDelivered = 0, cntCancelled = 0, totalSpent = 0;
 
-      allOrders.forEach(order => {
-        const status = order.status || 'pending';
-        if (status === 'pending') cntPending++;
-        else if (status === 'processing') cntProcessing++;
-        else if (status === 'shipped') cntShipped++;
-        else if (status === 'delivered') cntDelivered++;
-        else if (status === 'cancelled') cntCancelled++;
-
-        if (status === 'pending') pending++;
-        if (status === 'delivered') delivered++;
-        totalSpent += order.total || 0;
+      allOrders.forEach(o => {
+        const s = o.status || 'pending';
+        if (s === 'pending') cntPending++;
+        else if (s === 'processing') cntProcessing++;
+        else if (s === 'preparing') cntPreparing++;
+        else if (s === 'awaiting_approval') cntAwaiting++;
+        else if (s === 'shipped') cntShipped++;
+        else if (s === 'delivered') cntDelivered++;
+        else if (s === 'cancelled') cntCancelled++;
+        totalSpent += o.total || 0;
       });
 
-      document.getElementById('statTotal').textContent = total;
-      document.getElementById('statPending').textContent = pending;
-      document.getElementById('statDelivered').textContent = delivered;
+      document.getElementById('statTotal').textContent = allOrders.length;
+      document.getElementById('statPending').textContent = cntPending;
+      document.getElementById('statAwaiting').textContent = cntAwaiting;
+      document.getElementById('statDelivered').textContent = cntDelivered;
+      document.getElementById('statSpent').textContent = totalSpent > 9999
+        ? `${(totalSpent / 1000).toFixed(1)}k` : totalSpent.toFixed(0);
 
-      const spentText = totalSpent > 9999
-        ? `${(totalSpent / 1000).toFixed(1)}k`
-        : totalSpent.toFixed(0);
-      document.getElementById('statSpent').textContent = spentText;
-
-      document.getElementById('countAll').textContent = total;
+      document.getElementById('countAll').textContent = allOrders.length;
       document.getElementById('countPending').textContent = cntPending;
       document.getElementById('countProcessing').textContent = cntProcessing;
+      document.getElementById('countPreparing').textContent = cntPreparing;
+      document.getElementById('countAwaiting').textContent = cntAwaiting;
       document.getElementById('countShipped').textContent = cntShipped;
       document.getElementById('countDelivered').textContent = cntDelivered;
       document.getElementById('countCancelled').textContent = cntCancelled;
+
+      // إبراز تبويب "بانتظار الموافقة" لو في طلبات
+      const tabAwaiting = document.getElementById('tabAwaiting');
+      if (tabAwaiting) {
+        tabAwaiting.classList.toggle('has-urgent', cntAwaiting > 0);
+      }
     }
 
     // ============================================================
@@ -1327,10 +693,7 @@
     let searchTimeout = null;
     function handleSearch(value) {
       if (searchTimeout) clearTimeout(searchTimeout);
-      searchTimeout = setTimeout(() => {
-        currentSearch = value.trim();
-        applyFilters();
-      }, 250);
+      searchTimeout = setTimeout(() => { currentSearch = value.trim(); applyFilters(); }, 250);
     }
 
     // ============================================================
@@ -1351,20 +714,16 @@
     function applyFilters() {
       filteredOrders = allOrders.filter(order => {
         if (currentStatus !== 'all') {
-          const orderStatus = order.status || 'pending';
-          if (orderStatus !== currentStatus) return false;
+          const s = order.status || 'pending';
+          if (s !== currentStatus) return false;
         }
-
         if (currentSearch) {
           const search = currentSearch.toUpperCase();
           const orderNumber = order.id.slice(-8).toUpperCase();
-          const fullId = order.id.toUpperCase();
-          if (!orderNumber.includes(search) && !fullId.includes(search)) return false;
+          if (!orderNumber.includes(search) && !order.id.toUpperCase().includes(search)) return false;
         }
-
         return true;
       });
-
       renderOrders();
     }
 
@@ -1372,6 +731,10 @@
     // 🎨 عرض الطلبات
     // ============================================================
     function renderOrders() {
+      // إلغاء أي عدادات تنازلية قديمة
+      countdownIntervals.forEach(i => clearInterval(i));
+      countdownIntervals = [];
+
       const container = document.getElementById('ordersList');
 
       if (filteredOrders.length === 0) {
@@ -1381,29 +744,16 @@
               <div class="empty-icon"><i class="fas fa-search-minus"></i></div>
               <h3>لا توجد نتائج</h3>
               <p>لم نجد طلبات تطابق "<strong>${escapeHtml(currentSearch)}</strong>"</p>
-              <button class="btn-shop" onclick="clearSearch()">
-                <i class="fas fa-times"></i> مسح البحث
-              </button>
-            </div>
-          `;
+              <button class="btn-shop" onclick="clearSearch()"><i class="fas fa-times"></i> مسح البحث</button>
+            </div>`;
         } else if (currentStatus !== 'all') {
-          const statusNames = {
-            pending: 'قيد الانتظار',
-            processing: 'قيد المعالجة',
-            shipped: 'تم الشحن',
-            delivered: 'تم التسليم',
-            cancelled: 'ملغي'
-          };
           container.innerHTML = `
             <div class="empty-state">
               <div class="empty-icon"><i class="fas fa-inbox"></i></div>
-              <h3>لا توجد طلبات "${statusNames[currentStatus] || ''}"</h3>
+              <h3>لا توجد طلبات بهذه الحالة</h3>
               <p>جرب تحديد حالة أخرى أو تصفح كل الطلبات.</p>
-              <button class="btn-shop" onclick="filterByStatus('all')">
-                <i class="fas fa-list"></i> عرض كل الطلبات
-              </button>
-            </div>
-          `;
+              <button class="btn-shop" onclick="filterByStatus('all')"><i class="fas fa-list"></i> عرض كل الطلبات</button>
+            </div>`;
         } else {
           container.innerHTML = `
             <div class="empty-state">
@@ -1413,18 +763,21 @@
               <a href="${userType === ROLES.WHOLESALE ? '/gomla/store-wholesale.html' : '/gomla/store-retail.html'}" class="btn-shop">
                 <i class="fas fa-store"></i> ابدأ التسوق
               </a>
-            </div>
-          `;
+            </div>`;
         }
         return;
       }
 
       let html = '';
-      filteredOrders.forEach(order => {
-        html += renderOrderCard(order);
-      });
-
+      filteredOrders.forEach(order => html += renderOrderCard(order));
       container.innerHTML = html;
+
+      // بدء العدادات التنازلية
+      filteredOrders.forEach(order => {
+        if (order.status === 'awaiting_approval' && order.pendingChanges?.approvalDeadline) {
+          startCountdown(order.id, order.pendingChanges.approvalDeadline);
+        }
+      });
     }
 
     function renderOrderCard(order) {
@@ -1433,89 +786,101 @@
       const statusMap = {
         pending: { text: 'قيد الانتظار', icon: 'fa-clock' },
         processing: { text: 'قيد المعالجة', icon: 'fa-cog' },
+        preparing: { text: 'جاري التحضير', icon: 'fa-boxes' },
+        awaiting_approval: { text: '⏳ بانتظار موافقتك', icon: 'fa-exclamation-circle' },
         shipped: { text: 'تم الشحن', icon: 'fa-truck' },
         delivered: { text: 'تم التسليم', icon: 'fa-check-circle' },
         cancelled: { text: 'ملغي', icon: 'fa-times-circle' }
       };
       const statusInfo = statusMap[status] || statusMap.pending;
+      const isAwaiting = status === 'awaiting_approval';
 
       const date = order.createdAt
         ? (order.createdAt.toDate ? order.createdAt.toDate() : new Date(order.createdAt))
         : new Date();
-      const dateStr = date.toLocaleDateString('ar-EG', {
-        year: 'numeric', month: 'short', day: 'numeric'
-      });
+      const dateStr = date.toLocaleDateString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric' });
 
       const items = order.items || [];
       const itemsCount = items.length;
-
       let itemsPreviewHtml = '';
-      if (itemsCount > 0) {
-        items.forEach(item => {
-          itemsPreviewHtml += `
-            <img src="${item.imageUrl || '/gomla/assets/images/no-image.png'}"
-                 alt="${escapeHtml(item.productName || item.name || 'منتج')}"
-                 class="item-thumb"
-                 onerror="this.src='/gomla/assets/images/no-image.png'">
-          `;
-        });
-      }
+      items.forEach(item => {
+        itemsPreviewHtml += `
+          <img src="${item.imageUrl || '/gomla/assets/images/no-image.png'}"
+               alt="${escapeHtml(item.productName || item.name || 'منتج')}"
+               class="item-thumb"
+               onerror="this.src='/gomla/assets/images/no-image.png'">`;
+      });
 
       let paymentStatusHtml = '';
-      const paymentStatus = order.paymentStatus || 'unpaid';
-      if (paymentStatus === 'paid') {
-        paymentStatusHtml = '<span class="payment-status paid"><i class="fas fa-check"></i> مدفوع</span>';
-      } else if (paymentStatus === 'partial') {
-        paymentStatusHtml = '<span class="payment-status partial"><i class="fas fa-hourglass-half"></i> دفع جزئي</span>';
-      } else {
-        paymentStatusHtml = '<span class="payment-status unpaid"><i class="fas fa-times"></i> غير مدفوع</span>';
-      }
+      const ps = order.paymentStatus || 'unpaid';
+      if (ps === 'paid') paymentStatusHtml = '<span class="payment-status paid"><i class="fas fa-check"></i> مدفوع</span>';
+      else if (ps === 'partial') paymentStatusHtml = '<span class="payment-status partial"><i class="fas fa-hourglass-half"></i> دفع جزئي</span>';
+      else paymentStatusHtml = '<span class="payment-status unpaid"><i class="fas fa-times"></i> غير مدفوع</span>';
 
       const region = order.region || '---';
 
+      // تنبيه التعديلات + أزرار الموافقة
+      let changesAlertHtml = '';
+      if (isAwaiting && order.pendingChanges) {
+        const pc = order.pendingChanges;
+        changesAlertHtml = `
+          <div class="changes-alert">
+            <div class="alert-icon"><i class="fas fa-bell"></i></div>
+            <div class="alert-content">
+              <div class="alert-title">📝 يوجد تعديلات على طلبك تحتاج موافقتك</div>
+              <div class="alert-desc">
+                قام المسئول <strong>${escapeHtml(pc.changedByName || 'المسئول')}</strong> بتعديل طلبك.
+                ${pc.note ? `<br>💬 ${escapeHtml(pc.note)}` : ''}
+              </div>
+              <div id="countdown-${order.id}" class="countdown-box">
+                <i class="fas fa-hourglass-half"></i>
+                <div class="countdown-text">المهلة المتبقية: <strong>--:--:--</strong></div>
+              </div>
+              <div class="approval-buttons">
+                <button class="approval-btn approve" onclick="approveChanges('${order.id}')">
+                  <i class="fas fa-check"></i> موافقة
+                </button>
+                <button class="approval-btn modify" onclick="openModifyOrder('${order.id}')">
+                  <i class="fas fa-edit"></i> تعديل
+                </button>
+                <button class="approval-btn reject" onclick="rejectChanges('${order.id}')">
+                  <i class="fas fa-times"></i> رفض
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
       return `
-        <div class="order-card">
-          <div class="order-card-header">
+        <div class="order-card ${isAwaiting ? 'needs-action' : ''}">
+          <div class="order-card-header ${isAwaiting ? 'urgent' : ''}">
             <div class="order-header-left">
-              <div class="order-icon-wrap">
-                <i class="fas fa-receipt"></i>
+              <div class="order-icon-wrap ${isAwaiting ? 'urgent' : ''}">
+                <i class="fas ${isAwaiting ? 'fa-exclamation' : 'fa-receipt'}"></i>
               </div>
               <div class="order-num-wrap">
                 <div class="order-num">#${orderNumber}</div>
-                <div class="order-date">
-                  <i class="fas fa-calendar"></i>
-                  ${dateStr}
-                </div>
+                <div class="order-date"><i class="fas fa-calendar"></i> ${dateStr}</div>
               </div>
             </div>
             <span class="status-badge ${status}">
-              <i class="fas ${statusInfo.icon}"></i>
-              ${statusInfo.text}
+              <i class="fas ${statusInfo.icon}"></i> ${statusInfo.text}
             </span>
           </div>
+
+          ${changesAlertHtml}
 
           <div class="order-card-body">
             ${itemsCount > 0 ? `
               <div class="items-preview-wrap">
-                <div class="items-preview-scroll">
-                  ${itemsPreviewHtml}
-                </div>
-                <span class="items-count-badge">
-                  <i class="fas fa-box"></i>
-                  ${itemsCount}
-                </span>
-              </div>
-            ` : ''}
+                <div class="items-preview-scroll">${itemsPreviewHtml}</div>
+                <span class="items-count-badge"><i class="fas fa-box"></i> ${itemsCount}</span>
+              </div>` : ''}
 
             <div class="order-info-chips">
-              <span class="info-chip">
-                <i class="fas fa-map-marker-alt"></i>
-                <strong>${escapeHtml(region)}</strong>
-              </span>
-              <span class="info-chip">
-                <i class="fas fa-boxes"></i>
-                <strong>${itemsCount}</strong> صنف
-              </span>
+              <span class="info-chip"><i class="fas fa-map-marker-alt"></i><strong>${escapeHtml(region)}</strong></span>
+              <span class="info-chip"><i class="fas fa-boxes"></i><strong>${itemsCount}</strong> صنف</span>
             </div>
 
             <div class="order-card-footer">
@@ -1524,21 +889,291 @@
                 <span class="total-amount">${(order.total || 0).toFixed(2)} ج.م</span>
                 ${paymentStatusHtml}
               </div>
-
               <div class="order-actions">
                 <a href="/gomla/tracking.html?id=${order.id}" class="order-action-btn primary">
-                  <i class="fas fa-map-marked-alt"></i>
-                  تتبع
+                  <i class="fas fa-map-marked-alt"></i> تتبع
                 </a>
                 <button class="order-action-btn secondary" onclick="showOrderDetails('${order.id}')">
-                  <i class="fas fa-info-circle"></i>
-                  التفاصيل
+                  <i class="fas fa-info-circle"></i> التفاصيل
                 </button>
               </div>
             </div>
           </div>
         </div>
       `;
+    }
+
+    // ============================================================
+    // ⏰ عدّاد تنازلي
+    // ============================================================
+    function startCountdown(orderId, deadline) {
+      const el = document.getElementById(`countdown-${orderId}`);
+      if (!el) return;
+
+      const deadlineMs = deadline?.toDate
+        ? deadline.toDate().getTime()
+        : new Date(deadline).getTime();
+
+      const update = () => {
+        const now = Date.now();
+        const diff = deadlineMs - now;
+
+        if (diff <= 0) {
+          el.innerHTML = `<i class="fas fa-exclamation-triangle"></i><div class="countdown-text">انتهت المهلة - بانتظار المسئول</div>`;
+          el.classList.add('urgent');
+          return;
+        }
+
+        const h = Math.floor(diff / 3600000);
+        const m = Math.floor((diff % 3600000) / 60000);
+        const s = Math.floor((diff % 60000) / 1000);
+        const fmt = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+
+        const txt = el.querySelector('.countdown-text strong');
+        if (txt) txt.textContent = fmt;
+
+        if (diff < 3600000) el.classList.add('urgent');
+      };
+
+      update();
+      const interval = setInterval(update, 1000);
+      countdownIntervals.push(interval);
+    }
+
+    // ============================================================
+    // ✅ موافقة على التعديلات
+    // ============================================================
+    async function approveChanges(orderId) {
+      if (!confirm('✅ هل أنت متأكد من الموافقة على التعديلات؟\n\nسيتم تحويل الطلب إلى "جاري التحضير" مباشرة.')) return;
+
+      try {
+        await db.collection(COLLECTIONS.ORDERS).doc(orderId).update({
+          status: 'preparing',
+          'pendingChanges.approved': true,
+          'pendingChanges.approvedAt': firebase.firestore.FieldValue.serverTimestamp(),
+          'pendingChanges.approvedBy': userId,
+          confirmedDeliveryDate: null,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        showToast('✅ تمت الموافقة - الطلب الآن قيد التحضير', 'success');
+        await loadOrders();
+      } catch (err) {
+        console.error('Approve error:', err);
+        showToast('❌ حدث خطأ: ' + err.message, 'error');
+      }
+    }
+
+    // ============================================================
+    // ❌ رفض التعديلات → أرشفة
+    // ============================================================
+    async function rejectChanges(orderId) {
+      if (!confirm('❌ هل أنت متأكد من رفض التعديلات؟\n\n⚠️ سيتم إلغاء الطلب نهائياً ونقله للأرشيف.')) return;
+
+      try {
+        await db.collection(COLLECTIONS.ORDERS).doc(orderId).update({
+          status: 'cancelled',
+          archived: true,
+          archiveReason: 'رفض العميل التعديلات',
+          archivedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          archivedBy: userId,
+          'pendingChanges.rejected': true,
+          'pendingChanges.rejectedAt': firebase.firestore.FieldValue.serverTimestamp(),
+          'pendingChanges.rejectedBy': userId,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        // إشعار للأدمن
+        try {
+          await db.collection('admin_notifications').add({
+            type: 'order_archived',
+            title: '📦 طلب مؤرشف',
+            body: `العميل رفض التعديلات - الطلب #${orderId.slice(-8).toUpperCase()}`,
+            orderId: orderId,
+            read: false,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        } catch(e) { console.warn(e); }
+
+        showToast('❌ تم رفض التعديلات - الطلب في الأرشيف الآن', 'info');
+        await loadOrders();
+      } catch (err) {
+        console.error('Reject error:', err);
+        showToast('❌ حدث خطأ: ' + err.message, 'error');
+      }
+    }
+
+    // ============================================================
+    // ✏️ تعديل الطلب (مرة واحدة فقط)
+    // ============================================================
+    function openModifyOrder(orderId) {
+      const order = allOrders.find(o => o.id === orderId);
+      if (!order) return;
+
+      if (order.userEditUsed) {
+        showToast('⚠️ لقد استخدمت حق التعديل مرة واحدة بالفعل', 'warning');
+        return;
+      }
+
+      showModifyModal(order);
+    }
+
+    function showModifyModal(order) {
+      const items = order.items || [];
+
+      let itemsHtml = '';
+      items.forEach((item, idx) => {
+        itemsHtml += `
+          <div class="modal-item-row">
+            <img src="${item.imageUrl || '/gomla/assets/images/no-image.png'}" onerror="this.src='/gomla/assets/images/no-image.png'">
+            <div class="modal-item-info">
+              <div class="modal-item-name">${escapeHtml(item.productName || item.name)}</div>
+              <div class="modal-item-meta">${item.unit || 'قطعة'}</div>
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+              <input type="number" min="1" value="${item.quantity}" 
+                id="mod-qty-${idx}" 
+                style="width:60px;text-align:center;padding:4px;border:2px solid var(--gray-300);border-radius:4px;font-family:inherit;"
+                onchange="updateModQty(${idx})">
+              <small style="font-size:0.7rem;color:var(--gray-500);">الكمية</small>
+            </div>
+            <button onclick="removeModItem(${idx})" style="background:#fde8e8;color:#dc2626;border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        `;
+      });
+
+      const modalHtml = `
+        <div class="order-modal-overlay" id="modifyModal" onclick="closeModifyModal(event)">
+          <div class="order-modal" onclick="event.stopPropagation()">
+            <div class="order-modal-header warning">
+              <div class="header-info">
+                <small>✏️ تعديل الطلب (مرة واحدة فقط)</small>
+                <strong>#${order.id.slice(-8).toUpperCase()}</strong>
+              </div>
+              <button class="modal-close-btn" onclick="closeModifyModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="order-modal-body">
+              <div style="background:#fef3c7;padding:10px 12px;border-radius:var(--radius-sm);margin-bottom:14px;font-size:0.8rem;color:#92400e;line-height:1.5;">
+                <i class="fas fa-info-circle"></i>
+                يمكنك تعديل الكميات وحذف منتجات فقط. لا يمكنك إضافة منتجات جديدة.
+                <br>⚠️ هذه الفرصة <strong>مرة واحدة فقط</strong>.
+              </div>
+
+              <h4 class="modal-section-title"><i class="fas fa-box"></i> المنتجات</h4>
+              <div id="modifyItemsContainer">${itemsHtml}</div>
+
+              <h4 class="modal-section-title" style="margin-top:14px;"><i class="fas fa-comment-alt"></i> ملاحظتك للمسئول</h4>
+              <textarea id="modifyNote" rows="3" placeholder="اشرح سبب التعديل..."
+                style="width:100%;padding:10px;border:2px solid var(--gray-200);border-radius:var(--radius-sm);font-family:inherit;resize:vertical;"></textarea>
+
+              <div class="modal-actions three" style="margin-top:16px;">
+                <button class="modal-action-btn gray" onclick="closeModifyModal()">إلغاء</button>
+                <button class="modal-action-btn red" onclick="submitModification('${order.id}', 'cancel')">إلغاء الطلب</button>
+                <button class="modal-action-btn green" onclick="submitModification('${order.id}', 'edit')">إرسال التعديل</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const old = document.getElementById('modifyModal');
+      if (old) old.remove();
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
+      document.body.style.overflow = 'hidden';
+
+      // حفظ نسخة من العناصر للتعديل
+      window._modifyItems = JSON.parse(JSON.stringify(items));
+      window._removedIdx = [];
+    }
+
+    function updateModQty(idx) {
+      const val = parseInt(document.getElementById(`mod-qty-${idx}`).value) || 1;
+      if (val < 1) { document.getElementById(`mod-qty-${idx}`).value = 1; return; }
+      window._modifyItems[idx].quantity = val;
+    }
+
+    function removeModItem(idx) {
+      if (!confirm('حذف هذا المنتج من الطلب؟')) return;
+      document.getElementById(`mod-qty-${idx}`).closest('.modal-item-row').style.display = 'none';
+      window._removedIdx.push(idx);
+    }
+
+    function closeModifyModal(event) {
+      if (event && event.target !== event.currentTarget) return;
+      const m = document.getElementById('modifyModal');
+      if (m) m.remove();
+      document.body.style.overflow = '';
+    }
+
+    async function submitModification(orderId, action) {
+      const note = document.getElementById('modifyNote')?.value.trim() || '';
+      const newItems = [];
+      window._modifyItems.forEach((item, idx) => {
+        if (!window._removedIdx.includes(idx)) {
+          newItems.push({ ...item, total: (item.price || 0) * (item.quantity || 1) });
+        }
+      });
+
+      if (newItems.length === 0) {
+        showToast('⚠️ يجب أن يحتوي الطلب على منتج واحد على الأقل', 'warning');
+        return;
+      }
+
+      const newSubtotal = newItems.reduce((s, i) => s + ((i.price||0) * (i.quantity||1)), 0);
+      const shippingCost = window._modifyItems[0]?.shippingCost || 0;
+      const newTotal = newSubtotal + shippingCost;
+
+      try {
+        if (action === 'cancel') {
+          // إلغاء الطلب بالكامل
+          await db.collection(COLLECTIONS.ORDERS).doc(orderId).update({
+            status: 'cancelled',
+            archived: true,
+            archiveReason: 'العميل ألغى الطلب أثناء المراجعة',
+            archivedAt: firebase.firestore.FieldValue.serverTimestamp(),
+            archivedBy: userId,
+            userEditUsed: true,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+          showToast('❌ تم إلغاء الطلب ونقله للأرشيف', 'info');
+        } else {
+          // تعديل الطلب
+          await db.collection(COLLECTIONS.ORDERS).doc(orderId).update({
+            status: 'processing',
+            items: newItems,
+            subtotal: newSubtotal,
+            total: newTotal,
+            remaining: newTotal,
+            userEditUsed: true,
+            userEditNote: note,
+            userEditAt: firebase.firestore.FieldValue.serverTimestamp(),
+            'pendingChanges.userModified': true,
+            'pendingChanges.userModifiedAt': firebase.firestore.FieldValue.serverTimestamp(),
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+          showToast('✅ تم إرسال تعديلاتك للمسئول', 'success');
+
+          // إشعار للأدمن
+          try {
+            await db.collection('admin_notifications').add({
+              type: 'order_modified_by_user',
+              title: '✏️ العميل عدّل الطلب',
+              body: `الطلب #${orderId.slice(-8).toUpperCase()} - ${note || 'بدون ملاحظة'}`,
+              orderId: orderId,
+              read: false,
+              createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+          } catch(e) { console.warn(e); }
+        }
+
+        closeModifyModal();
+        await loadOrders();
+      } catch (err) {
+        console.error(err);
+        showToast('❌ حدث خطأ: ' + err.message, 'error');
+      }
     }
 
     // ============================================================
@@ -1551,7 +1186,7 @@
     }
 
     // ============================================================
-    // 📋 عرض تفاصيل الطلب
+    // 📋 تفاصيل الطلب
     // ============================================================
     function showOrderDetails(orderId) {
       const order = allOrders.find(o => o.id === orderId);
@@ -1564,96 +1199,103 @@
       items.forEach(item => {
         itemsHtml += `
           <div class="modal-item-row">
-            <img src="${item.imageUrl || '/gomla/assets/images/no-image.png'}"
-                 alt="${escapeHtml(item.productName || item.name)}"
-                 onerror="this.src='/gomla/assets/images/no-image.png'">
+            <img src="${item.imageUrl || '/gomla/assets/images/no-image.png'}" onerror="this.src='/gomla/assets/images/no-image.png'">
             <div class="modal-item-info">
               <div class="modal-item-name">${escapeHtml(item.productName || item.name || 'منتج')}</div>
-              <div class="modal-item-meta">
-                ${item.quantity} ${item.unit || 'قطعة'} × ${(item.price || 0).toFixed(2)} ج.م
-              </div>
+              <div class="modal-item-meta">${item.quantity} ${item.unit || 'قطعة'} × ${(item.price || 0).toFixed(2)} ج.م</div>
             </div>
             <div class="modal-item-price">${((item.price || 0) * (item.quantity || 0)).toFixed(2)} ج.م</div>
-          </div>
-        `;
+          </div>`;
       });
+
+      // فروقات التعديلات
+      let diffHtml = '';
+      if (order.pendingChanges?.hasChanges && order.pendingChanges.oldValues) {
+        const oldV = order.pendingChanges.oldValues;
+        diffHtml = `
+          <h4 class="modal-section-title" style="margin-top:18px;"><i class="fas fa-exchange-alt"></i> التعديلات المطلوبة</h4>
+          <table class="diff-table">
+            <thead><tr><th>البند</th><th>قبل</th><th>بعد</th></tr></thead>
+            <tbody>
+              ${oldV.total !== order.total ? `
+                <tr><td>الإجمالي</td><td class="diff-old">${oldV.total.toFixed(2)} ج.م</td><td class="diff-new">${order.total.toFixed(2)} ج.م</td></tr>
+              ` : ''}
+              ${oldV.shippingCost !== order.shippingCost ? `
+                <tr><td>الشحن</td><td class="diff-old">${oldV.shippingCost.toFixed(2)} ج.م</td><td class="diff-new">${order.shippingCost.toFixed(2)} ج.م</td></tr>
+              ` : ''}
+              ${oldV.deliveryDate !== order.deliveryDate ? `
+                <tr><td>موعد التوصيل</td><td class="diff-old">${oldV.deliveryDate || '-'}</td><td class="diff-new">${order.deliveryDate || '-'}</td></tr>
+              ` : ''}
+            </tbody>
+          </table>
+        `;
+      }
+
+      const isAwaiting = order.status === 'awaiting_approval';
 
       const modalHtml = `
         <div class="order-modal-overlay" id="orderDetailsModal" onclick="closeOrderModal(event)">
           <div class="order-modal" onclick="event.stopPropagation()">
-
-            <div class="order-modal-header">
+            <div class="order-modal-header ${isAwaiting ? 'warning' : ''}">
               <div class="header-info">
                 <small>تفاصيل الطلب</small>
                 <strong>#${orderNumber}</strong>
               </div>
-              <button class="modal-close-btn" onclick="closeOrderModal()">
-                <i class="fas fa-times"></i>
-              </button>
+              <button class="modal-close-btn" onclick="closeOrderModal()"><i class="fas fa-times"></i></button>
             </div>
-
             <div class="order-modal-body">
-
-              <h4 class="modal-section-title">
-                <i class="fas fa-box"></i>
-                المنتجات (${items.length})
-              </h4>
+              <h4 class="modal-section-title"><i class="fas fa-box"></i> المنتجات (${items.length})</h4>
               ${itemsHtml || '<p style="text-align:center;color:var(--gray-400);padding:16px;font-size:0.85rem;">لا توجد منتجات</p>'}
+              
+              ${diffHtml}
 
-              <h4 class="modal-section-title" style="margin-top:18px;">
-                <i class="fas fa-calculator"></i>
-                الملخص المالي
-              </h4>
+              <h4 class="modal-section-title" style="margin-top:18px;"><i class="fas fa-calculator"></i> الملخص المالي</h4>
               <div class="modal-summary">
-                <div class="summary-row">
-                  <span>المجموع الفرعي</span>
-                  <strong>${(order.subtotal || 0).toFixed(2)} ج.م</strong>
-                </div>
-                <div class="summary-row">
-                  <span>الشحن</span>
-                  <strong style="color:${order.shippingCost > 0 ? 'var(--navy)' : '#16a34a'};">
-                    ${order.shippingCost > 0 ? order.shippingCost.toFixed(2) + ' ج.م' : 'مجاني'}
-                  </strong>
-                </div>
-                <div class="summary-row total">
-                  <span>الإجمالي</span>
-                  <strong>${(order.total || 0).toFixed(2)} ج.م</strong>
-                </div>
+                <div class="summary-row"><span>المجموع الفرعي</span><strong>${(order.subtotal || 0).toFixed(2)} ج.م</strong></div>
+                <div class="summary-row"><span>الشحن</span><strong style="color:${order.shippingCost > 0 ? 'var(--navy)' : '#16a34a'};">${order.shippingCost > 0 ? order.shippingCost.toFixed(2) + ' ج.م' : 'مجاني'}</strong></div>
+                <div class="summary-row total"><span>الإجمالي</span><strong>${(order.total || 0).toFixed(2)} ج.م</strong></div>
               </div>
 
-              <div class="modal-actions">
-                <a href="/gomla/tracking.html?id=${order.id}" class="modal-action-btn gold">
-                  <i class="fas fa-map-marked-alt"></i>
-                  تتبع الطلب
-                </a>
-                <button class="modal-action-btn gray" onclick="closeOrderModal()">
-                  <i class="fas fa-times"></i>
-                  إغلاق
-                </button>
+              <div class="modal-actions ${isAwaiting ? 'three' : ''}">
+                ${isAwaiting ? `
+                  <button class="modal-action-btn red" onclick="closeOrderModal(); rejectChanges('${order.id}')">
+                    <i class="fas fa-times"></i> رفض
+                  </button>
+                  <button class="modal-action-btn gold" onclick="closeOrderModal(); openModifyOrder('${order.id}')">
+                    <i class="fas fa-edit"></i> تعديل
+                  </button>
+                  <button class="modal-action-btn green" onclick="closeOrderModal(); approveChanges('${order.id}')">
+                    <i class="fas fa-check"></i> موافقة
+                  </button>
+                ` : `
+                  <a href="/gomla/tracking.html?id=${order.id}" class="modal-action-btn gold">
+                    <i class="fas fa-map-marked-alt"></i> تتبع الطلب
+                  </a>
+                  <button class="modal-action-btn gray" onclick="closeOrderModal()">
+                    <i class="fas fa-times"></i> إغلاق
+                  </button>
+                `}
               </div>
-
             </div>
-
           </div>
         </div>
       `;
 
-      const existing = document.getElementById('orderDetailsModal');
-      if (existing) existing.remove();
-
+      const old = document.getElementById('orderDetailsModal');
+      if (old) old.remove();
       document.body.insertAdjacentHTML('beforeend', modalHtml);
       document.body.style.overflow = 'hidden';
     }
 
     function closeOrderModal(event) {
       if (event && event.target !== event.currentTarget) return;
-      const modal = document.getElementById('orderDetailsModal');
-      if (modal) modal.remove();
+      const m = document.getElementById('orderDetailsModal');
+      if (m) m.remove();
       document.body.style.overflow = '';
     }
 
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeOrderModal();
+      if (e.key === 'Escape') { closeOrderModal(); closeModifyModal(); }
     });
 
     // ============================================================
@@ -1666,12 +1308,20 @@
       return div.innerHTML;
     }
 
+    // تصدير
     window.filterByStatus = filterByStatus;
     window.handleSearch = handleSearch;
     window.clearSearch = clearSearch;
     window.showOrderDetails = showOrderDetails;
     window.closeOrderModal = closeOrderModal;
     window.loadOrders = loadOrders;
+    window.approveChanges = approveChanges;
+    window.rejectChanges = rejectChanges;
+    window.openModifyOrder = openModifyOrder;
+    window.closeModifyModal = closeModifyModal;
+    window.updateModQty = updateModQty;
+    window.removeModItem = removeModItem;
+    window.submitModification = submitModification;
   </script>
 
 </body>
