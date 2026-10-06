@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تتبع الطلب - أولاد شعلان</title>
+  <meta name="description" content="تتبع طلبك - أولاد شعلان للمنظفات والورقيات">
+  <meta name="theme-color" content="#1a2a4a">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/gomla/assets/css/style.css">
+  <link rel="icon" href="/gomla/assets/images/favicon.ico">
+
+  <style>
+    /* ============================================================
+       🛡️ منع السكرول الأفقي
+       ============================================================ */
+    html, body {
+      overflow-x: hidden !important;
+      max-width: 100vw;
+    }
+
+    .page-content,
+    .page-content .container {
+      overflow-x: hidden;
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    /* ============================================================
+       🎨 ستايل صفحة تتبع الطلب
+       ============================================================ */
+
+    /* ===== رأس الصفحة ===== */
+    .tracking-header {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+      border-radius: var(--radius-lg);
+      padding: 22px 24px;
+      margin-bottom: 18px;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(26, 42, 74, 0.25);
+      border-bottom: 4px solid var(--gold);
+    }
+
+    .tracking-header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -15%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(201, 168, 76, 0.18) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .tracking-header-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .tracking-header-content .header-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      box-shadow: 0 8px 24px rgba(201, 168, 76, 0.4);
+    }
+
+    .tracking-header-content .header-text {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .tracking-header-content .header-text h1 {
+      font-size: 1.35rem;
+      font-weight: 900;
+      margin-bottom: 3px;
+      color: var(--white);
+    }
+
+    .tracking-header-content .header-text p {
+      font-size: 0.83rem;
+      opacity: 0.88;
+      color: rgba(255, 255, 255, 0.85);
+      margin: 0;
+    }
+
+    /* ===== بطاقة الطلب الرئيسية ===== */
+    .order-main-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      margin-bottom: 18px;
+      overflow: hidden;
+    }
+
+    .order-main-header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      background: linear-gradient(135deg, #fcf9f0, #f8f4e8);
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .order-main-header .order-num-block {
+      min-width: 0;
+    }
+
+    .order-main-header .order-label {
+      font-size: 0.7rem;
+      color: var(--gray-500);
+      font-weight: 700;
+      margin-bottom: 3px;
+    }
+
+    .order-main-header .order-num {
+      font-family: 'Courier New', monospace;
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: var(--navy);
+      letter-spacing: 1px;
+      direction: ltr;
+      text-align: right;
+      margin-bottom: 4px;
+    }
+
+    .order-main-header .order-date {
+      font-size: 0.75rem;
+      color: var(--gray-500);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .order-main-header .order-date i {
+      color: var(--gold);
+      font-size: 0.68rem;
+    }
+
+    /* حالة كبيرة */
+    .order-status-big {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      border-radius: var(--radius-full);
+      font-size: 0.88rem;
+      font-weight: 900;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .order-status-big i {
+      font-size: 1.05rem;
+    }
+
+    .order-status-big.pending {
+      background: rgba(245, 158, 11, 0.15);
+      color: #d97706;
+      border: 2px solid rgba(245, 158, 11, 0.3);
+    }
+
+    .order-status-big.processing {
+      background: rgba(59, 130, 246, 0.15);
+      color: #2563eb;
+      border: 2px solid rgba(59, 130, 246, 0.3);
+    }
+
+    .order-status-big.shipped {
+      background: rgba(139, 92, 246, 0.15);
+      color: #7c3aed;
+      border: 2px solid rgba(139, 92, 246, 0.3);
+    }
+
+    .order-status-big.delivered {
+      background: rgba(34, 197, 94, 0.15);
+      color: #16a34a;
+      border: 2px solid rgba(34, 197, 94, 0.3);
+    }
+
+    .order-status-big.cancelled {
+      background: rgba(239, 68, 68, 0.15);
+      color: #dc2626;
+      border: 2px solid rgba(239, 68, 68, 0.3);
+    }
+
+    .order-main-body {
+      padding: 16px;
+    }
+
+    /* ===== خط زمني ===== */
+    .timeline-section {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      margin-bottom: 18px;
+      overflow: hidden;
+    }
+
+    .timeline-section-header {
+      padding: 14px 18px;
+      background: linear-gradient(135deg, #fcf9f0, #f8f4e8);
+      border-bottom: 1px solid var(--gray-200);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .timeline-section-header h3 {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .timeline-section-header h3 i {
+      color: var(--gold);
+    }
+
+    .timeline-section-header .progress-text {
+      font-size: 0.75rem;
+      color: var(--gold-dark);
+      font-weight: 800;
+      background: rgba(201, 168, 76, 0.15);
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+    }
+
+    /* شريط التقدم الأفقي */
+    .progress-bar-wrap {
+      padding: 16px 18px 8px;
+      background: var(--white);
+    }
+
+    .progress-bar-bg {
+      width: 100%;
+      height: 8px;
+      background: var(--gray-200);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold), var(--gold-dark));
+      border-radius: var(--radius-full);
+      transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      box-shadow: 0 0 12px rgba(201, 168, 76, 0.5);
+    }
+
+    .progress-bar-fill::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      animation: shimmer 2s linear infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    /* Timeline */
+    .timeline {
+      padding: 20px 18px 24px;
+      position: relative;
+    }
+
+    .timeline-item {
+      display: flex;
+      gap: 14px;
+      position: relative;
+      padding-bottom: 24px;
+    }
+
+    .timeline-item:last-child {
+      padding-bottom: 0;
+    }
+
+    /* خط عمودي */
+    .timeline-item::before {
+      content: '';
+      position: absolute;
+      top: 40px;
+      right: 19px;
+      bottom: -24px;
+      width: 2px;
+      background: var(--gray-200);
+      z-index: 0;
+    }
+
+    .timeline-item:last-child::before {
+      display: none;
+    }
+
+    .timeline-item.completed::before {
+      background: linear-gradient(180deg, var(--gold), var(--gold-dark));
+    }
+
+    /* الدائرة */
+    .timeline-marker {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--gray-100);
+      color: var(--gray-400);
+      border: 3px solid var(--gray-200);
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
+      transition: all 0.3s ease;
+    }
+
+    .timeline-marker i {
+      font-size: 1rem;
+    }
+
+    .timeline-item.completed .timeline-marker {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--white);
+      border-color: var(--gold-dark);
+      box-shadow: 0 6px 16px rgba(201, 168, 76, 0.4);
+    }
+
+    .timeline-item.active .timeline-marker {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--white);
+      border-color: var(--gold-dark);
+      box-shadow: 0 6px 20px rgba(201, 168, 76, 0.6);
+      animation: pulseMarker 2s ease-in-out infinite;
+    }
+
+    @keyframes pulseMarker {
+      0%, 100% {
+        box-shadow: 0 6px 20px rgba(201, 168, 76, 0.6);
+        transform: scale(1);
+      }
+      50% {
+        box-shadow: 0 6px 32px rgba(201, 168, 76, 0.9);
+        transform: scale(1.05);
+      }
+    }
+
+    .timeline-item.cancelled .timeline-marker {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: var(--white);
+      border-color: #dc2626;
+      box-shadow: 0 6px 16px rgba(239, 68, 68, 0.4);
+    }
+
+    /* المحتوى */
+    .timeline-content {
+      flex: 1;
+      min-width: 0;
+      padding-top: 4px;
+    }
+
+    .timeline-content .tl-title {
+      font-size: 0.92rem;
+      font-weight: 900;
+      color: var(--gray-400);
+      margin-bottom: 4px;
+      transition: color 0.3s ease;
+    }
+
+    .timeline-item.completed .tl-title,
+    .timeline-item.active .tl-title {
+      color: var(--navy);
+    }
+
+    .timeline-content .tl-desc {
+      font-size: 0.78rem;
+      color: var(--gray-400);
+      line-height: 1.5;
+      margin-bottom: 4px;
+      transition: color 0.3s ease;
+    }
+
+    .timeline-item.completed .tl-desc,
+    .timeline-item.active .tl-desc {
+      color: var(--gray-600);
+    }
+
+    .timeline-content .tl-time {
+      font-size: 0.72rem;
+      color: var(--gray-400);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      background: var(--gray-50);
+      border-radius: var(--radius-full);
+      font-weight: 700;
+    }
+
+    .timeline-item.completed .tl-time,
+    .timeline-item.active .tl-time {
+      background: rgba(201, 168, 76, 0.12);
+      color: var(--gold-dark);
+    }
+
+    .timeline-content .tl-time i {
+      font-size: 0.65rem;
+    }
+
+    /* شارة "الآن" */
+    .tl-active-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      background: rgba(201, 168, 76, 0.2);
+      color: var(--gold-dark);
+      font-size: 0.65rem;
+      font-weight: 900;
+      border-radius: var(--radius-full);
+      margin-right: 6px;
+      animation: blink 1.5s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    /* ===== شبكة المعلومات ===== */
+    .info-section {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      margin-bottom: 18px;
+      overflow: hidden;
+    }
+
+    .info-section-header {
+      padding: 14px 18px;
+      background: linear-gradient(135deg, #fcf9f0, #f8f4e8);
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .info-section-header h3 {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .info-section-header h3 i {
+      color: var(--gold);
+    }
+
+    .info-section-body {
+      padding: 16px 18px;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .info-item {
+      padding: 12px;
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--gray-200);
+    }
+
+    .info-item.full {
+      grid-column: 1 / -1;
+    }
+
+    .info-item .info-label {
+      font-size: 0.7rem;
+      color: var(--gray-500);
+      font-weight: 800;
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .info-item .info-label i {
+      color: var(--gold);
+      font-size: 0.7rem;
+    }
+
+    .info-item .info-value {
+      font-size: 0.88rem;
+      color: var(--navy);
+      font-weight: 800;
+      line-height: 1.4;
+      word-break: break-word;
+    }
+
+    .info-item .info-value.mono {
+      font-family: 'Courier New', monospace;
+      direction: ltr;
+      text-align: right;
+      letter-spacing: 0.5px;
+    }
+
+    .info-item .info-value.ltr {
+      direction: ltr;
+      text-align: right;
+    }
+
+    /* ===== المنتجات ===== */
+    .items-section {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      margin-bottom: 18px;
+      overflow: hidden;
+    }
+
+    .items-section-body {
+      padding: 12px 18px 16px;
+    }
+
+    .item-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px dashed var(--gray-200);
+    }
+
+    .item-row:last-child {
+      border-bottom: none;
+    }
+
+    .item-row img {
+      width: 50px;
+      height: 50px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: var(--gray-100);
+      border: 1px solid var(--gray-200);
+      flex-shrink: 0;
+    }
+
+    .item-row .item-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .item-row .item-name {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 3px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .item-row .item-meta {
+      font-size: 0.72rem;
+      color: var(--gray-500);
+      font-weight: 600;
+    }
+
+    .item-row .item-meta strong {
+      color: var(--navy);
+      font-weight: 800;
+    }
+
+    .item-row .item-price {
+      font-size: 0.9rem;
+      font-weight: 900;
+      color: var(--gold-dark);
+      white-space: nowrap;
+      flex-shrink: 0;
+      direction: ltr;
+    }
+
+    /* ===== الملخص المالي ===== */
+    .summary-section {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      margin-bottom: 18px;
+      overflow: hidden;
+    }
+
+    .summary-body {
+      padding: 16px 18px;
+    }
+
+    .summary-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 0;
+      font-size: 0.88rem;
+      border-bottom: 1px solid var(--gray-100);
+    }
+
+    .summary-row:last-child {
+      border-bottom: none;
+    }
+
+    .summary-row .summary-label {
+      color: var(--gray-600);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .summary-row .summary-label i {
+      color: var(--gold);
+      font-size: 0.85rem;
+    }
+
+    .summary-row .summary-value {
+      color: var(--navy);
+      font-weight: 800;
+      direction: ltr;
+    }
+
+    .summary-row.total {
+      background: linear-gradient(135deg, #fcf9f0, #f8f4e8);
+      border-radius: var(--radius-sm);
+      padding: 14px 12px;
+      margin-top: 6px;
+      border: 2px solid var(--gold-light);
+      border-bottom: 2px solid var(--gold-light);
+    }
+
+    .summary-row.total .summary-label {
+      color: var(--gold-dark);
+      font-size: 0.95rem;
+      font-weight: 900;
+    }
+
+    .summary-row.total .summary-value {
+      color: var(--gold-dark);
+      font-size: 1.15rem;
+      font-weight: 900;
+    }
+
+    /* حالة الدفع */
+    .payment-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 800;
+    }
+
+    .payment-status-badge.paid {
+      background: rgba(34, 197, 94, 0.15);
+      color: #16a34a;
+    }
+
+    .payment-status-badge.unpaid {
+      background: rgba(239, 68, 68, 0.15);
+      color: #dc2626;
+    }
+
+    .payment-status-badge.partial {
+      background: rgba(245, 158, 11, 0.15);
+      color: #d97706;
+    }
+
+    /* ===== أزرار ===== */
+    .actions-bar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .action-btn {
+      padding: 13px 18px;
+      border-radius: var(--radius-full);
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.88rem;
+      cursor: pointer;
+      border: 2px solid;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.25s ease;
+      text-decoration: none;
+    }
+
+    .action-btn.whatsapp {
+      background: linear-gradient(135deg, #25d366, #128c7e);
+      color: var(--white);
+      border-color: #128c7e;
+      box-shadow: 0 6px 16px rgba(37, 211, 102, 0.3);
+    }
+
+    .action-btn.whatsapp:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(37, 211, 102, 0.5);
+    }
+
+    .action-btn.secondary {
+      background: var(--white);
+      color: var(--gray-700);
+      border-color: var(--gray-200);
+    }
+
+    .action-btn.secondary:hover {
+      border-color: var(--gold);
+      color: var(--gold-dark);
+      background: #fcf9f0;
+    }
+
+    /* ===== حالة فارغة ===== */
+    .empty-state {
+      text-align: center;
+      padding: 50px 20px;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      border: 2px dashed var(--gray-200);
+      margin-bottom: 24px;
+    }
+
+    .empty-state .empty-icon {
+      width: 90px;
+      height: 90px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gray-100), var(--gray-50));
+      color: var(--gray-400);
+      font-size: 2.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 18px;
+    }
+
+    .empty-state h3 {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .empty-state p {
+      font-size: 0.85rem;
+      color: var(--gray-500);
+      margin-bottom: 18px;
+      line-height: 1.6;
+    }
+
+    .empty-state .btn-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 22px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      text-decoration: none;
+      border-radius: var(--radius-full);
+      font-weight: 800;
+      font-size: 0.88rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 20px rgba(201, 168, 76, 0.35);
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+    }
+
+    .empty-state .btn-back:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(201, 168, 76, 0.5);
+    }
+
+    /* التحميل */
+    .loading-state {
+      text-align: center;
+      padding: 60px 20px;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--gray-200);
+    }
+
+    .loading-state i {
+      font-size: 2.2rem;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .loading-state p {
+      font-size: 0.88rem;
+      color: var(--gray-500);
+      font-weight: 600;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) and (pointer: coarse) {
+      .tracking-header { padding: 18px 16px; border-radius: var(--radius-md); }
+      .tracking-header-content .header-icon { width: 48px; height: 48px; font-size: 1.2rem; }
+      .tracking-header-content .header-text h1 { font-size: 1.1rem; }
+      .tracking-header-content .header-text p { font-size: 0.75rem; }
+
+      .order-main-header { padding: 12px 14px; }
+      .order-main-header .order-num { font-size: 1rem; }
+      .order-status-big { padding: 8px 12px; font-size: 0.78rem; gap: 5px; }
+      .order-status-big i { font-size: 0.9rem; }
+      .order-main-body { padding: 14px; }
+
+      .timeline-section-header { padding: 12px 14px; }
+      .timeline-section-header h3 { font-size: 0.88rem; }
+      .timeline-section-header .progress-text { font-size: 0.7rem; padding: 3px 10px; }
+
+      .progress-bar-wrap { padding: 12px 14px 6px; }
+
+      .timeline { padding: 16px 14px 20px; }
+
+      .timeline-item { gap: 12px; padding-bottom: 20px; }
+      .timeline-item::before { right: 17px; top: 36px; bottom: -20px; }
+      .timeline-marker { width: 36px; height: 36px; border-width: 2.5px; }
+      .timeline-marker i { font-size: 0.9rem; }
+
+      .timeline-content .tl-title { font-size: 0.85rem; }
+      .timeline-content .tl-desc { font-size: 0.72rem; }
+      .timeline-content .tl-time { font-size: 0.68rem; padding: 2px 7px; }
+
+      .info-section-header { padding: 12px 14px; }
+      .info-section-header h3 { font-size: 0.88rem; }
+      .info-section-body { padding: 14px; }
+      .info-grid { grid-template-columns: 1fr; gap: 10px; }
+      .info-item { padding: 10px; }
+      .info-item .info-value { font-size: 0.85rem; }
+
+      .items-section-body { padding: 10px 14px 14px; }
+      .item-row { padding: 8px 0; gap: 8px; }
+      .item-row img { width: 44px; height: 44px; }
+      .item-row .item-name { font-size: 0.8rem; }
+      .item-row .item-meta { font-size: 0.68rem; }
+      .item-row .item-price { font-size: 0.82rem; }
+
+      .summary-body { padding: 14px; }
+      .summary-row { font-size: 0.82rem; padding: 8px 0; }
+      .summary-row .summary-label i { font-size: 0.78rem; }
+      .summary-row.total { padding: 12px 10px; }
+      .summary-row.total .summary-value { font-size: 1rem; }
+
+      .actions-bar { grid-template-columns: 1fr; gap: 8px; }
+      .action-btn { padding: 12px 16px; font-size: 0.85rem; }
+    }
+
+    @media (max-width: 400px) {
+      .order-status-big { padding: 6px 10px; font-size: 0.72rem; }
+      .order-status-big i { font-size: 0.82rem; }
+      .order-main-header .order-num { font-size: 0.9rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="mobile-top-bar"></div>
+  <div id="mobile-top-tabs"></div>
+  <div id="header-placeholder"></div>
+
+  <main class="page-content">
+    <div class="container">
+
+      <!-- رأس الصفحة -->
+      <div class="tracking-header">
+        <div class="tracking-header-content">
+          <div class="header-icon">
+            <i class="fas fa-map-marked-alt"></i>
+          </div>
+          <div class="header-text">
+            <h1>تتبع الطلب</h1>
+            <p id="headerSubtitle">تابع حالة طلبك لحظة بلحظة</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- محتوى التتبع (يتغير حسب الحالة) -->
+      <div id="trackingContent">
+        <div class="loading-state">
+          <i class="fas fa-spinner fa-spin"></i>
+          <p>جاري تحميل بيانات الطلب...</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="mobile-bottom-tabs"></div>
+  <div id="mobile-copyright"></div>
+  <div id="footer-placeholder"></div>
+  <div id="sidebar-placeholder"></div>
+  <div id="toast-container"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+  <script src="/gomla/assets/js/firebase-config.js"></script>
+  <script src="/gomla/assets/js/main.js"></script>
+
+  <script>
+    // ============================================================
+    // 📄 tracking.html - صفحة تتبع الطلب
+    // ============================================================
+
+    let userData = null;
+    let userId = null;
+    let userType = null;
+    let orderId = null;
+    let orderData = null;
+
+    // مراحل الطلب
+    const ORDER_STAGES = [
+      {
+        key: 'pending',
+        title: 'تم استلام الطلب',
+        desc: 'طلبك وصلنا وجاري المراجعة',
+        icon: 'fa-clipboard-check'
+      },
+      {
+        key: 'processing',
+        title: 'قيد التجهيز',
+        desc: 'جاري تجهيز طلبك من المخزن',
+        icon: 'fa-boxes'
+      },
+      {
+        key: 'shipped',
+        title: 'تم الشحن',
+        desc: 'طلبك في الطريق إليك',
+        icon: 'fa-truck'
+      },
+      {
+        key: 'delivered',
+        title: 'تم التسليم',
+        desc: 'تم توصيل طلبك بنجاح',
+        icon: 'fa-check-circle'
+      }
+    ];
+
+    // ============================================================
+    // 🚀 تشغيل الصفحة
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', async function() {
+      // قراءة id من URL
+      const params = new URLSearchParams(window.location.search);
+      orderId = params.get('id');
+
+      if (!orderId) {
+        showError('لم يتم تحديد رقم الطلب');
+        return;
+      }
+
+      // جلب المستخدم (لو موجود - يدعم الزوار)
+      const user = getCurrentUser();
+      if (user) {
+        userData = user.data;
+        userId = userData.id || userData.uid;
+        userType = user.data.role;
+      }
+
+      await loadOrder();
+    });
+
+    // ============================================================
+    // 📥 تحميل الطلب
+    // ============================================================
+    async function loadOrder() {
+      try {
+        const doc = await db.collection(COLLECTIONS.ORDERS).doc(orderId).get();
+
+        if (!doc.exists) {
+          showError('الطلب غير موجود');
+          return;
+        }
+
+        orderData = { id: doc.id, ...doc.data() };
+
+        // 🔒 فحص الصلاحية:
+        // - العميل/التاجر: يشوف طلباته فقط
+        // - الأدمن/الكاشير: يشوف الكل
+        const role = userType || ROLES.GUEST;
+        const isAdminUser = [ROLES.SUPER, ROLES.ADMIN_PLUS, ROLES.ADMIN, ROLES.CASHIER].includes(role);
+        const isGuestOrder = orderData.isGuest === true;
+
+        if (!isAdminUser && !isGuestOrder) {
+          // لازم يكون صاحب الطلب
+          if (!userId || orderData.customerId !== userId) {
+            showError('ليس لديك صلاحية لعرض هذا الطلب');
+            return;
+          }
+        }
+
+        renderTracking();
+
+      } catch (error) {
+        console.error('Error loading order:', error);
+        showError('حدث خطأ في تحميل الطلب');
+      }
+    }
+
+    // ============================================================
+    // 🎨 عرض صفحة التتبع
+    // ============================================================
+    function renderTracking() {
+      const container = document.getElementById('trackingContent');
+
+      const status = orderData.status || 'pending';
+      const statusInfo = getStatusInfo(status);
+
+      // لو الطلب ملغي
+      if (status === 'cancelled') {
+        container.innerHTML = `
+          ${renderOrderMainCard(statusInfo)}
+          ${renderTimeline(status)}
+          ${renderCancellationNotice()}
+          ${renderInfoSection()}
+          ${renderItemsSection()}
+          ${renderSummarySection()}
+          ${renderActionsBar()}
+        `;
+        return;
+      }
+
+      container.innerHTML = `
+        ${renderOrderMainCard(statusInfo)}
+        ${renderTimeline(status)}
+        ${renderInfoSection()}
+        ${renderItemsSection()}
+        ${renderSummarySection()}
+        ${renderActionsBar()}
+      `;
+    }
+
+    // ============================================================
+    // 🎭 معلومات الحالة
+    // ============================================================
+    function getStatusInfo(status) {
+      const map = {
+        pending: { text: 'قيد الانتظار', icon: 'fa-clock', progress: 25 },
+        processing: { text: 'قيد التجهيز', icon: 'fa-cog', progress: 50 },
+        shipped: { text: 'تم الشحن', icon: 'fa-truck', progress: 75 },
+        delivered: { text: 'تم التسليم', icon: 'fa-check-circle', progress: 100 },
+        cancelled: { text: 'ملغي', icon: 'fa-times-circle', progress: 0 }
+      };
+      return map[status] || map.pending;
+    }
+
+    function getStageIndex(status) {
+      const idx = ORDER_STAGES.findIndex(s => s.key === status);
+      return idx === -1 ? 0 : idx;
+    }
+
+    // ============================================================
+    // 📇 بطاقة الطلب الرئيسية
+    // ============================================================
+    function renderOrderMainCard(statusInfo) {
+      const orderNumber = orderData.id.slice(-8).toUpperCase();
+      const status = orderData.status || 'pending';
+
+      const date = orderData.createdAt
+        ? (orderData.createdAt.toDate ? orderData.createdAt.toDate() : new Date(orderData.createdAt))
+        : new Date();
+      const dateStr = date.toLocaleDateString('ar-EG', {
+        year: 'numeric', month: 'long', day: 'numeric'
+      });
+      const timeStr = date.toLocaleTimeString('ar-EG', {
+        hour: '2-digit', minute: '2-digit'
+      });
+
+      return `
+        <div class="order-main-card">
+          <div class="order-main-header">
+            <div class="order-num-block">
+              <div class="order-label">رقم الطلب</div>
+              <div class="order-num">#${orderNumber}</div>
+              <div class="order-date">
+                <i class="fas fa-calendar"></i>
+                ${dateStr} • ${timeStr}
+              </div>
+            </div>
+            <span class="order-status-big ${status}">
+              <i class="fas ${statusInfo.icon}"></i>
+              ${statusInfo.text}
+            </span>
+          </div>
+        </div>
+      `;
+    }
+
+    // ============================================================
+    // 📍 الخط الزمني
+    // ============================================================
+    function renderTimeline(status) {
+      const currentIndex = getStageIndex(status);
+      const isCancelled = status === 'cancelled';
+
+      // احسب نسبة التقدم
+      let progressPercent = 0;
+      if (!isCancelled) {
+        progressPercent = ((currentIndex + 1) / ORDER_STAGES.length) * 100;
+      }
+
+      let itemsHtml = '';
+
+      ORDER_STAGES.forEach((stage, index) => {
+        let itemClass = '';
+        let showTime = false;
+        let timeText = '';
+
+        if (index < currentIndex) {
+          // مرحلة مكتملة
+          itemClass = 'completed';
+          showTime = true;
+        } else if (index === currentIndex && !isCancelled) {
+          // المرحلة الحالية
+          itemClass = 'active';
+          showTime = true;
+        } else if (index <= currentIndex && isCancelled) {
+          itemClass = 'completed';
+        }
+
+        // محاولة جلب وقت المرحلة من orderData
+        if (showTime) {
+          const timeKey = `${stage.key}At`;
+          if (orderData[timeKey]) {
+            const t = orderData[timeKey].toDate ? orderData[timeKey].toDate() : new Date(orderData[timeKey]);
+            timeText = t.toLocaleDateString('ar-EG', {
+              month: 'short', day: 'numeric'
+            }) + ' - ' + t.toLocaleTimeString('ar-EG', {
+              hour: '2-digit', minute: '2-digit'
+            });
+          } else if (index === 0 && orderData.createdAt) {
+            const t = orderData.createdAt.toDate ? orderData.createdAt.toDate() : new Date(orderData.createdAt);
+            timeText = t.toLocaleDateString('ar-EG', {
+              month: 'short', day: 'numeric'
+            }) + ' - ' + t.toLocaleTimeString('ar-EG', {
+              hour: '2-digit', minute: '2-digit'
+            });
+          } else if (index <= currentIndex) {
+            timeText = 'مكتمل';
+          }
+        }
+
+        itemsHtml += `
+          <div class="timeline-item ${itemClass}">
+            <div class="timeline-marker">
+              <i class="fas ${stage.icon}"></i>
+            </div>
+            <div class="timeline-content">
+              <div class="tl-title">
+                ${stage.title}
+                ${itemClass === 'active' ? '<span class="tl-active-badge"><i class="fas fa-circle" style="font-size:0.4rem;"></i> الآن</span>' : ''}
+              </div>
+              <div class="tl-desc">${stage.desc}</div>
+              ${showTime && timeText ? `
+                <span class="tl-time">
+                  <i class="fas fa-clock"></i>
+                  ${timeText}
+                </span>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      });
+
+      return `
+        <div class="timeline-section">
+          <div class="timeline-section-header">
+            <h3><i class="fas fa-route"></i> مراحل الطلب</h3>
+            <span class="progress-text">${currentIndex + 1} / ${ORDER_STAGES.length}</span>
+          </div>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar-bg">
+              <div class="progress-bar-fill" style="width: ${progressPercent}%;"></div>
+            </div>
+          </div>
+          <div class="timeline">
+            ${itemsHtml}
+          </div>
+        </div>
+      `;
+    }
+
+    // ============================================================
+    // ⚠️ تنبيه الإلغاء
+    // ============================================================
+    function renderCancellationNotice() {
+      return `
+        <div style="background:linear-gradient(135deg,#fef2f2,#fee2e2);border:2px solid #fca5a5;border-radius:var(--radius-md);padding:16px 18px;margin-bottom:18px;display:flex;align-items:flex-start;gap:12px;">
+          <i class="fas fa-times-circle" style="color:#dc2626;font-size:1.4rem;flex-shrink:0;margin-top:2px;"></i>
+          <div>
+            <strong style="color:#7f1d1d;font-weight:900;display:block;margin-bottom:4px;font-size:0.92rem;">تم إلغاء هذا الطلب</strong>
+            <p style="color:#7f1d1d;font-size:0.82rem;line-height:1.6;margin:0;">
+              ${orderData.cancelReason ? escapeHtml(orderData.cancelReason) : 'تم إلغاء الطلب من قبل الإدارة أو العميل.'}
+            </p>
+          </div>
+        </div>
+      `;
+    }
+
+    // ============================================================
+    // 📋 قسم المعلومات
+    // ============================================================
+    function renderInfoSection() {
+      const customerName = orderData.customerName || userData?.name || '---';
+      const customerPhone = orderData.customerPhone || userData?.phone || '---';
+      const customerPhone2 = orderData.customerPhone2 || '';
+      const customerAddress = orderData.customerAddress || userData?.address || '---';
+      const region = orderData.region || '---';
+      const deliveryDate = orderData.deliveryDate || '---';
+      const notes = orderData.notes || '';
+
+      return `
+        <div class="info-section">
+          <div class="info-section-header">
+            <h3><i class="fas fa-user-circle"></i> بيانات التوصيل</h3>
+          </div>
+          <div class="info-section-body">
+            <div class="info-grid">
+              <div class="info-item">
+                <div class="info-label"><i class="fas fa-user"></i> العميل</div>
+                <div class="info-value">${escapeHtml(customerName)}</div>
+              </div>
+              <div class="info-item">
+                <div class="info-label"><i class="fas fa-phone"></i> الهاتف</div>
+                <div class="info-value ltr">${escapeHtml(customerPhone)}</div>
+              </div>
+              ${customerPhone2 ? `
+                <div class="info-item">
+                  <div class="info-label"><i class="fas fa-phone-alt"></i> هاتف إضافي</div>
+                  <div class="info-value ltr">${escapeHtml(customerPhone2)}</div>
+                </div>
+              ` : ''}
+              <div class="info-item">
+                <div class="info-label"><i class="fas fa-map-marker-alt"></i> المنطقة</div>
+                <div class="info-value">${escapeHtml(region)}</div>
+              </div>
+              <div class="info-item full">
+                <div class="info-label"><i class="fas fa-home"></i> العنوان بالتفصيل</div>
+                <div class="info-value">${escapeHtml(customerAddress)}</div>
+              </div>
+              ${deliveryDate !== '---' ? `
+                <div class="info-item full">
+                  <div class="info-label"><i class="fas fa-calendar-check"></i> تاريخ التوصيل المتوقع</div>
+                  <div class="info-value">${escapeHtml(deliveryDate)}</div>
+                </div>
+              ` : ''}
+              ${notes ? `
+                <div class="info-item full">
+                  <div class="info-label"><i class="fas fa-comment-alt"></i> ملاحظات</div>
+                  <div class="info-value" style="font-weight:600;font-size:0.85rem;">${escapeHtml(notes)}</div>
+                </div>
+              ` : ''}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // ============================================================
+    // 📦 قسم المنتجات
+    // ============================================================
+    function renderItemsSection() {
+      const items = orderData.items || [];
+
+      if (items.length === 0) {
+        return '';
+      }
+
+      let itemsHtml = '';
+      items.forEach(item => {
+        const name = item.productName || item.name || 'منتج';
+        const qty = item.quantity || 0;
+        const price = item.price || 0;
+        const total = qty * price;
+        const unit = item.unit || 'قطعة';
+        const imgSrc = item.imageUrl || '/gomla/assets/images/no-image.png';
+
+        itemsHtml += `
+          <div class="item-row">
+            <img src="${imgSrc}" alt="${escapeHtml(name)}" onerror="this.src='/gomla/assets/images/no-image.png'">
+            <div class="item-info">
+              <div class="item-name">${escapeHtml(name)}</div>
+              <div class="item-meta">
+                ${qty} ${unit} × <strong>${price.toFixed(2)}</strong> ج.م
+              </div>
+            </div>
+            <div class="item-price">${total.toFixed(2)} ج.م</div>
+          </div>
+        `;
+      });
+
+      return `
+        <div class="items-section">
+          <div class="info-section-header">
+            <h3><i class="fas fa-box"></i> المنتجات (${items.length})</h3>
+          </div>
+          <div class="items-section-body">
+            ${itemsHtml}
+          </div>
+        </div>
+      `;
+    }
+
+    // ============================================================
+    // 💰 قسم الملخص المالي
+    // ============================================================
+    function renderSummarySection() {
+      const subtotal = orderData.subtotal || 0;
+      const shippingCost = orderData.shippingCost || 0;
+      const total = orderData.total || 0;
+      const paid = orderData.paid || 0;
+      const remaining = orderData.remaining !== undefined ? orderData.remaining : (total - paid);
+      const paymentStatus = orderData.paymentStatus ||
+        (remaining <= 0 ? 'paid' : (paid > 0 ? 'partial' : 'unpaid'));
+
+      const paymentStatusMap = {
+        paid: { text: 'مدفوع بالكامل', class: 'paid' },
+        partial: { text: 'دفع جزئي', class: 'partial' },
+        unpaid: { text: 'غير مدفوع', class: 'unpaid' }
+      };
+      const payInfo = paymentStatusMap[paymentStatus] || paymentStatusMap.unpaid;
+
+      return `
+        <div class="summary-section">
+          <div class="info-section-header">
+            <h3><i class="fas fa-calculator"></i> الملخص المالي</h3>
+          </div>
+          <div class="summary-body">
+            <div class="summary-row">
+              <span class="summary-label">
+                <i class="fas fa-shopping-basket"></i>
+                المجموع الفرعي
+              </span>
+              <span class="summary-value">${subtotal.toFixed(2)} ج.م</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">
+                <i class="fas fa-truck"></i>
+                الشحن
+              </span>
+              <span class="summary-value" style="color:${shippingCost > 0 ? 'var(--navy)' : '#16a34a'};">
+                ${shippingCost > 0 ? shippingCost.toFixed(2) + ' ج.م' : 'مجاني'}
+              </span>
+            </div>
+            <div class="summary-row total">
+              <span class="summary-label">
+                <i class="fas fa-coins"></i>
+                الإجمالي
+              </span>
+              <span class="summary-value">${total.toFixed(2)} ج.م</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">
+                <i class="fas fa-check-circle"></i>
+                المدفوع
+              </span>
+              <span class="summary-value" style="color:#16a34a;">${paid.toFixed(2)} ج.م</span>
+            </div>
+            <div class="summary-row">
+              <span class="summary-label">
+                <i class="fas fa-exclamation-circle"></i>
+                المتبقي
+              </span>
+              <span class="summary-value" style="color:${remaining > 0 ? '#dc2626' : '#16a34a'};">
+                ${Math.max(0, remaining).toFixed(2)} ج.م
+              </span>
+            </div>
+            <div class="summary-row" style="border-bottom:none;justify-content:center;padding-top:8px;">
+              <span class="payment-status-badge ${payInfo.class}">
+                <i class="fas fa-info-circle"></i>
+                ${payInfo.text}
+              </span>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // ============================================================
+    // 🎬 أزرار الإجراءات
+    // ============================================================
+    function renderActionsBar() {
+      const orderNumber = orderData.id.slice(-8).toUpperCase();
+      const whatsappMessage = encodeURIComponent(
+        `مرحباً، أستفسر عن الطلب رقم #${orderNumber}`
+      );
+
+      // زر العودة يعتمد على نوع المستخدم
+      let backUrl = '/gomla/';
+      let backText = 'الصفحة الرئيسية';
+
+      if (userType === ROLES.RETAIL) {
+        backUrl = '/gomla/customer-home.html';
+        backText = 'صفحتي';
+      } else if (userType === ROLES.WHOLESALE) {
+        backUrl = '/gomla/trader-home.html';
+        backText = 'صفحة التاجر';
+      } else if ([ROLES.SUPER, ROLES.ADMIN_PLUS, ROLES.ADMIN].includes(userType)) {
+        backUrl = '/gomla/admin/orders.html';
+        backText = 'الطلبات';
+      }
+
+      return `
+        <div class="actions-bar">
+          <a href="https://wa.me/201120282953?text=${whatsappMessage}"
+             target="_blank"
+             class="action-btn whatsapp">
+            <i class="fab fa-whatsapp"></i>
+            تواصل مع الدعم
+          </a>
+          <a href="${backUrl}" class="action-btn secondary">
+            <i class="fas fa-arrow-right"></i>
+            ${backText}
+          </a>
+        </div>
+      `;
+    }
+
+    // ============================================================
+    // ❌ عرض خطأ
+    // ============================================================
+    function showError(message) {
+      const container = document.getElementById('trackingContent');
+      container.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-icon"><i class="fas fa-search-minus"></i></div>
+          <h3>${escapeHtml(message)}</h3>
+          <p>تأكد من صحة الرابط أو تواصل مع الدعم للمساعدة.</p>
+          <a href="/gomla/" class="btn-back">
+            <i class="fas fa-home"></i>
+            العودة للرئيسية
+          </a>
+        </div>
+      `;
+    }
+
+    // ============================================================
+    // 🛠️ Helper
+    // ============================================================
+    function escapeHtml(text) {
+      if (text === null || text === undefined) return '';
+      const div = document.createElement('div');
+      div.textContent = String(text);
+      return div.innerHTML;
+    }
+
+    // ===== تصدير =====
+    window.loadOrder = loadOrder;
+  </script>
+
+</body>
+</html>
