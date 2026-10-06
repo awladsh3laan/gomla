@@ -1767,27 +1767,49 @@ function updateSidebar() {
   
   if (role === ROLES.SUPER) {
     links = [
+      { icon: 'fa-home', text: 'الرئيسية', url: '/gomla' },
+      { icon: 'fa-home', text: 'لوحة المسئول', url: '/gomla/admin/home.html' },
       { icon: 'fa-tachometer-alt', text: 'لوحة التحكم', url: '/gomla/admin/dashboard.html' },
-      { icon: 'fa-home', text: 'الرئيسية', url: '/gomla/admin/home.html' },
+      { icon: 'fa-key', text: 'توليد الأكواد', url: '/gomla/admin/generate-codes.html' },
       { icon: 'fa-boxes', text: 'المنتجات', url: '/gomla/admin/products.html' },
+      { icon: 'fa-file-pdf', text: 'استخراج PDF', url: '/gomla/admin/extract-pdf.html' },
       { icon: 'fa-users', text: 'العملاء والتجار', url: '/gomla/admin/customers.html' },
       { icon: 'fa-shopping-bag', text: 'الطلبات', url: '/gomla/admin/orders.html' },
       { icon: 'fa-file-invoice', text: 'الفواتير', url: '/gomla/admin/invoices.html' },
-      { icon: 'fa-file-invoice-dollar', text: 'لوحة التحكم', url: '/gomla/admin/financial-transactions.html' },
+      { icon: 'fa-file-invoice-dollar', text: 'المعاملات المالية', url: '/gomla/admin/financial-transactions.html' },
       { icon: 'fa-truck', text: 'الموردين', url: '/gomla/admin/suppliers.html' },
       { icon: 'fa-shopping-cart', text: 'المشتريات', url: '/gomla/admin/purchases.html' },
-      { icon: 'fa-file-pdf', text: 'استخراج PDF', url: '/gomla/admin/extract-pdf.html' },
-      { icon: 'fa-cash-register', text: 'الصندوق', url: '/gomla/admin/cashbox.html' },
-      { icon: 'fa-chart-line', text: 'التقارير المالية', url: '/gomla/admin/financial-reports.html' },
       { icon: 'fa-store', text: 'الفروع', url: '/gomla/admin/branches.html' },
       { icon: 'fa-calendar-day', text: 'المبيعات اليومية', url: '/gomla/admin/daily-sales.html' },
+      { icon: 'fa-cash-register', text: 'الصندوق', url: '/gomla/admin/cashbox.html' },
+      { icon: 'fa-chart-line', text: 'التقارير المالية', url: '/gomla/admin/financial-reports.html' },
       { icon: 'fa-barcode', text: 'قارئ الباركود', url: '/gomla/admin/barcode-scanner.html' },
       { icon: 'fa-trophy', text: 'المستويات', url: '/gomla/admin/ranks-levels.html' },
-      { icon: 'fa-key', text: 'توليد الأكواد', url: '/gomla/admin/generate-codes.html' },
       { icon: 'fa-cog', text: 'الإعدادات', url: '/gomla/admin/settings.html' }
+    ];
+  } else if (role === ROLES.ADMINPLUS) {
+    links = [
+      { icon: 'fa-home', text: 'الرئيسية', url: '/gomla' },
+      { icon: 'fa-home', text: 'لوحة المسئول', url: '/gomla/admin/home.html' },
+      { icon: 'fa-tachometer-alt', text: 'لوحة التحكم', url: '/gomla/admin/dashboard.html' },
+      { icon: 'fa-key', text: 'توليد الأكواد', url: '/gomla/admin/generate-codes.html' },
+      { icon: 'fa-boxes', text: 'المنتجات', url: '/gomla/admin/products.html' },
+      { icon: 'fa-file-pdf', text: 'استخراج PDF', url: '/gomla/admin/extract-pdf.html' },
+      { icon: 'fa-users', text: 'العملاء والتجار', url: '/gomla/admin/customers.html' },
+      { icon: 'fa-shopping-bag', text: 'الطلبات', url: '/gomla/admin/orders.html' },
+      { icon: 'fa-file-invoice', text: 'الفواتير', url: '/gomla/admin/invoices.html' },
+      { icon: 'fa-file-invoice-dollar', text: 'المعاملات المالية', url: '/gomla/admin/financial-transactions.html' },
+      { icon: 'fa-truck', text: 'الموردين', url: '/gomla/admin/suppliers.html' },
+      { icon: 'fa-shopping-cart', text: 'المشتريات', url: '/gomla/admin/purchases.html' },
+      { icon: 'fa-store', text: 'الفروع', url: '/gomla/admin/branches.html' },
+      { icon: 'fa-calendar-day', text: 'المبيعات اليومية', url: '/gomla/admin/daily-sales.html' },
+      { icon: 'fa-cash-register', text: 'الصندوق', url: '/gomla/admin/cashbox.html' },
+      { icon: 'fa-chart-line', text: 'التقارير المالية', url: '/gomla/admin/financial-reports.html' },
     ];
   } else if (role === ROLES.ADMIN) {
     links = [
+      { icon: 'fa-home', text: 'الرئيسية', url: '/gomla' },
+      { icon: 'fa-home', text: 'لوحة المسئول', url: '/gomla/admin/home.html' },
       { icon: 'fa-tachometer-alt', text: 'لوحة التحكم', url: '/gomla/admin/dashboard.html' },
       { icon: 'fa-boxes', text: 'المنتجات', url: '/gomla/admin/products.html' },
       { icon: 'fa-users', text: 'العملاء', url: '/gomla/admin/customers.html' },
@@ -1797,6 +1819,7 @@ function updateSidebar() {
     ];
   } else if (role === ROLES.CASHIER) {
     links = [
+      { icon: 'fa-home', text: 'الرئيسية', url: '/gomla' },
       { icon: 'fa-home', text: 'لوحة الكاشير', url: '/gomla/cashier/home.html' },
       { icon: 'fa-file-invoice', text: 'فاتورة جديدة', url: '/gomla/cashier/sales.html' },
       { icon: 'fa-boxes', text: 'مخزون الفرع', url: '/gomla/cashier/inventory.html' },
@@ -1805,17 +1828,19 @@ function updateSidebar() {
     ];
   } else if (role === ROLES.WHOLESALE) {
     links = [
-      { icon: 'fa-home', text: 'الرئيسية', url: '/gomla/trader-home.html' },
+      { icon: 'fa-home', text: 'الرئيسية', url: '/gomla' },
+      { icon: 'fa-home', text: 'لوحة التُجار', url: '/gomla/trader-home.html' },
       { icon: 'fa-store', text: 'متجر الجملة', url: '/gomla/store-wholesale.html' },
       { icon: 'fa-shopping-bag', text: 'طلباتي', url: '/gomla/customer/orders.html' },
       { icon: 'fa-file-invoice', text: 'فواتيري', url: '/gomla/customer/invoices.html' },
       { icon: 'fa-coins', text: 'الذمة المالية', url: '/gomla/customer/balance.html' },
       { icon: 'fa-truck', text: 'تتبع الطلبات', url: '/gomla/tracking.html' },
-      { icon: 'fa-percent', text: 'العروض', url: '/gomla/offers.html' }
+      { text: 'الخصومات', url: '/gomla/discounts.html', icon: 'fa-percent' }
     ];
   } else if (role === ROLES.RETAIL) {
     links = [
-      { icon: 'fa-home', text: 'الرئيسية', url: '/gomla/customer-home.html' },
+      { icon: 'fa-home', text: 'الرئيسية', url: '/gomla' },      
+      { icon: 'fa-home', text: 'لوحة العملاء', url: '/gomla/customer-home.html' },
       { icon: 'fa-store', text: 'متجر القطاعي', url: '/gomla/store-retail.html' },
       { icon: 'fa-shopping-bag', text: 'طلباتي', url: '/gomla/customer/orders.html' },
       { icon: 'fa-file-invoice', text: 'فواتيري', url: '/gomla/customer/invoices.html' },
@@ -1828,7 +1853,6 @@ function updateSidebar() {
       { icon: 'fa-home', text: 'الرئيسية', url: '/gomla/' },
       { icon: 'fa-store', text: 'متجر القطاعي', url: '/gomla/store-retail.html' },
       { icon: 'fa-user-plus', text: 'تسجيل عميل', url: '/gomla/customer-login.html' },
-      { icon: 'fa-store', text: 'دخول التجار', url: '/gomla/trader-login.html' }
     ];
   }
   
@@ -1974,10 +1998,8 @@ function loadMobileTopTabs() {
       { text: 'الطلبات', url: '/gomla/admin/orders.html', icon: 'fa-shopping-bag' },
       { text: 'المنتجات', url: '/gomla/admin/products.html', icon: 'fa-boxes' },
       { text: 'الصندوق', url: '/gomla/admin/cashbox.html', icon: 'fa-cash-register' },
-      { text: 'المتجر', url: '#', icon: 'fa-store', dropdown: [
-        { text: 'متجر الجملة', url: '/gomla/store-wholesale.html' },
-        { text: 'متجر القطاعي', url: '/gomla/store-retail.html' }
-      ]}
+      { text: 'متجر الجملة', url: '/gomla/store-wholesale.html' },
+      { text: 'متجر القطاعي', url: '/gomla/store-retail.html' }
     ];
   } else if (role === ROLES.ADMIN_PLUS) {
     tabs = [
@@ -1985,10 +2007,8 @@ function loadMobileTopTabs() {
       { text: 'الطلبات', url: '/gomla/admin/orders.html', icon: 'fa-shopping-bag' },
       { text: 'المنتجات', url: '/gomla/admin/products.html', icon: 'fa-boxes' },
       { text: 'الصندوق', url: '/gomla/admin/cashbox.html', icon: 'fa-cash-register' },
-      { text: 'المتاجر', url: '#', icon: 'fa-store', dropdown: [
-        { text: 'متجر الجملة', url: '/gomla/store-wholesale.html' },
-        { text: 'متجر القطاعي', url: '/gomla/store-retail.html' }
-      ]}
+      { text: 'متجر الجملة', url: '/gomla/store-wholesale.html' },
+      { text: 'متجر القطاعي', url: '/gomla/store-retail.html' }
     ];
 
   } else if (role === ROLES.ADMIN) {
@@ -1998,6 +2018,8 @@ function loadMobileTopTabs() {
       { text: 'الطلبات', url: '/gomla/admin/orders.html', icon: 'fa-shopping-bag' },
       { text: 'المنتجات', url: '/gomla/admin/products.html', icon: 'fa-boxes' },
       { text: 'مبيعات الفروع', url: '/gomla/admin/daily-sales.html', icon: 'fa-chart-bar' }
+      { text: 'متجر الجملة', url: '/gomla/store-wholesale.html' },
+      { text: 'متجر القطاعي', url: '/gomla/store-retail.html' }
     ];
   } else if (role === ROLES.CASHIER) {
     tabs = [
@@ -2011,7 +2033,7 @@ function loadMobileTopTabs() {
       { text: 'المتجر', url: '/gomla/store-wholesale.html', icon: 'fa-store' },
       { text: 'تتبع الطلبات', url: '/gomla/tracking.html', icon: 'fa-truck' },
       { text: 'آخر الطلبات', url: '/gomla/customer/orders.html', icon: 'fa-history' },
-      { text: 'عروض', url: '/gomla/offers.html', icon: 'fa-percent' }
+      { text: 'الخصومات', url: '/gomla/discounts.html', icon: 'fa-percent' }
     ];
   } else if (role === ROLES.RETAIL) {
     tabs = [
