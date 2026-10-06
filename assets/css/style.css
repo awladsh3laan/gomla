@@ -1,13 +1,22 @@
 /* ============================================================
 🎨 style.css - الستايل الموحد للمشروع
-الإصدار: 6.2 - الإصدار المُصلَّح
+الإصدار: 6.2
 آخر تحديث: 2026-10-06
 ============================================================ */
-
+@media (max-width: 768px) and (pointer: coarse) {
+  /* إخفاء سيكشن البحث داخل الصفحة على الموبايل */
+  .smart-search,
+  .mini-search-section {
+    display: none !important;
+  }
+}
+/* ============================================================
+1️⃣ الخط
+============================================================ */
 @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap');
 
 /* ============================================================
-1️⃣ Reset عام
+2️⃣ Reset عام
 ============================================================ */
 * {
   margin: 0;
@@ -20,7 +29,6 @@ html {
   scroll-behavior: smooth;
   direction: rtl;
   -webkit-text-size-adjust: 100%;
-  overflow-x: hidden;
 }
 
 body {
@@ -32,8 +40,6 @@ body {
   flex-direction: column;
   line-height: 1.7;
   padding-bottom: 0;
-  overflow-x: hidden;
-  max-width: 100vw;
 }
 
 img {
@@ -57,7 +63,7 @@ input, select, textarea {
 }
 
 /* ============================================================
-2️⃣ المتغيرات (الألوان)
+3️⃣ المتغيرات (الألوان)
 ============================================================ */
 :root {
   /* الألوان الأساسية */
@@ -68,7 +74,7 @@ input, select, textarea {
   --gold-light: #e8d5a3;
   --gold-dark: #b8942a;
   --white: #ffffff;
-  --ddd: #0088FC;
+  --ddd: #0088FC; /* اللون الأزرق */
 
   /* الرمادي */
   --gray-50: #f8fafc;
@@ -87,17 +93,11 @@ input, select, textarea {
   --danger: #ef4444;
   --warning: #f59e0b;
   --info: #3b82f6;
-  --sky: #87CEEB;
 
   /* الظلال */
   --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
   --shadow-md: 0 4px 20px rgba(0,0,0,0.08);
   --shadow-lg: 0 8px 40px rgba(0,0,0,0.12);
-
-  /* التوهجات */
-  --glow-gold: 0 0 20px rgba(201, 168, 76, 0.5), 0 0 40px rgba(201, 168, 76, 0.25);
-  --glow-gold-strong: 0 0 30px rgba(201, 168, 76, 0.7), 0 0 60px rgba(201, 168, 76, 0.4);
-  --glow-sky: 0 0 20px rgba(135, 206, 235, 0.5), 0 0 40px rgba(135, 206, 235, 0.25);
 
   /* الحدود */
   --radius-sm: 10px;
@@ -117,75 +117,6 @@ input, select, textarea {
 }
 
 /* ============================================================
-3️⃣ الحركات المشتركة
-============================================================ */
-@keyframes gradientSlide {
-  0% { background-position: 0% 50%; }
-  100% { background-position: 200% 50%; }
-}
-
-@keyframes pulseGlow {
-  0%, 100% { box-shadow: var(--glow-gold); }
-  50% { box-shadow: var(--glow-gold-strong); }
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px) scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-}
-
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.05); }
-}
-
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-.fade-in { animation: fadeIn 0.5s ease; }
-.fade-in-up { animation: fadeInUp 0.6s ease; }
-
-/* ============================================================
 4️⃣ الحاوية العامة
 ============================================================ */
 .container {
@@ -193,7 +124,6 @@ input, select, textarea {
   margin: 0 auto;
   padding: 0 20px;
   width: 100%;
-  overflow-x: hidden;
 }
 
 .page-content,
@@ -202,15 +132,13 @@ input, select, textarea {
 .profile-page {
   flex: 1;
   padding: 24px 0 40px;
-  overflow-x: hidden;
-  max-width: 100%;
 }
 
 /* ============================================================
-5️⃣ ⭐ الأزرار - النسخة المُصلَّحة الشاملة
+5️⃣ الأزرار - الإصدار المُحدّث 6.2
 ============================================================ */
 
-/* ===== الزر الأساسي ===== */
+/* ===== الأزرار الأساسية ===== */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -220,168 +148,191 @@ input, select, textarea {
   border-radius: var(--radius-full);
   font-weight: 700;
   font-size: 0.95rem;
-  border: none;
+  border: 2px solid var(--navy);
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   font-family: inherit;
   text-decoration: none;
   white-space: nowrap;
   min-height: 44px;
   position: relative;
   overflow: hidden;
-}
-
-/* ============================================================
-   🎯 الأزرار العامة في الصفحات (بيضاء + نص كحلي)
-   توهج ذهبي + جرادينت متحرك عند الهوفر
-   ============================================================ */
-.btn-primary {
   background: var(--white);
   color: var(--navy);
-  border: 2px solid var(--navy);
   box-shadow: 0 2px 8px rgba(26, 42, 74, 0.08);
 }
 
-.btn-primary:hover,
-.btn-primary:focus {
-  background: linear-gradient(90deg, var(--gold-light), var(--sky), var(--gold-light), var(--sky));
-  background-size: 300% 100%;
-  animation: gradientSlide 2.5s linear infinite;
-  color: var(--navy);
-  border-color: var(--gold);
+/* توهج خفيف عند المرور + جرادينت دهبي/سماوي متحرك */
+.btn:hover {
+  background: linear-gradient(
+    90deg,
+    var(--gold-light) 0%,
+    #87CEEB 50%,
+    var(--gold-light) 100%
+  );
+  background-size: 200% 100%;
+  color: var(--navy-dark);
+  border-color: var(--gold-dark);
   transform: translateY(-2px);
-  box-shadow: var(--glow-gold);
+  box-shadow:
+    0 8px 24px rgba(201, 168, 76, 0.4),
+    0 0 20px rgba(135, 206, 235, 0.3),
+    inset 0 0 12px rgba(255, 255, 255, 0.4);
+  animation: btnGradientMove 2.5s linear infinite;
 }
 
-.btn-primary:active {
-  transform: translateY(0);
-  box-shadow: var(--glow-gold-strong);
+/* حركة الجرادينت */
+@keyframes btnGradientMove {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
 }
 
-/* ============================================================
-   🎯 الزر الذهبي (خلفية ذهبية + نص كحلي)
-   ============================================================ */
+/* ===== btn-primary ===== */
+.btn-primary {
+  background: var(--navy);
+  color: var(--white);
+  border-color: var(--navy);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(
+    90deg,
+    var(--gold) 0%,
+    #87CEEB 50%,
+    var(--gold) 100%
+  );
+  background-size: 200% 100%;
+  color: var(--navy-dark);
+  border-color: var(--gold-dark);
+  box-shadow:
+    0 8px 24px rgba(201, 168, 76, 0.5),
+    0 0 20px rgba(135, 206, 235, 0.4);
+  animation: btnGradientMove 2.5s linear infinite;
+}
+
+/* ===== btn-gold ===== */
 .btn-gold {
-  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  background: var(--gold);
   color: var(--navy);
-  border: 2px solid var(--gold-dark);
-  box-shadow: 0 4px 12px rgba(201, 168, 76, 0.25);
+  border-color: var(--gold-dark);
 }
 
-.btn-gold:hover,
-.btn-gold:focus {
-  background: linear-gradient(90deg, var(--gold-light), var(--sky), var(--gold-light), var(--sky));
-  background-size: 300% 100%;
-  animation: gradientSlide 2.5s linear infinite;
-  color: var(--navy);
-  border-color: var(--gold);
-  transform: translateY(-2px);
-  box-shadow: var(--glow-gold-strong);
+.btn-gold:hover {
+  background: linear-gradient(
+    90deg,
+    #FFE9A8 0%,
+    #87CEEB 50%,
+    #FFE9A8 100%
+  );
+  background-size: 200% 100%;
+  color: var(--navy-dark);
+  border-color: var(--gold-dark);
+  box-shadow:
+    0 8px 24px rgba(201, 168, 76, 0.5),
+    0 0 20px rgba(135, 206, 235, 0.4);
+  animation: btnGradientMove 2.5s linear infinite;
 }
 
-/* ============================================================
-   🎯 الأزرار المُحدَّدة (Outline) - نسخة مُصلَّحة
-   ============================================================ */
+/* ===== btn-outline (للصفحات الفاتحة) ===== */
 .btn-outline {
   background: var(--white);
   border: 2px solid var(--navy);
   color: var(--navy);
-  position: relative;
-  box-shadow: 0 2px 8px rgba(26, 42, 74, 0.05);
 }
 
-.btn-outline:hover,
-.btn-outline:focus {
-  background: linear-gradient(90deg, var(--gold-light), var(--sky), var(--gold-light), var(--sky));
-  background-size: 300% 100%;
-  animation: gradientSlide 2.5s linear infinite;
-  color: var(--navy);
-  border-color: var(--gold);
-  transform: translateY(-2px);
-  box-shadow: var(--glow-gold);
+.btn-outline:hover {
+  background: linear-gradient(
+    90deg,
+    var(--gold-light) 0%,
+    #87CEEB 50%,
+    var(--gold-light) 100%
+  );
+  background-size: 200% 100%;
+  color: var(--navy-dark);
+  border-color: var(--gold-dark);
+  box-shadow:
+    0 8px 24px rgba(201, 168, 76, 0.4),
+    0 0 20px rgba(135, 206, 235, 0.35);
+  animation: btnGradientMove 2.5s linear infinite;
 }
 
-/* ============================================================
-   🎯 زر النجاح
-   ============================================================ */
+/* ===== btn-success ===== */
 .btn-success {
-  background: linear-gradient(135deg, var(--success), #16a34a);
-  color: var(--white);
-  border: 2px solid #16a34a;
-  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.25);
+  background: var(--success);
+  color: white;
+  border-color: #16a34a;
 }
 
-.btn-success:hover,
-.btn-success:focus {
-  background: linear-gradient(90deg, #4ade80, var(--sky), #4ade80, var(--sky));
-  background-size: 300% 100%;
-  animation: gradientSlide 2.5s linear infinite;
-  color: var(--navy);
-  border-color: var(--success);
-  transform: translateY(-2px);
-  box-shadow: 0 0 25px rgba(34, 197, 94, 0.6), 0 0 50px rgba(34, 197, 94, 0.3);
+.btn-success:hover {
+  background: linear-gradient(
+    90deg,
+    #86efac 0%,
+    #87CEEB 50%,
+    #86efac 100%
+  );
+  background-size: 200% 100%;
+  color: #064e3b;
+  border-color: #16a34a;
+  box-shadow:
+    0 8px 24px rgba(34, 197, 94, 0.4),
+    0 0 20px rgba(135, 206, 235, 0.3);
+  animation: btnGradientMove 2.5s linear infinite;
 }
 
-/* ============================================================
-   🎯 زر الخطر
-   ============================================================ */
+/* ===== btn-danger ===== */
 .btn-danger {
-  background: linear-gradient(135deg, var(--danger), #dc2626);
-  color: var(--white);
-  border: 2px solid #dc2626;
-  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.25);
+  background: var(--danger);
+  color: white;
+  border-color: #dc2626;
 }
 
-.btn-danger:hover,
-.btn-danger:focus {
-  background: linear-gradient(90deg, #f87171, var(--sky), #f87171, var(--sky));
-  background-size: 300% 100%;
-  animation: gradientSlide 2.5s linear infinite;
-  color: var(--white);
-  border-color: var(--danger);
-  transform: translateY(-2px);
-  box-shadow: 0 0 25px rgba(239, 68, 68, 0.6), 0 0 50px rgba(239, 68, 68, 0.3);
+.btn-danger:hover {
+  background: linear-gradient(
+    90deg,
+    #fca5a5 0%,
+    #87CEEB 50%,
+    #fca5a5 100%
+  );
+  background-size: 200% 100%;
+  color: #7f1d1d;
+  border-color: #dc2626;
+  box-shadow:
+    0 8px 24px rgba(239, 68, 68, 0.4),
+    0 0 20px rgba(135, 206, 235, 0.3);
+  animation: btnGradientMove 2.5s linear infinite;
 }
 
-/* ============================================================
-   🎯 زر التحذير
-   ============================================================ */
+/* ===== btn-warning ===== */
 .btn-warning {
-  background: linear-gradient(135deg, var(--warning), #d97706);
-  color: var(--white);
-  border: 2px solid #d97706;
-  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
+  background: var(--warning);
+  color: white;
+  border-color: #d97706;
 }
 
-.btn-warning:hover,
-.btn-warning:focus {
-  background: linear-gradient(90deg, #fbbf24, var(--sky), #fbbf24, var(--sky));
-  background-size: 300% 100%;
-  animation: gradientSlide 2.5s linear infinite;
-  color: var(--navy);
-  border-color: var(--warning);
-  transform: translateY(-2px);
-  box-shadow: 0 0 25px rgba(245, 158, 11, 0.6), 0 0 50px rgba(245, 158, 11, 0.3);
+.btn-warning:hover {
+  background: linear-gradient(
+    90deg,
+    #fde68a 0%,
+    #87CEEB 50%,
+    #fde68a 100%
+  );
+  background-size: 200% 100%;
+  color: #78350f;
+  border-color: #d97706;
+  box-shadow:
+    0 8px 24px rgba(245, 158, 11, 0.4),
+    0 0 20px rgba(135, 206, 235, 0.3);
+  animation: btnGradientMove 2.5s linear infinite;
 }
 
-/* ============================================================
-   🎯 الأحجام
-   ============================================================ */
+/* ===== btn-sm ===== */
 .btn-sm {
   padding: 6px 14px;
   font-size: 0.8rem;
   min-height: 36px;
 }
 
-.btn-lg {
-  padding: 14px 32px;
-  font-size: 1.05rem;
-  min-height: 52px;
-}
-
-/* ============================================================
-   🎯 زر أيقونة
-   ============================================================ */
+/* ===== btn-icon ===== */
 .btn-icon {
   width: 40px;
   height: 40px;
@@ -390,24 +341,29 @@ input, select, textarea {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--white);
-  color: var(--navy);
-  border: 2px solid var(--navy);
+  background: var(--gray-100);
+  color: var(--gray-700);
+  border: 2px solid var(--gray-200);
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.35s ease;
+  position: relative;
+  overflow: hidden;
 }
 
-.btn-icon:hover,
-.btn-icon:focus {
-  background: linear-gradient(135deg, var(--gold-light), var(--sky));
+.btn-icon:hover {
+  background: linear-gradient(135deg, var(--gold-light), #87CEEB, var(--gold-light));
+  background-size: 200% 200%;
   color: var(--navy);
-  border-color: var(--gold);
-  transform: scale(1.1) rotate(-5deg);
-  box-shadow: var(--glow-gold);
+  border-color: var(--gold-dark);
+  transform: scale(1.1);
+  box-shadow:
+    0 6px 20px rgba(201, 168, 76, 0.4),
+    0 0 16px rgba(135, 206, 235, 0.3);
+  animation: btnGradientMove 2.5s linear infinite;
 }
 
 /* ============================================================
-6️⃣ 🧠 الهيدر - موحد في كل الصفحات
+6️⃣ الهيدر (للأجهزة الكبيرة فقط)
 ============================================================ */
 .smart-header {
   background: var(--navy);
@@ -418,7 +374,6 @@ input, select, textarea {
   top: 0;
   z-index: 1000;
   border-bottom: 3px solid var(--gold);
-  width: 100%;
 }
 
 .smart-header .container {
@@ -440,7 +395,6 @@ input, select, textarea {
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
-  justify-content: center;
 }
 
 .smart-header .header-right {
@@ -476,77 +430,73 @@ input, select, textarea {
 }
 
 /* ============================================================
-   ⭐ أزرار الهيدر - النسخة المُصلَّحة
-   خلفية شفافة (نفس خلفية الهيدر) + نص أبيض + إطار أبيض
-   هوفر: جرادينت ذهبي-رمادي متحرك
-   ============================================================ */
+🎯 أزرار الهيدر - ستايل مخصص (أبيض + هوفر دهبي/رصاصي متحرك)
+============================================================ */
+
+/* أزرار الهيدر - النص أبيض، الخلفية شفافة (نفس الهيدر)، الإطار أبيض */
 .smart-header .btn,
-.smart-header .header-center .btn {
-  color: var(--white);
-  background: transparent;
-  border: 2px solid rgba(255, 255, 255, 0.6);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  font-weight: 700;
-  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-.smart-header .btn:hover,
-.smart-header .btn:focus,
-.smart-header .header-center .btn:hover,
-.smart-header .header-center .btn:focus {
-  background: linear-gradient(90deg, var(--gold-light), #a8a8a8, var(--gold-light), #a8a8a8);
-  background-size: 300% 100%;
-  animation: gradientSlide 2.5s linear infinite;
-  color: var(--navy);
-  border-color: var(--gold);
-  text-shadow: none;
-  transform: translateY(-2px);
-  box-shadow: var(--glow-gold-strong);
-}
-
-.smart-header .btn:active {
-  transform: translateY(0) scale(0.98);
-}
-
-/* أزرار محددة داخل الهيدر */
-.smart-header .btn-outline {
-  background: transparent;
-  border-color: rgba(255, 255, 255, 0.6);
-  color: var(--white);
-}
-
+.smart-header .btn-outline,
 .smart-header .btn-primary,
-.smart-header .btn-gold {
-  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-  color: var(--navy);
-  border-color: var(--gold);
-  text-shadow: none;
+.smart-header .btn-gold,
+.smart-header .btn-sm {
+  background: transparent !important;
+  color: var(--white) !important;
+  border: 2px solid var(--white) !important;
+  box-shadow: 0 0 0 0 transparent;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  font-weight: 700;
+  position: relative;
+  overflow: hidden;
 }
 
+/* الهوفر: جرادينت دهبي فاتح في رصاصي متحرك + توهج */
+.smart-header .btn:hover,
+.smart-header .btn-outline:hover,
 .smart-header .btn-primary:hover,
-.smart-header .btn-gold:hover {
-  background: linear-gradient(90deg, var(--gold-light), var(--sky), var(--gold-light), var(--sky));
-  background-size: 300% 100%;
-  animation: gradientSlide 2.5s linear infinite;
-  color: var(--navy);
-  border-color: var(--white);
-  box-shadow: var(--glow-gold-strong);
+.smart-header .btn-gold:hover,
+.smart-header .btn-sm:hover {
+  background: linear-gradient(
+    90deg,
+    var(--gold-light) 0%,
+    #B0BEC5 50%,
+    var(--gold-light) 100%
+  ) !important;
+  background-size: 200% 100% !important;
+  color: var(--navy-dark) !important;
+  border-color: var(--gold-dark) !important;
+  transform: translateY(-2px);
+  box-shadow:
+    0 6px 24px rgba(201, 168, 76, 0.5),
+    0 0 20px rgba(176, 190, 197, 0.4),
+    inset 0 0 10px rgba(255, 255, 255, 0.3) !important;
+  animation: headerBtnGlow 2.5s linear infinite !important;
 }
 
+@keyframes headerBtnGlow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+
+/* زر الخروج (danger) في الهيدر - يبقى أحمر */
 .smart-header .btn-danger {
-  background: var(--danger);
-  color: var(--white);
-  border-color: var(--danger);
+  background: transparent !important;
+  color: #FFB3B3 !important;
+  border: 2px solid #FFB3B3 !important;
 }
 
 .smart-header .btn-danger:hover {
-  background: linear-gradient(90deg, #f87171, var(--sky), #f87171, var(--sky));
-  background-size: 300% 100%;
-  animation: gradientSlide 2.5s linear infinite;
-  color: var(--white);
-  border-color: var(--gold);
-  box-shadow: 0 0 25px rgba(239, 68, 68, 0.6);
+  background: linear-gradient(
+    90deg,
+    #FFB3B3 0%,
+    #FFD7B3 50%,
+    #FFB3B3 100%
+  ) !important;
+  background-size: 200% 100% !important;
+  color: var(--navy-dark) !important;
+  border-color: #FF8A8A !important;
+  box-shadow:
+    0 6px 24px rgba(239, 68, 68, 0.5),
+    0 0 20px rgba(255, 179, 179, 0.4) !important;
 }
 
 /* ============================================================
@@ -568,17 +518,16 @@ input, select, textarea {
   right: 0;
   background: var(--white);
   min-width: 200px;
+  max-width: calc(100vw - 40px);
   box-shadow: var(--shadow-lg);
   border-radius: var(--radius-sm);
   padding: 8px 0;
   z-index: 1000;
   animation: fadeInDown 0.2s ease;
-  border: 1px solid var(--gray-200);
-  max-width: calc(100vw - 24px);
+  border: 2px solid var(--gold-light);
 }
 
-.dropdown-wrapper:hover .dropdown-menu,
-.dropdown-wrapper:focus-within .dropdown-menu {
+.dropdown-wrapper:hover .dropdown-menu {
   display: block;
 }
 
@@ -587,25 +536,37 @@ input, select, textarea {
   align-items: center;
   gap: 10px;
   padding: 10px 16px;
-  color: var(--navy);
+  color: var(--gray-800);
   text-decoration: none;
   transition: var(--transition-fast);
   font-size: 0.9rem;
-  font-weight: 600;
 }
 
 .dropdown-menu a:hover {
-  background: linear-gradient(90deg, var(--gold-light), var(--gray-100));
-  color: var(--navy);
-  padding-right: 20px;
+  background: linear-gradient(90deg, #fcf9f0 0%, #fff 100%);
+  color: var(--gold);
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ============================================================
-8️⃣ 🔔 الإشعارات - النسخة المُصلَّحة
+8️⃣ الإشعارات - الإصدار المُحدّث 6.2
 ============================================================ */
+
 .notification-badge {
   position: relative;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .notification-badge .badge-count {
@@ -621,31 +582,51 @@ input, select, textarea {
   min-width: 18px;
   text-align: center;
   display: none;
-  box-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
+  animation: badgePulse 2s ease-in-out infinite;
 }
 
-/* ⚠️ مُصلَّح: الإشعارات داخل الشاشة */
+@keyframes badgePulse {
+  0%,100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+/* صندوق الإشعارات - عرض متجاوب ومنع overflow */
 .notifications-dropdown {
-  position: fixed;
-  top: 80px;
-  right: 20px;
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
   left: auto;
-  width: 360px;
-  max-width: calc(100vw - 24px);
-  max-height: 500px;
+  width: 340px;
+  max-width: calc(100vw - 40px);
+  max-height: 400px;
   overflow-y: auto;
+  overflow-x: hidden;
   background: var(--white);
-  box-shadow: 0 10px 50px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 20px 50px rgba(26, 42, 74, 0.25);
   border-radius: var(--radius-md);
   padding: 8px 0;
   z-index: 9999;
   display: none;
-  animation: fadeInDown 0.2s ease;
+  animation: fadeInDown 0.25s cubic-bezier(0.22, 1, 0.36, 1);
   border: 2px solid var(--gold-light);
+  box-sizing: border-box;
 }
 
 .notifications-dropdown.show {
   display: block;
+}
+
+/* للشاشات الصغيرة - يظهر من الحافة اليمنى */
+@media (max-width: 480px) {
+  .notifications-dropdown {
+    position: fixed;
+    top: 70px;
+    right: 12px;
+    left: 12px;
+    width: auto;
+    max-width: none;
+    max-height: 70vh;
+  }
 }
 
 .notification-empty {
@@ -670,7 +651,7 @@ input, select, textarea {
 }
 
 .notification-item:hover {
-  background: linear-gradient(90deg, var(--gold-light), var(--gray-50));
+  background: linear-gradient(90deg, #fcf9f0 0%, #fff 100%);
 }
 
 .notification-item:last-child {
@@ -695,17 +676,26 @@ input, select, textarea {
   margin-top: 4px;
 }
 
-/* الموبايل */
-@media (max-width: 768px) {
-  .notifications-dropdown {
-    top: auto;
-    bottom: calc(var(--mobile-bottom-tabs-height) + var(--mobile-copyright-height) + 12px);
-    right: 12px;
-    left: 12px;
-    width: auto;
-    max-width: none;
-    max-height: 60vh;
-  }
+/* إشعارات الموبايل في الشريط العلوي */
+#mobile-notifications-dropdown {
+  position: fixed;
+  top: calc(var(--mobile-top-bar-height) + 8px);
+  right: 12px;
+  left: 12px;
+  background: var(--white);
+  box-shadow: 0 20px 50px rgba(26, 42, 74, 0.25);
+  border-radius: var(--radius-md);
+  padding: 8px 0;
+  z-index: 99999;
+  display: none;
+  max-height: 70vh;
+  overflow-y: auto;
+  border: 2px solid var(--gold-light);
+  animation: fadeInDown 0.25s ease;
+}
+
+#mobile-notifications-dropdown.show {
+  display: block;
 }
 
 /* ============================================================
@@ -735,7 +725,6 @@ input, select, textarea {
   background: var(--gold);
   color: var(--navy);
   transform: scale(1.05);
-  box-shadow: var(--glow-gold-strong);
 }
 
 .smart-sidebar {
@@ -927,9 +916,8 @@ input, select, textarea {
 }
 
 .sidebar-link:hover {
-  background: linear-gradient(90deg, var(--gold-light), var(--gray-50));
+  background: var(--gray-100);
   color: var(--navy);
-  padding-right: 20px;
 }
 
 .sidebar-link.active {
@@ -953,14 +941,14 @@ input, select, textarea {
 .sidebar-action-btn {
   width: 100%;
   padding: 12px;
-  border: 2px solid var(--gold-dark);
+  border: none;
   border-radius: var(--radius-full);
-  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  background: var(--gold);
   color: var(--navy);
   font-weight: 700;
   font-size: 0.95rem;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: var(--transition);
   font-family: inherit;
   display: flex;
   align-items: center;
@@ -970,15 +958,12 @@ input, select, textarea {
 }
 
 .sidebar-action-btn:hover {
-  background: linear-gradient(90deg, var(--gold-light), var(--sky), var(--gold-light), var(--sky));
-  background-size: 300% 100%;
-  animation: gradientSlide 2.5s linear infinite;
+  background: var(--gold-light);
   transform: scale(1.02);
-  box-shadow: var(--glow-gold);
 }
 
 /* ============================================================
-🔟 الفوتر
+🔟 الفوتر (للأجهزة الكبيرة فقط)
 ============================================================ */
 .smart-footer {
   background: var(--navy-dark);
@@ -1016,7 +1001,6 @@ input, select, textarea {
 
 .smart-footer .footer-column a:hover {
   color: var(--gold);
-  padding-right: 6px;
 }
 
 .smart-footer .footer-bottom {
@@ -1051,7 +1035,6 @@ input, select, textarea {
   background: var(--gold);
   color: var(--navy);
   transform: translateY(-3px);
-  box-shadow: var(--glow-gold);
 }
 
 .smart-footer .footer-copyright {
@@ -1145,7 +1128,50 @@ input, select, textarea {
 }
 
 /* ============================================================
-1️⃣3️⃣ أدوات مساعدة
+1️⃣3️⃣ الحركات (Animations)
+============================================================ */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.fade-in { animation: fadeIn 0.5s ease; }
+.fade-in-up { animation: fadeInUp 0.6s ease; }
+
+/* ============================================================
+1️⃣4️⃣ أدوات مساعدة
 ============================================================ */
 .text-center { text-align: center; }
 .text-right { text-align: right; }
@@ -1176,7 +1202,7 @@ input, select, textarea {
 .d-block { display: block !important; }
 
 /* ============================================================
-1️⃣4️⃣ Scrollbar مخصص
+1️⃣5️⃣ Scrollbar مخصص
 ============================================================ */
 ::-webkit-scrollbar {
   width: 8px;
@@ -1198,9 +1224,10 @@ input, select, textarea {
 }
 
 /* ============================================================
-1️⃣5️⃣ 📱 مكونات الموبايل (App-Like)
+1️⃣6️⃣ 📱 مكونات الموبايل (App-Like)
 ============================================================ */
 
+/* إخفاء مكونات الموبايل افتراضياً (للكمبيوتر) */
 #mobile-top-bar,
 #mobile-top-tabs,
 #mobile-bottom-tabs,
@@ -1208,7 +1235,9 @@ input, select, textarea {
   display: none;
 }
 
-/* ===== الشريط العلوي ===== */
+/* ============================================================
+📱 الشريط العلوي (Mobile Top Bar) - ثابت أعلى المتصفح
+============================================================ */
 .mobile-top-bar-content {
   display: flex;
   align-items: center;
@@ -1262,8 +1291,8 @@ input, select, textarea {
 
 .top-bar-btn {
   position: relative;
-  background: transparent;
-  border: 2px solid rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
   color: var(--white);
   width: 38px;
   height: 38px;
@@ -1273,25 +1302,20 @@ input, select, textarea {
   justify-content: center;
   font-size: 1rem;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: var(--transition-fast);
   text-decoration: none;
 }
 
 .top-bar-btn:hover,
-.top-bar-btn:active,
-.top-bar-btn:focus {
-  background: linear-gradient(90deg, var(--gold-light), #a8a8a8, var(--gold-light), #a8a8a8);
-  background-size: 300% 100%;
-  animation: gradientSlide 2.5s linear infinite;
+.top-bar-btn:active {
+  background: var(--gold);
   color: var(--navy);
-  border-color: var(--gold);
-  box-shadow: var(--glow-gold);
 }
 
 .top-bar-btn .badge-count {
   position: absolute;
-  top: -4px;
-  right: -4px;
+  top: -2px;
+  right: -2px;
   background: var(--danger);
   color: white;
   font-size: 0.6rem;
@@ -1304,7 +1328,6 @@ input, select, textarea {
   justify-content: center;
   padding: 0 4px;
   border: 2px solid var(--navy);
-  box-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
 }
 
 .top-bar-btn.avatar-btn {
@@ -1321,7 +1344,9 @@ input, select, textarea {
   border: 2px solid var(--gold);
 }
 
-/* ===== التبويبات العليا ===== */
+/* ============================================================
+📱 التبويبات العليا (Mobile Top Tabs) - ثابتة تحت الشريط العلوي
+============================================================ */
 #mobile-top-tabs {
   background: var(--white);
   border-bottom: 1px solid var(--gray-200);
@@ -1356,13 +1381,13 @@ input, select, textarea {
   gap: 6px;
   padding: 8px 14px;
   background: var(--gray-100);
-  color: var(--navy);
-  border: 2px solid transparent;
+  color: var(--gray-600);
+  border: none;
   border-radius: var(--radius-full);
   font-size: 0.8rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: var(--transition-fast);
   text-decoration: none;
   white-space: nowrap;
   position: relative;
@@ -1375,20 +1400,13 @@ input, select, textarea {
 
 .mobile-tab-btn:hover,
 .mobile-tab-btn:active {
-  background: linear-gradient(90deg, var(--gold-light), var(--sky), var(--gold-light), var(--sky));
-  background-size: 300% 100%;
-  animation: gradientSlide 2.5s linear infinite;
-  color: var(--navy);
-  border-color: var(--gold);
-  box-shadow: var(--glow-gold);
+  background: var(--gray-200);
 }
 
 .mobile-tab-btn.active {
-  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  background: var(--gold);
   color: var(--navy);
   font-weight: 700;
-  border-color: var(--gold-dark);
-  box-shadow: 0 4px 12px rgba(201, 168, 76, 0.3);
 }
 
 .mobile-tab-btn.dropdown {
@@ -1407,7 +1425,7 @@ input, select, textarea {
   padding: 6px 0;
   z-index: 1000;
   animation: fadeInDown 0.2s ease;
-  border: 1px solid var(--gray-200);
+  border: 2px solid var(--gold-light);
 }
 
 .mobile-tab-dropdown.show {
@@ -1417,19 +1435,20 @@ input, select, textarea {
 .mobile-tab-dropdown a {
   display: block;
   padding: 10px 16px;
-  color: var(--navy);
+  color: var(--gray-800);
   font-size: 0.85rem;
   text-decoration: none;
   transition: var(--transition-fast);
-  font-weight: 600;
 }
 
 .mobile-tab-dropdown a:hover {
-  background: linear-gradient(90deg, var(--gold-light), var(--gray-100));
-  color: var(--navy);
+  background: linear-gradient(90deg, #fcf9f0 0%, #fff 100%);
+  color: var(--gold);
 }
 
-/* ===== التبويبات السفلى ===== */
+/* ============================================================
+📱 التبويبات السفلى (Mobile Bottom Tabs)
+============================================================ */
 #mobile-bottom-tabs {
   position: fixed;
   bottom: 0;
@@ -1486,10 +1505,11 @@ input, select, textarea {
 
 .mobile-bottom-tab.active i {
   color: var(--gold);
-  filter: drop-shadow(0 0 6px rgba(201, 168, 76, 0.6));
 }
 
-/* ===== شريط الحقوق ===== */
+/* ============================================================
+شريط الحقوق (Mobile Copyright)
+============================================================ */
 #mobile-copyright {
   position: fixed;
   bottom: var(--mobile-bottom-tabs-height);
@@ -1513,7 +1533,7 @@ input, select, textarea {
 }
 
 /* ============================================================
-1️⃣6️⃣ 🖼️ السلايدر
+1️⃣7️⃣ 🖼️ السلايدر
 ============================================================ */
 .slider-container {
   position: relative;
@@ -1570,7 +1590,7 @@ input, select, textarea {
   transform: translateY(-50%);
   background: rgba(0, 0, 0, 0.5);
   color: white;
-  border: 2px solid rgba(255, 255, 255, 0.3);
+  border: none;
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -1584,10 +1604,7 @@ input, select, textarea {
 }
 
 .slider-btn:hover {
-  background: var(--gold);
-  color: var(--navy);
-  border-color: var(--gold);
-  box-shadow: var(--glow-gold);
+  background: rgba(0, 0, 0, 0.75);
 }
 
 .slider-btn.prev { right: 12px; }
@@ -1613,11 +1630,10 @@ input, select, textarea {
   background: var(--gold);
   width: 28px;
   border-radius: 20px;
-  box-shadow: var(--glow-gold);
 }
 
 /* ============================================================
-1️⃣7️⃣ 🏪 كروت المتاجر
+1️⃣8️⃣ 🏪 كروت المتاجر (الصفحة الرئيسية)
 ============================================================ */
 .stores-section {
   margin-bottom: 40px;
@@ -1662,7 +1678,7 @@ input, select, textarea {
 
 .store-card:hover {
   transform: translateY(-6px);
-  box-shadow: var(--shadow-lg), var(--glow-gold);
+  box-shadow: var(--shadow-lg);
   border-color: var(--gold);
 }
 
@@ -1702,27 +1718,22 @@ input, select, textarea {
   padding: 12px 32px;
   background: var(--navy);
   color: var(--white);
-  border: 2px solid var(--navy);
   border-radius: var(--radius-full);
   font-weight: 700;
   font-size: 1rem;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: var(--transition);
 }
 
 .store-card:hover .store-btn {
-  background: linear-gradient(90deg, var(--gold-light), var(--sky), var(--gold-light), var(--sky));
-  background-size: 300% 100%;
-  animation: gradientSlide 2.5s linear infinite;
+  background: var(--gold);
   color: var(--navy);
-  border-color: var(--gold);
-  box-shadow: var(--glow-gold);
 }
 
 /* ============================================================
-1️⃣8️⃣ 📦 كروت المنتجات
+1️⃣9️⃣ 📦 كروت المنتجات
 ============================================================ */
 .products-section {
   margin-bottom: 40px;
@@ -1758,12 +1769,10 @@ input, select, textarea {
   align-items: center;
   gap: 6px;
   transition: var(--transition);
-  font-weight: 600;
 }
 
 .view-all:hover {
   color: var(--gold);
-  text-shadow: 0 0 10px rgba(201, 168, 76, 0.5);
 }
 
 .products-grid {
@@ -1787,7 +1796,7 @@ input, select, textarea {
 
 .product-card:hover {
   transform: translateY(-6px);
-  box-shadow: var(--shadow-lg), var(--glow-gold);
+  box-shadow: var(--shadow-lg);
   border-color: var(--gold);
 }
 
@@ -1893,7 +1902,7 @@ input, select, textarea {
 }
 
 /* ============================================================
-1️⃣9️⃣ 📂 التصنيفات
+2️⃣0️⃣ 📂 التصنيفات
 ============================================================ */
 .categories-grid {
   display: grid;
@@ -1916,7 +1925,7 @@ input, select, textarea {
 
 .category-card:hover {
   transform: translateY(-4px);
-  box-shadow: var(--shadow-lg), var(--glow-gold);
+  box-shadow: var(--shadow-lg);
   border-color: var(--gold);
 }
 
@@ -1944,7 +1953,7 @@ input, select, textarea {
 }
 
 /* ============================================================
-2️⃣0️⃣ 🎯 كروت العروض
+2️⃣1️⃣ 🎯 كروت العروض
 ============================================================ */
 .offer-card {
   position: relative;
@@ -1953,7 +1962,6 @@ input, select, textarea {
 
 .offer-card:hover {
   border-color: #dc2626 !important;
-  box-shadow: 0 0 25px rgba(239, 68, 68, 0.5), var(--shadow-lg) !important;
 }
 
 .offer-card .discount-badge {
@@ -1971,7 +1979,7 @@ input, select, textarea {
 }
 
 /* ============================================================
-2️⃣1️⃣ 🔍 البحث الذكي
+2️⃣2️⃣ 🔍 البحث الذكي
 ============================================================ */
 .smart-search {
   margin-bottom: 24px;
@@ -1991,7 +1999,7 @@ input, select, textarea {
 
 .search-wrapper:focus-within {
   border-color: var(--gold);
-  box-shadow: var(--shadow-md), var(--glow-gold);
+  box-shadow: var(--shadow-md);
 }
 
 .search-wrapper > i {
@@ -2016,27 +2024,503 @@ input, select, textarea {
 }
 
 .search-wrapper .search-btn {
-  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  background: var(--gold);
   color: var(--navy);
-  border: 2px solid var(--gold-dark);
+  border: none;
   padding: 10px 24px;
   border-radius: var(--radius-full);
   font-weight: 700;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: var(--transition);
   font-family: inherit;
 }
 
 .search-wrapper .search-btn:hover {
-  background: linear-gradient(90deg, var(--gold-light), var(--sky), var(--gold-light), var(--sky));
-  background-size: 300% 100%;
-  animation: gradientSlide 2.5s linear infinite;
+  background: var(--gold-light);
   transform: scale(1.02);
-  box-shadow: var(--glow-gold);
+}
+
+.search-suggestions {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  left: 0;
+  background: var(--white);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-lg);
+  max-height: 300px;
+  overflow-y: auto;
+  display: none;
+  z-index: 100;
+}
+
+.search-suggestions.show {
+  display: block;
+}
+
+.suggestion-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.suggestion-item:hover {
+  background: var(--gray-50);
+}
+
+.suggestion-item img {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  background: var(--gray-100);
+}
+
+.suggestion-item .suggestion-info {
+  flex: 1;
+}
+
+.suggestion-item .suggestion-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--navy);
+}
+
+.suggestion-item .suggestion-price {
+  font-size: 0.8rem;
+  color: var(--gold);
+  font-weight: 700;
 }
 
 /* ============================================================
-2️⃣2️⃣ 📊 الجداول
+2️⃣3️⃣ 📜 التمرير الأفقي (Horizontal Scroll)
+============================================================ */
+.horizontal-scroll {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 8px 4px 16px;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.horizontal-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.horizontal-scroll::-webkit-scrollbar-track {
+  background: var(--gray-100);
+  border-radius: var(--radius-full);
+}
+
+.horizontal-scroll::-webkit-scrollbar-thumb {
+  background: var(--gold);
+  border-radius: var(--radius-full);
+}
+
+.horizontal-scroll .product-card {
+  min-width: 200px;
+  max-width: 220px;
+  flex-shrink: 0;
+}
+
+.horizontal-scroll .brand-card {
+  min-width: 140px;
+  max-width: 160px;
+  flex-shrink: 0;
+  text-align: center;
+  background: var(--white);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  cursor: pointer;
+  border: 2px solid transparent;
+}
+
+.horizontal-scroll .brand-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--gold);
+}
+
+.horizontal-scroll .brand-card img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 8px;
+  display: block;
+  background: var(--gray-100);
+}
+
+.horizontal-scroll .brand-card .brand-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--navy);
+}
+
+/* ============================================================
+2️⃣4️⃣ 🎨 الفقاعات (للصفحة الرئيسية)
+============================================================ */
+.bubbles-section {
+  margin-bottom: 32px;
+}
+
+.bubbles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 16px;
+}
+
+.bubble-item {
+  background: var(--white);
+  border-radius: var(--radius-md);
+  padding: 20px 12px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition);
+  border: 2px solid transparent;
+  text-decoration: none;
+  color: var(--gray-800);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.bubble-item:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--gold);
+}
+
+.bubble-item .bubble-icon {
+  font-size: 2.2rem;
+  color: var(--gold);
+  transition: var(--transition);
+}
+
+.bubble-item:hover .bubble-icon {
+  transform: scale(1.15);
+}
+
+.bubble-item .bubble-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.bubble-item .bubble-sub {
+  font-size: 0.7rem;
+  color: var(--gray-400);
+}
+
+/* ============================================================
+2️⃣5️⃣ 📊 شريط المقولات والأخبار
+============================================================ */
+.quotes-bar,
+.news-bar {
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  color: var(--white);
+  padding: 14px 20px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.95rem;
+}
+
+.news-bar {
+  background: var(--navy-dark);
+  font-size: 0.9rem;
+}
+
+.quotes-bar i,
+.news-bar i {
+  color: var(--gold);
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+2️⃣6️⃣ 📱 Media Queries (الموبايل الحقيقي)
+============================================================ */
+@media (max-width: 768px) and (pointer: coarse) {
+
+  /* إخفاء الهيدر والفوتر */
+  .smart-header,
+  .smart-footer {
+    display: none !important;
+  }
+
+  /* إظهار مكونات الموبايل */
+  #mobile-top-bar {
+    display: block !important;
+  }
+
+  #mobile-top-tabs {
+    display: block !important;
+  }
+
+  #mobile-bottom-tabs {
+    display: flex !important;
+  }
+
+  #mobile-copyright {
+    display: block !important;
+  }
+
+  /* إضافة مساحة أعلى وأسفل الصفحة */
+  body {
+    padding-top: calc(var(--mobile-top-bar-height) + var(--mobile-top-tabs-height));
+    padding-bottom: calc(var(--mobile-bottom-tabs-height) + var(--mobile-copyright-height) + 8px);
+  }
+
+  /* إخفاء زر القائمة العائم */
+  .sidebar-toggle {
+    display: none !important;
+  }
+
+  /* إخفاء البحث من الصفحات */
+  .smart-search,
+  .mini-search-section {
+    display: none !important;
+  }
+
+  /* السايدبار يتحول لعرض كامل من اليمين */
+  .smart-sidebar {
+    width: 85vw;
+    max-width: 340px;
+    right: -100vw;
+  }
+
+  /* الحاوية أصغر padding */
+  .container {
+    padding: 0 12px;
+  }
+
+  .page-content,
+  .home-page,
+  .dashboard-page {
+    padding: 16px 0 20px;
+  }
+
+  /* السلايدر */
+  .slider-item img {
+    height: 200px;
+  }
+
+  .slider-placeholder,
+  .slide-placeholder {
+    height: 200px;
+    font-size: 0.9rem;
+  }
+
+  .slider-btn {
+    width: 34px;
+    height: 34px;
+    font-size: 0.9rem;
+  }
+
+  /* المنتجات */
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+  }
+
+  .product-card .product-image {
+    height: 150px;
+  }
+
+  .product-card .product-name {
+    font-size: 0.85rem;
+    min-height: 38px;
+  }
+
+  .product-card .product-price {
+    font-size: 1rem;
+  }
+
+  .horizontal-scroll .product-card {
+    min-width: 160px;
+    max-width: 180px;
+  }
+
+  /* كروت المتاجر */
+  .stores-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .store-card {
+    padding: 24px 20px;
+  }
+
+  .store-card .store-icon {
+    width: 64px;
+    height: 64px;
+    font-size: 1.9rem;
+  }
+
+  .store-card .store-title {
+    font-size: 1.15rem;
+  }
+
+  /* التصنيفات */
+  .categories-grid {
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 10px;
+  }
+
+  .category-card {
+    padding: 14px 8px;
+  }
+
+  .category-card img {
+    width: 56px;
+    height: 56px;
+  }
+
+  .category-card h4 {
+    font-size: 0.8rem;
+  }
+
+  /* الفقاعات */
+  .bubbles-grid {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 12px;
+  }
+
+  .bubble-item {
+    padding: 14px 10px;
+  }
+
+  .bubble-item .bubble-icon {
+    font-size: 1.8rem;
+  }
+
+  .bubble-item .bubble-title {
+    font-size: 0.75rem;
+  }
+
+  .bubble-item .bubble-sub {
+    font-size: 0.65rem;
+  }
+
+  /* البحث */
+  .search-wrapper {
+    padding: 2px 16px 2px 2px;
+  }
+
+  .search-wrapper input {
+    padding: 12px 0;
+    font-size: 0.95rem;
+  }
+
+  .search-wrapper .search-btn {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+  }
+
+  /* العناوين */
+  .section-title {
+    font-size: 1.15rem;
+  }
+
+  .view-all {
+    font-size: 0.8rem;
+  }
+
+  /* الأزرار */
+  .btn {
+    padding: 10px 18px;
+    font-size: 0.9rem;
+  }
+
+  /* Toast */
+  #toast-container {
+    bottom: calc(var(--mobile-bottom-tabs-height) + var(--mobile-copyright-height) + 12px);
+    right: 12px;
+    left: 12px;
+    max-width: none;
+  }
+
+  .toast {
+    max-width: 100%;
+    font-size: 0.85rem;
+    padding: 12px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+  }
+
+  .product-card .product-image {
+    height: 130px;
+  }
+
+  .categories-grid {
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 8px;
+  }
+
+  .category-card {
+    padding: 12px 6px;
+  }
+
+  .category-card img {
+    width: 48px;
+    height: 48px;
+  }
+
+  .category-card h4 {
+    font-size: 0.75rem;
+  }
+
+  .bubbles-grid {
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 8px;
+  }
+
+  .bubble-item {
+    padding: 12px 8px;
+  }
+
+  .bubble-item .bubble-icon {
+    font-size: 1.5rem;
+  }
+
+  .bubble-item .bubble-title {
+    font-size: 0.7rem;
+  }
+
+  .slider-item img {
+    height: 150px;
+  }
+
+  .slider-placeholder,
+  .slide-placeholder {
+    height: 150px;
+  }
+
+  .container {
+    padding: 0 10px;
+  }
+}
+
+/* ============================================================
+2️⃣7️⃣ 📊 الجداول (Tables)
 ============================================================ */
 .table-container {
   background: var(--white);
@@ -2052,8 +2536,7 @@ input, select, textarea {
 }
 
 .admin-table,
-.custom-table,
-table {
+.custom-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.9rem;
@@ -2061,14 +2544,12 @@ table {
 }
 
 .admin-table thead,
-.custom-table thead,
-table thead {
+.custom-table thead {
   background: var(--gray-50);
 }
 
 .admin-table th,
-.custom-table th,
-table th {
+.custom-table th {
   padding: 14px 16px;
   text-align: right;
   font-weight: 700;
@@ -2079,8 +2560,7 @@ table th {
 }
 
 .admin-table td,
-.custom-table td,
-table td {
+.custom-table td {
   padding: 12px 16px;
   border-bottom: 1px solid var(--gray-100);
   vertical-align: middle;
@@ -2088,13 +2568,34 @@ table td {
 }
 
 .admin-table tbody tr:hover,
-.custom-table tbody tr:hover,
-table tbody tr:hover {
+.custom-table tbody tr:hover {
   background: var(--gray-50);
 }
 
+.admin-table tbody tr:last-child td,
+.custom-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.table-thumb {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--gray-200);
+  background: var(--gray-100);
+}
+
+.actions-cell {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
 /* ============================================================
-2️⃣3️⃣ 🏷️ الشارات
+2️⃣8️⃣ 🏷️ الشارات (Badges)
 ============================================================ */
 .badge,
 .status-badge {
@@ -2143,17 +2644,6 @@ table tbody tr:hover {
   color: #2563eb;
 }
 
-.status-badge.preparing {
-  background: rgba(52, 152, 219, 0.15);
-  color: #3498db;
-}
-
-.status-badge.awaiting_approval {
-  background: rgba(245, 158, 11, 0.2);
-  color: #b45309;
-  border: 2px solid #f59e0b;
-}
-
 .status-badge.shipped {
   background: rgba(139, 92, 246, 0.15);
   color: #7c3aed;
@@ -2167,11 +2657,6 @@ table tbody tr:hover {
 .status-badge.cancelled {
   background: rgba(239, 68, 68, 0.15);
   color: #dc2626;
-}
-
-.status-badge.archived {
-  background: rgba(127, 140, 141, 0.15);
-  color: #7f8c8d;
 }
 
 .status-badge.paid {
@@ -2233,7 +2718,7 @@ table tbody tr:hover {
 }
 
 /* ============================================================
-2️⃣4️⃣ 📊 كروت الإحصائيات
+2️⃣9️⃣ 📊 كروت الإحصائيات (Stats Cards)
 ============================================================ */
 .stats-grid {
   display: grid;
@@ -2257,13 +2742,12 @@ table tbody tr:hover {
 
 .stat-card:hover {
   transform: translateY(-3px);
-  box-shadow: var(--shadow-md), var(--glow-gold);
+  box-shadow: var(--shadow-md);
 }
 
 .stat-card.active {
   border-color: var(--gold);
   background: #fcf9f0;
-  box-shadow: var(--glow-gold);
 }
 
 .stat-card .stat-icon {
@@ -2277,12 +2761,35 @@ table tbody tr:hover {
   flex-shrink: 0;
 }
 
-.stat-card .stat-icon.gold { background: rgba(201, 168, 76, 0.15); color: var(--gold); }
-.stat-card .stat-icon.green { background: rgba(34, 197, 94, 0.15); color: #16a34a; }
-.stat-card .stat-icon.red { background: rgba(239, 68, 68, 0.15); color: #dc2626; }
-.stat-card .stat-icon.blue { background: rgba(59, 130, 246, 0.15); color: #2563eb; }
-.stat-card .stat-icon.purple { background: rgba(139, 92, 246, 0.15); color: #7c3aed; }
-.stat-card .stat-icon.orange { background: rgba(245, 158, 11, 0.15); color: #d97706; }
+.stat-card .stat-icon.gold {
+  background: rgba(201, 168, 76, 0.15);
+  color: var(--gold);
+}
+
+.stat-card .stat-icon.green {
+  background: rgba(34, 197, 94, 0.15);
+  color: #16a34a;
+}
+
+.stat-card .stat-icon.red {
+  background: rgba(239, 68, 68, 0.15);
+  color: #dc2626;
+}
+
+.stat-card .stat-icon.blue {
+  background: rgba(59, 130, 246, 0.15);
+  color: #2563eb;
+}
+
+.stat-card .stat-icon.purple {
+  background: rgba(139, 92, 246, 0.15);
+  color: #7c3aed;
+}
+
+.stat-card .stat-icon.orange {
+  background: rgba(245, 158, 11, 0.15);
+  color: #d97706;
+}
 
 .stat-info {
   display: flex;
@@ -2305,7 +2812,7 @@ table tbody tr:hover {
 }
 
 /* ============================================================
-2️⃣5️⃣ 🎯 كروت الوصول السريع
+3️⃣0️⃣ 🎯 كروت الوصول السريع (Quick Cards)
 ============================================================ */
 .quick-grid {
   display: grid;
@@ -2333,7 +2840,7 @@ table tbody tr:hover {
 
 .quick-card:hover {
   transform: translateY(-4px);
-  box-shadow: var(--shadow-lg), var(--glow-gold);
+  box-shadow: var(--shadow-lg);
   border-color: var(--gold);
 }
 
@@ -2345,7 +2852,6 @@ table tbody tr:hover {
 
 .quick-card:hover .card-icon {
   transform: scale(1.1);
-  filter: drop-shadow(0 0 8px rgba(201, 168, 76, 0.6));
 }
 
 .quick-card .card-title {
@@ -2371,7 +2877,7 @@ table tbody tr:hover {
 }
 
 /* ============================================================
-2️⃣6️⃣ 🚪 المودالات
+3️⃣1️⃣ 🚪 المودالات (Modals)
 ============================================================ */
 .modal-overlay {
   display: none;
@@ -2409,12 +2915,17 @@ table tbody tr:hover {
 
 .modal-content.small { max-width: 500px; }
 .modal-content.medium { max-width: 700px; }
-.modal-content.large,
-.modal-content.wide { max-width: 900px; }
+.modal-content.large { max-width: 900px; }
 
 @keyframes slideDown {
-  from { transform: translateY(-30px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .modal-header {
@@ -2464,7 +2975,6 @@ table tbody tr:hover {
   color: var(--white);
   background: var(--danger);
   transform: rotate(90deg);
-  box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
 }
 
 .modal-body {
@@ -2484,7 +2994,7 @@ table tbody tr:hover {
 }
 
 /* ============================================================
-2️⃣7️⃣ 📝 النماذج
+3️⃣2️⃣ 📝 النماذج (Forms)
 ============================================================ */
 .form-group {
   margin-bottom: 16px;
@@ -2527,7 +3037,7 @@ table tbody tr:hover {
 .form-group textarea:focus {
   outline: none;
   border-color: var(--gold);
-  box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.15), var(--glow-gold);
+  box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.15);
   background: var(--white);
 }
 
@@ -2569,7 +3079,7 @@ table tbody tr:hover {
 }
 
 /* ============================================================
-2️⃣8️⃣ 🖼️ رفع الصور
+3️⃣3️⃣ 🖼️ رفع الصور (Image Upload)
 ============================================================ */
 .image-upload-area {
   border: 2px dashed var(--gray-300);
@@ -2585,7 +3095,6 @@ table tbody tr:hover {
 .image-upload-area:hover {
   border-color: var(--gold);
   background: #fcf9f0;
-  box-shadow: var(--glow-gold);
 }
 
 .image-upload-area .preview-image {
@@ -2616,8 +3125,35 @@ table tbody tr:hover {
   margin-top: 6px;
 }
 
+.upload-progress {
+  display: none;
+  margin-top: 10px;
+}
+
+.upload-progress .progress-bar {
+  width: 100%;
+  height: 6px;
+  background: var(--gray-200);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.upload-progress .progress-fill {
+  height: 100%;
+  background: var(--gold);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+  width: 0%;
+}
+
+.upload-progress .progress-text {
+  font-size: 0.75rem;
+  color: var(--gray-500);
+  margin-top: 4px;
+}
+
 /* ============================================================
-2️⃣9️⃣ 📄 التبويبات
+3️⃣4️⃣ 📄 التبويبات (Tabs)
 ============================================================ */
 .tabs-container {
   display: flex;
@@ -2632,33 +3168,27 @@ table tbody tr:hover {
 
 .tab-btn {
   padding: 10px 20px;
-  border: 2px solid transparent;
+  border: none;
   border-radius: var(--radius-sm);
   font-family: inherit;
   font-weight: 700;
   font-size: 0.9rem;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  background: var(--white);
-  color: var(--navy);
+  transition: var(--transition);
+  background: var(--gray-100);
+  color: var(--gray-600);
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
 .tab-btn:hover {
-  background: linear-gradient(90deg, var(--gold-light), var(--sky), var(--gold-light), var(--sky));
-  background-size: 300% 100%;
-  animation: gradientSlide 2.5s linear infinite;
-  color: var(--navy);
-  border-color: var(--gold);
-  box-shadow: var(--glow-gold);
+  background: var(--gray-200);
 }
 
 .tab-btn.active {
-  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+  background: var(--gold);
   color: var(--navy);
-  border-color: var(--gold-dark);
   box-shadow: 0 4px 12px rgba(201, 168, 76, 0.3);
 }
 
@@ -2686,7 +3216,7 @@ table tbody tr:hover {
 }
 
 /* ============================================================
-3️⃣0️⃣ 🔍 شريط التصفية
+3️⃣5️⃣ 🔍 شريط التصفية (Filter Bar)
 ============================================================ */
 .filter-bar,
 .filter-section {
@@ -2741,8 +3271,39 @@ table tbody tr:hover {
   gap: 4px;
 }
 
+.search-box {
+  display: flex;
+  gap: 10px;
+  flex: 1;
+  min-width: 280px;
+}
+
+.search-input-group {
+  position: relative;
+  flex: 1;
+}
+
+.search-input-group input {
+  width: 100%;
+  padding: 10px 38px 10px 14px;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius-full);
+  outline: none;
+  font-family: inherit;
+  background: var(--gray-50);
+  font-size: 0.9rem;
+}
+
+.search-input-group i {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gray-400);
+}
+
 /* ============================================================
-3️⃣1️⃣ 🏛️ رأس صفحة الإدارة
+3️⃣6️⃣ 🏛️ رأس صفحة الإدارة (Admin Header)
 ============================================================ */
 .admin-header,
 .dashboard-header,
@@ -2793,7 +3354,7 @@ table tbody tr:hover {
 }
 
 /* ============================================================
-3️⃣2️⃣ 📋 الأقسام الداخلية
+3️⃣7️⃣ 📋 الأقسام الداخلية (Sections)
 ============================================================ */
 .section-card {
   background: var(--white);
@@ -2831,7 +3392,7 @@ table tbody tr:hover {
 }
 
 /* ============================================================
-3️⃣3️⃣ 💰 الملخصات المالية
+3️⃣8️⃣ 💰 الملخصات المالية
 ============================================================ */
 .summary-box,
 .invoice-summary,
@@ -2863,13 +3424,33 @@ table tbody tr:hover {
   margin-top: 8px;
 }
 
-.summary-line .value.gold { color: var(--gold); }
-.summary-line .value.green { color: var(--success); }
-.summary-line .value.red { color: var(--danger); }
-.summary-line .label { color: var(--gray-600); }
+.summary-line .value,
+.summary-row .value {
+  font-weight: 700;
+}
+
+.summary-line .value.gold,
+.summary-row .value.gold {
+  color: var(--gold);
+}
+
+.summary-line .value.green,
+.summary-row .value.green {
+  color: var(--success);
+}
+
+.summary-line .value.red,
+.summary-row .value.red {
+  color: var(--danger);
+}
+
+.summary-line .label,
+.summary-row .label {
+  color: var(--gray-600);
+}
 
 /* ============================================================
-3️⃣4️⃣ 🖨️ نموذج الفاتورة للطباعة
+3️⃣9️⃣ 🖨️ نموذج الفاتورة للطباعة
 ============================================================ */
 .invoice-print {
   background: white;
@@ -2878,8 +3459,76 @@ table tbody tr:hover {
   margin: 0 auto;
 }
 
+.invoice-print .invoice-header {
+  text-align: center;
+  border-bottom: 3px solid var(--gold);
+  padding-bottom: 16px;
+  margin-bottom: 20px;
+}
+
+.invoice-print .invoice-header h1 {
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+
+.invoice-print .invoice-info {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+  background: var(--gray-50);
+  padding: 16px;
+  border-radius: var(--radius-sm);
+}
+
+.invoice-print .info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  font-size: 0.9rem;
+}
+
+.invoice-print .info-row .label {
+  color: var(--gray-500);
+  font-weight: 600;
+}
+
+.invoice-print .info-row .value {
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.invoice-print table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.invoice-print table th,
+.invoice-print table td {
+  padding: 10px;
+  text-align: right;
+  border-bottom: 1px solid var(--gray-200);
+  font-size: 0.9rem;
+}
+
+.invoice-print table th {
+  background: var(--gray-50);
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.invoice-print .invoice-footer {
+  text-align: center;
+  margin-top: 30px;
+  padding-top: 16px;
+  border-top: 2px solid var(--gold);
+  color: var(--gray-500);
+  font-size: 0.85rem;
+}
+
 /* ============================================================
-3️⃣5️⃣ 🔔 شارات الأدوار
+4️⃣0️⃣ 🔔 شارة الرول / الدور
 ============================================================ */
 .role-badge,
 .user-type-badge {
@@ -2923,7 +3572,7 @@ table tbody tr:hover {
 }
 
 /* ============================================================
-3️⃣6️⃣ 🧭 مسار التنقل
+4️⃣1️⃣ 🧭 مسار التنقل (Breadcrumb)
 ============================================================ */
 .breadcrumb {
   display: flex;
@@ -2946,8 +3595,14 @@ table tbody tr:hover {
   text-decoration: underline;
 }
 
+.breadcrumb span:not(:last-child)::after {
+  content: '‹';
+  margin: 0 4px;
+  color: var(--gray-400);
+}
+
 /* ============================================================
-3️⃣7️⃣ 🎨 رأس الصفحة الملون
+4️⃣2️⃣ 🎨 رأس الصفحة الملون (Page Header Custom)
 ============================================================ */
 .page-header-custom,
 .offers-header {
@@ -2961,12 +3616,85 @@ table tbody tr:hover {
   overflow: hidden;
 }
 
+.page-header-custom h1 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.page-header-custom .category-image,
+.page-header-custom .brand-image {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 12px;
+  display: block;
+  border: 3px solid var(--gold);
+  background: var(--white);
+}
+
+.page-header-custom .category-count,
+.page-header-custom .brand-count {
+  font-size: 0.9rem;
+  opacity: 0.85;
+}
+
 .offers-header {
   background: linear-gradient(135deg, #c0392b, #e74c3c);
 }
 
+.offers-header h1 {
+  font-size: 2rem;
+  font-weight: 900;
+}
+
+.offers-header h1 i {
+  color: #ffd700;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.offers-header .offer-badge {
+  display: inline-block;
+  background: #ffd700;
+  color: #c0392b;
+  padding: 4px 20px;
+  border-radius: 20px;
+  font-weight: 800;
+  font-size: 0.85rem;
+  margin-top: 8px;
+}
+
 /* ============================================================
-3️⃣8️⃣ 🔒 حالة الحظر
+4️⃣3️⃣ 🗑️ حالات خاصة
+============================================================ */
+.calculated-value {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--success);
+  padding: 10px 14px;
+  background: rgba(34, 197, 94, 0.1);
+  border-radius: var(--radius-sm);
+  display: block;
+  width: 100%;
+  text-align: center;
+  border: 2px solid rgba(34, 197, 94, 0.2);
+}
+
+.calculated-value.negative {
+  color: var(--danger);
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.2);
+}
+
+.calculated-value.warning {
+  color: var(--warning);
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.2);
+}
+
+/* ============================================================
+4️⃣4️⃣ 🔒 حالة الحظر
 ============================================================ */
 .user-blocked {
   opacity: 0.6;
@@ -2978,18 +3706,19 @@ table tbody tr:hover {
 }
 
 /* ============================================================
-3️⃣9️⃣ 📱 Responsive للجداول
+4️⃣5️⃣ 📱 Responsive للجداول (Mobile)
 ============================================================ */
 @media (max-width: 768px) {
+
+  /* إخفاء الهيدر في الجداول */
   .admin-table thead,
-  .custom-table thead,
-  table thead {
+  .custom-table thead {
     display: none;
   }
 
+  /* عرض الصفوف ككروت */
   .admin-table tbody tr,
-  .custom-table tbody tr,
-  table tbody tr {
+  .custom-table tbody tr {
     display: block;
     border: 1px solid var(--gray-200);
     border-radius: var(--radius-md);
@@ -3000,8 +3729,7 @@ table tbody tr:hover {
   }
 
   .admin-table tbody tr td,
-  .custom-table tbody tr td,
-  table tbody tr td {
+  .custom-table tbody tr td {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -3015,8 +3743,7 @@ table tbody tr:hover {
   }
 
   .admin-table tbody tr td:last-child,
-  .custom-table tbody tr td:last-child,
-  table tbody tr td:last-child {
+  .custom-table tbody tr td:last-child {
     border-bottom: none;
     justify-content: center;
     padding-top: 12px;
@@ -3025,13 +3752,21 @@ table tbody tr:hover {
   }
 
   .admin-table tbody tr td::before,
-  .custom-table tbody tr td::before,
-  table tbody tr td::before {
+  .custom-table tbody tr td::before {
     content: attr(data-label);
     font-weight: 700;
     color: var(--gray-500);
     font-size: 0.75rem;
     flex-shrink: 0;
+  }
+
+  .table-thumb {
+    width: 60px;
+    height: 60px;
+  }
+
+  .table-container {
+    border-radius: var(--radius-md);
   }
 
   .form-row,
@@ -3047,6 +3782,11 @@ table tbody tr:hover {
 
   .modal-header {
     padding: 14px 16px;
+  }
+
+  .modal-header h2,
+  .modal-header h3 {
+    font-size: 1rem;
   }
 
   .modal-body {
@@ -3123,6 +3863,11 @@ table tbody tr:hover {
     min-width: auto;
   }
 
+  .search-box {
+    flex-direction: column;
+    min-width: 100%;
+  }
+
   .tabs-container {
     overflow-x: auto;
     flex-wrap: nowrap;
@@ -3133,6 +3878,10 @@ table tbody tr:hover {
     padding: 8px 14px;
     font-size: 0.8rem;
     flex-shrink: 0;
+  }
+
+  .tab-btn i {
+    font-size: 0.9rem;
   }
 
   .admin-header,
@@ -3160,12 +3909,21 @@ table tbody tr:hover {
     font-size: 0.8rem;
     padding: 8px 12px;
   }
+
+  .invoice-print {
+    padding: 16px;
+  }
+
+  .invoice-print .invoice-info {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* ============================================================
-4️⃣0️⃣ 📱 Responsive إضافي
+4️⃣6️⃣ 📱 Responsive إضافي للشاشات الصغيرة جداً
 ============================================================ */
 @media (max-width: 480px) {
+
   .stats-grid {
     grid-template-columns: 1fr 1fr;
     gap: 8px;
@@ -3207,8 +3965,26 @@ table tbody tr:hover {
     font-size: 1.15rem;
   }
 
-  .btn {
-    padding: 10px 18px;
+  .action-buttons {
+    gap: 4px;
+  }
+
+  .action-buttons button,
+  .btn-icon {
+    padding: 6px 8px;
+    font-size: 0.75rem;
+    min-height: 34px;
+    min-width: 34px;
+  }
+
+  .modal-body {
+    padding: 12px;
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    padding: 10px 12px;
     font-size: 0.9rem;
   }
 
@@ -3219,7 +3995,7 @@ table tbody tr:hover {
 }
 
 /* ============================================================
-4️⃣1️⃣ 🖨️ Print Styles
+4️⃣7️⃣ 🖨️ Print Styles
 ============================================================ */
 @media print {
   .smart-header,
@@ -3263,7 +4039,7 @@ table tbody tr:hover {
 }
 
 /* ============================================================
-4️⃣2️⃣ ✨ أدوات إضافية
+4️⃣8️⃣ ✨ أدوات إضافية
 ============================================================ */
 .no-print { }
 .print-only { display: none; }
@@ -3292,6 +4068,26 @@ table tbody tr:hover {
   transform: scale(0.98);
 }
 
+.mobile-sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 9998;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.mobile-sidebar-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.strikethrough {
+  text-decoration: line-through;
+  color: var(--gray-400);
+}
+
 .qty-badge {
   display: inline-flex;
   align-items: center;
@@ -3306,100 +4102,12 @@ table tbody tr:hover {
   font-size: 0.9rem;
 }
 
-/* ============================================================
-4️⃣3️⃣ 📱 Media Queries الموبايل
-============================================================ */
-@media (max-width: 768px) and (pointer: coarse) {
+/* ═══════════════════════════════════════════════════════════════
+   🆕 الإضافات النهائية - المرحلة 1
+   📅 آخر تحديث: 2026-09-19
+   ═══════════════════════════════════════════════════════════════ */
 
-  .smart-header,
-  .smart-footer {
-    display: none !important;
-  }
-
-  #mobile-top-bar {
-    display: block !important;
-  }
-
-  #mobile-top-tabs {
-    display: block !important;
-  }
-
-  #mobile-bottom-tabs {
-    display: flex !important;
-  }
-
-  #mobile-copyright {
-    display: block !important;
-  }
-
-  body {
-    padding-top: calc(var(--mobile-top-bar-height) + var(--mobile-top-tabs-height));
-    padding-bottom: calc(var(--mobile-bottom-tabs-height) + var(--mobile-copyright-height) + 8px);
-  }
-
-  .sidebar-toggle {
-    display: none !important;
-  }
-
-  .smart-search,
-  .mini-search-section {
-    display: none !important;
-  }
-
-  .smart-sidebar {
-    width: 85vw;
-    max-width: 340px;
-    right: -100vw;
-  }
-
-  .container {
-    padding: 0 12px;
-  }
-
-  .page-content,
-  .home-page,
-  .dashboard-page {
-    padding: 16px 0 20px;
-  }
-
-  .slider-item img {
-    height: 200px;
-  }
-
-  .products-grid {
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 12px;
-  }
-
-  .product-card .product-image {
-    height: 150px;
-  }
-
-  .stores-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .categories-grid {
-    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-  }
-
-  #toast-container {
-    bottom: calc(var(--mobile-bottom-tabs-height) + var(--mobile-copyright-height) + 12px);
-    right: 12px;
-    left: 12px;
-    max-width: none;
-  }
-
-  .toast {
-    max-width: 100%;
-    font-size: 0.85rem;
-    padding: 12px 16px;
-  }
-}
-
-/* ============================================================
-4️⃣4️⃣ 🏢 سيكشن "نبذة عن أولاد شعلان"
-============================================================ */
+/* 🏢 1. سيكشن "نبذة عن أولاد شعلان" */
 .about-section {
   margin-bottom: 40px;
 }
@@ -3413,6 +4121,7 @@ table tbody tr:hover {
   border: 2px solid var(--gold-light);
   position: relative;
   overflow: hidden;
+  transition: var(--transition);
 }
 
 .about-card::before {
@@ -3425,6 +4134,11 @@ table tbody tr:hover {
   background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light), var(--gold), var(--gold-dark));
   background-size: 200% 100%;
   animation: shimmer 3s linear infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
 }
 
 .about-card .about-icon {
@@ -3473,9 +4187,16 @@ table tbody tr:hover {
   text-align: right;
 }
 
-/* ============================================================
-4️⃣5️⃣ 📞 سيكشن "تواصل معنا"
-============================================================ */
+.about-card .about-content p {
+  margin-bottom: 12px;
+}
+
+.about-card .about-content strong {
+  color: var(--gold-dark);
+  font-weight: 800;
+}
+
+/* 📞 2. سيكشن "تواصل معنا" */
 .contact-section {
   margin-bottom: 40px;
 }
@@ -3501,9 +4222,25 @@ table tbody tr:hover {
   cursor: pointer;
 }
 
+.contact-card::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  transition: transform 0.6s ease;
+  transform: scale(0);
+}
+
+.contact-card:hover::before {
+  transform: scale(1);
+}
+
 .contact-card:hover {
   transform: translateY(-4px);
-  box-shadow: var(--shadow-lg), var(--glow-gold);
+  box-shadow: var(--shadow-lg);
 }
 
 .contact-card.whatsapp-card {
@@ -3525,6 +4262,8 @@ table tbody tr:hover {
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  position: relative;
+  z-index: 1;
   transition: var(--transition);
 }
 
@@ -3533,14 +4272,43 @@ table tbody tr:hover {
   background: rgba(255, 255, 255, 0.3);
 }
 
-/* ============================================================
-4️⃣6️⃣ 🆕 السيكشنات المخصصة
-============================================================ */
+.contact-card .contact-info {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+}
+
+.contact-card .contact-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.contact-card .contact-sub {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+.contact-card .contact-arrow {
+  font-size: 1.2rem;
+  opacity: 0.7;
+  transition: var(--transition);
+  position: relative;
+  z-index: 1;
+}
+
+.contact-card:hover .contact-arrow {
+  transform: translateX(-6px);
+  opacity: 1;
+}
+
+/* 🆕 3. السيكشنات المخصصة */
 .custom-section {
   margin-bottom: 40px;
   animation: fadeInUp 0.6s ease both;
 }
 
+/* 🖼️ 3.1. سيكشن البنرات */
 .banners-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -3560,7 +4328,7 @@ table tbody tr:hover {
 
 .banner-item:hover {
   transform: translateY(-4px);
-  box-shadow: var(--shadow-lg), var(--glow-gold);
+  box-shadow: var(--shadow-lg);
 }
 
 .banner-item img {
@@ -3587,6 +4355,7 @@ table tbody tr:hover {
   font-size: 1rem;
 }
 
+/* 🎴 3.2. سيكشن الكروت */
 .custom-cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -3609,10 +4378,64 @@ table tbody tr:hover {
 
 .custom-card:hover {
   transform: translateY(-4px);
-  box-shadow: var(--shadow-lg), var(--glow-gold);
+  box-shadow: var(--shadow-lg);
   border-color: var(--gold);
 }
 
+.custom-card .custom-card-image {
+  width: 100%;
+  height: 140px;
+  overflow: hidden;
+  background: var(--gray-100);
+}
+
+.custom-card .custom-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: var(--transition);
+}
+
+.custom-card:hover .custom-card-image img {
+  transform: scale(1.05);
+}
+
+.custom-card .custom-card-icon {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  color: var(--gold);
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 20px auto 0;
+}
+
+.custom-card .custom-card-body {
+  padding: 16px;
+  text-align: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.custom-card .custom-card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 6px;
+}
+
+.custom-card .custom-card-desc {
+  font-size: 0.85rem;
+  color: var(--gray-500);
+  line-height: 1.6;
+}
+
+/* 🎬 3.3. سيكشن الفيديوهات */
 .videos-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -3629,7 +4452,7 @@ table tbody tr:hover {
 
 .video-item:hover {
   transform: translateY(-4px);
-  box-shadow: var(--shadow-lg), var(--glow-gold);
+  box-shadow: var(--shadow-lg);
 }
 
 .video-item .video-wrapper {
@@ -3649,6 +4472,15 @@ table tbody tr:hover {
   border: none;
 }
 
+.video-item .video-title {
+  padding: 12px 16px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--navy);
+  text-align: center;
+}
+
+/* 📷 3.4. سيكشن الصور */
 .images-gallery {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -3667,7 +4499,7 @@ table tbody tr:hover {
 
 .image-item:hover {
   transform: translateY(-4px);
-  box-shadow: var(--shadow-lg), var(--glow-gold);
+  box-shadow: var(--shadow-lg);
 }
 
 .image-item img {
@@ -3678,9 +4510,151 @@ table tbody tr:hover {
   display: block;
 }
 
-/* ============================================================
-4️⃣7️⃣ 🔍 نافذة البحث الاحترافية
-============================================================ */
+.image-item:hover img {
+  transform: scale(1.08);
+}
+
+.image-item .image-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  color: var(--white);
+  padding: 24px 12px 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: center;
+  transform: translateY(100%);
+  transition: var(--transition);
+}
+
+.image-item:hover .image-caption {
+  transform: translateY(0);
+}
+
+/* 🖼️ 4. Modal عرض الصور */
+.modal-overlay.show img[style*="zoom-out"] {
+  animation: fadeIn 0.3s ease;
+}
+
+/* 📱 5. Responsive - الموبايل */
+@media (max-width: 768px) and (pointer: coarse) {
+
+  .about-card {
+    padding: 24px 16px;
+  }
+
+  .about-card .about-icon {
+    width: 64px;
+    height: 64px;
+    font-size: 1.8rem;
+  }
+
+  .about-card .about-title {
+    font-size: 1.2rem;
+  }
+
+  .about-card .about-content {
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .contact-card {
+    padding: 16px 20px;
+  }
+
+  .contact-card .contact-icon {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+  }
+
+  .contact-card .contact-title {
+    font-size: 1rem;
+  }
+
+  .banners-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .banner-item img {
+    height: 150px;
+  }
+
+  .custom-cards-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+  }
+
+  .custom-card .custom-card-image {
+    height: 100px;
+  }
+
+  .custom-card .custom-card-icon {
+    width: 55px;
+    height: 55px;
+    font-size: 1.4rem;
+    margin: 14px auto 0;
+  }
+
+  .custom-card .custom-card-body {
+    padding: 12px 10px;
+  }
+
+  .custom-card .custom-card-title {
+    font-size: 0.85rem;
+  }
+
+  .custom-card .custom-card-desc {
+    font-size: 0.75rem;
+  }
+
+  .videos-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .images-gallery {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 8px;
+  }
+
+  .image-item .image-caption {
+    transform: translateY(0);
+    font-size: 0.75rem;
+    padding: 16px 8px 6px;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .about-card {
+    padding: 20px 12px;
+  }
+
+  .contact-card {
+    padding: 14px 16px;
+  }
+
+  .custom-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .images-gallery {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🔍 نافذة البحث الاحترافية (Search Modal)
+   📅 آخر تحديث: 2026-09-22
+   ═══════════════════════════════════════════════════════════════ */
+
 .search-modal-overlay {
   display: none;
   position: fixed;
@@ -3723,6 +4697,12 @@ table tbody tr:hover {
   flex-shrink: 0;
 }
 
+.search-modal-header .search-icon {
+  font-size: 1.2rem;
+  color: var(--gold);
+  flex-shrink: 0;
+}
+
 .search-modal-header input {
   flex: 1;
   border: none;
@@ -3733,6 +4713,11 @@ table tbody tr:hover {
   background: transparent;
   padding: 8px 0;
   font-weight: 500;
+}
+
+.search-modal-header input::placeholder {
+  color: var(--gray-400);
+  font-weight: 400;
 }
 
 .search-modal-close {
@@ -3755,7 +4740,6 @@ table tbody tr:hover {
   background: var(--danger);
   color: var(--white);
   transform: rotate(90deg);
-  box-shadow: 0 0 15px rgba(239, 68, 68, 0.5);
 }
 
 .search-modal-body {
@@ -3766,31 +4750,63 @@ table tbody tr:hover {
   max-height: 400px;
 }
 
+.search-suggestions-header {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--gray-500);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.search-suggestions-header i {
+  color: var(--gold);
+}
+
+.search-suggestions-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
 .search-chip {
   display: inline-flex;
   align-items: center;
   gap: 6px;
   padding: 8px 14px;
-  background: var(--white);
-  color: var(--navy);
+  background: var(--gray-100);
+  color: var(--gray-700);
   border-radius: var(--radius-full);
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 2px solid var(--navy);
+  transition: var(--transition);
+  border: 2px solid transparent;
   text-decoration: none;
   font-family: inherit;
 }
 
-.search-chip:hover {
-  background: linear-gradient(90deg, var(--gold-light), var(--sky), var(--gold-light), var(--sky));
-  background-size: 300% 100%;
-  animation: gradientSlide 2.5s linear infinite;
+.search-chip:hover,
+.search-chip:active {
+  background: var(--gold-light);
   color: var(--navy);
   border-color: var(--gold);
   transform: translateY(-2px);
-  box-shadow: var(--glow-gold);
+}
+
+.search-chip i {
+  font-size: 0.9rem;
+  color: var(--gold);
+}
+
+.search-results {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .search-result-item {
@@ -3807,12 +4823,219 @@ table tbody tr:hover {
   border: 2px solid transparent;
 }
 
-.search-result-item:hover {
+.search-result-item:hover,
+.search-result-item:active {
   background: var(--gray-50);
   border-color: var(--gold);
-  box-shadow: var(--glow-gold);
 }
 
-/* ============================================================
-✅ نهاية الملف - style.css v6.2 (الإصدار المُصلَّح)
-============================================================ */
+.search-result-item img {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  background: var(--gray-100);
+  flex-shrink: 0;
+  border: 1px solid var(--gray-200);
+}
+
+.search-result-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.search-result-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.search-result-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.8rem;
+  color: var(--gray-500);
+  flex-wrap: wrap;
+}
+
+.search-result-price {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--gold);
+}
+
+.search-result-price small {
+  font-size: 0.7rem;
+  color: var(--gray-400);
+  font-weight: 500;
+}
+
+.search-result-arrow {
+  color: var(--gray-300);
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  transition: var(--transition);
+}
+
+.search-result-item:hover .search-result-arrow {
+  color: var(--gold);
+  transform: translateX(-4px);
+}
+
+.search-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--gray-400);
+}
+
+.search-empty i {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 12px;
+  color: var(--gray-300);
+}
+
+.search-empty p {
+  font-size: 0.95rem;
+}
+
+.search-loading {
+  text-align: center;
+  padding: 30px;
+  color: var(--gray-400);
+}
+
+.search-loading i {
+  font-size: 1.5rem;
+  color: var(--gold);
+}
+
+.search-keyboard-hint {
+  padding: 8px 20px;
+  background: var(--gray-50);
+  border-top: 1px solid var(--gray-100);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--gray-500);
+  flex-shrink: 0;
+}
+
+.search-keyboard-hint kbd {
+  background: var(--white);
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1px solid var(--gray-200);
+  font-family: inherit;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--navy);
+  box-shadow: 0 2px 0 var(--gray-200);
+}
+
+@media (max-width: 768px) and (pointer: coarse) {
+  .search-modal-overlay.show {
+    padding-top: 20px;
+  }
+
+  .search-modal {
+    max-height: 90vh;
+    border-radius: var(--radius-md);
+  }
+
+  .search-modal-header input {
+    font-size: 1rem;
+  }
+
+  .search-modal-body {
+    padding: 16px;
+  }
+
+  .search-result-item {
+    padding: 10px;
+  }
+
+  .search-result-item img {
+    width: 48px;
+    height: 48px;
+  }
+
+  .search-keyboard-hint {
+    display: none;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   🎯 إصلاحات شاملة للتوافق - v6.2
+   📅 آخر تحديث: 2026-10-06
+   ═══════════════════════════════════════════════════════════════ */
+
+/* منع السكرول الأفقي من أي عنصر */
+body, html {
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+/* عناصر fixed ما تعملش scroll */
+.notifications-dropdown,
+.dropdown-menu,
+.mobile-tab-dropdown,
+#mobile-notifications-dropdown {
+  will-change: transform;
+}
+
+/* إصلاح الأزرار اللي نصها أبيض على خلفية بيضاء */
+.btn[style*="background: white"],
+.btn[style*="background:white"],
+.btn[style*="background: #fff"],
+.btn[style*="background:#fff"] {
+  color: var(--navy) !important;
+  border: 2px solid var(--navy) !important;
+}
+
+/* ضمان ظهور الإطار على الأزرار الشفافة */
+.btn:not(.btn-icon) {
+  border-width: 2px;
+  border-style: solid;
+}
+
+/* توهج للأزرار عند focus (للإتاحة) */
+.btn:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 4px rgba(201, 168, 76, 0.3),
+    0 0 20px rgba(135, 206, 235, 0.3);
+}
+
+/* إصلاح الأزرار في الصفحات ذات الخلفية الفاتحة */
+.admin-header .btn-outline,
+.page-header .btn-outline,
+.dashboard-header .btn-outline {
+  background: var(--white);
+  color: var(--navy);
+  border-color: var(--navy);
+}
+
+.admin-header .btn-outline:hover,
+.page-header .btn-outline:hover,
+.dashboard-header .btn-outline:hover {
+  background: linear-gradient(90deg, var(--gold-light), #87CEEB, var(--gold-light));
+  background-size: 200% 100%;
+  color: var(--navy-dark);
+  border-color: var(--gold-dark);
+  box-shadow:
+    0 8px 24px rgba(201, 168, 76, 0.4),
+    0 0 20px rgba(135, 206, 235, 0.35);
+  animation: btnGradientMove 2.5s linear infinite;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+✅ نهاية الملف - style.css v6.2
+═══════════════════════════════════════════════════════════════ */
