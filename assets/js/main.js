@@ -1671,7 +1671,7 @@ function updateFooter() {
         <a href="/gomla/customer/orders.html">طلباتي</a>
         <a href="/gomla/customer/invoices.html">فواتيري</a>
         <a href="/gomla/customer/balance.html">الذمة المالية</a>
-        <a href="/gomla/offers.html">العروض</a>
+        <a href="/gomla/discounts.html">الخصومات</a>
       `;
     } else if (role === ROLES.RETAIL) {
       col2.innerHTML = `
@@ -1684,8 +1684,7 @@ function updateFooter() {
     } else {
       col2.innerHTML = `
         <a href="/gomla/store-retail.html">متجر القطاعي</a>
-        <a href="/gomla/customer-login.html">تسجيل الدخول</a>
-        <a href="/gomla/trader-login.html">دخول التجار</a>
+        <a href="/gomla/login.html">تسجيل الدخول</a>
       `;
     }
   }
@@ -1804,7 +1803,7 @@ function updateSidebar() {
       { icon: 'fa-store', text: 'الفروع', url: '/gomla/admin/branches.html' },
       { icon: 'fa-calendar-day', text: 'المبيعات اليومية', url: '/gomla/admin/daily-sales.html' },
       { icon: 'fa-cash-register', text: 'الصندوق', url: '/gomla/admin/cashbox.html' },
-      { icon: 'fa-chart-line', text: 'التقارير المالية', url: '/gomla/admin/financial-reports.html' },
+      { icon: 'fa-chart-line', text: 'التقارير المالية', url: '/gomla/admin/financial-reports.html' }
     ];
   } else if (role === ROLES.ADMIN) {
     links = [
@@ -1852,7 +1851,7 @@ function updateSidebar() {
     links = [
       { icon: 'fa-home', text: 'الرئيسية', url: '/gomla/' },
       { icon: 'fa-store', text: 'متجر القطاعي', url: '/gomla/store-retail.html' },
-      { icon: 'fa-user-plus', text: 'تسجيل عميل', url: '/gomla/customer-login.html' },
+      { icon: 'fa-user-plus', text: 'تسجيل عميل', url: '/gomla/customer-login.html' }
     ];
   }
   
@@ -2017,7 +2016,7 @@ function loadMobileTopTabs() {
       { text: 'العملاء', url: '/gomla/admin/customers.html', icon: 'fa-users' },
       { text: 'الطلبات', url: '/gomla/admin/orders.html', icon: 'fa-shopping-bag' },
       { text: 'المنتجات', url: '/gomla/admin/products.html', icon: 'fa-boxes' },
-      { text: 'مبيعات الفروع', url: '/gomla/admin/daily-sales.html', icon: 'fa-chart-bar' }
+      { text: 'مبيعات الفروع', url: '/gomla/admin/daily-sales.html', icon: 'fa-chart-bar' },
       { text: 'متجر الجملة', url: '/gomla/store-wholesale.html' },
       { text: 'متجر القطاعي', url: '/gomla/store-retail.html' }
     ];
