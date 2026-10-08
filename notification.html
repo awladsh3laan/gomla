@@ -1,0 +1,1468 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الإشعارات - أولاد شعلان</title>
+  <meta name="description" content="الإشعارات - أولاد شعلان">
+  <meta name="theme-color" content="#1a2a4a">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/gomla/assets/css/style.css">
+  <link rel="icon" href="/gomla/assets/images/favicon.ico">
+
+  <style>
+    /* ============================================================
+       🛡️ منع السكرول الأفقي
+       ============================================================ */
+    html, body {
+      overflow-x: hidden !important;
+      max-width: 100vw;
+    }
+
+    .page-content,
+    .page-content .container {
+      overflow-x: hidden;
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    /* ============================================================
+       🎨 ستايل صفحة الإشعارات
+       ============================================================ */
+
+    /* ===== رأس الصفحة ===== */
+    .notif-header {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+      border-radius: var(--radius-lg);
+      padding: 22px 24px;
+      margin-bottom: 18px;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(26, 42, 74, 0.25);
+      border-bottom: 4px solid var(--gold);
+    }
+
+    .notif-header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -15%;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(201, 168, 76, 0.18) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .notif-header-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .notif-header-content .header-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      box-shadow: 0 8px 24px rgba(201, 168, 76, 0.4);
+      position: relative;
+    }
+
+    .notif-header-content .header-icon.has-new::after {
+      content: '';
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #ef4444;
+      border: 3px solid var(--white);
+      animation: pulseDot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulseDot {
+      0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.5);
+      }
+      50% {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
+      }
+    }
+
+    .notif-header-content .header-text {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .notif-header-content .header-text h1 {
+      font-size: 1.35rem;
+      font-weight: 900;
+      margin-bottom: 3px;
+      color: var(--white);
+    }
+
+    .notif-header-content .header-text p {
+      font-size: 0.83rem;
+      opacity: 0.88;
+      color: rgba(255, 255, 255, 0.85);
+      margin: 0;
+    }
+
+    /* ===== الإحصائيات ===== */
+    .notif-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .notif-stat-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 14px 12px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition);
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .notif-stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 4px;
+      height: 100%;
+      background: var(--gold);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.4s ease;
+    }
+
+    .notif-stat-card:hover::before { transform: scaleY(1); }
+
+    .notif-stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--gold-light);
+    }
+
+    .notif-stat-card .stat-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      margin: 0 auto 8px;
+    }
+
+    .stat-icon.blue { background: rgba(59, 130, 246, 0.12); color: #2563eb; }
+    .stat-icon.red { background: rgba(239, 68, 68, 0.12); color: #dc2626; }
+    .stat-icon.green { background: rgba(34, 197, 94, 0.12); color: #16a34a; }
+
+    .notif-stat-card .stat-number {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: var(--navy);
+      line-height: 1.2;
+      margin-bottom: 2px;
+    }
+
+    .notif-stat-card .stat-number.red { color: #dc2626; }
+    .notif-stat-card .stat-number.green { color: #16a34a; }
+    .notif-stat-card .stat-number.blue { color: #2563eb; }
+
+    .notif-stat-card .stat-label {
+      font-size: 0.68rem;
+      color: var(--gray-500);
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    /* ===== أدوات ===== */
+    .notif-toolbar {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      overflow: hidden;
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .search-box {
+      position: relative;
+      margin-bottom: 10px;
+      width: 100%;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 11px 40px 11px 14px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.88rem;
+      background: var(--gray-50);
+      transition: all 0.3s ease;
+    }
+
+    .search-box input:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.15);
+      background: var(--white);
+    }
+
+    .search-box .search-icon {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray-400);
+      pointer-events: none;
+      font-size: 0.88rem;
+    }
+
+    /* Wrapper للأزرار */
+    .filter-tabs-wrapper {
+      position: relative;
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+
+    .filter-tabs {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 2px 2px 6px;
+      scrollbar-width: thin;
+      -webkit-overflow-scrolling: touch;
+      max-width: 100%;
+      min-width: 0;
+      width: 100%;
+      overscroll-behavior-x: contain;
+    }
+
+    .filter-tabs::-webkit-scrollbar { height: 4px; }
+    .filter-tabs::-webkit-scrollbar-thumb {
+      background: var(--gold);
+      border-radius: 10px;
+    }
+
+    .filter-tab {
+      padding: 7px 12px;
+      border: 2px solid var(--gray-200);
+      background: var(--white);
+      color: var(--gray-600);
+      border-radius: var(--radius-full);
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .filter-tab:hover { border-color: var(--gold-light); }
+
+    .filter-tab.active {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      border-color: var(--navy);
+      box-shadow: 0 4px 12px rgba(26, 42, 74, 0.25);
+    }
+
+    .filter-tab.active i { color: var(--gold); }
+
+    .filter-tab .tab-count {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 1px 7px;
+      border-radius: 10px;
+      font-size: 0.65rem;
+      font-weight: 800;
+      min-width: 18px;
+      text-align: center;
+    }
+
+    .filter-tab:not(.active) .tab-count {
+      background: var(--gray-100);
+      color: var(--gray-600);
+    }
+
+    /* أزرار الإجراءات */
+    .toolbar-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .toolbar-btn {
+      padding: 10px 14px;
+      border: 2px solid var(--gray-200);
+      background: var(--white);
+      color: var(--gray-700);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.78rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.25s ease;
+      white-space: nowrap;
+      min-width: 0;
+    }
+
+    .toolbar-btn:hover:not(:disabled) {
+      border-color: var(--gold);
+      color: var(--gold-dark);
+      background: #fcf9f0;
+    }
+
+    .toolbar-btn.primary {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      border-color: var(--navy);
+    }
+
+    .toolbar-btn.primary:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(26, 42, 74, 0.3);
+    }
+
+    .toolbar-btn.danger {
+      color: #dc2626;
+      border-color: #fca5a5;
+      background: #fef2f2;
+    }
+
+    .toolbar-btn.danger:hover:not(:disabled) {
+      background: #dc2626;
+      color: var(--white);
+      border-color: #dc2626;
+    }
+
+    .toolbar-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .toolbar-btn i { font-size: 0.75rem; }
+
+    /* ===== قائمة الإشعارات ===== */
+    .notifications-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 24px;
+      min-width: 0;
+      max-width: 100%;
+      overflow: hidden;
+    }
+
+    /* بطاقة إشعار */
+    .notif-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      padding: 14px;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 12px;
+      align-items: flex-start;
+      transition: var(--transition);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .notif-card:hover {
+      box-shadow: var(--shadow-lg);
+      border-color: var(--gold-light);
+      transform: translateY(-2px);
+    }
+
+    /* الشريط الجانبي */
+    .notif-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 4px;
+      height: 100%;
+      transition: var(--transition);
+    }
+
+    .notif-card.unread::before {
+      background: linear-gradient(180deg, var(--gold), var(--gold-dark));
+    }
+
+    .notif-card.read::before {
+      background: var(--gray-200);
+    }
+
+    /* خلفية للإشعارات غير المقروءة */
+    .notif-card.unread {
+      background: linear-gradient(135deg, #fcf9f0 0%, var(--white) 100%);
+      border-color: var(--gold-light);
+    }
+
+    /* الأيقونة */
+    .notif-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .notif-icon.order { background: rgba(59, 130, 246, 0.12); color: #2563eb; }
+    .notif-icon.offer { background: rgba(239, 68, 68, 0.12); color: #dc2626; }
+    .notif-icon.financial { background: rgba(34, 197, 94, 0.12); color: #16a34a; }
+    .notif-icon.admin { background: rgba(139, 92, 246, 0.12); color: #7c3aed; }
+    .notif-icon.general { background: rgba(201, 168, 76, 0.15); color: var(--gold-dark); }
+    .notif-icon.system { background: rgba(107, 114, 128, 0.15); color: #4b5563; }
+
+    /* نقطة "جديد" */
+    .notif-icon.has-dot::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ef4444;
+      border: 2px solid var(--white);
+    }
+
+    /* المحتوى */
+    .notif-content {
+      min-width: 0;
+      flex: 1;
+    }
+
+    .notif-title {
+      font-size: 0.88rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 4px;
+      line-height: 1.4;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .notif-card.read .notif-title {
+      color: var(--gray-600);
+      font-weight: 700;
+    }
+
+    .notif-title-badge {
+      font-size: 0.62rem;
+      font-weight: 900;
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      background: var(--gold);
+      color: var(--navy);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .notif-body {
+      font-size: 0.78rem;
+      color: var(--gray-600);
+      line-height: 1.55;
+      margin-bottom: 6px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      word-break: break-word;
+    }
+
+    .notif-card.read .notif-body {
+      color: var(--gray-500);
+    }
+
+    .notif-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.68rem;
+      color: var(--gray-400);
+      font-weight: 700;
+      flex-wrap: wrap;
+    }
+
+    .notif-meta-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .notif-meta-item i {
+      font-size: 0.62rem;
+      color: var(--gold);
+    }
+
+    /* أزرار الإجراءات */
+    .notif-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      flex-shrink: 0;
+    }
+
+    .notif-action-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid var(--gray-200);
+      background: var(--white);
+      color: var(--gray-500);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.75rem;
+      transition: all 0.25s ease;
+    }
+
+    .notif-action-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .notif-action-btn.mark-read:hover {
+      border-color: #16a34a;
+      color: #16a34a;
+      background: #f0fdf4;
+    }
+
+    .notif-action-btn.mark-unread:hover {
+      border-color: var(--gold-dark);
+      color: var(--gold-dark);
+      background: #fcf9f0;
+    }
+
+    .notif-action-btn.delete:hover {
+      border-color: #dc2626;
+      color: #dc2626;
+      background: #fef2f2;
+    }
+
+    /* رابط داخل الإشعار */
+    .notif-link-hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.68rem;
+      color: var(--gold-dark);
+      font-weight: 800;
+      margin-top: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .notif-card:hover .notif-link-hint {
+      transform: translateX(-4px);
+    }
+
+    /* ===== حالة فارغة ===== */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      border: 2px dashed var(--gray-200);
+      margin-bottom: 24px;
+    }
+
+    .empty-state .empty-icon {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #eff6ff, #dbeafe);
+      color: #2563eb;
+      font-size: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      animation: bellRing 3s ease-in-out infinite;
+    }
+
+    @keyframes bellRing {
+      0%, 100% { transform: rotate(0deg); }
+      10% { transform: rotate(-10deg); }
+      20% { transform: rotate(10deg); }
+      30% { transform: rotate(-8deg); }
+      40% { transform: rotate(8deg); }
+      50% { transform: rotate(0deg); }
+    }
+
+    .empty-state h3 {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .empty-state p {
+      font-size: 0.88rem;
+      color: var(--gray-500);
+      margin-bottom: 20px;
+      line-height: 1.6;
+      max-width: 400px;
+      margin-right: auto;
+      margin-left: auto;
+    }
+
+    .empty-state .btn-shop {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 22px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      text-decoration: none;
+      border-radius: var(--radius-full);
+      font-weight: 800;
+      font-size: 0.88rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 6px 20px rgba(201, 168, 76, 0.35);
+      cursor: pointer;
+      border: none;
+      font-family: inherit;
+    }
+
+    .empty-state .btn-shop:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 28px rgba(201, 168, 76, 0.5);
+    }
+
+    /* التحميل */
+    .loading-state {
+      text-align: center;
+      padding: 60px 20px;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--gray-200);
+    }
+
+    .loading-state i {
+      font-size: 2.2rem;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .loading-state p {
+      font-size: 0.88rem;
+      color: var(--gray-500);
+      font-weight: 600;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) and (pointer: coarse) {
+      .notif-header { padding: 18px 16px; border-radius: var(--radius-md); }
+      .notif-header-content .header-icon { width: 48px; height: 48px; font-size: 1.3rem; }
+      .notif-header-content .header-text h1 { font-size: 1.1rem; }
+      .notif-header-content .header-text p { font-size: 0.75rem; }
+
+      .notif-stats { gap: 8px; margin-bottom: 14px; }
+      .notif-stat-card { padding: 12px 8px; }
+      .notif-stat-card .stat-icon { width: 34px; height: 34px; font-size: 0.92rem; margin-bottom: 6px; }
+      .notif-stat-card .stat-number { font-size: 1rem; }
+      .notif-stat-card .stat-label { font-size: 0.62rem; }
+
+      .notif-toolbar { padding: 10px 12px; margin-bottom: 14px; }
+      .search-box input { padding: 10px 38px 10px 12px; font-size: 0.85rem; }
+      .filter-tab { padding: 6px 10px; font-size: 0.7rem; }
+
+      .toolbar-actions { grid-template-columns: 1fr 1fr; gap: 6px; }
+      .toolbar-btn { padding: 9px 10px; font-size: 0.72rem; gap: 4px; }
+      .toolbar-btn i { font-size: 0.7rem; }
+
+      .notif-card {
+        padding: 12px;
+        gap: 10px;
+        grid-template-columns: auto 1fr;
+      }
+
+      .notif-icon { width: 40px; height: 40px; font-size: 0.95rem; }
+      .notif-icon.has-dot::after { width: 10px; height: 10px; }
+
+      .notif-title { font-size: 0.82rem; margin-bottom: 3px; }
+      .notif-title-badge { font-size: 0.58rem; padding: 1px 6px; }
+      .notif-body { font-size: 0.72rem; -webkit-line-clamp: 2; margin-bottom: 5px; }
+      .notif-meta { font-size: 0.62rem; gap: 6px; }
+      .notif-meta-item i { font-size: 0.58rem; }
+
+      .notif-actions {
+        flex-direction: row;
+        grid-column: 1 / -1;
+        justify-content: flex-end;
+        padding-top: 8px;
+        border-top: 1px dashed var(--gray-200);
+        margin-top: 4px;
+      }
+
+      .notif-action-btn { width: 30px; height: 30px; font-size: 0.72rem; }
+    }
+
+    @media (max-width: 400px) {
+      .notif-stats { grid-template-columns: repeat(3, 1fr); }
+      .notif-stat-card .stat-number { font-size: 0.9rem; }
+      .notif-stat-card .stat-label { font-size: 0.58rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="mobile-top-bar"></div>
+  <div id="mobile-top-tabs"></div>
+  <div id="header-placeholder"></div>
+
+  <main class="page-content">
+    <div class="container">
+
+      <!-- رأس الصفحة -->
+      <div class="notif-header">
+        <div class="notif-header-content">
+          <div class="header-icon" id="headerIcon">
+            <i class="fas fa-bell"></i>
+          </div>
+          <div class="header-text">
+            <h1>الإشعارات</h1>
+            <p id="headerSubtitle">كل التحديثات في مكان واحد</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- الإحصائيات -->
+      <div class="notif-stats">
+        <div class="notif-stat-card" onclick="filterByStatus('all')">
+          <div class="stat-icon blue">
+            <i class="fas fa-list"></i>
+          </div>
+          <div class="stat-number blue" id="statTotal">0</div>
+          <div class="stat-label">إجمالي</div>
+        </div>
+
+        <div class="notif-stat-card" onclick="filterByStatus('unread')">
+          <div class="stat-icon red">
+            <i class="fas fa-envelope"></i>
+          </div>
+          <div class="stat-number red" id="statUnread">0</div>
+          <div class="stat-label">غير مقروءة</div>
+        </div>
+
+        <div class="notif-stat-card" onclick="filterByStatus('read')">
+          <div class="stat-icon green">
+            <i class="fas fa-envelope-open"></i>
+          </div>
+          <div class="stat-number green" id="statRead">0</div>
+          <div class="stat-label">مقروءة</div>
+        </div>
+      </div>
+
+      <!-- شريط الأدوات -->
+      <div class="notif-toolbar">
+        <div class="search-box">
+          <input type="text" id="searchInput" placeholder="ابحث في الإشعارات..." autocomplete="off" oninput="handleSearch(this.value)">
+          <i class="fas fa-search search-icon"></i>
+        </div>
+
+        <!-- تبويبات الفلترة -->
+        <div class="filter-tabs-wrapper">
+          <div class="filter-tabs" id="filterTabs">
+            <button class="filter-tab active" data-filter="all" onclick="filterByStatus('all')">
+              <i class="fas fa-list"></i>
+              <span>الكل</span>
+              <span class="tab-count" id="countAll">0</span>
+            </button>
+            <button class="filter-tab" data-filter="unread" onclick="filterByStatus('unread')">
+              <i class="fas fa-envelope"></i>
+              <span>غير مقروءة</span>
+              <span class="tab-count" id="countUnread">0</span>
+            </button>
+            <button class="filter-tab" data-filter="read" onclick="filterByStatus('read')">
+              <i class="fas fa-envelope-open"></i>
+              <span>مقروءة</span>
+              <span class="tab-count" id="countRead">0</span>
+            </button>
+            <button class="filter-tab" data-filter="order" onclick="filterByType('order')">
+              <i class="fas fa-shopping-bag"></i>
+              <span>طلبات</span>
+              <span class="tab-count" id="countOrder">0</span>
+            </button>
+            <button class="filter-tab" data-filter="offer" onclick="filterByType('offer')">
+              <i class="fas fa-percent"></i>
+              <span>عروض</span>
+              <span class="tab-count" id="countOffer">0</span>
+            </button>
+            <button class="filter-tab" data-filter="financial" onclick="filterByType('financial')">
+              <i class="fas fa-coins"></i>
+              <span>مالية</span>
+              <span class="tab-count" id="countFinancial">0</span>
+            </button>
+            <button class="filter-tab" data-filter="admin" onclick="filterByType('admin')">
+              <i class="fas fa-user-shield"></i>
+              <span>إدارة</span>
+              <span class="tab-count" id="countAdmin">0</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- أزرار الإجراءات -->
+        <div class="toolbar-actions">
+          <button class="toolbar-btn primary" id="markAllReadBtn" onclick="markAllAsRead()">
+            <i class="fas fa-check-double"></i>
+            تحديد الكل مقروء
+          </button>
+          <button class="toolbar-btn danger" id="clearReadBtn" onclick="confirmClearRead()">
+            <i class="fas fa-trash-alt"></i>
+            حذف المقروءة
+          </button>
+        </div>
+      </div>
+
+      <!-- قائمة الإشعارات -->
+      <div class="notifications-list" id="notificationsList">
+        <div class="loading-state">
+          <i class="fas fa-spinner fa-spin"></i>
+          <p>جاري تحميل الإشعارات...</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="mobile-bottom-tabs"></div>
+  <div id="mobile-copyright"></div>
+  <div id="footer-placeholder"></div>
+  <div id="sidebar-placeholder"></div>
+  <div id="toast-container"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+
+  <script src="/gomla/assets/js/firebase-config.js"></script>
+  <script src="/gomla/assets/js/main.js"></script>
+
+  <script>
+    // ============================================================
+    // 📄 notifications.html - صفحة الإشعارات
+    // ============================================================
+
+    let userData = null;
+    let userId = null;
+    let userType = null;
+    let userRole = null;
+    let allNotifications = [];
+    let filteredNotifications = [];
+    let currentFilter = 'all';
+    let currentSearch = '';
+    let isAdminUser = false;
+    let collectionName = 'customer_notifications';
+
+    // ============================================================
+    // 🚀 تشغيل الصفحة
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', async function() {
+      const user = getCurrentUser();
+
+      // 🛡️ الحماية: لازم مسجل دخول
+      if (!user) {
+        showToast('⚠️ يجب تسجيل الدخول لعرض الإشعارات', 'warning');
+        setTimeout(() => {
+          window.location.href = '/gomla/customer-login.html';
+        }, 1500);
+        return;
+      }
+
+      userData = user.data;
+      userId = userData.id || userData.uid;
+      userType = user.type;
+      userRole = userData.role;
+
+      // تحديد اسم الكولكشن حسب نوع المستخدم
+      if (userType === 'admin' || userType === 'cashier') {
+        isAdminUser = true;
+        collectionName = 'admin_notifications';
+      } else {
+        isAdminUser = false;
+        collectionName = 'customer_notifications';
+      }
+
+      // تخصيص العنوان
+      if (isAdminUser) {
+        document.getElementById('headerSubtitle').textContent = 'كل التحديثات الإدارية والمالية';
+      } else if (userRole === ROLES.WHOLESALE) {
+        document.getElementById('headerSubtitle').textContent = 'تحديثات طلباتك وعروض الجملة';
+      }
+
+      await loadNotifications();
+      console.log('✅ notifications.html loaded');
+    });
+
+    // ============================================================
+    // 📥 تحميل الإشعارات
+    // ============================================================
+    async function loadNotifications() {
+      try {
+        const snapshot = await db.collection(collectionName)
+          .where('userId', '==', userId)
+          .get();
+
+        allNotifications = [];
+        snapshot.forEach(doc => {
+          allNotifications.push({ id: doc.id, ...doc.data() });
+        });
+
+        // ترتيب حسب التاريخ (الأحدث أولاً)
+        allNotifications.sort((a, b) => {
+          const da = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(a.createdAt || 0);
+          const db2 = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(b.createdAt || 0);
+          return db2 - da;
+        });
+
+        updateStats();
+        updateHeaderIcon();
+        applyFilters();
+
+      } catch (error) {
+        console.error('Error loading notifications:', error);
+        document.getElementById('notificationsList').innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon" style="background:linear-gradient(135deg,#fee2e2,#fef2f2);color:#dc2626;">
+              <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h3>حدث خطأ في التحميل</h3>
+            <p>تعذر تحميل الإشعارات. حاول مرة أخرى.</p>
+            <button class="btn-shop" onclick="loadNotifications()">
+              <i class="fas fa-sync-alt"></i> إعادة المحاولة
+            </button>
+          </div>
+        `;
+      }
+    }
+
+    // ============================================================
+    // 📊 الإحصائيات
+    // ============================================================
+    function updateStats() {
+      const total = allNotifications.length;
+      let unread = 0, read = 0;
+      let cntOrder = 0, cntOffer = 0, cntFinancial = 0, cntAdmin = 0;
+
+      allNotifications.forEach(n => {
+        if (n.read === true) read++;
+        else unread++;
+
+        const type = n.type || 'general';
+        if (type === 'order') cntOrder++;
+        else if (type === 'offer') cntOffer++;
+        else if (type === 'financial') cntFinancial++;
+        else if (type === 'admin') cntAdmin++;
+      });
+
+      document.getElementById('statTotal').textContent = total;
+      document.getElementById('statUnread').textContent = unread;
+      document.getElementById('statRead').textContent = read;
+
+      document.getElementById('countAll').textContent = total;
+      document.getElementById('countUnread').textContent = unread;
+      document.getElementById('countRead').textContent = read;
+      document.getElementById('countOrder').textContent = cntOrder;
+      document.getElementById('countOffer').textContent = cntOffer;
+      document.getElementById('countFinancial').textContent = cntFinancial;
+      document.getElementById('countAdmin').textContent = cntAdmin;
+
+      // زر "تحديد الكل مقروء"
+      const markAllBtn = document.getElementById('markAllReadBtn');
+      if (markAllBtn) markAllBtn.disabled = unread === 0;
+
+      // زر "حذف المقروءة"
+      const clearReadBtn = document.getElementById('clearReadBtn');
+      if (clearReadBtn) clearReadBtn.disabled = read === 0;
+    }
+
+    // ============================================================
+    // 🔔 أيقونة الرأس (نقطة حمراء لو فيه جديد)
+    // ============================================================
+    function updateHeaderIcon() {
+      const unread = allNotifications.filter(n => n.read !== true).length;
+      const iconEl = document.getElementById('headerIcon');
+      if (unread > 0) {
+        iconEl.classList.add('has-new');
+      } else {
+        iconEl.classList.remove('has-new');
+      }
+    }
+
+    // ============================================================
+    // 🔍 البحث
+    // ============================================================
+    let searchTimeout = null;
+    function handleSearch(value) {
+      if (searchTimeout) clearTimeout(searchTimeout);
+      searchTimeout = setTimeout(() => {
+        currentSearch = value.trim().toLowerCase();
+        applyFilters();
+      }, 250);
+    }
+
+    // ============================================================
+    // 🎯 الفلترة
+    // ============================================================
+    function filterByStatus(status) {
+      currentFilter = status;
+      updateActiveTab(status);
+      applyFilters();
+    }
+
+    function filterByType(type) {
+      currentFilter = type;
+      updateActiveTab(type);
+      applyFilters();
+    }
+
+    function updateActiveTab(filter) {
+      document.querySelectorAll('.filter-tab').forEach(t => {
+        t.classList.toggle('active', t.dataset.filter === filter);
+      });
+    }
+
+    function applyFilters() {
+      filteredNotifications = allNotifications.filter(n => {
+        // فلتر
+        if (currentFilter === 'unread') {
+          if (n.read === true) return false;
+        } else if (currentFilter === 'read') {
+          if (n.read !== true) return false;
+        } else if (['order', 'offer', 'financial', 'admin'].includes(currentFilter)) {
+          if ((n.type || 'general') !== currentFilter) return false;
+        }
+
+        // بحث
+        if (currentSearch) {
+          const title = (n.title || '').toLowerCase();
+          const body = (n.body || n.message || '').toLowerCase();
+          if (!title.includes(currentSearch) && !body.includes(currentSearch)) {
+            return false;
+          }
+        }
+
+        return true;
+      });
+
+      renderNotifications();
+    }
+
+    // ============================================================
+    // 🎨 عرض الإشعارات
+    // ============================================================
+    function renderNotifications() {
+      const container = document.getElementById('notificationsList');
+
+      if (allNotifications.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">
+              <i class="fas fa-bell-slash"></i>
+            </div>
+            <h3>لا توجد إشعارات</h3>
+            <p>عندما يحدث شيء جديد، ستظهر الإشعارات هنا.</p>
+            <a href="${isAdminUser ? '/gomla/admin/home.html' : (userRole === ROLES.WHOLESALE ? '/gomla/trader-home.html' : '/gomla/customer-home.html')}" class="btn-shop">
+              <i class="fas fa-home"></i> العودة للرئيسية
+            </a>
+          </div>
+        `;
+        return;
+      }
+
+      if (filteredNotifications.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon" style="background:linear-gradient(135deg,#f3f4f6,#e5e7eb);color:#6b7280;">
+              <i class="fas fa-search-minus"></i>
+            </div>
+            <h3>لا توجد نتائج</h3>
+            <p>لم نجد إشعارات تطابق الفلتر الحالي.</p>
+            <button class="btn-shop" onclick="resetFilters()">
+              <i class="fas fa-times"></i> إعادة تعيين الفلاتر
+            </button>
+          </div>
+        `;
+        return;
+      }
+
+      let html = '';
+      filteredNotifications.forEach(n => {
+        html += renderNotifCard(n);
+      });
+
+      container.innerHTML = html;
+    }
+
+    function renderNotifCard(n) {
+      const isUnread = n.read !== true;
+      const type = n.type || 'general';
+
+      // الأيقونة حسب النوع
+      const iconMap = {
+        order: { icon: 'fa-shopping-bag', class: 'order' },
+        offer: { icon: 'fa-percent', class: 'offer' },
+        financial: { icon: 'fa-coins', class: 'financial' },
+        admin: { icon: 'fa-user-shield', class: 'admin' },
+        system: { icon: 'fa-cog', class: 'system' },
+        general: { icon: 'fa-bell', class: 'general' }
+      };
+      const iconInfo = iconMap[type] || iconMap.general;
+
+      // عنوان النوع
+      const typeLabelMap = {
+        order: 'طلب',
+        offer: 'عرض',
+        financial: 'مالي',
+        admin: 'إدارة',
+        system: 'نظام'
+      };
+      const typeLabel = typeLabelMap[type] || '';
+
+      // الوقت النسبي
+      const timeAgo = getTimeAgo(n.createdAt);
+
+      // رابط
+      const linkHtml = n.link
+        ? `<div class="notif-link-hint"><i class="fas fa-arrow-left"></i> اضغط للانتقال</div>`
+        : '';
+
+      return `
+        <div class="notif-card ${isUnread ? 'unread' : 'read'}" onclick="openNotification('${n.id}')">
+          <div class="notif-icon ${iconInfo.class} ${isUnread ? 'has-dot' : ''}">
+            <i class="fas ${iconInfo.icon}"></i>
+          </div>
+
+          <div class="notif-content">
+            <div class="notif-title">
+              ${escapeHtml(n.title || 'إشعار')}
+              ${typeLabel ? `<span class="notif-title-badge">${typeLabel}</span>` : ''}
+            </div>
+            <div class="notif-body">${escapeHtml(n.body || n.message || '')}</div>
+            <div class="notif-meta">
+              <span class="notif-meta-item">
+                <i class="fas fa-clock"></i>
+                ${timeAgo}
+              </span>
+              ${n.category ? `
+                <span class="notif-meta-item">
+                  <i class="fas fa-tag"></i>
+                  ${escapeHtml(n.category)}
+                </span>
+              ` : ''}
+            </div>
+            ${linkHtml}
+          </div>
+
+          <div class="notif-actions" onclick="event.stopPropagation()">
+            ${isUnread 
+              ? `<button class="notif-action-btn mark-read" onclick="toggleRead('${n.id}', true, event)" title="تحديد كمقروء">
+                   <i class="fas fa-check"></i>
+                 </button>`
+              : `<button class="notif-action-btn mark-unread" onclick="toggleRead('${n.id}', false, event)" title="تحديد كغير مقروء">
+                   <i class="fas fa-undo"></i>
+                 </button>`
+            }
+            <button class="notif-action-btn delete" onclick="deleteNotification('${n.id}', event)" title="حذف">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    // ============================================================
+    // ⏱️ الوقت النسبي
+    // ============================================================
+    function getTimeAgo(timestamp) {
+      if (!timestamp) return '---';
+      
+      const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+      const now = new Date();
+      const diffMs = now - date;
+      const diffSec = Math.floor(diffMs / 1000);
+      const diffMin = Math.floor(diffSec / 60);
+      const diffHour = Math.floor(diffMin / 60);
+      const diffDay = Math.floor(diffHour / 24);
+
+      if (diffSec < 60) return 'الآن';
+      if (diffMin < 60) return `منذ ${diffMin} دقيقة`;
+      if (diffHour < 24) return `منذ ${diffHour} ساعة`;
+      if (diffDay === 1) return 'أمس';
+      if (diffDay < 7) return `منذ ${diffDay} أيام`;
+      if (diffDay < 30) {
+        const weeks = Math.floor(diffDay / 7);
+        return weeks === 1 ? 'منذ أسبوع' : `منذ ${weeks} أسابيع`;
+      }
+      if (diffDay < 365) {
+        const months = Math.floor(diffDay / 30);
+        return months === 1 ? 'منذ شهر' : `منذ ${months} أشهر`;
+      }
+      const years = Math.floor(diffDay / 365);
+      return years === 1 ? 'منذ سنة' : `منذ ${years} سنوات`;
+    }
+
+    // ============================================================
+    // 🔓 فتح الإشعار
+    // ============================================================
+    async function openNotification(notifId) {
+      const notif = allNotifications.find(n => n.id === notifId);
+      if (!notif) return;
+
+      // تحديد كمقروء تلقائياً
+      if (notif.read !== true) {
+        try {
+          await db.collection(collectionName).doc(notifId).update({ read: true });
+          notif.read = true;
+          updateStats();
+          updateHeaderIcon();
+          updateNotifCardUI(notifId);
+          if (typeof updateNotificationBadge === 'function') {
+            updateNotificationBadge();
+          }
+        } catch (e) {
+          console.warn('Could not mark as read:', e);
+        }
+      }
+
+      // الانتقال للرابط
+      if (notif.link) {
+        window.location.href = notif.link;
+      }
+    }
+
+    // ============================================================
+    // ✅ تحديد كمقروء / غير مقروء
+    // ============================================================
+    async function toggleRead(notifId, read, event) {
+      if (event) event.stopPropagation();
+
+      const notif = allNotifications.find(n => n.id === notifId);
+      if (!notif) return;
+
+      try {
+        await db.collection(collectionName).doc(notifId).update({ read });
+        notif.read = read;
+        updateStats();
+        updateHeaderIcon();
+        applyFilters();
+        if (typeof updateNotificationBadge === 'function') {
+          updateNotificationBadge();
+        }
+        showToast(read ? '✅ تم تحديد كمقروء' : '📬 تم تحديد كغير مقروء', 'success');
+      } catch (error) {
+        console.error('Error toggling read:', error);
+        showToast('❌ حدث خطأ', 'error');
+      }
+    }
+
+    // ============================================================
+    // ✅ تحديد الكل كمقروء
+    // ============================================================
+    async function markAllAsRead() {
+      const unreadItems = allNotifications.filter(n => n.read !== true);
+      if (unreadItems.length === 0) return;
+
+      const btn = document.getElementById('markAllReadBtn');
+      const originalText = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري...';
+
+      try {
+        const batch = db.batch();
+        unreadItems.forEach(n => {
+          const ref = db.collection(collectionName).doc(n.id);
+          batch.update(ref, { read: true });
+        });
+        await batch.commit();
+
+        unreadItems.forEach(n => n.read = true);
+        updateStats();
+        updateHeaderIcon();
+        applyFilters();
+        if (typeof updateNotificationBadge === 'function') {
+          updateNotificationBadge();
+        }
+
+        showToast(`✅ تم تحديد ${unreadItems.length} إشعار كمقروء`, 'success');
+      } catch (error) {
+        console.error('Error marking all as read:', error);
+        showToast('❌ حدث خطأ', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+        updateStats();
+      }
+    }
+
+    // ============================================================
+    // 🗑️ حذف إشعار
+    // ============================================================
+    async function deleteNotification(notifId, event) {
+      if (event) event.stopPropagation();
+
+      if (!confirm('هل تريد حذف هذا الإشعار؟')) return;
+
+      try {
+        await db.collection(collectionName).doc(notifId).delete();
+        allNotifications = allNotifications.filter(n => n.id !== notifId);
+        updateStats();
+        updateHeaderIcon();
+        applyFilters();
+        if (typeof updateNotificationBadge === 'function') {
+          updateNotificationBadge();
+        }
+        showToast('✅ تم الحذف', 'success');
+      } catch (error) {
+        console.error('Error deleting notification:', error);
+        showToast('❌ حدث خطأ', 'error');
+      }
+    }
+
+    // ============================================================
+    // 🗑️ حذف المقروءة (batch)
+    // ============================================================
+    function confirmClearRead() {
+      const readItems = allNotifications.filter(n => n.read === true);
+      if (readItems.length === 0) return;
+
+      if (!confirm(`سيتم حذف ${readItems.length} إشعار مقروء. هل أنت متأكد؟`)) return;
+
+      performClearRead(readItems);
+    }
+
+    async function performClearRead(readItems) {
+      const btn = document.getElementById('clearReadBtn');
+      const originalText = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري...';
+
+      try {
+        const batch = db.batch();
+        readItems.forEach(n => {
+          const ref = db.collection(collectionName).doc(n.id);
+          batch.delete(ref);
+        });
+        await batch.commit();
+
+        allNotifications = allNotifications.filter(n => n.read !== true);
+        updateStats();
+        updateHeaderIcon();
+        applyFilters();
+        if (typeof updateNotificationBadge === 'function') {
+          updateNotificationBadge();
+        }
+
+        showToast(`✅ تم حذف ${readItems.length} إشعار`, 'success');
+      } catch (error) {
+        console.error('Error clearing read:', error);
+        showToast('❌ حدث خطأ', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+        updateStats();
+      }
+    }
+
+    // ============================================================
+    // 🔄 إعادة تعيين الفلاتر
+    // ============================================================
+    function resetFilters() {
+      currentFilter = 'all';
+      currentSearch = '';
+      document.getElementById('searchInput').value = '';
+      updateActiveTab('all');
+      applyFilters();
+    }
+
+    // ============================================================
+    // 🎨 تحديث بطاقة بعد تغيير الحالة
+    // ============================================================
+    function updateNotifCardUI(notifId) {
+      const card = document.querySelector(`.notif-card[data-id="${notifId}"]`);
+      if (card) {
+        card.classList.remove('unread');
+        card.classList.add('read');
+        const icon = card.querySelector('.notif-icon');
+        if (icon) icon.classList.remove('has-dot');
+      }
+    }
+
+    // ============================================================
+    // 🛠️ Helper
+    // ============================================================
+    function escapeHtml(text) {
+      if (!text) return '';
+      const div = document.createElement('div');
+      div.textContent = String(text);
+      return div.innerHTML;
+    }
+
+    // ===== تصدير =====
+    window.filterByStatus = filterByStatus;
+    window.filterByType = filterByType;
+    window.handleSearch = handleSearch;
+    window.openNotification = openNotification;
+    window.toggleRead = toggleRead;
+    window.markAllAsRead = markAllAsRead;
+    window.deleteNotification = deleteNotification;
+    window.confirmClearRead = confirmClearRead;
+    window.resetFilters = resetFilters;
+    window.loadNotifications = loadNotifications;
+  </script>
+
+</body>
+</html>
