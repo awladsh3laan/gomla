@@ -1787,7 +1787,8 @@ function updateSidebar() {
       { icon: 'fa-chart-line', text: 'التقارير المالية', url: '/gomla/admin/financial-reports.html' },
       { icon: 'fa-barcode', text: 'قارئ الباركود', url: '/gomla/admin/barcode-scanner.html' },
       { icon: 'fa-trophy', text: 'المستويات', url: '/gomla/admin/ranks-levels.html' },
-      { icon: 'fa-cog', text: 'الإعدادات', url: '/gomla/admin/settings.html' }
+      { icon: 'fa-cog', text: 'الإعدادات', url: '/gomla/admin/settings.html' },
+      { icon: 'fa-ticket-alt', text: 'إدارة الدعم', url: '/gomla/admin/support.html' }
     ];
   } else if (role === ROLES.ADMINPLUS) {
     links = [
@@ -1806,7 +1807,8 @@ function updateSidebar() {
       { icon: 'fa-store', text: 'الفروع', url: '/gomla/admin/branches.html' },
       { icon: 'fa-calendar-day', text: 'المبيعات اليومية', url: '/gomla/admin/daily-sales.html' },
       { icon: 'fa-cash-register', text: 'الصندوق', url: '/gomla/admin/cashbox.html' },
-      { icon: 'fa-chart-line', text: 'التقارير المالية', url: '/gomla/admin/financial-reports.html' }
+      { icon: 'fa-chart-line', text: 'التقارير المالية', url: '/gomla/admin/financial-reports.html' },
+      { icon: 'fa-ticket-alt', text: 'إدارة الدعم', url: '/gomla/admin/support.html' }
     ];
   } else if (role === ROLES.ADMIN) {
     links = [
@@ -1817,7 +1819,8 @@ function updateSidebar() {
       { icon: 'fa-users', text: 'العملاء', url: '/gomla/admin/customers.html' },
       { icon: 'fa-shopping-bag', text: 'الطلبات', url: '/gomla/admin/orders.html' },
       { icon: 'fa-file-invoice', text: 'الفواتير', url: '/gomla/admin/invoices.html' },
-      { icon: 'fa-chart-line', text: 'التقارير', url: '/gomla/admin/financial-reports.html' }
+      { icon: 'fa-chart-line', text: 'التقارير', url: '/gomla/admin/financial-reports.html' },
+      { icon: 'fa-ticket-alt', text: 'إدارة الدعم', url: '/gomla/admin/support.html' }
     ];
   } else if (role === ROLES.CASHIER) {
     links = [
@@ -1831,13 +1834,14 @@ function updateSidebar() {
   } else if (role === ROLES.WHOLESALE) {
     links = [
       { icon: 'fa-home', text: 'الرئيسية', url: '/gomla' },
-      { icon: 'fa-home', text: 'لوحة التُجار', url: '/gomla/trader-home.html' },
+      { icon: 'fa-house', text: 'لوحة التُجار', url: '/gomla/trader-home.html' },
+      { icon: 'fa-percent', text: 'الخصومات', url: '/gomla/discounts.html' },
       { icon: 'fa-store', text: 'متجر الجملة', url: '/gomla/store-wholesale.html' },
       { icon: 'fa-shopping-bag', text: 'طلباتي', url: '/gomla/customer/orders.html' },
       { icon: 'fa-file-invoice', text: 'فواتيري', url: '/gomla/customer/invoices.html' },
       { icon: 'fa-coins', text: 'الذمة المالية', url: '/gomla/customer/balance.html' },
       { icon: 'fa-truck', text: 'تتبع الطلبات', url: '/gomla/tracking.html' },
-      { text: 'الخصومات', url: '/gomla/discounts.html', icon: 'fa-percent' }
+      { icon: ' fa-headset', text: 'الدعم والمساعدة', url: '/gomla/admin/support.html' }
     ];
   } else if (role === ROLES.RETAIL) {
     links = [
@@ -1848,11 +1852,13 @@ function updateSidebar() {
       { icon: 'fa-file-invoice', text: 'فواتيري', url: '/gomla/customer/invoices.html' },
       { icon: 'fa-truck', text: 'تتبع الطلبات', url: '/gomla/tracking.html' },
       { icon: 'fa-heart', text: 'المفضلة', url: '/gomla/wishlist.html' },
+      { icon: ' fa-headset', text: 'الدعم والمساعدة', url: '/gomla/admin/support.html' },
       { icon: 'fa-percent', text: 'العروض', url: '/gomla/offers.html' }
     ];
   } else {
     links = [
       { icon: 'fa-home', text: 'الرئيسية', url: '/gomla/' },
+      { icon: ' fa-headset', text: 'الدعم والمساعدة', url: '/gomla/admin/support.html' },
       { icon: 'fa-store', text: 'متجر القطاعي', url: '/gomla/store-retail.html' },
       { icon: 'fa-user-plus', text: 'تسجيل عميل', url: '/gomla/customer-login.html' }
     ];
