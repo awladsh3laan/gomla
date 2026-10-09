@@ -1,591 +1,1411 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>إدارة تذاكر الدعم | أولاد شعلان</title>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<link rel="stylesheet" href="../assets/css/style.css">
-<style>
-:root { --navy:#1a2a4a; --navy-light:#2a3f6a; --navy-dark:#0f1a2e; --gold:#c9a84c; --gold-light:#e8d5a3; --gold-dark:#b8942a; }
-* { box-sizing: border-box; }
-html, body { overflow-x: hidden; }
-body { margin:0; font-family:'Tajawal',sans-serif; background:#f5f6fa; padding-top:60px; }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>إدارة تذاكر الدعم - أولاد شعلان</title>
+  <meta name="description" content="إدارة تذاكر الدعم - أولاد شعلان">
+  <meta name="theme-color" content="#1a2a4a">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/gomla/assets/css/style.css">
+  <link rel="icon" href="/gomla/assets/images/favicon.ico">
 
-.top-bar {
-  position:fixed; top:0; right:0; left:0; height:60px; z-index:900;
-  background:linear-gradient(135deg,var(--navy-dark),var(--navy),var(--navy-light));
-  display:flex; align-items:center; justify-content:space-between;
-  padding:0 14px; color:#fff; box-shadow:0 2px 20px rgba(0,0,0,.25);
-}
-.top-bar .title { display:flex; align-items:center; gap:10px; font-weight:800; font-size:15px; }
-.top-bar .title i { color:var(--gold); }
-.top-bar button {
-  background:rgba(255,255,255,.1); color:#fff; border:0;
-  width:40px; height:40px; border-radius:12px; cursor:pointer;
-  transition:.2s;
-}
-.top-bar button:hover { background:rgba(255,255,255,.2); }
+  <style>
+    /* ============================================================
+       🛡️ منع السكرول الأفقي
+       ============================================================ */
+    html, body { overflow-x: hidden !important; max-width: 100vw; }
+    .page-content, .page-content .container {
+      overflow-x: hidden; min-width: 0; max-width: 100%;
+    }
 
-.container { max-width:1200px; margin:0 auto; padding:18px 14px 90px; }
+    /* ============================================================
+       🎨 رأس الصفحة
+       ============================================================ */
+    .tk-header {
+      background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 50%, var(--navy-light) 100%);
+      border-radius: var(--radius-lg);
+      padding: 22px 24px;
+      margin-bottom: 18px;
+      color: var(--white);
+      position: relative; overflow: hidden;
+      box-shadow: 0 12px 40px rgba(15, 26, 46, 0.35);
+      border-bottom: 4px solid var(--gold);
+    }
+    .tk-header::before {
+      content: '';
+      position: absolute;
+      top: -50%; right: -15%;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(201,168,76,.25) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+    }
+    .tk-header-content {
+      position: relative; z-index: 1;
+      display: flex; align-items: center;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .tk-header-content .header-icon {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; flex-shrink: 0;
+      box-shadow: 0 8px 24px rgba(201,168,76,.5);
+    }
+    .tk-header-content .header-text { flex: 1; min-width: 200px; }
+    .tk-header-content .header-text h1 {
+      font-size: 1.35rem; font-weight: 900;
+      margin-bottom: 3px; color: var(--white);
+    }
+    .tk-header-content .header-text p {
+      font-size: 0.83rem; opacity: 0.9;
+      color: rgba(255,255,255,0.9); margin: 0;
+    }
+    .tk-header-content .header-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 14px;
+      background: rgba(255,255,255,.15);
+      color: var(--gold-light);
+      border: 1px solid rgba(201,168,76,.5);
+      border-radius: var(--radius-full);
+      font-size: 0.75rem; font-weight: 800;
+      backdrop-filter: blur(10px);
+    }
+    .tk-header-content .header-badge i { color: var(--gold); }
 
-/* Stats */
-.stats-grid {
-  display:grid; grid-template-columns:repeat(2,1fr); gap:10px; margin-bottom:18px;
-}
-.stat-card {
-  background:#fff; border-radius:14px; padding:14px;
-  box-shadow:0 2px 10px rgba(0,0,0,.05);
-  display:flex; align-items:center; gap:12px;
-}
-.stat-card .ico {
-  width:46px; height:46px; border-radius:12px;
-  display:flex; align-items:center; justify-content:center; font-size:20px; color:#fff;
-}
-.stat-card .ico.total { background:linear-gradient(135deg,var(--navy),var(--navy-light)); }
-.stat-card .ico.open { background:linear-gradient(135deg,#f59e0b,#d97706); }
-.stat-card .ico.proc { background:linear-gradient(135deg,#3b82f6,#1e40af); }
-.stat-card .ico.closed { background:linear-gradient(135deg,#22c55e,#16a34a); }
-.stat-card .num { font-size:22px; font-weight:900; color:var(--navy); line-height:1; }
-.stat-card .lbl { font-size:11px; color:#6b7280; margin-top:3px; }
+    /* ============================================================
+       📊 الإحصائيات - ستايل مخصص بنفس نمط ft-stats
+       ============================================================ */
+    .tk-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .tk-stat-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 14px 12px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      position: relative; overflow: hidden;
+      transition: var(--transition);
+      text-align: center;
+      cursor: pointer;
+    }
+    .tk-stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 4px; height: 100%;
+      background: var(--gold);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.4s ease;
+    }
+    .tk-stat-card:hover::before { transform: scaleY(1); }
+    .tk-stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--gold-light);
+    }
+    .tk-stat-card .stat-icon {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.05rem; margin: 0 auto 8px;
+    }
+    .stat-icon.blue { background: rgba(59,130,246,.12); color: #2563eb; }
+    .stat-icon.gold { background: rgba(201,168,76,.15); color: var(--gold-dark); }
+    .stat-icon.green { background: rgba(34,197,94,.12); color: #16a34a; }
+    .stat-icon.red { background: rgba(239,68,68,.12); color: #dc2626; }
+    .stat-icon.purple { background: rgba(139,92,246,.12); color: #7c3aed; }
+    .tk-stat-card .stat-number {
+      font-size: 1.2rem; font-weight: 900;
+      color: var(--navy); line-height: 1.2; margin-bottom: 2px;
+    }
+    .tk-stat-card .stat-number.gold { color: var(--gold-dark); }
+    .tk-stat-card .stat-number.green { color: #16a34a; }
+    .tk-stat-card .stat-number.red { color: #dc2626; }
+    .tk-stat-card .stat-number.blue { color: #2563eb; }
+    .tk-stat-card .stat-label {
+      font-size: 0.68rem; color: var(--gray-500);
+      font-weight: 700; line-height: 1.2;
+    }
 
-/* Filters */
-.filters-bar {
-  display:flex; gap:8px; overflow-x:auto; padding-bottom:6px; margin-bottom:14px;
-  scrollbar-width:none; overscroll-behavior-x:contain;
-}
-.filters-bar::-webkit-scrollbar { display:none; }
-.chip {
-  padding:8px 14px; border-radius:20px; border:1.5px solid #e5e7eb;
-  background:#fff; color:#6b7280; font-family:inherit; font-weight:700;
-  font-size:12px; cursor:pointer; white-space:nowrap; transition:.2s; flex-shrink:0;
-}
-.chip.active { background:linear-gradient(135deg,var(--navy),var(--navy-light)); color:#fff; border-color:transparent; }
-.chip.urgent.active { background:linear-gradient(135deg,#ef4444,#dc2626); }
+    /* ============================================================
+       🔍 أدوات الفلترة (نفس نمط financial-transactions)
+       ============================================================ */
+    .tk-filter-bar {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      margin-bottom: 18px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      overflow: hidden;
+      min-width: 0;
+      max-width: 100%;
+    }
+    .tk-search-box {
+      position: relative; margin-bottom: 12px; width: 100%;
+    }
+    .tk-search-box input {
+      width: 100%;
+      padding: 12px 42px 12px 14px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.9rem;
+      background: var(--gray-50);
+      transition: all 0.3s ease;
+      outline: none;
+    }
+    .tk-search-box input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 4px rgba(201,168,76,.15);
+      background: var(--white);
+    }
+    .tk-search-box .search-icon {
+      position: absolute;
+      right: 13px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray-400);
+      pointer-events: none;
+      font-size: 0.9rem;
+    }
+    .tk-tabs-wrapper {
+      position: relative;
+      width: 100%; min-width: 0; max-width: 100%;
+      overflow: hidden;
+    }
+    .tk-status-tabs {
+      display: flex; gap: 6px;
+      overflow-x: auto; overflow-y: hidden;
+      padding: 2px 2px 8px;
+      scrollbar-width: thin;
+      -webkit-overflow-scrolling: touch;
+      max-width: 100%; min-width: 0; width: 100%;
+      overscroll-behavior-x: contain;
+    }
+    .tk-status-tabs::-webkit-scrollbar { height: 4px; }
+    .tk-status-tabs::-webkit-scrollbar-track {
+      background: var(--gray-100); border-radius: 10px;
+    }
+    .tk-status-tabs::-webkit-scrollbar-thumb {
+      background: var(--gold); border-radius: 10px;
+    }
+    .tk-status-tab {
+      padding: 8px 14px;
+      border: 2px solid var(--gray-200);
+      background: var(--white);
+      color: var(--gray-600);
+      border-radius: var(--radius-full);
+      font-family: inherit;
+      font-weight: 700;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex; align-items: center; gap: 6px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .tk-status-tab:hover { border-color: var(--gold-light); }
+    .tk-status-tab.active {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      border-color: var(--navy);
+      box-shadow: 0 4px 12px rgba(26,42,74,.25);
+    }
+    .tk-status-tab.active i { color: var(--gold); }
+    .tk-status-tab .tab-count {
+      background: rgba(255,255,255,.2);
+      padding: 1px 7px;
+      border-radius: 10px;
+      font-size: 0.68rem;
+      font-weight: 800;
+      min-width: 18px;
+      text-align: center;
+    }
+    .tk-status-tab:not(.active) .tab-count {
+      background: var(--gray-100);
+      color: var(--gray-600);
+    }
+    .tk-status-tab.urgent.active {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      border-color: #dc2626;
+    }
 
-/* Tickets grid */
-.tickets-grid { display:grid; grid-template-columns:1fr; gap:10px; }
-.tk-card {
-  background:#fff; border-radius:14px; padding:14px;
-  box-shadow:0 2px 10px rgba(0,0,0,.05);
-  cursor:pointer; transition:.25s; border-right:4px solid var(--gold);
-  animation: dropIn .4s ease backwards;
-}
-@keyframes dropIn {
-  from { opacity:0; transform:translateY(-20px); }
-  to { opacity:1; transform:translateY(0); }
-}
-.tk-card:hover { transform:translateY(-3px); box-shadow:0 8px 22px rgba(0,0,0,.1); }
-.tk-card.priority-urgent { border-right-color:#ef4444; }
-.tk-card.priority-high { border-right-color:#f59e0b; }
-.tk-row1 { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; gap:8px; }
-.tk-num { font-weight:800; color:var(--navy); font-size:13px; }
-.tk-subject { font-size:14px; font-weight:700; color:#1f2937; margin:0 0 6px; }
-.tk-sender { font-size:12px; color:#6b7280; margin-bottom:6px; }
-.tk-sender i { color:var(--gold); margin-left:4px; }
-.tk-meta { display:flex; flex-wrap:wrap; gap:6px; font-size:11px; color:#9ca3af; }
-.status-pill { font-size:10px; padding:3px 9px; border-radius:20px; font-weight:700; }
-.status-open { background:#fef3c7; color:#92400e; }
-.status-processing { background:#dbeafe; color:#1e40af; }
-.status-closed { background:#dcfce7; color:#166534; }
-.priority-pill { font-size:10px; padding:3px 9px; border-radius:20px; font-weight:700; }
-.priority-normal { background:#f3f4f6; color:#374151; }
-.priority-high { background:#fed7aa; color:#9a3412; }
-.priority-urgent { background:#fecaca; color:#991b1b; }
-.cat-pill { font-size:10px; padding:3px 9px; border-radius:20px; background:#ede9fe; color:#5b21b6; font-weight:700; }
+    /* ============================================================
+       🎫 كروت التذاكر
+       ============================================================ */
+    .tk-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .tk-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      overflow: hidden;
+      transition: var(--transition);
+      position: relative;
+      cursor: pointer;
+      min-width: 0;
+    }
+    .tk-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 5px; height: 100%;
+      transition: var(--transition);
+      background: var(--gold);
+    }
+    .tk-card.priority-normal::before { background: linear-gradient(180deg, var(--gray-400), var(--gray-500)); }
+    .tk-card.priority-high::before { background: linear-gradient(180deg, #f59e0b, #d97706); }
+    .tk-card.priority-urgent::before { background: linear-gradient(180deg, #ef4444, #dc2626); }
+    .tk-card.status-closed::before { background: linear-gradient(180deg, #22c55e, #16a34a); }
+    .tk-card:hover {
+      box-shadow: var(--shadow-lg);
+      border-color: var(--gold-light);
+      transform: translateY(-2px);
+    }
 
-.empty-state { text-align:center; padding:50px 14px; color:#9ca3af; }
-.empty-state i { font-size:48px; color:#e5e7eb; margin-bottom:12px; display:block; }
+    .tk-card-header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px 12px 18px;
+      background: linear-gradient(135deg, #fcf9f0, #f8f4e8);
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .tk-header-left {
+      display: flex; align-items: center;
+      gap: 10px; min-width: 0;
+    }
+    .tk-avatar {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 1.1rem;
+      flex-shrink: 0;
+      border: 2px solid var(--white);
+      box-shadow: 0 4px 12px rgba(201,168,76,.3);
+      overflow: hidden;
+    }
+    .tk-avatar img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .tk-info { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+    .tk-info .sender-name {
+      font-size: 0.9rem; font-weight: 900; color: var(--navy);
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .tk-info .tk-meta-small {
+      font-size: 0.7rem; color: var(--gray-500);
+      display: flex; align-items: center; gap: 4px; flex-wrap: wrap;
+    }
+    .tk-info .tk-meta-small i { color: var(--gold); font-size: 0.62rem; }
 
-/* Modal */
-.modal-overlay {
-  position:fixed; inset:0; background:rgba(15,26,46,.75);
-  display:none; align-items:center; justify-content:center; z-index:2000;
-  padding:14px; backdrop-filter:blur(6px);
-}
-.modal-overlay.active { display:flex; animation:fadeIn .2s; }
-@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-.modal {
-  background:#fff; border-radius:20px; width:100%; max-width:640px;
-  max-height:92vh; overflow-y:auto; animation:slideUp .3s;
-}
-@keyframes slideUp { from { transform:translateY(40px); opacity:0; } to { transform:translateY(0); opacity:1; } }
-.modal-head {
-  background:linear-gradient(135deg,var(--navy-dark),var(--navy));
-  color:#fff; padding:18px 20px; border-radius:20px 20px 0 0;
-  display:flex; justify-content:space-between; align-items:flex-start; gap:10px;
-  position:sticky; top:0; z-index:5;
-}
-.modal-head .close {
-  background:rgba(255,255,255,.15); border:0; color:#fff;
-  width:34px; height:34px; border-radius:10px; cursor:pointer; flex-shrink:0;
-}
-.modal-head .tkt-num { font-size:12px; color:var(--gold-light); font-weight:700; margin-bottom:4px; }
-.modal-head h3 { margin:0; font-size:15px; font-weight:800; }
-.modal-body { padding:20px; }
+    .tk-status-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 5px 10px;
+      border-radius: var(--radius-full);
+      font-size: 0.68rem; font-weight: 800;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .tk-status-badge.open {
+      background: rgba(245,158,11,.15); color: #d97706;
+      border: 1px solid rgba(245,158,11,.3);
+    }
+    .tk-status-badge.processing {
+      background: rgba(59,130,246,.15); color: #2563eb;
+      border: 1px solid rgba(59,130,246,.3);
+    }
+    .tk-status-badge.closed {
+      background: rgba(34,197,94,.15); color: #16a34a;
+      border: 1px solid rgba(34,197,94,.3);
+    }
 
-.info-row { font-size:12px; color:#6b7280; margin-bottom:14px; line-height:1.9; }
-.info-row b { color:var(--navy); }
+    .tk-card-body {
+      padding: 12px 14px 12px 18px;
+    }
+    .tk-subject {
+      font-size: 0.92rem; font-weight: 800;
+      color: var(--navy); margin-bottom: 8px;
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .tk-info-chips {
+      display: flex; flex-wrap: wrap; gap: 6px;
+    }
+    .tk-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 5px 10px;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-full);
+      font-size: 0.7rem;
+      color: var(--gray-600);
+      font-weight: 700;
+      white-space: nowrap;
+      max-width: 100%;
+      overflow: hidden; text-overflow: ellipsis;
+    }
+    .tk-chip i { color: var(--gold); font-size: 0.68rem; flex-shrink: 0; }
+    .tk-chip.priority-urgent {
+      background: rgba(239,68,68,.1);
+      border-color: rgba(239,68,68,.3);
+      color: #dc2626;
+    }
+    .tk-chip.priority-urgent i { color: #dc2626; }
+    .tk-chip.priority-high {
+      background: rgba(245,158,11,.1);
+      border-color: rgba(245,158,11,.3);
+      color: #d97706;
+    }
+    .tk-chip.priority-high i { color: #d97706; }
 
-.timeline { padding:8px 0; margin-bottom:14px; }
-.tl-item { display:flex; gap:12px; padding:10px 0; position:relative; }
-.tl-item::before {
-  content:''; position:absolute; right:15px; top:30px; bottom:-10px;
-  width:2px; background:#e5e7eb;
-}
-.tl-item:last-child::before { display:none; }
-.tl-dot {
-  width:32px; height:32px; border-radius:50%; flex-shrink:0;
-  display:flex; align-items:center; justify-content:center; font-size:13px; z-index:1;
-}
-.tl-dot.user { background:#dbeafe; color:#1e40af; }
-.tl-dot.admin { background:var(--gold-light); color:var(--gold-dark); }
-.tl-dot.sys { background:#e5e7eb; color:#6b7280; }
-.tl-body { flex:1; min-width:0; }
-.tl-body .who { font-size:12px; font-weight:800; color:var(--navy); }
-.tl-body .when { font-size:10px; color:#9ca3af; margin-right:6px; }
-.tl-body .txt {
-  font-size:13px; color:#374151; margin-top:4px;
-  background:#f9fafb; padding:8px 12px; border-radius:10px;
-  line-height:1.6; word-wrap:break-word;
-}
-.attachment-thumb {
-  max-width:100%; max-height:220px; border-radius:10px;
-  margin-top:8px; cursor:pointer; border:1px solid #e5e7eb;
-}
+    .tk-card-footer {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 12px 14px 12px 18px;
+      background: var(--gray-50);
+      border-top: 1px solid var(--gray-200);
+    }
+    .tk-time {
+      font-size: 0.72rem; color: var(--gray-500);
+      display: flex; align-items: center; gap: 4px;
+    }
+    .tk-time i { color: var(--gold); font-size: 0.65rem; }
+    .tk-view-btn {
+      padding: 8px 14px;
+      border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      border: none;
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex; align-items: center; gap: 5px;
+      white-space: nowrap;
+    }
+    .tk-view-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(26,42,74,.3);
+    }
 
-.reply-box { display:flex; gap:8px; margin-bottom:14px; }
-.reply-box input {
-  flex:1; padding:11px 13px; border:1.5px solid #e5e7eb;
-  border-radius:10px; font-family:inherit; font-size:14px; outline:none;
-}
-.reply-box input:focus { border-color:var(--gold); }
-.reply-box button {
-  padding:0 18px; border-radius:10px; border:0;
-  background:var(--gold); color:#fff; font-weight:700;
-  cursor:pointer; display:flex; align-items:center; gap:6px;
-}
-.reply-box button:hover { background:var(--gold-dark); }
+    /* ============================================================
+       🎫 Modal تفاصيل تذكرة (admin)
+       ============================================================ */
+    .tk-modal-header {
+      background: linear-gradient(135deg, var(--navy-dark), var(--navy));
+      color: var(--white);
+      padding: 18px 22px;
+      display: flex; align-items: flex-start;
+      justify-content: space-between; gap: 12px;
+      position: sticky; top: 0; z-index: 10;
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+    }
+    .tk-modal-header .tkt-num {
+      font-family: 'Courier New', monospace;
+      font-size: 0.78rem; color: var(--gold-light);
+      font-weight: 800; letter-spacing: 0.5px;
+      margin-bottom: 4px; direction: ltr; text-align: right;
+    }
+    .tk-modal-header h3 {
+      margin: 0; font-size: 1rem;
+      font-weight: 900; line-height: 1.4;
+    }
 
-.actions-bar {
-  display:flex; gap:8px; flex-wrap:wrap; padding-top:14px;
-  border-top:1px solid #eef0f5;
-}
-.btn {
-  flex:1; min-width:120px; padding:11px 16px; border-radius:10px; border:0;
-  font-family:inherit; font-weight:800; font-size:13px; cursor:pointer;
-  display:flex; align-items:center; justify-content:center; gap:6px;
-  transition:.2s;
-}
-.btn-process { background:linear-gradient(135deg,#3b82f6,#1e40af); color:#fff; }
-.btn-close-t { background:linear-gradient(135deg,#22c55e,#16a34a); color:#fff; }
-.btn-delete { background:linear-gradient(135deg,#ef4444,#dc2626); color:#fff; }
-.btn:hover { transform:translateY(-1px); box-shadow:0 6px 18px rgba(0,0,0,.15); }
+    .tk-sender-card {
+      display: flex; align-items: center;
+      gap: 12px;
+      padding: 14px;
+      background: linear-gradient(135deg, #fcf9f0, #f8f4e8);
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--gold-light);
+      margin-bottom: 16px;
+    }
+    .tk-sender-card .sender-avatar {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 900; font-size: 1.4rem;
+      flex-shrink: 0;
+      border: 3px solid var(--white);
+      box-shadow: 0 4px 12px rgba(201,168,76,.3);
+      overflow: hidden;
+    }
+    .tk-sender-card .sender-avatar img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .tk-sender-card .sender-details { flex: 1; min-width: 0; }
+    .tk-sender-card .sender-details h4 {
+      font-size: 0.95rem; font-weight: 900;
+      color: var(--navy); margin-bottom: 4px;
+    }
+    .tk-sender-card .sender-details p {
+      font-size: 0.78rem; color: var(--gray-600);
+      margin: 0 0 3px;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .tk-sender-card .sender-details p i {
+      color: var(--gold); font-size: 0.7rem;
+    }
 
-/* Toast */
-.toast-wrap {
-  position:fixed; top:76px; left:50%; transform:translateX(-50%);
-  z-index:3000; display:flex; flex-direction:column; gap:8px;
-  pointer-events:none; width:90%; max-width:400px;
-}
-.toast {
-  background:var(--navy); color:#fff; padding:12px 16px;
-  border-radius:12px; font-size:13px; font-weight:700;
-  box-shadow:0 8px 24px rgba(0,0,0,.25);
-  display:flex; align-items:center; gap:10px; animation:toastIn .3s;
-}
-.toast.success { background:linear-gradient(135deg,#22c55e,#16a34a); }
-.toast.error { background:linear-gradient(135deg,#ef4444,#dc2626); }
-.toast.warning { background:linear-gradient(135deg,#f59e0b,#d97706); }
-@keyframes toastIn { from { opacity:0; transform:translateY(-20px); } to { opacity:1; transform:translateY(0); } }
+    .tk-modal-section-title {
+      font-size: 0.88rem; font-weight: 900;
+      color: var(--navy); margin-bottom: 12px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .tk-modal-section-title i { color: var(--gold); font-size: 0.9rem; }
 
-@media(min-width:640px){
-  .stats-grid { grid-template-columns:repeat(4,1fr); }
-  .tickets-grid { grid-template-columns:repeat(2,1fr); }
-}
-@media(min-width:1024px){
-  .tickets-grid { grid-template-columns:repeat(3,1fr); }
-}
-</style>
+    .tk-timeline { padding: 8px 0; margin-bottom: 14px; }
+    .tk-tl-item {
+      display: flex; gap: 12px;
+      padding: 10px 0; position: relative;
+    }
+    .tk-tl-item::before {
+      content: ''; position: absolute;
+      right: 16px; top: 34px; bottom: -10px;
+      width: 2px; background: var(--gray-200);
+    }
+    .tk-tl-item:last-child::before { display: none; }
+    .tk-tl-dot {
+      width: 34px; height: 34px; border-radius: 50%;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; z-index: 1;
+      border: 3px solid var(--white);
+      box-shadow: var(--shadow-sm);
+    }
+    .tk-tl-dot.user { background: #dbeafe; color: #1e40af; }
+    .tk-tl-dot.admin { background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: var(--navy); }
+    .tk-tl-dot.sys { background: var(--gray-200); color: var(--gray-600); }
+    .tk-tl-body { flex: 1; min-width: 0; }
+    .tk-tl-body .who {
+      font-size: 0.82rem; font-weight: 800;
+      color: var(--navy); margin-left: 6px;
+    }
+    .tk-tl-body .when {
+      font-size: 0.7rem; color: var(--gray-400);
+    }
+    .tk-tl-body .txt {
+      font-size: 0.85rem; color: var(--gray-700);
+      margin-top: 6px;
+      background: var(--gray-50);
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      line-height: 1.7;
+      word-wrap: break-word;
+      border: 1px solid var(--gray-200);
+    }
+    .tk-tl-body .txt.admin-reply {
+      background: #fcf9f0;
+      border-color: var(--gold-light);
+    }
+    .tk-attachment-thumb {
+      max-width: 100%; max-height: 220px;
+      border-radius: var(--radius-sm);
+      margin-top: 8px; cursor: pointer;
+      border: 1px solid var(--gray-200);
+    }
+    .tk-attachment-thumb:hover { opacity: 0.9; }
+
+    .tk-reply-box {
+      display: flex; gap: 8px;
+      margin-top: 12px;
+      padding-top: 14px;
+      border-top: 2px dashed var(--gray-200);
+    }
+    .tk-reply-box input {
+      flex: 1; padding: 11px 14px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.9rem;
+      background: var(--gray-50);
+      outline: none;
+      min-width: 0;
+      transition: var(--transition);
+    }
+    .tk-reply-box input:focus {
+      border-color: var(--gold);
+      background: var(--white);
+      box-shadow: 0 0 0 4px rgba(201,168,76,.15);
+    }
+    .tk-reply-box button {
+      padding: 0 18px;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--gold-dark);
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--white);
+      font-weight: 800;
+      cursor: pointer;
+      display: flex; align-items: center; gap: 6px;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+    .tk-reply-box button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(201,168,76,.4);
+    }
+
+    .tk-actions-bar {
+      display: flex; gap: 8px;
+      flex-wrap: wrap;
+      padding-top: 14px;
+      margin-top: 14px;
+      border-top: 2px dashed var(--gray-200);
+    }
+    .tk-action-btn {
+      flex: 1; min-width: 120px;
+      padding: 11px 16px;
+      border-radius: var(--radius-full);
+      border: 2px solid;
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.25s ease;
+    }
+    .tk-action-btn.process {
+      background: linear-gradient(135deg, #3b82f6, #1e40af);
+      color: var(--white);
+      border-color: #1e40af;
+      box-shadow: 0 6px 16px rgba(59,130,246,.3);
+    }
+    .tk-action-btn.process:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(59,130,246,.5);
+    }
+    .tk-action-btn.close {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: var(--white);
+      border-color: #16a34a;
+      box-shadow: 0 6px 16px rgba(34,197,94,.3);
+    }
+    .tk-action-btn.close:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(34,197,94,.5);
+    }
+    .tk-action-btn.delete {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: var(--white);
+      border-color: #dc2626;
+      box-shadow: 0 6px 16px rgba(239,68,68,.3);
+    }
+    .tk-action-btn.delete:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(239,68,68,.5);
+    }
+
+    /* ============================================================
+       📱 Responsive
+       ============================================================ */
+    @media (max-width: 768px) and (pointer: coarse) {
+      .tk-header { padding: 18px 16px; border-radius: var(--radius-md); }
+      .tk-header-content .header-icon { width: 48px; height: 48px; font-size: 1.2rem; }
+      .tk-header-content .header-text h1 { font-size: 1.05rem; }
+      .tk-header-content .header-text p { font-size: 0.72rem; }
+      .tk-header-content .header-badge { font-size: 0.68rem; padding: 4px 10px; }
+
+      .tk-stats { grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 14px; }
+      .tk-stat-card { padding: 12px 10px; }
+      .tk-stat-card .stat-icon { width: 34px; height: 34px; font-size: 0.92rem; margin-bottom: 6px; }
+      .tk-stat-card .stat-number { font-size: 1.02rem; }
+      .tk-stat-card .stat-label { font-size: 0.63rem; }
+
+      .tk-filter-bar { padding: 12px; margin-bottom: 14px; }
+      .tk-search-box { margin-bottom: 10px; }
+      .tk-search-box input { padding: 10px 38px 10px 12px; font-size: 0.85rem; }
+      .tk-status-tab { padding: 7px 12px; font-size: 0.72rem; }
+
+      .tk-list { grid-template-columns: 1fr; gap: 10px; }
+
+      .tk-card-header { padding: 11px 12px; }
+      .tk-avatar { width: 38px; height: 38px; font-size: 0.95rem; }
+      .tk-info .sender-name { font-size: 0.82rem; }
+      .tk-info .tk-meta-small { font-size: 0.65rem; }
+      .tk-status-badge { padding: 4px 8px; font-size: 0.63rem; }
+
+      .tk-card-body { padding: 11px 12px; }
+      .tk-subject { font-size: 0.85rem; }
+      .tk-chip { padding: 4px 8px; font-size: 0.68rem; }
+
+      .tk-card-footer { padding: 10px 12px; }
+      .tk-time { font-size: 0.68rem; }
+      .tk-view-btn { padding: 7px 12px; font-size: 0.72rem; }
+
+      .tk-modal-header { padding: 14px 16px; }
+      .tk-modal-header h3 { font-size: 0.92rem; }
+      .tk-sender-card { padding: 12px; }
+      .tk-sender-card .sender-avatar { width: 48px; height: 48px; font-size: 1.2rem; }
+      .tk-reply-box { flex-direction: column; }
+      .tk-reply-box button { padding: 11px; justify-content: center; }
+      .tk-actions-bar { flex-direction: column; }
+      .tk-action-btn { width: 100%; }
+    }
+    @media (max-width: 400px) {
+      .tk-status-tab span:not(.tab-count) { display: none; }
+      .tk-status-tab { padding: 7px 10px; gap: 4px; }
+      .tk-status-tab i { font-size: 0.85rem; }
+      .tk-status-tab .tab-count { display: inline-block; }
+    }
+  </style>
 </head>
 <body>
 
-<div class="top-bar">
-  <button onclick="location.href='home.html'"><i class="fas fa-arrow-right"></i></button>
-  <div class="title"><i class="fas fa-ticket-alt"></i> إدارة تذاكر الدعم</div>
-  <button onclick="location.href='home.html'"><i class="fas fa-home"></i></button>
-</div>
+  <!-- ============================================================ -->
+  <!-- 📱 مكونات الموبايل -->
+  <!-- ============================================================ -->
+  <div id="mobile-top-bar"></div>
+  <div id="mobile-top-tabs"></div>
 
-<div class="container">
-  <!-- Stats -->
-  <div class="stats-grid">
-    <div class="stat-card"><div class="ico total"><i class="fas fa-ticket-alt"></i></div><div><div class="num" id="stTotal">0</div><div class="lbl">إجمالي</div></div></div>
-    <div class="stat-card"><div class="ico open"><i class="fas fa-folder-open"></i></div><div><div class="num" id="stOpen">0</div><div class="lbl">مفتوحة</div></div></div>
-    <div class="stat-card"><div class="ico proc"><i class="fas fa-spinner"></i></div><div><div class="num" id="stProc">0</div><div class="lbl">جاري المعالجة</div></div></div>
-    <div class="stat-card"><div class="ico closed"><i class="fas fa-check-double"></i></div><div><div class="num" id="stClosed">0</div><div class="lbl">مغلقة</div></div></div>
-  </div>
+  <!-- ============================================================ -->
+  <!-- 🧠 الهيدر -->
+  <!-- ============================================================ -->
+  <div id="header-placeholder"></div>
 
-  <!-- Filters -->
-  <div class="filters-bar" id="filtersBar">
-    <button class="chip active" data-filter="all">الكل</button>
-    <button class="chip" data-filter="open">مفتوحة</button>
-    <button class="chip" data-filter="processing">جاري المعالجة</button>
-    <button class="chip" data-filter="closed">مغلقة</button>
-    <button class="chip urgent" data-filter="urgent">🔥 عاجلة</button>
-    <button class="chip" data-filter="complaint">شكاوى</button>
-    <button class="chip" data-filter="financial">مالية</button>
-    <button class="chip" data-filter="inquiry">استفسارات</button>
-  </div>
+  <!-- ============================================================ -->
+  <!-- 📄 محتوى الصفحة -->
+  <!-- ============================================================ -->
+  <main class="page-content">
+    <div class="container">
 
-  <!-- Grid -->
-  <div class="tickets-grid" id="ticketsGrid"></div>
-</div>
-
-<!-- Modal -->
-<div class="modal-overlay" id="ticketModal">
-  <div class="modal">
-    <div class="modal-head">
-      <div>
-        <div class="tkt-num" id="vtNum">TKT-000000</div>
-        <h3 id="vtSubj">—</h3>
-      </div>
-      <button class="close" onclick="closeModal()"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="modal-body">
-      <div class="info-row">
-        <b>المرسل:</b> <span id="vtSender">—</span><br>
-        <b>الهاتف:</b> <span id="vtPhone">—</span><br>
-        <b>الدور:</b> <span id="vtRole">—</span><br>
-        <b>التصنيف:</b> <span id="vtCat">—</span> • <b>الأولوية:</b> <span id="vtPrio">—</span><br>
-        <b>الحالة:</b> <span id="vtStatus">—</span> • <b>التاريخ:</b> <span id="vtDate">—</span>
-      </div>
-      <div class="timeline" id="vtTimeline"></div>
-      <div class="reply-box" id="vtReplyBox">
-        <input type="text" id="replyInput" placeholder="اكتب ردك كأدمن..." maxlength="800">
-        <button onclick="sendAdminReply()"><i class="fas fa-paper-plane"></i> رد</button>
-      </div>
-      <div class="actions-bar" id="vtActions">
-        <button class="btn btn-process" onclick="setStatus('processing')"><i class="fas fa-spinner"></i> جاري المعالجة</button>
-        <button class="btn btn-close-t" onclick="setStatus('closed')"><i class="fas fa-check-double"></i> إغلاق</button>
-        <button class="btn btn-delete" id="btnDelete" onclick="deleteTicket()"><i class="fas fa-trash"></i> حذف</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="toast-wrap" id="toastWrap"></div>
-
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-<script src="../assets/js/firebase-config.js"></script>
-<script src="../assets/js/main.js"></script>
-<script>
-/* =============================================
-   admin/support.html
-   ============================================= */
-let _admin = null;
-let _allTickets = [];
-let _filter = 'all';
-let _currentTicket = null;
-let _unsubTicket = null;
-
-document.addEventListener('DOMContentLoaded', () => {
-  // Page protection handled by main.js if you add protectAdminPage() call
-  if (typeof protectAdminPage === 'function') protectAdminPage();
-
-  _admin = JSON.parse(localStorage.getItem('admin') || 'null');
-  if (!_admin) { location.href = 'login.html'; return; }
-
-  setupFilters();
-  loadTickets();
-});
-
-function setupFilters() {
-  document.querySelectorAll('#filtersBar .chip').forEach(chip => {
-    chip.addEventListener('click', () => {
-      document.querySelectorAll('#filtersBar .chip').forEach(c => c.classList.remove('active'));
-      chip.classList.add('active');
-      _filter = chip.dataset.filter;
-      renderTickets();
-    });
-  });
-}
-
-function loadTickets() {
-  db.collection('support_tickets')
-    .orderBy('createdAt', 'desc')
-    .onSnapshot(snap => {
-      _allTickets = [];
-      snap.forEach(d => _allTickets.push({ id: d.id, ...d.data() }));
-      updateStats();
-      renderTickets();
-    }, err => {
-      console.error(err);
-      showToast('فشل تحميل التذاكر', 'error');
-    });
-}
-
-function updateStats() {
-  document.getElementById('stTotal').textContent = _allTickets.length;
-  document.getElementById('stOpen').textContent = _allTickets.filter(t => t.status === 'open').length;
-  document.getElementById('stProc').textContent = _allTickets.filter(t => t.status === 'processing').length;
-  document.getElementById('stClosed').textContent = _allTickets.filter(t => t.status === 'closed').length;
-}
-
-function filterTickets(list) {
-  if (_filter === 'all') return list;
-  if (_filter === 'urgent') return list.filter(t => t.priority === 'urgent');
-  if (['open','processing','closed'].includes(_filter)) return list.filter(t => t.status === _filter);
-  return list.filter(t => t.category === _filter);
-}
-
-function renderTickets() {
-  const list = filterTickets(_allTickets);
-  const grid = document.getElementById('ticketsGrid');
-  if (!list.length) {
-    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><i class="fas fa-inbox"></i>مفيش تذاكر مطابقة</div>`;
-    return;
-  }
-  grid.innerHTML = list.map((t, i) => `
-    <div class="tk-card priority-${t.priority || 'normal'}" style="animation-delay:${i*0.03}s" onclick="openTicket('${t.id}')">
-      <div class="tk-row1">
-        <span class="tk-num">${escapeHtml(t.ticketNumber || '')}</span>
-        <span class="status-pill status-${t.status}">${statusArabic(t.status)}</span>
-      </div>
-      <p class="tk-subject">${escapeHtml(t.subject || '')}</p>
-      <div class="tk-sender"><i class="fas fa-user"></i> ${escapeHtml(t.senderName || '')} ${t.senderPhone ? '• '+escapeHtml(t.senderPhone) : ''}</div>
-      <div class="tk-meta">
-        <span class="cat-pill">${categoryArabic(t.category)}</span>
-        <span class="priority-pill priority-${t.priority || 'normal'}">${priorityArabic(t.priority)}</span>
-        <span>${relativeTime(t.createdAt)}</span>
-        <span>${(t.replies?.length || 0)} رد</span>
-      </div>
-    </div>
-  `).join('');
-}
-
-/* ===== Open Ticket ===== */
-function openTicket(id) {
-  document.getElementById('ticketModal').classList.add('active');
-  document.getElementById('vtTimeline').innerHTML = '<div style="text-align:center;padding:20px;color:#9ca3af;"><i class="fas fa-spinner fa-spin"></i></div>';
-
-  if (_unsubTicket) _unsubTicket();
-  _unsubTicket = db.collection('support_tickets').doc(id).onSnapshot(doc => {
-    if (!doc.exists) { closeModal(); return; }
-    _currentTicket = { id: doc.id, ...doc.data() };
-    renderDetail(_currentTicket);
-  });
-}
-
-function closeModal() {
-  document.getElementById('ticketModal').classList.remove('active');
-  if (_unsubTicket) { _unsubTicket(); _unsubTicket = null; }
-  _currentTicket = null;
-}
-
-function renderDetail(t) {
-  document.getElementById('vtNum').textContent = t.ticketNumber || '';
-  document.getElementById('vtSubj').textContent = t.subject || '';
-  document.getElementById('vtSender').textContent = t.senderName || '—';
-  document.getElementById('vtPhone').textContent = t.senderPhone || '—';
-  document.getElementById('vtRole').textContent = roleArabic(t.senderRole);
-  document.getElementById('vtCat').textContent = categoryArabic(t.category);
-  document.getElementById('vtPrio').textContent = priorityArabic(t.priority);
-  document.getElementById('vtStatus').innerHTML = `<span class="status-pill status-${t.status}">${statusArabic(t.status)}</span>`;
-  document.getElementById('vtDate').textContent = formatDate(t.createdAt);
-
-  // Timeline
-  const replies = (t.replies || []).slice().sort((a, b) => new Date(a.at) - new Date(b.at));
-  let tlHtml = replies.map(r => {
-    const isAdmin = ['super','admin_plus','admin','cashier'].includes(r.byRole) && !r.isInitial;
-    const cls = r.isInitial ? 'user' : (isAdmin ? 'admin' : 'user');
-    const icon = r.isInitial ? 'fa-user' : (isAdmin ? 'fa-shield-alt' : 'fa-user');
-    return `
-      <div class="tl-item">
-        <div class="tl-dot ${cls}"><i class="fas ${icon}"></i></div>
-        <div class="tl-body">
-          <span class="who">${escapeHtml(r.byName || '—')}</span>
-          <span class="when">${relativeTime(r.at)}</span>
-          <div class="txt">${escapeHtml(r.text || '').replace(/\n/g,'<br>')}</div>
+      <!-- رأس الصفحة -->
+      <div class="tk-header">
+        <div class="tk-header-content">
+          <div class="header-icon">
+            <i class="fas fa-ticket-alt"></i>
+          </div>
+          <div class="header-text">
+            <h1>إدارة تذاكر الدعم</h1>
+            <p>متابعة شكاوى واستفسارات العملاء والتجار</p>
+          </div>
+          <span class="header-badge">
+            <i class="fas fa-shield-alt"></i>
+            الإدارة
+          </span>
         </div>
-      </div>`;
-  }).join('');
+      </div>
 
-  if (t.attachments && t.attachments.length) {
-    tlHtml += `
-      <div class="tl-item">
-        <div class="tl-dot sys"><i class="fas fa-paperclip"></i></div>
-        <div class="tl-body">
-          <span class="who">مرفق من المرسل</span>
-          <div style="margin-top:6px;">
-            <img src="${t.attachments[0]}" class="attachment-thumb" onclick="window.open('${t.attachments[0]}','_blank')">
+      <!-- الإحصائيات -->
+      <div class="tk-stats">
+        <div class="tk-stat-card" onclick="filterByStatus('all')">
+          <div class="stat-icon blue"><i class="fas fa-list"></i></div>
+          <div class="stat-number blue" id="statTotal">0</div>
+          <div class="stat-label">إجمالي التذاكر</div>
+        </div>
+        <div class="tk-stat-card" onclick="filterByStatus('open')">
+          <div class="stat-icon gold"><i class="fas fa-folder-open"></i></div>
+          <div class="stat-number gold" id="statOpen">0</div>
+          <div class="stat-label">مفتوحة</div>
+        </div>
+        <div class="tk-stat-card" onclick="filterByStatus('processing')">
+          <div class="stat-icon blue"><i class="fas fa-spinner"></i></div>
+          <div class="stat-number blue" id="statProc">0</div>
+          <div class="stat-label">جاري المعالجة</div>
+        </div>
+        <div class="tk-stat-card" onclick="filterByStatus('closed')">
+          <div class="stat-icon green"><i class="fas fa-check-double"></i></div>
+          <div class="stat-number green" id="statClosed">0</div>
+          <div class="stat-label">مغلقة</div>
+        </div>
+      </div>
+
+      <!-- الفلترة -->
+      <div class="tk-filter-bar">
+        <div class="tk-search-box">
+          <input type="text" id="searchInput" placeholder="ابحث برقم التذكرة أو الاسم أو الهاتف..." autocomplete="off" oninput="handleSearch(this.value)">
+          <i class="fas fa-search search-icon"></i>
+        </div>
+
+        <div class="tk-tabs-wrapper">
+          <div class="tk-status-tabs" id="statusTabs">
+            <button class="tk-status-tab active" data-filter="all" onclick="filterByStatus('all')">
+              <i class="fas fa-list"></i>
+              <span>الكل</span>
+              <span class="tab-count" id="countAll">0</span>
+            </button>
+            <button class="tk-status-tab" data-filter="open" onclick="filterByStatus('open')">
+              <i class="fas fa-folder-open"></i>
+              <span>مفتوحة</span>
+              <span class="tab-count" id="countOpen">0</span>
+            </button>
+            <button class="tk-status-tab" data-filter="processing" onclick="filterByStatus('processing')">
+              <i class="fas fa-spinner"></i>
+              <span>جاري المعالجة</span>
+              <span class="tab-count" id="countProc">0</span>
+            </button>
+            <button class="tk-status-tab" data-filter="closed" onclick="filterByStatus('closed')">
+              <i class="fas fa-check-double"></i>
+              <span>مغلقة</span>
+              <span class="tab-count" id="countClosed">0</span>
+            </button>
+            <button class="tk-status-tab urgent" data-filter="urgent" onclick="filterByStatus('urgent')">
+              <i class="fas fa-fire"></i>
+              <span>عاجلة</span>
+              <span class="tab-count" id="countUrgent">0</span>
+            </button>
           </div>
         </div>
-      </div>`;
-  }
-  document.getElementById('vtTimeline').innerHTML = tlHtml;
+      </div>
 
-  // Reply box visibility
-  const rb = document.getElementById('vtReplyBox');
-  if (t.status === 'closed') {
-    rb.innerHTML = '<div style="text-align:center;color:#9ca3af;font-size:12px;padding:8px;">التذكرة مغلقة</div>';
-  } else {
-    rb.innerHTML = `
-      <input type="text" id="replyInput" placeholder="اكتب ردك كأدمن..." maxlength="800">
-      <button onclick="sendAdminReply()"><i class="fas fa-paper-plane"></i> رد</button>`;
-    document.getElementById('replyInput').addEventListener('keydown', e => {
-      if (e.key === 'Enter') sendAdminReply();
+      <!-- قائمة التذاكر -->
+      <div class="tk-list" id="ticketsList">
+        <div class="loading-spinner" style="grid-column:1/-1;">
+          <i class="fas fa-spinner fa-spin"></i>
+          <p>جاري تحميل التذاكر...</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ============================================================ -->
+  <!-- 📱 التبويبات السفلى + الفوتر + السايدبار -->
+  <!-- ============================================================ -->
+  <div id="mobile-bottom-tabs"></div>
+  <div id="mobile-copyright"></div>
+  <div id="footer-placeholder"></div>
+  <div id="sidebar-placeholder"></div>
+  <div id="toast-container"></div>
+
+  <!-- ============================================================ -->
+  <!-- 📚 Firebase & JS -->
+  <!-- ============================================================ -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="/gomla/assets/js/firebase-config.js"></script>
+  <script src="/gomla/assets/js/main.js"></script>
+
+  <script>
+    // ============================================================
+    // 📄 admin/support.html — إدارة تذاكر الدعم
+    // ============================================================
+
+    let _adminData = null;
+    let _adminId = null;
+    let _adminRole = null;
+    let _allTickets = [];
+    let _filteredTickets = [];
+    let _currentFilter = 'all';
+    let _currentSearch = '';
+    let _currentTicket = null;
+    let _searchTimeout = null;
+    let _unsubTickets = null;
+    let _unsubTicketDoc = null;
+
+    // ============================================================
+    // 🚀 Init
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', async () => {
+
+      // حماية الصفحة: SUPER + ADMIN_PLUS + ADMIN
+      if (typeof protectAdminPage === 'function') {
+        const ok = protectAdminPage();
+        if (ok === false) return;
+      }
+
+      if (typeof getCurrentUser !== 'function') {
+        window.location.href = '/gomla/admin/login.html';
+        return;
+      }
+
+      const user = getCurrentUser();
+      if (!user || !user.data) {
+        window.location.href = '/gomla/admin/login.html';
+        return;
+      }
+
+      const allowedRoles = [ROLES.SUPER, ROLES.ADMIN_PLUS, ROLES.ADMIN];
+      if (!allowedRoles.includes(user.data.role)) {
+        if (typeof showToast === 'function') {
+          showToast('⚠️ ليس لديك صلاحية لهذه الصفحة', 'error');
+        }
+        setTimeout(() => {
+          window.location.href = '/gomla/admin/home.html';
+        }, 1300);
+        return;
+      }
+
+      _adminData = user.data;
+      _adminId = _adminData.uid || _adminData.id || user.uid || user.id;
+      _adminRole = _adminData.role;
+
+      if (!_adminId) {
+        showToast('❌ خطأ في بيانات المستخدم', 'error');
+        return;
+      }
+
+      loadTickets();
     });
-  }
 
-  // Delete button: super admin only
-  const btnDel = document.getElementById('btnDelete');
-  if (_admin.role === 'super') btnDel.style.display = 'flex';
-  else btnDel.style.display = 'none';
-}
+    // ============================================================
+    // 📥 تحميل التذاكر (Realtime)
+    // ============================================================
+    function loadTickets() {
+      if (_unsubTickets) _unsubTickets();
 
-/* ===== Admin Actions ===== */
-async function sendAdminReply() {
-  if (!_currentTicket) return;
-  const input = document.getElementById('replyInput');
-  const text = (input?.value || '').trim();
-  if (!text) return;
+      _unsubTickets = db.collection('support_tickets')
+        .orderBy('createdAt', 'desc')
+        .onSnapshot(snap => {
+          _allTickets = [];
+          snap.forEach(d => _allTickets.push({ id: d.id, ...d.data() }));
+          updateStats();
+          applyFilters();
+        }, err => {
+          console.error('loadTickets:', err);
+          const list = document.getElementById('ticketsList');
+          if (list) {
+            list.innerHTML = `
+              <div class="empty-state" style="grid-column:1/-1;">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>فشل تحميل التذاكر</p>
+                <button class="btn btn-gold" style="margin-top:8px;" onclick="loadTickets()">
+                  <i class="fas fa-sync-alt"></i>
+                  إعادة المحاولة
+                </button>
+              </div>
+            `;
+          }
+        });
+    }
 
-  input.disabled = true;
-  try {
-    const newReply = {
-      by: _admin.id || _admin.uid,
-      byName: _admin.name || 'الأدمن',
-      byRole: _admin.role || 'admin',
-      text,
-      at: new Date().toISOString(),
-      isInitial: false
-    };
-    await db.collection('support_tickets').doc(_currentTicket.id).update({
-      replies: firebase.firestore.FieldValue.arrayUnion(newReply),
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-      lastReplyAt: firebase.firestore.FieldValue.serverTimestamp(),
-      status: _currentTicket.status === 'open' ? 'processing' : _currentTicket.status
+    // ============================================================
+    // 📊 الإحصائيات
+    // ============================================================
+    function updateStats() {
+      const total = _allTickets.length;
+      const open = _allTickets.filter(t => t.status === 'open').length;
+      const proc = _allTickets.filter(t => t.status === 'processing').length;
+      const closed = _allTickets.filter(t => t.status === 'closed').length;
+      const urgent = _allTickets.filter(t => t.priority === 'urgent').length;
+
+      setText('statTotal', total);
+      setText('statOpen', open);
+      setText('statProc', proc);
+      setText('statClosed', closed);
+
+      setText('countAll', total);
+      setText('countOpen', open);
+      setText('countProc', proc);
+      setText('countClosed', closed);
+      setText('countUrgent', urgent);
+    }
+
+    function setText(id, val) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = val;
+    }
+
+    // ============================================================
+    // 🔍 البحث
+    // ============================================================
+    function handleSearch(value) {
+      if (_searchTimeout) clearTimeout(_searchTimeout);
+      _searchTimeout = setTimeout(() => {
+        _currentSearch = value.trim().toLowerCase();
+        applyFilters();
+      }, 250);
+    }
+
+    // ============================================================
+    // 🎯 الفلترة
+    // ============================================================
+    function filterByStatus(filter) {
+      _currentFilter = filter;
+      document.querySelectorAll('.tk-status-tab').forEach(t => {
+        t.classList.toggle('active', t.dataset.filter === filter);
+      });
+      applyFilters();
+    }
+
+    function applyFilters() {
+      _filteredTickets = _allTickets.filter(t => {
+        if (_currentFilter !== 'all') {
+          if (_currentFilter === 'urgent') {
+            if (t.priority !== 'urgent') return false;
+          } else if (['open', 'processing', 'closed'].includes(_currentFilter)) {
+            if (t.status !== _currentFilter) return false;
+          }
+        }
+
+        if (_currentSearch) {
+          const s = _currentSearch;
+          const num = (t.ticketNumber || '').toLowerCase();
+          const name = (t.senderName || '').toLowerCase();
+          const phone = (t.senderPhone || '').toLowerCase();
+          const subj = (t.subject || '').toLowerCase();
+          if (!num.includes(s) && !name.includes(s) &&
+              !phone.includes(s) && !subj.includes(s)) return false;
+        }
+
+        return true;
+      });
+
+      renderTickets();
+    }
+
+    // ============================================================
+    // 🎨 عرض التذاكر
+    // ============================================================
+    function renderTickets() {
+      const list = document.getElementById('ticketsList');
+      if (!list) return;
+
+      if (!_filteredTickets.length) {
+        list.innerHTML = `
+          <div class="empty-state" style="grid-column:1/-1;padding:50px 20px;">
+            <i class="fas fa-inbox"></i>
+            <p>${_currentSearch ? `لا نتائج لـ "${escapeHtml(_currentSearch)}"` : 'مفيش تذاكر في هذا التصنيف'}</p>
+          </div>
+        `;
+        return;
+      }
+
+      list.innerHTML = _filteredTickets.map(t => renderTicketCard(t)).join('');
+    }
+
+    function renderTicketCard(t) {
+      const num = t.ticketNumber || '—';
+      const status = t.status || 'open';
+      const statusIcon = { open: 'fa-folder-open', processing: 'fa-spinner', closed: 'fa-check-double' }[status] || 'fa-folder';
+      const priority = t.priority || 'normal';
+      const priorityText = { normal: 'عادية', high: 'مهمة', urgent: 'عاجلة' }[priority];
+      const priorityIcon = { normal: 'fa-flag', high: 'fa-exclamation', urgent: 'fa-fire' }[priority];
+      const categoryText = {
+        complaint: 'شكوى', inquiry: 'استفسار', request: 'طلب',
+        suggestion: 'اقتراح', financial: 'مشكلة مالية'
+      }[t.category] || t.category;
+
+      const roleIcon = {
+        retail: 'fa-user', wholesale: 'fa-store',
+        super: 'fa-crown', admin_plus: 'fa-gem',
+        admin: 'fa-shield-alt', cashier: 'fa-cash-register'
+      }[t.senderRole] || 'fa-user';
+
+      const initials = (t.senderName || '?').trim().charAt(0).toUpperCase();
+
+      const repliesCount = (t.replies && t.replies.length) || 0;
+
+      return `
+        <div class="tk-card priority-${priority} status-${status}" onclick="showTicketDetails('${t.id}')">
+          <div class="tk-card-header">
+            <div class="tk-header-left">
+              <div class="tk-avatar">${initials}</div>
+              <div class="tk-info">
+                <div class="sender-name">${escapeHtml(t.senderName || 'غير معروف')}</div>
+                <div class="tk-meta-small">
+                  <i class="fas ${roleIcon}"></i>
+                  <span>${getRoleArabicName(t.senderRole) || '—'}</span>
+                  <span>•</span>
+                  <span style="font-family:'Courier New',monospace;">${escapeHtml(num)}</span>
+                </div>
+              </div>
+            </div>
+            <span class="tk-status-badge ${status}">
+              <i class="fas ${statusIcon}"></i>
+              ${statusArabic(status)}
+            </span>
+          </div>
+
+          <div class="tk-card-body">
+            <p class="tk-subject">${escapeHtml(t.subject || '—')}</p>
+            <div class="tk-info-chips">
+              <span class="tk-chip">
+                <i class="fas fa-tag"></i>
+                ${escapeHtml(categoryText)}
+              </span>
+              <span class="tk-chip priority-${priority}">
+                <i class="fas ${priorityIcon}"></i>
+                ${priorityText}
+              </span>
+              ${t.senderPhone ? `
+                <span class="tk-chip" style="direction:ltr;">
+                  <i class="fas fa-phone"></i>
+                  ${escapeHtml(t.senderPhone)}
+                </span>
+              ` : ''}
+              ${repliesCount > 0 ? `
+                <span class="tk-chip">
+                  <i class="fas fa-comments"></i>
+                  ${repliesCount} رد
+                </span>
+              ` : ''}
+            </div>
+          </div>
+
+          <div class="tk-card-footer">
+            <div class="tk-time">
+              <i class="fas fa-clock"></i>
+              ${relativeTime(t.createdAt)}
+            </div>
+            <button class="tk-view-btn" onclick="event.stopPropagation(); showTicketDetails('${t.id}')">
+              <i class="fas fa-eye"></i>
+              عرض
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    // ============================================================
+    // 👁️ عرض تفاصيل التذكرة
+    // ============================================================
+    function showTicketDetails(ticketId) {
+      if (_unsubTicketDoc) _unsubTicketDoc();
+
+      const modalHtml = `
+        <div class="modal-overlay show" id="tkDetailsModal" onclick="closeDetailsModal(event)">
+          <div class="modal-content medium" onclick="event.stopPropagation()">
+            <div class="tk-modal-header">
+              <div style="min-width:0;">
+                <div class="tkt-num" id="tkNum">—</div>
+                <h3 id="tkSubject">—</h3>
+              </div>
+              <button class="modal-close" onclick="closeDetailsModal()">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+            <div class="modal-body" id="tkDetailsBody">
+              <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i></div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const existing = document.getElementById('tkDetailsModal');
+      if (existing) existing.remove();
+
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
+      document.body.style.overflow = 'hidden';
+
+      _unsubTicketDoc = db.collection('support_tickets').doc(ticketId).onSnapshot(doc => {
+        if (!doc.exists) { closeDetailsModal(); return; }
+        _currentTicket = { id: doc.id, ...doc.data() };
+        renderDetails(_currentTicket);
+      });
+    }
+
+    function renderDetails(t) {
+      const numEl = document.getElementById('tkNum');
+      const subjEl = document.getElementById('tkSubject');
+      const bodyEl = document.getElementById('tkDetailsBody');
+      if (numEl) numEl.textContent = t.ticketNumber || '';
+      if (subjEl) subjEl.textContent = t.subject || '';
+      if (!bodyEl) return;
+
+      const status = t.status || 'open';
+      const priority = t.priority || 'normal';
+      const priorityText = { normal: 'عادية', high: 'مهمة', urgent: 'عاجلة' }[priority];
+      const priorityIcon = { normal: 'fa-flag', high: 'fa-exclamation', urgent: 'fa-fire' }[priority];
+      const categoryText = {
+        complaint: 'شكوى', inquiry: 'استفسار', request: 'طلب',
+        suggestion: 'اقتراح', financial: 'مشكلة مالية'
+      }[t.category] || t.category;
+
+      const initials = (t.senderName || '?').trim().charAt(0).toUpperCase();
+
+      const replies = (t.replies || []).slice().sort((a, b) => new Date(a.at) - new Date(b.at));
+      let tlHtml = replies.map(r => {
+        const adminRoles = ['super', 'admin_plus', 'admin', 'cashier'];
+        const isAdmin = adminRoles.includes(r.byRole) && !r.isInitial;
+        const cls = r.isInitial ? 'user' : (isAdmin ? 'admin' : 'user');
+        const icon = r.isInitial ? 'fa-user' : (isAdmin ? 'fa-shield-alt' : 'fa-user');
+        const txtCls = isAdmin ? 'txt admin-reply' : 'txt';
+        return `
+          <div class="tk-tl-item">
+            <div class="tk-tl-dot ${cls}"><i class="fas ${icon}"></i></div>
+            <div class="tk-tl-body">
+              <div>
+                <span class="who">${escapeHtml(r.byName || '—')}</span>
+                <span class="when">${relativeTime(r.at)}</span>
+              </div>
+              <div class="${txtCls}">${escapeHtml(r.text || '').replace(/\n/g, '<br>')}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      if (t.attachments && t.attachments.length) {
+        tlHtml += `
+          <div class="tk-tl-item">
+            <div class="tk-tl-dot sys"><i class="fas fa-paperclip"></i></div>
+            <div class="tk-tl-body">
+              <span class="who">مرفق</span>
+              <div style="margin-top:6px;">
+                <img src="${t.attachments[0]}" class="tk-attachment-thumb"
+                     onclick="window.open('${t.attachments[0]}','_blank')"
+                     onerror="this.style.display='none'">
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      const isSuper = _adminRole === ROLES.SUPER;
+
+      let replyOrClosed = '';
+      if (status === 'closed') {
+        replyOrClosed = `
+          <div style="text-align:center;padding:12px;color:var(--gray-500);font-size:0.82rem;background:var(--gray-50);border-radius:var(--radius-sm);margin-top:10px;">
+            <i class="fas fa-lock"></i>
+            التذكرة مغلقة
+          </div>
+        `;
+      } else {
+        replyOrClosed = `
+          <div class="tk-reply-box">
+            <input type="text" id="adminReplyInput" placeholder="اكتب ردك كأدمن..." maxlength="800">
+            <button onclick="sendAdminReply()">
+              <i class="fas fa-paper-plane"></i>
+              رد
+            </button>
+          </div>
+        `;
+      }
+
+      bodyEl.innerHTML = `
+        <!-- بطاقة المُرسل -->
+        <div class="tk-sender-card">
+          <div class="sender-avatar">${initials}</div>
+          <div class="sender-details">
+            <h4>${escapeHtml(t.senderName || 'غير معروف')}</h4>
+            ${t.senderPhone ? `<p><i class="fas fa-phone"></i><span style="direction:ltr;">${escapeHtml(t.senderPhone)}</span></p>` : ''}
+            ${t.senderCode ? `<p><i class="fas fa-key"></i><span style="font-family:'Courier New',monospace;">${escapeHtml(t.senderCode)}</span></p>` : ''}
+            <p>
+              <i class="fas fa-tag"></i>
+              ${escapeHtml(categoryText)} • أولوية: ${priorityText}
+            </p>
+          </div>
+        </div>
+
+        <!-- Timeline -->
+        <h4 class="tk-modal-section-title">
+          <i class="fas fa-comments"></i>
+          المحادثة (${replies.length} رد)
+        </h4>
+        <div class="tk-timeline">${tlHtml}</div>
+
+        ${replyOrClosed}
+
+        <!-- أزرار الإجراءات -->
+        <div class="tk-actions-bar">
+          ${status !== 'processing' ? `
+            <button class="tk-action-btn process" onclick="setStatus('processing')">
+              <i class="fas fa-spinner"></i>
+              جاري المعالجة
+            </button>
+          ` : ''}
+          ${status !== 'closed' ? `
+            <button class="tk-action-btn close" onclick="setStatus('closed')">
+              <i class="fas fa-check-double"></i>
+              إغلاق التذكرة
+            </button>
+          ` : ''}
+          ${isSuper ? `
+            <button class="tk-action-btn delete" onclick="deleteTicket()">
+              <i class="fas fa-trash"></i>
+              حذف
+            </button>
+          ` : ''}
+        </div>
+      `;
+
+      const input = document.getElementById('adminReplyInput');
+      if (input) {
+        input.addEventListener('keydown', e => {
+          if (e.key === 'Enter') sendAdminReply();
+        });
+      }
+    }
+
+    function closeDetailsModal(event) {
+      if (event && event.target !== event.currentTarget) return;
+      if (_unsubTicketDoc) { _unsubTicketDoc(); _unsubTicketDoc = null; }
+      const modal = document.getElementById('tkDetailsModal');
+      if (modal) modal.remove();
+      document.body.style.overflow = '';
+      _currentTicket = null;
+    }
+
+    // ============================================================
+    // 📨 إرسال رد الأدمن
+    // ============================================================
+    async function sendAdminReply() {
+      if (!_currentTicket) return;
+      const input = document.getElementById('adminReplyInput');
+      const text = (input && input.value ? input.value : '').trim();
+      if (!text) return;
+
+      input.disabled = true;
+      try {
+        const newReply = {
+          by: _adminId,
+          byName: _adminData.name || 'الأدمن',
+          byRole: _adminRole,
+          text,
+          at: new Date().toISOString(),
+          isInitial: false
+        };
+
+        const upd = {
+          replies: firebase.firestore.FieldValue.arrayUnion(newReply),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          lastReplyAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+        if (_currentTicket.status === 'open') upd.status = 'processing';
+
+        await db.collection('support_tickets').doc(_currentTicket.id).update(upd);
+
+        // إشعار للعميل
+        try {
+          await db.collection('customer_notifications').add({
+            userId: _currentTicket.senderId,
+            title: `رد جديد على تذكرة ${_currentTicket.ticketNumber}`,
+            body: text.slice(0, 120),
+            message: text.slice(0, 120),
+            type: 'support_reply',
+            ticketId: _currentTicket.id,
+            read: false,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        } catch (e) { console.warn('customer_notification failed', e); }
+
+        // log
+        if (typeof logActivity === 'function') {
+          logActivity('رد على تذكرة دعم', `${_currentTicket.ticketNumber}`);
+        }
+
+        input.value = '';
+        showToast('✅ تم إرسال الرد وإخطار العميل', 'success');
+      } catch (err) {
+        console.error(err);
+        showToast('❌ فشل الإرسال', 'error');
+      } finally {
+        if (input) input.disabled = false;
+      }
+    }
+
+    // ============================================================
+    // 🔄 تغيير الحالة
+    // ============================================================
+    async function setStatus(newStatus) {
+      if (!_currentTicket) return;
+      try {
+        const upd = {
+          status: newStatus,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          reviewedBy: _adminId,
+          reviewedByName: _adminData.name || 'الأدمن'
+        };
+        if (newStatus === 'closed') {
+          upd.closedAt = firebase.firestore.FieldValue.serverTimestamp();
+        }
+
+        await db.collection('support_tickets').doc(_currentTicket.id).update(upd);
+
+        if (typeof logActivity === 'function') {
+          logActivity('تغيير حالة تذكرة', `${_currentTicket.ticketNumber} → ${statusArabic(newStatus)}`);
+        }
+
+        showToast('✅ تم تحديث الحالة', 'success');
+      } catch (err) {
+        console.error(err);
+        showToast('❌ فشل التحديث', 'error');
+      }
+    }
+
+    // ============================================================
+    // 🗑️ حذف (سوبر أدمن فقط)
+    // ============================================================
+    async function deleteTicket() {
+      if (!_currentTicket) return;
+      if (_adminRole !== ROLES.SUPER) {
+        showToast('⚠️ الحذف للسوبر أدمن فقط', 'warning');
+        return;
+      }
+      if (!confirm('متأكد من حذف التذكرة نهائياً؟')) return;
+
+      try {
+        await db.collection('support_tickets').doc(_currentTicket.id).delete();
+        if (typeof logActivity === 'function') {
+          logActivity('حذف تذكرة دعم', _currentTicket.ticketNumber);
+        }
+        showToast('✅ تم الحذف', 'success');
+        closeDetailsModal();
+      } catch (err) {
+        console.error(err);
+        showToast('❌ فشل الحذف', 'error');
+      }
+    }
+
+    // ============================================================
+    // 🛠️ Helpers
+    // ============================================================
+    function statusArabic(s) {
+      return { open: 'مفتوحة', processing: 'جاري المعالجة', closed: 'مغلقة' }[s] || s;
+    }
+    function relativeTime(ts) {
+      if (!ts) return '';
+      let d;
+      if (typeof ts === 'string') d = new Date(ts);
+      else if (ts.toDate) d = ts.toDate();
+      else if (ts.seconds) d = new Date(ts.seconds * 1000);
+      else return '';
+      const diff = Math.floor((Date.now() - d.getTime()) / 1000);
+      if (diff < 60) return 'الآن';
+      if (diff < 3600) return `منذ ${Math.floor(diff / 60)} د`;
+      if (diff < 86400) return `منذ ${Math.floor(diff / 3600)} س`;
+      if (diff < 604800) return `منذ ${Math.floor(diff / 86400)} ي`;
+      return d.toLocaleDateString('ar-EG');
+    }
+    function escapeHtml(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[c]));
+    }
+
+    // ESC لإغلاق المودال
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeDetailsModal();
     });
 
-    // Notify user
-    await notifyUser(_currentTicket, text);
-    // Log
-    await logActivity('support_reply', `رد على تذكرة ${_currentTicket.ticketNumber}`);
-
-    input.value = '';
-    showToast('تم إرسال الرد وإشعار المستخدم', 'success');
-  } catch (err) {
-    console.error(err);
-    showToast('فشل الإرسال', 'error');
-  } finally {
-    if (input) input.disabled = false;
-  }
-}
-
-async function notifyUser(ticket, replyText) {
-  try {
-    await db.collection('customer_notifications').add({
-      userId: ticket.senderId,
-      title: `رد جديد على تذكرة ${ticket.ticketNumber}`,
-      message: replyText.slice(0, 100),
-      type: 'support_reply',
-      ticketId: ticket.id,
-      read: false,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-  } catch(e) { console.warn('notifyUser failed', e); }
-}
-
-async function setStatus(newStatus) {
-  if (!_currentTicket) return;
-  try {
-    const upd = {
-      status: newStatus,
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-      reviewedBy: _admin.id || _admin.uid,
-      reviewedByName: _admin.name || 'الأدمن'
-    };
-    if (newStatus === 'closed') upd.closedAt = firebase.firestore.FieldValue.serverTimestamp();
-
-    await db.collection('support_tickets').doc(_currentTicket.id).update(upd);
-    await logActivity('support_status', `تغيير حالة تذكرة ${_currentTicket.ticketNumber} إلى ${statusArabic(newStatus)}`);
-    showToast('تم تحديث الحالة', 'success');
-  } catch (err) {
-    console.error(err);
-    showToast('فشل التحديث', 'error');
-  }
-}
-
-async function deleteTicket() {
-  if (!_currentTicket) return;
-  if (_admin.role !== 'super') { showToast('الحذف للسوبر أدمن فقط', 'warning'); return; }
-  if (!confirm('متأكد من حذف التذكرة نهائياً؟')) return;
-  try {
-    await db.collection('support_tickets').doc(_currentTicket.id).delete();
-    await logActivity('support_delete', `حذف تذكرة ${_currentTicket.ticketNumber}`);
-    showToast('تم الحذف', 'success');
-    closeModal();
-  } catch (err) {
-    console.error(err);
-    showToast('فشل الحذف', 'error');
-  }
-}
-
-async function logActivity(action, details) {
-  try {
-    await db.collection('activityLog').add({
-      action, details,
-      by: _admin.id || _admin.uid,
-      byName: _admin.name || 'الأدمن',
-      byRole: _admin.role,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-  } catch(e) {}
-}
-
-/* ===== Helpers ===== */
-function statusArabic(s) { return { open:'مفتوحة', processing:'جاري المعالجة', closed:'مغلقة' }[s] || s; }
-function categoryArabic(c) { return { complaint:'شكوى', inquiry:'استفسار', request:'طلب', suggestion:'اقتراح', financial:'مشكلة مالية' }[c] || c; }
-function priorityArabic(p) { return { normal:'عادية', high:'مهمة', urgent:'عاجلة' }[p] || p; }
-function roleArabic(r) { return { super:'سوبر أدمن', admin_plus:'أدمن بلص', admin:'أدمن', cashier:'كاشير', wholesale:'تاجر', retail:'عميل', guest:'زائر' }[r] || r; }
-function relativeTime(ts) {
-  if (!ts) return '';
-  let d;
-  if (typeof ts === 'string') d = new Date(ts);
-  else if (ts.toDate) d = ts.toDate();
-  else if (ts.seconds) d = new Date(ts.seconds * 1000);
-  else return '';
-  const diff = Math.floor((Date.now() - d.getTime()) / 1000);
-  if (diff < 60) return 'الآن';
-  if (diff < 3600) return `منذ ${Math.floor(diff/60)} د`;
-  if (diff < 86400) return `منذ ${Math.floor(diff/3600)} س`;
-  if (diff < 604800) return `منذ ${Math.floor(diff/86400)} ي`;
-  return d.toLocaleDateString('ar-EG');
-}
-function formatDate(ts) {
-  if (!ts) return '—';
-  let d;
-  if (ts.toDate) d = ts.toDate();
-  else if (ts.seconds) d = new Date(ts.seconds * 1000);
-  else if (typeof ts === 'string') d = new Date(ts);
-  else return '—';
-  return d.toLocaleString('ar-EG', { dateStyle:'short', timeStyle:'short' });
-}
-function escapeHtml(s) {
-  return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
-function showToast(msg, type = 'info') {
-  const wrap = document.getElementById('toastWrap');
-  const el = document.createElement('div');
-  el.className = 'toast ' + type;
-  const icons = { success:'fa-check-circle', error:'fa-times-circle', warning:'fa-exclamation-triangle', info:'fa-info-circle' };
-  el.innerHTML = `<i class="fas ${icons[type] || icons.info}"></i><span>${escapeHtml(msg)}</span>`;
-  wrap.appendChild(el);
-  setTimeout(() => { el.style.opacity='0'; el.style.transform='translateY(-10px)'; setTimeout(()=>el.remove(), 300); }, 3200);
-}
-</script>
+    // تصدير عالمي (للاستخدام من onclick)
+    window.filterByStatus = filterByStatus;
+    window.handleSearch = handleSearch;
+    window.showTicketDetails = showTicketDetails;
+    window.closeDetailsModal = closeDetailsModal;
+    window.sendAdminReply = sendAdminReply;
+    window.setStatus = setStatus;
+    window.deleteTicket = deleteTicket;
+    window.loadTickets = loadTickets;
+  </script>
 </body>
 </html>
