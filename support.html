@@ -1,909 +1,1100 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>الدعم والمساعدة | أولاد شعلان</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<link rel="stylesheet" href="assets/css/style.css">
-<style>
-:root {
-  --navy: #1a2a4a; --navy-light: #2a3f6a; --navy-dark: #0f1a2e;
-  --gold: #c9a84c; --gold-light: #e8d5a3; --gold-dark: #b8942a;
-}
-* { box-sizing: border-box; }
-html, body { overflow-x: hidden; overscroll-behavior-x: contain; }
-body {
-  margin: 0; padding: 0;
-  font-family: 'Tajawal', sans-serif;
-  background: #f5f6fa;
-  padding-top: 60px; padding-bottom: 90px;
-  min-width: 0;
-}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الدعم والمساعدة - أولاد شعلان</title>
+  <meta name="description" content="الدعم والمساعدة - أولاد شعلان للمنظفات والورقيات">
+  <meta name="theme-color" content="#1a2a4a">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/gomla/assets/css/style.css">
+  <link rel="icon" href="/gomla/assets/images/favicon.ico">
+  <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.0/dist/browser-image-compression.js"></script>
 
-/* ===== Top Bar ===== */
-.top-bar {
-  position: fixed; top: 0; right: 0; left: 0;
-  height: 60px; z-index: 900;
-  background: linear-gradient(135deg, var(--navy-dark), var(--navy), var(--navy-light));
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 14px; box-shadow: 0 2px 20px rgba(0,0,0,.25);
-}
-.top-bar .brand { display: flex; align-items: center; gap: 10px; color: #fff; font-weight: 800; font-size: 16px; }
-.top-bar .brand img { width: 36px; height: 36px; border-radius: 10px; }
-.top-bar .back-btn {
-  background: rgba(255,255,255,.1); color: #fff; border: 0;
-  width: 40px; height: 40px; border-radius: 12px; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  transition: .2s;
-}
-.top-bar .back-btn:hover { background: rgba(255,255,255,.2); }
+  <style>
+    /* ============================================================
+       🛡️ منع السكرول الأفقي
+       ============================================================ */
+    html, body { overflow-x: hidden !important; max-width: 100vw; }
+    .page-content, .page-content .container { overflow-x: hidden; min-width: 0; max-width: 100%; }
 
-/* ===== Hero Mini ===== */
-.hero-mini {
-  position: relative; overflow: hidden;
-  background: linear-gradient(135deg, var(--navy-dark), var(--navy), var(--navy-light));
-  padding: 34px 20px 40px;
-  text-align: center; color: #fff;
-  border-radius: 0 0 28px 28px;
-  margin-bottom: 20px;
-}
-.hero-mini::before {
-  content: ''; position: absolute; width: 200px; height: 200px;
-  border-radius: 50%; background: radial-gradient(circle, rgba(201,168,76,.35), transparent 70%);
-  top: -80px; right: -60px;
-}
-.hero-mini::after {
-  content: ''; position: absolute; width: 160px; height: 160px;
-  border-radius: 50%; background: radial-gradient(circle, rgba(201,168,76,.25), transparent 70%);
-  bottom: -60px; left: -40px;
-}
-.hero-mini h1 {
-  margin: 0 0 8px; font-size: 24px; font-weight: 900;
-  color: var(--gold-light);
-  position: relative; z-index: 1;
-  animation: text-shine 3s ease-in-out infinite;
-}
-@keyframes text-shine {
-  0%, 100% { text-shadow: 0 0 8px rgba(201,168,76,.4); }
-  50% { text-shadow: 0 0 20px rgba(201,168,76,.9); }
-}
-.hero-mini p {
-  margin: 0; font-size: 14px; opacity: .9;
-  position: relative; z-index: 1;
-}
-.hero-mini .hero-icon {
-  font-size: 42px; color: var(--gold);
-  margin-bottom: 12px; position: relative; z-index: 1;
-  animation: bellRing 2.5s ease-in-out infinite;
-}
-@keyframes bellRing {
-  0%, 100%, 20%, 40% { transform: rotate(0deg); }
-  10%, 30% { transform: rotate(12deg); }
-}
+    /* ============================================================
+       🎨 رأس الصفحة (نفس نمط ft-header بألوان navy/gold)
+       ============================================================ */
+    .support-header {
+      background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 50%, var(--navy-light) 100%);
+      border-radius: var(--radius-lg);
+      padding: 26px 24px;
+      margin-bottom: 20px;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(15, 26, 46, 0.35);
+      border-bottom: 4px solid var(--gold);
+    }
+    .support-header::before {
+      content: '';
+      position: absolute;
+      top: -50%; right: -15%;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(201,168,76,.28) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+    }
+    .support-header-content {
+      position: relative; z-index: 1;
+      display: flex; align-items: center;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .support-header-content .header-icon {
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem; flex-shrink: 0;
+      box-shadow: 0 8px 24px rgba(201,168,76,.5);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    .support-header-content .header-text { flex: 1; min-width: 200px; }
+    .support-header-content .header-text h1 {
+      font-size: 1.4rem; font-weight: 900;
+      margin-bottom: 4px; color: var(--white);
+    }
+    .support-header-content .header-text p {
+      font-size: 0.85rem; opacity: 0.9;
+      color: rgba(255,255,255,0.9); margin: 0;
+    }
+    .support-header-content .header-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 14px;
+      background: rgba(255,255,255,.15);
+      color: var(--gold-light);
+      border: 1px solid rgba(201,168,76,.5);
+      border-radius: var(--radius-full);
+      font-size: 0.75rem; font-weight: 800;
+      backdrop-filter: blur(10px);
+    }
+    .support-header-content .header-badge i { color: var(--gold); }
 
-/* ===== Container ===== */
-.container { max-width: 900px; margin: 0 auto; padding: 0 14px; }
-.section-title {
-  font-size: 17px; font-weight: 800; color: var(--navy);
-  margin: 22px 0 14px; display: flex; align-items: center; gap: 8px;
-}
-.section-title i { color: var(--gold); }
+    /* ============================================================
+       📞 كروت التواصل السريع
+       ============================================================ */
+    .contact-quick-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .contact-quick-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 18px 14px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      border: 2px solid var(--gray-200);
+      transition: var(--transition);
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--navy);
+      display: flex; flex-direction: column;
+      align-items: center; gap: 8px;
+      font-family: inherit;
+    }
+    .contact-quick-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--gold);
+    }
+    .contact-quick-card .ico {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--white); font-size: 1.4rem;
+      transition: var(--transition);
+    }
+    .contact-quick-card:hover .ico { transform: scale(1.1) rotate(-6deg); }
+    .contact-quick-card .ico.whatsapp { background: linear-gradient(135deg, #25D366, #128C7E); }
+    .contact-quick-card .ico.email { background: linear-gradient(135deg, #EA4335, #C5221F); }
+    .contact-quick-card .ico.phone { background: linear-gradient(135deg, var(--navy-light), var(--navy)); }
+    .contact-quick-card .ico.ticket { background: linear-gradient(135deg, var(--gold), var(--gold-dark)); }
+    .contact-quick-card h4 {
+      margin: 0; font-size: 0.9rem; font-weight: 800;
+      color: var(--navy);
+    }
+    .contact-quick-card p {
+      margin: 0; font-size: 0.72rem;
+      color: var(--gray-500);
+    }
 
-/* ===== Quick Contact Cards ===== */
-.contact-grid {
-  display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
-}
-.contact-card {
-  background: #fff; border-radius: 16px; padding: 16px;
-  text-align: center; text-decoration: none; color: var(--navy);
-  box-shadow: 0 4px 14px rgba(0,0,0,.06);
-  transition: .25s; cursor: pointer; border: 0;
-  animation: dropIn .5s ease backwards;
-  display: flex; flex-direction: column; align-items: center; gap: 8px;
-}
-.contact-card:hover { transform: translateY(-4px); box-shadow: 0 8px 22px rgba(0,0,0,.12); }
-.contact-card .ico {
-  width: 48px; height: 48px; border-radius: 14px;
-  display: flex; align-items: center; justify-content: center;
-  color: #fff; font-size: 22px;
-}
-.contact-card .ico.whatsapp { background: linear-gradient(135deg, #25D366, #128C7E); }
-.contact-card .ico.email { background: linear-gradient(135deg, #EA4335, #C5221F); }
-.contact-card .ico.phone { background: linear-gradient(135deg, var(--navy-light), var(--navy)); }
-.contact-card .ico.ticket { background: linear-gradient(135deg, var(--gold), var(--gold-dark)); }
-.contact-card h3 { margin: 0; font-size: 14px; font-weight: 700; }
-.contact-card p { margin: 0; font-size: 11px; color: #6b7280; }
-@keyframes dropIn {
-  from { opacity: 0; transform: translateY(-30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.contact-card:nth-child(1) { animation-delay: 0s; }
-.contact-card:nth-child(2) { animation-delay: .08s; }
-.contact-card:nth-child(3) { animation-delay: .16s; }
-.contact-card:nth-child(4) { animation-delay: .24s; }
+    /* ============================================================
+       🎫 كارت التذكرة
+       ============================================================ */
+    .tickets-list {
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .ticket-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      min-width: 0;
+    }
+    .ticket-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 5px; height: 100%;
+      background: var(--gold);
+    }
+    .ticket-card.status-open::before { background: linear-gradient(180deg, #f59e0b, #d97706); }
+    .ticket-card.status-processing::before { background: linear-gradient(180deg, #3b82f6, #1e40af); }
+    .ticket-card.status-closed::before { background: linear-gradient(180deg, #22c55e, #16a34a); }
+    .ticket-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--gold-light);
+    }
+    .ticket-card .ticket-row1 {
+      display: flex; justify-content: space-between;
+      align-items: center; gap: 8px; margin-bottom: 6px;
+    }
+    .ticket-card .ticket-num {
+      font-family: 'Courier New', monospace;
+      font-size: 0.82rem; font-weight: 900;
+      color: var(--navy); letter-spacing: 0.5px;
+      direction: ltr;
+    }
+    .ticket-card .ticket-subject {
+      font-size: 0.95rem; font-weight: 800;
+      color: var(--navy); margin: 0 0 6px;
+      overflow: hidden; text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .ticket-card .ticket-meta {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      font-size: 0.72rem; color: var(--gray-500);
+      align-items: center;
+    }
+    .ticket-card .ticket-meta i { color: var(--gold); }
 
-/* ===== FAQ ===== */
-.faq-list { display: flex; flex-direction: column; gap: 10px; }
-.faq-item {
-  background: #fff; border-radius: 14px; overflow: hidden;
-  box-shadow: 0 2px 10px rgba(0,0,0,.05);
-  transition: .25s;
-}
-.faq-item.open { box-shadow: 0 6px 20px rgba(26,42,74,.12); }
-.faq-q {
-  padding: 15px 16px; cursor: pointer;
-  display: flex; align-items: center; justify-content: space-between;
-  font-weight: 700; color: var(--navy); font-size: 14px;
-  user-select: none;
-}
-.faq-q i {
-  color: var(--gold); font-size: 16px;
-  transition: .3s;
-}
-.faq-item.open .faq-q i { transform: rotate(180deg); }
-.faq-a {
-  max-height: 0; overflow: hidden;
-  transition: max-height .35s ease, padding .35s ease;
-  padding: 0 16px; color: #4b5563; font-size: 13px; line-height: 1.75;
-  background: #fafbfd; border-top: 1px solid transparent;
-}
-.faq-item.open .faq-a {
-  max-height: 320px; padding: 14px 16px;
-  border-top-color: #eef0f5;
-}
+    /* ============================================================
+       📖 الأسئلة الشائعة
+       ============================================================ */
+    .faq-list {
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .faq-item {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      transition: var(--transition);
+    }
+    .faq-item.open {
+      box-shadow: var(--shadow-md);
+      border-color: var(--gold-light);
+    }
+    .faq-q {
+      padding: 16px 18px;
+      cursor: pointer;
+      display: flex; align-items: center;
+      justify-content: space-between;
+      font-weight: 700; color: var(--navy);
+      font-size: 0.92rem;
+      user-select: none;
+      gap: 10px;
+    }
+    .faq-q i {
+      color: var(--gold);
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+    .faq-item.open .faq-q i { transform: rotate(180deg); }
+    .faq-a {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+      padding: 0 18px;
+      color: var(--gray-600);
+      font-size: 0.88rem;
+      line-height: 1.8;
+      background: var(--gray-50);
+      border-top: 1px solid transparent;
+    }
+    .faq-item.open .faq-a {
+      max-height: 400px;
+      padding: 14px 18px;
+      border-top-color: var(--gray-200);
+    }
 
-/* ===== My Tickets ===== */
-.tickets-list { display: flex; flex-direction: column; gap: 10px; }
-.ticket-card {
-  background: #fff; border-radius: 14px; padding: 14px 16px;
-  box-shadow: 0 2px 10px rgba(0,0,0,.05);
-  cursor: pointer; transition: .25s;
-  border-right: 4px solid var(--gold);
-}
-.ticket-card:hover { transform: translateX(-4px); box-shadow: 0 6px 18px rgba(0,0,0,.1); }
-.ticket-card .row1 {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 6px;
-}
-.ticket-card .num { font-weight: 800; color: var(--navy); font-size: 13px; }
-.ticket-card .status-pill {
-  font-size: 10px; padding: 3px 9px; border-radius: 20px; font-weight: 700;
-}
-.status-open { background: #fef3c7; color: #92400e; }
-.status-processing { background: #dbeafe; color: #1e40af; }
-.status-closed { background: #dcfce7; color: #166534; }
-.ticket-card .subject { font-size: 14px; font-weight: 600; color: #1f2937; margin: 0 0 4px; }
-.ticket-card .meta { font-size: 11px; color: #9ca3af; }
-.empty-state {
-  text-align: center; padding: 30px 14px; color: #9ca3af;
-}
-.empty-state i { font-size: 40px; color: #e5e7eb; margin-bottom: 10px; display: block; }
+    /* ============================================================
+       🎫 Modal التذكرة
+       ============================================================ */
+    .ticket-modal-header {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      padding: 18px 22px;
+      display: flex; align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      position: sticky; top: 0; z-index: 10;
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+    }
+    .ticket-modal-header .tkt-num {
+      font-family: 'Courier New', monospace;
+      font-size: 0.78rem; color: var(--gold-light);
+      font-weight: 800; letter-spacing: 0.5px;
+      margin-bottom: 4px; direction: ltr; text-align: right;
+    }
+    .ticket-modal-header h3 {
+      margin: 0; font-size: 1rem; font-weight: 900;
+      line-height: 1.4;
+    }
 
-/* ===== CTA Open Ticket ===== */
-.cta-open {
-  display: flex; align-items: center; justify-content: center; gap: 10px;
-  width: 100%; padding: 16px; border-radius: 16px; border: 0;
-  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-  color: #fff; font-weight: 800; font-size: 15px;
-  cursor: pointer; box-shadow: 0 6px 18px rgba(201,168,76,.35);
-  transition: .25s; margin-top: 8px;
-}
-.cta-open:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(201,168,76,.5); }
-.cta-open i { font-size: 18px; }
+    /* Timeline */
+    .timeline { padding: 8px 0; margin-bottom: 12px; }
+    .tl-item {
+      display: flex; gap: 12px;
+      padding: 10px 0; position: relative;
+    }
+    .tl-item::before {
+      content: ''; position: absolute;
+      right: 16px; top: 34px; bottom: -10px;
+      width: 2px; background: var(--gray-200);
+    }
+    .tl-item:last-child::before { display: none; }
+    .tl-dot {
+      width: 34px; height: 34px; border-radius: 50%;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; z-index: 1;
+      border: 3px solid var(--white);
+      box-shadow: var(--shadow-sm);
+    }
+    .tl-dot.user { background: #dbeafe; color: #1e40af; }
+    .tl-dot.admin { background: linear-gradient(135deg, var(--gold), var(--gold-dark)); color: var(--navy); }
+    .tl-dot.sys { background: var(--gray-200); color: var(--gray-600); }
+    .tl-body { flex: 1; min-width: 0; }
+    .tl-body .who {
+      font-size: 0.82rem; font-weight: 800;
+      color: var(--navy); margin-left: 6px;
+    }
+    .tl-body .when {
+      font-size: 0.7rem; color: var(--gray-400);
+    }
+    .tl-body .txt {
+      font-size: 0.85rem; color: var(--gray-700);
+      margin-top: 6px;
+      background: var(--gray-50);
+      padding: 10px 14px; border-radius: var(--radius-sm);
+      line-height: 1.7;
+      word-wrap: break-word;
+      border: 1px solid var(--gray-200);
+    }
+    .tl-body .txt.admin-reply {
+      background: #fcf9f0;
+      border-color: var(--gold-light);
+    }
+    .attachment-thumb {
+      max-width: 100%;
+      max-height: 220px;
+      border-radius: var(--radius-sm);
+      margin-top: 8px;
+      cursor: pointer;
+      border: 1px solid var(--gray-200);
+      transition: var(--transition);
+    }
+    .attachment-thumb:hover { opacity: 0.9; }
 
-/* ===== Modal ===== */
-.modal-overlay {
-  position: fixed; inset: 0; background: rgba(15,26,46,.7);
-  display: none; align-items: center; justify-content: center;
-  z-index: 2000; padding: 14px;
-  backdrop-filter: blur(6px);
-}
-.modal-overlay.active { display: flex; animation: fadeIn .2s ease; }
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-.modal {
-  background: #fff; border-radius: 20px; width: 100%; max-width: 500px;
-  max-height: 90vh; overflow-y: auto;
-  animation: slideUp .3s ease;
-}
-@keyframes slideUp {
-  from { transform: translateY(40px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-.modal-head {
-  background: linear-gradient(135deg, var(--navy-dark), var(--navy));
-  color: #fff; padding: 18px 20px;
-  border-radius: 20px 20px 0 0;
-  display: flex; justify-content: space-between; align-items: center;
-  position: sticky; top: 0; z-index: 5;
-}
-.modal-head h3 { margin: 0; font-size: 16px; font-weight: 800; }
-.modal-head .close {
-  background: rgba(255,255,255,.15); border: 0; color: #fff;
-  width: 34px; height: 34px; border-radius: 10px; cursor: pointer;
-}
-.modal-body { padding: 20px; }
-.form-group { margin-bottom: 14px; }
-.form-group label {
-  display: block; font-size: 12px; font-weight: 700; color: var(--navy);
-  margin-bottom: 6px;
-}
-.form-group input, .form-group select, .form-group textarea {
-  width: 100%; padding: 11px 13px; border: 1.5px solid #e5e7eb;
-  border-radius: 10px; font-family: inherit; font-size: 14px;
-  color: var(--navy); outline: none; transition: .2s;
-  background: #fafbfd;
-}
-.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-  border-color: var(--gold); background: #fff;
-}
-.form-group textarea { resize: vertical; min-height: 90px; }
-.form-group input[type="file"] { padding: 8px; font-size: 12px; }
-.btn-primary {
-  width: 100%; padding: 13px; border-radius: 12px; border: 0;
-  background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-  color: #fff; font-weight: 800; font-size: 15px;
-  cursor: pointer; transition: .25s;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-}
-.btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(201,168,76,.4); }
-.btn-primary:disabled { opacity: .6; cursor: not-allowed; }
+    /* Reply Box */
+    .reply-box {
+      display: flex; gap: 8px;
+      margin-top: 12px;
+      padding-top: 14px;
+      border-top: 2px dashed var(--gray-200);
+    }
+    .reply-box input {
+      flex: 1; padding: 11px 14px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.9rem;
+      background: var(--gray-50);
+      outline: none; transition: var(--transition);
+      min-width: 0;
+    }
+    .reply-box input:focus {
+      border-color: var(--gold);
+      background: var(--white);
+      box-shadow: 0 0 0 4px rgba(201,168,76,.15);
+    }
+    .reply-box button {
+      padding: 0 18px;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--gold-dark);
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--white);
+      font-weight: 800;
+      cursor: pointer;
+      display: flex; align-items: center; gap: 6px;
+      font-family: inherit;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+    .reply-box button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(201,168,76,.4);
+    }
 
-/* ===== Ticket Detail ===== */
-.ticket-detail-head {
-  background: linear-gradient(135deg, var(--navy-dark), var(--navy));
-  color: #fff; padding: 18px;
-  border-radius: 20px 20px 0 0;
-  display: flex; justify-content: space-between; align-items: flex-start;
-  gap: 10px;
-}
-.ticket-detail-head .close {
-  background: rgba(255,255,255,.15); border: 0; color: #fff;
-  width: 32px; height: 32px; border-radius: 10px; cursor: pointer;
-  flex-shrink: 0;
-}
-.ticket-detail-head .tkt-num {
-  font-size: 12px; color: var(--gold-light); font-weight: 700;
-  margin-bottom: 4px;
-}
-.ticket-detail-head h3 { margin: 0; font-size: 15px; font-weight: 800; }
-.timeline {
-  padding: 8px 0;
-}
-.tl-item {
-  display: flex; gap: 12px; padding: 10px 0; position: relative;
-}
-.tl-item::before {
-  content: ''; position: absolute;
-  right: 15px; top: 30px; bottom: -10px;
-  width: 2px; background: #e5e7eb;
-}
-.tl-item:last-child::before { display: none; }
-.tl-dot {
-  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 13px; z-index: 1;
-}
-.tl-dot.user { background: #dbeafe; color: #1e40af; }
-.tl-dot.admin { background: var(--gold-light); color: var(--gold-dark); }
-.tl-dot.sys { background: #e5e7eb; color: #6b7280; }
-.tl-body { flex: 1; min-width: 0; }
-.tl-body .who { font-size: 12px; font-weight: 800; color: var(--navy); }
-.tl-body .when { font-size: 10px; color: #9ca3af; margin-right: 6px; }
-.tl-body .txt {
-  font-size: 13px; color: #374151; margin-top: 4px;
-  background: #f9fafb; padding: 8px 12px; border-radius: 10px;
-  line-height: 1.6; word-wrap: break-word;
-}
-.reply-box {
-  display: flex; gap: 8px; margin-top: 12px;
-}
-.reply-box input {
-  flex: 1; padding: 11px 13px; border: 1.5px solid #e5e7eb;
-  border-radius: 10px; font-family: inherit; font-size: 14px;
-  outline: none; transition: .2s;
-}
-.reply-box input:focus { border-color: var(--gold); }
-.reply-box button {
-  padding: 0 16px; border-radius: 10px; border: 0;
-  background: var(--gold); color: #fff; font-weight: 700;
-  cursor: pointer; font-size: 14px;
-  display: flex; align-items: center; gap: 6px;
-}
-.reply-box button:hover { background: var(--gold-dark); }
-.attachment-thumb {
-  max-width: 100%; max-height: 200px; border-radius: 10px;
-  margin-top: 8px; cursor: pointer;
-  border: 1px solid #e5e7eb;
-}
+    /* ============================================================
+       📱 Responsive
+       ============================================================ */
+    @media (max-width: 768px) and (pointer: coarse) {
+      .support-header { padding: 20px 18px; border-radius: var(--radius-md); }
+      .support-header-content .header-icon { width: 52px; height: 52px; font-size: 1.3rem; }
+      .support-header-content .header-text h1 { font-size: 1.1rem; }
+      .support-header-content .header-text p { font-size: 0.75rem; }
+      .support-header-content .header-badge { font-size: 0.68rem; padding: 4px 10px; }
 
-/* ===== Bottom Mobile Tabs ===== */
-.bottom-tabs {
-  position: fixed; bottom: 0; right: 0; left: 0;
-  background: #fff; box-shadow: 0 -4px 20px rgba(0,0,0,.08);
-  display: flex; justify-content: space-around; align-items: center;
-  padding: 8px 0 max(8px, env(safe-area-inset-bottom));
-  z-index: 800; border-top: 1px solid #f0f0f5;
-}
-.bottom-tabs a {
-  display: flex; flex-direction: column; align-items: center; gap: 3px;
-  color: #9ca3af; text-decoration: none; font-size: 10px;
-  font-weight: 700; padding: 4px 10px; border-radius: 10px;
-  transition: .2s; min-width: 60px;
-}
-.bottom-tabs a i { font-size: 18px; }
-.bottom-tabs a.active { color: var(--gold); }
-.bottom-tabs a.active i { transform: translateY(-2px); }
+      .contact-quick-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+      .contact-quick-card { padding: 14px 10px; }
+      .contact-quick-card .ico { width: 44px; height: 44px; font-size: 1.2rem; }
+      .contact-quick-card h4 { font-size: 0.82rem; }
+      .contact-quick-card p { font-size: 0.68rem; }
 
-/* ===== Toast ===== */
-.toast-wrap {
-  position: fixed; top: 76px; left: 50%; transform: translateX(-50%);
-  z-index: 3000; display: flex; flex-direction: column; gap: 8px;
-  pointer-events: none; width: 90%; max-width: 400px;
-}
-.toast {
-  background: var(--navy); color: #fff; padding: 12px 16px;
-  border-radius: 12px; font-size: 13px; font-weight: 700;
-  box-shadow: 0 8px 24px rgba(0,0,0,.25);
-  display: flex; align-items: center; gap: 10px;
-  animation: toastIn .3s ease;
-}
-.toast.success { background: linear-gradient(135deg, #22c55e, #16a34a); }
-.toast.error { background: linear-gradient(135deg, #ef4444, #dc2626); }
-.toast.warning { background: linear-gradient(135deg, #f59e0b, #d97706); }
-.toast.info { background: linear-gradient(135deg, var(--navy), var(--navy-light)); }
-@keyframes toastIn {
-  from { opacity: 0; transform: translateY(-20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
+      .ticket-card { padding: 12px 14px; }
+      .ticket-card .ticket-subject { font-size: 0.88rem; }
+      .faq-q { padding: 13px 15px; font-size: 0.85rem; }
+      .faq-a { font-size: 0.82rem; }
 
-/* ===== Footer Bar ===== */
-.rights-bar {
-  text-align: center; padding: 20px 14px 10px;
-  color: #9ca3af; font-size: 11px;
-}
-@media (min-width: 640px) {
-  .contact-grid { grid-template-columns: repeat(4, 1fr); }
-}
-</style>
+      .ticket-modal-header { padding: 14px 16px; }
+      .ticket-modal-header h3 { font-size: 0.92rem; }
+      .reply-box { flex-direction: column; }
+      .reply-box button { padding: 11px; justify-content: center; }
+    }
+    @media (max-width: 480px) {
+      .contact-quick-grid { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- Top Bar -->
-<div class="top-bar">
-  <button class="back-btn" onclick="history.back()"><i class="fas fa-arrow-right"></i></button>
-  <div class="brand">
-    <img src="https://i.ibb.co/v4xBgMPP/Picsart-26-09-21-04-43-12-322.png" alt="logo">
-    <span>أولاد شعلان</span>
-  </div>
-  <button class="back-btn" onclick="location.href='index.html'"><i class="fas fa-home"></i></button>
-</div>
+  <!-- ============================================================ -->
+  <!-- 📱 مكونات الموبايل -->
+  <!-- ============================================================ -->
+  <div id="mobile-top-bar"></div>
+  <div id="mobile-top-tabs"></div>
 
-<!-- Hero -->
-<section class="hero-mini">
-  <i class="fas fa-headset hero-icon"></i>
-  <h1>الدعم والمساعدة</h1>
-  <p>إحنا معاك في أي وقت — تواصل أو افتح تذكرة</p>
-</section>
+  <!-- ============================================================ -->
+  <!-- 🧠 الهيدر -->
+  <!-- ============================================================ -->
+  <div id="header-placeholder"></div>
 
-<div class="container">
+  <!-- ============================================================ -->
+  <!-- 📄 محتوى الصفحة -->
+  <!-- ============================================================ -->
+  <main class="page-content">
+    <div class="container">
 
-  <!-- Quick Contact -->
-  <h2 class="section-title"><i class="fas fa-bolt"></i> تواصل سريع</h2>
-  <div class="contact-grid">
-    <a class="contact-card" href="https://wa.me/201120282953" target="_blank">
-      <div class="ico whatsapp"><i class="fab fa-whatsapp"></i></div>
-      <h3>واتساب</h3>
-      <p>رد فوري</p>
-    </a>
-    <a class="contact-card" href="mailto:awladsh3laan@gmail.com">
-      <div class="ico email"><i class="fas fa-envelope"></i></div>
-      <h3>إيميل</h3>
-      <p>خلال 24 ساعة</p>
-    </a>
-    <a class="contact-card" href="tel:+201120282953">
-      <div class="ico phone"><i class="fas fa-phone-alt"></i></div>
-      <h3>اتصال</h3>
-      <p>9ص — 10م</p>
-    </a>
-    <button class="contact-card" onclick="openTicketModal()">
-      <div class="ico ticket"><i class="fas fa-ticket-alt"></i></div>
-      <h3>تذكرة دعم</h3>
-      <p>متابعة موثقة</p>
-    </button>
-  </div>
-
-  <!-- My Tickets -->
-  <div id="myTicketsSection" style="display:none;">
-    <h2 class="section-title"><i class="fas fa-ticket-alt"></i> تذاكري</h2>
-    <div class="tickets-list" id="myTicketsList"></div>
-  </div>
-
-  <!-- CTA -->
-  <button class="cta-open" onclick="openTicketModal()">
-    <i class="fas fa-plus-circle"></i>
-    افتح تذكرة دعم جديدة
-  </button>
-
-  <!-- FAQ -->
-  <h2 class="section-title" style="margin-top:28px;"><i class="fas fa-question-circle"></i> الأسئلة الشائعة</h2>
-  <div class="faq-list" id="faqList"></div>
-
-  <div class="rights-bar">
-    © 2026 أولاد شعلان للمنظفات والورقيات — كل الحقوق محفوظة
-  </div>
-</div>
-
-<!-- Bottom Tabs -->
-<div class="bottom-tabs">
-  <a href="index.html"><i class="fas fa-home"></i><span>الرئيسية</span></a>
-  <a href="store-retail.html"><i class="fas fa-store"></i><span>المتجر</span></a>
-  <a href="cart.html"><i class="fas fa-shopping-cart"></i><span>السلة</span></a>
-  <a href="customer/orders.html"><i class="fas fa-box"></i><span>طلباتي</span></a>
-  <a href="support.html" class="active"><i class="fas fa-headset"></i><span>الدعم</span></a>
-</div>
-
-<!-- Modal: Create Ticket -->
-<div class="modal-overlay" id="ticketModal">
-  <div class="modal">
-    <div class="modal-head">
-      <h3><i class="fas fa-ticket-alt"></i> تذكرة دعم جديدة</h3>
-      <button class="close" onclick="closeTicketModal()"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="modal-body">
-      <div class="form-group">
-        <label>التصنيف</label>
-        <select id="ticketCategory">
-          <option value="complaint">شكوى</option>
-          <option value="inquiry">استفسار</option>
-          <option value="request">طلب</option>
-          <option value="suggestion">اقتراح</option>
-          <option value="financial">مشكلة مالية</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>الأولوية</label>
-        <select id="ticketPriority">
-          <option value="normal">عادية</option>
-          <option value="high">مهمة</option>
-          <option value="urgent">عاجلة 🔥</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>الموضوع</label>
-        <input type="text" id="ticketSubject" placeholder="مثال: تأخير في الطلب #1234" maxlength="120">
-      </div>
-      <div class="form-group">
-        <label>التفاصيل</label>
-        <textarea id="ticketDetails" placeholder="اشرح المشكلة بالتفصيل..." maxlength="1500"></textarea>
-      </div>
-      <div class="form-group">
-        <label>مرفق (اختياري — صورة إيصال / منتج)</label>
-        <input type="file" id="ticketAttachment" accept="image/*">
-      </div>
-      <button class="btn-primary" id="submitTicketBtn" onclick="submitTicket()">
-        <i class="fas fa-paper-plane"></i> إرسال التذكرة
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- Modal: View Ticket -->
-<div class="modal-overlay" id="viewTicketModal">
-  <div class="modal">
-    <div class="ticket-detail-head">
-      <div>
-        <div class="tkt-num" id="vtNumber">TKT-000000</div>
-        <h3 id="vtSubject">—</h3>
-      </div>
-      <button class="close" onclick="closeViewTicket()"><i class="fas fa-times"></i></button>
-    </div>
-    <div class="modal-body">
-      <div style="margin-bottom:10px;font-size:12px;color:#6b7280;">
-        <span id="vtStatus" class="status-pill status-open">—</span>
-        <span id="vtMeta" style="margin-right:10px;"></span>
-      </div>
-      <div class="timeline" id="vtTimeline"></div>
-      <div class="reply-box" id="vtReplyBox">
-        <input type="text" id="vtReplyInput" placeholder="اكتب ردك..." maxlength="800">
-        <button onclick="sendReply()"><i class="fas fa-paper-plane"></i></button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="toast-wrap" id="toastWrap"></div>
-
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
-<script src="assets/js/firebase-config.js"></script>
-<script src="assets/js/main.js"></script>
-<script>
-/* =============================================
-   support.html — Page Logic
-   ============================================= */
-const IMGBB_API_KEY = "cb056b7fd83c81129d5468c5d03287b4";
-let _currentUser = null;
-let _currentTicketId = null;
-let _currentTicketDoc = null;
-let _unsubTickets = null;
-
-const FAQ_DATA = [
-  { q: "إزاي أتابع طلبي؟", a: "من صفحة 'طلباتي' أو من صفحة التتبع على الرابط tracking.html مع رقم الطلب. هتشوف حالة الطلب خطوة بخطوة." },
-  { q: "إيه الحد الأدنى لطلب الجملة؟", a: "الحد الأدنى لفاتورة الجملة 1500 ج.م. لو أقل من كده النظام مش هيسمح بإتمام الطلب." },
-  { q: "مواعيد التوصيل إيه؟", a: "التوصيل داخل طنطا خلال 24-48 ساعة. المنصورة والمحلة خلال 2-4 أيام عمل. مواعيد العمل من 9 صباحاً لـ 10 مساءً." },
-  { q: "الشحن بيوصل امتى ومجاني إمتى؟", a: "الشحن مجاني للجملة عند 5000 ج.م (طنطا/المنصورة) أو 2000 ج.م (المحلة). للقطاعي مجاني عند 2500 ج.م." },
-  { q: "أقدر أرجّع منتج؟", a: "الاستبدال والإرجاع متاح خلال 3 أيام من الاستلام لو المنتج تالف أو غير مطابق. بشرط عدم فتح العبوة وسلامة المنتج." },
-  { q: "إزاي أحصل على كود تاجر؟", a: "تواصل معنا على الواتساب وهنراجع طلبك. بعد الموافقة هنبعتلك كود فريد تستخدمه في trader-login.html للدخول." },
-  { q: "طرق الدفع المتاحة إيه؟", a: "كاش عند الاستلام، تحويل بنكي، محفظة إلكترونية (فودافون كاش/انستاباي). للتجار يوجد نظام آجل." },
-  { q: "إزاي أبلّغ عن سداد؟", a: "من صفحة 'رصيدي' في حسابك، اضغط 'أبلغ عن سداد' وارفع صورة الإيصال. الأدمن هيراجع ويخصم من الرصيد تلقائياً." }
-];
-
-/* ===== Boot ===== */
-document.addEventListener('DOMContentLoaded', () => {
-  loadCurrentUser();
-  renderFAQ();
-  setupEventListeners();
-  if (_currentUser) {
-    document.getElementById('myTicketsSection').style.display = 'block';
-    loadMyTickets();
-  }
-});
-
-function loadCurrentUser() {
-  try {
-    const admin = JSON.parse(localStorage.getItem('admin') || 'null');
-    const customer = JSON.parse(localStorage.getItem('customer') || 'null');
-    const cashier = JSON.parse(localStorage.getItem('cashier') || 'null');
-    _currentUser = admin || customer || cashier || null;
-  } catch (e) { _currentUser = null; }
-}
-
-function renderFAQ() {
-  const wrap = document.getElementById('faqList');
-  wrap.innerHTML = FAQ_DATA.map((item, i) => `
-    <div class="faq-item" data-idx="${i}">
-      <div class="faq-q">
-        <span>${escapeHtml(item.q)}</span>
-        <i class="fas fa-chevron-down"></i>
-      </div>
-      <div class="faq-a">${escapeHtml(item.a)}</div>
-    </div>
-  `).join('');
-  wrap.querySelectorAll('.faq-item').forEach(el => {
-    el.querySelector('.faq-q').addEventListener('click', () => {
-      const isOpen = el.classList.contains('open');
-      wrap.querySelectorAll('.faq-item').forEach(x => x.classList.remove('open'));
-      if (!isOpen) el.classList.add('open');
-    });
-  });
-}
-
-function setupEventListeners() {
-  document.getElementById('ticketModal').addEventListener('click', e => {
-    if (e.target.id === 'ticketModal') closeTicketModal();
-  });
-  document.getElementById('viewTicketModal').addEventListener('click', e => {
-    if (e.target.id === 'viewTicketModal') closeViewTicket();
-  });
-  document.getElementById('vtReplyInput').addEventListener('keydown', e => {
-    if (e.key === 'Enter') sendReply();
-  });
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') {
-      closeTicketModal();
-      closeViewTicket();
-    }
-  });
-}
-
-/* ===== Create Ticket ===== */
-function openTicketModal() {
-  if (!_currentUser) {
-    showToast('سجل دخول أولاً لفتح تذكرة', 'warning');
-    setTimeout(() => location.href = 'login.html', 1200);
-    return;
-  }
-  document.getElementById('ticketModal').classList.add('active');
-}
-
-function closeTicketModal() {
-  document.getElementById('ticketModal').classList.remove('active');
-}
-
-async function submitTicket() {
-  const btn = document.getElementById('submitTicketBtn');
-  const category = document.getElementById('ticketCategory').value;
-  const priority = document.getElementById('ticketPriority').value;
-  const subject = document.getElementById('ticketSubject').value.trim();
-  const details = document.getElementById('ticketDetails').value.trim();
-  const file = document.getElementById('ticketAttachment').files[0];
-
-  if (!subject || subject.length < 3) { showToast('اكتب موضوع واضح للتذكرة', 'warning'); return; }
-  if (!details || details.length < 10) { showToast('اكتب تفاصيل كافية (10 حروف على الأقل)', 'warning'); return; }
-
-  btn.disabled = true;
-  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
-
-  try {
-    let attachmentUrl = '';
-    if (file) {
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري رفع المرفق...';
-      attachmentUrl = await uploadToImgBB(file);
-    }
-
-    const ticketNumber = 'TKT-' + String(Date.now()).slice(-6) + Math.floor(Math.random()*90+10);
-    const now = firebase.firestore.FieldValue.serverTimestamp();
-
-    const ticketData = {
-      ticketNumber,
-      senderId: _currentUser.id || _currentUser.uid || 'unknown',
-      senderName: _currentUser.name || 'مستخدم',
-      senderRole: _currentUser.role || 'retail',
-      senderPhone: _currentUser.phone || '',
-      senderCode: _currentUser.code || '',
-      category,
-      priority,
-      subject,
-      details,
-      attachments: attachmentUrl ? [attachmentUrl] : [],
-      status: 'open',
-      replies: [{
-        by: _currentUser.id || _currentUser.uid || 'unknown',
-        byName: _currentUser.name || 'مستخدم',
-        byRole: _currentUser.role || 'retail',
-        text: details,
-        at: new Date().toISOString(),
-        isInitial: true
-      }],
-      rating: 0,
-      createdAt: now,
-      updatedAt: now,
-      lastReplyAt: now
-    };
-
-    const ref = await db.collection('support_tickets').add(ticketData);
-
-    // Notify admins
-    await db.collection('admin_notifications').add({
-      title: 'تذكرة دعم جديدة',
-      message: `${ticketData.senderName} فتح تذكرة ${ticketNumber} — ${subject}`,
-      type: 'support_ticket',
-      ticketId: ref.id,
-      priority,
-      read: false,
-      createdAt: now
-    }).catch(() => {});
-
-    showToast(`تم إرسال التذكرة ${ticketNumber} ✅`, 'success');
-    document.getElementById('ticketSubject').value = '';
-    document.getElementById('ticketDetails').value = '';
-    document.getElementById('ticketAttachment').value = '';
-    document.getElementById('ticketCategory').value = 'complaint';
-    document.getElementById('ticketPriority').value = 'normal';
-    closeTicketModal();
-
-  } catch (err) {
-    console.error(err);
-    showToast('فشل الإرسال: ' + (err.message || 'خطأ غير معروف'), 'error');
-  } finally {
-    btn.disabled = false;
-    btn.innerHTML = '<i class="fas fa-paper-plane"></i> إرسال التذكرة';
-  }
-}
-
-/* ===== Upload to ImgBB ===== */
-async function uploadToImgBB(file) {
-  let compressed = file;
-  try {
-    compressed = await imageCompression(file, { maxSizeMB: 1, maxWidthOrHeight: 1400, useWebWorker: true });
-  } catch(e) {}
-  const fd = new FormData();
-  fd.append('image', compressed);
-  const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, { method: 'POST', body: fd });
-  const data = await res.json();
-  if (!data.success) throw new Error('فشل رفع الصورة');
-  return data.data.url;
-}
-
-/* ===== Load My Tickets ===== */
-function loadMyTickets() {
-  const uid = _currentUser.id || _currentUser.uid;
-  if (!uid) return;
-  if (_unsubTickets) _unsubTickets();
-
-  _unsubTickets = db.collection('support_tickets')
-    .where('senderId', '==', uid)
-    .onSnapshot(snap => {
-      const tickets = [];
-      snap.forEach(d => tickets.push({ id: d.id, ...d.data() }));
-      tickets.sort((a, b) => {
-        const ta = a.createdAt?.toMillis?.() || 0;
-        const tb = b.createdAt?.toMillis?.() || 0;
-        return tb - ta;
-      });
-      renderMyTickets(tickets);
-    }, err => {
-      console.error('loadMyTickets error:', err);
-    });
-}
-
-function renderMyTickets(tickets) {
-  const wrap = document.getElementById('myTicketsList');
-  if (!tickets.length) {
-    wrap.innerHTML = `
-      <div class="empty-state">
-        <i class="fas fa-inbox"></i>
-        مفيش تذاكر لسه — لو محتاج مساعدة اضغط "افتح تذكرة دعم"
-      </div>`;
-    return;
-  }
-  wrap.innerHTML = tickets.map(t => `
-    <div class="ticket-card" onclick="viewTicket('${t.id}')">
-      <div class="row1">
-        <span class="num">${escapeHtml(t.ticketNumber || '')}</span>
-        <span class="status-pill status-${t.status}">${statusArabic(t.status)}</span>
-      </div>
-      <p class="subject">${escapeHtml(t.subject || '')}</p>
-      <div class="meta">
-        ${categoryArabic(t.category)} • ${relativeTime(t.createdAt)} • ${(t.replies?.length || 0)} رد
-      </div>
-    </div>
-  `).join('');
-}
-
-/* ===== View Ticket ===== */
-function viewTicket(ticketId) {
-  _currentTicketId = ticketId;
-  document.getElementById('viewTicketModal').classList.add('active');
-  document.getElementById('vtTimeline').innerHTML = '<div style="text-align:center;padding:20px;color:#9ca3af;"><i class="fas fa-spinner fa-spin"></i></div>';
-
-  db.collection('support_tickets').doc(ticketId).onSnapshot(doc => {
-    if (!doc.exists) return;
-    _currentTicketDoc = { id: doc.id, ...doc.data() };
-    renderTicketDetail(_currentTicketDoc);
-  });
-}
-
-function renderTicketDetail(t) {
-  document.getElementById('vtNumber').textContent = t.ticketNumber || '';
-  document.getElementById('vtSubject').textContent = t.subject || '';
-  const st = document.getElementById('vtStatus');
-  st.className = 'status-pill status-' + t.status;
-  st.textContent = statusArabic(t.status);
-  document.getElementById('vtMeta').innerHTML =
-    `${categoryArabic(t.category)} • أولوية: ${priorityArabic(t.priority)} • ${relativeTime(t.createdAt)}`;
-
-  // Timeline
-  const replies = (t.replies || []).slice().sort((a, b) => new Date(a.at) - new Date(b.at));
-  const tl = document.getElementById('vtTimeline');
-  tl.innerHTML = replies.map(r => {
-    const isAdmin = ['super','admin_plus','admin','cashier'].includes(r.byRole) && !r.isInitial;
-    const cls = r.isInitial ? 'user' : (isAdmin ? 'admin' : 'user');
-    const icon = r.isInitial ? 'fa-user' : (isAdmin ? 'fa-shield-alt' : 'fa-user');
-    return `
-      <div class="tl-item">
-        <div class="tl-dot ${cls}"><i class="fas ${icon}"></i></div>
-        <div class="tl-body">
-          <span class="who">${escapeHtml(r.byName || '—')}</span>
-          <span class="when">${relativeTime(r.at)}</span>
-          <div class="txt">${escapeHtml(r.text || '').replace(/\n/g,'<br>')}</div>
+      <!-- رأس الصفحة -->
+      <div class="support-header">
+        <div class="support-header-content">
+          <div class="header-icon">
+            <i class="fas fa-headset"></i>
+          </div>
+          <div class="header-text">
+            <h1>الدعم والمساعدة</h1>
+            <p>إحنا معاك في أي وقت — تواصل مباشر أو افتح تذكرة موثّقة</p>
+          </div>
+          <span class="header-badge">
+            <i class="fas fa-clock"></i>
+            رد خلال 24 ساعة
+          </span>
         </div>
       </div>
-    `;
-  }).join('');
 
-  // Attachment (if initial had one)
-  if (t.attachments && t.attachments.length) {
-    tl.innerHTML += `
-      <div class="tl-item">
-        <div class="tl-dot sys"><i class="fas fa-paperclip"></i></div>
-        <div class="tl-body">
-          <span class="who">مرفق</span>
-          <div style="margin-top:6px;">
-            <img src="${t.attachments[0]}" class="attachment-thumb" onclick="window.open('${t.attachments[0]}','_blank')">
+      <!-- تواصل سريع -->
+      <div class="section-card" style="padding:16px;">
+        <h3 style="font-size:1rem;font-weight:800;color:var(--navy);margin-bottom:14px;display:flex;align-items:center;gap:8px;">
+          <i class="fas fa-bolt" style="color:var(--gold);"></i>
+          تواصل سريع
+        </h3>
+
+        <div class="contact-quick-grid">
+          <a class="contact-quick-card" href="https://wa.me/201120282953" target="_blank" rel="noopener">
+            <div class="ico whatsapp"><i class="fab fa-whatsapp"></i></div>
+            <h4>واتساب</h4>
+            <p>رد فوري</p>
+          </a>
+          <a class="contact-quick-card" href="mailto:awladsh3laan@gmail.com">
+            <div class="ico email"><i class="fas fa-envelope"></i></div>
+            <h4>إيميل</h4>
+            <p>خلال 24 ساعة</p>
+          </a>
+          <a class="contact-quick-card" href="tel:+201120282953">
+            <div class="ico phone"><i class="fas fa-phone-alt"></i></div>
+            <h4>اتصال</h4>
+            <p>9 ص - 10 م</p>
+          </a>
+          <button class="contact-quick-card" onclick="openTicketModal()">
+            <div class="ico ticket"><i class="fas fa-ticket-alt"></i></div>
+            <h4>تذكرة دعم</h4>
+            <p>متابعة موثقة</p>
+          </button>
+        </div>
+      </div>
+
+      <!-- زر فتح تذكرة -->
+      <button class="btn btn-gold w-100" style="margin-bottom:20px;font-size:1rem;padding:14px 24px;" onclick="openTicketModal()">
+        <i class="fas fa-plus-circle"></i>
+        افتح تذكرة دعم جديدة
+      </button>
+
+      <!-- تذاكري -->
+      <div id="myTicketsSection" style="display:none;">
+        <div class="section-card">
+          <div class="section-header" style="padding-bottom:12px;margin-bottom:14px;border-bottom:1px solid var(--gray-100);">
+            <h3 style="font-size:1.05rem;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px;margin:0;">
+              <i class="fas fa-ticket-alt" style="color:var(--gold);"></i>
+              تذاكري
+            </h3>
+            <button class="btn btn-sm btn-outline" onclick="loadMyTickets()">
+              <i class="fas fa-sync-alt"></i>
+              تحديث
+            </button>
+          </div>
+          <div class="tickets-list" id="myTicketsList">
+            <div class="loading-spinner">
+              <i class="fas fa-spinner fa-spin"></i>
+              جاري التحميل...
+            </div>
           </div>
         </div>
       </div>
-    `;
-  }
 
-  // Reply box: disabled if closed
-  const rb = document.getElementById('vtReplyBox');
-  if (t.status === 'closed') {
-    rb.innerHTML = '<div style="text-align:center;color:#9ca3af;font-size:12px;padding:8px;">التذكرة مغلقة — افتح تذكرة جديدة لو محتاج متابعة</div>';
-  } else {
-    rb.innerHTML = `
-      <input type="text" id="vtReplyInput" placeholder="اكتب ردك..." maxlength="800">
-      <button onclick="sendReply()"><i class="fas fa-paper-plane"></i></button>
-    `;
-    document.getElementById('vtReplyInput').addEventListener('keydown', e => {
-      if (e.key === 'Enter') sendReply();
+      <!-- الأسئلة الشائعة -->
+      <div class="section-card">
+        <div class="section-header" style="padding-bottom:12px;margin-bottom:14px;border-bottom:1px solid var(--gray-100);">
+          <h3 style="font-size:1.05rem;font-weight:800;color:var(--navy);display:flex;align-items:center;gap:8px;margin:0;">
+            <i class="fas fa-question-circle" style="color:var(--gold);"></i>
+            الأسئلة الشائعة
+          </h3>
+        </div>
+        <div class="faq-list" id="faqList"></div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ============================================================ -->
+  <!-- 📱 التبويبات السفلى + الفوتر + السايدبار -->
+  <!-- ============================================================ -->
+  <div id="mobile-bottom-tabs"></div>
+  <div id="mobile-copyright"></div>
+  <div id="footer-placeholder"></div>
+  <div id="sidebar-placeholder"></div>
+  <div id="toast-container"></div>
+
+  <!-- ============================================================ -->
+  <!-- 📚 Firebase & JS -->
+  <!-- ============================================================ -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="/gomla/assets/js/firebase-config.js"></script>
+  <script src="/gomla/assets/js/main.js"></script>
+
+  <script>
+    // ============================================================
+    // 📄 support.html — الدعم والمساعدة
+    // ============================================================
+
+    let _currentUser = null;
+    let _unsubTickets = null;
+    let _currentTicketId = null;
+    let _currentTicketDoc = null;
+    let _unsubTicketDoc = null;
+
+    const FAQ_DATA = [
+      { q: "إزاي أتابع طلبي؟", a: "من صفحة 'طلباتي' أو من صفحة التتبع مع رقم الطلب. هتشوف حالة الطلب خطوة بخطوة (قيد المراجعة → جاري التحضير → تم الشحن → تم التسليم)." },
+      { q: "إيه الحد الأدنى لطلب الجملة؟", a: "الحد الأدنى لفاتورة الجملة 1500 ج.م. لو أقل من كده النظام مش هيسمح بإتمام الطلب." },
+      { q: "مواعيد التوصيل إيه؟", a: "التوصيل داخل طنطا خلال 24-48 ساعة. المنصورة والمحلة خلال 2-4 أيام عمل. مواعيد العمل من 9 صباحاً لـ 10 مساءً." },
+      { q: "الشحن مجاني إمتى؟", a: "للجملة: مجاني عند 5000 ج.م (طنطا/المنصورة) أو 2000 ج.م (المحلة). للقطاعي: مجاني عند 2500 ج.م." },
+      { q: "أقدر أرجّع منتج؟", a: "الاستبدال والإرجاع متاح خلال 3 أيام من الاستلام لو المنتج تالف أو غير مطابق. بشرط عدم فتح العبوة وسلامة المنتج." },
+      { q: "إزاي أحصل على كود تاجر؟", a: "تواصل معنا على الواتساب وهنراجع طلبك. بعد الموافقة هنبعتلك كود فريد تستخدمه في صفحة دخول التجار." },
+      { q: "طرق الدفع المتاحة إيه؟", a: "كاش عند الاستلام، تحويل بنكي، محفظة إلكترونية (فودافون كاش / انستاباي). للتجار يوجد نظام آجل." },
+      { q: "إزاي أبلّغ عن سداد؟", a: "من صفحة 'رصيدي' في حسابك، اضغط 'أبلغ عن سداد' وارفع صورة الإيصال. الأدمن هيراجع ويخصم من الرصيد تلقائياً." }
+    ];
+
+    // ============================================================
+    // 🚀 Init
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', () => {
+      _currentUser = (typeof getCurrentUser === 'function') ? getCurrentUser() : null;
+
+      renderFAQ();
+      setupListeners();
+
+      // لو مسجل → اعرض تذاكره
+      if (_currentUser && _currentUser.data) {
+        document.getElementById('myTicketsSection').style.display = 'block';
+        loadMyTickets();
+      }
     });
-  }
-}
 
-function closeViewTicket() {
-  document.getElementById('viewTicketModal').classList.remove('active');
-  _currentTicketId = null;
-  _currentTicketDoc = null;
-}
+    // ============================================================
+    // 📖 FAQ
+    // ============================================================
+    function renderFAQ() {
+      const wrap = document.getElementById('faqList');
+      if (!wrap) return;
+      wrap.innerHTML = FAQ_DATA.map((item, i) => `
+        <div class="faq-item" data-idx="${i}">
+          <div class="faq-q">
+            <span>${escapeHtml(item.q)}</span>
+            <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-a">${escapeHtml(item.a)}</div>
+        </div>
+      `).join('');
 
-/* ===== Send Reply ===== */
-async function sendReply() {
-  if (!_currentTicketId || !_currentTicketDoc) return;
-  const input = document.getElementById('vtReplyInput');
-  const text = (input?.value || '').trim();
-  if (!text) return;
-  if (_currentTicketDoc.status === 'closed') { showToast('التذكرة مغلقة', 'warning'); return; }
+      wrap.querySelectorAll('.faq-item').forEach(el => {
+        el.querySelector('.faq-q').addEventListener('click', () => {
+          const isOpen = el.classList.contains('open');
+          wrap.querySelectorAll('.faq-item').forEach(x => x.classList.remove('open'));
+          if (!isOpen) el.classList.add('open');
+        });
+      });
+    }
 
-  input.disabled = true;
-  try {
-    const newReply = {
-      by: _currentUser.id || _currentUser.uid,
-      byName: _currentUser.name || 'مستخدم',
-      byRole: _currentUser.role || 'retail',
-      text,
-      at: new Date().toISOString(),
-      isInitial: false
-    };
-    await db.collection('support_tickets').doc(_currentTicketId).update({
-      replies: firebase.firestore.FieldValue.arrayUnion(newReply),
-      updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-      lastReplyAt: firebase.firestore.FieldValue.serverTimestamp(),
-      status: 'processing'
-    });
-    input.value = '';
-    showToast('تم إرسال ردك', 'success');
-  } catch (err) {
-    console.error(err);
-    showToast('فشل الإرسال', 'error');
-  } finally {
-    input.disabled = false;
-  }
-}
+    // ============================================================
+    // 🎫 Modal: فتح/إغلاق
+    // ============================================================
+    function openTicketModal() {
+      if (!_currentUser || !_currentUser.data) {
+        if (typeof showToast === 'function') {
+          showToast('⚠️ سجل دخول أولاً لفتح تذكرة', 'warning');
+        }
+        setTimeout(() => {
+          window.location.href = '/gomla/login.html';
+        }, 1300);
+        return;
+      }
 
-/* ===== Helpers ===== */
-function statusArabic(s) {
-  return { open: 'مفتوحة', processing: 'جاري المعالجة', closed: 'مغلقة' }[s] || s;
-}
-function categoryArabic(c) {
-  return { complaint: 'شكوى', inquiry: 'استفسار', request: 'طلب', suggestion: 'اقتراح', financial: 'مشكلة مالية' }[c] || c;
-}
-function priorityArabic(p) {
-  return { normal: 'عادية', high: 'مهمة', urgent: 'عاجلة' }[p] || p;
-}
-function relativeTime(ts) {
-  if (!ts) return '';
-  let d;
-  if (typeof ts === 'string') d = new Date(ts);
-  else if (ts.toDate) d = ts.toDate();
-  else if (ts.seconds) d = new Date(ts.seconds * 1000);
-  else return '';
-  const diff = Math.floor((Date.now() - d.getTime()) / 1000);
-  if (diff < 60) return 'الآن';
-  if (diff < 3600) return `منذ ${Math.floor(diff/60)} دقيقة`;
-  if (diff < 86400) return `منذ ${Math.floor(diff/3600)} ساعة`;
-  if (diff < 604800) return `منذ ${Math.floor(diff/86400)} يوم`;
-  return d.toLocaleDateString('ar-EG');
-}
-function escapeHtml(s) {
-  return String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-}
-function showToast(msg, type = 'info') {
-  const wrap = document.getElementById('toastWrap');
-  const el = document.createElement('div');
-  el.className = 'toast ' + type;
-  const icons = { success: 'fa-check-circle', error: 'fa-times-circle', warning: 'fa-exclamation-triangle', info: 'fa-info-circle' };
-  el.innerHTML = `<i class="fas ${icons[type] || icons.info}"></i><span>${escapeHtml(msg)}</span>`;
-  wrap.appendChild(el);
-  setTimeout(() => { el.style.opacity = '0'; el.style.transform = 'translateY(-10px)'; setTimeout(() => el.remove(), 300); }, 3200);
-}
-</script>
+      const modalHtml = `
+        <div class="modal-overlay show" id="ticketModal" onclick="closeTicketModal(event)">
+          <div class="modal-content medium" onclick="event.stopPropagation()">
+
+            <div class="modal-header">
+              <h3>
+                <i class="fas fa-ticket-alt"></i>
+                تذكرة دعم جديدة
+              </h3>
+              <button class="modal-close" onclick="closeTicketModal()">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+
+            <div class="modal-body">
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label>التصنيف <span class="required">*</span></label>
+                  <select id="ticketCategory">
+                    <option value="complaint">شكوى</option>
+                    <option value="inquiry">استفسار</option>
+                    <option value="request">طلب</option>
+                    <option value="suggestion">اقتراح</option>
+                    <option value="financial">مشكلة مالية</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>الأولوية <span class="required">*</span></label>
+                  <select id="ticketPriority">
+                    <option value="normal">عادية</option>
+                    <option value="high">مهمة</option>
+                    <option value="urgent">عاجلة 🔥</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>الموضوع <span class="required">*</span></label>
+                <input type="text" id="ticketSubject" placeholder="مثال: تأخير في الطلب #1234" maxlength="120">
+              </div>
+
+              <div class="form-group">
+                <label>التفاصيل <span class="required">*</span></label>
+                <textarea id="ticketDetails" placeholder="اشرح المشكلة بالتفصيل..." maxlength="1500"></textarea>
+                <div class="help-text">
+                  <i class="fas fa-info-circle"></i>
+                  اكتب 10 حروف على الأقل
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>مرفق (اختياري — صورة إيصال / منتج)</label>
+                <input type="file" id="ticketAttachment" accept="image/*" style="padding:10px;">
+                <div class="help-text">
+                  <i class="fas fa-image"></i>
+                  سيتم ضغط الصورة تلقائياً قبل الرفع
+                </div>
+                <div class="upload-progress" id="uploadProgress">
+                  <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                  </div>
+                  <div class="progress-text" id="progressText">0%</div>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="modal-actions">
+              <button class="btn btn-outline" onclick="closeTicketModal()">
+                <i class="fas fa-times"></i>
+                إلغاء
+              </button>
+              <button class="btn btn-gold" id="submitTicketBtn" onclick="submitTicket()">
+                <i class="fas fa-paper-plane"></i>
+                إرسال التذكرة
+              </button>
+            </div>
+
+          </div>
+        </div>
+      `;
+
+      const existing = document.getElementById('ticketModal');
+      if (existing) existing.remove();
+
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeTicketModal(event) {
+      if (event && event.target !== event.currentTarget) return;
+      const modal = document.getElementById('ticketModal');
+      if (modal) modal.remove();
+      document.body.style.overflow = '';
+    }
+
+    // ============================================================
+    // 📤 إرسال التذكرة
+    // ============================================================
+    async function submitTicket() {
+      const btn = document.getElementById('submitTicketBtn');
+      const category = document.getElementById('ticketCategory').value;
+      const priority = document.getElementById('ticketPriority').value;
+      const subject = document.getElementById('ticketSubject').value.trim();
+      const details = document.getElementById('ticketDetails').value.trim();
+      const fileInput = document.getElementById('ticketAttachment');
+      const file = fileInput && fileInput.files ? fileInput.files[0] : null;
+
+      if (!subject || subject.length < 3) {
+        showToast('⚠️ اكتب موضوع واضح للتذكرة', 'warning');
+        return;
+      }
+      if (!details || details.length < 10) {
+        showToast('⚠️ اكتب تفاصيل كافية (10 حروف على الأقل)', 'warning');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
+
+      try {
+        let attachmentUrl = '';
+        if (file) {
+          btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري رفع المرفق...';
+          const progress = document.getElementById('uploadProgress');
+          if (progress) progress.style.display = 'block';
+
+          attachmentUrl = await uploadImage(file, (percent) => {
+            const fill = document.getElementById('progressFill');
+            const txt = document.getElementById('progressText');
+            if (fill) fill.style.width = percent + '%';
+            if (txt) txt.textContent = percent + '%';
+          }) || '';
+        }
+
+        const ticketNumber = 'TKT-' + String(Date.now()).slice(-6) + Math.floor(Math.random() * 90 + 10);
+        const now = firebase.firestore.FieldValue.serverTimestamp();
+        const userData = _currentUser.data || {};
+        const uid = userData.uid || userData.id || _currentUser.uid || _currentUser.id;
+
+        const ticketData = {
+          ticketNumber,
+          senderId: uid,
+          senderName: userData.name || 'مستخدم',
+          senderRole: userData.role || 'retail',
+          senderPhone: userData.phone || '',
+          senderCode: userData.code || '',
+          category,
+          priority,
+          subject,
+          details,
+          attachments: attachmentUrl ? [attachmentUrl] : [],
+          status: 'open',
+          replies: [{
+            by: uid,
+            byName: userData.name || 'مستخدم',
+            byRole: userData.role || 'retail',
+            text: details,
+            at: new Date().toISOString(),
+            isInitial: true
+          }],
+          rating: 0,
+          createdAt: now,
+          updatedAt: now,
+          lastReplyAt: now
+        };
+
+        const ref = await db.collection('support_tickets').add(ticketData);
+
+        // إشعار للأدمن
+        try {
+          await db.collection('admin_notifications').add({
+            title: 'تذكرة دعم جديدة',
+            body: `${userData.name || 'مستخدم'} فتح تذكرة ${ticketNumber} — ${subject}`,
+            message: `${userData.name || 'مستخدم'} فتح تذكرة ${ticketNumber} — ${subject}`,
+            type: 'support_ticket',
+            ticketId: ref.id,
+            priority,
+            read: false,
+            createdAt: now
+          });
+        } catch (e) { console.warn('admin_notification failed', e); }
+
+        showToast(`✅ تم إرسال التذكرة ${ticketNumber}`, 'success');
+        closeTicketModal();
+        loadMyTickets();
+
+      } catch (err) {
+        console.error(err);
+        showToast('❌ فشل الإرسال: ' + (err.message || 'خطأ غير معروف'), 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-paper-plane"></i> إرسال التذكرة';
+      }
+    }
+
+    // ============================================================
+    // 📥 تحميل تذاكري
+    // ============================================================
+    function loadMyTickets() {
+      const userData = _currentUser && _currentUser.data;
+      const uid = userData && (userData.uid || userData.id);
+      if (!uid) return;
+
+      if (_unsubTickets) _unsubTickets();
+
+      const wrap = document.getElementById('myTicketsList');
+      if (wrap) {
+        wrap.innerHTML = `<div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i> جاري التحميل...</div>`;
+      }
+
+      _unsubTickets = db.collection('support_tickets')
+        .where('senderId', '==', uid)
+        .onSnapshot(snap => {
+          const tickets = [];
+          snap.forEach(d => tickets.push({ id: d.id, ...d.data() }));
+          tickets.sort((a, b) => {
+            const ta = a.createdAt && a.createdAt.toMillis ? a.createdAt.toMillis() : 0;
+            const tb = b.createdAt && b.createdAt.toMillis ? b.createdAt.toMillis() : 0;
+            return tb - ta;
+          });
+          renderMyTickets(tickets);
+        }, err => {
+          console.error('loadMyTickets:', err);
+          if (wrap) {
+            wrap.innerHTML = `<div class="empty-state" style="padding:30px 14px;"><i class="fas fa-exclamation-triangle"></i><p>تعذر تحميل التذاكر</p></div>`;
+          }
+        });
+    }
+
+    function renderMyTickets(tickets) {
+      const wrap = document.getElementById('myTicketsList');
+      if (!wrap) return;
+
+      if (!tickets.length) {
+        wrap.innerHTML = `
+          <div class="empty-state" style="padding:30px 14px;">
+            <i class="fas fa-inbox"></i>
+            <p>مفيش تذاكر لسه — اضغط "افتح تذكرة دعم"</p>
+          </div>`;
+        return;
+      }
+
+      wrap.innerHTML = tickets.map(t => `
+        <div class="ticket-card status-${t.status}" onclick="viewTicket('${t.id}')">
+          <div class="ticket-row1">
+            <span class="ticket-num">${escapeHtml(t.ticketNumber || '')}</span>
+            <span class="status-badge ${t.status}">${statusArabic(t.status)}</span>
+          </div>
+          <p class="ticket-subject">${escapeHtml(t.subject || '')}</p>
+          <div class="ticket-meta">
+            <i class="fas fa-tag"></i>
+            <span>${categoryArabic(t.category)}</span>
+            <span>•</span>
+            <i class="fas fa-clock"></i>
+            <span>${relativeTime(t.createdAt)}</span>
+            <span>•</span>
+            <i class="fas fa-comments"></i>
+            <span>${(t.replies && t.replies.length) || 0} رد</span>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // ============================================================
+    // 👁️ عرض تفاصيل تذكرة
+    // ============================================================
+    function viewTicket(ticketId) {
+      _currentTicketId = ticketId;
+
+      if (_unsubTicketDoc) _unsubTicketDoc();
+
+      const modalHtml = `
+        <div class="modal-overlay show" id="viewTicketModal" onclick="closeViewTicket(event)">
+          <div class="modal-content medium" onclick="event.stopPropagation()">
+            <div class="ticket-modal-header">
+              <div style="min-width:0;">
+                <div class="tkt-num" id="vtNum">—</div>
+                <h3 id="vtSubject">—</h3>
+              </div>
+              <button class="modal-close" onclick="closeViewTicket()">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div style="margin-bottom:12px;font-size:0.8rem;color:var(--gray-500);display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+                <span id="vtStatus" class="status-badge"></span>
+                <span id="vtMeta"></span>
+              </div>
+              <div class="timeline" id="vtTimeline">
+                <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i></div>
+              </div>
+              <div id="vtReplyWrap"></div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const existing = document.getElementById('viewTicketModal');
+      if (existing) existing.remove();
+
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
+      document.body.style.overflow = 'hidden';
+
+      _unsubTicketDoc = db.collection('support_tickets').doc(ticketId).onSnapshot(doc => {
+        if (!doc.exists) { closeViewTicket(); return; }
+        _currentTicketDoc = { id: doc.id, ...doc.data() };
+        renderTicketDetail(_currentTicketDoc);
+      });
+    }
+
+    function renderTicketDetail(t) {
+      const numEl = document.getElementById('vtNum');
+      const subjEl = document.getElementById('vtSubject');
+      const stEl = document.getElementById('vtStatus');
+      const metaEl = document.getElementById('vtMeta');
+      const tlEl = document.getElementById('vtTimeline');
+      const replyWrap = document.getElementById('vtReplyWrap');
+
+      if (numEl) numEl.textContent = t.ticketNumber || '';
+      if (subjEl) subjEl.textContent = t.subject || '';
+      if (stEl) {
+        stEl.className = 'status-badge ' + t.status;
+        stEl.textContent = statusArabic(t.status);
+      }
+      if (metaEl) {
+        metaEl.innerHTML = `${categoryArabic(t.category)} • أولوية: ${priorityArabic(t.priority)} • ${relativeTime(t.createdAt)}`;
+      }
+
+      // Timeline
+      const replies = (t.replies || []).slice().sort((a, b) => new Date(a.at) - new Date(b.at));
+      let tlHtml = replies.map(r => {
+        const adminRoles = ['super', 'admin_plus', 'admin', 'cashier'];
+        const isAdmin = adminRoles.includes(r.byRole) && !r.isInitial;
+        const cls = r.isInitial ? 'user' : (isAdmin ? 'admin' : 'user');
+        const icon = r.isInitial ? 'fa-user' : (isAdmin ? 'fa-shield-alt' : 'fa-user');
+        const txtCls = isAdmin ? 'txt admin-reply' : 'txt';
+        return `
+          <div class="tl-item">
+            <div class="tl-dot ${cls}"><i class="fas ${icon}"></i></div>
+            <div class="tl-body">
+              <div>
+                <span class="who">${escapeHtml(r.byName || '—')}</span>
+                <span class="when">${relativeTime(r.at)}</span>
+              </div>
+              <div class="${txtCls}">${escapeHtml(r.text || '').replace(/\n/g, '<br>')}</div>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      if (t.attachments && t.attachments.length) {
+        tlHtml += `
+          <div class="tl-item">
+            <div class="tl-dot sys"><i class="fas fa-paperclip"></i></div>
+            <div class="tl-body">
+              <span class="who">مرفق من المرسل</span>
+              <div style="margin-top:6px;">
+                <img src="${t.attachments[0]}" class="attachment-thumb"
+                     onclick="window.open('${t.attachments[0]}','_blank')"
+                     onerror="this.style.display='none'">
+              </div>
+            </div>
+          </div>
+        `;
+      }
+      if (tlEl) tlEl.innerHTML = tlHtml;
+
+      // Reply box
+      if (replyWrap) {
+        if (t.status === 'closed') {
+          replyWrap.innerHTML = `
+            <div style="text-align:center;padding:12px;color:var(--gray-500);font-size:0.82rem;background:var(--gray-50);border-radius:var(--radius-sm);margin-top:10px;">
+              <i class="fas fa-lock"></i>
+              التذكرة مغلقة — افتح تذكرة جديدة لو محتاج متابعة
+            </div>
+          `;
+        } else {
+          replyWrap.innerHTML = `
+            <div class="reply-box">
+              <input type="text" id="vtReplyInput" placeholder="اكتب ردك..." maxlength="800">
+              <button onclick="sendReply()">
+                <i class="fas fa-paper-plane"></i>
+                رد
+              </button>
+            </div>
+          `;
+          const input = document.getElementById('vtReplyInput');
+          if (input) {
+            input.addEventListener('keydown', (e) => {
+              if (e.key === 'Enter') sendReply();
+            });
+          }
+        }
+      }
+    }
+
+    function closeViewTicket(event) {
+      if (event && event.target !== event.currentTarget) return;
+      if (_unsubTicketDoc) { _unsubTicketDoc(); _unsubTicketDoc = null; }
+      const modal = document.getElementById('viewTicketModal');
+      if (modal) modal.remove();
+      document.body.style.overflow = '';
+      _currentTicketId = null;
+      _currentTicketDoc = null;
+    }
+
+    // ============================================================
+    // 📨 إرسال رد
+    // ============================================================
+    async function sendReply() {
+      if (!_currentTicketId || !_currentTicketDoc) return;
+      const input = document.getElementById('vtReplyInput');
+      const text = (input && input.value ? input.value : '').trim();
+      if (!text) return;
+      if (_currentTicketDoc.status === 'closed') {
+        showToast('⚠️ التذكرة مغلقة', 'warning');
+        return;
+      }
+
+      input.disabled = true;
+      try {
+        const userData = _currentUser.data || {};
+        const uid = userData.uid || userData.id || _currentUser.uid || _currentUser.id;
+
+        const newReply = {
+          by: uid,
+          byName: userData.name || 'مستخدم',
+          byRole: userData.role || 'retail',
+          text,
+          at: new Date().toISOString(),
+          isInitial: false
+        };
+
+        await db.collection('support_tickets').doc(_currentTicketId).update({
+          replies: firebase.firestore.FieldValue.arrayUnion(newReply),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          lastReplyAt: firebase.firestore.FieldValue.serverTimestamp(),
+          status: 'processing'
+        });
+
+        input.value = '';
+        showToast('✅ تم إرسال ردك', 'success');
+      } catch (err) {
+        console.error(err);
+        showToast('❌ فشل الإرسال', 'error');
+      } finally {
+        if (input) input.disabled = false;
+      }
+    }
+
+    // ============================================================
+    // 🛠️ Helpers
+    // ============================================================
+    function statusArabic(s) {
+      return { open: 'مفتوحة', processing: 'جاري المعالجة', closed: 'مغلقة' }[s] || s;
+    }
+    function categoryArabic(c) {
+      return {
+        complaint: 'شكوى', inquiry: 'استفسار', request: 'طلب',
+        suggestion: 'اقتراح', financial: 'مشكلة مالية'
+      }[c] || c;
+    }
+    function priorityArabic(p) {
+      return { normal: 'عادية', high: 'مهمة', urgent: 'عاجلة' }[p] || p;
+    }
+    function relativeTime(ts) {
+      if (!ts) return '';
+      let d;
+      if (typeof ts === 'string') d = new Date(ts);
+      else if (ts.toDate) d = ts.toDate();
+      else if (ts.seconds) d = new Date(ts.seconds * 1000);
+      else return '';
+      const diff = Math.floor((Date.now() - d.getTime()) / 1000);
+      if (diff < 60) return 'الآن';
+      if (diff < 3600) return `منذ ${Math.floor(diff / 60)} د`;
+      if (diff < 86400) return `منذ ${Math.floor(diff / 3600)} س`;
+      if (diff < 604800) return `منذ ${Math.floor(diff / 86400)} ي`;
+      return d.toLocaleDateString('ar-EG');
+    }
+    function escapeHtml(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[c]));
+    }
+
+    function setupListeners() {
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          closeTicketModal();
+          closeViewTicket();
+        }
+      });
+    }
+
+    // تصدير عالمي
+    window.openTicketModal = openTicketModal;
+    window.closeTicketModal = closeTicketModal;
+    window.submitTicket = submitTicket;
+    window.viewTicket = viewTicket;
+    window.closeViewTicket = closeViewTicket;
+    window.sendReply = sendReply;
+    window.loadMyTickets = loadMyTickets;
+  </script>
 </body>
 </html>
