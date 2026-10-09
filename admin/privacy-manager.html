@@ -1,0 +1,1514 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>إدارة سياسة الخصوصية - أولاد شعلان</title>
+  <meta name="theme-color" content="#1a2a4a">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/gomla/assets/css/style.css">
+  <link rel="icon" href="/gomla/assets/images/favicon.ico">
+
+  <style>
+    html, body { overflow-x: hidden !important; max-width: 100vw; }
+    .page-content, .page-content .container { overflow-x: hidden; min-width: 0; max-width: 100%; }
+
+    /* Header */
+    .pm-header {
+      background: linear-gradient(135deg, var(--navy-dark), var(--navy), var(--navy-light));
+      border-radius: var(--radius-lg);
+      padding: 22px 24px;
+      margin-bottom: 18px;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(15,26,46,.35);
+      border-bottom: 4px solid var(--gold);
+    }
+    .pm-header::before {
+      content: '';
+      position: absolute;
+      top: -50%; right: -15%;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(201,168,76,.25), transparent 70%);
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+    }
+    .pm-header-content {
+      position: relative; z-index: 1;
+      display: flex; align-items: center;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .pm-header-content .header-icon {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      box-shadow: 0 8px 24px rgba(201,168,76,.5);
+    }
+    .pm-header-content .header-text { flex: 1; min-width: 200px; }
+    .pm-header-content .header-text h1 {
+      font-size: 1.3rem; font-weight: 900;
+      margin-bottom: 4px; color: var(--white);
+    }
+    .pm-header-content .header-text p {
+      font-size: 0.82rem; opacity: .9;
+      color: rgba(255,255,255,.9); margin: 0;
+    }
+    .pm-header-content .header-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 14px;
+      background: rgba(255,255,255,.15);
+      color: var(--gold-light);
+      border: 1px solid rgba(201,168,76,.5);
+      border-radius: var(--radius-full);
+      font-size: 0.75rem; font-weight: 800;
+    }
+    .pm-header-content .header-badge i { color: var(--gold); }
+
+    /* Stats */
+    .pm-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .pm-stat-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 14px 12px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      text-align: center;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .pm-stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--gold-light);
+    }
+    .pm-stat-card .stat-icon {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.05rem;
+      margin: 0 auto 8px;
+    }
+    .stat-icon.blue { background: rgba(59,130,246,.12); color: #2563eb; }
+    .stat-icon.green { background: rgba(34,197,94,.12); color: #16a34a; }
+    .stat-icon.orange { background: rgba(245,158,11,.12); color: #d97706; }
+    .stat-icon.purple { background: rgba(139,92,246,.12); color: #7c3aed; }
+    .pm-stat-card .stat-number {
+      font-size: 1.2rem; font-weight: 900;
+      color: var(--navy); line-height: 1.2;
+      margin-bottom: 2px;
+    }
+    .pm-stat-card .stat-label {
+      font-size: 0.68rem; color: var(--gray-500);
+      font-weight: 700;
+    }
+
+    /* Toolbar */
+    .pm-toolbar {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .pm-search {
+      position: relative;
+      flex: 1;
+      min-width: 200px;
+    }
+    .pm-search input {
+      width: 100%;
+      padding: 10px 40px 10px 14px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.88rem;
+      background: var(--gray-50);
+      outline: none;
+      transition: var(--transition);
+    }
+    .pm-search input:focus {
+      border-color: var(--gold);
+      background: var(--white);
+      box-shadow: 0 0 0 4px rgba(201,168,76,.15);
+    }
+    .pm-search .si {
+      position: absolute;
+      right: 13px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray-400);
+      pointer-events: none;
+    }
+
+    /* Sections list */
+    .pm-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .pm-section-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--gray-200);
+      box-shadow: var(--shadow-sm);
+      padding: 14px 16px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 14px;
+      align-items: center;
+    }
+    .pm-section-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 5px; height: 100%;
+      background: var(--gold);
+    }
+    .pm-section-card.inactive::before {
+      background: var(--gray-300);
+    }
+    .pm-section-card.inactive {
+      opacity: 0.65;
+      background: var(--gray-50);
+    }
+    .pm-section-card:hover {
+      border-color: var(--gold-light);
+      box-shadow: var(--shadow-md);
+    }
+    .pm-order {
+      width: 42px; height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.05rem;
+      font-weight: 900;
+      flex-shrink: 0;
+      border: 2px solid var(--white);
+      box-shadow: 0 4px 12px rgba(26,42,74,.2);
+    }
+    .pm-section-info { min-width: 0; }
+    .pm-section-info h4 {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin: 0 0 5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .pm-section-info h4 i { color: var(--gold); font-size: 0.9rem; }
+    .pm-section-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 0.7rem;
+      color: var(--gray-500);
+      align-items: center;
+    }
+    .pm-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 9px;
+      background: var(--gray-100);
+      border-radius: var(--radius-full);
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--gray-600);
+    }
+    .pm-pill.green { background: rgba(34,197,94,.12); color: #16a34a; }
+    .pm-pill.orange { background: rgba(245,158,11,.12); color: #d97706; }
+    .pm-pill.purple { background: rgba(139,92,246,.12); color: #7c3aed; }
+    .pm-pill.blue { background: rgba(59,130,246,.12); color: #2563eb; }
+    .pm-pill.red { background: rgba(239,68,68,.12); color: #dc2626; }
+    .pm-pill i { font-size: 0.6rem; }
+
+    .pm-actions {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+    .pm-action-btn {
+      width: 34px; height: 34px;
+      border-radius: 10px;
+      border: 2px solid var(--gray-200);
+      background: var(--white);
+      color: var(--gray-600);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 0.82rem;
+    }
+    .pm-action-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+    .pm-action-btn.up:hover { background: #3b82f6; color: white; border-color: #2563eb; }
+    .pm-action-btn.down:hover { background: #3b82f6; color: white; border-color: #2563eb; }
+    .pm-action-btn.edit:hover { background: #f59e0b; color: white; border-color: #d97706; }
+    .pm-action-btn.toggle:hover { background: var(--gold); color: var(--navy); border-color: var(--gold-dark); }
+    .pm-action-btn.delete:hover { background: #ef4444; color: white; border-color: #dc2626; }
+    .pm-action-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    /* Empty */
+    .pm-empty {
+      text-align: center;
+      padding: 50px 20px;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      border: 2px dashed var(--gray-300);
+    }
+    .pm-empty .empty-icon {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: var(--gray-100);
+      color: var(--gray-400);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 16px;
+    }
+    .pm-empty h3 {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .pm-empty p {
+      font-size: 0.85rem;
+      color: var(--gray-500);
+      margin-bottom: 18px;
+    }
+
+    /* Modal */
+    .pm-modal-header {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      padding: 18px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+    }
+    .pm-modal-header h3 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .pm-modal-header h3 i { color: var(--gold); }
+
+    /* Items editor */
+    .items-editor {
+      border: 2px dashed var(--gray-200);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      background: var(--gray-50);
+      margin-top: 6px;
+    }
+    .item-row {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      padding: 10px;
+      margin-bottom: 8px;
+      position: relative;
+    }
+    .item-row:last-child { margin-bottom: 0; }
+    .item-row .row-num {
+      position: absolute;
+      top: -8px;
+      right: 10px;
+      background: var(--navy);
+      color: var(--gold);
+      font-size: 0.65rem;
+      font-weight: 900;
+      padding: 2px 8px;
+      border-radius: 10px;
+      z-index: 1;
+    }
+    .item-row .remove-item {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: #fee2e2;
+      color: #dc2626;
+      border: none;
+      cursor: pointer;
+      font-size: 0.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+    .item-row .remove-item:hover {
+      background: #dc2626;
+      color: white;
+    }
+    .item-row .item-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      padding-right: 6px;
+    }
+    .item-row .item-grid.two-col {
+      grid-template-columns: 100px 1fr;
+    }
+    .item-row label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--gray-500);
+      margin-bottom: 3px;
+      display: block;
+    }
+    .item-row input,
+    .item-row textarea {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.82rem;
+      background: var(--white);
+      outline: none;
+      transition: var(--transition);
+    }
+    .item-row input:focus,
+    .item-row textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(201,168,76,.15);
+    }
+    .item-row textarea {
+      resize: vertical;
+      min-height: 50px;
+    }
+    .add-item-btn {
+      width: 100%;
+      padding: 10px;
+      border: 2px dashed var(--gold-light);
+      background: transparent;
+      color: var(--gold-dark);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .add-item-btn:hover {
+      background: rgba(201,168,76,.08);
+      border-color: var(--gold);
+    }
+
+    .type-hint {
+      font-size: 0.72rem;
+      color: var(--gray-500);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 5px;
+    }
+    .type-hint i { color: var(--gold); }
+
+    /* Toggle switch */
+    .switch-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      margin-top: 14px;
+    }
+    .switch-row .switch-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .switch-row .switch-label i { color: var(--gold); }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 46px;
+      height: 24px;
+    }
+    .switch input { display: none; }
+    .switch .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--gray-300);
+      border-radius: 24px;
+      transition: .3s;
+    }
+    .switch .slider::before {
+      content: '';
+      position: absolute;
+      height: 18px; width: 18px;
+      left: 3px; bottom: 3px;
+      background: white;
+      border-radius: 50%;
+      transition: .3s;
+      box-shadow: 0 2px 4px rgba(0,0,0,.2);
+    }
+    .switch input:checked + .slider {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    }
+    .switch input:checked + .slider::before {
+      transform: translateX(22px);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) and (pointer: coarse) {
+      .pm-header { padding: 18px 16px; border-radius: var(--radius-md); }
+      .pm-header-content .header-icon { width: 46px; height: 46px; font-size: 1.2rem; }
+      .pm-header-content .header-text h1 { font-size: 1.02rem; }
+      .pm-header-content .header-text p { font-size: 0.72rem; }
+
+      .pm-stats { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .pm-stat-card { padding: 11px 8px; }
+      .pm-stat-card .stat-icon { width: 34px; height: 34px; font-size: 0.9rem; }
+      .pm-stat-card .stat-number { font-size: 1rem; }
+
+      .pm-toolbar { padding: 10px; }
+      .pm-search { min-width: 100%; }
+
+      .pm-section-card {
+        grid-template-columns: auto 1fr;
+        gap: 10px;
+        padding: 12px 14px;
+      }
+      .pm-actions {
+        grid-column: 1 / -1;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+        padding-top: 8px;
+        border-top: 1px solid var(--gray-100);
+      }
+      .pm-order { width: 38px; height: 38px; font-size: 0.95rem; }
+      .pm-section-info h4 { font-size: 0.88rem; }
+
+      .pm-action-btn { width: 32px; height: 32px; font-size: 0.75rem; }
+
+      .item-row .item-grid.two-col { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="mobile-top-bar"></div>
+  <div id="mobile-top-tabs"></div>
+  <div id="header-placeholder"></div>
+
+  <main class="page-content">
+    <div class="container">
+
+      <div class="pm-header">
+        <div class="pm-header-content">
+          <div class="header-icon"><i class="fas fa-lock"></i></div>
+          <div class="header-text">
+            <h1>إدارة سياسة الخصوصية</h1>
+            <p>إضافة وتعديل وحذف بنود السياسة التي تظهر للزوار</p>
+          </div>
+          <span class="header-badge">
+            <i class="fas fa-crown"></i>
+            سوبر أدمن
+          </span>
+        </div>
+      </div>
+
+      <div class="pm-stats">
+        <div class="pm-stat-card">
+          <div class="stat-icon blue"><i class="fas fa-list"></i></div>
+          <div class="stat-number" id="statTotal">0</div>
+          <div class="stat-label">إجمالي الأقسام</div>
+        </div>
+        <div class="pm-stat-card">
+          <div class="stat-icon green"><i class="fas fa-eye"></i></div>
+          <div class="stat-number" id="statActive">0</div>
+          <div class="stat-label">نشطة</div>
+        </div>
+        <div class="pm-stat-card">
+          <div class="stat-icon orange"><i class="fas fa-eye-slash"></i></div>
+          <div class="stat-number" id="statInactive">0</div>
+          <div class="stat-label">مخفية</div>
+        </div>
+        <div class="pm-stat-card">
+          <div class="stat-icon purple"><i class="fas fa-clock"></i></div>
+          <div class="stat-number" id="statUpdated" style="font-size:0.82rem;">—</div>
+          <div class="stat-label">آخر تحديث</div>
+        </div>
+      </div>
+
+      <div class="pm-toolbar">
+        <div class="pm-search">
+          <input type="text" id="searchInput" placeholder="ابحث في الأقسام..." oninput="handleSearch(this.value)">
+          <i class="fas fa-search si"></i>
+        </div>
+        <button class="btn btn-gold" onclick="openAddModal()">
+          <i class="fas fa-plus"></i>
+          قسم جديد
+        </button>
+        <button class="btn btn-outline" onclick="openSeedConfirm()">
+          <i class="fas fa-download"></i>
+          استيراد الافتراضي
+        </button>
+      </div>
+
+      <div class="pm-list" id="sectionsList">
+        <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i><p>جاري التحميل...</p></div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="mobile-bottom-tabs"></div>
+  <div id="mobile-copyright"></div>
+  <div id="footer-placeholder"></div>
+  <div id="sidebar-placeholder"></div>
+  <div id="toast-container"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="/gomla/assets/js/firebase-config.js"></script>
+  <script src="/gomla/assets/js/main.js"></script>
+
+  <script>
+    // ============================================================
+    // 📄 admin/privacy-manager.html
+    // ============================================================
+
+    let _admin = null;
+    let _sections = [];
+    let _filtered = [];
+    let _search = '';
+    let _editingId = null;
+    let _unsub = null;
+
+    const ICON_OPTIONS = [
+      'fa-book-open', 'fa-handshake', 'fa-database', 'fa-bullseye', 'fa-cookie-bite',
+      'fa-shield-virus', 'fa-user-lock', 'fa-balance-scale', 'fa-credit-card',
+      'fa-user-check', 'fa-sync-alt', 'fa-headset', 'fa-file-alt', 'fa-lock',
+      'fa-key', 'fa-shield-alt', 'fa-fire', 'fa-ban', 'fa-trash', 'fa-user-shield',
+      'fa-eye', 'fa-flag', 'fa-heart', 'fa-star', 'fa-check-circle', 'fa-info-circle',
+      'fa-gavel', 'fa-user', 'fa-users', 'fa-globe', 'fa-image', 'fa-shopping-bag',
+      'fa-truck-fast', 'fa-file-invoice-dollar', 'fa-phone', 'fa-envelope',
+      'fa-ticket-alt', 'fa-clock', 'fa-shield', 'fa-cog'
+    ];
+
+    const TYPE_LABELS = {
+      text: 'فقرة نصية',
+      quote: 'اقتباس مميز',
+      list: 'قائمة نقطية',
+      cards: 'شبكة كروت',
+      table: 'جدول',
+      contact: 'كروت تواصل'
+    };
+
+    // ============================================================
+    // 🚀 Init
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof protectSuperAdminPage === 'function') {
+        const ok = protectSuperAdminPage();
+        if (ok === false) return;
+      }
+
+      if (typeof getCurrentUser !== 'function') {
+        window.location.href = '/gomla/admin/login.html';
+        return;
+      }
+
+      const user = getCurrentUser();
+      if (!user || !user.data || user.data.role !== ROLES.SUPER) {
+        if (typeof showToast === 'function') {
+          showToast('⚠️ هذه الصفحة للسوبر أدمن فقط', 'error');
+        }
+        setTimeout(() => { window.location.href = '/gomla/admin/home.html'; }, 1300);
+        return;
+      }
+
+      _admin = user.data;
+      loadSections();
+      loadMeta();
+    });
+
+    // ============================================================
+    // 📥 تحميل الأقسام (Realtime)
+    // ============================================================
+    function loadSections() {
+      if (_unsub) _unsub();
+      _unsub = db.collection('privacy_sections')
+        .orderBy('order', 'asc')
+        .onSnapshot(snap => {
+          _sections = [];
+          snap.forEach(d => _sections.push({ id: d.id, ...d.data() }));
+          updateStats();
+          applyFilter();
+        }, err => {
+          console.error(err);
+          const list = document.getElementById('sectionsList');
+          if (list) {
+            list.innerHTML = `<div class="pm-empty"><div class="empty-icon"><i class="fas fa-exclamation-triangle"></i></div><h3>فشل التحميل</h3><p>${err.code === 'permission-denied' ? 'ليس لديك صلاحية' : 'حدث خطأ'}</p></div>`;
+          }
+        });
+    }
+
+    // ============================================================
+    // 📅 آخر تحديث
+    // ============================================================
+    async function loadMeta() {
+      try {
+        const doc = await db.collection('site_content').doc('privacy_meta').get();
+        const el = document.getElementById('statUpdated');
+        if (!el) return;
+        if (doc.exists && doc.data().lastUpdated) {
+          const d = doc.data().lastUpdated.toDate ? doc.data().lastUpdated.toDate() : new Date(doc.data().lastUpdated);
+          el.textContent = d.toLocaleDateString('ar-EG', { month: 'short', day: 'numeric' });
+        } else {
+          el.textContent = '—';
+        }
+      } catch (e) {
+        console.warn(e);
+      }
+    }
+
+    // ============================================================
+    // 📊 الإحصائيات
+    // ============================================================
+    function updateStats() {
+      const total = _sections.length;
+      const active = _sections.filter(s => s.active !== false).length;
+      const inactive = total - active;
+      setText('statTotal', total);
+      setText('statActive', active);
+      setText('statInactive', inactive);
+    }
+
+    function setText(id, v) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = v;
+    }
+
+    // ============================================================
+    // 🔍 بحث + عرض
+    // ============================================================
+    function handleSearch(v) {
+      _search = v.trim().toLowerCase();
+      applyFilter();
+    }
+
+    function applyFilter() {
+      if (!_search) {
+        _filtered = _sections.slice();
+      } else {
+        _filtered = _sections.filter(s =>
+          (s.title || '').toLowerCase().includes(_search)
+        );
+      }
+      renderList();
+    }
+
+    function renderList() {
+      const list = document.getElementById('sectionsList');
+      if (!list) return;
+
+      if (!_filtered.length) {
+        list.innerHTML = `
+          <div class="pm-empty">
+            <div class="empty-icon"><i class="fas fa-inbox"></i></div>
+            <h3>${_sections.length ? 'لا نتائج للبحث' : 'مفيش أقسام لسه'}</h3>
+            <p>${_sections.length ? 'جرب كلمة تانية' : 'ابدأ بإضافة قسم جديد أو استيراد المحتوى الافتراضي'}</p>
+            ${!_sections.length ? `
+              <button class="btn btn-gold" onclick="openAddModal()">
+                <i class="fas fa-plus"></i>
+                إضافة أول قسم
+              </button>
+            ` : ''}
+          </div>
+        `;
+        return;
+      }
+
+      list.innerHTML = _filtered.map((s, idx) => {
+        const isFirst = _sections.indexOf(s) === 0;
+        const isLast = _sections.indexOf(s) === _sections.length - 1;
+        const typeLabel = TYPE_LABELS[s.bodyType] || s.bodyType || '—';
+        const active = s.active !== false;
+
+        return `
+          <div class="pm-section-card ${active ? '' : 'inactive'}">
+            <div class="pm-order">${s.order || idx + 1}</div>
+
+            <div class="pm-section-info">
+              <h4>
+                <i class="fas ${s.icon || 'fa-file-alt'}"></i>
+                ${escapeHtml(s.title || 'بدون عنوان')}
+              </h4>
+              <div class="pm-section-meta">
+                <span class="pm-pill purple">
+                  <i class="fas fa-shapes"></i>
+                  ${typeLabel}
+                </span>
+                <span class="pm-pill ${active ? 'green' : 'orange'}">
+                  <i class="fas ${active ? 'fa-check-circle' : 'fa-eye-slash'}"></i>
+                  ${active ? 'نشط' : 'مخفي'}
+                </span>
+                <span class="pm-pill">
+                  <i class="fas fa-list-ol"></i>
+                  عدد العناصر: ${(s.items && s.items.length) || 0}
+                </span>
+              </div>
+            </div>
+
+            <div class="pm-actions">
+              <button class="pm-action-btn up" ${isFirst ? 'disabled' : ''}
+                      onclick="moveUp('${s.id}')" title="تحريك لأعلى">
+                <i class="fas fa-arrow-up"></i>
+              </button>
+              <button class="pm-action-btn down" ${isLast ? 'disabled' : ''}
+                      onclick="moveDown('${s.id}')" title="تحريك لأسفل">
+                <i class="fas fa-arrow-down"></i>
+              </button>
+              <button class="pm-action-btn toggle"
+                      onclick="toggleActive('${s.id}')" title="${active ? 'إخفاء' : 'إظهار'}">
+                <i class="fas ${active ? 'fa-eye-slash' : 'fa-eye'}"></i>
+              </button>
+              <button class="pm-action-btn edit" onclick="openEditModal('${s.id}')" title="تعديل">
+                <i class="fas fa-pen"></i>
+              </button>
+              <button class="pm-action-btn delete" onclick="confirmDelete('${s.id}')" title="حذف">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // ============================================================
+    // 🔼🔼 ترتيب
+    // ============================================================
+    async function moveUp(id) {
+      const idx = _sections.findIndex(s => s.id === id);
+      if (idx <= 0) return;
+      await swapOrders(idx, idx - 1);
+    }
+
+    async function moveDown(id) {
+      const idx = _sections.findIndex(s => s.id === id);
+      if (idx < 0 || idx >= _sections.length - 1) return;
+      await swapOrders(idx, idx + 1);
+    }
+
+    async function swapOrders(i, j) {
+      try {
+        const a = _sections[i];
+        const b = _sections[j];
+        const batch = db.batch();
+        batch.update(db.collection('privacy_sections').doc(a.id), { order: b.order || (j + 1) });
+        batch.update(db.collection('privacy_sections').doc(b.id), { order: a.order || (i + 1) });
+        await batch.commit();
+        await touchMeta();
+      } catch (err) {
+        console.error(err);
+        showToast('❌ فشل الترتيب', 'error');
+      }
+    }
+
+    // ============================================================
+    // 👁️ إظهار/إخفاء
+    // ============================================================
+    async function toggleActive(id) {
+      const s = _sections.find(x => x.id === id);
+      if (!s) return;
+      try {
+        await db.collection('privacy_sections').doc(id).update({
+          active: !(s.active !== false),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        await touchMeta();
+        showToast(s.active !== false ? '✅ تم إخفاء القسم' : '✅ تم إظهار القسم', 'success');
+      } catch (err) {
+        console.error(err);
+        showToast('❌ فشل التحديث', 'error');
+      }
+    }
+
+    // ============================================================
+    // ➕ Modal إضافة
+    // ============================================================
+    function openAddModal() {
+      _editingId = null;
+      const nextOrder = _sections.length ? Math.max(..._sections.map(s => s.order || 0)) + 1 : 1;
+      showEditorModal({
+        title: 'إضافة قسم جديد',
+        icon: 'fa-plus',
+        data: {
+          title: '',
+          icon: 'fa-file-alt',
+          bodyType: 'text',
+          body: '',
+          items: [],
+          order: nextOrder,
+          active: true
+        }
+      });
+    }
+
+    // ============================================================
+    // ✏️ Modal تعديل
+    // ============================================================
+    function openEditModal(id) {
+      const s = _sections.find(x => x.id === id);
+      if (!s) return;
+      _editingId = id;
+      showEditorModal({
+        title: 'تعديل القسم',
+        icon: 'fa-pen',
+        data: { ...s }
+      });
+    }
+
+    // ============================================================
+    // 🎨 بناء Modal المحرر
+    // ============================================================
+    function showEditorModal({ title, icon, data }) {
+      const iconsListHtml = ICON_OPTIONS.map(i => `<option value="${i}">`).join('');
+      const typesOptions = Object.entries(TYPE_LABELS).map(([k, v]) =>
+        `<option value="${k}" ${data.bodyType === k ? 'selected' : ''}>${v}</option>`
+      ).join('');
+
+      const modalHtml = `
+        <div class="modal-overlay show" id="editorModal" onclick="closeEditorModal(event)">
+          <div class="modal-content medium" onclick="event.stopPropagation()" style="max-width:700px;">
+            <div class="pm-modal-header">
+              <h3><i class="fas ${icon}"></i> ${title}</h3>
+              <button class="modal-close" onclick="closeEditorModal()"><i class="fas fa-times"></i></button>
+            </div>
+
+            <div class="modal-body">
+
+              <div class="form-group">
+                <label>عنوان القسم <span class="required">*</span></label>
+                <input type="text" id="fTitle" maxlength="120" value="${escapeAttr(data.title)}" placeholder="مثال: مقدمة">
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label>الأيقونة</label>
+                  <input type="text" id="fIcon" list="iconList" value="${escapeAttr(data.icon)}" placeholder="fa-file-alt">
+                  <datalist id="iconList">${iconsListHtml}</datalist>
+                  <div class="type-hint">
+                    <i class="fas fa-info-circle"></i>
+                    اكتب اسم أيقونة Font Awesome أو اختر من القائمة
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>نوع المحتوى <span class="required">*</span></label>
+                  <select id="fBodyType" onchange="onTypeChange(this.value)">
+                    ${typesOptions}
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>نص توضيحي (اختياري)</label>
+                <textarea id="fBody" placeholder="نص يظهر قبل المحتوى..." maxlength="2000" style="min-height:80px;">${escapeHtml(data.body || '')}</textarea>
+                <div class="type-hint">
+                  <i class="fas fa-info-circle"></i>
+                  يدعم HTML البسيط مثل &lt;strong&gt; و &lt;br&gt;
+                </div>
+              </div>
+
+              <div class="form-group" id="itemsEditorGroup">
+                <label>عناصر القسم</label>
+                <div class="items-editor" id="itemsEditor"></div>
+                <button class="add-item-btn" type="button" onclick="addItem()" style="margin-top:8px;">
+                  <i class="fas fa-plus"></i>
+                  إضافة عنصر
+                </button>
+              </div>
+
+              <div class="switch-row">
+                <div class="switch-label">
+                  <i class="fas fa-eye"></i>
+                  القسم نشط (يظهر في الصفحة)
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="fActive" ${data.active !== false ? 'checked' : ''}>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+            </div>
+
+            <div class="modal-actions">
+              <button class="btn btn-outline" onclick="closeEditorModal()">
+                <i class="fas fa-times"></i>
+                إلغاء
+              </button>
+              <button class="btn btn-gold" id="saveBtn" onclick="saveSection()">
+                <i class="fas fa-save"></i>
+                حفظ
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const existing = document.getElementById('editorModal');
+      if (existing) existing.remove();
+
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
+      document.body.style.overflow = 'hidden';
+
+      // ابدأ بمحرر العناصر
+      _currentItems = (data.items || []).map(it => ({ ...it }));
+      renderItemsEditor(data.bodyType);
+    }
+
+    let _currentItems = [];
+
+    function onTypeChange(type) {
+      renderItemsEditor(type);
+    }
+
+    // ============================================================
+    // 🎯 محرر العناصر
+    // ============================================================
+    function renderItemsEditor(type) {
+      const editor = document.getElementById('itemsEditor');
+      if (!editor) return;
+
+      const itemsGroup = document.getElementById('itemsEditorGroup');
+      if (!itemsGroup) return;
+
+      // contact/cards/table/list → محرر. text/quote → لا محرر
+      if (type === 'text' || type === 'quote') {
+        itemsGroup.style.display = 'none';
+        return;
+      }
+      itemsGroup.style.display = 'block';
+
+      const addBtn = document.querySelector('.add-item-btn');
+      if (addBtn) addBtn.style.display = 'flex';
+
+      if (!_currentItems.length) {
+        // أضف عنصر افتراضي
+        _currentItems = [createEmptyItem(type)];
+      }
+
+      renderItems();
+
+      // تحديث نص زر الإضافة
+      if (addBtn) {
+        const labels = {
+          list: 'إضافة بند',
+          cards: 'إضافة كارت',
+          table: 'إضافة صف',
+          contact: 'إضافة وسيلة تواصل'
+        };
+        addBtn.innerHTML = `<i class="fas fa-plus"></i> ${labels[type] || 'إضافة عنصر'}`;
+      }
+    }
+
+    function createEmptyItem(type) {
+      if (type === 'list') return { text: '' };
+      if (type === 'table') return { label: '', value: '' };
+      if (type === 'contact') return { icon: 'fas fa-link', title: '', text: '', url: '', color: '#1a2a4a' };
+      return { icon: 'fa-info', title: '', text: '' }; // cards
+    }
+
+    function renderItems() {
+      const editor = document.getElementById('itemsEditor');
+      const type = document.getElementById('fBodyType').value;
+      if (!editor) return;
+
+      editor.innerHTML = _currentItems.map((it, i) => {
+        let content = '';
+
+        if (type === 'list') {
+          content = `
+            <div class="item-grid">
+              <div>
+                <label>النص</label>
+                <textarea oninput="_currentItems[${i}].text = this.value" maxlength="500">${escapeHtml(it.text || '')}</textarea>
+              </div>
+            </div>
+          `;
+        } else if (type === 'table') {
+          content = `
+            <div class="item-grid two-col">
+              <div>
+                <label>العنوان</label>
+                <input type="text" value="${escapeAttr(it.label || '')}" oninput="_currentItems[${i}].label = this.value" maxlength="100">
+              </div>
+              <div>
+                <label>القيمة</label>
+                <input type="text" value="${escapeAttr(it.value || '')}" oninput="_currentItems[${i}].value = this.value" maxlength="300">
+              </div>
+            </div>
+          `;
+        } else if (type === 'contact') {
+          content = `
+            <div class="item-grid">
+              <div class="item-grid two-col">
+                <div>
+                  <label>الأيقونة (Font Awesome)</label>
+                  <input type="text" value="${escapeAttr(it.icon || '')}" oninput="_currentItems[${i}].icon = this.value" placeholder="fas fa-envelope">
+                </div>
+                <div>
+                  <label>اللون (Hex)</label>
+                  <input type="text" value="${escapeAttr(it.color || '#1a2a4a')}" oninput="_currentItems[${i}].color = this.value" placeholder="#1a2a4a">
+                </div>
+              </div>
+              <div>
+                <label>الاسم الظاهر</label>
+                <input type="text" value="${escapeAttr(it.title || '')}" oninput="_currentItems[${i}].title = this.value" maxlength="60">
+              </div>
+              <div>
+                <label>القيمة (رقم/إيميل)</label>
+                <input type="text" value="${escapeAttr(it.text || '')}" oninput="_currentItems[${i}].text = this.value" maxlength="120">
+              </div>
+              <div>
+                <label>الرابط (URL)</label>
+                <input type="text" value="${escapeAttr(it.url || '')}" oninput="_currentItems[${i}].url = this.value" maxlength="300" placeholder="https://...">
+              </div>
+            </div>
+          `;
+        } else { // cards
+          content = `
+            <div class="item-grid">
+              <div class="item-grid two-col">
+                <div>
+                  <label>الأيقونة (Font Awesome)</label>
+                  <input type="text" value="${escapeAttr(it.icon || '')}" oninput="_currentItems[${i}].icon = this.value" placeholder="fa-star">
+                </div>
+                <div>
+                  <label>العنوان</label>
+                  <input type="text" value="${escapeAttr(it.title || '')}" oninput="_currentItems[${i}].title = this.value" maxlength="80">
+                </div>
+              </div>
+              <div>
+                <label>الوصف</label>
+                <textarea oninput="_currentItems[${i}].text = this.value" maxlength="400">${escapeHtml(it.text || '')}</textarea>
+              </div>
+            </div>
+          `;
+        }
+
+        return `
+          <div class="item-row">
+            <span class="row-num">${i + 1}</span>
+            <button class="remove-item" onclick="removeItem(${i})" title="حذف">
+              <i class="fas fa-times"></i>
+            </button>
+            ${content}
+          </div>
+        `;
+      }).join('');
+    }
+
+    function addItem() {
+      const type = document.getElementById('fBodyType').value;
+      _currentItems.push(createEmptyItem(type));
+      renderItems();
+    }
+
+    function removeItem(idx) {
+      _currentItems.splice(idx, 1);
+      renderItems();
+    }
+
+    // ============================================================
+    // 💾 حفظ
+    // ============================================================
+    async function saveSection() {
+      const btn = document.getElementById('saveBtn');
+      const title = document.getElementById('fTitle').value.trim();
+      const icon = document.getElementById('fIcon').value.trim() || 'fa-file-alt';
+      const bodyType = document.getElementById('fBodyType').value;
+      const body = document.getElementById('fBody').value.trim();
+      const active = document.getElementById('fActive').checked;
+
+      if (!title) {
+        showToast('⚠️ اكتب عنوان القسم', 'warning');
+        document.getElementById('fTitle').focus();
+        return;
+      }
+
+      // فلترة العناصر الفارغة
+      let items = [];
+      if (bodyType === 'list') {
+        items = _currentItems.filter(it => (it.text || '').trim());
+      } else if (bodyType === 'table') {
+        items = _currentItems.filter(it => (it.label || '').trim() || (it.value || '').trim());
+      } else if (bodyType === 'contact' || bodyType === 'cards') {
+        items = _currentItems.filter(it => (it.title || '').trim() || (it.text || '').trim());
+      }
+
+      // لو النوع يحتاج عناصر وما فيهاش
+      if (['list', 'table', 'cards', 'contact'].includes(bodyType) && !items.length) {
+        showToast('⚠️ أضف عنصر واحد على الأقل', 'warning');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الحفظ...';
+
+      try {
+        const now = firebase.firestore.FieldValue.serverTimestamp();
+        const payload = {
+          title,
+          icon,
+          bodyType,
+          body,
+          items,
+          active,
+          updatedAt: now
+        };
+
+        if (_editingId) {
+          await db.collection('privacy_sections').doc(_editingId).update(payload);
+        } else {
+          payload.order = _sections.length ? Math.max(..._sections.map(s => s.order || 0)) + 1 : 1;
+          payload.createdAt = now;
+          await db.collection('privacy_sections').add(payload);
+        }
+
+        await touchMeta();
+        showToast('✅ تم الحفظ', 'success');
+        closeEditorModal();
+
+      } catch (err) {
+        console.error(err);
+        showToast('❌ فشل الحفظ: ' + (err.message || ''), 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-save"></i> حفظ';
+      }
+    }
+
+    function closeEditorModal(event) {
+      if (event && event.target !== event.currentTarget) return;
+      const m = document.getElementById('editorModal');
+      if (m) m.remove();
+      document.body.style.overflow = '';
+      _editingId = null;
+      _currentItems = [];
+    }
+
+    // ============================================================
+    // 🗑️ حذف
+    // ============================================================
+    function confirmDelete(id) {
+      const s = _sections.find(x => x.id === id);
+      if (!s) return;
+
+      const modalHtml = `
+        <div class="modal-overlay show" id="deleteModal" onclick="closeDeleteModal(event)">
+          <div class="modal-content small" onclick="event.stopPropagation()">
+            <div class="pm-modal-header" style="background:linear-gradient(135deg,#dc2626,#991b1b);">
+              <h3><i class="fas fa-trash"></i> تأكيد الحذف</h3>
+              <button class="modal-close" onclick="closeDeleteModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" style="text-align:center;padding:24px;">
+              <div style="width:70px;height:70px;border-radius:50%;background:#fee2e2;color:#dc2626;display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 14px;">
+                <i class="fas fa-exclamation-triangle"></i>
+              </div>
+              <h4 style="font-size:1.05rem;color:var(--navy);margin-bottom:8px;">متأكد من حذف "${escapeHtml(s.title)}"؟</h4>
+              <p style="font-size:0.85rem;color:var(--gray-500);margin-bottom:0;">لا يمكن استرجاع القسم بعد الحذف.</p>
+            </div>
+            <div class="modal-actions">
+              <button class="btn btn-outline" onclick="closeDeleteModal()">
+                <i class="fas fa-times"></i> إلغاء
+              </button>
+              <button class="btn btn-danger" id="confirmDelBtn" onclick="doDelete('${id}')">
+                <i class="fas fa-trash"></i> حذف نهائي
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+      const existing = document.getElementById('deleteModal');
+      if (existing) existing.remove();
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeDeleteModal(event) {
+      if (event && event.target !== event.currentTarget) return;
+      const m = document.getElementById('deleteModal');
+      if (m) m.remove();
+      document.body.style.overflow = '';
+    }
+
+    async function doDelete(id) {
+      const btn = document.getElementById('confirmDelBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الحذف...';
+      try {
+        await db.collection('privacy_sections').doc(id).delete();
+        await touchMeta();
+        showToast('✅ تم الحذف', 'success');
+        closeDeleteModal();
+      } catch (err) {
+        console.error(err);
+        showToast('❌ فشل الحذف', 'error');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-trash"></i> حذف نهائي';
+      }
+    }
+
+    // ============================================================
+    // 📥 استيراد المحتوى الافتراضي
+    // ============================================================
+    const SEED_SECTIONS = [
+      { title: "مقدمة", icon: "fa-book-open", bodyType: "text",
+        body: "في <strong>أولاد شعلان للمنظفات والورقيات</strong>، نحن نأخذ خصوصيتك على محمل الجد. توضح سياسة الخصوصية هذه كيفية جمع واستخدام وحماية معلوماتك الشخصية عند استخدام موقعنا الإلكتروني أو خدماتنا." },
+      { title: "التزامنا", icon: "fa-handshake", bodyType: "quote",
+        body: "باستخدامك للموقع، فإنك توافق على الممارسات الموضحة في هذه السياسة. احرص على قراءتها بالكامل قبل استخدام خدماتنا." },
+      { title: "البيانات اللي بنجمعها", icon: "fa-database", bodyType: "cards",
+        items: [
+          { icon: "fa-user", title: "بيانات الحساب", text: "الاسم الكامل، رقم الهاتف، البريد الإلكتروني، العنوان، المدينة، كلمة المرور المشفّرة" },
+          { icon: "fa-globe", title: "بيانات تلقائية", text: "عنوان IP، نوع المتصفح، نظام التشغيل، الصفحات المزارة، وقت وتاريخ الزيارة" },
+          { icon: "fa-shopping-bag", title: "بيانات الطلبات", text: "سجل الطلبات، الفواتير، طرق الدفع، عنوان التوصيل، الرصيد المالي" },
+          { icon: "fa-image", title: "ملفات ترفعها", text: "صور إيصالات السداد، صور المنتجات في تذاكر الدعم" }
+        ] },
+      { title: "ليه بنستخدم بياناتك؟", icon: "fa-bullseye", bodyType: "cards",
+        items: [
+          { icon: "fa-truck-fast", title: "تنفيذ الطلبات", text: "توصيل طلباتك في الوقت المحدد للعنوان الصحيح" },
+          { icon: "fa-file-invoice-dollar", title: "إدارة الحساب", text: "إدارة حسابك وفواتيرك ورصيدك المالي" },
+          { icon: "fa-phone", title: "التواصل", text: "إبلاغك بحالة طلبك والعروض الجديدة" },
+          { icon: "fa-star", title: "تحسين التجربة", text: "تطوير خدماتنا بناءً على استخدامك" },
+          { icon: "fa-shield-alt", title: "الحماية", text: "حماية حسابك من الاختراق والاحتيال" },
+          { icon: "fa-gavel", title: "الالتزام القانوني", text: "استيفاء المتطلبات القانونية في مصر" }
+        ] },
+      { title: "ملفات تعريف الارتباط (Cookies)", icon: "fa-cookie-bite", bodyType: "text",
+        body: "نستخدم ملفات تعريف الارتباط (Cookies) لتخصيص تجربتك وتحسين خدماتنا.<br><br><strong>الأنواع:</strong> ضرورية (لتشغيل الموقع - لا يمكن إيقافها) • وظيفية (تفضل اللغة والإعدادات) • تحليلية (لفهم استخدام الموقع) • تسويقية (لعرض إعلانات ذات صلة - اختيارية).<br><br>يمكنك التحكم في Cookies من إعدادات المتصفح، لكن قد لا تعمل بعض أجزاء الموقع بشكل صحيح عند إيقافها." },
+      { title: "كيف بنحمي بياناتك؟", icon: "fa-shield-virus", bodyType: "cards",
+        items: [
+          { icon: "fa-lock", title: "تشفير SSL/TLS", text: "كل الاتصالات مشفّرة بين متصفحك والسيرفر" },
+          { icon: "fa-fire", title: "Firebase Security", text: "قواعد أمان صارمة على قاعدة البيانات" },
+          { icon: "fa-key", title: "كلمات مرور مشفّرة", text: "لا نحتفظ بكلمات المرور بنصها الأصلي" },
+          { icon: "fa-user-shield", title: "وصول محدود", text: "فقط الأدمن المصرح له يصل للبيانات" },
+          { icon: "fa-ban", title: "عدم المشاركة", text: "لا نبيع أو نشارك بياناتك مع أي طرف ثالث" },
+          { icon: "fa-trash", title: "حذف آمن", text: "يمكنك طلب حذف حسابك في أي وقت" }
+        ] },
+      { title: "هل نشارك بياناتك مع حد؟", icon: "fa-user-lock", bodyType: "quote",
+        body: "<strong>لا نبيع أو نؤجر أو نشارك بياناتك الشخصية مع أي طرف ثالث.</strong><br><br>الاستثناءات الوحيدة: موظفو التوصيل • متطلبات قانونية • حماية حقوقنا في حالات الاحتيال" },
+      { title: "حقوقك", icon: "fa-balance-scale", bodyType: "table",
+        items: [
+          { label: "الاطلاع", value: "تطلب نسخة من بياناتك المحفوظة" },
+          { label: "التصحيح", value: "تعدّل أي بيانات خاطئة" },
+          { label: "الحذف", value: "تطلب حذف حسابك نهائيًا" },
+          { label: "الاعتراض", value: "ترفض استخدام بياناتك لأغراض تسويقية" },
+          { label: "نقل البيانات", value: "تحصل على بياناتك بصيغة قابلة للقراءة" }
+        ] },
+      { title: "بيانات الدفع", icon: "fa-credit-card", bodyType: "list",
+        items: [
+          "نحن لا نحتفظ ببيانات بطاقاتك البنكية على الإطلاق",
+          "كاش عند التسليم — الأكثر شيوعًا",
+          "تحويل بنكي — ترفق صورة الإيصال",
+          "محفظة إلكترونية (فودافون كاش / انستاباي)",
+          "نظام آجل للتجار — بحدود دين متفق عليها"
+        ] },
+      { title: "العمر المطلوب", icon: "fa-user-check", bodyType: "text",
+        body: "خدماتنا موجهة للبالغين فقط (18 سنة أو أكثر). لو اكتشفنا أننا جمعنا بيانات من شخص أقل من 18 سنة بدون إذن ولي الأمر، سنحذفها فورًا." },
+      { title: "تعديلات السياسة", icon: "fa-sync-alt", bodyType: "text",
+        body: "يحق لنا تحديث هذه السياسة في أي وقت.<br><br>• سننشر الإصدار الجديد على هذه الصفحة<br>• هنحدّث \"آخر تحديث\" أعلى الصفحة<br>• التغييرات الجوهرية هنبلّغك بها بالإيميل" },
+      { title: "تواصل معنا", icon: "fa-headset", bodyType: "contact",
+        body: "عندك سؤال عن خصوصيتك؟ فريقنا جاهز يساعدك.",
+        items: [
+          { icon: "fab fa-whatsapp", title: "واتساب", text: "01068385028", url: "https://wa.me/201068385028", color: "#25D366" },
+          { icon: "fas fa-envelope", title: "إيميل", text: "awladsh3laan@gmail.com", url: "mailto:awladsh3laan@gmail.com", color: "#EA4335" },
+          { icon: "fas fa-ticket-alt", title: "تذكرة دعم", text: "اضغط هنا", url: "/gomla/support.html", color: "#c9a84c" }
+        ] }
+    ];
+
+    function openSeedConfirm() {
+      const existingTitles = _sections.map(s => (s.title || '').trim());
+      const missing = SEED_SECTIONS.filter(s => !existingTitles.includes(s.title));
+
+      if (!missing.length) {
+        showToast('ℹ️ كل الأقسام الافتراضية موجودة بالفعل', 'info');
+        return;
+      }
+
+      const modalHtml = `
+        <div class="modal-overlay show" id="seedModal" onclick="closeSeedModal(event)">
+          <div class="modal-content small" onclick="event.stopPropagation()">
+            <div class="pm-modal-header" style="background:linear-gradient(135deg,#c9a84c,#b8942a);">
+              <h3><i class="fas fa-download"></i> استيراد الأقسام الافتراضية</h3>
+              <button class="modal-close" onclick="closeSeedModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" style="padding:20px;">
+              <div style="background:#fcf9f0;border:1px solid var(--gold-light);border-radius:var(--radius-sm);padding:14px;margin-bottom:14px;font-size:0.85rem;line-height:1.7;color:var(--gray-700);">
+                <i class="fas fa-info-circle" style="color:var(--gold-dark);"></i>
+                سيتم إضافة <strong>${missing.length}</strong> قسم جديد. الأقسام الموجودة بنفس العنوان <strong>لن يتم لمسها</strong>.
+              </div>
+              <div style="max-height:240px;overflow-y:auto;background:var(--gray-50);border-radius:var(--radius-sm);padding:10px;font-size:0.82rem;">
+                ${missing.map((s, i) => `<div style="padding:5px 0;border-bottom:1px solid var(--gray-100);">${i + 1}. ${escapeHtml(s.title)}</div>`).join('')}
+              </div>
+            </div>
+            <div class="modal-actions">
+              <button class="btn btn-outline" onclick="closeSeedModal()">
+                <i class="fas fa-times"></i> إلغاء
+              </button>
+              <button class="btn btn-gold" id="seedBtn" onclick="doSeed(${missing.length})">
+                <i class="fas fa-download"></i> استيراد
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+      const ex = document.getElementById('seedModal');
+      if (ex) ex.remove();
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeSeedModal(event) {
+      if (event && event.target !== event.currentTarget) return;
+      const m = document.getElementById('seedModal');
+      if (m) m.remove();
+      document.body.style.overflow = '';
+    }
+
+    async function doSeed(count) {
+      const btn = document.getElementById('seedBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الاستيراد...';
+
+      try {
+        const existingTitles = _sections.map(s => (s.title || '').trim());
+        const missing = SEED_SECTIONS.filter(s => !existingTitles.includes(s.title));
+        let startOrder = _sections.length ? Math.max(..._sections.map(s => s.order || 0)) : 0;
+        const now = firebase.firestore.FieldValue.serverTimestamp();
+        const batch = db.batch();
+
+        missing.forEach(s => {
+          startOrder++;
+          const ref = db.collection('privacy_sections').doc();
+          batch.set(ref, {
+            ...s,
+            order: startOrder,
+            active: true,
+            createdAt: now,
+            updatedAt: now
+          });
+        });
+
+        await batch.commit();
+        await touchMeta();
+        showToast(`✅ تم استيراد ${missing.length} قسم`, 'success');
+        closeSeedModal();
+      } catch (err) {
+        console.error(err);
+        showToast('❌ فشل الاستيراد: ' + (err.message || ''), 'error');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-download"></i> استيراد';
+      }
+    }
+
+    // ============================================================
+    // 📅 تحديث privacy_meta (تاريخ آخر تعديل)
+    // ============================================================
+    async function touchMeta() {
+      try {
+        await db.collection('site_content').doc('privacy_meta').set({
+          lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
+          updatedBy: _admin.uid || _admin.id,
+          updatedByName: _admin.name || 'السوبر أدمن',
+          version: '1.0'
+        }, { merge: true });
+        loadMeta();
+      } catch (e) {
+        console.warn('touchMeta failed', e);
+      }
+    }
+
+    // ============================================================
+    // 🛠️ Helpers
+    // ============================================================
+    function escapeHtml(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[c]));
+    }
+    function escapeAttr(s) {
+      return String(s == null ? '' : s).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        closeEditorModal();
+        closeDeleteModal();
+        closeSeedModal();
+      }
+    });
+
+    // تصدير
+    window.openAddModal = openAddModal;
+    window.openEditModal = openEditModal;
+    window.closeEditorModal = closeEditorModal;
+    window.saveSection = saveSection;
+    window.moveUp = moveUp;
+    window.moveDown = moveDown;
+    window.toggleActive = toggleActive;
+    window.confirmDelete = confirmDelete;
+    window.closeDeleteModal = closeDeleteModal;
+    window.doDelete = doDelete;
+    window.openSeedConfirm = openSeedConfirm;
+    window.closeSeedModal = closeSeedModal;
+    window.doSeed = doSeed;
+    window.handleSearch = handleSearch;
+    window.onTypeChange = onTypeChange;
+    window.addItem = addItem;
+    window.removeItem = removeItem;
+  </script>
+</body>
+</html>
