@@ -1841,7 +1841,7 @@ function updateSidebar() {
       { icon: 'fa-file-invoice', text: 'فواتيري', url: '/gomla/customer/invoices.html' },
       { icon: 'fa-coins', text: 'الذمة المالية', url: '/gomla/customer/balance.html' },
       { icon: 'fa-truck', text: 'تتبع الطلبات', url: '/gomla/tracking.html' },
-      { icon: ' fa-headset', text: 'الدعم والمساعدة', url: '/gomla/admin/support.html' }
+      { icon: ' fa-headset', text: 'الدعم والمساعدة', url: '/gomla/support.html' }
     ];
   } else if (role === ROLES.RETAIL) {
     links = [
@@ -1852,13 +1852,13 @@ function updateSidebar() {
       { icon: 'fa-file-invoice', text: 'فواتيري', url: '/gomla/customer/invoices.html' },
       { icon: 'fa-truck', text: 'تتبع الطلبات', url: '/gomla/tracking.html' },
       { icon: 'fa-heart', text: 'المفضلة', url: '/gomla/wishlist.html' },
-      { icon: ' fa-headset', text: 'الدعم والمساعدة', url: '/gomla/admin/support.html' },
+      { icon: ' fa-headset', text: 'الدعم والمساعدة', url: '/gomla/support.html' },
       { icon: 'fa-percent', text: 'العروض', url: '/gomla/offers.html' }
     ];
   } else {
     links = [
       { icon: 'fa-home', text: 'الرئيسية', url: '/gomla/' },
-      { icon: ' fa-headset', text: 'الدعم والمساعدة', url: '/gomla/admin/support.html' },
+      { icon: ' fa-headset', text: 'الدعم والمساعدة', url: '/gomla/support.html' },
       { icon: 'fa-store', text: 'متجر القطاعي', url: '/gomla/store-retail.html' },
       { icon: 'fa-user-plus', text: 'تسجيل عميل', url: '/gomla/customer-login.html' }
     ];
