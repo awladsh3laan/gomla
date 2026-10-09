@@ -1649,7 +1649,7 @@ function updateFooter() {
   const col1 = document.getElementById('footer-col-1');
   if (col1) {
     col1.innerHTML = `
-      <a href="/gomla/support.html" class="btn btn-sm btn-outline">الدعم و المساعدة</a>
+      <a href="/gomla/support.html">الدعم و المساعدة</a>
       <a href="/gomla/about.html">من نحن</a>
       <a href="/gomla/privacy-policy.html">سياسة الخصوصية</a>
       <a href="/gomla/shipping-policy.html">سياسة الشحن</a>
