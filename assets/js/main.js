@@ -1614,11 +1614,13 @@ function updateHeaderButtons(role) {
     html = `
       <a href="/gomla/store-wholesale.html" class="btn btn-sm btn-outline">المتجر</a>
       <a href="/gomla/customer/orders.html" class="btn btn-sm btn-outline">طلباتي</a>
+      <a href="/gomla/support.html" class="btn btn-sm btn-outline">الدعم و المساعدة</a>
     `;
   } else if (role === ROLES.RETAIL) {
     html = `
       <a href="/gomla/store-retail.html" class="btn btn-sm btn-outline">المتجر</a>
       <a href="/gomla/customer/orders.html" class="btn btn-sm btn-outline">طلباتي</a>
+      <a href="/gomla/support.html" class="btn btn-sm btn-outline">الدعم و المساعدة</a>
     `;
   }
   
@@ -1647,6 +1649,7 @@ function updateFooter() {
   const col1 = document.getElementById('footer-col-1');
   if (col1) {
     col1.innerHTML = `
+      <a href="/gomla/support.html" class="btn btn-sm btn-outline">الدعم و المساعدة</a>
       <a href="/gomla/about.html">من نحن</a>
       <a href="/gomla/privacy-policy.html">سياسة الخصوصية</a>
       <a href="/gomla/shipping-policy.html">سياسة الشحن</a>
