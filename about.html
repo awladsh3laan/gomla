@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>من نحن - أولاد شعلان للمنظفات والورقيات</title>
+  <meta name="description" content="تعرّف على أولاد شعلان للمنظفات والورقيات — رؤيتنا، قيمنا، وخدماتنا">
+  <meta name="theme-color" content="#1a2a4a">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/gomla/assets/css/style.css">
+  <link rel="icon" href="/gomla/assets/images/favicon.ico">
+
+  <style>
+    /* ============================================================
+       🛡️ منع السكرول الأفقي
+       ============================================================ */
+    html, body { overflow-x: hidden !important; max-width: 100vw; }
+    .page-content, .page-content .container {
+      overflow-x: hidden; min-width: 0; max-width: 100%;
+    }
+
+    /* ============================================================
+       🎨 Hero Section
+       ============================================================ */
+    .about-hero {
+      position: relative;
+      background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 50%, var(--navy-light) 100%);
+      border-radius: var(--radius-lg);
+      padding: 50px 24px 45px;
+      margin-bottom: 24px;
+      color: var(--white);
+      overflow: hidden;
+      text-align: center;
+      box-shadow: 0 15px 45px rgba(15, 26, 46, 0.35);
+      border-bottom: 4px solid var(--gold);
+    }
+    .about-hero::before {
+      content: '';
+      position: absolute;
+      top: -100px; right: -80px;
+      width: 320px; height: 320px;
+      background: radial-gradient(circle, rgba(201,168,76,.3) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+    }
+    .about-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -100px; left: -80px;
+      width: 260px; height: 260px;
+      background: radial-gradient(circle, rgba(201,168,76,.2) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 10s ease-in-out infinite reverse;
+    }
+    .about-hero-inner { position: relative; z-index: 1; }
+    .about-hero .hero-logo {
+      width: 90px; height: 90px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.6rem;
+      margin: 0 auto 18px;
+      box-shadow: 0 12px 32px rgba(201,168,76,.5);
+      border: 3px solid rgba(255,255,255,.2);
+      animation: pulse 3s ease-in-out infinite;
+    }
+    .about-hero .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px;
+      background: rgba(255,255,255,.12);
+      color: var(--gold-light);
+      border: 1px solid rgba(201,168,76,.4);
+      border-radius: var(--radius-full);
+      font-size: 0.75rem; font-weight: 800;
+      backdrop-filter: blur(10px);
+      margin-bottom: 14px;
+    }
+    .about-hero .hero-badge i { color: var(--gold); }
+    .about-hero h1 {
+      font-size: 1.9rem;
+      font-weight: 900;
+      margin-bottom: 10px;
+      color: var(--white);
+      line-height: 1.3;
+    }
+    .about-hero h1 .gold-text {
+      color: var(--gold);
+      text-shadow: 0 0 20px rgba(201,168,76,.5);
+    }
+    .about-hero .hero-subtitle {
+      font-size: 1rem;
+      opacity: 0.9;
+      color: rgba(255,255,255,.9);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ============================================================
+       📖 قسم قصتنا
+       ============================================================ */
+    .story-section {
+      background: linear-gradient(135deg, var(--white) 0%, #fcf9f0 100%);
+      border-radius: var(--radius-lg);
+      padding: 32px 28px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-md);
+      border: 2px solid var(--gold-light);
+      position: relative;
+      overflow: hidden;
+    }
+    .story-section::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0; left: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light), var(--gold), var(--gold-dark));
+      background-size: 200% 100%;
+      animation: shimmer 3s linear infinite;
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .story-header {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+    .story-header .story-icon {
+      width: 70px; height: 70px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem;
+      margin: 0 auto 14px;
+      box-shadow: 0 8px 24px rgba(26,42,74,.25);
+      animation: float 3s ease-in-out infinite;
+    }
+    .story-header h2 {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--navy);
+      position: relative;
+      display: inline-block;
+      padding-bottom: 12px;
+    }
+    .story-header h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 60px; height: 3px;
+      background: var(--gold);
+      border-radius: 3px;
+    }
+    .story-content {
+      font-size: 0.98rem;
+      line-height: 2;
+      color: var(--gray-700);
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .story-content p { margin-bottom: 14px; }
+    .story-content p:last-child { margin-bottom: 0; }
+    .story-content strong {
+      color: var(--gold-dark);
+      font-weight: 800;
+      background: linear-gradient(180deg, transparent 60%, rgba(201,168,76,.25) 60%);
+      padding: 0 3px;
+    }
+    .story-highlight {
+      display: block;
+      margin-top: 16px;
+      padding: 16px 20px;
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      border-radius: var(--radius-md);
+      text-align: center;
+      font-weight: 800;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      border-right: 5px solid var(--gold);
+      box-shadow: 0 8px 24px rgba(26,42,74,.2);
+    }
+
+    /* ============================================================
+       🎯 الرؤية والرسالة
+       ============================================================ */
+    .vision-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .vision-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      box-shadow: var(--shadow-md);
+      border: 2px solid transparent;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .vision-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 100%; height: 5px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-dark));
+    }
+    .vision-card.mission::before {
+      background: linear-gradient(90deg, var(--navy), var(--navy-light));
+    }
+    .vision-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--gold);
+    }
+    .vision-card .vision-icon {
+      width: 60px; height: 60px;
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+    }
+    .vision-card .vision-icon.vision {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--white);
+      box-shadow: 0 8px 22px rgba(201,168,76,.4);
+    }
+    .vision-card .vision-icon.mission {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--gold);
+      box-shadow: 0 8px 22px rgba(26,42,74,.3);
+    }
+    .vision-card h3 {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .vision-card h3 i { color: var(--gold); }
+    .vision-card p {
+      font-size: 0.93rem;
+      line-height: 1.9;
+      color: var(--gray-600);
+      margin: 0;
+    }
+
+    /* ============================================================
+       💠 القيم
+       ============================================================ */
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .value-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 22px 18px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      border: 2px solid var(--gray-200);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .value-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--gold);
+    }
+    .value-card .value-icon {
+      width: 54px; height: 54px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(201,168,76,.15), rgba(201,168,76,.08));
+      color: var(--gold-dark);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.35rem;
+      margin: 0 auto 12px;
+      transition: var(--transition);
+    }
+    .value-card:hover .value-icon {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--white);
+      transform: scale(1.1) rotate(-6deg);
+      box-shadow: 0 8px 22px rgba(201,168,76,.4);
+    }
+    .value-card h4 {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .value-card p {
+      font-size: 0.82rem;
+      color: var(--gray-500);
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    /* ============================================================
+       🏆 ليه تختارنا
+       ============================================================ */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .why-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 20px;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      transition: var(--transition);
+    }
+    .why-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--gold-light);
+    }
+    .why-card .why-icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      box-shadow: 0 6px 18px rgba(26,42,74,.2);
+    }
+    .why-card .why-body { flex: 1; min-width: 0; }
+    .why-card h4 {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .why-card p {
+      font-size: 0.85rem;
+      color: var(--gray-600);
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    /* ============================================================
+       📊 أرقامنا (Counters)
+       ============================================================ */
+    .stats-section {
+      background: linear-gradient(135deg, var(--navy-dark), var(--navy), var(--navy-light));
+      border-radius: var(--radius-lg);
+      padding: 32px 24px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(15,26,46,.35);
+      border-bottom: 4px solid var(--gold);
+    }
+    .stats-section::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 220px; height: 220px;
+      background: radial-gradient(circle, rgba(201,168,76,.25), transparent 70%);
+      border-radius: 50%;
+      animation: float 7s ease-in-out infinite;
+    }
+    .stats-section .stats-header {
+      text-align: center;
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 1;
+    }
+    .stats-section .stats-header h2 {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+    .stats-section .stats-header p {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,.75);
+      margin: 0;
+    }
+    .stats-numbers {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      position: relative;
+      z-index: 1;
+    }
+    .stat-counter {
+      text-align: center;
+      padding: 20px 12px;
+      background: rgba(255,255,255,.08);
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(201,168,76,.25);
+      backdrop-filter: blur(10px);
+      transition: var(--transition);
+    }
+    .stat-counter:hover {
+      background: rgba(255,255,255,.13);
+      transform: translateY(-4px);
+      border-color: var(--gold);
+    }
+    .stat-counter .counter-icon {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.15rem;
+      margin: 0 auto 10px;
+      box-shadow: 0 6px 18px rgba(201,168,76,.4);
+    }
+    .stat-counter .counter-num {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--gold);
+      line-height: 1.1;
+      margin-bottom: 4px;
+      font-family: 'Tajawal', sans-serif;
+      direction: ltr;
+    }
+    .stat-counter .counter-num .plus {
+      color: var(--gold-light);
+      font-size: 1.5rem;
+      margin-right: 2px;
+    }
+    .stat-counter .counter-num.loading {
+      color: rgba(201,168,76,.5);
+      font-size: 1.3rem;
+    }
+    .stat-counter .counter-label {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,.85);
+      font-weight: 700;
+    }
+
+    /* ============================================================
+       🛍️ خدماتنا
+       ============================================================ */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .service-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 22px 20px;
+      box-shadow: var(--shadow-sm);
+      border: 2px solid var(--gray-200);
+      transition: var(--transition);
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .service-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--gold);
+    }
+    .service-card .service-icon {
+      width: 54px; height: 54px;
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      color: var(--white);
+    }
+    .service-card .service-icon.wholesale {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+    }
+    .service-card .service-icon.retail {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    }
+    .service-card .service-icon.delivery {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+    }
+    .service-card .service-icon.invoice {
+      background: linear-gradient(135deg, #3b82f6, #1e40af);
+    }
+    .service-card h4 {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .service-card p {
+      font-size: 0.85rem;
+      color: var(--gray-600);
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    /* ============================================================
+       📞 CTA
+       ============================================================ */
+    .cta-section {
+      background: linear-gradient(135deg, #fcf9f0, #f8f4e8);
+      border: 2px solid var(--gold-light);
+      border-radius: var(--radius-lg);
+      padding: 34px 24px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+    }
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: -50px; right: -50px;
+      width: 180px; height: 180px;
+      background: radial-gradient(circle, rgba(201,168,76,.15), transparent 70%);
+      border-radius: 50%;
+    }
+    .cta-section .cta-icon {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem;
+      margin: 0 auto 16px;
+      box-shadow: 0 8px 24px rgba(201,168,76,.4);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    .cta-section h2 {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 8px;
+      position: relative;
+      z-index: 1;
+    }
+    .cta-section p {
+      font-size: 0.95rem;
+      color: var(--gray-600);
+      margin-bottom: 22px;
+      position: relative;
+      z-index: 1;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.7;
+    }
+    .cta-buttons {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+    .cta-buttons .btn { min-width: 160px; }
+
+    /* ============================================================
+       📱 Responsive
+       ============================================================ */
+    @media (max-width: 768px) and (pointer: coarse) {
+      .about-hero { padding: 34px 18px 30px; border-radius: var(--radius-md); }
+      .about-hero .hero-logo { width: 72px; height: 72px; font-size: 2rem; border-radius: 18px; }
+      .about-hero h1 { font-size: 1.35rem; }
+      .about-hero .hero-subtitle { font-size: 0.88rem; }
+
+      .story-section { padding: 24px 18px; border-radius: var(--radius-md); }
+      .story-header h2 { font-size: 1.25rem; }
+      .story-header .story-icon { width: 56px; height: 56px; font-size: 1.5rem; }
+      .story-content { font-size: 0.9rem; line-height: 1.85; }
+      .story-highlight { font-size: 0.92rem; padding: 14px 16px; }
+
+      .vision-grid { grid-template-columns: 1fr; gap: 12px; }
+      .vision-card { padding: 22px 18px; }
+      .vision-card .vision-icon { width: 50px; height: 50px; font-size: 1.3rem; }
+      .vision-card h3 { font-size: 1.02rem; }
+      .vision-card p { font-size: 0.87rem; }
+
+      .values-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .value-card { padding: 18px 12px; }
+      .value-card .value-icon { width: 46px; height: 46px; font-size: 1.15rem; }
+      .value-card h4 { font-size: 0.9rem; }
+      .value-card p { font-size: 0.75rem; }
+
+      .why-grid { grid-template-columns: 1fr; gap: 10px; }
+      .why-card { padding: 16px; }
+      .why-card .why-icon { width: 44px; height: 44px; font-size: 1.1rem; }
+      .why-card h4 { font-size: 0.92rem; }
+      .why-card p { font-size: 0.8rem; }
+
+      .stats-section { padding: 24px 14px; border-radius: var(--radius-md); }
+      .stats-numbers { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .stat-counter { padding: 16px 10px; }
+      .stat-counter .counter-icon { width: 38px; height: 38px; font-size: 1rem; }
+      .stat-counter .counter-num { font-size: 1.55rem; }
+      .stat-counter .counter-label { font-size: 0.72rem; }
+
+      .services-grid { grid-template-columns: 1fr; gap: 10px; }
+      .service-card { padding: 16px; }
+      .service-card .service-icon { width: 46px; height: 46px; font-size: 1.2rem; }
+      .service-card h4 { font-size: 0.92rem; }
+      .service-card p { font-size: 0.8rem; }
+
+      .cta-section { padding: 26px 18px; border-radius: var(--radius-md); }
+      .cta-section h2 { font-size: 1.2rem; }
+      .cta-section p { font-size: 0.88rem; }
+      .cta-buttons { flex-direction: column; }
+      .cta-buttons .btn { width: 100%; min-width: auto; }
+    }
+    @media (max-width: 400px) {
+      .values-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================ -->
+  <!-- 📱 مكونات الموبايل -->
+  <!-- ============================================================ -->
+  <div id="mobile-top-bar"></div>
+  <div id="mobile-top-tabs"></div>
+
+  <!-- ============================================================ -->
+  <!-- 🧠 الهيدر -->
+  <!-- ============================================================ -->
+  <div id="header-placeholder"></div>
+
+  <!-- ============================================================ -->
+  <!-- 📄 المحتوى -->
+  <!-- ============================================================ -->
+  <main class="page-content">
+    <div class="container">
+
+      <!-- 1️⃣ Hero -->
+      <section class="about-hero">
+        <div class="about-hero-inner">
+          <div class="hero-logo">
+            <i class="fas fa-store-alt"></i>
+          </div>
+          <div class="hero-badge">
+            <i class="fas fa-star"></i>
+            رحلة عطاء بدأت بحلم
+          </div>
+          <h1>
+            من نحن <span class="gold-text">أولاد شعلان</span>
+          </h1>
+          <p class="hero-subtitle">
+            رحلة عطاء بدأت بحلم... واستمرت بالثقة. من قلب طنطا لكل مصر — نجمع بين الأصالة والحداثة.
+          </p>
+        </div>
+      </section>
+
+      <!-- 2️⃣ قصتنا -->
+      <section class="story-section">
+        <div class="story-header">
+          <div class="story-icon">
+            <i class="fas fa-book-open"></i>
+          </div>
+          <h2>قصتنا</h2>
+        </div>
+        <div class="story-content">
+          <p>
+            <strong>أولاد شعلان</strong> هي شركة مصرية متخصصة في تجارة المنظفات والورقيات بجميع أنواعها — <strong>بجملة وقطاعي</strong>. بدأنا رحلتنا بحلم بسيط: نوفر لعملائنا منتجات أصلية بأسعار منافسة وخدمة تستحق الثقة.
+          </p>
+          <p>
+            من خلال شبكة علاقاتنا القوية مع كبار الموردين والمصنعين، نجحنا في توفير منتجات عالية الجودة تغطي كل احتياجات البيت والمحل والمصنع — من أصغر عبوة منظف لأكبر طلبية جملة.
+          </p>
+          <p>
+            اخترنا نبدأ من <strong>طنطا</strong> لخدمة كل المحافظات المجاورة، وبنينا نظام إلكتروني متكامل يسهّل على العملاء والتجار الطلب والمتابعة والدفع.
+          </p>
+          <span class="story-highlight">
+            النهاردة، أولاد شعلان مش مجرد متجر — <br>
+            <span style="color:var(--gold);">إحنا شريكك في كل قطرة منظف وكل رول ورق.</span>
+          </span>
+        </div>
+      </section>
+
+      <!-- 3️⃣ الرؤية والرسالة -->
+      <div class="vision-grid">
+        <div class="vision-card">
+          <div class="vision-icon vision">
+            <i class="fas fa-eye"></i>
+          </div>
+          <h3><i class="fas fa-bullseye"></i> رؤيتنا</h3>
+          <p>
+            أن نكون الاسم الأول في مصر في تجارة المنظفات والورقيات — بجملة وقطاعي — من خلال الجودة والأمانة والابتكار.
+          </p>
+        </div>
+        <div class="vision-card mission">
+          <div class="vision-icon mission">
+            <i class="fas fa-flag"></i>
+          </div>
+          <h3><i class="fas fa-heart"></i> رسالتنا</h3>
+          <p>
+            نوفر لعملائنا منتجات أصلية بأسعار عادلة وخدمة استثنائية، ونساعد تجارنا على النمو من خلال حلول تجارية مرنة وآجلة.
+          </p>
+        </div>
+      </div>
+
+      <!-- 4️⃣ القيم -->
+      <div class="section-header" style="text-align:center;margin-bottom:16px;flex-direction:column;">
+        <h2 style="font-size:1.4rem;font-weight:900;color:var(--navy);display:flex;align-items:center;justify-content:center;gap:8px;margin:0 0 6px;">
+          <i class="fas fa-gem" style="color:var(--gold);"></i>
+          قيمنا
+        </h2>
+        <p style="font-size:0.85rem;color:var(--gray-500);margin:0;">المبادئ اللي بنمشي عليها في كل تعامل</p>
+      </div>
+      <div class="values-grid">
+        <div class="value-card">
+          <div class="value-icon"><i class="fas fa-handshake"></i></div>
+          <h4>الأمانة</h4>
+          <p>نتعامل بصدق وشفافية في كل تعامل — من السعر لحد التسليم</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon"><i class="fas fa-star"></i></div>
+          <h4>الجودة</h4>
+          <p>منتجات أصلية 100% من موردين معتمدين</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon"><i class="fas fa-bolt"></i></div>
+          <h4>السرعة</h4>
+          <p>توصيل خلال 24-48 ساعة داخل طنطا</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon"><i class="fas fa-tag"></i></div>
+          <h4>السعر العادل</h4>
+          <p>أسعار الجملة الحقيقية بدون وسطاء</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon"><i class="fas fa-headset"></i></div>
+          <h4>الدعم المستمر</h4>
+          <p>فريق دعم متاح من 9ص لـ 10م</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon"><i class="fas fa-rocket"></i></div>
+          <h4>الابتكار</h4>
+          <p>نظام إلكتروني متكامل يسهّل عليك التسوق والمتابعة</p>
+        </div>
+      </div>
+
+      <!-- 5️⃣ ليه تختارنا -->
+      <div class="section-header" style="text-align:center;margin-bottom:16px;flex-direction:column;">
+        <h2 style="font-size:1.4rem;font-weight:900;color:var(--navy);display:flex;align-items:center;justify-content:center;gap:8px;margin:0 0 6px;">
+          <i class="fas fa-award" style="color:var(--gold);"></i>
+          ليه تختارنا؟
+        </h2>
+        <p style="font-size:0.85rem;color:var(--gray-500);margin:0;">أسباب تخليك تثق فينا</p>
+      </div>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-check-circle"></i></div>
+          <div class="why-body">
+            <h4>منتجات أصلية</h4>
+            <p>كل منتجاتنا من موردين معتمدين — ضمان الجودة والأصالة</p>
+          </div>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-truck-fast"></i></div>
+          <div class="why-body">
+            <h4>توصيل سريع</h4>
+            <p>أسطول توصيل داخل طنطا والمنصورة والمحلة والمناطق المحيطة</p>
+          </div>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-credit-card"></i></div>
+          <div class="why-body">
+            <h4>نظام آجل للتجار</h4>
+            <p>مرونة في السداد — أنت اللي تختار وقت الدفع المناسب</p>
+          </div>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-ticket-alt"></i></div>
+          <div class="why-body">
+            <h4>دعم فوري</h4>
+            <p>تذاكر دعم موثقة + واتساب + إيميل — إحنا معاك دايماً</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6️⃣ أرقامنا (Real-time من Firestore) -->
+      <section class="stats-section">
+        <div class="stats-header">
+          <h2><i class="fas fa-chart-line" style="color:var(--gold);margin-left:6px;"></i> أرقامنا بتتكلم</h2>
+          <p>أرقام حقيقية من قاعدة بياناتنا — بتتحدث لحظياً</p>
+        </div>
+        <div class="stats-numbers">
+          <div class="stat-counter">
+            <div class="counter-icon"><i class="fas fa-users"></i></div>
+            <div class="counter-num loading" id="statCustomers">
+              <i class="fas fa-spinner fa-spin" style="font-size:1.2rem;"></i>
+            </div>
+            <div class="counter-label">عميل سعيد</div>
+          </div>
+          <div class="stat-counter">
+            <div class="counter-icon"><i class="fas fa-store"></i></div>
+            <div class="counter-num loading" id="statTraders">
+              <i class="fas fa-spinner fa-spin" style="font-size:1.2rem;"></i>
+            </div>
+            <div class="counter-label">تاجر شريك</div>
+          </div>
+          <div class="stat-counter">
+            <div class="counter-icon"><i class="fas fa-shopping-bag"></i></div>
+            <div class="counter-num loading" id="statOrders">
+              <i class="fas fa-spinner fa-spin" style="font-size:1.2rem;"></i>
+            </div>
+            <div class="counter-label">طلب تم تسليمه</div>
+          </div>
+          <div class="stat-counter">
+            <div class="counter-icon"><i class="fas fa-boxes"></i></div>
+            <div class="counter-num loading" id="statProducts">
+              <i class="fas fa-spinner fa-spin" style="font-size:1.2rem;"></i>
+            </div>
+            <div class="counter-label">منتج متنوع</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7️⃣ خدماتنا -->
+      <div class="section-header" style="text-align:center;margin-bottom:16px;flex-direction:column;">
+        <h2 style="font-size:1.4rem;font-weight:900;color:var(--navy);display:flex;align-items:center;justify-content:center;gap:8px;margin:0 0 6px;">
+          <i class="fas fa-hand-holding-heart" style="color:var(--gold);"></i>
+          خدماتنا
+        </h2>
+        <p style="font-size:0.85rem;color:var(--gray-500);margin:0;">كل اللي محتاجه بيتك أو محلك</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon wholesale"><i class="fas fa-warehouse"></i></div>
+          <div>
+            <h4>بيع بالجملة</h4>
+            <p>للتجار والمحلات — أسعار خاصة + حد أدنى 1500 ج.م + نظام آجل</p>
+          </div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon retail"><i class="fas fa-shopping-cart"></i></div>
+          <div>
+            <h4>بيع قطاعي</h4>
+            <p>للأفراد — منتجات متنوعة بسعر المستهلك مع توصيل سريع</p>
+          </div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon delivery"><i class="fas fa-truck-fast"></i></div>
+          <div>
+            <h4>توصيل سريع</h4>
+            <p>داخل طنطا + المنصورة + المحلة + كل مناطق القطاعي</p>
+          </div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon invoice"><i class="fas fa-file-invoice"></i></div>
+          <div>
+            <h4>فواتير وكشوف</h4>
+            <p>نظام فواتير إلكتروني + كشف حساب لكل عميل + إبلاغ عن السداد</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8️⃣ CTA -->
+      <section class="cta-section">
+        <div class="cta-icon">
+          <i class="fas fa-rocket"></i>
+        </div>
+        <h2>هل أنت جاهز تبدأ؟</h2>
+        <p>
+          انضم لمئات العملاء والتجار اللي بيثقوا فينا. اتسوق دلوقتي أو تواصل معانا وهنساعدك تبدأ.
+        </p>
+        <div class="cta-buttons">
+          <a href="/gomla/store-retail.html" class="btn btn-gold">
+            <i class="fas fa-shopping-cart"></i>
+            تسوق الآن
+          </a>
+          <a href="/gomla/support.html" class="btn btn-outline">
+            <i class="fas fa-headset"></i>
+            تواصل معنا
+          </a>
+          <a href="/gomla/trader-login.html" class="btn btn-primary">
+            <i class="fas fa-store"></i>
+            سجل كتاجر
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ============================================================ -->
+  <!-- 📱 التبويبات السفلى + الفوتر + السايدبار -->
+  <!-- ============================================================ -->
+  <div id="mobile-bottom-tabs"></div>
+  <div id="mobile-copyright"></div>
+  <div id="footer-placeholder"></div>
+  <div id="sidebar-placeholder"></div>
+  <div id="toast-container"></div>
+
+  <!-- ============================================================ -->
+  <!-- 📚 Firebase & JS -->
+  <!-- ============================================================ -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="/gomla/assets/js/firebase-config.js"></script>
+  <script src="/gomla/assets/js/main.js"></script>
+
+  <script>
+    // ============================================================
+    // 📄 about.html — من نحن
+    // ============================================================
+
+    // ============================================================
+    // 🚀 Init
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', () => {
+      loadRealStats();
+    });
+
+    // ============================================================
+    // 📊 تحميل الأرقام الحقيقية من Firestore
+    // ============================================================
+    async function loadRealStats() {
+      // تشغيل الـ 5 استعلامات بالتوازي (أسرع)
+      const [customersResult, tradersResult, ordersResult, productsResult] = await Promise.allSettled([
+        countDocuments('customers', [['role', '==', 'retail']]),
+        countDocuments('customers', [['role', '==', 'wholesale']]),
+        countDocuments('orders'),
+        countDocuments('products', [['available', '==', true]])
+      ]);
+
+      const customersCount = getResult(customersResult);
+      const tradersCount   = getResult(tradersResult);
+      const ordersCount    = getResult(ordersResult);
+      const productsCount  = getResult(productsResult);
+
+      animateCounter('statCustomers', customersCount);
+      animateCounter('statTraders',   tradersCount);
+      animateCounter('statOrders',    ordersCount);
+      animateCounter('statProducts',  productsCount);
+    }
+
+    // ============================================================
+    // 🔢 عدّ المستندات
+    // ============================================================
+    async function countDocuments(collectionName, filters = []) {
+      try {
+        let query = db.collection(collectionName);
+        filters.forEach(([field, op, value]) => {
+          query = query.where(field, op, value);
+        });
+
+        // محاولة استخدام count() لو متاح (Firebase v9.22+)
+        if (typeof query.count === 'function') {
+          const snap = await query.count().get();
+          return snap.data().count || 0;
+        }
+
+        // fallback: استخدام get() وتحديد الحجم
+        const snap = await query.get();
+        return snap.size || 0;
+      } catch (err) {
+        console.warn(`countDocuments(${collectionName}) failed:`, err);
+        return 0;
+      }
+    }
+
+    // ============================================================
+    // 🎯 استخراج النتيجة من Promise.allSettled
+    // ============================================================
+    function getResult(settled) {
+      if (settled.status === 'fulfilled') return settled.value || 0;
+      return 0;
+    }
+
+    // ============================================================
+    // 🎬 أنيميشن العدّاد (من 0 للرقم النهائي)
+    // ============================================================
+    function animateCounter(elementId, target) {
+      const el = document.getElementById(elementId);
+      if (!el) return;
+
+      // إزالة حالة loading
+      el.classList.remove('loading');
+
+      // لو الرقم 0 → اعرضه فوراً
+      if (!target || target <= 0) {
+        el.innerHTML = '0';
+        return;
+      }
+
+      const duration = 1500; // 1.5 ثانية
+      const startTime = performance.now();
+
+      function easeOutQuad(t) {
+        return t * (2 - t);
+      }
+
+      function step(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = easeOutQuad(progress);
+        const current = Math.floor(eased * target);
+
+        el.innerHTML = `<span class="plus">+</span>${current.toLocaleString('en-US')}`;
+
+        if (progress < 1) {
+          requestAnimationFrame(step);
+        } else {
+          el.innerHTML = `<span class="plus">+</span>${target.toLocaleString('en-US')}`;
+        }
+      }
+
+      requestAnimationFrame(step);
+    }
+  </script>
+</body>
+</html>
