@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>سياسة الخصوصية - أولاد شعلان للمنظفات والورقيات</title>
+  <meta name="description" content="سياسة الخصوصية - أولاد شعلان للمنظفات والورقيات">
+  <meta name="theme-color" content="#1a2a4a">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/gomla/assets/css/style.css">
+  <link rel="icon" href="/gomla/assets/images/favicon.ico">
+
+  <style>
+    html, body { overflow-x: hidden !important; max-width: 100vw; }
+    .page-content, .page-content .container { overflow-x: hidden; min-width: 0; max-width: 100%; }
+
+    /* Hero */
+    .privacy-hero {
+      background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 50%, var(--navy-light) 100%);
+      border-radius: var(--radius-lg);
+      padding: 42px 24px 38px;
+      margin-bottom: 20px;
+      color: var(--white);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 15px 45px rgba(15,26,46,.35);
+      border-bottom: 4px solid var(--gold);
+    }
+    .privacy-hero::before {
+      content: '';
+      position: absolute;
+      top: -100px; right: -80px;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(201,168,76,.3) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+    }
+    .privacy-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: -60px;
+      width: 220px; height: 220px;
+      background: radial-gradient(circle, rgba(201,168,76,.2) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 10s ease-in-out infinite reverse;
+    }
+    .privacy-hero-inner { position: relative; z-index: 1; }
+    .privacy-hero .hero-lock {
+      width: 80px; height: 80px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.2rem;
+      margin: 0 auto 16px;
+      box-shadow: 0 12px 32px rgba(201,168,76,.5);
+      border: 3px solid rgba(255,255,255,.2);
+      animation: pulse 3s ease-in-out infinite;
+    }
+    .privacy-hero .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 14px;
+      background: rgba(255,255,255,.12);
+      color: var(--gold-light);
+      border: 1px solid rgba(201,168,76,.4);
+      border-radius: var(--radius-full);
+      font-size: 0.72rem; font-weight: 800;
+      backdrop-filter: blur(10px);
+      margin-bottom: 12px;
+    }
+    .privacy-hero .hero-badge i { color: var(--gold); }
+    .privacy-hero h1 {
+      font-size: 1.75rem; font-weight: 900;
+      margin-bottom: 8px; color: var(--white);
+    }
+    .privacy-hero h1 .gold-text { color: var(--gold); }
+    .privacy-hero .hero-sub {
+      font-size: 0.95rem; opacity: .9;
+      color: rgba(255,255,255,.9);
+      max-width: 600px; margin: 0 auto 14px;
+      line-height: 1.7;
+    }
+    .privacy-hero .hero-date {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px;
+      background: rgba(255,255,255,.1);
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      color: var(--gold-light);
+      font-weight: 700;
+      border: 1px solid rgba(201,168,76,.3);
+    }
+    .privacy-hero .hero-date i { color: var(--gold); }
+
+    /* TOC */
+    .toc-card {
+      background: linear-gradient(135deg, #fcf9f0, #f8f4e8);
+      border: 2px solid var(--gold-light);
+      border-radius: var(--radius-md);
+      margin-bottom: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    .toc-header {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      cursor: pointer;
+      user-select: none;
+      gap: 10px;
+    }
+    .toc-header h3 {
+      font-size: 1rem; font-weight: 900;
+      color: var(--navy); margin: 0;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .toc-header h3 i { color: var(--gold); }
+    .toc-header .toc-toggle {
+      color: var(--gold-dark);
+      transition: var(--transition);
+      font-size: 0.9rem;
+    }
+    .toc-card.open .toc-toggle { transform: rotate(180deg); }
+    .toc-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .4s ease;
+      padding: 0 18px;
+    }
+    .toc-card.open .toc-body {
+      max-height: 800px;
+      padding: 4px 18px 18px;
+    }
+    .toc-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+    }
+    .toc-link {
+      display: flex; align-items: center; gap: 8px;
+      padding: 9px 12px;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      color: var(--navy);
+      text-decoration: none;
+      font-weight: 700;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .toc-link:hover {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--white);
+      border-color: var(--gold-dark);
+      transform: translateX(-4px);
+    }
+    .toc-link i { color: var(--gold); transition: var(--transition); }
+    .toc-link:hover i { color: var(--white); }
+    .toc-num {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--navy); color: var(--gold);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 0.68rem; font-weight: 900;
+      flex-shrink: 0;
+    }
+    .toc-link:hover .toc-num {
+      background: var(--white); color: var(--gold-dark);
+    }
+
+    /* Section */
+    .privacy-section {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      margin-bottom: 14px;
+      overflow: hidden;
+      scroll-margin-top: 80px;
+      animation: fadeInUp .5s ease both;
+    }
+    .privacy-section-header {
+      display: flex; align-items: center; gap: 12px;
+      padding: 16px 20px;
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      position: relative;
+    }
+    .privacy-section-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; right: 0; left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light), var(--gold), var(--gold-dark));
+      background-size: 200% 100%;
+      animation: shimmer 3s linear infinite;
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .privacy-section-header .sec-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.15rem;
+      flex-shrink: 0;
+      box-shadow: 0 6px 16px rgba(201,168,76,.4);
+    }
+    .privacy-section-header .sec-info { flex: 1; min-width: 0; }
+    .privacy-section-header .sec-num {
+      font-size: 0.68rem;
+      color: var(--gold-light);
+      font-weight: 800;
+      margin-bottom: 2px;
+      letter-spacing: .5px;
+    }
+    .privacy-section-header h2 {
+      margin: 0;
+      font-size: 1.05rem;
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.4;
+    }
+    .privacy-section-body {
+      padding: 18px 20px;
+      font-size: 0.92rem;
+      color: var(--gray-700);
+      line-height: 1.9;
+    }
+    .privacy-section-body p { margin: 0 0 12px; }
+    .privacy-section-body p:last-child { margin-bottom: 0; }
+    .privacy-section-body strong { color: var(--gold-dark); font-weight: 800; }
+
+    /* Quote */
+    .quote-box {
+      background: linear-gradient(135deg, #fcf9f0, #f8f4e8);
+      border-right: 5px solid var(--gold);
+      border-radius: var(--radius-sm);
+      padding: 16px 20px;
+      margin: 8px 0;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.8;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .quote-box i {
+      color: var(--gold-dark);
+      font-size: 1.2rem;
+      flex-shrink: 0;
+      margin-top: 3px;
+    }
+
+    /* List */
+    .privacy-list {
+      list-style: none;
+      padding: 0;
+      margin: 8px 0 0;
+    }
+    .privacy-list li {
+      display: flex;
+      gap: 10px;
+      padding: 8px 0;
+      font-size: 0.9rem;
+      color: var(--gray-700);
+      line-height: 1.8;
+      align-items: flex-start;
+    }
+    .privacy-list li::before {
+      content: '\f058';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      color: var(--gold);
+      font-size: 0.85rem;
+      flex-shrink: 0;
+      margin-top: 5px;
+    }
+
+    /* Cards */
+    .privacy-cards {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 8px;
+    }
+    .privacy-card {
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      transition: var(--transition);
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .privacy-card:hover {
+      background: #fcf9f0;
+      border-color: var(--gold-light);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+    .privacy-card .pc-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(201,168,76,.3);
+    }
+    .privacy-card .pc-body { flex: 1; min-width: 0; }
+    .privacy-card h4 {
+      font-size: 0.88rem; font-weight: 800;
+      color: var(--navy); margin: 0 0 5px;
+    }
+    .privacy-card p {
+      font-size: 0.8rem; color: var(--gray-600);
+      line-height: 1.7; margin: 0;
+    }
+
+    /* Table */
+    .privacy-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 8px;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+    .privacy-table tr {
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .privacy-table tr:last-child { border-bottom: none; }
+    .privacy-table tr:nth-child(even) { background: var(--gray-50); }
+    .privacy-table td {
+      padding: 11px 14px;
+      font-size: 0.85rem;
+      vertical-align: top;
+      color: var(--gray-700);
+      line-height: 1.7;
+    }
+    .privacy-table td:first-child {
+      font-weight: 800;
+      color: var(--navy);
+      width: 32%;
+      background: rgba(201,168,76,.06);
+      white-space: nowrap;
+    }
+
+    /* Contact */
+    .privacy-contact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 8px;
+    }
+    .privacy-contact-btn {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 6px;
+      padding: 16px 12px;
+      background: var(--white);
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      color: var(--navy);
+      transition: var(--transition);
+      text-align: center;
+      font-family: inherit;
+      cursor: pointer;
+    }
+    .privacy-contact-btn:hover {
+      border-color: var(--gold);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+    }
+    .privacy-contact-btn .pcb-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--white);
+      font-size: 1.15rem;
+    }
+    .privacy-contact-btn .pcb-title {
+      font-size: 0.82rem; font-weight: 800;
+      color: var(--navy);
+    }
+    .privacy-contact-btn .pcb-value {
+      font-size: 0.72rem; color: var(--gray-500);
+      direction: ltr;
+    }
+
+    /* Loading / Empty */
+    .pp-loading {
+      text-align: center;
+      padding: 60px 20px;
+    }
+    .pp-loading i {
+      font-size: 2rem;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+    .pp-loading p {
+      color: var(--gray-500);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) and (pointer: coarse) {
+      .privacy-hero { padding: 30px 18px 26px; border-radius: var(--radius-md); }
+      .privacy-hero .hero-lock { width: 64px; height: 64px; font-size: 1.75rem; border-radius: 16px; }
+      .privacy-hero h1 { font-size: 1.3rem; }
+      .privacy-hero .hero-sub { font-size: 0.85rem; }
+
+      .toc-grid { grid-template-columns: 1fr; }
+      .toc-header h3 { font-size: 0.9rem; }
+
+      .privacy-section-header { padding: 13px 16px; }
+      .privacy-section-header .sec-icon { width: 38px; height: 38px; font-size: 1rem; }
+      .privacy-section-header h2 { font-size: 0.92rem; }
+      .privacy-section-body { padding: 14px 16px; font-size: 0.85rem; }
+
+      .privacy-cards { grid-template-columns: 1fr; }
+      .privacy-table td { padding: 10px 12px; font-size: 0.8rem; }
+      .privacy-table td:first-child { width: 40%; }
+      .privacy-contact-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="mobile-top-bar"></div>
+  <div id="mobile-top-tabs"></div>
+  <div id="header-placeholder"></div>
+
+  <main class="page-content">
+    <div class="container">
+
+      <!-- Hero -->
+      <section class="privacy-hero">
+        <div class="privacy-hero-inner">
+          <div class="hero-lock">
+            <i class="fas fa-lock"></i>
+          </div>
+          <div class="hero-badge">
+            <i class="fas fa-shield-alt"></i>
+            خصوصيتك أمانة
+          </div>
+          <h1>
+            سياسة <span class="gold-text">الخصوصية</span>
+          </h1>
+          <p class="hero-sub">
+            نحترم بياناتك ونحميها بكل ما نملك. اقرأ السياسة كاملة لتعرف كيف نحمي معلوماتك.
+          </p>
+          <div class="hero-date" id="lastUpdatedBadge">
+            <i class="fas fa-clock"></i>
+            <span id="lastUpdatedText">آخر تحديث: —</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- TOC -->
+      <div class="toc-card open" id="tocCard">
+        <div class="toc-header" onclick="toggleTOC()">
+          <h3>
+            <i class="fas fa-list-ul"></i>
+            محتويات الصفحة
+          </h3>
+          <i class="fas fa-chevron-down toc-toggle"></i>
+        </div>
+        <div class="toc-body">
+          <div class="toc-grid" id="tocGrid">
+            <div class="pp-loading" style="grid-column:1/-1;padding:20px;">
+              <i class="fas fa-spinner fa-spin"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sections -->
+      <div id="sectionsContainer">
+        <div class="pp-loading">
+          <i class="fas fa-spinner fa-spin"></i>
+          <p>جاري تحميل السياسة...</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="mobile-bottom-tabs"></div>
+  <div id="mobile-copyright"></div>
+  <div id="footer-placeholder"></div>
+  <div id="sidebar-placeholder"></div>
+  <div id="toast-container"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="/gomla/assets/js/firebase-config.js"></script>
+  <script src="/gomla/assets/js/main.js"></script>
+
+  <script>
+    // ============================================================
+    // 📄 privacy-policy.html
+    // ============================================================
+
+    // ============================================================
+    // 📌 المحتوى الافتراضي (Fallback لو الكولكشن فاضي)
+    // ============================================================
+    const FALLBACK_SECTIONS = [
+      {
+        order: 1, title: "مقدمة", icon: "fa-book-open", bodyType: "text", active: true,
+        body: "في <strong>أولاد شعلان للمنظفات والورقيات</strong>، نحن نأخذ خصوصيتك على محمل الجد. توضح سياسة الخصوصية هذه كيفية جمع واستخدام وحماية معلوماتك الشخصية عند استخدام موقعنا الإلكتروني أو خدماتنا."
+      },
+      {
+        order: 2, title: "التزامنا", icon: "fa-handshake", bodyType: "quote", active: true,
+        body: "باستخدامك للموقع، فإنك توافق على الممارسات الموضحة في هذه السياسة. احرص على قراءتها بالكامل قبل استخدام خدماتنا."
+      },
+      {
+        order: 3, title: "البيانات اللي بنجمعها", icon: "fa-database", bodyType: "cards", active: true,
+        items: [
+          { icon: "fa-user", title: "بيانات الحساب", text: "الاسم الكامل، رقم الهاتف، البريد الإلكتروني، العنوان، المدينة، كلمة المرور المشفّرة" },
+          { icon: "fa-globe", title: "بيانات تلقائية", text: "عنوان IP، نوع المتصفح، نظام التشغيل، الصفحات المزارة، وقت وتاريخ الزيارة" },
+          { icon: "fa-shopping-bag", title: "بيانات الطلبات", text: "سجل الطلبات، الفواتير، طرق الدفع، عنوان التوصيل، الرصيد المالي" },
+          { icon: "fa-image", title: "ملفات ترفعها", text: "صور إيصالات السداد، صور المنتجات في تذاكر الدعم" }
+        ]
+      },
+      {
+        order: 4, title: "ليه بنستخدم بياناتك؟", icon: "fa-bullseye", bodyType: "cards", active: true,
+        items: [
+          { icon: "fa-truck-fast", title: "تنفيذ الطلبات", text: "توصيل طلباتك في الوقت المحدد للعنوان الصحيح" },
+          { icon: "fa-file-invoice-dollar", title: "إدارة الحساب", text: "إدارة حسابك وفواتيرك ورصيدك المالي" },
+          { icon: "fa-phone", title: "التواصل", text: "إبلاغك بحالة طلبك والعروض الجديدة" },
+          { icon: "fa-star", title: "تحسين التجربة", text: "تطوير خدماتنا بناءً على استخدامك" },
+          { icon: "fa-shield-alt", title: "الحماية", text: "حماية حسابك من الاختراق والاحتيال" },
+          { icon: "fa-gavel", title: "الالتزام القانوني", text: "استيفاء المتطلبات القانونية في مصر" }
+        ]
+      },
+      {
+        order: 5, title: "ملفات تعريف الارتباط (Cookies)", icon: "fa-cookie-bite", bodyType: "text", active: true,
+        body: "نستخدم ملفات تعريف الارتباط (Cookies) لتخصيص تجربتك وتحسين خدماتنا.<br><br><strong>الأنواع:</strong> ضرورية (لتشغيل الموقع - لا يمكن إيقافها) • وظيفية (تفضل اللغة والإعدادات) • تحليلية (لفهم استخدام الموقع) • تسويقية (لعرض إعلانات ذات صلة - اختيارية).<br><br>يمكنك التحكم في Cookies من إعدادات المتصفح، لكن قد لا تعمل بعض أجزاء الموقع بشكل صحيح عند إيقافها."
+      },
+      {
+        order: 6, title: "كيف بنحمي بياناتك؟", icon: "fa-shield-virus", bodyType: "cards", active: true,
+        items: [
+          { icon: "fa-lock", title: "تشفير SSL/TLS", text: "كل الاتصالات مشفّرة بين متصفحك والسيرفر" },
+          { icon: "fa-fire", title: "Firebase Security", text: "قواعد أمان صارمة على قاعدة البيانات" },
+          { icon: "fa-key", title: "كلمات مرور مشفّرة", text: "لا نحتفظ بكلمات المرور بنصها الأصلي" },
+          { icon: "fa-user-shield", title: "وصول محدود", text: "فقط الأدمن المصرح له يصل للبيانات" },
+          { icon: "fa-ban", title: "عدم المشاركة", text: "لا نبيع أو نشارك بياناتك مع أي طرف ثالث" },
+          { icon: "fa-trash", title: "حذف آمن", text: "يمكنك طلب حذف حسابك في أي وقت" }
+        ]
+      },
+      {
+        order: 7, title: "هل نشارك بياناتك مع حد؟", icon: "fa-user-lock", bodyType: "quote", active: true,
+        body: "<strong>لا نبيع أو نؤجر أو نشارك بياناتك الشخصية مع أي طرف ثالث.</strong><br><br>الاستثناءات الوحيدة (بحالات محددة جدًا):<br>1) موظفو التوصيل — فقط الاسم والهاتف والعنوان<br>2) متطلبات قانونية رسمية<br>3) حماية حقوقنا في حالات الاحتيال والنزاعات"
+      },
+      {
+        order: 8, title: "حقوقك", icon: "fa-balance-scale", bodyType: "table", active: true,
+        items: [
+          { label: "الاطلاع", value: "تطلب نسخة من بياناتك المحفوظة" },
+          { label: "التصحيح", value: "تعدّل أي بيانات خاطئة" },
+          { label: "الحذف", value: "تطلب حذف حسابك نهائيًا" },
+          { label: "الاعتراض", value: "ترفض استخدام بياناتك لأغراض تسويقية" },
+          { label: "نقل البيانات", value: "تحصل على بياناتك بصيغة قابلة للقراءة" }
+        ]
+      },
+      {
+        order: 9, title: "بيانات الدفع", icon: "fa-credit-card", bodyType: "list", active: true,
+        items: [
+          "نحن لا نحتفظ ببيانات بطاقاتك البنكية على الإطلاق",
+          "كاش عند التسليم — الأكثر شيوعًا",
+          "تحويل بنكي — ترفق صورة الإيصال",
+          "محفظة إلكترونية (فودافون كاش / انستاباي)",
+          "نظام آجل للتجار — بحدود دين متفق عليها"
+        ]
+      },
+      {
+        order: 10, title: "العمر المطلوب", icon: "fa-user-check", bodyType: "text", active: true,
+        body: "خدماتنا موجهة للبالغين فقط (18 سنة أو أكثر). لو اكتشفنا أننا جمعنا بيانات من شخص أقل من 18 سنة بدون إذن ولي الأمر، سنحذفها فورًا."
+      },
+      {
+        order: 11, title: "تعديلات السياسة", icon: "fa-sync-alt", bodyType: "text", active: true,
+        body: "يحق لنا تحديث هذه السياسة في أي وقت.<br><br>• سننشر الإصدار الجديد على هذه الصفحة<br>• هنحدّث \"آخر تحديث\" أعلى الصفحة<br>• التغييرات الجوهرية هنبلّغك بها بالإيميل<br><br>استمرارك في استخدام الموقع بعد التعديل = موافقة على السياسة الجديدة."
+      },
+      {
+        order: 12, title: "تواصل معنا", icon: "fa-headset", bodyType: "contact", active: true,
+        body: "عندك سؤال عن خصوصيتك؟ فريقنا جاهز يساعدك.",
+        items: [
+          { icon: "fab fa-whatsapp", title: "واتساب", text: "01068385028", url: "https://wa.me/201068385028", color: "#25D366" },
+          { icon: "fas fa-envelope", title: "إيميل", text: "awladsh3laan@gmail.com", url: "mailto:awladsh3laan@gmail.com", color: "#EA4335" },
+          { icon: "fas fa-ticket-alt", title: "تذكرة دعم", text: "اضغط هنا", url: "/gomla/support.html", color: "#c9a84c" }
+        ]
+      }
+    ];
+
+    // ============================================================
+    // 🚀 Init
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', () => {
+      loadPrivacyContent();
+      loadMeta();
+    });
+
+    // ============================================================
+    // 📖 تحميل الأقسام
+    // ============================================================
+    async function loadPrivacyContent() {
+      const container = document.getElementById('sectionsContainer');
+      try {
+        const snap = await db.collection('privacy_sections')
+          .where('active', '==', true)
+          .orderBy('order', 'asc')
+          .get();
+
+        let sections = [];
+        snap.forEach(d => sections.push({ id: d.id, ...d.data() }));
+
+        // لو الكولكشن فاضي → استخدم الـ fallback
+        if (!sections.length) {
+          console.info('ℹ️ privacy_sections فاضي — استخدام المحتوى الافتراضي');
+          sections = FALLBACK_SECTIONS.map((s, i) => ({ id: 'fallback-' + i, ...s }));
+        }
+
+        renderSections(sections);
+        renderTOC(sections);
+
+      } catch (err) {
+        console.warn('loadPrivacyContent error:', err);
+        // fallback عند أي خطأ
+        const sections = FALLBACK_SECTIONS.map((s, i) => ({ id: 'fallback-' + i, ...s }));
+        renderSections(sections);
+        renderTOC(sections);
+      }
+    }
+
+    // ============================================================
+    // 🎨 عرض الأقسام
+    // ============================================================
+    function renderSections(sections) {
+      const container = document.getElementById('sectionsContainer');
+      if (!container) return;
+
+      container.innerHTML = sections.map((s, idx) => {
+        const anchorId = 'section-' + (idx + 1);
+        return `
+          <section class="privacy-section" id="${anchorId}" style="animation-delay:${idx * 0.05}s;">
+            <div class="privacy-section-header">
+              <div class="sec-icon">
+                <i class="fas ${s.icon || 'fa-file-alt'}"></i>
+              </div>
+              <div class="sec-info">
+                <div class="sec-num">القسم ${idx + 1}</div>
+                <h2>${escapeHtml(s.title)}</h2>
+              </div>
+            </div>
+            <div class="privacy-section-body">
+              ${renderBody(s)}
+            </div>
+          </section>
+        `;
+      }).join('');
+    }
+
+    function renderBody(s) {
+      const type = s.bodyType || 'text';
+      const body = s.body || '';
+      const items = s.items || [];
+
+      switch (type) {
+        case 'text':
+          return `<p>${body}</p>`;
+
+        case 'quote':
+          return `
+            <div class="quote-box">
+              <i class="fas fa-quote-right"></i>
+              <div>${body}</div>
+            </div>
+          `;
+
+        case 'list':
+          return `
+            ${body ? `<p>${body}</p>` : ''}
+            <ul class="privacy-list">
+              ${items.map(it => `<li>${escapeHtml(typeof it === 'string' ? it : (it.text || ''))}</li>`).join('')}
+            </ul>
+          `;
+
+        case 'cards':
+          return `
+            ${body ? `<p>${body}</p>` : ''}
+            <div class="privacy-cards">
+              ${items.map(it => `
+                <div class="privacy-card">
+                  <div class="pc-icon"><i class="fas ${it.icon || 'fa-info'}"></i></div>
+                  <div class="pc-body">
+                    <h4>${escapeHtml(it.title || '')}</h4>
+                    <p>${escapeHtml(it.text || '')}</p>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          `;
+
+        case 'table':
+          return `
+            ${body ? `<p>${body}</p>` : ''}
+            <table class="privacy-table">
+              <tbody>
+                ${items.map(it => `
+                  <tr>
+                    <td>${escapeHtml(it.label || '')}</td>
+                    <td>${escapeHtml(it.value || '')}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          `;
+
+        case 'contact':
+          return `
+            ${body ? `<p>${body}</p>` : ''}
+            <div class="privacy-contact-grid">
+              ${items.map(it => {
+                const icon = it.icon || 'fas fa-link';
+                const color = it.color || 'var(--navy)';
+                const url = it.url || '#';
+                return `
+                  <a href="${escapeHtml(url)}" target="_blank" rel="noopener" class="privacy-contact-btn">
+                    <div class="pcb-icon" style="background:${color};">
+                      <i class="${icon}"></i>
+                    </div>
+                    <div class="pcb-title">${escapeHtml(it.title || '')}</div>
+                    <div class="pcb-value">${escapeHtml(it.text || '')}</div>
+                  </a>
+                `;
+              }).join('')}
+            </div>
+          `;
+
+        default:
+          return `<p>${body || '—'}</p>`;
+      }
+    }
+
+    // ============================================================
+    // 📑 TOC
+    // ============================================================
+    function renderTOC(sections) {
+      const grid = document.getElementById('tocGrid');
+      if (!grid) return;
+
+      if (!sections.length) {
+        grid.innerHTML = '<div style="text-align:center;color:var(--gray-400);padding:14px;grid-column:1/-1;">لا يوجد محتوى</div>';
+        return;
+      }
+
+      grid.innerHTML = sections.map((s, i) => `
+        <a class="toc-link" onclick="scrollToSection('section-${i + 1}')">
+          <span class="toc-num">${i + 1}</span>
+          <i class="fas ${s.icon || 'fa-file-alt'}"></i>
+          <span>${escapeHtml(s.title)}</span>
+        </a>
+      `).join('');
+    }
+
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      // إغلاق TOC على الموبايل
+      if (window.innerWidth <= 768) {
+        document.getElementById('tocCard').classList.remove('open');
+      }
+    }
+
+    function toggleTOC() {
+      const card = document.getElementById('tocCard');
+      if (card) card.classList.toggle('open');
+    }
+
+    // ============================================================
+    // 📅 آخر تحديث (من site_content/privacy_meta)
+    // ============================================================
+    async function loadMeta() {
+      const el = document.getElementById('lastUpdatedText');
+      if (!el) return;
+      try {
+        const doc = await db.collection('site_content').doc('privacy_meta').get();
+        if (doc.exists) {
+          const data = doc.data();
+          if (data.lastUpdated) {
+            const d = data.lastUpdated.toDate ? data.lastUpdated.toDate() : new Date(data.lastUpdated);
+            el.textContent = 'آخر تحديث: ' + d.toLocaleDateString('ar-EG', {
+              year: 'numeric', month: 'long', day: 'numeric'
+            });
+            return;
+          }
+        }
+        el.textContent = 'آخر تحديث: —';
+      } catch (e) {
+        console.warn('loadMeta error:', e);
+        el.textContent = 'آخر تحديث: —';
+      }
+    }
+
+    // ============================================================
+    // 🛠️ Helpers
+    // ============================================================
+    function escapeHtml(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[c]));
+    }
+
+    window.toggleTOC = toggleTOC;
+    window.scrollToSection = scrollToSection;
+  </script>
+</body>
+</html>
