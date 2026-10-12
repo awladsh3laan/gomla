@@ -2555,7 +2555,40 @@ document.addEventListener('DOMContentLoaded', async function() {
   
   console.log('✅ main.js v6.0 loaded successfully');
 });
+// ============================================================
+// 📊 تحديث الإحصائيات العامة (يُستدعى من صفحة الأدمن)
+// ============================================================
+async function updatePublicStats() {
+  try {
+    // عدّ العملاء
+    const customersSnap = await db.collection(COLLECTIONS.CUSTOMERS).get();
+    const customersCount = customersSnap.size;
 
+    // عدّ الطلبات
+    const ordersSnap = await db.collection(COLLECTIONS.ORDERS).get();
+    const ordersCount = ordersSnap.size;
+
+    // عدّ المنتجات
+    const productsSnap = await db.collection(COLLECTIONS.PRODUCTS).get();
+    const productsCount = productsSnap.size;
+
+    // حفظ في مجموعة public_stats
+    await db.collection('public_stats').doc('general').set({
+      customers: customersCount,
+      orders: ordersCount,
+      products: productsCount,
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }, { merge: true });
+
+    console.log('✅ Public stats updated:', { customersCount, ordersCount, productsCount });
+    return true;
+  } catch (error) {
+    console.error('❌ Failed to update public stats:', error);
+    return false;
+  }
+}
+
+window.updatePublicStats = updatePublicStats;
 // ============================================================
 // 🌐 تصدير الدوال عالمياً
 // ============================================================
