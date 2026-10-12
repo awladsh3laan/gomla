@@ -810,8 +810,6 @@
             <div class="counter-icon"><i class="fas fa-store"></i></div>
             <div class="counter-num loading" id="statTraders">
               <i class="fas fa-spinner fa-spin" style="font-size:1.2rem;"></i>
-            </di>
-          <div class="stat-counter">
             </div>
             <div class="counter-label">طلب تم تسليمه</div>
           </div>
@@ -981,8 +979,8 @@
 // تنسيق الأرقام مع علامة +
 function formatStatNumber(num) {
   if (num === 0) return '0';
-  if (num < 100) return num.toLocaleString('en-EG');
-  return '+' + num.toLocaleString('en-EG');
+  if (num < 100) return num.toLocaleString('en-US');
+  return '+' + num.toLocaleString('en-US');
 }
 
 // ============================================================
