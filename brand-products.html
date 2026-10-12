@@ -3,11 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>منتجات البراند - أولاد شعلان</title>
-
-  <meta name="description" content="منتجات البراند - أولاد شعلان">
+  <title>من نحن - أولاد شعلان للمنظفات والورقيات</title>
+  <meta name="description" content="تعرّف على أولاد شعلان للمنظفات والورقيات — رؤيتنا، قيمنا، وخدماتنا">
   <meta name="theme-color" content="#1a2a4a">
-
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/gomla/assets/css/style.css">
@@ -15,897 +13,985 @@
 
   <style>
     /* ============================================================
-       🎨 ستايل صفحة منتجات البراند
+       🛡️ منع السكرول الأفقي
        ============================================================ */
+    html, body { overflow-x: hidden !important; max-width: 100vw; }
+    .page-content, .page-content .container {
+      overflow-x: hidden; min-width: 0; max-width: 100%;
+    }
 
-    /* ===== رأس البراند ===== */
-    .brand-hero {
-      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    /* ============================================================
+       🎨 Hero Section
+       ============================================================ */
+    .about-hero {
+      position: relative;
+      background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 50%, var(--navy-light) 100%);
       border-radius: var(--radius-lg);
-      padding: 40px 24px;
+      padding: 50px 24px 45px;
       margin-bottom: 24px;
       color: var(--white);
+      overflow: hidden;
+      text-align: center;
+      box-shadow: 0 15px 45px rgba(15, 26, 46, 0.35);
+      border-bottom: 4px solid var(--gold);
+    }
+    .about-hero::before {
+      content: '';
+      position: absolute;
+      top: -100px; right: -80px;
+      width: 320px; height: 320px;
+      background: radial-gradient(circle, rgba(201,168,76,.3) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+    }
+    .about-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -100px; left: -80px;
+      width: 260px; height: 260px;
+      background: radial-gradient(circle, rgba(201,168,76,.2) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 10s ease-in-out infinite reverse;
+    }
+    .about-hero-inner { position: relative; z-index: 1; }
+    .about-hero .hero-logo {
+      width: 90px; height: 90px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.6rem;
+      margin: 0 auto 18px;
+      box-shadow: 0 12px 32px rgba(201,168,76,.5);
+      border: 3px solid rgba(255,255,255,.2);
+      animation: pulse 3s ease-in-out infinite;
+    }
+    .about-hero .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px;
+      background: rgba(255,255,255,.12);
+      color: var(--gold-light);
+      border: 1px solid rgba(201,168,76,.4);
+      border-radius: var(--radius-full);
+      font-size: 0.75rem; font-weight: 800;
+      backdrop-filter: blur(10px);
+      margin-bottom: 14px;
+    }
+    .about-hero .hero-badge i { color: var(--gold); }
+    .about-hero h1 {
+      font-size: 1.9rem;
+      font-weight: 900;
+      margin-bottom: 10px;
+      color: var(--white);
+      line-height: 1.3;
+    }
+    .about-hero h1 .gold-text {
+      color: var(--gold);
+      text-shadow: 0 0 20px rgba(201,168,76,.5);
+    }
+    .about-hero .hero-subtitle {
+      font-size: 1rem;
+      opacity: 0.9;
+      color: rgba(255,255,255,.9);
+      max-width: 600px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ============================================================
+       📖 قسم قصتنا
+       ============================================================ */
+    .story-section {
+      background: linear-gradient(135deg, var(--white) 0%, #fcf9f0 100%);
+      border-radius: var(--radius-lg);
+      padding: 32px 28px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow-md);
+      border: 2px solid var(--gold-light);
+      position: relative;
+      overflow: hidden;
+    }
+    .story-section::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0; left: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light), var(--gold), var(--gold-dark));
+      background-size: 200% 100%;
+      animation: shimmer 3s linear infinite;
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .story-header {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+    .story-header .story-icon {
+      width: 70px; height: 70px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem;
+      margin: 0 auto 14px;
+      box-shadow: 0 8px 24px rgba(26,42,74,.25);
+      animation: float 3s ease-in-out infinite;
+    }
+    .story-header h2 {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--navy);
+      position: relative;
+      display: inline-block;
+      padding-bottom: 12px;
+    }
+    .story-header h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 60px; height: 3px;
+      background: var(--gold);
+      border-radius: 3px;
+    }
+    .story-content {
+      font-size: 0.98rem;
+      line-height: 2;
+      color: var(--gray-700);
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .story-content p { margin-bottom: 14px; }
+    .story-content p:last-child { margin-bottom: 0; }
+    .story-content strong {
+      color: var(--gold-dark);
+      font-weight: 800;
+      background: linear-gradient(180deg, transparent 60%, rgba(201,168,76,.25) 60%);
+      padding: 0 3px;
+    }
+    .story-highlight {
+      display: block;
+      margin-top: 16px;
+      padding: 16px 20px;
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      border-radius: var(--radius-md);
+      text-align: center;
+      font-weight: 800;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      border-right: 5px solid var(--gold);
+      box-shadow: 0 8px 24px rgba(26,42,74,.2);
+    }
+
+    /* ============================================================
+       🎯 الرؤية والرسالة
+       ============================================================ */
+    .vision-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .vision-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      box-shadow: var(--shadow-md);
+      border: 2px solid transparent;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .vision-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 100%; height: 5px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-dark));
+    }
+    .vision-card.mission::before {
+      background: linear-gradient(90deg, var(--navy), var(--navy-light));
+    }
+    .vision-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--gold);
+    }
+    .vision-card .vision-icon {
+      width: 60px; height: 60px;
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+    }
+    .vision-card .vision-icon.vision {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--white);
+      box-shadow: 0 8px 22px rgba(201,168,76,.4);
+    }
+    .vision-card .vision-icon.mission {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--gold);
+      box-shadow: 0 8px 22px rgba(26,42,74,.3);
+    }
+    .vision-card h3 {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .vision-card h3 i { color: var(--gold); }
+    .vision-card p {
+      font-size: 0.93rem;
+      line-height: 1.9;
+      color: var(--gray-600);
+      margin: 0;
+    }
+
+    /* ============================================================
+       💠 القيم
+       ============================================================ */
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .value-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 22px 18px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      border: 2px solid var(--gray-200);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .value-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--gold);
+    }
+    .value-card .value-icon {
+      width: 54px; height: 54px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(201,168,76,.15), rgba(201,168,76,.08));
+      color: var(--gold-dark);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.35rem;
+      margin: 0 auto 12px;
+      transition: var(--transition);
+    }
+    .value-card:hover .value-icon {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--white);
+      transform: scale(1.1) rotate(-6deg);
+      box-shadow: 0 8px 22px rgba(201,168,76,.4);
+    }
+    .value-card h4 {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    .value-card p {
+      font-size: 0.82rem;
+      color: var(--gray-500);
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    /* ============================================================
+       🏆 ليه تختارنا
+       ============================================================ */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .why-card {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 20px;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      transition: var(--transition);
+    }
+    .why-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--gold-light);
+    }
+    .why-card .why-icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      box-shadow: 0 6px 18px rgba(26,42,74,.2);
+    }
+    .why-card .why-body { flex: 1; min-width: 0; }
+    .why-card h4 {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .why-card p {
+      font-size: 0.85rem;
+      color: var(--gray-600);
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    /* ============================================================
+       📊 أرقامنا (Counters)
+       ============================================================ */
+    .stats-section {
+      background: linear-gradient(135deg, var(--navy-dark), var(--navy), var(--navy-light));
+      border-radius: var(--radius-lg);
+      padding: 32px 24px;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(15,26,46,.35);
+      border-bottom: 4px solid var(--gold);
+    }
+    .stats-section::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 220px; height: 220px;
+      background: radial-gradient(circle, rgba(201,168,76,.25), transparent 70%);
+      border-radius: 50%;
+      animation: float 7s ease-in-out infinite;
+    }
+    .stats-section .stats-header {
+      text-align: center;
+      margin-bottom: 24px;
+      position: relative;
+      z-index: 1;
+    }
+    .stats-section .stats-header h2 {
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--white);
+      margin-bottom: 6px;
+    }
+    .stats-section .stats-header p {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,.75);
+      margin: 0;
+    }
+    .stats-numbers {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      position: relative;
+      z-index: 1;
+    }
+    .stat-counter {
+      text-align: center;
+      padding: 20px 12px;
+      background: rgba(255,255,255,.08);
+      border-radius: var(--radius-md);
+      border: 1px solid rgba(201,168,76,.25);
+      backdrop-filter: blur(10px);
+      transition: var(--transition);
+    }
+    .stat-counter:hover {
+      background: rgba(255,255,255,.13);
+      transform: translateY(-4px);
+      border-color: var(--gold);
+    }
+    .stat-counter .counter-icon {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.15rem;
+      margin: 0 auto 10px;
+      box-shadow: 0 6px 18px rgba(201,168,76,.4);
+    }
+    .stat-counter .counter-num {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--gold);
+      line-height: 1.1;
+      margin-bottom: 4px;
+      font-family: 'Tajawal', sans-serif;
+      direction: ltr;
+    }
+    .stat-counter .counter-num .plus {
+      color: var(--gold-light);
+      font-size: 1.5rem;
+      margin-right: 2px;
+    }
+    .stat-counter .counter-num.loading {
+      color: rgba(201,168,76,.5);
+      font-size: 1.3rem;
+    }
+    .stat-counter .counter-label {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,.85);
+      font-weight: 700;
+    }
+
+    /* ============================================================
+       🛍️ خدماتنا
+       ============================================================ */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .service-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 22px 20px;
+      box-shadow: var(--shadow-sm);
+      border: 2px solid var(--gray-200);
+      transition: var(--transition);
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .service-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--gold);
+    }
+    .service-card .service-icon {
+      width: 54px; height: 54px;
+      border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      color: var(--white);
+    }
+    .service-card .service-icon.wholesale {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+    }
+    .service-card .service-icon.retail {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    }
+    .service-card .service-icon.delivery {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+    }
+    .service-card .service-icon.invoice {
+      background: linear-gradient(135deg, #3b82f6, #1e40af);
+    }
+    .service-card h4 {
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .service-card p {
+      font-size: 0.85rem;
+      color: var(--gray-600);
+      line-height: 1.7;
+      margin: 0;
+    }
+
+    /* ============================================================
+       📞 CTA
+       ============================================================ */
+    .cta-section {
+      background: linear-gradient(135deg, #fcf9f0, #f8f4e8);
+      border: 2px solid var(--gold-light);
+      border-radius: var(--radius-lg);
+      padding: 34px 24px;
       text-align: center;
       position: relative;
       overflow: hidden;
       box-shadow: var(--shadow-md);
     }
-
-    .brand-hero::before {
+    .cta-section::before {
       content: '';
       position: absolute;
-      top: -50%;
-      right: -10%;
-      width: 320px;
-      height: 320px;
-      background: radial-gradient(circle, rgba(201, 168, 76, 0.15) 0%, transparent 70%);
-      border-radius: 50%;
-      animation: float 8s ease-in-out infinite;
-    }
-
-    .brand-hero::after {
-      content: '';
-      position: absolute;
-      bottom: -50%;
-      left: -10%;
-      width: 270px;
-      height: 270px;
-      background: radial-gradient(circle, rgba(201, 168, 76, 0.1) 0%, transparent 70%);
-      border-radius: 50%;
-      animation: float 10s ease-in-out infinite reverse;
-    }
-
-    .brand-hero-content {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 28px;
-      flex-wrap: wrap;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .brand-hero-image-wrap {
-      width: 130px;
-      height: 130px;
-      border-radius: 50%;
-      background: var(--white);
-      padding: 8px;
-      border: 4px solid var(--gold);
-      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-      animation: logo-pulse-brand 3s ease-in-out infinite;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-
-    @keyframes logo-pulse-brand {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
-
-    .brand-hero-image-wrap img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+      top: -50px; right: -50px;
+      width: 180px; height: 180px;
+      background: radial-gradient(circle, rgba(201,168,76,.15), transparent 70%);
       border-radius: 50%;
     }
-
-    .brand-hero-text {
-      flex: 1;
-      min-width: 240px;
-      text-align: right;
-    }
-
-    .brand-hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: var(--gold);
-      color: var(--navy);
-      padding: 5px 14px;
-      border-radius: var(--radius-full);
-      font-size: 0.75rem;
-      font-weight: 800;
-      margin-bottom: 10px;
-    }
-
-    .brand-hero-text h1 {
-      font-size: 2rem;
-      font-weight: 900;
-      margin-bottom: 8px;
+    .cta-section .cta-icon {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
       color: var(--white);
-      line-height: 1.3;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem;
+      margin: 0 auto 16px;
+      box-shadow: 0 8px 24px rgba(201,168,76,.4);
+      animation: pulse 2s ease-in-out infinite;
     }
-
-    .brand-hero-text .brand-description {
+    .cta-section h2 {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 8px;
+      position: relative;
+      z-index: 1;
+    }
+    .cta-section p {
       font-size: 0.95rem;
-      color: rgba(255, 255, 255, 0.85);
-      line-height: 1.7;
-      margin-bottom: 12px;
+      color: var(--gray-600);
+      margin-bottom: 22px;
+      position: relative;
+      z-index: 1;
       max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+      line-height: 1.7;
     }
-
-    .brand-hero-text .count-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      background: rgba(201, 168, 76, 0.2);
-      color: var(--gold-light);
-      padding: 6px 16px;
-      border-radius: var(--radius-full);
-      font-size: 0.85rem;
-      font-weight: 700;
-      border: 1px solid rgba(201, 168, 76, 0.4);
-    }
-
-    /* ===== الفلاتر ===== */
-    .filter-bar {
+    .cta-buttons {
       display: flex;
-      flex-wrap: wrap;
       gap: 12px;
-      background: var(--white);
-      padding: 14px 16px;
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-sm);
-      margin-bottom: 20px;
-      align-items: center;
-      border: 1px solid var(--gray-200);
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
     }
+    .cta-buttons .btn { min-width: 160px; }
 
-    .filter-bar select {
-      padding: 10px 14px;
-      border: 2px solid var(--gray-200);
-      border-radius: var(--radius-sm);
-      font-family: inherit;
-      font-size: 0.9rem;
-      background: var(--gray-50);
-      min-width: 140px;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .filter-bar select:focus {
-      outline: none;
-      border-color: var(--gold);
-      box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.15);
-      background: var(--white);
-    }
-
-    .filter-bar .filter-icon {
-      color: var(--gold);
-      font-size: 1rem;
-    }
-
-    /* ===== Responsive ===== */
+    /* ============================================================
+       📱 Responsive
+       ============================================================ */
     @media (max-width: 768px) and (pointer: coarse) {
-      .brand-hero {
-        padding: 28px 16px;
-      }
+      .about-hero { padding: 34px 18px 30px; border-radius: var(--radius-md); }
+      .about-hero .hero-logo { width: 72px; height: 72px; font-size: 2rem; border-radius: 18px; }
+      .about-hero h1 { font-size: 1.35rem; }
+      .about-hero .hero-subtitle { font-size: 0.88rem; }
 
-      .brand-hero-content {
-        flex-direction: column;
-        gap: 16px;
-        text-align: center;
-      }
+      .story-section { padding: 24px 18px; border-radius: var(--radius-md); }
+      .story-header h2 { font-size: 1.25rem; }
+      .story-header .story-icon { width: 56px; height: 56px; font-size: 1.5rem; }
+      .story-content { font-size: 0.9rem; line-height: 1.85; }
+      .story-highlight { font-size: 0.92rem; padding: 14px 16px; }
 
-      .brand-hero-image-wrap {
-        width: 100px;
-        height: 100px;
-        border-width: 3px;
-      }
+      .vision-grid { grid-template-columns: 1fr; gap: 12px; }
+      .vision-card { padding: 22px 18px; }
+      .vision-card .vision-icon { width: 50px; height: 50px; font-size: 1.3rem; }
+      .vision-card h3 { font-size: 1.02rem; }
+      .vision-card p { font-size: 0.87rem; }
 
-      .brand-hero-text {
-        text-align: center;
-        min-width: 100%;
-      }
+      .values-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .value-card { padding: 18px 12px; }
+      .value-card .value-icon { width: 46px; height: 46px; font-size: 1.15rem; }
+      .value-card h4 { font-size: 0.9rem; }
+      .value-card p { font-size: 0.75rem; }
 
-      .brand-hero-text h1 {
-        font-size: 1.4rem;
-      }
+      .why-grid { grid-template-columns: 1fr; gap: 10px; }
+      .why-card { padding: 16px; }
+      .why-card .why-icon { width: 44px; height: 44px; font-size: 1.1rem; }
+      .why-card h4 { font-size: 0.92rem; }
+      .why-card p { font-size: 0.8rem; }
 
-      .brand-hero-text .brand-description {
-        font-size: 0.85rem;
-      }
+      .stats-section { padding: 24px 14px; border-radius: var(--radius-md); }
+      .stats-numbers { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .stat-counter { padding: 16px 10px; }
+      .stat-counter .counter-icon { width: 38px; height: 38px; font-size: 1rem; }
+      .stat-counter .counter-num { font-size: 1.55rem; }
+      .stat-counter .counter-label { font-size: 0.72rem; }
 
-      .filter-bar {
-        flex-direction: column;
-        align-items: stretch;
-      }
+      .services-grid { grid-template-columns: 1fr; gap: 10px; }
+      .service-card { padding: 16px; }
+      .service-card .service-icon { width: 46px; height: 46px; font-size: 1.2rem; }
+      .service-card h4 { font-size: 0.92rem; }
+      .service-card p { font-size: 0.8rem; }
 
-      .filter-bar select {
-        width: 100%;
-      }
+      .cta-section { padding: 26px 18px; border-radius: var(--radius-md); }
+      .cta-section h2 { font-size: 1.2rem; }
+      .cta-section p { font-size: 0.88rem; }
+      .cta-buttons { flex-direction: column; }
+      .cta-buttons .btn { width: 100%; min-width: auto; }
+    }
+    @media (max-width: 400px) {
+      .values-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-  <!-- مكونات الموبايل -->
+  <!-- ============================================================ -->
+  <!-- 📱 مكونات الموبايل -->
+  <!-- ============================================================ -->
   <div id="mobile-top-bar"></div>
   <div id="mobile-top-tabs"></div>
 
-  <!-- الهيدر -->
+  <!-- ============================================================ -->
+  <!-- 🧠 الهيدر -->
+  <!-- ============================================================ -->
   <div id="header-placeholder"></div>
 
-  <!-- المحتوى -->
+  <!-- ============================================================ -->
+  <!-- 📄 المحتوى -->
+  <!-- ============================================================ -->
   <main class="page-content">
     <div class="container">
 
-      <!-- مسار التنقل -->
-      <div class="breadcrumb" id="breadcrumb">
-        <a href="/gomla/">الرئيسية</a>
-        <span>›</span>
-        <a href="/gomla/categories.html" id="breadcrumbBack">الأقسام</a>
-        <span>›</span>
-        <span id="breadcrumbBrandName">جاري التحميل...</span>
+      <!-- 1️⃣ Hero -->
+      <section class="about-hero">
+        <div class="about-hero-inner">
+          <div class="hero-logo">
+            <i class="fas fa-store-alt"></i>
+          </div>
+          <div class="hero-badge">
+            <i class="fas fa-star"></i>
+            رحلة عطاء بدأت بحلم
+          </div>
+          <h1>
+            من نحن <span class="gold-text">أولاد شعلان</span>
+          </h1>
+          <p class="hero-subtitle">
+            رحلة عطاء بدأت بحلم... واستمرت بالثقة. من قلب المحلة الكبرى لكل مصر — نجمع بين الأصالة والحداثة.
+          </p>
+        </div>
+      </section>
+
+      <!-- 2️⃣ قصتنا -->
+      <section class="story-section">
+        <div class="story-header">
+          <div class="story-icon">
+            <i class="fas fa-book-open"></i>
+          </div>
+          <h2>قصتنا</h2>
+        </div>
+        <div class="story-content">
+          <p>
+            <strong>أولاد شعلان</strong> هي شركة مصرية متخصصة في تجارة المنظفات والورقيات بجميع أنواعها — <strong>بجملة وقطاعي</strong>. بدأنا رحلتنا بحلم بسيط: نوفر لعملائنا منتجات أصلية بأسعار منافسة وخدمة تستحق الثقة.
+          </p>
+          <p>
+            من خلال شبكة علاقاتنا القوية مع كبار الموردين والمصنعين، نجحنا في توفير منتجات عالية الجودة تغطي كل احتياجات البيت والمحل والمصنع — من أصغر عبوة منظف لأكبر طلبية جملة.
+          </p>
+          <p>
+            اخترنا نبدأ من <strong>المحلة الكبرى</strong> لخدمة كل المدن والقرى والمحافظات المجاورة، وبنينا نظام إلكتروني متكامل يسهّل على العملاء والتجار الطلب والمتابعة والدفع.
+          </p>
+          <span class="story-highlight">
+            النهاردة، أولاد شعلان مش مجرد متجر أو محل — <br>
+            <span style="color:var(--gold);">إحنا شريكك في كل قطرة منظف وكل رول ورق.</span>
+          </span>
+        </div>
+      </section>
+
+      <!-- 3️⃣ الرؤية والرسالة -->
+      <div class="vision-grid">
+        <div class="vision-card">
+          <div class="vision-icon vision">
+            <i class="fas fa-eye"></i>
+          </div>
+          <h3><i class="fas fa-bullseye"></i> رؤيتنا</h3>
+          <p>
+            أن نكون من الأوائل في مصر في تجارة وتوريد المنظفات والورقيات — بجملة وقطاعي — من خلال الجودة والأمانة والابتكار
+          </p>
+        </div>
+        <div class="vision-card mission">
+          <div class="vision-icon mission">
+            <i class="fas fa-flag"></i>
+          </div>
+          <h3><i class="fas fa-heart"></i> رسالتنا</h3>
+          <p>
+            نوفر لعملائنا منتجات متنوعة وأصلية بأسعار عادلة وخدمة استثنائية، ونساعد تجارنا على النمو من خلال حلول تجارية مرنة وآجلة.
+          </p>
+        </div>
       </div>
 
-      <!-- رأس البراند -->
-      <section class="brand-hero" id="brandHero">
-        <div class="brand-hero-content">
-          <div class="brand-hero-image-wrap">
-            <img src="/gomla/assets/images/no-image.png" 
-                 alt="شعار البراند" 
-                 id="brandImage"
-                 onerror="this.src='/gomla/assets/images/no-image.png'">
+      <!-- 4️⃣ القيم -->
+      <div class="section-header" style="text-align:center;margin-bottom:16px;flex-direction:column;">
+        <h2 style="font-size:1.4rem;font-weight:900;color:var(--navy);display:flex;align-items:center;justify-content:center;gap:8px;margin:0 0 6px;">
+          <i class="fas fa-gem" style="color:var(--gold);"></i>
+          قيمنا
+        </h2>
+        <p style="font-size:0.85rem;color:var(--gray-500);margin:0;">المبادئ اللي بنمشي عليها في كل تعامل</p>
+      </div>
+      <div class="values-grid">
+        <div class="value-card">
+          <div class="value-icon"><i class="fas fa-handshake"></i></div>
+          <h4>الأمانة</h4>
+          <p>نتعامل بصدق وشفافية في كل تعامل — من السعر لحد التسليم</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon"><i class="fas fa-star"></i></div>
+          <h4>الجودة</h4>
+          <p>منتجات أصلية 100% من موردين معتمدين</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon"><i class="fas fa-bolt"></i></div>
+          <h4>السرعة</h4>
+          <p>توصيل خلال 24 ساعة داخل المحلة</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon"><i class="fas fa-tag"></i></div>
+          <h4>السعر العادل</h4>
+          <p>أسعار الجملة الحقيقية بدون وسطاء</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon"><i class="fas fa-headset"></i></div>
+          <h4>الدعم المستمر</h4>
+          <p>فريق دعم متاح من 11ص لـ 10م</p>
+        </div>
+        <div class="value-card">
+          <div class="value-icon"><i class="fas fa-rocket"></i></div>
+          <h4>الابتكار</h4>
+          <p>نظام إلكتروني متكامل يسهّل عليك التسوق والمتابعة</p>
+        </div>
+      </div>
+
+      <!-- 5️⃣ ليه تختارنا -->
+      <div class="section-header" style="text-align:center;margin-bottom:16px;flex-direction:column;">
+        <h2 style="font-size:1.4rem;font-weight:900;color:var(--navy);display:flex;align-items:center;justify-content:center;gap:8px;margin:0 0 6px;">
+          <i class="fas fa-award" style="color:var(--gold);"></i>
+          ليه تختارنا؟
+        </h2>
+        <p style="font-size:0.85rem;color:var(--gray-500);margin:0;">أسباب تخليك تثق فينا</p>
+      </div>
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-check-circle"></i></div>
+          <div class="why-body">
+            <h4>منتجات أصلية</h4>
+            <p>كل منتجاتنا من موردين معتمدين — ضمان الجودة والأصالة</p>
           </div>
-          <div class="brand-hero-text">
-            <div class="brand-hero-badge">
-              <i class="fas fa-copyright"></i>
-              براند
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-truck-fast"></i></div>
+          <div class="why-body">
+            <h4>توصيل سريع</h4>
+            <p>توصيل إلى طنطا والمنصورة والمحلة والمناطق المحيطة</p>
+          </div>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-credit-card"></i></div>
+          <div class="why-body">
+            <h4>نظام آجل للتجار</h4>
+            <p>مرونة في السداد بدون فوائد أو مصاريف زيادة</p>
+          </div>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-ticket-alt"></i></div>
+          <div class="why-body">
+            <h4>دعم فوري</h4>
+            <p>تذاكر دعم موثقة + واتساب + إيميل — إحنا معاك دايماً</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 6️⃣ أرقامنا (Real-time من Firestore) -->
+      <section class="stats-section">
+        <div class="stats-header">
+          <h2><i class="fas fa-chart-line" style="color:var(--gold);margin-left:6px;"></i> أرقامنا بتتكلم</h2>
+          <p>أرقام حقيقية من قاعدة بياناتنا — بتتحدث لحظياً</p>
+        </div>
+        <div class="stats-numbers">
+          <div class="stat-counter">
+            <div class="counter-icon"><i class="fas fa-users"></i></div>
+            <div class="counter-num loading" id="statCustomers">
+              <i class="fas fa-spinner fa-spin" style="font-size:1.2rem;"></i>
             </div>
-            <h1 id="brandName">جاري التحميل...</h1>
-            <p class="brand-description" id="brandDescription" style="display:none;"></p>
-            <div class="count-badge" id="brandCount">
-              <i class="fas fa-spinner fa-spin"></i>
-              جاري التحميل...
+            <div class="counter-label">عميل</div>
+          </div>
+          <div class="stat-counter">
+            <div class="counter-icon"><i class="fas fa-shopping-bag"></i></div>
+            <div class="counter-num loading" id="statOrders">
+              <i class="fas fa-spinner fa-spin" style="font-size:1.2rem;"></i>
             </div>
+            <div class="counter-label">طلب تم تسليمه</div>
+          </div>
+          <div class="stat-counter">
+            <div class="counter-icon"><i class="fas fa-boxes"></i></div>
+            <div class="counter-num loading" id="statProducts">
+              <i class="fas fa-spinner fa-spin" style="font-size:1.2rem;"></i>
+            </div>
+            <div class="counter-label">منتج متنوع</div>
           </div>
         </div>
       </section>
 
-      <!-- سلايدر مصغر -->
-      <section class="slider-section" id="slider-section" style="margin-bottom:24px;">
-        <div class="slider-container" id="sliderContainer">
-          <div class="slider-track" id="sliderTrack">
-            <div class="slider-item">
-              <div class="slide-placeholder">
-                <i class="fas fa-spinner fa-spin"></i>
-                جاري التحميل...
-              </div>
-            </div>
+      <!-- 7️⃣ خدماتنا -->
+      <div class="section-header" style="text-align:center;margin-bottom:16px;flex-direction:column;">
+        <h2 style="font-size:1.4rem;font-weight:900;color:var(--navy);display:flex;align-items:center;justify-content:center;gap:8px;margin:0 0 6px;">
+          <i class="fas fa-hand-holding-heart" style="color:var(--gold);"></i>
+          خدماتنا
+        </h2>
+        <p style="font-size:0.85rem;color:var(--gray-500);margin:0;">كل اللي محتاجه بيتك أو محلك</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon wholesale"><i class="fas fa-warehouse"></i></div>
+          <div>
+            <h4>بيع بالجملة</h4>
+            <p>للتجار والمحلات — أسعار خاصة + نظام سهل تتابع منه حسابك وفواتيرك + نظام آجل</p>
           </div>
-          <button class="slider-btn prev" onclick="slidePrev()" aria-label="السابق">
-            <i class="fas fa-chevron-right"></i>
-          </button>
-          <button class="slider-btn next" onclick="slideNext()" aria-label="التالي">
-            <i class="fas fa-chevron-left"></i>
-          </button>
-          <div class="slider-dots" id="sliderDots"></div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon retail"><i class="fas fa-shopping-cart"></i></div>
+          <div>
+            <h4>بيع قطاعي</h4>
+            <p>للأفراد — منتجات متنوعة بسعر المستهلك مع توصيل سريع</p>
+          </div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon delivery"><i class="fas fa-truck-fast"></i></div>
+          <div>
+            <h4>توصيل سريع</h4>
+            <p>داخل المحلة + المنصورة + طنطا + القطاعي داخل المحلة فقط حالياً</p>
+          </div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon invoice"><i class="fas fa-file-invoice"></i></div>
+          <div>
+            <h4>فواتير وكشوف</h4>
+            <p>نظام فواتير إلكتروني + كشف حساب لكل عميل + إبلاغ عن السداد</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 8️⃣ CTA -->
+      <section class="cta-section">
+        <div class="cta-icon">
+          <i class="fas fa-rocket"></i>
+        </div>
+        <h2>هل أنت جاهز تبدأ؟</h2>
+        <p>
+          انضم لكتير من العملاء والتجار اللي بيثقوا فينا. اتسوق دلوقتي أو تواصل معانا وهنساعدك تبدأ.
+        </p>
+        <div class="cta-buttons">
+          <a href="/gomla/store-retail.html" class="btn btn-gold">
+            <i class="fas fa-shopping-cart"></i>
+            تسوق الآن
+          </a>
+          <a href="/gomla/support.html" class="btn btn-outline">
+            <i class="fas fa-headset"></i>
+            تواصل معنا
+          </a>
+          <a href="/gomla/customer-register.html" class="btn btn-primary">
+            <i class="fas fa-user-plus"></i>
+            سجل كعميل
+          </a>
         </div>
       </section>
-
-      <!-- الفلاتر -->
-      <div class="filter-bar">
-        <i class="fas fa-sliders-h filter-icon"></i>
-        <select id="sortFilter" onchange="applyFilters()">
-          <option value="newest">الأحدث</option>
-          <option value="price-low">السعر: الأقل للأعلى</option>
-          <option value="price-high">السعر: الأعلى للأقل</option>
-          <option value="popular">الأكثر مبيعاً</option>
-        </select>
-        <select id="availabilityFilter" onchange="applyFilters()">
-          <option value="">كل المنتجات</option>
-          <option value="available">المتوفر فقط</option>
-        </select>
-        <select id="categoryFilter" onchange="applyFilters()">
-          <option value="">كل الأقسام</option>
-        </select>
-      </div>
-
-      <!-- شبكة المنتجات -->
-      <div class="products-grid" id="productsContainer">
-        <div class="loading-spinner">
-          <i class="fas fa-spinner fa-spin"></i>
-          جاري التحميل...
-        </div>
-      </div>
-
-      <!-- تحميل المزيد -->
-      <div style="text-align:center;margin-top:20px;">
-        <button class="btn btn-outline" id="loadMoreBtn" onclick="loadMoreProducts()" style="display:none;">
-          <i class="fas fa-chevron-down"></i>
-          تحميل المزيد
-        </button>
-      </div>
 
     </div>
   </main>
 
-  <!-- التبويبات السفلى -->
+  <!-- ============================================================ -->
+  <!-- 📱 التبويبات السفلى + الفوتر + السايدبار -->
+  <!-- ============================================================ -->
   <div id="mobile-bottom-tabs"></div>
   <div id="mobile-copyright"></div>
-
-  <!-- الفوتر -->
   <div id="footer-placeholder"></div>
-
-  <!-- السايدبار -->
   <div id="sidebar-placeholder"></div>
-
-  <!-- Toast Container -->
   <div id="toast-container"></div>
 
-  <!-- نافذة البحث -->
-  <div class="search-modal-overlay" id="searchModalOverlay" onclick="closeSearchModal(event)">
-    <div class="search-modal" onclick="event.stopPropagation()">
-      <div class="search-modal-header">
-        <i class="fas fa-search search-icon"></i>
-        <input type="text" 
-               id="searchModalInput" 
-               placeholder="ابحث عن منتج..."
-               autocomplete="off"
-               oninput="handleModalSearch(this.value)"
-               onkeydown="handleSearchKeydown(event)">
-        <button class="search-modal-close" onclick="closeSearchModal()" aria-label="إغلاق">
-          <i class="fas fa-times"></i>
-        </button>
-      </div>
-      <div class="search-modal-body" id="searchModalBody">
-        <div id="searchInitialContent">
-          <div class="search-suggestions-header">
-            <i class="fas fa-fire"></i>
-            اقتراحات سريعة
-          </div>
-          <div class="search-suggestions-chips">
-            <a href="#" class="search-chip" onclick="quickSearch('منظف')">
-              <i class="fas fa-spray-can"></i>
-              منظفات
-            </a>
-            <a href="#" class="search-chip" onclick="quickSearch('ورق')">
-              <i class="fas fa-toilet-paper"></i>
-              ورقيات
-            </a>
-            <a href="#" class="search-chip" onclick="quickSearch('صابون')">
-              <i class="fas fa-soap"></i>
-              صابون
-            </a>
-          </div>
-        </div>
-        <div class="search-results" id="searchResults"></div>
-      </div>
-      <div class="search-keyboard-hint">
-        <span><kbd>ESC</kbd> للإغلاق</span>
-        <span><kbd>Enter</kbd> للبحث</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Firebase & Scripts -->
+  <!-- ============================================================ -->
+  <!-- 📚 Firebase & JS -->
+  <!-- ============================================================ -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-
   <script src="/gomla/assets/js/firebase-config.js"></script>
   <script src="/gomla/assets/js/main.js"></script>
 
   <script>
     // ============================================================
-    // 📄 brand-products.html - منتجات البراند
+    // 📄 about.html — من نحن
     // ============================================================
 
-    // ===== المتغيرات =====
-    let brandId = null;
-    let brandData = null;
-    let storeType = 'retail';
-    let allProducts = [];
-    let filteredProducts = [];
-    let currentPage = 0;
-    const pageSize = 12;
-    let selectedCategoryId = '';
-    let slidesCount = 0;
-    let slideIndex = 0;
-    let slideInterval = null;
-
     // ============================================================
-    // 🚀 تحميل الصفحة
+    // 📊 تحميل الإحصائيات من public_stats
     // ============================================================
-
-    async function loadPageData() {
-      const urlParams = new URLSearchParams(window.location.search);
-      brandId = urlParams.get('id');
-      storeType = urlParams.get('type') || 'retail';
-
-      if (!brandId) {
-        showError('لم يتم تحديد براند');
-        return;
-      }
-
-      // تحديد نوع المتجر حسب الصلاحية
-      const user = getCurrentUser();
-      if (user && user.data) {
-        const role = user.data.role;
-        if (role === ROLES.WHOLESALE || role === ROLES.ADMIN || role === ROLES.SUPER) {
-          storeType = 'wholesale';
-        }
-      }
-
-      // تحديث رابط الرجوع
-      document.getElementById('breadcrumbBack').href = 
-        storeType === 'wholesale' 
-          ? '/gomla/store-wholesale.html'
-          : '/gomla/store-retail.html';
+    async function loadRealStats() {
+      const DEFAULT_STATS = { customers: 500, orders: 2000, products: 300 };
       
-      const backLink = document.getElementById('breadcrumbBack');
-      backLink.innerHTML = storeType === 'wholesale' ? 'المتجر' : 'المتجر';
-
-      await loadBrandInfo();
-      await loadProducts();
-      loadSlider();
-
-      document.title = `${brandData?.name || 'البراند'} - أولاد شعلان`;
-    }
-
-    // ============================================================
-    // 🏷️ معلومات البراند
-    // ============================================================
-
-    async function loadBrandInfo() {
       try {
-        const doc = await db.collection(COLLECTIONS.BRANDS).doc(brandId).get();
+        const statsDoc = await db.collection('public_stats').doc('general').get();
         
-        if (!doc.exists) {
-          showError('البراند غير موجود');
-          return;
-        }
-
-        brandData = { id: doc.id, ...doc.data() };
-
-        document.getElementById('brandName').textContent = brandData.name || 'براند';
-        document.getElementById('breadcrumbBrandName').textContent = brandData.name || 'براند';
+        let stats = { ...DEFAULT_STATS };
         
-        if (brandData.imageUrl) {
-          document.getElementById('brandImage').src = brandData.imageUrl;
+        if (statsDoc.exists) {
+          const data = statsDoc.data();
+          stats = {
+            customers: data.customers || DEFAULT_STATS.customers,
+            orders: data.orders || DEFAULT_STATS.orders,
+            products: data.products || DEFAULT_STATS.products
+          };
+          console.log('✅ Stats loaded from public_stats:', stats);
+        } else {
+          console.warn('⚠️ public_stats/general not found - using defaults');
         }
-
-        if (brandData.description) {
-          const descEl = document.getElementById('brandDescription');
-          descEl.textContent = brandData.description;
-          descEl.style.display = 'block';
+        
+        // تحديث العناصر
+        const customersEl = document.getElementById('statCustomers');
+        const ordersEl = document.getElementById('statOrders');
+        const productsEl = document.getElementById('statProducts');
+        
+        if (customersEl) {
+          customersEl.classList.remove('loading');
+          customersEl.innerHTML = formatStatNumber(stats.customers);
         }
-
+        if (ordersEl) {
+          ordersEl.classList.remove('loading');
+          ordersEl.innerHTML = formatStatNumber(stats.orders);
+        }
+        if (productsEl) {
+          productsEl.classList.remove('loading');
+          productsEl.innerHTML = formatStatNumber(stats.products);
+        }
+        
       } catch (error) {
-        console.error('Error loading brand:', error);
-      }
-    }
-
-    // ============================================================
-    // 📦 تحميل المنتجات
-    // ============================================================
-
-    async function loadProducts() {
-      const container = document.getElementById('productsContainer');
-      if (!container) return;
-
-      try {
-        const snapshot = await db.collection(COLLECTIONS.PRODUCTS)
-          .where('available', '==', true)
-          .where('brandId', '==', brandId)
-          .orderBy('createdAt', 'desc')
-          .limit(pageSize)
-          .get();
-
-        allProducts = [];
-        snapshot.forEach(doc => {
-          allProducts.push({ id: doc.id, ...doc.data() });
-        });
-
-        filteredProducts = [...allProducts];
-
-        // تحديث العداد
-        document.getElementById('brandCount').innerHTML = `
-          <i class="fas fa-box"></i>
-          ${allProducts.length} منتج
-        `;
-
-        // بناء قائمة الأقسام للفلترة
-        await loadCategoriesFilter();
-
-        renderProducts();
-
-        if (allProducts.length >= pageSize) {
-          document.getElementById('loadMoreBtn').style.display = 'inline-block';
+        console.warn('⚠️ Could not load stats:', error.message);
+        
+        // عرض القيم الافتراضية
+        const customersEl = document.getElementById('statCustomers');
+        const ordersEl = document.getElementById('statOrders');
+        const productsEl = document.getElementById('statProducts');
+        
+        if (customersEl) {
+          customersEl.classList.remove('loading');
+          customersEl.innerHTML = formatStatNumber(DEFAULT_STATS.customers);
         }
-
-      } catch (error) {
-        console.error('Error loading products:', error);
-        container.innerHTML = `
-          <div class="empty-state">
-            <i class="fas fa-exclamation-triangle"></i>
-            <p>حدث خطأ في تحميل المنتجات</p>
-          </div>
-        `;
-      }
-    }
-
-    // ============================================================
-    // 📂 قائمة الأقسام للفلترة
-    // ============================================================
-
-    async function loadCategoriesFilter() {
-      const select = document.getElementById('categoryFilter');
-      if (!select) return;
-
-      // استخراج الأقسام الفريدة من المنتجات
-      const categories = new Map();
-      allProducts.forEach(p => {
-        if (p.categoryId && p.categoryName) {
-          categories.set(p.categoryId, p.categoryName);
+        if (ordersEl) {
+          ordersEl.classList.remove('loading');
+          ordersEl.innerHTML = formatStatNumber(DEFAULT_STATS.orders);
         }
-      });
-
-      if (categories.size === 0) {
-        select.parentElement.style.display = 'none';
-        return;
-      }
-
-      let html = '<option value="">كل الأقسام</option>';
-      categories.forEach((name, id) => {
-        html += `<option value="${id}">${name}</option>`;
-      });
-
-      select.innerHTML = html;
-    }
-
-    // ============================================================
-    // 🎨 عرض المنتجات
-    // ============================================================
-
-    function renderProducts() {
-      const container = document.getElementById('productsContainer');
-      if (!container) return;
-
-      const start = currentPage * pageSize;
-      const end = start + pageSize;
-      const pageProducts = filteredProducts.slice(start, end);
-
-      if (pageProducts.length === 0 && currentPage === 0) {
-        container.innerHTML = `
-          <div class="empty-state">
-            <i class="fas fa-box-open"></i>
-            <p>لا توجد منتجات لهذا البراند</p>
-            <a href="${storeType === 'wholesale' ? '/gomla/store-wholesale.html' : '/gomla/store-retail.html'}" class="btn btn-primary">
-              <i class="fas fa-arrow-right"></i>
-              العودة للمتجر
-            </a>
-          </div>
-        `;
-        document.getElementById('loadMoreBtn').style.display = 'none';
-        return;
-      }
-
-      const isWholesale = storeType === 'wholesale';
-
-      let html = '';
-
-      pageProducts.forEach(product => {
-        // 🔒 السعر حسب نوع المستخدم
-        const price = isWholesale ? 
-          (product.wholesalePrice || 0) : 
-          (product.retailPrice || 0);
-        const unit = isWholesale ? 
-          (product.unit || 'كرتونة') : 
-          'قطعة';
-        
-        const stock = product.stockQuantity || 0;
-        const isAvailable = stock > 0;
-        
-        // خصم/عرض
-        const hasOffer = !isWholesale && product.hasRetailOffer === true && product.retailOfferPrice > 0;
-        const offerPrice = product.retailOfferPrice || 0;
-        
-        const hasDiscount = isWholesale && product.hasWholesaleDiscount === true && product.wholesaleDiscountPercent > 0;
-        const discountPercent = product.wholesaleDiscountPercent || 0;
-        const finalPrice = hasDiscount ? price * (1 - discountPercent / 100) : price;
-        
-        // شارة الخصم
-        let discountBadge = '';
-        if (hasOffer && price > 0) {
-          const disc = Math.round(((price - offerPrice) / price) * 100);
-          discountBadge = `<div class="offer-badge"><i class="fas fa-percent"></i> ${disc}%</div>`;
-        } else if (hasDiscount) {
-          discountBadge = `<div class="offer-badge" style="background:linear-gradient(135deg, var(--gold-dark), var(--gold));"><i class="fas fa-tags"></i> ${discountPercent}%</div>`;
+        if (productsEl) {
+          productsEl.classList.remove('loading');
+          productsEl.innerHTML = formatStatNumber(DEFAULT_STATS.products);
         }
-
-        html += `
-          <div class="product-card" onclick="goToProductDetails('${product.id}')">
-            ${discountBadge}
-            <img src="${product.imageUrl || '/gomla/assets/images/no-image.png'}"
-                 alt="${product.name}"
-                 class="product-image"
-                 loading="lazy"
-                 onerror="this.src='/gomla/assets/images/no-image.png'">
-            <div class="product-body">
-              <h4 class="product-name">${product.name}</h4>
-              ${product.categoryName ? `
-                <p class="product-brand">
-                  <i class="fas fa-folder"></i> ${product.categoryName}
-                </p>
-              ` : ''}
-              
-              <div class="product-price">
-                ${hasOffer ? `
-                  <span class="price-after">${offerPrice.toFixed(2)} ج.م</span>
-                  <span class="price-before">${price.toFixed(2)} ج.م</span>
-                ` : hasDiscount ? `
-                  <span class="price-after">${finalPrice.toFixed(2)} ج.م</span>
-                  <span class="price-before">${price.toFixed(2)} ج.م</span>
-                ` : `
-                  ${price.toFixed(2)} ج.م
-                `}
-                <small>/ ${unit}</small>
-              </div>
-              
-              ${isAvailable ? `
-                <button class="btn btn-primary btn-sm"
-                        onclick="event.stopPropagation();handleAddToCart('${product.id}')">
-                  <i class="fas fa-cart-plus"></i> أضف للسلة
-                </button>
-              ` : `
-                <div class="out-of-stock">
-                  <i class="fas fa-times-circle"></i> غير متوفر
-                </div>
-              `}
-            </div>
-          </div>
-        `;
-      });
-
-      container.innerHTML = html;
-
-      // زر تحميل المزيد
-      if (filteredProducts.length > (currentPage + 1) * pageSize) {
-        document.getElementById('loadMoreBtn').style.display = 'inline-block';
-      } else {
-        document.getElementById('loadMoreBtn').style.display = 'none';
       }
     }
 
     // ============================================================
-    // 🔍 التصفية
+    // 🔢 تنسيق الأرقام مع علامة +
     // ============================================================
-
-    function applyFilters() {
-      const sortValue = document.getElementById('sortFilter').value;
-      const availability = document.getElementById('availabilityFilter').value;
-      const categoryId = document.getElementById('categoryFilter').value;
-
-      filteredProducts = [...allProducts];
-
-      // فلتر التصنيف
-      if (categoryId) {
-        filteredProducts = filteredProducts.filter(p => p.categoryId === categoryId);
-      }
-
-      // فلتر التوفّر
-      if (availability === 'available') {
-        filteredProducts = filteredProducts.filter(p => (p.stockQuantity || 0) > 0);
-      }
-
-      // ترتيب
-      const isWholesale = storeType === 'wholesale';
-      switch (sortValue) {
-        case 'price-low':
-          filteredProducts.sort((a, b) => {
-            const priceA = isWholesale ? (a.wholesalePrice || 0) : (a.retailPrice || 0);
-            const priceB = isWholesale ? (b.wholesalePrice || 0) : (b.retailPrice || 0);
-            return priceA - priceB;
-          });
-          break;
-        case 'price-high':
-          filteredProducts.sort((a, b) => {
-            const priceA = isWholesale ? (a.wholesalePrice || 0) : (a.retailPrice || 0);
-            const priceB = isWholesale ? (b.wholesalePrice || 0) : (b.retailPrice || 0);
-            return priceB - priceA;
-          });
-          break;
-        case 'popular':
-          filteredProducts.sort((a, b) => (b.salesCount || 0) - (a.salesCount || 0));
-          break;
-        default:
-          filteredProducts.sort((a, b) => 
-            (b.createdAt?.toMillis() || 0) - (a.createdAt?.toMillis() || 0)
-          );
-      }
-
-      currentPage = 0;
-      renderProducts();
-
-      document.getElementById('brandCount').innerHTML = `
-        <i class="fas fa-box"></i>
-        ${filteredProducts.length} منتج
-      `;
-    }
-
-    // ============================================================
-    // 🔄 تحميل المزيد
-    // ============================================================
-
-    async function loadMoreProducts() {
-      currentPage++;
-      const start = currentPage * pageSize;
-
-      try {
-        const snapshot = await db.collection(COLLECTIONS.PRODUCTS)
-          .where('available', '==', true)
-          .where('brandId', '==', brandId)
-          .orderBy('createdAt', 'desc')
-          .limit(start + pageSize)
-          .get();
-
-        const newProducts = [];
-        snapshot.forEach(doc => newProducts.push({ id: doc.id, ...doc.data() }));
-
-        const additional = newProducts.slice(start);
-        allProducts = [...allProducts, ...additional];
-        filteredProducts = [...allProducts];
-        
-        applyFilters();
-
-      } catch (error) {
-        console.error('Error loading more:', error);
-        currentPage--;
-      }
-    }
-
-    // ============================================================
-    // 🎞️ السلايدر
-    // ============================================================
-
-    async function loadSlider() {
-      const track = document.getElementById('sliderTrack');
-      const dots = document.getElementById('sliderDots');
-      if (!track) return;
-
-      try {
-        const snapshot = await db.collection(COLLECTIONS.SLIDER)
-          .where('active', '==', true)
-          .orderBy('order', 'asc')
-          .get();
-
-        if (snapshot.empty) {
-          track.innerHTML = `
-            <div class="slider-item">
-              <div class="slide-placeholder">
-                <i class="fas fa-image"></i>
-                لا توجد صور
-              </div>
-            </div>
-          `;
-          return;
-        }
-
-        let slidesHtml = '';
-        let dotsHtml = '';
-        let index = 0;
-
-        snapshot.forEach(doc => {
-          const slide = doc.data();
-          const imageUrl = slide.imageUrl || '';
-          const title = slide.title || '';
-          const link = slide.link || '';
-          const captionHtml = title ? `<div class="slider-caption">${title}</div>` : '';
-          const content = link ?
-            `<a href="${link}"><img src="${imageUrl}" alt="${title}" onerror="this.src='/gomla/assets/images/no-image.png'">${captionHtml}</a>` :
-            `<img src="${imageUrl}" alt="${title}" onerror="this.src='/gomla/assets/images/no-image.png'">${captionHtml}`;
-          slidesHtml += `<div class="slider-item">${content}</div>`;
-          dotsHtml += `<span class="dot ${index === 0 ? 'active' : ''}" onclick="goToSlide(${index})"></span>`;
-          index++;
-        });
-
-        track.innerHTML = slidesHtml;
-        if (dots) dots.innerHTML = dotsHtml;
-        startSliderAuto();
-
-      } catch (error) {
-        console.error('Error loading slider:', error);
-      }
-    }
-
-    function startSliderAuto() {
-      slidesCount = document.querySelectorAll('.slider-item').length;
-      if (slidesCount <= 1) return;
-      if (slideInterval) clearInterval(slideInterval);
-      slideInterval = setInterval(() => {
-        slideIndex = (slideIndex + 1) % slidesCount;
-        updateSlider();
-      }, 5000);
-    }
-
-    function slideNext() {
-      if (slidesCount <= 1) return;
-      slideIndex = (slideIndex + 1) % slidesCount;
-      updateSlider();
-      startSliderAuto();
-    }
-
-    function slidePrev() {
-      if (slidesCount <= 1) return;
-      slideIndex = (slideIndex - 1 + slidesCount) % slidesCount;
-      updateSlider();
-      startSliderAuto();
-    }
-
-    function goToSlide(index) {
-      slideIndex = index;
-      updateSlider();
-      startSliderAuto();
-    }
-
-    function updateSlider() {
-      const track = document.getElementById('sliderTrack');
-      const dots = document.querySelectorAll('.slider-dots .dot');
-      if (!track) return;
-      track.style.transform = `translateX(${slideIndex * 100}%)`;
-      dots.forEach((dot, i) => dot.classList.toggle('active', i === slideIndex));
-    }
-
-    // ============================================================
-    // 🛒 إضافة للسلة
-    // ============================================================
-
-    async function handleAddToCart(productId) {
-      try {
-        await addToCart(productId, 1);
-      } catch (error) {
-        console.error('Error adding to cart:', error);
-      }
-    }
-
-    function goToProductDetails(productId) {
-      window.location.href = `/gomla/product-details.html?id=${productId}&type=${storeType}`;
-    }
-
-    // ============================================================
-    // 🛠️ رسالة الخطأ
-    // ============================================================
-
-    function showError(message) {
-      document.getElementById('productsContainer').innerHTML = `
-        <div class="empty-state">
-          <i class="fas fa-exclamation-triangle"></i>
-          <p>${message}</p>
-          <a href="/gomla/" class="btn btn-primary">
-            <i class="fas fa-arrow-right"></i>
-            العودة للرئيسية
-          </a>
-        </div>
-      `;
+    function formatStatNumber(num) {
+      if (!num || num <= 0) return '0';
+      const formatted = num.toLocaleString('en-US');
+      return num >= 100 ? `<span class="plus">+</span>${formatted}` : formatted;
     }
 
     // ============================================================
     // 🚀 تشغيل الصفحة
     // ============================================================
-
     document.addEventListener('DOMContentLoaded', function() {
-      loadPageData();
-      console.log('✅ brand-products.html loaded');
+      loadRealStats();
+      console.log('✅ about.html loaded');
     });
-
-    // تصدير
-    window.slideNext = slideNext;
-    window.slidePrev = slidePrev;
-    window.goToSlide = goToSlide;
-    window.applyFilters = applyFilters;
-    window.loadMoreProducts = loadMoreProducts;
-    window.handleAddToCart = handleAddToCart;
-    window.goToProductDetails = goToProductDetails;
-
   </script>
-
 </body>
 </html>
