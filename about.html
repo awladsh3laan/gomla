@@ -980,7 +980,7 @@
     // 🔢 تنسيق الأرقام مع علامة +
     // ============================================================
     function formatStatNumber(num) {
-      if (!num || num <= 0) return '0';
+      if (!num || num <= 0) return '500';
       const formatted = num.toLocaleString('en-US');
       return num >= 100 ? `<span class="plus">+</span>${formatted}` : formatted;
     }
