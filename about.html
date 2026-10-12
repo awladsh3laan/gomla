@@ -933,27 +933,62 @@
     });
 
     // ============================================================
-    // 📊 تحميل الأرقام الحقيقية من Firestore
+    // 📊 الإحصائيات الحقيقية - حل جديد عبر public_stats
     // ============================================================
-    async function loadRealStats() {
-      // تشغيل الـ 5 استعلامات بالتوازي (أسرع)
-      const [customersResult, tradersResult, ordersResult, productsResult] = await Promise.allSettled([
-        countDocuments('customers', [['role', '==', 'retail']]),
-        countDocuments('customers', [['role', '==', 'wholesale']]),
-        countDocuments('orders', [['status', '==', 'delivered']]),
-        countDocuments('products', [['available', '==', true]])
-      ]);
-
-      const customersCount = getResult(customersResult);
-      const tradersCount   = getResult(tradersResult);
-      const ordersCount    = getResult(ordersResult);
-      const productsCount  = getResult(productsResult);
-
-      animateCounter('statCustomers', customersCount);
-      animateCounter('statTraders',   tradersCount);
-      animateCounter('statOrders',    ordersCount);
-      animateCounter('statProducts',  productsCount);
+     async function loadRealStats() {
+      try {
+    // ✅ قراءة الإحصائيات من مستند واحد (آمن وسريع)
+    const statsDoc = await db.collection('public_stats').doc('general').get();
+    
+    let customers = 0;
+    let orders = 0;
+    let products = 0;
+    
+    if (statsDoc.exists) {
+      const data = statsDoc.data();
+      customers = data.customers || 0;
+      orders = data.orders || 0;
+      products = data.products || 0;
+    } else {
+      console.warn('⚠️ public_stats document not found - using defaults');
     }
+
+    // تحديث العناصر في الصفحة (عدّل الـ IDs حسب صفحتك)
+    const customersEl = document.getElementById('statCustomers') || 
+                        document.getElementById('customersCount');
+    const ordersEl = document.getElementById('statOrders') || 
+                     document.getElementById('ordersCount');
+    const productsEl = document.getElementById('statProducts') || 
+                       document.getElementById('productsCount');
+
+    if (customersEl) customersEl.textContent = formatStatNumber(customers);
+    if (ordersEl) ordersEl.textContent = formatStatNumber(orders);
+    if (productsEl) productsEl.textContent = formatStatNumber(products);
+
+    console.log('✅ Stats loaded from public_stats:', { customers, orders, products });
+
+  } catch (error) {
+    console.warn('⚠️ Could not load stats:', error.message);
+    // عرض قيم افتراضية بدل ما الصفحة تفشل
+    const customersEl = document.getElementById('statCustomers') || 
+                        document.getElementById('customersCount');
+    const ordersEl = document.getElementById('statOrders') || 
+                     document.getElementById('ordersCount');
+    const productsEl = document.getElementById('statProducts') || 
+                       document.getElementById('productsCount');
+    
+    if (customersEl) customersEl.textContent = '+500';
+    if (ordersEl) ordersEl.textContent = '+2000';
+    if (productsEl) productsEl.textContent = '+300';
+  }
+}
+
+// تنسيق الأرقام مع علامة +
+function formatStatNumber(num) {
+  if (num === 0) return '0';
+  if (num < 100) return num.toLocaleString('ar-EG');
+  return '+' + num.toLocaleString('ar-EG');
+}
 
 // ============================================================
 // 📊 جلب الإحصائيات العامة
