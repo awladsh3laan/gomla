@@ -955,31 +955,62 @@
       animateCounter('statProducts',  productsCount);
     }
 
-    // ============================================================
-    // 🔢 عدّ المستندات
-    // ============================================================
-    async function countDocuments(collectionName, filters = []) {
-      try {
-        let query = db.collection(collectionName);
-        filters.forEach(([field, op, value]) => {
-          query = query.where(field, op, value);
-        });
-
-        // محاولة استخدام count() لو متاح (Firebase v9.22+)
-        if (typeof query.count === 'function') {
-          const snap = await query.count().get();
-          return snap.data().count || 0;
-        }
-
-        // fallback: استخدام get() وتحديد الحجم
-        const snap = await query.get();
-        return snap.size || 0;
-      } catch (err) {
-        console.warn(`countDocuments(${collectionName}) failed:`, err);
-        return 0;
-      }
+// ============================================================
+// 📊 جلب الإحصائيات العامة
+// ============================================================
+async function loadPublicStats() {
+  try {
+    const statsDoc = await db.collection('public_stats').doc('general').get();
+    
+    if (statsDoc.exists) {
+      const data = statsDoc.data();
+      return {
+        customers: data.customers || 0,
+        orders: data.orders || 0,
+        products: data.products || 0
+      };
     }
+    
+    // لو المستند مش موجود، أرجع قيم افتراضية
+    return { customers: 0, orders: 0, products: 0 };
+    
+  } catch (error) {
+    console.warn('⚠️ Could not load public stats:', error.message);
+    return { customers: 0, orders: 0, products: 0 };
+  }
+}
 
+// استخدمها بدل countDocuments
+async function initAboutStats() {
+  const stats = await loadPublicStats();
+  
+  // حدّث العناصر في الصفحة
+  const customersEl = document.getElementById('statCustomers');
+  const ordersEl = document.getElementById('statOrders');
+  const productsEl = document.getElementById('statProducts');
+  
+  if (customersEl) animateNumber(customersEl, stats.customers);
+  if (ordersEl) animateNumber(ordersEl, stats.orders);
+  if (productsEl) animateNumber(productsEl, stats.products);
+}
+
+// دالة أنيميشن للأرقام (اختياري)
+function animateNumber(el, target) {
+  let current = 0;
+  const step = Math.ceil(target / 30) || 1;
+  const timer = setInterval(() => {
+    current += step;
+    if (current >= target) {
+      current = target;
+      clearInterval(timer);
+    }
+    el.textContent = current.toLocaleString('ar-EG');
+  }, 30);
+}
+
+// شغّلها عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', initAboutStats);
+    
     // ============================================================
     // 🎯 استخراج النتيجة من Promise.allSettled
     // ============================================================
