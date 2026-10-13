@@ -1,0 +1,2138 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>إدارة الموصلين - أولاد شعلان</title>
+  <meta name="theme-color" content="#047857">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="icon" href="../assets/images/favicon.ico">
+  <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.0/dist/browser-image-compression.js"></script>
+
+  <style>
+    /* ============================================================
+       🎨 إدارة الموصلين - أخضر داكن
+       ============================================================ */
+    :root {
+      --del-green-1: #064e3b;
+      --del-green-2: #047857;
+      --del-green-3: #059669;
+      --del-green-light: #10b981;
+      --del-green-bg: #ecfdf5;
+    }
+
+    html, body { overflow-x: hidden !important; max-width: 100vw; }
+    .page-content, .page-content .container {
+      overflow-x: hidden; min-width: 0; max-width: 100%;
+    }
+
+    /* Header */
+    .da-header {
+      background: linear-gradient(135deg, var(--del-green-1), var(--del-green-2), var(--del-green-3));
+      border-radius: var(--radius-lg);
+      padding: 22px 24px;
+      margin-bottom: 18px;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(6,78,59,.35);
+      border-bottom: 4px solid var(--del-green-light);
+    }
+    .da-header::before {
+      content: '';
+      position: absolute;
+      top: -50%; right: -15%;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(16,185,129,.3), transparent 70%);
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+    }
+    .da-header-content {
+      position: relative; z-index: 1;
+      display: flex; align-items: center;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .da-header-content .header-icon {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--del-green-light), #34d399);
+      color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      box-shadow: 0 8px 24px rgba(16,185,129,.5);
+    }
+    .da-header-content .header-text { flex: 1; min-width: 200px; }
+    .da-header-content .header-text h1 {
+      font-size: 1.3rem; font-weight: 900;
+      margin-bottom: 4px; color: var(--white);
+    }
+    .da-header-content .header-text p {
+      font-size: 0.82rem; opacity: .9;
+      color: rgba(255,255,255,.9); margin: 0;
+    }
+    .da-header-content .header-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 14px;
+      background: rgba(255,255,255,.15);
+      color: #a7f3d0;
+      border: 1px solid rgba(16,185,129,.5);
+      border-radius: var(--radius-full);
+      font-size: 0.75rem; font-weight: 800;
+      backdrop-filter: blur(10px);
+    }
+    .da-header-content .header-badge i { color: #34d399; }
+
+    /* Stats */
+    .da-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .da-stat-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 14px 12px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      text-align: center;
+      transition: var(--transition);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .da-stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 4px; height: 100%;
+      background: var(--del-green-3);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.4s ease;
+    }
+    .da-stat-card:hover::before { transform: scaleY(1); }
+    .da-stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--del-green-light);
+    }
+    .da-stat-card .stat-icon {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.05rem;
+      margin: 0 auto 8px;
+    }
+    .stat-icon.green { background: rgba(16,185,129,.15); color: var(--del-green-3); }
+    .stat-icon.blue { background: rgba(59,130,246,.12); color: #2563eb; }
+    .stat-icon.red { background: rgba(239,68,68,.12); color: #dc2626; }
+    .stat-icon.gold { background: rgba(201,168,76,.15); color: var(--gold-dark); }
+    .da-stat-card .stat-number {
+      font-size: 1.25rem; font-weight: 900;
+      color: var(--navy); line-height: 1.2;
+      margin-bottom: 2px;
+    }
+    .da-stat-card .stat-number.green { color: var(--del-green-3); }
+    .da-stat-card .stat-number.blue { color: #2563eb; }
+    .da-stat-card .stat-number.red { color: #dc2626; }
+    .da-stat-card .stat-number.gold { color: var(--gold-dark); }
+    .da-stat-card .stat-label {
+      font-size: 0.68rem; color: var(--gray-500);
+      font-weight: 700;
+    }
+
+    /* Toolbar */
+    .da-toolbar {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .da-search {
+      position: relative;
+      flex: 1;
+      min-width: 200px;
+    }
+    .da-search input {
+      width: 100%;
+      padding: 11px 42px 11px 14px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.88rem;
+      background: var(--gray-50);
+      outline: none;
+      transition: var(--transition);
+    }
+    .da-search input:focus {
+      border-color: var(--del-green-3);
+      background: var(--white);
+      box-shadow: 0 0 0 4px rgba(16,185,129,.15);
+    }
+    .da-search .si {
+      position: absolute;
+      right: 13px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray-400);
+      pointer-events: none;
+    }
+    .da-toolbar select {
+      padding: 11px 14px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.85rem;
+      background: var(--gray-50);
+      outline: none;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .da-toolbar select:focus {
+      border-color: var(--del-green-3);
+      background: var(--white);
+    }
+
+    .btn-green {
+      background: linear-gradient(135deg, var(--del-green-2), var(--del-green-3));
+      color: var(--white);
+      border: none;
+      padding: 11px 20px;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.25s ease;
+      box-shadow: 0 6px 18px rgba(5,150,105,.3);
+      white-space: nowrap;
+    }
+    .btn-green:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(5,150,105,.5);
+    }
+
+    /* Agent Cards Grid */
+    .da-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .agent-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--gray-200);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      transition: var(--transition);
+      position: relative;
+    }
+    .agent-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 5px; height: 100%;
+      background: linear-gradient(180deg, var(--del-green-3), var(--del-green-2));
+    }
+    .agent-card.inactive::before {
+      background: linear-gradient(180deg, var(--gray-400), var(--gray-500));
+    }
+    .agent-card.inactive { opacity: 0.75; background: var(--gray-50); }
+    .agent-card:hover {
+      box-shadow: var(--shadow-lg);
+      border-color: var(--del-green-light);
+      transform: translateY(-3px);
+    }
+
+    .agent-header {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 14px 16px;
+      background: linear-gradient(135deg, var(--del-green-bg), #d1fae5);
+      border-bottom: 1px solid rgba(16,185,129,.2);
+    }
+    .agent-avatar {
+      width: 54px; height: 54px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--del-green-2), var(--del-green-3));
+      color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; font-weight: 900;
+      border: 3px solid var(--white);
+      box-shadow: 0 4px 12px rgba(5,150,105,.3);
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .agent-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .agent-info { min-width: 0; }
+    .agent-info h3 {
+      margin: 0 0 4px; font-size: 1rem;
+      font-weight: 900; color: var(--navy);
+      display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+    }
+    .agent-info .agent-phone {
+      font-size: 0.8rem; color: var(--gray-500);
+      font-weight: 700;
+      display: flex; align-items: center; gap: 5px;
+      direction: ltr;
+    }
+    .agent-info .agent-phone i {
+      color: var(--del-green-3); font-size: 0.7rem;
+      direction: rtl;
+    }
+
+    .agent-status-pill {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      font-size: 0.68rem; font-weight: 800;
+      white-space: nowrap;
+    }
+    .agent-status-pill.active {
+      background: rgba(16,185,129,.15); color: var(--del-green-2);
+      border: 1px solid rgba(16,185,129,.3);
+    }
+    .agent-status-pill.inactive {
+      background: rgba(107,114,128,.15); color: var(--gray-600);
+      border: 1px solid rgba(107,114,128,.3);
+    }
+
+    .agent-body { padding: 12px 16px; }
+    .agent-code-row {
+      display: flex; align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
+      border: 1px dashed var(--gray-300);
+      margin-bottom: 12px;
+    }
+    .agent-code-row .code {
+      flex: 1; min-width: 0;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem; font-weight: 900;
+      color: var(--del-green-1);
+      letter-spacing: 1px;
+      direction: ltr; text-align: center;
+      overflow: hidden; text-overflow: ellipsis;
+    }
+    .agent-code-row .copy-mini {
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      background: var(--white);
+      border: 1.5px solid var(--gray-200);
+      color: var(--gray-500);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.72rem;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+    .agent-code-row .copy-mini:hover {
+      background: var(--del-green-3); color: var(--white);
+      border-color: var(--del-green-2);
+      transform: scale(1.1);
+    }
+
+    .agent-info-chips {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      margin-bottom: 10px;
+    }
+    .agent-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      padding: 4px 10px;
+      background: var(--gray-100);
+      border-radius: var(--radius-full);
+      font-size: 0.72rem;
+      color: var(--gray-600);
+      font-weight: 700;
+      white-space: nowrap;
+    }
+    .agent-chip i { color: var(--del-green-3); font-size: 0.68rem; }
+
+    .agent-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      padding: 10px 0;
+      border-top: 1px solid var(--gray-100);
+      border-bottom: 1px solid var(--gray-100);
+      margin-bottom: 12px;
+    }
+    .agent-stat-item {
+      text-align: center;
+    }
+    .agent-stat-item .value {
+      font-size: 1rem; font-weight: 900;
+      color: var(--navy); line-height: 1.2;
+    }
+    .agent-stat-item .value.green { color: var(--del-green-3); }
+    .agent-stat-item .value.gold { color: var(--gold-dark); }
+    .agent-stat-item .value.small { font-size: 0.85rem; }
+    .agent-stat-item .label {
+      font-size: 0.65rem; color: var(--gray-500);
+      font-weight: 700; margin-top: 2px;
+    }
+
+    .agent-actions {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+    .agent-action-btn {
+      padding: 8px 6px;
+      border: 1.5px solid;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.72rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      background: var(--white);
+      white-space: nowrap;
+    }
+    .agent-action-btn i { font-size: 0.78rem; }
+    .agent-action-btn.view {
+      border-color: var(--gray-200); color: var(--gray-600);
+    }
+    .agent-action-btn.view:hover {
+      background: var(--navy); color: var(--white); border-color: var(--navy);
+    }
+    .agent-action-btn.edit {
+      border-color: #fcd34d; color: #d97706;
+    }
+    .agent-action-btn.edit:hover {
+      background: #f59e0b; color: var(--white); border-color: #d97706;
+    }
+    .agent-action-btn.toggle {
+      border-color: var(--del-green-light); color: var(--del-green-3);
+    }
+    .agent-action-btn.toggle:hover {
+      background: var(--del-green-3); color: var(--white); border-color: var(--del-green-2);
+    }
+    .agent-action-btn.toggle.off {
+      border-color: var(--gray-300); color: var(--gray-500);
+    }
+    .agent-action-btn.toggle.off:hover {
+      background: var(--gray-500); color: var(--white);
+    }
+    .agent-action-btn.delete {
+      border-color: #fca5a5; color: #dc2626;
+    }
+    .agent-action-btn.delete:hover {
+      background: #dc2626; color: var(--white); border-color: #991b1b;
+    }
+
+    /* Empty / Loading */
+    .da-empty {
+      text-align: center;
+      padding: 60px 20px;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      border: 2px dashed var(--gray-300);
+      grid-column: 1 / -1;
+    }
+    .da-empty .empty-icon {
+      width: 90px; height: 90px;
+      border-radius: 50%;
+      background: var(--del-green-bg);
+      color: var(--del-green-3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.2rem;
+      margin: 0 auto 16px;
+    }
+    .da-empty h3 {
+      font-size: 1.15rem; font-weight: 900;
+      color: var(--navy); margin-bottom: 6px;
+    }
+    .da-empty p {
+      font-size: 0.88rem; color: var(--gray-500);
+      margin-bottom: 18px;
+    }
+
+    /* Modals */
+    .da-modal {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      width: 100%;
+      max-width: 640px;
+      max-height: 92vh;
+      overflow-y: auto;
+      animation: slideUp 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      box-shadow: 0 25px 70px rgba(0,0,0,.4);
+    }
+    .da-modal.small { max-width: 460px; }
+    .da-modal.large { max-width: 780px; }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .da-modal-header {
+      background: linear-gradient(135deg, var(--del-green-1), var(--del-green-3));
+      color: var(--white);
+      padding: 18px 22px;
+      display: flex; align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      position: sticky; top: 0; z-index: 10;
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+    }
+    .da-modal-header h3 {
+      margin: 0; font-size: 1rem;
+      font-weight: 900;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .da-modal-header h3 i { color: #a7f3d0; }
+    .da-modal-header .close-btn {
+      background: rgba(255,255,255,.15);
+      border: none; color: var(--white);
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+    .da-modal-header .close-btn:hover {
+      background: rgba(255,255,255,.3);
+      transform: rotate(90deg);
+    }
+
+    .da-modal-body { padding: 22px; }
+
+    /* Form */
+    .da-form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+    .da-form-group { margin-bottom: 14px; }
+    .da-form-group:last-child { margin-bottom: 0; }
+    .da-form-group label {
+      display: flex; align-items: center; gap: 6px;
+      font-weight: 700; font-size: 0.85rem;
+      color: var(--gray-700); margin-bottom: 6px;
+    }
+    .da-form-group label i { color: var(--del-green-3); font-size: 0.78rem; }
+    .da-form-group label .required { color: var(--danger); }
+    .da-form-group input,
+    .da-form-group select,
+    .da-form-group textarea {
+      width: 100%;
+      padding: 11px 14px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.92rem;
+      background: var(--gray-50);
+      color: var(--navy);
+      transition: all 0.3s ease;
+      outline: none;
+    }
+    .da-form-group input:focus,
+    .da-form-group select:focus,
+    .da-form-group textarea:focus {
+      border-color: var(--del-green-3);
+      background: var(--white);
+      box-shadow: 0 0 0 4px rgba(16,185,129,.15);
+    }
+    .da-form-group textarea { resize: vertical; min-height: 70px; }
+    .da-form-group .help-text {
+      display: flex; align-items: flex-start; gap: 5px;
+      font-size: 0.72rem; color: var(--gray-500);
+      margin-top: 5px; line-height: 1.5;
+    }
+    .da-form-group .help-text i { color: var(--del-green-3); font-size: 0.7rem; flex-shrink: 0; margin-top: 2px; }
+
+    /* Avatar Upload */
+    .avatar-upload {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .avatar-preview {
+      width: 70px; height: 70px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--del-green-2), var(--del-green-3));
+      color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem;
+      flex-shrink: 0;
+      border: 3px solid var(--white);
+      box-shadow: 0 4px 14px rgba(5,150,105,.3);
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+    }
+    .avatar-preview img { width: 100%; height: 100%; object-fit: cover; }
+    .avatar-preview:hover::after {
+      content: '\f030';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,.5);
+      color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+    }
+    .avatar-upload-info { flex: 1; min-width: 0; }
+    .avatar-upload-info .btn-upload {
+      padding: 8px 16px;
+      background: var(--del-green-bg);
+      color: var(--del-green-2);
+      border: 1.5px solid var(--del-green-light);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.8rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .avatar-upload-info .btn-upload:hover {
+      background: var(--del-green-3); color: var(--white);
+      border-color: var(--del-green-2);
+    }
+    .avatar-upload-info .hint {
+      font-size: 0.7rem; color: var(--gray-500);
+      margin-top: 4px;
+    }
+    #agentAvatarInput { display: none; }
+
+    /* Result Modal (after creation) */
+    .result-success {
+      text-align: center;
+      padding: 12px 0 20px;
+    }
+    .result-success .success-icon {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--del-green-3), var(--del-green-light));
+      color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 16px;
+      box-shadow: 0 10px 30px rgba(16,185,129,.4);
+      animation: successPulse 2s ease-in-out infinite;
+    }
+    @keyframes successPulse {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    .result-success h3 {
+      font-size: 1.2rem; font-weight: 900;
+      color: var(--navy); margin-bottom: 6px;
+    }
+    .result-success p {
+      font-size: 0.88rem; color: var(--gray-600);
+      margin: 0;
+    }
+
+    .result-data-box {
+      background: linear-gradient(135deg, var(--del-green-bg), #d1fae5);
+      border: 2px solid var(--del-green-light);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin: 16px 0;
+    }
+    .result-data-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px dashed rgba(16,185,129,.3);
+    }
+    .result-data-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .result-data-row:first-child { padding-top: 0; }
+    .result-data-row .label {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--del-green-2);
+      min-width: 90px;
+      display: flex; align-items: center; gap: 5px;
+    }
+    .result-data-row .label i { font-size: 0.7rem; }
+    .result-data-row .value {
+      flex: 1; min-width: 0;
+      font-family: 'Courier New', monospace;
+      font-size: 0.88rem;
+      font-weight: 900;
+      color: var(--navy);
+      direction: ltr;
+      text-align: right;
+      overflow-wrap: break-word;
+      word-break: break-all;
+    }
+    .result-data-row .copy-btn {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: var(--white);
+      border: 1.5px solid var(--del-green-light);
+      color: var(--del-green-3);
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.82rem;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+    .result-data-row .copy-btn:hover {
+      background: var(--del-green-3);
+      color: var(--white);
+      transform: scale(1.1);
+    }
+
+    .result-warning {
+      display: flex; gap: 10px;
+      padding: 12px 14px;
+      background: #fef9e7;
+      border: 1.5px solid #fcd34d;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      color: #78350f;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+    .result-warning i { color: #d97706; font-size: 1rem; flex-shrink: 0; margin-top: 2px; }
+
+    /* Copy all */
+    .btn-copy-all {
+      width: 100%;
+      padding: 12px;
+      background: linear-gradient(135deg, var(--del-green-2), var(--del-green-3));
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.92rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      gap: 8px;
+      transition: all 0.25s ease;
+      box-shadow: 0 6px 18px rgba(5,150,105,.3);
+    }
+    .btn-copy-all:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(5,150,105,.5);
+    }
+
+    /* Details Modal */
+    .details-section {
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      margin-bottom: 12px;
+      border: 1px solid var(--gray-200);
+    }
+    .details-section h4 {
+      font-size: 0.88rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 10px;
+      display: flex; align-items: center; gap: 6px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .details-section h4 i { color: var(--del-green-3); }
+    .detail-line {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      font-size: 0.85rem;
+      gap: 12px;
+    }
+    .detail-line .lbl {
+      color: var(--gray-500);
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .detail-line .val {
+      color: var(--navy);
+      font-weight: 800;
+      text-align: left;
+      word-break: break-word;
+    }
+    .detail-line .val.mono {
+      font-family: 'Courier New', monospace;
+      direction: ltr;
+    }
+
+    /* Modal Actions */
+    .da-modal-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      padding: 16px 22px;
+      border-top: 2px solid var(--gray-100);
+      background: var(--gray-50);
+      border-radius: 0 0 var(--radius-md) var(--radius-md);
+      flex-wrap: wrap;
+    }
+    .btn-cancel {
+      padding: 11px 20px;
+      background: var(--white);
+      color: var(--gray-600);
+      border: 2px solid var(--gray-300);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .btn-cancel:hover {
+      background: var(--gray-100);
+      border-color: var(--gray-400);
+    }
+    .btn-danger-full {
+      padding: 11px 20px;
+      background: linear-gradient(135deg, #dc2626, #991b1b);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.25s ease;
+      box-shadow: 0 6px 18px rgba(220,38,38,.3);
+    }
+    .btn-danger-full:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(220,38,38,.5);
+    }
+    .btn-danger-full:disabled {
+      opacity: 0.5; cursor: not-allowed; transform: none;
+    }
+
+    /* ============================================================
+       📱 Responsive
+       ============================================================ */
+    @media (max-width: 768px) and (pointer: coarse) {
+      .da-header { padding: 18px 16px; border-radius: var(--radius-md); }
+      .da-header-content .header-icon { width: 46px; height: 46px; font-size: 1.2rem; }
+      .da-header-content .header-text h1 { font-size: 1.02rem; }
+      .da-header-content .header-text p { font-size: 0.72rem; }
+      .da-header-content .header-badge { font-size: 0.68rem; padding: 4px 10px; }
+
+      .da-stats { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .da-stat-card { padding: 11px 8px; }
+      .da-stat-card .stat-icon { width: 34px; height: 34px; font-size: 0.92rem; }
+      .da-stat-card .stat-number { font-size: 1rem; }
+
+      .da-toolbar { padding: 10px; }
+      .da-search { min-width: 100%; }
+      .btn-green { width: 100%; justify-content: center; }
+
+      .da-grid { grid-template-columns: 1fr; gap: 10px; }
+      .agent-header { padding: 12px 14px; }
+      .agent-avatar { width: 46px; height: 46px; font-size: 1.1rem; }
+      .agent-info h3 { font-size: 0.92rem; }
+      .agent-body { padding: 10px 14px; }
+      .agent-code-row { padding: 8px 10px; }
+      .agent-code-row .code { font-size: 0.82rem; }
+      .agent-actions { grid-template-columns: repeat(2, 1fr); }
+      .agent-action-btn { padding: 9px 6px; font-size: 0.72rem; }
+
+      .da-modal-header { padding: 14px 16px; }
+      .da-modal-header h3 { font-size: 0.92rem; }
+      .da-modal-body { padding: 16px; }
+      .da-form-row { grid-template-columns: 1fr; }
+      .da-modal-actions { padding: 14px 16px; flex-direction: column-reverse; }
+      .da-modal-actions button { width: 100%; justify-content: center; }
+    }
+    @media (max-width: 400px) {
+      .agent-actions { grid-template-columns: 1fr 1fr; }
+      .agent-action-btn { font-size: 0.68rem; padding: 8px 4px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="mobile-top-bar"></div>
+  <div id="mobile-top-tabs"></div>
+  <div id="header-placeholder"></div>
+
+  <main class="page-content">
+    <div class="container">
+
+      <!-- Header -->
+      <div class="da-header">
+        <div class="da-header-content">
+          <div class="header-icon">
+            <i class="fas fa-truck-fast"></i>
+          </div>
+          <div class="header-text">
+            <h1>إدارة الموصلين</h1>
+            <p>إضافة وتعديل ومتابعة فريق التوصيل</p>
+          </div>
+          <span class="header-badge">
+            <i class="fas fa-shield-alt"></i>
+            الإدارة
+          </span>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="da-stats">
+        <div class="da-stat-card">
+          <div class="stat-icon green"><i class="fas fa-users"></i></div>
+          <div class="stat-number green" id="statTotal">0</div>
+          <div class="stat-label">إجمالي الموصلين</div>
+        </div>
+        <div class="da-stat-card">
+          <div class="stat-icon blue"><i class="fas fa-user-check"></i></div>
+          <div class="stat-number blue" id="statActive">0</div>
+          <div class="stat-label">النشطون</div>
+        </div>
+        <div class="da-stat-card">
+          <div class="stat-icon red"><i class="fas fa-user-slash"></i></div>
+          <div class="stat-number red" id="statInactive">0</div>
+          <div class="stat-label">المعطلون</div>
+        </div>
+        <div class="da-stat-card">
+          <div class="stat-icon gold"><i class="fas fa-coins"></i></div>
+          <div class="stat-number gold" id="statCash">0</div>
+          <div class="stat-label">الكاش مع الفريق (ج.م)</div>
+        </div>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="da-toolbar">
+        <div class="da-search">
+          <input type="text" id="searchInput" placeholder="ابحث بالاسم أو الهاتف أو الكود..." oninput="handleSearch(this.value)">
+          <i class="fas fa-search si"></i>
+        </div>
+        <select id="areaFilter" onchange="applyFilters()">
+          <option value="">كل المناطق</option>
+          <option value="طنطا">طنطا</option>
+          <option value="المنصورة">المنصورة</option>
+          <option value="المحلة">المحلة</option>
+        </select>
+        <select id="statusFilter" onchange="applyFilters()">
+          <option value="">كل الحالات</option>
+          <option value="active">نشط</option>
+          <option value="inactive">معطل</option>
+        </select>
+        <select id="sortFilter" onchange="applyFilters()">
+          <option value="newest">الأحدث</option>
+          <option value="oldest">الأقدم</option>
+          <option value="deliveries">الأكثر تسليماً</option>
+          <option value="cash">الأكثر كاش</option>
+        </select>
+        <button class="btn-green" onclick="openAddModal()">
+          <i class="fas fa-plus-circle"></i>
+          إضافة موصل
+        </button>
+      </div>
+
+      <!-- Grid -->
+      <div class="da-grid" id="agentsGrid">
+        <div class="loading-spinner" style="grid-column:1/-1;">
+          <i class="fas fa-spinner fa-spin"></i>
+          <p>جاري تحميل الموصلين...</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="mobile-bottom-tabs"></div>
+  <div id="mobile-copyright"></div>
+  <div id="footer-placeholder"></div>
+  <div id="sidebar-placeholder"></div>
+  <div id="toast-container"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="../assets/js/firebase-config.js"></script>
+  <script src="../assets/js/main.js"></script>
+
+  <script>
+    // ============================================================
+    // 📄 admin/delivery-agents.html
+    // 🚚 إدارة الموصلين (SUPER + ADMIN_PLUS)
+    // ============================================================
+
+    // ===== الحالة =====
+    let _admin = null;
+    let _adminId = null;
+    let _adminRole = null;
+    let _allAgents = [];
+    let _filteredAgents = [];
+    let _search = '';
+    let _editingId = null;
+    let _deleteId = null;
+    let _unsub = null;
+    let _createdData = null;
+    let _avatarFile = null;
+    let _isSaving = false;
+
+    // ===== القوائم =====
+    const AREAS = ['طنطا', 'المنصورة', 'المحلة'];
+    const VEHICLES = ['موتوسيكل', 'توك توك', 'سيارة ربع نقل', 'سيارة نص نقل', 'دراجة', 'أخرى'];
+
+    // ============================================================
+    // 🚀 Init
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', async () => {
+
+      // حماية: SUPER + ADMIN_PLUS
+      if (typeof protectAdminPlusPage === 'function') {
+        const ok = protectAdminPlusPage();
+        if (ok === false) return;
+      }
+
+      if (typeof getCurrentUser !== 'function') {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      const user = getCurrentUser();
+      if (!user || !user.data) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      _admin = user.data;
+      _adminId = _admin.uid || _admin.id;
+      _adminRole = _admin.role;
+
+      if (!_adminId) {
+        showToast('خطأ في بيانات المستخدم', 'error');
+        return;
+      }
+
+      loadAgents();
+      injectGlobalStyles();
+    });
+
+    function injectGlobalStyles() {
+      if (document.getElementById('da-global-styles')) return;
+      const style = document.createElement('style');
+      style.id = 'da-global-styles';
+      style.textContent = `
+        .loading-spinner {
+          text-align: center;
+          padding: 40px;
+          color: var(--gray-400);
+          font-size: 0.95rem;
+        }
+        .loading-spinner i {
+          font-size: 2rem;
+          color: var(--del-green-3, #059669);
+          display: block;
+          margin-bottom: 10px;
+        }
+        .loading-spinner p { margin: 0; }
+      `;
+      document.head.appendChild(style);
+    }
+
+    // ============================================================
+    // 📥 تحميل الموصلين (Realtime)
+    // ============================================================
+    function loadAgents() {
+      if (_unsub) _unsub();
+
+      _unsub = db.collection('delivery_agents')
+        .orderBy('createdAt', 'desc')
+        .onSnapshot(snap => {
+          _allAgents = [];
+          snap.forEach(d => _allAgents.push({ id: d.id, ...d.data() }));
+          updateStats();
+          applyFilters();
+        }, err => {
+          console.error('loadAgents error:', err);
+          const grid = document.getElementById('agentsGrid');
+          if (grid) {
+            grid.innerHTML = `
+              <div class="da-empty">
+                <div class="empty-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                <h3>فشل التحميل</h3>
+                <p>${err.code === 'permission-denied' ? 'ليس لديك صلاحية' : 'حدث خطأ'}</p>
+              </div>
+            `;
+          }
+        });
+    }
+
+    // ============================================================
+    // 📊 الإحصائيات
+    // ============================================================
+    function updateStats() {
+      const total = _allAgents.length;
+      const active = _allAgents.filter(a => a.active === true).length;
+      const inactive = total - active;
+      const totalCash = _allAgents.reduce((s, a) => s + (a.currentCashOnHand || 0), 0);
+
+      setText('statTotal', total);
+      setText('statActive', active);
+      setText('statInactive', inactive);
+      setText('statCash', totalCash.toLocaleString('en-US', { maximumFractionDigits: 0 }));
+    }
+
+    function setText(id, v) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = v;
+    }
+
+    // ============================================================
+    // 🔍 بحث + فلترة
+    // ============================================================
+    function handleSearch(v) {
+      _search = v.trim().toLowerCase();
+      applyFilters();
+    }
+
+    function applyFilters() {
+      const areaFilter = document.getElementById('areaFilter')?.value || '';
+      const statusFilter = document.getElementById('statusFilter')?.value || '';
+      const sortValue = document.getElementById('sortFilter')?.value || 'newest';
+
+      _filteredAgents = _allAgents.filter(a => {
+        if (areaFilter && a.area !== areaFilter) return false;
+        if (statusFilter === 'active' && a.active !== true) return false;
+        if (statusFilter === 'inactive' && a.active === true) return false;
+
+        if (_search) {
+          const name = (a.name || '').toLowerCase();
+          const phone = (a.phone || '').toLowerCase();
+          const code = (a.code || '').toLowerCase();
+          const email = (a.email || '').toLowerCase();
+          if (!name.includes(_search) && !phone.includes(_search)
+              && !code.includes(_search) && !email.includes(_search)) return false;
+        }
+        return true;
+      });
+
+      switch (sortValue) {
+        case 'newest':
+          _filteredAgents.sort((a, b) => (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0));
+          break;
+        case 'oldest':
+          _filteredAgents.sort((a, b) => (a.createdAt?.toMillis?.() || 0) - (b.createdAt?.toMillis?.() || 0));
+          break;
+        case 'deliveries':
+          _filteredAgents.sort((a, b) => (b.totalDelivered || 0) - (a.totalDelivered || 0));
+          break;
+        case 'cash':
+          _filteredAgents.sort((a, b) => (b.currentCashOnHand || 0) - (a.currentCashOnHand || 0));
+          break;
+      }
+
+      renderAgents();
+    }
+
+    // ============================================================
+    // 🎨 عرض الموصلين
+    // ============================================================
+    function renderAgents() {
+      const grid = document.getElementById('agentsGrid');
+      if (!grid) return;
+
+      if (!_filteredAgents.length) {
+        grid.innerHTML = `
+          <div class="da-empty">
+            <div class="empty-icon"><i class="fas fa-truck-fast"></i></div>
+            <h3>${_allAgents.length ? 'لا نتائج مطابقة' : 'مفيش موصلين لسه'}</h3>
+            <p>${_allAgents.length ? 'جرب تعديل الفلاتر' : 'اضغط "إضافة موصل" لإنشاء أول موصل'}</p>
+            ${!_allAgents.length ? `
+              <button class="btn-green" onclick="openAddModal()">
+                <i class="fas fa-plus-circle"></i>
+                إضافة أول موصل
+              </button>
+            ` : ''}
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = _filteredAgents.map(a => renderAgentCard(a)).join('');
+    }
+
+    function renderAgentCard(a) {
+      const isActive = a.active === true;
+      const initials = (a.name || '?').trim().charAt(0).toUpperCase();
+      const avatarHtml = a.avatar
+        ? `<img src="${a.avatar}" alt="${escapeHtml(a.name)}" onerror="this.parentElement.textContent='${initials}'">`
+        : initials;
+
+      return `
+        <div class="agent-card ${isActive ? '' : 'inactive'}">
+          <div class="agent-header">
+            <div class="agent-avatar">${avatarHtml}</div>
+            <div class="agent-info">
+              <h3>${escapeHtml(a.name || 'بدون اسم')}</h3>
+              <div class="agent-phone">
+                <i class="fas fa-phone"></i>
+                ${escapeHtml(a.phone || '—')}
+              </div>
+            </div>
+            <span class="agent-status-pill ${isActive ? 'active' : 'inactive'}">
+              <i class="fas ${isActive ? 'fa-check-circle' : 'fa-ban'}"></i>
+              ${isActive ? 'نشط' : 'معطل'}
+            </span>
+          </div>
+
+          <div class="agent-body">
+            <!-- الكود -->
+            <div class="agent-code-row">
+              <span class="code">${escapeHtml(a.code || '—')}</span>
+              <button class="copy-mini" onclick="copyText('${escapeAttr(a.code)}')" title="نسخ الكود">
+                <i class="fas fa-copy"></i>
+              </button>
+            </div>
+
+            <!-- Chips -->
+            <div class="agent-info-chips">
+              <span class="agent-chip">
+                <i class="fas fa-map-marker-alt"></i>
+                ${escapeHtml(a.area || '—')}
+              </span>
+              <span class="agent-chip">
+                <i class="fas fa-motorcycle"></i>
+                ${escapeHtml(a.vehicle || '—')}
+              </span>
+              ${a.vehicleNumber ? `
+                <span class="agent-chip">
+                  <i class="fas fa-hashtag"></i>
+                  ${escapeHtml(a.vehicleNumber)}
+                </span>
+              ` : ''}
+            </div>
+
+            <!-- Stats -->
+            <div class="agent-stats-grid">
+              <div class="agent-stat-item">
+                <div class="value green">${a.totalDelivered || 0}</div>
+                <div class="label">تسليم</div>
+              </div>
+              <div class="agent-stat-item">
+                <div class="value gold small">
+                  ${(a.currentCashOnHand || 0).toLocaleString('en-US', { maximumFractionDigits: 0 })}
+                </div>
+                <div class="label">كاش (ج.م)</div>
+              </div>
+              <div class="agent-stat-item">
+                <div class="value">${a.pendingOrdersCount || 0}</div>
+                <div class="label">معلّق</div>
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="agent-actions">
+              <button class="agent-action-btn view" onclick="openDetailsModal('${a.id}')">
+                <i class="fas fa-eye"></i>
+                تفاصيل
+              </button>
+              <button class="agent-action-btn edit" onclick="openEditModal('${a.id}')">
+                <i class="fas fa-pen"></i>
+                تعديل
+              </button>
+              <button class="agent-action-btn toggle ${isActive ? '' : 'off'}" onclick="toggleActive('${a.id}')">
+                <i class="fas ${isActive ? 'fa-eye-slash' : 'fa-eye'}"></i>
+                ${isActive ? 'تعطيل' : 'تفعيل'}
+              </button>
+              ${_adminRole === ROLES.SUPER ? `
+                <button class="agent-action-btn delete" onclick="openDeleteModal('${a.id}')">
+                  <i class="fas fa-trash"></i>
+                  حذف
+                </button>
+              ` : '<div></div>'}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // ============================================================
+    // ➕ Modal إضافة موصل
+    // ============================================================
+    function openAddModal() {
+      _editingId = null;
+      _avatarFile = null;
+      renderAddEditModal({
+        title: 'إضافة موصل جديد',
+        icon: 'fa-user-plus',
+        data: {
+          name: '',
+          phone: '',
+          phone2: '',
+          area: '',
+          vehicle: 'موتوسيكل',
+          vehicleNumber: '',
+          avatar: ''
+        },
+        isEdit: false
+      });
+    }
+
+    // ============================================================
+    // ✏️ Modal تعديل
+    // ============================================================
+    function openEditModal(agentId) {
+      const agent = _allAgents.find(a => a.id === agentId);
+      if (!agent) { showToast('الموصل غير موجود', 'error'); return; }
+
+      _editingId = agentId;
+      _avatarFile = null;
+      renderAddEditModal({
+        title: 'تعديل بيانات الموصل',
+        icon: 'fa-pen',
+        data: agent,
+        isEdit: true
+      });
+    }
+
+    // ============================================================
+    // 🎨 بناء Modal إضافة/تعديل
+    // ============================================================
+    function renderAddEditModal({ title, icon, data, isEdit }) {
+      const initials = (data.name || '?').trim().charAt(0).toUpperCase();
+      const avatarHtml = data.avatar
+        ? `<img src="${data.avatar}" alt="${escapeHtml(data.name)}" onerror="this.parentElement.textContent='${initials}'">`
+        : initials;
+
+      const modalHtml = `
+        <div class="modal-overlay show" id="editModal" onclick="closeModal('editModal', event)">
+          <div class="da-modal" onclick="event.stopPropagation()">
+
+            <div class="da-modal-header">
+              <h3><i class="fas ${icon}"></i> ${title}</h3>
+              <button class="close-btn" onclick="closeModal('editModal')">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+
+            <div class="da-modal-body">
+
+              <!-- Avatar -->
+              <div class="da-form-group">
+                <label><i class="fas fa-image"></i> صورة الموصل (اختياري)</label>
+                <div class="avatar-upload">
+                  <div class="avatar-preview" id="avatarPreview" onclick="triggerAvatarUpload()">${avatarHtml}</div>
+                  <div class="avatar-upload-info">
+                    <button type="button" class="btn-upload" onclick="triggerAvatarUpload()">
+                      <i class="fas fa-cloud-upload-alt"></i>
+                      اختر صورة
+                    </button>
+                    <div class="hint">JPG أو PNG — يتم ضغطها تلقائياً</div>
+                  </div>
+                  <input type="file" id="agentAvatarInput" accept="image/*" onchange="handleAvatarChange(event)">
+                </div>
+              </div>
+
+              <!-- Name + Phone -->
+              <div class="da-form-row">
+                <div class="da-form-group">
+                  <label>
+                    <i class="fas fa-user"></i>
+                    الاسم الكامل
+                    <span class="required">*</span>
+                  </label>
+                  <input type="text" id="fName" maxlength="60" value="${escapeAttr(data.name)}"
+                    placeholder="مثال: محمد أحمد">
+                </div>
+                <div class="da-form-group">
+                  <label>
+                    <i class="fas fa-phone"></i>
+                    رقم الهاتف
+                    <span class="required">*</span>
+                  </label>
+                  <input type="tel" id="fPhone" maxlength="11" inputmode="numeric" value="${escapeAttr(data.phone)}"
+                    placeholder="01xxxxxxxxx">
+                </div>
+              </div>
+
+              <!-- Phone2 + Area -->
+              <div class="da-form-row">
+                <div class="da-form-group">
+                  <label><i class="fas fa-phone-volume"></i> هاتف بديل (اختياري)</label>
+                  <input type="tel" id="fPhone2" maxlength="11" inputmode="numeric" value="${escapeAttr(data.phone2)}"
+                    placeholder="01xxxxxxxxx">
+                </div>
+                <div class="da-form-group">
+                  <label>
+                    <i class="fas fa-map-marker-alt"></i>
+                    منطقة العمل
+                    <span class="required">*</span>
+                  </label>
+                  <select id="fArea">
+                    <option value="">-- اختر المنطقة --</option>
+                    ${AREAS.map(a => `<option value="${a}" ${data.area === a ? 'selected' : ''}>${a}</option>`).join('')}
+                  </select>
+                </div>
+              </div>
+
+              <!-- Vehicle + Vehicle Number -->
+              <div class="da-form-row">
+                <div class="da-form-group">
+                  <label>
+                    <i class="fas fa-motorcycle"></i>
+                    نوع المركبة
+                    <span class="required">*</span>
+                  </label>
+                  <select id="fVehicle">
+                    ${VEHICLES.map(v => `<option value="${v}" ${data.vehicle === v ? 'selected' : ''}>${v}</option>`).join('')}
+                  </select>
+                </div>
+                <div class="da-form-group">
+                  <label><i class="fas fa-hashtag"></i> رقم المركبة (اختياري)</label>
+                  <input type="text" id="fVehicleNumber" maxlength="20" value="${escapeAttr(data.vehicleNumber)}"
+                    placeholder="مثال: 1234">
+                </div>
+              </div>
+
+              <!-- Info -->
+              <div class="da-form-group">
+                <div class="help-text" style="background:var(--del-green-bg);padding:10px 14px;border-radius:8px;border-right:3px solid var(--del-green-3);">
+                  <i class="fas fa-info-circle"></i>
+                  <span>
+                    ${isEdit
+                      ? 'سيتم تحديث بيانات الموصل. الكود والإيميل لا يمكن تغييرهما.'
+                      : 'سيتم توليد كود فريد وإيميل وحساب Firebase Auth تلقائياً عند الحفظ.'}
+                  </span>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="da-modal-actions">
+              <button class="btn-cancel" onclick="closeModal('editModal')">
+                <i class="fas fa-times"></i> إلغاء
+              </button>
+              <button class="btn-green" id="saveBtn" onclick="saveAgent()">
+                <i class="fas fa-save"></i>
+                ${isEdit ? 'حفظ التعديلات' : 'إنشاء الموصل'}
+              </button>
+            </div>
+
+          </div>
+        </div>
+      `;
+
+      const existing = document.getElementById('editModal');
+      if (existing) existing.remove();
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
+      document.body.style.overflow = 'hidden';
+    }
+
+    function triggerAvatarUpload() {
+      const input = document.getElementById('agentAvatarInput');
+      if (input) input.click();
+    }
+
+    function handleAvatarChange(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+      if (!file.type.startsWith('image/')) {
+        showToast('يجب اختيار صورة', 'warning');
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        showToast('حجم الصورة كبير جداً (الحد 5MB)', 'warning');
+        return;
+      }
+      _avatarFile = file;
+
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const prev = document.getElementById('avatarPreview');
+        if (prev) prev.innerHTML = `<img src="${e.target.result}" alt="preview">`;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // ============================================================
+    // 💾 حفظ الموصل
+    // ============================================================
+    async function saveAgent() {
+      if (_isSaving) return;
+
+      const name = document.getElementById('fName').value.trim();
+      const phone = document.getElementById('fPhone').value.trim();
+      const phone2 = document.getElementById('fPhone2').value.trim();
+      const area = document.getElementById('fArea').value;
+      const vehicle = document.getElementById('fVehicle').value;
+      const vehicleNumber = document.getElementById('fVehicleNumber').value.trim();
+
+      // Validation
+      if (!name || name.length < 3) {
+        showToast('ادخل الاسم الكامل (3 حروف على الأقل)', 'warning');
+        document.getElementById('fName').focus();
+        return;
+      }
+      if (!phone || !/^01[0-9]{9}$/.test(phone)) {
+        showToast('رقم الهاتف يجب أن يكون 11 رقم ويبدأ بـ 01', 'warning');
+        document.getElementById('fPhone').focus();
+        return;
+      }
+      if (phone2 && !/^01[0-9]{9}$/.test(phone2)) {
+        showToast('رقم الهاتف البديل غير صحيح', 'warning');
+        document.getElementById('fPhone2').focus();
+        return;
+      }
+      if (!area) {
+        showToast('اختر منطقة العمل', 'warning');
+        document.getElementById('fArea').focus();
+        return;
+      }
+
+      _isSaving = true;
+      const btn = document.getElementById('saveBtn');
+      const origText = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الحفظ...';
+
+      try {
+        // 1) ارفع الصورة أولاً (لو موجودة)
+        let avatarUrl = _editingId
+          ? (_allAgents.find(a => a.id === _editingId)?.avatar || '')
+          : '';
+
+        if (_avatarFile) {
+          btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري رفع الصورة...';
+          try {
+            avatarUrl = await uploadImage(_avatarFile) || avatarUrl;
+          } catch (e) {
+            console.warn('Avatar upload failed:', e);
+          }
+        }
+
+        if (_editingId) {
+          // === تعديل ===
+          btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الحفظ...';
+          await db.collection('delivery_agents').doc(_editingId).update({
+            name, phone, phone2: phone2 || '',
+            area, vehicle, vehicleNumber: vehicleNumber || '',
+            avatar: avatarUrl,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+            updatedBy: _adminId
+          });
+
+          showToast('تم حفظ التعديلات', 'success');
+          closeModal('editModal');
+        } else {
+          // === إضافة ===
+          btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري توليد الكود...';
+          const code = generateDeliveryCode();
+          const email = generateDeliveryEmail(code);
+
+          // تحقق من عدم وجود الكود مسبقاً
+          const checkDoc = await db.collection('delivery_lookup').doc(code).get();
+          if (checkDoc.exists) {
+            // جرب كود تاني
+            let attempts = 0;
+            let finalCode = code;
+            while (checkDoc.exists && attempts < 5) {
+              finalCode = generateDeliveryCode();
+              const c = await db.collection('delivery_lookup').doc(finalCode).get();
+              if (!c.exists) break;
+              attempts++;
+            }
+          }
+
+          // 2) أنشئ Firebase Auth (Secondary App)
+          btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري إنشاء الحساب...';
+          const secondaryAppName = 'DeliveryCreator_' + Date.now();
+          let secondaryApp = null;
+          let uid = null;
+
+          try {
+            secondaryApp = firebase.initializeApp(firebaseConfig, secondaryAppName);
+            const secondaryAuth = secondaryApp.auth();
+            const userCred = await secondaryAuth.createUserWithEmailAndPassword(email, code);
+            uid = userCred.user.uid;
+            await secondaryAuth.signOut();
+          } finally {
+            if (secondaryApp) {
+              try { await secondaryApp.delete(); } catch (e) {}
+            }
+          }
+
+          if (!uid) throw new Error('فشل إنشاء الحساب');
+
+          // 3) احفظ في delivery_agents
+          btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري حفظ البيانات...';
+          const now = firebase.firestore.FieldValue.serverTimestamp();
+
+          const agentData = {
+            uid,
+            name,
+            phone,
+            phone2: phone2 || '',
+            email,
+            code,
+            area,
+            vehicle,
+            vehicleNumber: vehicleNumber || '',
+            active: true,
+            role: 'delivery',
+            type: 'delivery',
+            avatar: avatarUrl,
+            totalDelivered: 0,
+            totalCollected: 0,
+            currentCashOnHand: 0,
+            pendingOrdersCount: 0,
+            createdAt: now,
+            updatedAt: now,
+            createdBy: _adminId,
+            lastLoginAt: null,
+            disabledAt: null,
+            disabledReason: ''
+          };
+
+          await db.collection('delivery_agents').doc(uid).set(agentData);
+
+          // 4) احفظ في delivery_lookup (Doc ID = الكود)
+          await db.collection('delivery_lookup').doc(code).set({
+            deliveryAgentId: uid,
+            authEmail: email,
+            name,
+            phone,
+            area,
+            vehicle,
+            code,
+            role: 'delivery',
+            type: 'delivery',
+            avatar: avatarUrl,
+            active: true,
+            currentCashOnHand: 0,
+            totalDelivered: 0,
+            createdAt: now,
+            updatedAt: now
+          });
+
+          // 5) سجل النشاط
+          if (typeof logActivity === 'function') {
+            logActivity('إنشاء موصل جديد', `${name} - ${code}`);
+          }
+
+          // 6) أعرض Result Modal
+          closeModal('editModal');
+          showResultModal({ name, code, email, area, vehicle });
+          showToast(`تم إنشاء الموصل: ${name}`, 'success');
+        }
+
+      } catch (error) {
+        console.error('saveAgent error:', error);
+
+        let msg = 'فشل الحفظ';
+        if (error.code === 'auth/email-already-in-use') msg = 'الإيميل مستخدم بالفعل';
+        else if (error.code === 'permission-denied') msg = 'ليس لديك صلاحية';
+        else if (error.message) msg = error.message;
+
+        showToast(msg, 'error');
+        btn.disabled = false;
+        btn.innerHTML = origText;
+      } finally {
+        _isSaving = false;
+      }
+    }
+
+    // ============================================================
+    // 🎉 Modal النتيجة (بعد الإنشاء)
+    // ============================================================
+    function showResultModal({ name, code, email, area, vehicle }) {
+      _createdData = { name, code, email };
+
+      const modalHtml = `
+        <div class="modal-overlay show" id="resultModal" onclick="closeModal('resultModal', event)">
+          <div class="da-modal" onclick="event.stopPropagation()">
+
+            <div class="da-modal-header" style="background:linear-gradient(135deg,#065f46,#10b981);">
+              <h3><i class="fas fa-check-circle"></i> تم إنشاء الموصل بنجاح</h3>
+              <button class="close-btn" onclick="closeModal('resultModal')">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+
+            <div class="da-modal-body">
+
+              <div class="result-success">
+                <div class="success-icon">
+                  <i class="fas fa-truck-fast"></i>
+                </div>
+                <h3>${escapeHtml(name)}</h3>
+                <p>احفظ بيانات الدخول دي وسلّمها للموصل</p>
+              </div>
+
+              <div class="result-data-box">
+                <div class="result-data-row">
+                  <span class="label">
+                    <i class="fas fa-key"></i>
+                    الكود
+                  </span>
+                  <span class="value">${escapeHtml(code)}</span>
+                  <button class="copy-btn" onclick="copyText('${escapeAttr(code)}')" title="نسخ">
+                    <i class="fas fa-copy"></i>
+                  </button>
+                </div>
+
+                <div class="result-data-row">
+                  <span class="label">
+                    <i class="fas fa-envelope"></i>
+                    الإيميل
+                  </span>
+                  <span class="value" style="font-size:0.75rem;">${escapeHtml(email)}</span>
+                  <button class="copy-btn" onclick="copyText('${escapeAttr(email)}')" title="نسخ">
+                    <i class="fas fa-copy"></i>
+                  </button>
+                </div>
+
+                <div class="result-data-row">
+                  <span class="label">
+                    <i class="fas fa-lock"></i>
+                    كلمة المرور
+                  </span>
+                  <span class="value">${escapeHtml(code)}</span>
+                  <button class="copy-btn" onclick="copyText('${escapeAttr(code)}')" title="نسخ">
+                    <i class="fas fa-copy"></i>
+                  </button>
+                </div>
+              </div>
+
+              <div class="result-warning">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div>
+                  <strong>ملاحظة مهمة:</strong> الموصل يسجل دخوله بـ <strong>الكود فقط</strong>
+                  في صفحة <code style="background:rgba(0,0,0,.06);padding:2px 6px;border-radius:4px;font-family:'Courier New',monospace;">delivery-login.html</code>.
+                  الإيميل وكلمة المرور للاستخدام الفني فقط.
+                </div>
+              </div>
+
+              <button class="btn-copy-all" onclick="copyAllData()">
+                <i class="fas fa-copy"></i>
+                نسخ كل البيانات
+              </button>
+
+            </div>
+
+            <div class="da-modal-actions">
+              <button class="btn-cancel" onclick="closeModal('resultModal')">إغلاق</button>
+            </div>
+
+          </div>
+        </div>
+      `;
+
+      const existing = document.getElementById('resultModal');
+      if (existing) existing.remove();
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
+    }
+
+    function copyAllData() {
+      if (!_createdData) return;
+      const txt = [
+        `اسم الموصل: ${_createdData.name}`,
+        `الكود: ${_createdData.code}`,
+        `الإيميل: ${_createdData.email}`,
+        `كلمة المرور: ${_createdData.code}`
+      ].join('\n');
+      copyText(txt);
+    }
+
+    // ============================================================
+    // 👁️ Modal التفاصيل
+    // ============================================================
+    function openDetailsModal(agentId) {
+      const a = _allAgents.find(x => x.id === agentId);
+      if (!a) { showToast('الموصل غير موجود', 'error'); return; }
+
+      const initials = (a.name || '?').trim().charAt(0).toUpperCase();
+      const avatarHtml = a.avatar
+        ? `<img src="${a.avatar}" alt="${escapeHtml(a.name)}" onerror="this.parentElement.textContent='${initials}'">`
+        : initials;
+
+      const createdAt = a.createdAt?.toDate?.() || null;
+      const lastLogin = a.lastLoginAt?.toDate?.() || null;
+      const isActive = a.active === true;
+
+      const modalHtml = `
+        <div class="modal-overlay show" id="detailsModal" onclick="closeModal('detailsModal', event)">
+          <div class="da-modal large" onclick="event.stopPropagation()">
+
+            <div class="da-modal-header">
+              <h3><i class="fas fa-user-circle"></i> تفاصيل الموصل</h3>
+              <button class="close-btn" onclick="closeModal('detailsModal')">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+
+            <div class="da-modal-body">
+
+              <!-- Header card -->
+              <div style="display:flex;gap:14px;align-items:center;padding:14px;background:linear-gradient(135deg,var(--del-green-bg),#d1fae5);border-radius:12px;margin-bottom:14px;">
+                <div class="agent-avatar" style="width:64px;height:64px;font-size:1.5rem;">${avatarHtml}</div>
+                <div style="flex:1;min-width:0;">
+                  <h3 style="margin:0 0 4px;font-size:1.1rem;color:var(--navy);">${escapeHtml(a.name || '—')}</h3>
+                  <div style="font-size:0.8rem;color:var(--gray-600);">
+                    <i class="fas fa-phone" style="color:var(--del-green-3);font-size:0.7rem;"></i>
+                    <span style="direction:ltr;display:inline-block;">${escapeHtml(a.phone || '—')}</span>
+                  </div>
+                </div>
+                <span class="agent-status-pill ${isActive ? 'active' : 'inactive'}">
+                  <i class="fas ${isActive ? 'fa-check-circle' : 'fa-ban'}"></i>
+                  ${isActive ? 'نشط' : 'معطل'}
+                </span>
+              </div>
+
+              <!-- Code -->
+              <div class="details-section">
+                <h4><i class="fas fa-key"></i> بيانات الدخول</h4>
+                <div class="detail-line">
+                  <span class="lbl">الكود:</span>
+                  <span class="val mono">${escapeHtml(a.code || '—')}</span>
+                </div>
+                <div class="detail-line">
+                  <span class="lbl">الإيميل:</span>
+                  <span class="val mono" style="font-size:0.75rem;">${escapeHtml(a.email || '—')}</span>
+                </div>
+              </div>
+
+              <!-- Info -->
+              <div class="details-section">
+                <h4><i class="fas fa-user"></i> البيانات الشخصية</h4>
+                <div class="detail-line">
+                  <span class="lbl">الاسم:</span>
+                  <span class="val">${escapeHtml(a.name || '—')}</span>
+                </div>
+                <div class="detail-line">
+                  <span class="lbl">الهاتف:</span>
+                  <span class="val" style="direction:ltr;">${escapeHtml(a.phone || '—')}</span>
+                </div>
+                ${a.phone2 ? `
+                  <div class="detail-line">
+                    <span class="lbl">هاتف بديل:</span>
+                    <span class="val" style="direction:ltr;">${escapeHtml(a.phone2)}</span>
+                  </div>
+                ` : ''}
+              </div>
+
+              <!-- Work -->
+              <div class="details-section">
+                <h4><i class="fas fa-briefcase"></i> معلومات العمل</h4>
+                <div class="detail-line">
+                  <span class="lbl">المنطقة:</span>
+                  <span class="val">${escapeHtml(a.area || '—')}</span>
+                </div>
+                <div class="detail-line">
+                  <span class="lbl">المركبة:</span>
+                  <span class="val">${escapeHtml(a.vehicle || '—')}</span>
+                </div>
+                ${a.vehicleNumber ? `
+                  <div class="detail-line">
+                    <span class="lbl">رقم المركبة:</span>
+                    <span class="val">${escapeHtml(a.vehicleNumber)}</span>
+                  </div>
+                ` : ''}
+              </div>
+
+              <!-- Stats -->
+              <div class="details-section">
+                <h4><i class="fas fa-chart-line"></i> الإحصائيات</h4>
+                <div class="detail-line">
+                  <span class="lbl">إجمالي التسليمات:</span>
+                  <span class="val" style="color:var(--del-green-3);">${a.totalDelivered || 0}</span>
+                </div>
+                <div class="detail-line">
+                  <span class="lbl">إجمالي التحصيلات:</span>
+                  <span class="val" style="color:var(--gold-dark);">${(a.totalCollected || 0).toLocaleString('en-US')} ج.م</span>
+                </div>
+                <div class="detail-line">
+                  <span class="lbl">الكاش الحالي معه:</span>
+                  <span class="val" style="color:var(--del-green-3);">${(a.currentCashOnHand || 0).toLocaleString('en-US')} ج.م</span>
+                </div>
+                <div class="detail-line">
+                  <span class="lbl">أوردرات معلقة:</span>
+                  <span class="val">${a.pendingOrdersCount || 0}</span>
+                </div>
+              </div>
+
+              <!-- Dates -->
+              <div class="details-section">
+                <h4><i class="fas fa-clock"></i> التواريخ</h4>
+                <div class="detail-line">
+                  <span class="lbl">تاريخ الإنشاء:</span>
+                  <span class="val">${createdAt ? formatDateTime(a.createdAt) : '—'}</span>
+                </div>
+                <div class="detail-line">
+                  <span class="lbl">آخر دخول:</span>
+                  <span class="val">${lastLogin ? formatDateTime(a.lastLoginAt) : 'لم يسجل دخول بعد'}</span>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="da-modal-actions">
+              <button class="btn-cancel" onclick="closeModal('detailsModal')">إغلاق</button>
+              <button class="btn-green" onclick="closeModal('detailsModal'); openEditModal('${a.id}')">
+                <i class="fas fa-pen"></i>
+                تعديل البيانات
+              </button>
+            </div>
+
+          </div>
+        </div>
+      `;
+
+      const existing = document.getElementById('detailsModal');
+      if (existing) existing.remove();
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
+    }
+
+    // ============================================================
+    // 👁️ تفعيل / تعطيل
+    // ============================================================
+    async function toggleActive(agentId) {
+      const a = _allAgents.find(x => x.id === agentId);
+      if (!a) return;
+
+      const newActive = a.active !== true;
+      const action = newActive ? 'تفعيل' : 'تعطيل';
+
+      if (!confirm(`هل تريد ${action} الموصل "${a.name}"؟`)) return;
+
+      try {
+        await db.collection('delivery_agents').doc(agentId).update({
+          active: newActive,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          disabledAt: newActive ? null : firebase.firestore.FieldValue.serverTimestamp(),
+          disabledReason: newActive ? '' : 'معطل بواسطة الإدارة'
+        });
+
+        // حدّث delivery_lookup كمان
+        if (a.code) {
+          try {
+            await db.collection('delivery_lookup').doc(a.code).update({
+              active: newActive,
+              updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+          } catch (e) { console.warn('lookup update failed:', e); }
+        }
+
+        if (typeof logActivity === 'function') {
+          logActivity(`${action} موصل`, `${a.name} - ${a.code}`);
+        }
+
+        showToast(`تم ${action} الموصل`, 'success');
+      } catch (err) {
+        console.error(err);
+        showToast('فشل التحديث', 'error');
+      }
+    }
+
+    // ============================================================
+    // 🗑️ Modal حذف
+    // ============================================================
+    function openDeleteModal(agentId) {
+      const a = _allAgents.find(x => x.id === agentId);
+      if (!a) return;
+
+      _deleteId = agentId;
+
+      const modalHtml = `
+        <div class="modal-overlay show" id="deleteModal" onclick="closeModal('deleteModal', event)">
+          <div class="da-modal small" onclick="event.stopPropagation()">
+
+            <div class="da-modal-header" style="background:linear-gradient(135deg,#991b1b,#dc2626);">
+              <h3><i class="fas fa-exclamation-triangle"></i> تأكيد الحذف</h3>
+              <button class="close-btn" onclick="closeModal('deleteModal')">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+
+            <div class="da-modal-body">
+              <div style="text-align:center;padding:8px 0 16px;">
+                <div style="width:70px;height:70px;border-radius:50%;background:#fee2e2;color:#dc2626;display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 14px;">
+                  <i class="fas fa-user-slash"></i>
+                </div>
+                <h3 style="margin:0 0 6px;color:var(--navy);font-size:1.05rem;">
+                  حذف "${escapeHtml(a.name)}"؟
+                </h3>
+                <p style="font-size:0.85rem;color:var(--gray-500);margin:0;">
+                  سيتم حذف:
+                </p>
+                <ul style="list-style:none;padding:0;margin:12px 0;font-size:0.82rem;color:var(--gray-600);text-align:right;display:inline-block;">
+                  <li style="padding:3px 0;"><i class="fas fa-times-circle" style="color:#dc2626;"></i> حساب Firebase Auth</li>
+                  <li style="padding:3px 0;"><i class="fas fa-times-circle" style="color:#dc2626;"></i> بيانات delivery_agents</li>
+                  <li style="padding:3px 0;"><i class="fas fa-times-circle" style="color:#dc2626;"></i> delivery_lookup</li>
+                </ul>
+                <p style="font-size:0.8rem;color:#dc2626;font-weight:800;margin:12px 0 0;">
+                  لا يمكن التراجع عن هذا الإجراء
+                </p>
+              </div>
+
+              <div class="da-form-group">
+                <label>اكتب اسم الموصل للتأكيد:</label>
+                <input type="text" id="confirmNameInput" placeholder="${escapeAttr(a.name)}"
+                  oninput="checkDeleteConfirm(this.value)">
+              </div>
+
+            </div>
+
+            <div class="da-modal-actions">
+              <button class="btn-cancel" onclick="closeModal('deleteModal')">إلغاء</button>
+              <button class="btn-danger-full" id="confirmDeleteBtn" onclick="doDelete()" disabled>
+                <i class="fas fa-trash"></i>
+                حذف نهائي
+              </button>
+            </div>
+
+          </div>
+        </div>
+      `;
+
+      const existing = document.getElementById('deleteModal');
+      if (existing) existing.remove();
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
+      document.body.style.overflow = 'hidden';
+    }
+
+    function checkDeleteConfirm(value) {
+      const a = _allAgents.find(x => x.id === _deleteId);
+      const btn = document.getElementById('confirmDeleteBtn');
+      if (!a || !btn) return;
+      btn.disabled = value.trim() !== a.name;
+    }
+
+    async function doDelete() {
+      if (!_deleteId) return;
+
+      const a = _allAgents.find(x => x.id === _deleteId);
+      if (!a) { showToast('الموصل غير موجود', 'error'); return; }
+
+      const btn = document.getElementById('confirmDeleteBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الحذف...';
+
+      try {
+        // 1) احذف من Firestore
+        await db.collection('delivery_agents').doc(_deleteId).delete();
+
+        if (a.code) {
+          try {
+            await db.collection('delivery_lookup').doc(a.code).delete();
+          } catch (e) { console.warn('lookup delete failed:', e); }
+        }
+
+        // 2) حاول تحذف من Firebase Auth (لو الأدمن عنده صلاحية)
+        // ملاحظة: حذف مستخدم من Auth يحتاج Cloud Function أو Admin SDK
+        // هنا نكتفي بحذف البيانات من Firestore
+
+        if (typeof logActivity === 'function') {
+          logActivity('حذف موصل', `${a.name} - ${a.code}`);
+        }
+
+        showToast(`تم حذف الموصل ${a.name}`, 'success');
+        closeModal('deleteModal');
+        _deleteId = null;
+      } catch (err) {
+        console.error('Delete error:', err);
+        showToast('فشل الحذف', 'error');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-trash"></i> حذف نهائي';
+      }
+    }
+
+    // ============================================================
+    // 🛠️ Helpers
+    // ============================================================
+    function closeModal(id, event) {
+      if (event && event.target !== event.currentTarget) return;
+      const el = document.getElementById(id);
+      if (el) el.remove();
+      document.body.style.overflow = '';
+
+      if (id === 'editModal') {
+        _editingId = null;
+        _avatarFile = null;
+        _isSaving = false;
+      }
+      if (id === 'deleteModal') {
+        _deleteId = null;
+      }
+      if (id === 'resultModal') {
+        _createdData = null;
+      }
+    }
+
+    function copyText(text) {
+      if (!text) return;
+      if (typeof copyToClipboard === 'function') {
+        copyToClipboard(text);
+      } else if (navigator.clipboard) {
+        navigator.clipboard.writeText(text)
+          .then(() => showToast('تم النسخ', 'success'))
+          .catch(() => showToast('فشل النسخ', 'error'));
+      }
+    }
+
+    function escapeHtml(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[c]));
+    }
+
+    function escapeAttr(s) {
+      return String(s == null ? '' : s).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    // ESC لإغلاق
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        ['editModal', 'deleteModal', 'resultModal', 'detailsModal'].forEach(id => closeModal(id));
+      }
+    });
+
+    // تصدير
+    window.openAddModal = openAddModal;
+    window.openEditModal = openEditModal;
+    window.openDetailsModal = openDetailsModal;
+    window.openDeleteModal = openDeleteModal;
+    window.closeModal = closeModal;
+    window.saveAgent = saveAgent;
+    window.toggleActive = toggleActive;
+    window.doDelete = doDelete;
+    window.checkDeleteConfirm = checkDeleteConfirm;
+    window.handleAvatarChange = handleAvatarChange;
+    window.triggerAvatarUpload = triggerAvatarUpload;
+    window.handleSearch = handleSearch;
+    window.applyFilters = applyFilters;
+    window.copyText = copyText;
+    window.copyAllData = copyAllData;
+    window.loadAgents = loadAgents;
+  </script>
+
+</body>
+</html>
