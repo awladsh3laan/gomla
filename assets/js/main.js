@@ -2,9 +2,14 @@
 // 🧠 main.js - الملف الموحد للدوال الأساسية
 // 📌 يحتوي على كل شيء: المستخدم، الصلاحيات، المكونات، السلة، المفضلة،
 //    الإشعارات، رفع الصور، التواريخ، Toast، ومكونات الموبايل
-// الإصدار: 6.1
+// الإصدار: 7.0
 // آخر تحديث: 2026-10-13
-// 🆕 v6.1: إضافة دور الموصلين (DELIVERY) + دوال الحماية + المكونات
+// 🆕 v7.0: 
+//    - تحديث إدارة السياسات → content-manager
+//    - إضافة faq.html + terms.html للفوتر
+//    - إضافة delivery-agents + content-manager للفوتر الإداري
+//    - إضافة Mobile Bottom Tabs لـ content-manager
+//    - إضافة Mobile Bottom Tabs للصفحات القانونية
 // ============================================================
 
 // ============================================================
@@ -153,19 +158,16 @@ function protectPage(redirectUrl = '/gomla/customer-login.html') {
 function protectAdminPage(requiredRoles = null) {
   const user = getCurrentUser();
   
-  // 1) مش مسجل دخول
   if (!user) {
     window.location.href = '/gomla/admin/login.html';
     return false;
   }
   
-  // 2) مسجل لكن مش من نوع admin
   if (user.type !== 'admin') {
     _redirectWithToast('/gomla/', 'ليس لديك صلاحية للوصول لهذه الصفحة');
     return false;
   }
   
-  // 3) تحديد الأدوار المسموح بها
   let allowedRoles;
   if (requiredRoles === null || requiredRoles === undefined) {
     allowedRoles = [ROLES.SUPER, ROLES.ADMIN_PLUS, ROLES.ADMIN];
@@ -175,7 +177,6 @@ function protectAdminPage(requiredRoles = null) {
     allowedRoles = [requiredRoles];
   }
   
-  // 4) التحقق من الدور
   const userRole = user.data.role;
   if (!allowedRoles.includes(userRole)) {
     const requiredNames = allowedRoles.map(r => getRoleArabicName(r)).join(' أو ');
@@ -272,19 +273,16 @@ function protectCustomerPage(allowedRoles = [ROLES.RETAIL, ROLES.WHOLESALE]) {
 function protectDeliveryPage() {
   const user = getCurrentUser();
   
-  // مش مسجل → صفحة دخول الموصلين
   if (!user) {
     window.location.href = '/gomla/delivery-login.html';
     return false;
   }
   
-  // مش من نوع delivery
   if (user.type !== 'delivery') {
     _redirectWithToast('/gomla/', 'هذه الصفحة للموصلين فقط');
     return false;
   }
   
-  // حساب معطل
   if (user.data.active !== true) {
     _redirectWithToast('/gomla/delivery-login.html', 'حسابك معطل، تواصل مع الإدارة');
     return false;
@@ -336,7 +334,6 @@ window.protectDeliveryPage = protectDeliveryPage;
 (function() {
   'use strict';
 
-  // ===== الإعدادات =====
   const WATCHED_KEYS = ['admin', 'customer', 'cashier', 'deliveryData'];
   const COUNTDOWN_SECONDS = 5;
   const EXCLUDED_PAGES = [
@@ -348,7 +345,6 @@ window.protectDeliveryPage = protectDeliveryPage;
     '/admin/login.html'
   ];
 
-  // ===== الحالة =====
   let lastSnapshot = null;
   let overlayShown = false;
   let countdownTimer = null;
@@ -831,7 +827,7 @@ function generateCode(prefix = '', length = 4) {
   return result;
 }
 
-// 🆕 توليد كود الموصل (DEL-XXXXX@#$)
+// توليد كود الموصل (DEL-XXXXX@#$)
 function generateDeliveryCode() {
   const chars = 'ABCDEFGHIJKLMNPQRSTUVWXYZ23456789';
   const prefix = (DELIVERY_CONFIG && DELIVERY_CONFIG.CODE_PREFIX) || 'DEL-';
@@ -842,27 +838,24 @@ function generateDeliveryCode() {
   for (let i = 0; i < length; i++) {
     code += chars.charAt(Math.floor(Math.random() * chars.length));
   }
-  // العلامة المميزة
   const marker = markers[Math.floor(Math.random() * markers.length)];
   code += marker;
   
   return code;
 }
 
-// 🆕 توليد إيميل الموصل من الكود
+// توليد إيميل الموصل من الكود
 function generateDeliveryEmail(code) {
   if (!code) return '';
-  // نحوّل الكود لصيغة الإيميل: DEL-A2B4C5@#$ → del-a2b4c5-40@delivery.awladshalaan.com
   const domain = (DELIVERY_CONFIG && DELIVERY_CONFIG.EMAIL_DOMAIN) || 'delivery.awladshalaan.com';
   
-  // استبدال الرموز المميزة برموز آمنة
   let safeCode = code.toLowerCase()
-    .replace(/@/g, '-40')   // @ → -40
-    .replace(/#/g, '-35')   // # → -35
-    .replace(/\$/g, '-36')  // $ → -36
-    .replace(/%/g, '-37')   // % → -37
-    .replace(/&/g, '-38')   // & → -38
-    .replace(/\*/g, '-42'); // * → -42
+    .replace(/@/g, '-40')
+    .replace(/#/g, '-35')
+    .replace(/\$/g, '-36')
+    .replace(/%/g, '-37')
+    .replace(/&/g, '-38')
+    .replace(/\*/g, '-42');
   
   return `${safeCode}@${domain}`;
 }
@@ -1448,17 +1441,21 @@ function updateFooter() {
   const user = getCurrentUser();
   const role = user ? user.data.role : ROLES.GUEST;
   
+  // ===== العمود 1: روابط عامة (ثابت) =====
   const col1 = document.getElementById('footer-col-1');
   if (col1) {
     col1.innerHTML = `
       <a href="/gomla/support.html">الدعم و المساعدة</a>
+      <a href="/gomla/faq.html">الأسئلة الشائعة</a>
       <a href="/gomla/about.html">من نحن</a>
       <a href="/gomla/privacy-policy.html">سياسة الخصوصية</a>
       <a href="/gomla/shipping-policy.html">سياسة الشحن</a>
       <a href="/gomla/exchange-policy.html">سياسة الاستبدال</a>
+      <a href="/gomla/terms.html">الشروط والأحكام</a>
     `;
   }
   
+  // ===== العمود 2: روابط حسب المستخدم =====
   const col2 = document.getElementById('footer-col-2');
   if (col2) {
     if (role === ROLES.SUPER || role === ROLES.ADMIN_PLUS || role === ROLES.ADMIN) {
@@ -1501,17 +1498,21 @@ function updateFooter() {
     }
   }
   
+  // ===== العمود 3: روابط إدارية =====
   const col3 = document.getElementById('footer-col-3');
   if (col3) {
     if (role === ROLES.SUPER) {
       col3.innerHTML = `
         <a href="/gomla/admin/settings.html">الإعدادات</a>
         <a href="/gomla/admin/generate-codes.html">توليد الأكواد</a>
+        <a href="/gomla/admin/delivery-agents.html">إدارة الموصلين</a>
+        <a href="/gomla/admin/content-manager.html">إدارة المحتوى</a>
         <a href="/gomla/admin/cashbox.html">الصندوق</a>
         <a href="/gomla/admin/financial-reports.html">التقارير</a>
       `;
     } else if (role === ROLES.ADMIN_PLUS) {
       col3.innerHTML = `
+        <a href="/gomla/admin/delivery-agents.html">إدارة الموصلين</a>
         <a href="/gomla/admin/profile.html">بياناتي</a>
       `;
     } else if (role === ROLES.ADMIN) {
@@ -1578,6 +1579,7 @@ function updateSidebar() {
   
   let links = [];
   
+  // ===== السوبر أدمن =====
   if (role === ROLES.SUPER) {
     links = [
       { icon: 'fa-home', text: 'الرئيسية', url: '/gomla' },
@@ -1601,9 +1603,11 @@ function updateSidebar() {
       { icon: 'fa-trophy', text: 'المستويات', url: '/gomla/admin/ranks-levels.html' },
       { icon: 'fa-cog', text: 'الإعدادات', url: '/gomla/admin/settings.html' },
       { icon: 'fa-ticket-alt', text: 'إدارة الدعم', url: '/gomla/admin/support.html' },
-      { icon: 'fa-lock', text: 'إدارة السياسات', url: '/gomla/admin/privacy-manager.html' }
+      { icon: 'fa-file-alt', text: 'إدارة المحتوى', url: '/gomla/admin/content-manager.html' }
     ];
-  } else if (role === ROLES.ADMIN_PLUS) {
+  }
+  // ===== أدمن بلص =====
+  else if (role === ROLES.ADMIN_PLUS) {
     links = [
       { icon: 'fa-home', text: 'الرئيسية', url: '/gomla' },
       { icon: 'fa-home', text: 'لوحة المسئول', url: '/gomla/admin/home.html' },
@@ -1623,7 +1627,9 @@ function updateSidebar() {
       { icon: 'fa-chart-line', text: 'التقارير المالية', url: '/gomla/admin/financial-reports.html' },
       { icon: 'fa-ticket-alt', text: 'إدارة الدعم', url: '/gomla/admin/support.html' }
     ];
-  } else if (role === ROLES.ADMIN) {
+  }
+  // ===== أدمن =====
+  else if (role === ROLES.ADMIN) {
     links = [
       { icon: 'fa-home', text: 'الرئيسية', url: '/gomla' },
       { icon: 'fa-home', text: 'لوحة المسئول', url: '/gomla/admin/home.html' },
@@ -1635,7 +1641,9 @@ function updateSidebar() {
       { icon: 'fa-chart-line', text: 'التقارير', url: '/gomla/admin/financial-reports.html' },
       { icon: 'fa-ticket-alt', text: 'إدارة الدعم', url: '/gomla/admin/support.html' }
     ];
-  } else if (role === ROLES.DELIVERY) {
+  }
+  // ===== الموصلين =====
+  else if (role === ROLES.DELIVERY) {
     links = [
       { icon: 'fa-home', text: 'لوحة الموصل', url: '/gomla/delivery/home.html' },
       { icon: 'fa-box', text: 'أوردراتي', url: '/gomla/delivery/orders.html' },
@@ -1643,7 +1651,9 @@ function updateSidebar() {
       { icon: 'fa-money-bill-wave', text: 'تحصيلاتي', url: '/gomla/delivery/collections.html' },
       { icon: 'fa-user', text: 'بياناتي', url: '/gomla/delivery/profile.html' }
     ];
-  } else if (role === ROLES.CASHIER) {
+  }
+  // ===== الكاشير =====
+  else if (role === ROLES.CASHIER) {
     links = [
       { icon: 'fa-home', text: 'الرئيسية', url: '/gomla' },
       { icon: 'fa-home', text: 'لوحة الكاشير', url: '/gomla/cashier/home.html' },
@@ -1652,7 +1662,9 @@ function updateSidebar() {
       { icon: 'fa-shopping-cart', text: 'المشتريات', url: '/gomla/cashier/purchases.html' },
       { icon: 'fa-barcode', text: 'الباركود', url: '/gomla/cashier/barcode-scanner.html' }
     ];
-  } else if (role === ROLES.WHOLESALE) {
+  }
+  // ===== التاجر =====
+  else if (role === ROLES.WHOLESALE) {
     links = [
       { icon: 'fa-home', text: 'الرئيسية', url: '/gomla' },
       { icon: 'fa-house', text: 'لوحة التجار', url: '/gomla/trader-home.html' },
@@ -1664,7 +1676,9 @@ function updateSidebar() {
       { icon: 'fa-truck', text: 'تتبع الطلبات', url: '/gomla/tracking.html' },
       { icon: 'fa-headset', text: 'الدعم والمساعدة', url: '/gomla/support.html' }
     ];
-  } else if (role === ROLES.RETAIL) {
+  }
+  // ===== العميل =====
+  else if (role === ROLES.RETAIL) {
     links = [
       { icon: 'fa-home', text: 'الرئيسية', url: '/gomla' },      
       { icon: 'fa-home', text: 'لوحة العملاء', url: '/gomla/customer-home.html' },
@@ -1676,7 +1690,9 @@ function updateSidebar() {
       { icon: 'fa-headset', text: 'الدعم والمساعدة', url: '/gomla/support.html' },
       { icon: 'fa-percent', text: 'العروض', url: '/gomla/offers.html' }
     ];
-  } else {
+  }
+  // ===== الزائر =====
+  else {
     links = [
       { icon: 'fa-home', text: 'الرئيسية', url: '/gomla/' },
       { icon: 'fa-headset', text: 'الدعم والمساعدة', url: '/gomla/support.html' },
@@ -1929,6 +1945,7 @@ function loadMobileBottomTabs() {
   const path = window.location.pathname;
   let tabs = [];
   
+  // ===== صفحات الموصلين =====
   if (path.includes('delivery/')) {
     tabs = [
       { text: 'لوحتي', url: '/gomla/delivery/home.html', icon: 'fa-home' },
@@ -1938,6 +1955,7 @@ function loadMobileBottomTabs() {
       { text: 'القائمة', url: '#', icon: 'fa-bars', onclick: 'openSidebar()' }
     ];
   }
+  // ===== الصفحة الرئيسية والمتاجر =====
   else if (path === '/' || path.includes('index.html') || path.includes('store-')) {
     tabs = [
       { text: 'رئيسية', url: '/gomla', icon: 'fa-home' },
@@ -1947,6 +1965,7 @@ function loadMobileBottomTabs() {
       { text: 'القائمة', url: '#', icon: 'fa-bars', onclick: 'openSidebar()' }
     ];
   }
+  // ===== إدارة المنتجات =====
   else if (path.includes('admin/products.html')) {
     tabs = [
       { text: 'لوحة التحكم', url: '/gomla/admin/dashboard.html', icon: 'fa-plus' },
@@ -1957,6 +1976,7 @@ function loadMobileBottomTabs() {
       { text: 'القائمة', url: '#', icon: 'fa-bars', onclick: 'openSidebar()' }
     ];
   }
+  // ===== إدارة الطلبات =====
   else if (path.includes('admin/orders.html')) {
     tabs = [
       { text: 'تصدير', url: '#', icon: 'fa-file-export', onclick: 'exportOrders()' },
@@ -1966,6 +1986,7 @@ function loadMobileBottomTabs() {
       { text: 'القائمة', url: '#', icon: 'fa-bars', onclick: 'openSidebar()' }
     ];
   }
+  // ===== إدارة الموصلين =====
   else if (path.includes('admin/delivery-agents.html')) {
     tabs = [
       { text: 'إضافة موصل', url: '#', icon: 'fa-user-plus', onclick: 'openAddAgentModal()' },
@@ -1975,6 +1996,17 @@ function loadMobileBottomTabs() {
       { text: 'القائمة', url: '#', icon: 'fa-bars', onclick: 'openSidebar()' }
     ];
   }
+  // ===== 🆕 إدارة المحتوى =====
+  else if (path.includes('admin/content-manager.html')) {
+    tabs = [
+      { text: 'إضافة قسم', url: '#', icon: 'fa-plus', onclick: 'openAddModal()' },
+      { text: 'بحث', url: '#', icon: 'fa-search', onclick: 'focusSearch()' },
+      { text: 'استيراد', url: '#', icon: 'fa-download', onclick: 'openSeedConfirm()' },
+      { text: 'إحصائيات', url: '#', icon: 'fa-chart-pie', onclick: 'scrollToStats()' },
+      { text: 'القائمة', url: '#', icon: 'fa-bars', onclick: 'openSidebar()' }
+    ];
+  }
+  // ===== إدارة الفواتير =====
   else if (path.includes('admin/invoices.html')) {
     tabs = [
       { text: 'فاتورة جديدة', url: '#', icon: 'fa-plus', onclick: 'openAddInvoice()' },
@@ -1984,6 +2016,7 @@ function loadMobileBottomTabs() {
       { text: 'القائمة', url: '#', icon: 'fa-bars', onclick: 'openSidebar()' }
     ];
   }
+  // ===== إدارة العملاء =====
   else if (path.includes('admin/customers.html')) {
     tabs = [
       { text: 'إضافة عميل', url: '#', icon: 'fa-user-plus', onclick: 'openAddCustomer()' },
@@ -1993,6 +2026,7 @@ function loadMobileBottomTabs() {
       { text: 'القائمة', url: '#', icon: 'fa-bars', onclick: 'openSidebar()' }
     ];
   }
+  // ===== لوحة التحكم =====
   else if (path.includes('admin/dashboard.html')) {
     tabs = [
       { text: 'الإحصائيات', url: '#', icon: 'fa-chart-pie', onclick: 'scrollToStats()' },
@@ -2002,6 +2036,7 @@ function loadMobileBottomTabs() {
       { text: 'القائمة', url: '#', icon: 'fa-bars', onclick: 'openSidebar()' }
     ];
   }
+  // ===== الكاشير =====
   else if (path.includes('cashier/')) {
     tabs = [
       { text: 'فاتورة جديدة', url: '/gomla/cashier/sales.html', icon: 'fa-file-invoice' },
@@ -2011,6 +2046,21 @@ function loadMobileBottomTabs() {
       { text: 'القائمة', url: '#', icon: 'fa-bars', onclick: 'openSidebar()' }
     ];
   }
+  // ===== 🆕 الصفحات القانونية =====
+  else if (path.includes('privacy-policy.html') || 
+           path.includes('shipping-policy.html') || 
+           path.includes('exchange-policy.html') || 
+           path.includes('terms.html') || 
+           path.includes('faq.html')) {
+    tabs = [
+      { text: 'الرئيسية', url: '/gomla/', icon: 'fa-home' },
+      { text: 'الدعم', url: '/gomla/support.html', icon: 'fa-headset' },
+      { text: 'من نحن', url: '/gomla/about.html', icon: 'fa-info-circle' },
+      { text: 'الأسئلة', url: '/gomla/faq.html', icon: 'fa-question-circle' },
+      { text: 'القائمة', url: '#', icon: 'fa-bars', onclick: 'openSidebar()' }
+    ];
+  }
+  // ===== صفحة السلة =====
   else if (path.includes('cart.html')) {
     tabs = [
       { text: 'المتجر', url: '/gomla/store-retail.html', icon: 'fa-store' },
@@ -2020,6 +2070,7 @@ function loadMobileBottomTabs() {
       { text: 'القائمة', url: '#', icon: 'fa-bars', onclick: 'openSidebar()' }
     ];
   }
+  // ===== افتراضي =====
   else {
     tabs = [
       { text: 'الرئيسية', url: '/gomla/', icon: 'fa-home' },
@@ -2377,7 +2428,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
   });
   
-  console.log('✅ main.js v6.1 loaded successfully');
+  console.log('✅ main.js v7.0 loaded successfully');
 });
 
 // ============================================================
@@ -2474,5 +2525,5 @@ window.closeSidebar = closeSidebar;
 window.toggleMobileTabDropdown = toggleMobileTabDropdown;
 
 // ============================================================
-// ✅ نهاية main.js v6.1
+// ✅ نهاية main.js v7.0
 // ============================================================
