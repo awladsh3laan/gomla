@@ -2,8 +2,9 @@
 // 🔥 firebase-config.js - الإعدادات الموحدة للمشروع
 // 📌 المصدر الوحيد لـ db و auth والثوابت
 // ⚠️ ممنوع تعريف db أو auth في أي ملف آخر
-// الإصدار: 6.0
-// آخر تحديث: 2026-09-19
+// الإصدار: 6.1
+// آخر تحديث: 2026-10-13
+// 🆕 v6.1: إضافة دور الموصلين (DELIVERY) + كولكشنز التوصيل
 // ============================================================
 
 // ============================================================
@@ -58,10 +59,12 @@ window.WHATSAPP_NUMBER = WHATSAPP_NUMBER;
 // ============================================================
 window.ROLES = {
   SUPER: 'super',
+  ADMIN_PLUS: 'admin_plus',       // 🆕 مضاف (كان ناقص)
   ADMIN: 'admin',
   CASHIER: 'cashier',
   WHOLESALE: 'wholesale',
   RETAIL: 'retail',
+  DELIVERY: 'delivery',           // 🆕 الموصلين
   GUEST: 'guest'
 };
 
@@ -71,6 +74,19 @@ window.ROLES = {
 window.PERMISSIONS = {
   super: [
     '*'
+  ],
+  admin_plus: [
+    'products.view', 'products.create', 'products.edit',
+    'orders.view', 'orders.edit', 'orders.create',
+    'invoices.view', 'invoices.create', 'invoices.edit', 'invoices.payment',
+    'customers.view', 'customers.edit.basic',
+    'reports.view', 'reports.payment',
+    'cashier.use',
+    'suppliers.view', 'suppliers.edit',
+    'purchases.view', 'purchases.edit',
+    'cashbox.view', 'cashbox.edit',
+    'financial.view', 'financial.approve',
+    'sections.manage', 'partners.view'
   ],
   admin: [
     'products.view', 'products.create', 'products.edit',
@@ -93,6 +109,15 @@ window.PERMISSIONS = {
     'shop.retail', 'orders.view.own', 'orders.create',
     'invoices.view.own', 'balance.view.own', 'tracking.view.own',
     'wishlist.use'
+  ],
+  delivery: [                      // 🆕 الموصلين
+    'delivery.orders.view.own',
+    'delivery.orders.pickup',
+    'delivery.orders.deliver',
+    'delivery.cash.collect',
+    'delivery.available.view',
+    'delivery.profile.view',
+    'delivery.collections.view'
   ],
   guest: [
     'shop.retail', 'orders.create.guest'
@@ -159,6 +184,8 @@ window.CITY_CODES = {
 window.ORDER_STATUS = {
   PENDING: 'pending',
   PROCESSING: 'processing',
+  PREPARING: 'preparing',
+  AWAITING_APPROVAL: 'awaiting_approval',
   SHIPPED: 'shipped',
   DELIVERED: 'delivered',
   CANCELLED: 'cancelled'
@@ -169,8 +196,54 @@ window.ORDER_STATUS = {
 // ============================================================
 window.PAYMENT_STATUS = {
   UNPAID: 'unpaid',
+  PENDING: 'pending',
   PARTIAL: 'partial',
   PAID: 'paid'
+};
+
+// ============================================================
+// 🚚 حالات التوصيل (جديد للموصلين)
+// ============================================================
+window.DELIVERY_STATUS = {
+  UNASSIGNED: 'unassigned',       // لم يُعيَّن
+  ASSIGNED: 'assigned',           // تم التعيين
+  PICKED_UP: 'picked_up',         // استلمه الموصل
+  DELIVERED: 'delivered',         // تم التسليم
+  FAILED: 'failed'                // فشل التوصيل
+};
+
+// ============================================================
+// 💳 طرق الدفع
+// ============================================================
+window.PAYMENT_METHODS = {
+  CASH: 'cash',                   // الدفع عند الاستلام
+  INSTAPAY: 'instapay',           // إنستا باي
+  WALLET: 'wallet'                // محفظة إلكترونية (+1%)
+};
+
+window.PAYMENT_METHOD_LABELS = {
+  cash: 'الدفع عند الاستلام',
+  instapay: 'إنستا باي',
+  wallet: 'محفظة إلكترونية'
+};
+
+window.WALLET_FEE_PERCENT = 1;    // رسوم المحفظة (1%)
+window.PAYMENT_ACCOUNT = '01068385028';  // رقم الحساب
+
+// ============================================================
+// 🚚 إعدادات الموصلين
+// ============================================================
+window.DELIVERY_CONFIG = {
+  CODE_PREFIX: 'DEL-',
+  CODE_LENGTH: 5,                 // 5 حروف/أرقام
+  EMAIL_DOMAIN: 'delivery.awladshalaan.com',
+  MARKERS: ['@#$', '@#%', '@#&', '@#*', '@$%', '@$&', '@$*', '#$%', '#$&', '#$*', '$%&', '$%*'],
+  AREAS_WHOLESALE: ['طنطا', 'المنصورة', 'المحلة'],
+  AREAS_RETAIL: [
+    'الرجبي', 'أبو شاهين', 'السبع بنات', 'الجمهورية', 'سكة زفتى', 'الشعبية',
+    'الشعراوي', 'العلو', 'الشون', 'المعهد الديني', 'شارع 10', 'البندر',
+    'المشحمة', 'أبو راضي', 'الزراعة', 'أبو علي', 'كفر حجازي'
+  ]
 };
 
 // ============================================================
@@ -203,7 +276,20 @@ window.COLLECTIONS = {
   NEWS: 'news',
   ADS: 'ads',
   SLIDER: 'slider',
-  BARCODE_SCANS: 'barcode_scans'
+  BARCODE_SCANS: 'barcode_scans',
+  // 🆕 الكولكشنز الجديدة
+  SUPPORT_TICKETS: 'support_tickets',
+  FINANCIAL_NOTIFICATIONS: 'financial_notifications',
+  PRIVACY_SECTIONS: 'privacy_sections',
+  SITE_CONTENT: 'site_content',
+  PARTNERS: 'partners',
+  CUSTOM_SECTIONS: 'custom_sections',
+  TRADER_LOOKUP: 'trader_lookup',
+  PUBLIC_STATS: 'public_stats',
+  // 🚚 كولكشنز الموصلين
+  DELIVERY_AGENTS: 'delivery_agents',
+  DELIVERY_LOOKUP: 'delivery_lookup',
+  DELIVERY_COLLECTIONS: 'delivery_collections'
 };
 
 // ============================================================
@@ -230,7 +316,7 @@ window.IMAGE_CONFIG = {
 // ============================================================
 // ✅ تأكيد التحميل
 // ============================================================
-console.log('✅ firebase-config.js v6.0 loaded successfully');
+console.log('✅ firebase-config.js v6.1 loaded successfully');
 console.log('🔥 Firebase Project:', firebaseConfig.projectId);
 console.log('👥 Roles:', Object.keys(window.ROLES).join(', '));
 console.log('🗄️ Collections:', Object.keys(window.COLLECTIONS).length);
