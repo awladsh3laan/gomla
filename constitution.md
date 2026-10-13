@@ -1,42 +1,52 @@
-📜 دستور مشروع أولاد شعلان للمنظفات والورقيات
-
-الإصدار: 11.0 (النسخة الشاملة المحدثة - Firebase Auth للتجار)
-آخر تحديث: 2026-09-28
-هذا الملف هو المرجع الوحيد للمشروع
+تمام ✅ — دي النسخة الكاملة المحدّثة من الدستور مع كل الإضافات الجديدة.
 
 ---
 
-📌 الجزء الأول: معلومات المشروع
+# 📜 دستور مشروع أولاد شعلان للمنظفات والورقيات
 
-البند التفاصيل
-الاسم أولاد شعلان للمنظفات والورقيات
-النوع متجر إلكتروني (جملة + قطاعي) + لوحة تحكم + أنظمة مالية + كاشير + باركود + شركاء
-الرابط https://awladsh3laan.github.io/gomla
-GitHub https://github.com/awladsh3laan/gomla.git
-التقنيات HTML + CSS + Vanilla JS + Firebase
-اللغة العربية (RTL)
-الخط Tajawal
+**الإصدار:** 13.0 (النسخة الشاملة المحدثة)
+**آخر تحديث:** 2026-10-13
+**هذا الملف هو المرجع الوحيد للمشروع**
 
 ---
 
-🔐 الجزء الثاني: نظام الدخول والصلاحيات
+## 📌 الجزء الأول: معلومات المشروع
 
-نظام الدخول
+| البند | التفاصيل |
+|------|----------|
+| **الاسم** | أولاد شعلان للمنظفات والورقيات |
+| **النوع** | متجر إلكتروني (جملة + قطاعي) + لوحة تحكم + أنظمة مالية + كاشير + باركود + شركاء + نظام توصيل |
+| **الرابط** | https://awladsh3laan.github.io/gomla |
+| **GitHub** | https://github.com/awladsh3laan/gomla.git |
+| **التقنيات** | HTML + CSS + Vanilla JS + Firebase |
+| **اللغة** | العربية (RTL) |
+| **الخط** | Tajawal |
+| **الأيقونات** | Font Awesome **فقط** — ممنوع أي إيموجي في الـ UI |
+
+---
+
+## 🔐 الجزء الثاني: نظام الدخول والصلاحيات
+
+### نظام الدخول
 
 ```
-Firebase Auth + localStorage + كود سري للتجار + Firebase Secondary App
+Firebase Auth + localStorage + كود سري للتجار + كود سري للموصلين + Firebase Secondary App
 ```
 
-المستخدم الدخول التسجيل
-العميل (قطاعي) Email + Password تسجيل ذاتي
-التاجر (جملة) كود سري فقط → يتحوّل لـ Firebase Auth السوبر أدمن
-الأدمن Email + Password السوبر أدمن
-أدمن بلص Email + Password السوبر أدمن
-السوبر أدمن Email + Password ثابت
-الزائر لا يحتاج دخول تصفح فقط
-الكاشير Email + Password السوبر أدمن
+| المستخدم | الدخول | التسجيل |
+|---------|--------|---------|
+| العميل (قطاعي) | Email + Password | تسجيل ذاتي |
+| التاجر (جملة) | كود سري → Firebase Auth | السوبر أدمن |
+| **الموصل (جديد)** | **كود سري `DEL-XXXXX@#$` → Firebase Auth** | **السوبر أدمن + أدمن بلص** |
+| الأدمن | Email + Password | السوبر أدمن |
+| أدمن بلص | Email + Password | السوبر أدمن |
+| السوبر أدمن | Email + Password | ثابت |
+| الزائر | لا يحتاج دخول | تصفح فقط |
+| الكاشير | Email + Password | السوبر أدمن |
 
-🆕 نظام دخول التجار (v2.0 - محدّث)
+---
+
+### 🆕 نظام دخول التجار (v2.0)
 
 كل تاجر عنده حساب Firebase Auth حقيقي:
 
@@ -45,55 +55,76 @@ Email:    {code-lowercase}@trader.awladshalaan.com
 Password: {code}
 ```
 
-مثال: كود MHL-A1B2 →
+**خطوات الدخول:**
+1. التاجر يدخل الكود في `trader-login.html`
+2. النظام يقرأ `trader_lookup/{CODE}` للحصول على `authEmail`
+3. `signInWithEmailAndPassword(authEmail, code)`
+4. التحقق من تطابق UID مع `customerId`
+5. جلب البيانات من `customers/{uid}`
+6. حفظ في localStorage + التوجيه لـ `trader-home.html`
 
-· Email: mhl-a1b2@trader.awladshalaan.com
-· Password: MHL-A1B2
+---
 
-خطوات الدخول:
+### 🆕 نظام دخول الموصلين (v1.0)
 
+**صيغة الكود:**
 ```
-1. التاجر يدخل الكود في trader-login.html
-2. النظام يقرأ trader_lookup/{CODE} للحصول على authEmail
-3. signInWithEmailAndPassword(authEmail, code)
-4. التحقق من تطابق UID مع customerId
-5. جلب البيانات من customers/{uid}
-6. حفظ في localStorage + التوجيه لـ trader-home.html
+DEL-{5 حروف/أرقام} + {علامة مميزة}
 ```
 
-المميزات:
+**العلامات المميزة المتاحة:**
+```
+@#$, @#%, @#&, @#*, @$%, @$&, @$*, #$%, #$&, #$*, $%&, $%*
+```
 
-· ✅ auth.currentUser موجود → كل Firestore queries تشتغل طبيعي
-· ✅ السلة والإشعارات والطلبات من Firestore مباشرة
-· ✅ نفس تجربة العميل المسجل بالظبط
-· ✅ التاجر مش حاسس بفرق (لسه بيدخل بالكود)
-· ✅ الأمان: كود + Firebase Rate Limiting
+**الحروف:** `A-Z` بدون `I, O` + `0-9` بدون `0, 1`
 
-🆕 Firebase Secondary App
+**أمثلة:**
+```
+DEL-A2B4C5@#$
+DEL-X7Y9Z3@#%
+DEL-K5M8N2#$&
+```
 
-الاستخدام: في admin/generate-codes.html
+**الإيميل والـ Auth:**
+```
+Email:    del-{code-lowercase}@delivery.awladshalaan.com
+Password: {code}
+```
 
-السبب: عند استخدام createUserWithEmailAndPassword العادي، بيتم تسجيل دخول الحساب الجديد وطرد السوبر أدمن.
+**ملاحظة:** الموصل يدخل **بالكود فقط** — الإيميل والباسورد للاستخدام الفني.
 
-الحل:
+**خطوات الدخول:**
+1. الموصل يفتح `delivery-login.html`
+2. يدخل الكود
+3. النظام يقرأ `delivery_lookup/{CODE}`
+4. `signInWithEmailAndPassword(authEmail, code)`
+5. التحقق من UID = `deliveryAgentId`
+6. جلب البيانات من `delivery_agents/{uid}`
+7. **التحقق من `active === true`**
+8. حفظ في `localStorage.deliveryData`
+9. التوجيه لـ `delivery/home.html`
 
+---
+
+### 🆕 Firebase Secondary App
+
+**الاستخدام:** `admin/generate-codes.html` + `admin/delivery-agents.html`
+
+**السبب:** عند استخدام `createUserWithEmailAndPassword` العادي، بيتم تسجيل دخول الحساب الجديد وطرد السوبر أدمن.
+
+**الحل:**
 ```javascript
-// تهيئة النسخة الثانوية
-const secondaryApp = firebase.initializeApp(firebaseConfig, 'Secondary');
+const secondaryApp = firebase.initializeApp(firebaseConfig, 'Secondary-' + Date.now());
 const secondaryAuth = secondaryApp.auth();
-
-// إنشاء الحساب في النسخة الثانوية (لا يؤثر على السوبر أدمن)
 await secondaryAuth.createUserWithEmailAndPassword(email, password);
 await secondaryAuth.signOut();
+await secondaryApp.delete();
 ```
 
-النتيجة:
+---
 
-· ✅ السوبر أدمن يفضل في جلسته
-· ✅ إنشاء الحسابات شغال
-· ✅ نفس Firestore ونفس Auth Users
-
-الأدوار والصلاحيات
+### الأدوار والصلاحيات
 
 ```javascript
 ROLES = {
@@ -103,75 +134,147 @@ ROLES = {
   CASHIER: 'cashier',
   WHOLESALE: 'wholesale',
   RETAIL: 'retail',
+  DELIVERY: 'delivery',      // 🆕 جديد
   GUEST: 'guest'
 }
 ```
 
-👑 السوبر أدمن (super)
+### 👑 السوبر أدمن (super)
 
-· كل شيء بدون قيود
-· إدارة كاملة لكل شيء
-· رؤية سعر الشراء
-· تجاوز كل الحدود
-· إدارة الصلاحيات والإعدادات
-· إدارة الشركاء والسيكشنات
-· 🆕 توليد أكواد التجار + إنشاء حساباتهم
+- كل شيء بدون قيود
+- إدارة كاملة لكل شيء
+- رؤية سعر الشراء
+- إدارة الصلاحيات والإعدادات
+- إدارة الشركاء والسيكشنات
+- توليد أكواد التجار + الموصلين
+- استقبال وحل النزاعات المالية
+- **حذف الطلبات نهائياً من Firebase**
+- **حذف الموصلين**
 
-💎 أدمن بلص (admin_plus)
+### 💎 أدمن بلص (admin_plus)
 
-· إدارة المنتجات كاملة
-· إنشاء فواتير لأي عميل
-· إدارة الطلبات والعملاء والمتاجر
-· إدارة الفروع والمبيعات والصندوق
-· إدارة السلايدر والسيكشنات
-· ❌ ممنوع: الصلاحيات، الإعدادات، توليد الأكواد، الشركاء، المستويات
+- إدارة المنتجات كاملة
+- إنشاء فواتير لأي عميل
+- إدارة الطلبات والعملاء والمتاجر
+- إدارة الفروع والمبيعات والصندوق
+- إدارة السلايدر والسيكشنات
+- استقبال الإبلاغات المالية والبت فيها
+- **إدارة الموصلين (إضافة / تعديل / تعطيل)**
+- ❌ ممنوع: الصلاحيات، الإعدادات، توليد الأكواد، الشركاء، الحذف النهائي
 
-🛡️ الأدمن (admin)
+### 🛡️ الأدمن (admin)
 
-· إدارة المنتجات (بدون حذف)
-· عرض سعر الشراء (قراءة)
-· تعديل سعر البيع
-· إدارة الطلبات والفواتير
-· تعديل بيانات العملاء (اسم/هاتف فقط)
-· ❌ ممنوع: حذف المنتجات، تعديل سعر الشراء، الصلاحيات، الفروع
+- إدارة المنتجات (بدون حذف)
+- عرض سعر الشراء (قراءة)
+- تعديل سعر البيع
+- إدارة الطلبات والفواتير
+- تعديل بيانات العملاء (اسم/هاتف فقط)
+- ❌ ممنوع: حذف المنتجات، تعديل سعر الشراء، الصلاحيات، الفروع، الموصلين
 
-🏪 التاجر (wholesale)
+### 🏪 التاجر (wholesale)
 
-· 🆕 عنده Firebase Auth حقيقي
-· تسوق من متجر الجملة
-· حد أدنى 1500 ج.م
-· حد أقصى للمنتج
-· عرض كل الأسعار والهامش
-· ملاحظات التاجر
-· ❌ ممنوع: سعر الشراء، لوحة التحكم، صفحة العروض
+- Firebase Auth حقيقي
+- تسوق من متجر الجملة
+- حد أدنى 1500 ج.م
+- عرض كل الأسعار والهامش
+- ملاحظات التاجر
+- إمكانية الإبلاغ عن السداد
+- ❌ ممنوع: سعر الشراء، لوحة التحكم، صفحة العروض
 
-👤 العميل (retail)
+### 👤 العميل (retail)
 
-· تسوق من متجر القطاعي
-· حد أقصى = المخزون
-· سعر قطاعي فقط
-· المفضلة
-· ❌ ممنوع: أسعار الجملة والشراء، الهامش، صفحة الخصومات
+- تسوق من متجر القطاعي
+- حد أقصى = المخزون
+- سعر قطاعي فقط
+- المفضلة
+- إمكانية الإبلاغ عن السداد
+- ❌ ممنوع: أسعار الجملة والشراء، الهامش، صفحة الخصومات
 
-👻 الزائر (guest)
+### 👻 الزائر (guest)
 
-· تصفح متجر القطاعي
-· إضافة للسلة وإنشاء طلب
-· ❌ ممنوع: متجر الجملة، التتبع، لوحة التحكم، العروض، الخصومات
+- تصفح متجر القطاعي
+- إضافة للسلة وإنشاء طلب
+- تتبع الطلبات (isGuest)
+- ❌ ممنوع: متجر الجملة، لوحة التحكم، العروض، الخصومات
 
-🧑‍💻 الكاشير (cashier)
+### 🧑‍💻 الكاشير (cashier)
 
-· تصفح المتجرين
-· إنشاء فواتير من فرعه
-· إدارة مخزون الفرع
-· قارئ الباركود
-· ❌ ممنوع: عملاء المتاجر، المتاجر، الصفحات الإدارية
+- تصفح المتجرين
+- إنشاء فواتير من فرعه
+- إدارة مخزون الفرع
+- قارئ الباركود
+- ❌ ممنوع: عملاء المتاجر، المتاجر، الصفحات الإدارية
+
+### 🚚 الموصل (delivery) 🆕
+
+- Firebase Auth حقيقي (يدخل بالكود)
+- عرض لوحة خاصة `delivery/home.html`
+- استلام الأوردرات المسندة له
+- طلب أوردرات من منطقته
+- تأكيد الاستلام من المخزن
+- تأكيد التسليم للعميل
+- **تحصيل الكاش من العملاء**
+- متابعة تحصيلاته
+- تسجيل مصروفاته من الشحن (أجرة توصيله)
+- ❌ ممنوع: باقي المتجر، لوحة التحكم، العملاء، المنتجات
+
+**قواعد مالية مهمة:**
+- فلوس المنتجات → تُسلَّم للأدمن (تدخل الصندوق)
+- فلوس الشحن → من حق الموصل (أجرة توصيله)
 
 ---
 
-🏠 الجزء الثالث: الصفحة الرئيسية index.html
+### 🛡️ دوال الحماية المتقدمة (v12.0)
 
-هيكل الصفحة (8 سيكشنات)
+| الدالة | الأدوار المسموح بها | الاستخدام |
+|-------|---------------------|-----------|
+| `protectPage()` | أي مسجل | صفحات عامة |
+| `protectAdminPage()` | SUPER + ADMIN_PLUS + ADMIN | صفحات أدمن عامة |
+| `protectSuperAdminPage()` | SUPER فقط | settings, generate-codes, partners |
+| `protectAdminPlusPage()` | SUPER + ADMIN_PLUS | suppliers, purchases, cashbox, financial-transactions, **delivery-agents** |
+| `protectCashierPage()` | CASHIER + كل الأدمن | صفحات cashier |
+| `protectCustomerPage()` | RETAIL + WHOLESALE | صفحات العملاء |
+| 🆕 `protectDeliveryPage()` | DELIVERY (active) | صفحات delivery |
+
+**منطق الحماية:**
+1. مش مسجل → صفحة الدخول المناسبة
+2. مسجل بدور غير مصرح:
+   - عميل يدخل صفحة أدمن → `/gomla/` + Toast "ليس لديك صلاحية"
+   - أدمن يدخل صفحة super → `admin/home.html` + Toast "الصفحة تتطلب: ..."
+   - موصل معطل → `delivery-login.html` + Toast
+3. مسجل بالدور الصحيح → ✅ يدخل
+
+**دوال مساعدة:**
+- `getRoleArabicName(role)` — أسماء الأدوار بالعربي
+- `_redirectWithToast(url, msg, delay)` — تحويل ذكي
+- `isSuperAdmin()`, `isAdminPlus()`, `isAdmin()`, `isCashier()`, `isWholesale()`, `isRetail()`, `isCustomer()`, `isGuest()`, **`isDelivery()`**, **`isDeliveryActive()`**
+
+---
+
+### 🔔 نظام الجلسات المتعددة (v12.0)
+
+**الملفات المراقبة:**
+```javascript
+const WATCHED_KEYS = ['admin', 'customer', 'cashier', 'deliveryData'];
+```
+
+**عند تغيير المفاتيح (admin, customer, cashier, deliveryData) في tab آخر:**
+- عرض Overlay احترافي
+- عدّاد دائري SVG 5 ثواني
+- زر "الانتقال الآن"
+- إعادة تحميل/تحويل تلقائي
+
+**صفحات مستثناة:** `*-login.html` + `login.html`
+
+**تفريق login/logout:**
+- login جديد → "تم تسجيل الدخول بحساب آخر (موصل/تاجر)" + reload
+- logout → "تم تسجيل الخروج" + تحويل للرئيسية
+
+---
+
+## 🏠 الجزء الثالث: الصفحة الرئيسية index.html
+
+### هيكل الصفحة (8 سيكشنات)
 
 ```
 1. 🎞️ سيكشن السلايدر (من Firestore)
@@ -184,71 +287,59 @@ ROLES = {
 8. 🆕 سيكشن تواصل معنا (واتساب + جيميل)
 ```
 
-السيكشنات المخصصة
+### السيكشنات المخصصة
 
-5 أنواع متاحة:
-
+**5 أنواع متاحة:**
 1. إعلانات بنرات
 2. عرض منتجات معينة
 3. كروت بروابط
 4. فيديوهات
 5. صور
 
-الكولكشن: custom_sections
-اللوحة: admin/sections-manager.html (سوبر أدمن فقط)
+**الكولكشن:** `custom_sections`
+**اللوحة:** `admin/sections-manager.html` (سوبر أدمن فقط)
 
 ---
 
-📄 الجزء الرابع: صفحة تفاصيل المنتج product-details.html
+## 📄 الجزء الرابع: صفحة تفاصيل المنتج product-details.html
 
-عرض حسب الصلاحية
+### عرض حسب الصلاحية
 
-🏪 للتاجر والأدمن:
+**🏪 للتاجر والأدمن:**
+- ✅ سعر الجملة (الوحدة)
+- ✅ سعر الجملة (القطعة)
+- ✅ سعر البيع للمستهلك
+- ✅ هامش الربح في القطعة
+- ✅ هامش الربح في الوحدة
+- ✅ المخزون + الحد الأقصى
+- ✅ ملاحظات (للتاجر فقط)
 
-```
-✅ سعر الجملة (الوحدة)
-✅ سعر الجملة (القطعة)
-✅ سعر البيع للمستهلك
-✅ هامش الربح في القطعة
-✅ هامش الربح في الوحدة
-✅ المخزون + الحد الأقصى
-✅ ملاحظات (للتاجر فقط)
-```
+**👤 للعميل والزائر:**
+- ✅ السعر القطاعي + "قطعة"
+- ✅ الوصف
+- ✅ البراند
+- ✅ التصنيف
+- ✅ المخزون
+- ❌ ممنوع أسعار الجملة والشراء
 
-👤 للعميل والزائر:
-
-```
-✅ السعر القطاعي + "قطعة"
-✅ الوصف
-✅ البراند
-✅ التصنيف
-✅ المخزون
-❌ ممنوع أسعار الجملة والشراء
-```
-
-👑 للسوبر أدمن:
-
-```
-✅ كل ما سبق +
-✅ سعر الشراء
-✅ زر تعديل المنتج
-```
+**👑 للسوبر أدمن:**
+- ✅ كل ما سبق +
+- ✅ سعر الشراء
+- ✅ زر تعديل المنتج
 
 ---
 
-🏪 الجزء الخامس: المتاجر
+## 🏪 الجزء الخامس: المتاجر
 
-1. المتجر القطاعي store-retail.html
+### 1. المتجر القطاعي store-retail.html
 
-سيكشن Brand Hero
+**سيكشن Brand Hero**
+- صورة: `https://i.ibb.co/v4xBgMPP/Picsart-26-09-21-04-43-12-322.png`
+- انيميشن احترافي
+- الشعار: "أولاد شعلان ستور"
+- 3 مميزات: منتجات أصلية، توصيل سريع، دعم فوري
 
-· صورة: https://i.ibb.co/v4xBgMPP/Picsart-26-09-21-04-43-12-322.png
-· انيميشن احترافي
-· الشعار: "أولاد شعلان ستور"
-· 3 مميزات: منتجات أصلية، توصيل سريع، دعم فوري
-
-السيكشنات:
-
+**السيكشنات:**
 ```
 1. 🏪 Brand Hero (خاص بالقطاعي)
 2. 🎞️ السلايدر
@@ -260,23 +351,15 @@ ROLES = {
 8. 📦 جميع المنتجات
 ```
 
-⚠️ قواعد:
+### 2. المتجر الجملة store-wholesale.html
 
-· كل الأسعار قطاعي فقط
-· الوحدة دائماً "قطعة"
-· لا يوجد سكرول تلقائي
+**سيكشن Brand Hero (خاص بالجملة)**
+- صورة: `https://i.ibb.co/RTCSsZxg/Picsart-26-09-23-04-01-50-093.png`
+- انيميشن احترافي بألوان ذهبية داكنة
+- الشعار: "أولاد شعلان جملة"
+- 4 مميزات: خصومات للتجار، فواتير آجلة، توصيل سريع، دعم مخصص
 
-2. المتجر الجملة store-wholesale.html
-
-سيكشن Brand Hero (خاص بالجملة)
-
-· صورة: https://i.ibb.co/RTCSsZxg/Picsart-26-09-23-04-01-50-093.png
-· انيميشن احترافي بألوان ذهبية داكنة
-· الشعار: "أولاد شعلان جملة"
-· 4 مميزات: خصومات للتجار، فواتير آجلة، توصيل سريع، دعم مخصص
-
-السيكشنات:
-
+**السيكشنات:**
 ```
 1. 🏪 Brand Hero (خاص بالجملة)
 2. 🎞️ السلايدر
@@ -289,119 +372,65 @@ ROLES = {
 9. 🤝 شركاء النجاح
 ```
 
-⚠️ قواعد:
+### 3. الفرق بين المتجرين
 
-· كل الأسعار جملة فقط
-· الوحدة كبيرة (كرتونة/بالة/طرد)
-· عرض هامش الربح
-· عرض ملاحظات التاجر
-· لا يوجد سكرول تلقائي
-
-3. الفرق بين المتجرين
-
-العنصر القطاعي الجملة
-الجمهور العملاء والزوار التجار فقط
-السعر قطاعي جملة + هامش
-الوحدة قطعة كرتونة/بالة
-العروض ✅ (offers.html) ❌
-الخصومات ❌ ✅ (discounts.html)
-الشركاء ❌ ✅
-ملاحظات التاجر ❌ ✅
+| العنصر | القطاعي | الجملة |
+|--------|---------|--------|
+| الجمهور | العملاء والزوار | التجار فقط |
+| السعر | قطاعي | جملة + هامش |
+| الوحدة | قطعة | كرتونة/بالة |
+| العروض | ✅ (offers.html) | ❌ |
+| الخصومات | ❌ | ✅ (discounts.html) |
+| الشركاء | ❌ | ✅ |
+| ملاحظات التاجر | ❌ | ✅ |
 
 ---
 
-📂 الجزء السادس: صفحة الأقسام categories.html
+## 📂 الجزء السادس: صفحة الأقسام categories.html
 
-الهيكل المبسّط (محدث 🆕)
+### الهيكل المبسّط
 
 ```
 1. 🏷️ شريط العنوان (Hero Bar)
 2. 📂 شبكة الأقسام
 ```
 
-تم إزالة:
-
-· ❌ السلايدر
-· ❌ البحث
-· ❌ العروض
-
-مميزات الشبكة:
-
-· الأنيميشن: dropIn (نزول من الأعلى بسرعة وخفيفة)
-· التأخير المتتالي: كل كارت يتأخر 0.05s
-· عدد المنتجات: حقيقي من Firestore
-· الفلترة: الأقسام الفارغة لا تظهر
-· الرابط الذكي: ?type=retail/wholesale حسب المستخدم
-
-شريط العنوان:
-
-· أيقونة ذهبية (56px) مع نبض
-· عنوان "كل الأقسام"
-· Badge يعرض عدد الأقسام
+**مميزات الشبكة:**
+- الأنيميشن: dropIn (نزول من الأعلى)
+- التأخير المتتالي: كل كارت 0.05s
+- عدد المنتجات: حقيقي من Firestore
+- الفلترة: الأقسام الفارغة لا تظهر
+- الرابط الذكي: `?type=retail/wholesale`
 
 ---
 
-📄 الجزء السابع: صفحة منتجات القسم category-products.html
+## 📄 الجزء السابع: صفحة منتجات القسم category-products.html
 
-الهيكل المحدث 🆕
-
+**الهيكل:**
 ```
 1. 🏷️ Breadcrumb
-2. 🎯 شريط مضغوط (Sticky) ← جديد
-3. 🏷️ شرائح البراندات (Chips) ← جديد
+2. 🎯 شريط مضغوط (Sticky)
+3. 🏷️ شرائح البراندات (Chips)
 4. 🔍 فلاتر (ترتيب + توفّر)
 5. 📦 شبكة المنتجات
 ```
 
-الشريط المضغوط:
-
-· صورة القسم (52px دائرية)
-· اسم القسم
-· عدد المنتجات (Badge ذهبي)
-· Sticky أثناء السكرول
-
-شرائح البراندات:
-
-· تظهر فقط للبراندات اللي ليها منتجات في القسم
-· عدد حقيقي لكل براند
-· فلترة عند الضغط
-· شريحة "الكل" في البداية
-
-السعر حسب المستخدم:
-
-· عميل → retailPrice + "قطعة"
-· تاجر → wholesalePrice + وحدة المنتج
+**السعر حسب المستخدم:**
+- عميل → retailPrice + "قطعة"
+- تاجر → wholesalePrice + وحدة المنتج
 
 ---
 
-📄 الجزء الثامن: صفحة منتجات البراند brand-products.html
+## 🎯 الجزء التاسع: نظام العروض والخصومات
 
-الهيكل
+### القاعدة الأساسية
 
-```
-1. 🏷️ رأس البراند (شعار + اسم + وصف)
-2. 🎞️ السلايدر
-3. 🔍 فلاتر (ترتيب + توفّر + قسم)
-4. 📦 شبكة المنتجات
-```
+| النظام | المتجر | يظهر لـ | الصفحة | الوحدة |
+|--------|--------|---------|--------|--------|
+| العروض | القطاعي | العملاء والزوار | offers.html | قطعة |
+| الخصومات | الجملة | التجار والأدمن | discounts.html | كرتونة/بالة |
 
-المميزات
-
-· فلترة بالقسم
-· عدد حقيقي لكل قسم
-· السعر حسب المستخدم
-
----
-
-🎯 الجزء التاسع: نظام العروض والخصومات
-
-القاعدة الأساسية
-
-النظام المتجر يظهر لـ الصفحة الوحدة
-العروض القطاعي العملاء والزوار offers.html قطعة
-الخصومات الجملة التجار والأدمن discounts.html كرتونة/بالة
-
-حقول المنتج
+### حقول المنتج
 
 ```javascript
 {
@@ -422,38 +451,369 @@ ROLES = {
 }
 ```
 
-صفحة العروض offers.html
+---
 
-· الصلاحيات: قطاعي + زائر فقط
-· رأس صفحة أحمر
-· كروت مع مؤقت حي
-· حالة "مستعجل" (أقل من يوم)
+## 💳 الجزء العاشر: نظام طرق الدفع (v13.0) 🆕
 
-صفحة الخصومات discounts.html
+### المفهوم
 
-· الصلاحيات: تجار + أدمن + أدمن بلص + سوبر أدمن
-· شاشة حظر للعملاء والزوار
-· شارة "خاص بالتجار"
-· عرض ملاحظات التاجر
+عند إتمام الطلب، العميل يختار طريقة دفع واحدة من 3:
+
+| # | الطريقة | الرسوم | الرمز |
+|---|--------|-------|-------|
+| 1 | الدفع عند الاستلام | 0% | `cash` |
+| 2 | إنستا باي | 0% | `instapay` |
+| 3 | محفظة إلكترونية | **+1%** | `wallet` |
+
+### رقم الحساب
+
+```
+01068385028
+```
+
+### المعادلة
+
+```javascript
+baseTotal = subtotal + shippingCost
+paymentFee = method === 'wallet' ? baseTotal × 0.01 : 0
+totalBeforeRound = baseTotal + paymentFee
+grandTotal = roundToNearest5(totalBeforeRound)
+```
+
+### 🔢 قاعدة التدوير (الأهم)
+
+**الإجمالي دائمًا رقم صحيح ينتهي بـ 0 أو 5:**
+
+```javascript
+function roundToNearest5(amount) {
+  return Math.round(amount / 5) * 5;
+}
+```
+
+**أمثلة:**
+| الأصلي | بعد التدوير |
+|--------|-------------|
+| 1139.25 | 1140 |
+| 1226 | 1225 |
+| 8 | 10 |
+| 9 | 10 |
+| 11 | 10 |
+| 12 | 10 |
+| 3 | 5 |
+| 6 | 5 |
+| 7 | 5 |
+| 2 | 0 |
+
+### حقول الطلب الجديدة
+
+```javascript
+{
+  // ... الحقول القديمة
+  
+  // 🆕 الدفع
+  paymentMethod: 'cash' | 'instapay' | 'wallet',
+  paymentMethodLabel: 'الدفع عند الاستلام',
+  paymentFeePercent: 0 | 0 | 1,
+  paymentFee: 0 | 0 | 11.25,
+  grandTotal: 1135,        // الإجمالي النهائي المُدوّر
+  paymentProof: '',        // صورة إثبات التحويل (اختياري)
+  paymentProofUploadedAt: null,
+  
+  // حالة الدفع
+  paymentStatus: 'unpaid' | 'pending' | 'paid',
+  paid: 0,
+  remaining: grandTotal
+}
+```
+
+### في `checkout.html`
+
+**3 كروت قابلة للاختيار:**
+- 💵 الدفع عند الاستلام — بدون رسوم
+- 🏦 إنستا باي — بدون رسوم + رقم الحساب + رفع إثبات
+- 📱 محفظة إلكترونية — +1% + رقم الحساب + رفع إثبات
+
+**ملخص الطلب يتحدث لحظيًا:**
+```
+منتجات:           1000.00 ج.م
+شحن:               125.00 ج.م
+رسوم محفظة (1%):    11.25 ج.م   ← يظهر بس لو wallet
+──────────────────────────────────
+الإجمالي:            1135 ج.م   ← رقم صحيح
+```
+
+### في `order-success.html`
+
+- صندوق طريقة الدفع (ملون حسب الطريقة)
+- رقم الحساب + زر نسخ (للإنستا باي والمحفظة)
+- حالة الإثبات: "بانتظار التحقق" أو "يحتاج تحويل"
+- عرض صورة الإثبات (Thumbnail)
+- الإجمالي النهائي المُدوّر
 
 ---
 
-🤝 الجزء العاشر: نظام الشركاء
+## 🚚 الجزء الحادي عشر: نظام الموصلين (v1.0) 🆕
 
-المفهوم
+### المفهوم
+
+نظام كامل لموظفي التوصيل بحيث:
+- يشوفوا أوردراتهم فقط + أوردرات منطقتهم
+- يأكدوا الاستلام من المخزن
+- يأكدوا التسليم للعميل
+- يأكدوا تحصيل الفلوس
+- الأدمن يتابع كل واحد عنده كام فلوس
+
+### 🗄️ الكولكشنز الجديدة
+
+#### 1. `delivery_agents/{uid}`
+
+```javascript
+{
+  uid: "firebase-uid",
+  name: "محمد أحمد",
+  phone: "01012345678",
+  phone2: "",
+  email: "del-{code}@delivery.awladshalaan.com",
+  code: "DEL-A2B4C5@#$",
+  
+  // عمل
+  area: "طنطا",              // المنطقة
+  vehicle: "موتوسيكل",       // نوع المركبة
+  vehicleNumber: "",         // رقم المركبة
+  
+  // حالة
+  active: true,
+  role: "delivery",
+  type: "delivery",
+  avatar: "",
+  
+  // إحصائيات
+  totalDelivered: 0,
+  totalCollected: 0,
+  currentCashOnHand: 0,      // 💰 الكاش الحالي معه
+  pendingOrdersCount: 0,
+  
+  // تواريخ
+  createdAt: Timestamp,
+  updatedAt: Timestamp,
+  createdBy: "super-uid",
+  lastLoginAt: null,
+  disabledAt: null,
+  disabledReason: ""
+}
+```
+
+#### 2. `delivery_lookup/{CODE}`
+
+Doc ID = الكود (مثال: `DEL-A2B4C5@#$`)
+
+```javascript
+{
+  deliveryAgentId: "firebase-uid",
+  authEmail: "del-...@delivery.awladshalaan.com",
+  name: "محمد أحمد",
+  phone: "01012345678",
+  area: "طنطا",
+  vehicle: "موتوسيكل",
+  code: "DEL-A2B4C5@#$",
+  role: "delivery",
+  type: "delivery",
+  avatar: "",
+  active: true,
+  currentCashOnHand: 0,
+  totalDelivered: 0,
+  createdAt: Timestamp,
+  updatedAt: Timestamp
+}
+```
+
+**القواعد:**
+```javascript
+allow get: if true;              // للتحقق عند الدخول
+allow list: if false;            // ممنوع سرد
+allow write: if isAdminOrHigher();
+```
+
+#### 3. `delivery_collections/{id}`
+
+```javascript
+{
+  deliveryAgentId: "uid",
+  deliveryAgentName: "محمد أحمد",
+  orderId: "order-id",
+  orderNumber: "ORD-12345",
+  amount: 1135,
+  type: 'collect' | 'settle',      // تحصيل من عميل | تصفية مع الأدمن
+  method: 'cash' | 'instapay' | 'wallet',
+  status: 'pending' | 'confirmed',
+  confirmedBy: "",
+  confirmedByName: "",
+  notes: "",
+  createdAt: Timestamp
+}
+```
+
+### 📝 الحقول الجديدة في `orders`
+
+```javascript
+{
+  // ... الحقول القديمة
+  
+  // 🚚 التوصيل
+  deliveryAgentId: '',
+  deliveryAgentName: '',
+  deliveryAgentPhone: '',
+  assignedAt: null,
+  assignedBy: '',
+  
+  deliveryStatus: 'unassigned' | 'assigned' | 'picked_up' | 'delivered' | 'failed',
+  pickedUpAt: null,
+  deliveredAt: null,
+  failedReason: '',
+  deliveryNotes: '',
+  
+  // 💰 التحصيل
+  cashCollected: 0,
+  cashCollectedAt: null,
+  cashHandedToAdmin: false,
+  cashHandedAt: null,
+  
+  // 🆕 تأكيد العميل
+  confirmedByCustomer: false,
+  customerConfirmedAt: null,
+  customerFeedback: ''
+}
+```
+
+### 🔄 سير العمل الكامل
+
+```
+1. العميل يعمل أوردر
+   → orders/{id} status: 'pending'
+   → deliveryStatus: 'unassigned'
+
+2. الأدمن (SUPER/ADMIN_PLUS) يفتح admin/orders
+   → يفلتر: "غير معيّن"
+   → يختار موصل → "تعيين"
+   → deliveryStatus: 'assigned'
+
+3. الموصل يفتح delivery/home.html
+   → يشوف: أوردرات جديدة / جاري التوصيل / تم التسليم
+   → يضغط "استلمت الأوردر"
+   → deliveryStatus: 'picked_up', pickedUpAt: now
+
+4. يوصل للعميل → يسلم الأوردر
+   → يضغط "تم التسليم"
+   → deliveryStatus: 'delivered', deliveredAt: now
+   → لو الدفع كاش:
+      يظهر modal "تحصيل المبلغ"
+   → cashCollected: 1135, cashCollectedAt: now
+   → delivery_agents.currentCashOnHand += amount
+   → delivery_collections: type 'collect'
+
+5. في نهاية اليوم / دورياً
+   → الأدمن يفتح admin/delivery-settlements.html
+   → يشوف: "محمد عنده 5000 ج.م كاش"
+   → يستلم الفلوس منه فعلياً
+   → يضغط "تصفية"
+   → delivery_collections: type 'settle'
+   → currentCashOnHand -= amount
+```
+
+### 💰 تقسيم الفلوس (قاعدة مهمة)
+
+```
+الفلوس اللي الموصل بيحصلها من العميل
+    │
+    ├── 💵 فلوس المنتجات (subtotal)
+    │   → تدخل الصندوق تحت بند "أوردرات دليفري"
+    │
+    └── 🚚 فلوس الشحن (shippingCost)
+        → دي حق الموصل نفسه (أجرة توصيله)
+        → الأدمن مبيستلمهاش منه وقت التصفية
+```
+
+**مثال:**
+```
+أوردر 1135 ج.م
+  ├── منتجات: 1000 ج.م → الصندوق
+  └── شحن: 125 ج.م → جيب الموصل (بعد التصفية)
+```
+
+### 🆕 تأكيد العميل للاستلام
+
+العميل صاحب الأوردر يقدر:
+- يأكد الاستلام من `customer/orders.html`
+- يقيم الخدمة (اختياري)
+- يبلّغ عن مشكلة
+
+**الحقول:**
+- `confirmedByCustomer: true`
+- `customerConfirmedAt: Timestamp`
+- `customerFeedback: "5 نجوم - خدمة ممتازة"`
+
+### 📄 صفحات الموصلين
+
+| # | الملف | الوصف |
+|---|-------|-------|
+| 1 | `delivery-login.html` | ✅ تم — دخول الموصلين |
+| 2 | `delivery/home.html` | ⏳ Dashboard: إحصائيات + ملخص اليوم |
+| 3 | `delivery/orders.html` | ⏳ قائمة الأوردرات (مصنفة) |
+| 4 | `delivery/available.html` | ⏳ أوردرات منطقتي المتاحة |
+| 5 | `delivery/order-details.html` | ⏳ تفاصيل + أزرار (استلام/تسليم/تحصيل) |
+| 6 | `delivery/collections.html` | ⏳ سجل تحصيلات الموصل |
+| 7 | `delivery/profile.html` | ⏳ بروفايل الموصل |
+
+### 📄 صفحات إدارة الموصلين (Admin)
+
+| # | الملف | الوصف |
+|---|-------|-------|
+| 1 | `admin/delivery-agents.html` | ✅ تم — إدارة الموصلين |
+| 2 | `admin/assign-delivery.html` | ⏳ توزيع الأوردرات |
+| 3 | `admin/delivery-settlements.html` | ⏳ تصفية الحسابات |
+
+---
+
+## 💰 الجزء الثاني عشر: نظام الإبلاغ عن السداد (v12.0)
+
+### المفهوم
+
+لو العميل/التاجر دفع للمسؤول لكن المسؤول نسي يسجل الدفع:
+
+1. العميل يفتح `customer/balance.html`
+2. يضغط "أبلغ عن سداد"
+3. يملأ الموديل (مبلغ، تاريخ، طريقة، صورة إيصال)
+4. الإبلاغ يروح لكولكشن `financial_notifications`
+5. يظهر في `admin/financial-transactions.html`
+6. الأدمن يعتمد/يرفض
+7. عند الاعتماد: خصم تلقائي من الرصيد + إشعار للمستخدم
+
+### كولكشن `financial_notifications`
+
+```javascript
+{
+  type: 'customer_payment' | 'trader_payment' | 'debt_claim' | 'purchase_payment' | 'dispute',
+  senderId, senderName, senderRole, senderPhone, senderCode,
+  amount, paymentDate, method: 'cash'|'transfer'|'wallet'|'other',
+  receiver, reference, notes, receiptUrl,
+  status: 'pending' | 'approved' | 'rejected',
+  reviewedBy, reviewedByName, reviewedAt, adminNotes,
+  balanceAtReport,
+  createdAt, updatedAt
+}
+```
+
+---
+
+## 🤝 الجزء الثالث عشر: نظام الشركاء
+
+### المفهوم
 
 الشركاء = التجار والمحلات اللي بيتعاملوا معانا
 يظهروا في سيكشن "شركاء النجاح" في متجر الجملة
 فقط السوبر أدمن يقدر يديرهم
 
-صفحة الإدارة admin/partners-manager.html
-
-· الصلاحيات: سوبر أدمن فقط
-· إضافة شريك (اسم + وصف + صورة + ترتيب + حالة)
-· معاينة مباشرة
-· بديل تلقائي للصورة (حرف أول)
-
-حقول الشريك
+### حقول الشريك
 
 ```javascript
 // partners collection
@@ -466,58 +826,146 @@ ROLES = {
 
 ---
 
-🚪 الجزء الحادي عشر: بوابة الدخول login.html 🆕
+## 🎫 الجزء الرابع عشر: نظام تذاكر الدعم (v12.0)
 
-الهيكل
+### المفهوم
 
+نظام كامل لتذاكر الدعم مع:
+- FAQ (أسئلة شائعة)
+- تذاكر دعم مع متابعة
+- صفحة إدارة للأدمن
+- رد العميل + رد الأدمن
+
+### كولكشن `support_tickets`
+
+```javascript
+{
+  ticketNumber: "TKT-123456",
+  senderId, senderName, senderRole, senderPhone, senderCode,
+  category: 'complaint'|'inquiry'|'request'|'suggestion'|'financial',
+  priority: 'normal'|'high'|'urgent',
+  subject, details,
+  attachments: [],
+  status: 'open' | 'processing' | 'closed',
+  replies: [{by, byName, byRole, text, at, isInitial}],
+  rating: 0,
+  createdAt, updatedAt, lastReplyAt, closedAt
+}
 ```
-1. 🎨 خلفية كحلية متدرجة + دوائر ذهبية متحركة
-2. 🏢 لوجو + عنوان
-3. 👑 3 كروت دخول:
-   - الإدارة (كحلي/ذهبي)
-   - التجار (ذهبي)
-   - العملاء (أزرق)
-4. 📞 زر العودة للرئيسية
+
+### قواعد Firestore
+
+```javascript
+match /support_tickets/{ticketId} {
+  allow create: if isSignedIn()
+                && request.resource.data.senderId == request.auth.uid
+                && request.resource.data.status == 'open';
+  allow read: if isSignedIn() && resource.data.senderId == request.auth.uid;
+  allow read, update: if isAdminOrHigher();
+  allow delete: if isSuperAdmin();
+}
 ```
 
-المميزات
+### الصفحات
 
-· تحويل تلقائي لو المستخدم مسجل دخول
-· 3 مميزات لكل كارت
-· زر CTA بلون خاص لكل كارت
-· أنيميشن Drop-In
+- `support.html` — للعملاء (FAQ + فتح تذكرة + متابعة)
+- `admin/support.html` — للإدارة (SUPER + ADMIN_PLUS + ADMIN)
 
 ---
 
-📝 الجزء الثاني عشر: تسجيل العملاء customer-register.html 🆕
+## 🔒 الجزء الخامس عشر: نظام إدارة سياسة الخصوصية (v12.0)
 
-الهيكل
+### المفهوم
+
+- صفحة `privacy-policy.html` ديناميكية
+- تقرأ الأقسام من `privacy_sections` مرتبة حسب `order`
+- صفحة `admin/privacy-manager.html` للسوبر أدمن
+- تعديل أي بند بدون فتح الكود
+- تاريخ آخر تحديث تلقائي
+
+### كولكشن `privacy_sections`
+
+```javascript
+{
+  order: 1,
+  title: "مقدمة",
+  icon: "fa-book-open",
+  bodyType: "text" | "list" | "cards" | "table" | "quote" | "contact",
+  body: "نص الفقرة...",
+  items: [],           // list / cards / table / contact
+  active: true,
+  createdAt: Timestamp,
+  updatedAt: Timestamp
+}
+```
+
+### كولكشن `site_content/privacy_meta`
+
+```javascript
+{
+  lastUpdated: Timestamp,   // يتحدّث تلقائيًا مع أي تعديل
+  version: "1.0",
+  updatedBy: "admin-uid",
+  updatedByName: "السوبر أدمن"
+}
+```
+
+### قواعد Firestore
+
+```javascript
+match /privacy_sections/{sectionId} {
+  allow read: if true;
+  allow create, update, delete: if isSuperAdmin();
+}
+match /site_content/{docId} {
+  allow read: if true;
+  allow write: if isSuperAdmin();
+}
+```
+
+---
+
+## 🚪 الجزء السادس عشر: بوابة الدخول login.html (v3.0)
+
+### الهيكل
 
 ```
-1. 📝 بطاقة تسجيل أنيقة
-2. 🎯 6 حقول:
-   - الاسم الكامل
-   - رقم الهاتف
-   - العنوان بالتفصيل
-   - البريد الإلكتروني
-   - كلمة المرور
-   - تأكيد كلمة المرور
-3. ☐ الموافقة على الشروط (إجبارية)
-4. ✅ شاشة نجاح
+1. 🎯 خلفية كحلية متدرجة + دوائر ذهبية متحركة + نقاط ضوئية
+2. 🖼️ Hero: صورة ترحيب + نص جانبي + 4 features
+3. 🃏 5 كروت دخول:
+   - 👑 الإدارة (Navy)
+   - 🏪 التجار (Gold)
+   - 👤 العملاء (Blue)
+   - 🧑‍💻 الكاشير (Purple)
+   - 🚚 الموصلين (Green)
+4. ➕ قسم "مستخدم جديد؟"
+   - تسجيل عميل جديد → customer-register.html
+   - طلب كود تاجر → support.html
+   - انضم لفريق التوصيل → support.html
+5. 📞 زر العودة للرئيسية
 ```
 
-المميزات
+### صورة الترحيب
 
-· Firebase Auth: createUserWithEmailAndPassword
-· حفظ في Firestore: customers/{uid} مع role: 'retail'
-· تفعيل تلقائي: active: true
-· التحقق من التكرار: البريد + الهاتف
-· التحقق الفوري أثناء الكتابة
-· إظهار/إخفاء الباسورد
-· حفظ في localStorage للوصول السريع
-· تسجيل في activityLog
+```
+https://i.ibb.co/YFcjtFHQ/welcome-user.jpg
+```
 
-حقول التسجيل
+### التوجيه حسب الدور
+
+| الدور | الوجهة |
+|-------|--------|
+| Super / Admin+ / Admin | `/admin/home.html` |
+| Wholesale | `/trader-home.html` |
+| Retail | `/customer-home.html` |
+| Cashier | `/cashier/home.html` |
+| Delivery | `/delivery/home.html` |
+
+---
+
+## 📝 الجزء السابع عشر: تسجيل العملاء customer-register.html
+
+### الحقول
 
 ```javascript
 {
@@ -532,101 +980,82 @@ ROLES = {
 
 ---
 
-🛒 الجزء الثالث عشر: السلة cart.html
+## 🛒 الجزء الثامن عشر: السلة cart.html
 
-الهيكل
+### المميزات
 
-```
-1. 🛒 رأس الصفحة (مع عدد المنتجات + زر تفريغ)
-2. 📦 قائمة المنتجات
-3. 💰 ملخص الطلب (Sticky)
-```
+- دعم المسجل (Firestore) + الزائر (localStorage) + التاجر (Firestore)
+- تعديل الكميات مع الحدود
+- الحد الأدنى للجملة (1500 ج.م)
+- تنبيه الحد الأدنى (أخضر/أصفر)
 
-المميزات
+### الالتزام بالحدود
 
-· دعم المسجل: Firestore
-· دعم الزائر: localStorage
-· تعديل الكميات مع الالتزام بالحدود
-· حذف منتج مع تأكيد
-· تفريغ السلة (batch delete)
-· الحد الأدنى للجملة (1500 ج.م)
-· تنبيه الحد الأدنى (أخضر/أصفر)
-
-الالتزام بالحدود
-
-· للتاجر: maxOrder
-· للعميل: stockQuantity
+- للتاجر: `maxOrder`
+- للعميل: `stockQuantity`
 
 ---
 
-💳 الجزء الرابع عشر: إتمام الطلب checkout.html 🆕
+## 💳 الجزء التاسع عشر: إتمام الطلب checkout.html (v4.0)
 
-الهيكل
-
-```
-1. 📋 قسم بيانات العميل
-2. 🚚 قسم بيانات التوصيل
-3. 📊 ملخص الطلب الجانبي
-4. ✅ شاشة نجاح
-```
-
-المميزات
-
-· جلب تلقائي لبيانات المسجل
-· إدخال يدوي للزائر
-· حساب الشحن التلقائي حسب المنطقة
-· تنبيه الشحن المجاني
-· الحد الأدنى للجملة
-· حفظ في Firestore (كولكشن orders)
-· حذف السلة بعد النجاح
-· تسجيل النشاط
-
-حقول الطلب
+### حقول الطلب
 
 ```javascript
 {
   customerId, customerName, customerPhone, customerPhone2,
-  customerAddress, customerAddress2,
-  isGuest, storeType, userRole,
-  region, deliveryDate, notes,
+  customerAddress, customerAddress2, deliveryChoice,
+  deliveryAddress, isGuest, storeType, userRole,
+  region, regionLocked, deliveryDate, notes,
   items: [...],
   subtotal, shippingCost, total, isFreeShipping,
-  status: 'pending', paymentStatus: 'unpaid',
-  paid: 0, remaining: total,
+  
+  // 🆕 الدفع
+  paymentMethod, paymentMethodLabel,
+  paymentFeePercent, paymentFee, grandTotal,
+  paymentProof, paymentProofUploadedAt,
+  
+  // 🆕 التوصيل
+  deliveryStatus, deliveryAgentId, deliveryAgentName,
+  deliveryAgentPhone, assignedAt, assignedBy,
+  pickedUpAt, deliveredAt, failedReason, deliveryNotes,
+  
+  // 🆕 التحصيل
+  cashCollected, cashCollectedAt,
+  cashHandedToAdmin, cashHandedAt,
+  
+  // 🆕 تأكيد العميل
+  confirmedByCustomer, customerConfirmedAt, customerFeedback,
+  
+  // الحالة
+  status, paymentStatus, paid, remaining,
   orderDate, createdAt, updatedAt
 }
 ```
 
 ---
 
-🎉 الجزء الخامس عشر: نجاح الطلب order-success.html 🆕
+## 🎉 الجزء العشرون: نجاح الطلب order-success.html (v2.0)
 
-الهيكل
+### الهيكل
 
 ```
 1. ✅ أيقونة نجاح متحركة
 2. 🔢 رقم الطلب (مع زر نسخ)
 3. 📅 خط زمني للطلب (4 مراحل)
-4. ℹ️ معلومات مهمة
-5. 👤 بيانات العميل
-6. 🚚 بيانات التوصيل
-7. 📦 قائمة المنتجات
-8. 💰 المبالغ
-9. 🔗 أزرار (تتبع/طلباتي/متابعة)
+4. 💳 صندوق طريقة الدفع (ملون حسب الطريقة)
+5. ℹ️ معلومات مهمة
+6. 👤 بيانات العميل
+7. 🚚 بيانات التوصيل
+8. 📦 قائمة المنتجات
+9. 💰 المبالغ (مع صف رسوم المحفظة لو موجودة)
+10. 🔗 أزرار (تتبع/طلباتي/متابعة)
 ```
-
-المميزات
-
-· خط زمني متحرك
-· حسب نوع المستخدم: أزرار مختلفة
-· للزائر: زر "أنشئ حساب"
-· للمسجل: أزرار "طلباتي" + "تتبع"
 
 ---
 
-📱 الجزء السادس عشر: تصميم الموبايل (App-Like)
+## 📱 الجزء الحادي والعشرون: تصميم الموبايل (App-Like)
 
-المبادئ
+### المبادئ
 
 ```
 ❌ لا يوجد هيدر كامل
@@ -637,96 +1066,48 @@ ROLES = {
 ✅ شريط حقوق فقط في الأسفل
 ```
 
-Media Queries الذكية
-
-```css
-/* موبايل حقيقي (شاشة صغيرة + لمس) */
-@media (max-width: 768px) and (pointer: coarse) {
-  /* إخفاء الهيدر والفوتر */
-  .smart-header, .smart-footer { display: none; }
-  /* إظهار مكونات الموبايل */
-  #mobile-top-bar, #mobile-top-tabs, 
-  #mobile-bottom-tabs, #mobile-copyright { display: block; }
-}
-```
-
-المكونات
-
-1. الشريط العلوي (mobile-top-bar) - ثابت 🆕
+### ⚠️ قواعد مهمة
 
 ```
-🔍 بحث | 🔔 إشعارات | 🛒 سلة | 📷 مستخدم | 🚪 خروج
-```
-
-· position: fixed أعلى المتصفح
-
-2. التبويبات العليا (mobile-top-tabs) - ثابتة 🆕
-
-· position: fixed تحت الشريط العلوي
-· حسب الصلاحية
-
-3. التبويبات السفلى (mobile-bottom-tabs)
-
-· حسب الصفحة
-· زر القائمة (☰) دائماً في النهاية
-
-4. شريط الحقوق (mobile-copyright)
-
-· "تم تنفيذ النظام كاملاً بواسطة Famo"
-
-⚠️ قواعد مهمة 🆕
-
-```
-✅ الشريط العلوي ثابت (fixed)
-✅ التبويبات العليا ثابتة (fixed)
+✅ overflow-x: hidden على html/body
+✅ منع تسرب السكرول للأزرار (wrappers)
+✅ overscroll-behavior-x: contain
+✅ min-width: 0 على الآباء
+✅ تحويل الجداول لـ Cards على الموبايل
 ✅ إضافة padding-top للـ body
-❌ ممنوع سيكشن بحث داخل الصفحات على الموبايل
-✅ البحث فقط عبر أيقونة الشريط العلوي
 ```
 
 ---
 
-🔍 الجزء السابع عشر: نافذة البحث الموحدة
+## 🚫 الجزء الثاني والعشرون: قواعد مهمة
 
-المميزات
-
-· نافذة Modal احترافية (بدل prompt())
-· Debounce 300ms
-· بحث فوري (Live Search)
-· 6 اقتراحات سريعة
-· ESC للإغلاق
-· Enter للبحث الكامل
-· السعر حسب صلاحية المستخدم
-
-الملفات
-
-الملف المحتوى
-style.css كلاسات .search-modal-*
-main.js دوال openSearchModal(), closeSearchModal(), handleModalSearch()
-كل صفحة HTML نافذة البحث (قبل </body>)
-
----
-
-🚫 الجزء الثامن عشر: إلغاء السكرول التلقائي
+### منع السكرول التلقائي
 
 ```
 ❌ ممنوع أي سكرول تلقائي في المشروع
-✅ المستخدم يتحكم بنفسه في كل السكرول الأفقي
+✅ المستخدم يتحكم بنفسه
+⚠️ استثناء: السلايدر الرئيسي (Slider Auto) مسموح
 ```
 
-⚠️ استثناء: السلايدر الرئيسي (Slider Auto) مسموح
+### Font Awesome فقط
+
+```
+✅ استخدم <i class="fas fa-check-circle"></i>
+❌ لا تستخدم أي إيموجي في HTML
+❌ لا تستخدم ✅ ⭐ 💡 في النصوص أو Toasts
+```
 
 ---
 
-🗄️ الجزء التاسع عشر: هيكل الملفات
+## 🗄️ الجزء الثالث والعشرون: هيكل الملفات المحدّث
 
 ```
 📁 gomla/
 ├── 📁 assets/
 │   ├── css/style.css
 │   ├── js/
-│   │   ├── firebase-config.js
-│   │   ├── main.js
+│   │   ├── firebase-config.js      (v6.1)
+│   │   ├── main.js                 (v6.1)
 │   │   └── public.js
 │   ├── components/
 │   │   ├── header.html
@@ -735,12 +1116,12 @@ main.js دوال openSearchModal(), closeSearchModal(), handleModalSearch()
 │   └── images/
 │
 ├── 📁 admin/
-│   ├── login.html
+│   ├── login.html                  ✅ (v2.0 محدّث)
 │   ├── home.html
 │   ├── dashboard.html
 │   ├── products.html
 │   ├── customers.html
-│   ├── orders.html
+│   ├── orders.html                 ✅ (v3.0 محدّث)
 │   ├── invoices.html
 │   ├── suppliers.html
 │   ├── purchases.html
@@ -753,9 +1134,15 @@ main.js دوال openSearchModal(), closeSearchModal(), handleModalSearch()
 │   ├── settings.html
 │   ├── branches.html
 │   ├── cashier.html
-│   ├── generate-codes.html       ✅ (محدث v2.0 - المرحلة 2)
-│   ├── sections-manager.html  ✅
-│   ├── partners-manager.html  ✅
+│   ├── generate-codes.html
+│   ├── sections-manager.html
+│   ├── partners-manager.html
+│   ├── financial-transactions.html
+│   ├── support.html                ✅
+│   ├── privacy-manager.html        ✅
+│   ├── delivery-agents.html        ✅ (v1.0 جديد)
+│   ├── assign-delivery.html        ⏳
+│   ├── delivery-settlements.html   ⏳
 │   └── profile.html
 │
 ├── 📁 cashier/
@@ -766,176 +1153,135 @@ main.js دوال openSearchModal(), closeSearchModal(), handleModalSearch()
 │   └── barcode-scanner.html
 │
 ├── 📁 customer/
-│   ├── profile.html              ✅ (جديد)
-│   ├── orders.html               ⏳ (التالي)
-│   ├── invoices.html             ⏳
-│   └── balance.html              ⏳
+│   ├── profile.html
+│   ├── orders.html                 ⏳ (لازم تحديث - تأكيد الاستلام)
+│   ├── invoices.html
+│   └── balance.html
 │
-├── index.html                    ✅
-├── store-wholesale.html          ✅
-├── store-retail.html             ✅
-├── categories.html               ✅ (محدث)
-├── category-products.html        ✅ (محدث)
-├── brand-products.html           ✅
-├── offers.html                   ✅
-├── discounts.html                ✅
-├── cart.html                     ✅
-├── checkout.html                 ✅
-├── order-success.html            ✅
-├── product-details.html          ✅
-├── login.html                    ✅ (جديد)
-├── customer-register.html        ✅ (جديد)
-├── customer-login.html           ✅
-├── trader-login.html             ✅ (Firebase Auth)
-├── cashier-login.html            ✅ (جديد)
-├── customer-home.html            ✅
-├── trader-home.html              ✅ (Firebase Auth)
-├── tracking.html                 ⏳
-├── wishlist.html                 ⏳
-├── notifications.html            ⏳
-├── support.html                  ⏳
-├── about.html                    ⏳
-├── privacy-policy.html           ⏳
-├── shipping-policy.html          ⏳
-├── exchange-policy.html          ⏳
-├── terms.html                    ⏳
+├── 📁 delivery/                    🆕
+│   ├── home.html                   ⏳
+│   ├── orders.html                 ⏳
+│   ├── available.html              ⏳
+│   ├── order-details.html          ⏳
+│   ├── collections.html            ⏳
+│   └── profile.html                ⏳
+│
+├── index.html
+├── store-wholesale.html
+├── store-retail.html
+├── categories.html
+├── category-products.html
+├── brand-products.html
+├── offers.html
+├── discounts.html
+├── cart.html
+├── checkout.html                   ✅ (v4.0 محدّث)
+├── order-success.html              ✅ (v2.0 محدّث)
+├── product-details.html
+├── login.html                      ✅ (v3.0 محدّث)
+├── customer-register.html
+├── customer-login.html
+├── trader-login.html
+├── cashier-login.html
+├── delivery-login.html             ✅ (v1.0 جديد)
+├── customer-home.html
+├── trader-home.html
+├── tracking.html
+├── wishlist.html
+├── notifications.html
+├── support.html                    ✅
+├── about.html                      ✅
+├── privacy-policy.html             ✅
+├── shipping-policy.html            ⏳
+├── exchange-policy.html            ⏳
+├── terms.html                      ⏳
+├── faq.html                        ⏳
 ├── CONSTITUTION.md
 └── README.md
 ```
 
 ---
 
-🗄️ الجزء العشرون: كولكشنز Firestore
+## 🗄️ الجزء الرابع والعشرون: كولكشنز Firestore المحدّثة
 
-الكولكشن الوصف الوصول
-admins المديرين + السوبر + أدمن بلص خاص
-cashiers الكاشير خاص
-customers العملاء والتجار حسب الصلاحية
-users احتياطي حسب الصلاحية
-products المنتجات عام (قراءة)
-categories التصنيفات عام
-brands البراندات عام
-cart السلة المستخدم نفسه
-wishlist المفضلة المستخدم نفسه
-orders الطلبات حسب الصلاحية
-invoices الفواتير حسب الصلاحية
-suppliers الموردين الإدارة
-purchases المشتريات الإدارة + الكاشير
-cashbox الصندوق الإدارة
-daily_sales المبيعات اليومية الإدارة + الكاشير
-branches الفروع عام (قراءة)
-branch_inventory مخزون الفروع الإدارة + الكاشير
-ranks الرتب عام
-levels المستويات عام
-rewards المكافآت حسب الصلاحية
-notifications الإشعارات المستخدم نفسه
-activityLog سجل النشاط الإدارة
-quotes المقولات عام
-news الأخبار عام
-ads الإعلانات عام
-slider السلايدر عام
-barcode_scans سجل الباركود الإدارة + الكاشير
-custom_sections السيكشنات المخصصة عام (قراءة)
-site_content محتوى الموقع عام (قراءة)
-partners الشركاء عام (قراءة)
-trader_lookup 🆕 كود التاجر (Doc ID = الكود) get عام، list ممنوع
-
-🆕 تفاصيل trader_lookup
-
-```javascript
-// Doc ID = كود التاجر (مثال: MHL-A1B2)
-{
-  customerId: "abc123",              // UID في customers
-  authEmail: "mhl-a1b2@trader.awladshalaan.com",
-  name: "أحمد محمد",
-  shop: "محلات النور",
-  phone: "01012345678",
-  whatsapp: "01012345678",
-  email: "mhl-a1b2@trader.awladshalaan.com",
-  city: "المحلة",
-  address: "شارع ...",
-  code: "MHL-A1B2",
-  role: "wholesale",
-  type: "wholesale",
-  avatar: "",
-  balance: 0,
-  ordersCount: 0,
-  pendingOrdersCount: 0,
-  recentOrders: [],
-  active: true,
-  createdAt, updatedAt
-}
-```
-
-الغرض:
-
-· 🔑 الدخول بالكود (get فقط)
-· 📊 إحصائيات جاهزة (يحدّثها لوحة التحكم لاحقاً)
-
-القواعد:
-
-```
-allow get: if true;       // أي حد يعرف الكود
-allow list: if false;     // ممنوع سرد
-allow write: if isSuperAdmin();
-```
+| الكولكشن | الوصف | الوصول |
+|----------|-------|--------|
+| `admins` | المديرين + السوبر + أدمن بلص | خاص |
+| `cashiers` | الكاشير | خاص |
+| `customers` | العملاء والتجار | حسب الصلاحية |
+| `users` | احتياطي | حسب الصلاحية |
+| `products` | المنتجات | عام (قراءة) |
+| `categories` | التصنيفات | عام |
+| `brands` | البراندات | عام |
+| `cart` | السلة | المستخدم نفسه |
+| `wishlist` | المفضلة | المستخدم نفسه |
+| `orders` | الطلبات | حسب الصلاحية |
+| `invoices` | الفواتير | حسب الصلاحية |
+| `suppliers` | الموردين | الإدارة |
+| `purchases` | المشتريات | الإدارة + الكاشير |
+| `cashbox` | الصندوق | الإدارة |
+| `daily_sales` | المبيعات اليومية | الإدارة + الكاشير |
+| `branches` | الفروع | عام (قراءة) |
+| `branch_inventory` | مخزون الفروع | الإدارة + الكاشير |
+| `ranks` | الرتب | عام |
+| `levels` | المستويات | عام |
+| `rewards` | المكافآت | حسب الصلاحية |
+| `notifications` | الإشعارات العامة | المستخدم نفسه |
+| `customer_notifications` | إشعارات العملاء | المستخدم نفسه |
+| `admin_notifications` | إشعارات الأدمن | المستخدم نفسه |
+| `activityLog` | سجل النشاط | الإدارة |
+| `quotes` | المقولات | عام |
+| `news` | الأخبار | عام |
+| `ads` | الإعلانات | عام |
+| `slider` | السلايدر | عام |
+| `barcode_scans` | سجل الباركود | الإدارة + الكاشير |
+| `custom_sections` | السيكشنات المخصصة | عام (قراءة) |
+| `site_content` | محتوى الموقع | عام (قراءة) |
+| `partners` | الشركاء | عام (قراءة) |
+| `trader_lookup` | كود التاجر (Doc ID = الكود) | get عام، list ممنوع |
+| `financial_notifications` | إبلاغات السداد والنزاعات | حسب الصلاحية |
+| `support_tickets` | تذاكر الدعم | حسب الصلاحية |
+| `privacy_sections` | أقسام سياسة الخصوصية | عام (قراءة) |
+| `public_stats` | الإحصائيات العامة | عام (قراءة) |
+| `delivery_agents` | 🆕 الموصلين | حسب الصلاحية |
+| `delivery_lookup` | 🆕 كود الموصل (Doc ID = الكود) | get عام، list ممنوع |
+| `delivery_collections` | 🆕 تحصيلات الموصلين | حسب الصلاحية |
 
 ---
 
-💰 الجزء الحادي والعشرون: الأنظمة المالية
+## 🚚 الجزء الخامس والعشرون: أسعار الشحن والمناطق
 
-الحدود الدنيا والقصوى
+### الجملة
 
-متجر الجملة
+| المدينة | السعر | شحن مجاني عند |
+|---------|-------|---------------|
+| طنطا | 125 | 5000 |
+| المنصورة | 125 | 5000 |
+| المحلة | 50 | 2000 |
 
-```
-الحد الأدنى للفاتورة: 1500 ج.م
-الحد الأقصى لكل منتج: تلقائي حسب المخزون
-```
+### القطاعي
 
-جدول الحد الأقصى التلقائي
+| المنطقة | السعر | شحن مجاني عند |
+|---------|-------|---------------|
+| الرجبي، أبو شاهين | 25 | 2500 |
+| السبع بنات، الجمهورية، سكة زفتى، الشعبية، الشعراوي، العلو، الشون، المعهد الديني، شارع 10، البندر، المشحمة، أبو راضي | 35 | 2500 |
+| الزراعة، أبو علي | 45 | 2500 |
+| كفر حجازي | 50 | 2500 |
 
-المخزون الحد الأقصى
-2 0 (غير متوفر)
-8 2
-10 3
-15 4
-30 5
-50 7
-50 +2 لكل 5 وحدات
+### مناطق الموصلين
 
-متجر القطاعي
-
-```
-الحد الأقصى للطلب = المخزون الحالي بالقطع
-لا يوجد حد أدنى
-```
-
-أسعار الشحن
-
-الجملة
-
-المدينة السعر شحن مجاني عند
-طنطا 125 5000
-المنصورة 125 5000
-المحلة 50 2000
-
-القطاعي
-
-المنطقة السعر شحن مجاني عند
-الرجبي، أبو شاهين 25 2500
-السبع بنات، الجمهورية، سكة زفتى، الشعبية، الشعراوي، العلو، الشون، المعهد الديني، شارع 10، البندر، المشحمة، أبو راضي 35 2500
-الزراعة، أبو علي 45 2500
-كفر حجازي 50 2500
+**للجملة:** طنطا / المنصورة / المحلة
+**للقطاعي:** كل مناطق المحلة المذكورة
 
 ---
 
-🎨 الجزء الثاني والعشرون: نظام التصميم
+## 🎨 الجزء السادس والعشرون: نظام التصميم
 
-الألوان
+### الألوان
 
 ```css
 :root {
+  /* الألوان الأساسية */
   --navy: #1a2a4a;
   --navy-light: #2a3f6a;
   --navy-dark: #0f1a2e;
@@ -945,114 +1291,102 @@ allow write: if isSuperAdmin();
   --white: #ffffff;
   --ddd: #0088FC;
   
-  --gray-50 إلى --gray-900
-  
+  /* الرمادي (50-900) */
+  /* الألوان الوظيفية */
   --success: #22c55e;
   --danger: #ef4444;
   --warning: #f59e0b;
   --info: #3b82f6;
+  
+  /* 🆕 ألوان الموصلين */
+  --del-green-1: #064e3b;
+  --del-green-2: #047857;
+  --del-green-3: #059669;
+  --del-green-light: #10b981;
 }
 ```
 
-الأنيميشن الموحد
+### الأنيميشن الموحد
 
-· dropIn (نزول الكروت)
-· logo-pulse (نبض اللوجو)
-· shimmer-move (شريط متلألئ)
-· text-shine (نص متلألئ)
-· float (عائم)
-
----
-
-📚 الجزء الثالث والعشرون: المكتبات
-
-المكتبة الاستخدام
-Firebase SDK 9.22.0 قاعدة البيانات والمصادقة
-Font Awesome 6.5.0 الأيقونات
-Google Fonts (Tajawal) الخط
-browser-image-compression ضغط الصور
-PDF.js قراءة PDF
-Gemini API استخراج ذكي
-html5-qrcode قارئ الباركود
-JsBarcode توليد الباركود
+- `dropIn` — نزول الكروت
+- `logo-pulse` — نبض اللوجو
+- `shimmer-move` — شريط متلألئ
+- `text-shine` — نص متلألئ
+- `float` — عائم
+- `heartBeat` — نبض القلب
+- `pulseDot` — نبض نقطة الإشعارات
+- `bellRing` — رجّ الجرس للدعم
+- 🆕 `shineSweep` — شريط لامع
+- 🆕 `imageZoomIn` — تكبير الصورة
+- 🆕 `iconFloat` — أيقونة عائمة
+- 🆕 `rippleRing` — حلقة تنتشر
 
 ---
 
-🚀 الجزء الرابع والعشرون: المراحل التنفيذية
+## 📚 الجزء السابع والعشرون: المكتبات
 
-✅ المرحلة صفر: التنظيف (100%)
+| المكتبة | الاستخدام |
+|---------|-----------|
+| Firebase SDK 9.22.0 | قاعدة البيانات والمصادقة |
+| Font Awesome 6.5.0 | الأيقونات |
+| Google Fonts (Tajawal) | الخط |
+| browser-image-compression | ضغط الصور |
+| PDF.js | قراءة PDF |
+| Gemini API | استخراج ذكي |
+| html5-qrcode | قارئ الباركود |
+| JsBarcode | توليد الباركود |
 
-```
-✅ حذف core.js, sidebar.js, admin.js
-✅ كتابة CONSTITUTION.md
-✅ إعادة كتابة firebase-config.js
-✅ إعادة كتابة main.js
-✅ إعادة كتابة public.js
-✅ إصلاح style.css
-✅ توحيد header.html, footer.html, sidebar.html
-✅ تحديث قواعد Firestore
-```
+---
 
-✅ المرحلة 1: الصفحة الرئيسية والمتاجر (100% مكتملة 🎉)
+## 🚀 الجزء الثامن والعشرون: المراحل التنفيذية المحدّثة
 
-# الملف الحالة
-1 index.html (8 سيكشنات) ✅
-2 public.js ✅
-3 admin/sections-manager.html ✅
-4 product-details.html ✅
-5 store-retail.html ✅
-6 categories.html (مبسط) ✅
-7 category-products.html (شريط مضغوط) ✅
-8 brand-products.html ✅
-9 offers.html ✅
-10 store-wholesale.html ✅
-11 discounts.html ✅
-12 admin/partners-manager.html ✅
-13 login.html (بوابة الدخول) ✅
-14 customer-register.html ✅
-15 cart.html ✅
-16 checkout.html ✅
-17 order-success.html ✅
+### ✅ المرحلة صفر: التنظيف (100%)
 
-✅ المرحلة 2: صفحات العملاء (60% - جاري 🚧)
+### ✅ المرحلة 1: الصفحة الرئيسية والمتاجر (100%)
 
-# الملف الحالة
-1 customer-login.html ✅
-2 trader-login.html (Firebase Auth) ✅
-3 cashier-login.html ✅
-4 customer-home.html ✅
-5 trader-home.html (Firebase Auth) ✅
-6 admin/generate-codes.html (4 تبويبات + Secondary App) ✅
-7 customer/profile.html ✅
-8 customer/orders.html ⏳ (التالي)
-9 customer/invoices.html ⏳
-10 customer/balance.html ⏳
-11 tracking.html ⏳
-12 wishlist.html ⏳
-13 notifications.html ⏳
-14 support.html ⏳
-15 about.html ⏳
-16 privacy-policy.html ⏳
-17 shipping-policy.html ⏳
-18 exchange-policy.html ⏳
-19 terms.html ⏳
+### ✅ المرحلة 2: صفحات العملاء (74%)
 
-ملاحظة: admin/generate-codes.html تم نقله للمرحلة 2 (بدل 3) لأن دخول التجار يعتمد عليه.
+### ✅ المرحلة 2.5: الموصلين + طرق الدفع (جديد - 60%)
 
-⏳ المرحلة 3: لوحة التحكم (0%)
+**تم إنجازه:**
+- ✅ تحديث `main.js` (v6.1) — دور DELIVERY + دوال
+- ✅ تحديث `firestore.rules` (v6.5) — قواعد الموصلين
+- ✅ تحديث `firebase-config.js` (v6.1) — كولكشنز + ثوابت
+- ✅ تحديث `checkout.html` (v4.0) — 3 طرق دفع + تدوير
+- ✅ تحديث `order-success.html` (v2.0) — عرض الدفع
+- ✅ تحديث `admin/login.html` (v2.0) — تصميم عمودين
+- ✅ تحديث `login.html` (v3.0) — 5 كروت + Hero
+- ✅ `delivery-login.html` (v1.0) — دخول الموصلين
+- ✅ `admin/delivery-agents.html` (v1.0) — إدارة الموصلين
+- ✅ `admin/orders.html` (v3.0) — عمود الموصل (لاحقًا)
+
+**المتبقي:**
+- ⏳ `delivery/home.html`
+- ⏳ `delivery/orders.html`
+- ⏳ `delivery/available.html`
+- ⏳ `delivery/order-details.html`
+- ⏳ `delivery/collections.html`
+- ⏳ `delivery/profile.html`
+- ⏳ `admin/assign-delivery.html`
+- ⏳ `admin/delivery-settlements.html`
+- ⏳ تحديث `admin/orders.html` (عمود الموصل)
+- ⏳ تحديث `admin/cashbox.html` (بند أوردرات دليفري)
+- ⏳ تحديث `customer/orders.html` (تأكيد الاستلام)
+
+### ⏳ المرحلة 3: لوحة التحكم (0%)
 
 ```
-admin/login.html (يحتاج تحديث)
+admin/login.html ✅ (محدّث)
 admin/home.html
 admin/dashboard.html
 admin/products.html
-admin/customers.html (تبويبات جديدة)
-admin/orders.html
+admin/customers.html
+admin/orders.html ✅ (محدّث)
 admin/invoices.html
 admin/profile.html
 ```
 
-⏳ المرحلة 4: الأنظمة المالية (0%)
+### ⏳ المرحلة 4: الأنظمة المالية (0%)
 
 ```
 admin/suppliers.html
@@ -1062,7 +1396,7 @@ admin/cashbox.html
 admin/financial-reports.html
 ```
 
-⏳ المرحلة 5: الأنظمة التشغيلية (0%)
+### ⏳ المرحلة 5: الأنظمة التشغيلية (0%)
 
 ```
 admin/settings.html
@@ -1078,9 +1412,28 @@ cashier/purchases.html
 cashier/barcode-scanner.html
 ```
 
+### 🆕 المرحلة 6: صفحات المحتوى القانوني (جديد)
+
+```
+about.html ✅
+privacy-policy.html ✅
+shipping-policy.html ⏳
+exchange-policy.html ⏳
+terms.html ⏳
+faq.html ⏳
+```
+
+### 🆕 المرحلة 7: صفحة توضيح التسجيل (جديد - قريباً)
+
+```
+register-guide.html ⏳ (سيتم إنشاؤها)
+```
+
+**الهدف:** توضيح كيفية التسجيل كتاجر أو موصل جديد خطوة بخطوة.
+
 ---
 
-🔑 الجزء الخامس والعشرون: المفاتيح
+## 🔑 الجزء التاسع والعشرون: المفاتيح
 
 ```javascript
 const firebaseConfig = {
@@ -1094,109 +1447,93 @@ const firebaseConfig = {
 
 const IMGBB_API_KEY = "cb056b7fd83c81129d5468c5d03287b4";
 const GEMINI_API_KEY = "AQ.Ab8RN6J_44fb2fdP2YWWxwq0aNnG7DXJnSv3O8whicffxAj_g";
-const WHATSAPP_NUMBER = "01120282953";
+const WHATSAPP_NUMBER = "01068385028";
+const PAYMENT_ACCOUNT = "01068385028";
 ```
 
----
-
-📊 الجزء السادس والعشرون: إحصائيات المشروع
-
-العملية العدد
-ملفات تُمسح 3
-ملفات تُعاد كتابتها 7
-ملفات تُعدل 25
-ملفات جديدة 32
-الإجمالي 67 ملف
-
-المرحلة المدة الحالة
-المرحلة صفر 3-4 أيام ✅ 100%
-المرحلة 1 7 أيام ✅ 100%
-المرحلة 2 3-4 أيام 🚧 60%
-المرحلة 3 3-4 أيام ⏳ 0%
-المرحلة 4 4-5 أيام ⏳ 0%
-المرحلة 5 5-6 أيام ⏳ 0%
-الإجمالي 25-30 يوم ~55%
+**⚠️ تحديث:** رقم الواتساب ورقم الحساب = **01068385028** (كان 01120282953 قديمًا)
 
 ---
 
-🎯 الجزء السابع والعشرون: الأنظمة الكاملة (28 نظام)
+## 📊 الجزء الثلاثون: إحصائيات المشروع
 
-# النظام الحالة
-1 المصادقة (Auth + Code + Secondary App) ✅
-2 الهيدر الذكي ✅
-3 الفوتر الذكي ✅
-4 السايدبار الذكي ✅
-5 تصميم الموبايل ✅
-6 المنتجات ✅
-7 التصنيفات ✅
-8 البراندات ✅
-9 العروض (قطاعي) ✅
-10 الخصومات (جملة) ✅
-11 الشركاء ✅
-12 السيكشنات المخصصة ✅
-13 المفضلة ⚠️ (بدون صفحة)
-14 الإشعارات ⚠️ (بدون صفحة)
-15 العملاء والتجار ✅
-16 الطلبات ✅ (إنشاء)
-17 الفواتير ⏳
-18 السلة ✅
-19 الموردين ⏳
-20 المشتريات ⏳
-21 استخراج PDF ⏳
-22 الصندوق ⏳
-23 المبيعات اليومية ⏳
-24 الفروع ⏳
-25 المستويات ⏳
-26 الكاشير + الباركود ⏳
-27 🆕 نظام دخول التجار (Firebase Auth بالكود) ✅
-28 🆕 إنشاء الحسابات (Secondary App) ✅
+| المقياس | العدد |
+|---------|------|
+| الصفحات المكتملة | ~45 |
+| الصفحات المتبقية (المرحلة 2.5) | ~11 |
+| صفحات المرحلة 3-5 | ~30 |
+| الكولكشنز في Firestore | **41** |
+| الأنظمة الكاملة | **42** |
+| نسبة الإنجاز الكلي | ~67% |
+
+| المرحلة | الحالة |
+|---------|--------|
+| المرحلة صفر | ✅ 100% |
+| المرحلة 1 | ✅ 100% |
+| المرحلة 2 | 🚧 74% |
+| المرحلة 2.5 (الموصلين + الدفع) | 🚧 60% |
+| المرحلة 3 | ⏳ 0% |
+| المرحلة 4 | ⏳ 0% |
+| المرحلة 5 | ⏳ 0% |
+| المرحلة 6 (المحتوى) | 🚧 50% |
+| المرحلة 7 (التسجيل) | ⏳ 0% |
 
 ---
 
-✅ الجزء الثامن والعشرون: القرارات النهائية
+## 🎯 الجزء الحادي والثلاثون: الأنظمة الكاملة (42 نظام)
 
-# القرار
-1 الدخول: Firebase Auth + localStorage + كود للتجار
-2 العملاء: Email + Password
-3 التجار: كود فقط → Firebase Auth
-4 أدمن بلص: Email + Password
-5 الصور: ImgBB فقط
-6 ممنوع base64 و Firebase Storage
-7 PDF: PDF.js + Gemini API
-8 سعر الشراء: سوبر أدمن فقط
-9 الحد الأدنى للجملة: 1500
-10 الحد الأقصى للقطاعي: المخزون
-11 الصفحة الرئيسية: 8 سيكشنات
-12 الموبايل: تطبيق حقيقي
-13 لا سكرول تلقائي
-14 تبويبات الموبايل ثابتة
-15 إخفاء البحث من الصفحات على الموبايل
-16 نافذة البحث موحدة
-17 صفحة الأقسام مبسطة (شريط + شبكة فقط)
-18 صفحة القسم: شريط مضغوط Sticky + chips براندات
-19 فصل العروض (قطاعي) عن الخصومات (جملة)
-20 رتبة أدمن بلص
-21 نظام الشركاء
-22 بوابة دخول login.html (3 كروت)
-23 تسجيل العملاء ذاتي
-24 cart + checkout + order-success منفصلين
-25 الترتيب: صفر → 5
-26 🆕 كل تاجر عنده Firebase Auth حقيقي (Email/Password)
-27 🆕 إيميل التاجر = {code-lowercase}@trader.awladshalaan.com
-28 🆕 باسورد التاجر = الكود نفسه
-29 🆕 الدخول للتاجر: كود → قراءة trader_lookup → Firebase Auth
-30 🆕 إنشاء الحسابات بـ Firebase Secondary App (لعدم طرد السوبر أدمن)
-31 🆕 trader_lookup Doc ID = الكود (get فقط، list ممنوع)
-32 🆕 main.js شغال طبيعي مع Firebase Auth (لا يحتاج تعديل)
-33 🆕 Firestore Rules = v6.4 (شاملة + trader_lookup)
+| # | النظام | الحالة |
+|---|--------|--------|
+| 1 | المصادقة (Auth + Code + Secondary App) | ✅ |
+| 2 | الهيدر الذكي | ✅ |
+| 3 | الفوتر الذكي | ✅ |
+| 4 | السايدبار الذكي | ✅ |
+| 5 | تصميم الموبايل | ✅ |
+| 6 | المنتجات | ✅ |
+| 7 | التصنيفات | ✅ |
+| 8 | البراندات | ✅ |
+| 9 | العروض (قطاعي) | ✅ |
+| 10 | الخصومات (جملة) | ✅ |
+| 11 | الشركاء | ✅ |
+| 12 | السيكشنات المخصصة | ✅ |
+| 13 | المفضلة | ✅ |
+| 14 | الإشعارات | ✅ |
+| 15 | العملاء والتجار | ✅ |
+| 16 | الطلبات | ✅ |
+| 17 | الفواتير | ✅ |
+| 18 | السلة | ✅ |
+| 19 | الموردين | ⏳ |
+| 20 | المشتريات | ⏳ |
+| 21 | استخراج PDF | ⏳ |
+| 22 | الصندوق | ⏳ |
+| 23 | المبيعات اليومية | ⏳ |
+| 24 | الفروع | ⏳ |
+| 25 | المستويات | ⏳ |
+| 26 | الكاشير + الباركود | ⏳ |
+| 27 | دخول التجار (Firebase Auth) | ✅ |
+| 28 | إنشاء الحسابات (Secondary App) | ✅ |
+| 29 | الإبلاغ عن السداد | ✅ |
+| 30 | استقبال النزاعات المالية | ✅ |
+| 31 | حماية الصفحات المتقدمة | ✅ |
+| 32 | الجلسات المتعددة (storage event) | ✅ |
+| 33 | Timeline الطلب | ✅ |
+| 34 | الإشعارات المتقدمة (7 تبويبات) | ✅ |
+| 35 | المفضلة الذكية | ✅ |
+| 36 | منع السكرول الأفقي | ✅ |
+| 37 | تتبع الطلب | ✅ |
+| 38 | نظام كشف الحساب | ✅ |
+| 39 | تذاكر الدعم | ✅ |
+| 40 | إدارة سياسة الخصوصية | ✅ |
+| 41 | 🆕 طرق الدفع (3 طرق + تدوير) | ✅ |
+| 42 | 🆕 نظام الموصلين + التوصيل | 🚧 60% |
 
 ---
 
-🎯 الجزء التاسع والعشرون: تعليمات المحادثة الجديدة
+## 🎯 الجزء الثاني والثلاثون: تعليمات المحادثة الجديدة
 
 ```
 عند بدء محادثة جديدة:
-1. ارفع CONSTITUTION.md
+1. ارفع CONSTITUTION.md (هذا الملف)
 2. ارفع آخر ملفات عملنا عليها
 3. اكتب:
    "أنا أعمل على مشروع أولاد شعلان جملة.
@@ -1208,40 +1545,169 @@ const WHATSAPP_NUMBER = "01120282953";
 
 ---
 
-🎯 الجزء الثلاثون: الخطوة القادمة
+## 🚀 الجزء الثالث والثلاثون: الخطوة القادمة
 
-✅ ما تم إنجازه (المرحلة 0 + 1 + 60% من 2):
+### 🔥 ما تم إنجازه في هذه الجلسة:
 
-· 17 ملف في المرحلة 1
-· كل المكونات الأساسية
-· نظام الدخول والتسجيل
-· نظام السلة والطلب
-· 🆕 Firebase Auth للتجار
-· 🆕 Firebase Secondary App لإنشاء الحسابات
-· 🆕 trader_lookup
-· 🆕 customer/profile.html
+- ✅ تحديث `main.js` v6.1 (دور DELIVERY + دوال)
+- ✅ تحديث `firestore.rules` v6.5 (قواعد الموصلين)
+- ✅ تحديث `firebase-config.js` v6.1 (كولكشنز + ثوابت)
+- ✅ تحديث `checkout.html` v4.0 (3 طرق دفع + تدوير)
+- ✅ تحديث `order-success.html` v2.0 (عرض الدفع)
+- ✅ تحديث `admin/login.html` v2.0 (تصميم عمودين)
+- ✅ تحديث `admin/orders.html` v3.0 (إصلاح الأخطاء)
+- ✅ تحديث `login.html` v3.0 (5 كروت + Hero)
+- ✅ `delivery-login.html` v1.0 (جديد)
+- ✅ `admin/delivery-agents.html` v1.0 (جديد)
+- ✅ `about.html` v1.0 (جديد)
+- ✅ `privacy-policy.html` v1.0 (جديد)
+- ✅ `admin/privacy-manager.html` v1.0 (جديد)
+- ✅ `support.html` v1.0 (جديد)
+- ✅ `admin/support.html` v1.0 (جديد)
 
-🔄 الخطوة القادمة (المرحلة 2):
+### 🎯 الخطوة القادمة المتفق عليها:
 
-صفحات العملاء المتبقية:
+**1. إنشاء صفحة `register-guide.html`** — توضح كيفية التسجيل كتاجر أو موصل جديد
 
-1. customer/orders.html ⏳ (التالي)
-2. customer/invoices.html
-3. customer/balance.html
-4. tracking.html
-5. wishlist.html
-6. notifications.html
-7. support.html
-8. about.html
-9. privacy-policy.html
-10. shipping-policy.html
-11. exchange-policy.html
-12. terms.html
+**بعدها:**
+**2. صفحات الموصلين:**
+- `delivery/home.html`
+- `delivery/orders.html`
+- `delivery/available.html`
+- `delivery/order-details.html`
+- `delivery/collections.html`
+- `delivery/profile.html`
+
+**3. صفحات إدارة الموصلين:**
+- `admin/assign-delivery.html`
+- `admin/delivery-settlements.html`
+- تحديث `admin/orders.html`
+
+**4. تحديث `customer/orders.html`** — تأكيد العميل للاستلام
+
+**5. إكمال المرحلة 6:**
+- `shipping-policy.html`
+- `exchange-policy.html`
+- `terms.html`
+- `faq.html`
 
 ---
 
-✅ هذا هو المرجع الرسمي الكامل للمشروع.
+## ✅ الجزء الرابع والثلاثون: القرارات النهائية المحدّثة
 
-عند بدء محادثة جديدة، ارفع هذا الملف أولاً.
+1. الدخول: Firebase Auth + localStorage + كود للتجار + كود للموصلين
+2. العملاء: Email + Password
+3. التجار: كود → Firebase Auth
+4. **الموصلين: كود `DEL-XXXXX@#$` → Firebase Auth** 🆕
+5. أدمن بلص: Email + Password
+6. الصور: ImgBB فقط
+7. ممنوع base64 و Firebase Storage
+8. PDF: PDF.js + Gemini API
+9. سعر الشراء: سوبر أدمن فقط
+10. الحد الأدنى للجملة: 1500 ج.م
+11. الحد الأقصى للقطاعي: المخزون
+12. الصفحة الرئيسية: 8 سيكشنات
+13. الموبايل: تطبيق حقيقي
+14. لا سكرول تلقائي
+15. تبويبات الموبايل ثابتة
+16. نافذة البحث موحدة
+17. صفحة الأقسام مبسطة
+18. صفحة القسم: شريط مضغوط Sticky
+19. فصل العروض (قطاعي) عن الخصومات (جملة)
+20. رتبة أدمن بلص
+21. نظام الشركاء
+22. بوابة دخول login.html (5 كروت) 🆕
+23. تسجيل العملاء ذاتي
+24. cart + checkout + order-success منفصلين
+25. كل تاجر عنده Firebase Auth حقيقي
+26. إيميل التاجر = `{code-lowercase}@trader.awladshalaan.com`
+27. باسورد التاجر = الكود نفسه
+28. **إيميل الموصل = `del-{code-lowercase}@delivery.awladshalaan.com`** 🆕
+29. **باسورد الموصل = الكود نفسه** 🆕
+30. إنشاء الحسابات بـ Firebase Secondary App
+31. trader_lookup Doc ID = الكود
+32. **delivery_lookup Doc ID = الكود** 🆕
+33. main.js شغال طبيعي مع Firebase Auth
+34. Firestore Rules v6.5
+35. دوال حماية متقدمة بـ roles
+36. منع العملاء من صفحات الأدمن → الرئيسية + Toast
+37. مراقب الجلسات المتعددة بـ storage event
+38. Overlay مع عدّاد SVG لتنبيه الجلسة
+39. نظام الإبلاغ عن السداد
+40. خصم تلقائي من الرصيد عند اعتماد الإبلاغ
+41. تحديث trader_lookup تلقائياً
+42. منع السكرول الأفقي على كل الصفحات
+43. تحويل الجداول لـ Cards على الموبايل
+44. **3 طرق دفع (كاش/إنستا/محفظة +1%)** 🆕
+45. **تدوير الإجمالي لأقرب 5 (رياضي)** 🆕
+46. **رقم الحساب: 01068385028** 🆕
+47. **نظام الموصلين الكامل (5 حالات توصيل)** 🆕
+48. **تقسيم الفلوس: منتجات → الصندوق، شحن → الموصل** 🆕
+49. **تأكيد العميل للاستلام + التحصيل** 🆕
+50. **Font Awesome فقط — ممنوع الإيموجي** 🆕
+51. **صفحة توضيح التسجيل (register-guide.html)** 🆕
 
-آخر تحديث: 2026-09-28
+---
+
+## 🎯 الجزء الخامس والثلاثون: خارطة الطريق المستقبلية
+
+### المدى القصير (أسبوع)
+
+1. إنشاء `register-guide.html` 🎯 **التالي**
+2. إكمال صفحات الموصلين (6 صفحات)
+3. إكمال صفحات إدارة الموصلين (2 صفحتان)
+4. تحديث `customer/orders.html` (تأكيد العميل)
+5. إكمال المرحلة 6 (4 صفحات)
+
+### المدى المتوسط (شهر)
+
+6. الأنظمة المالية (المرحلة 4)
+7. الأنظمة التشغيلية (المرحلة 5)
+8. تحديث `admin/cashbox.html` (بند أوردرات دليفري)
+9. نظام الكوبونات + النقاط والمكافآت
+10. نظام الرتب (VIP)
+
+### المدى الطويل (3 أشهر)
+
+11. Dark Mode + PWA
+12. Push Notifications (FCM)
+13. تكامل بوابات الدفع (فوري، Paymob)
+14. تعدد اللغات (عربي + إنجليزي)
+15. تطبيق الموبايل (React Native / Flutter)
+16. تكامل مع بوابات الشحن (Aramex, Bosta)
+17. **حذف Firebase Auth من الـ Backend** (Cloud Function)
+
+---
+
+## ✅ هذا هو المرجع الرسمي الكامل للمشروع (v13.0)
+
+**عند بدء محادثة جديدة:**
+- ارفع هذا الملف أولاً
+- ارفع آخر ملفات عملنا عليها
+- أخبرني بالخطوة القادمة
+
+**آخر تحديث:** 2026-10-13
+**الإصدار:** 13.0
+
+---
+
+## 📝 ملاحظات مهمة
+
+1. **كل الإيموجي في الكود ممنوعة** — Font Awesome فقط
+2. **حماية الأدوار مطبقة** في كل صفحة
+3. **الجلسات المتعددة مراقبة** (4 مفاتيح الآن: admin, customer, cashier, deliveryData)
+4. **الموصلون يدخلون بالكود فقط** (5 حروف + 3 رموز مميزة)
+5. **الإجمالي دائمًا رقم صحيح ينتهي بـ 0 أو 5**
+6. **فلوس الشحن للموصل، فلوس المنتجات للصندوق**
+7. **الأدمن بلص يقدر يدير الموصلين، الحذف للسوبر فقط**
+
+---
+
+**دي النسخة الكاملة من الدستور ✅**
+
+**قولي دلوقتي:**
+
+**أ)** ابدأ بـ `register-guide.html` (صفحة توضيح التسجيل)
+**ب)** ابدأ بصفحات الموصلين الـ 6
+**ج)** حابب تعدل حاجة في الدستور الأول
+**د)** قرار تاني
