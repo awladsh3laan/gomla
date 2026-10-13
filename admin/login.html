@@ -3,300 +3,854 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>أولاد شعلان جملة - دخول المديرين</title>
-
-  <!-- ===== SEO ===== -->
+  <title>دخول المديرين - أولاد شعلان جملة</title>
   <meta name="description" content="دخول المديرين - أولاد شعلان جملة">
   <meta name="theme-color" content="#1a2a4a">
-
-  <!-- ===== Font Awesome ===== -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
-  <!-- ===== Google Font ===== -->
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
-
-  <!-- ===== الستايل الموحد ===== -->
   <link rel="stylesheet" href="../assets/css/style.css">
-
-  <!-- ===== Favicon ===== -->
   <link rel="icon" href="../assets/images/favicon.ico">
 
-  <!-- ============================================================ -->
-  <!-- 🎨 ستايل خاص بالصفحة (فقط لدخول المديرين)                    -->
-  <!-- ============================================================ -->
   <style>
-    /* ===== صفحة الدخول ===== */
-    .login-page {
-      min-height: 80vh;
+    /* ============================================================
+       🎨 صفحة دخول المديرين - v2.0
+       ✅ تخطيط من عمودين (صورة + فورم)
+       ✅ أنيميشنات حديثة للصورة
+       ✅ متوافق مع الموبايل
+       ============================================================ */
+
+    /* ===== المتغيرات المحلية ===== */
+    :root {
+      --login-bg-1: #0f1a2e;
+      --login-bg-2: #1a2a4a;
+      --login-bg-3: #2a3f6a;
+      --glow-gold: rgba(201, 168, 76, 0.4);
+      --glow-gold-strong: rgba(201, 168, 76, 0.6);
+    }
+
+    html, body {
+      overflow-x: hidden !important;
+      max-width: 100vw;
+    }
+
+    /* ===== الحاوية الرئيسية ===== */
+    .login-wrap {
+      min-height: calc(100vh - 80px);
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 40px 20px;
-      background: var(--gray-50);
+      padding: 30px 16px;
+      position: relative;
+      background: linear-gradient(135deg, var(--login-bg-1), var(--login-bg-2), var(--login-bg-3));
+      overflow: hidden;
     }
 
+    /* خلفية متحركة (دوائر ضوئية) */
+    .login-wrap::before,
+    .login-wrap::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .login-wrap::before {
+      width: 500px;
+      height: 500px;
+      top: -200px;
+      right: -150px;
+      background: radial-gradient(circle, rgba(201,168,76,.18) 0%, transparent 70%);
+      animation: bgFloat1 12s ease-in-out infinite;
+    }
+
+    .login-wrap::after {
+      width: 400px;
+      height: 400px;
+      bottom: -150px;
+      left: -100px;
+      background: radial-gradient(circle, rgba(135,206,235,.12) 0%, transparent 70%);
+      animation: bgFloat2 15s ease-in-out infinite;
+    }
+
+    @keyframes bgFloat1 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(-30px, 30px) scale(1.1); }
+    }
+
+    @keyframes bgFloat2 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(30px, -30px) scale(1.15); }
+    }
+
+    /* ===== البطاقة الرئيسية (عمودين) ===== */
     .login-card {
-      background: var(--white);
-      border-radius: var(--radius-md);
-      padding: 44px 36px;
-      max-width: 420px;
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       width: 100%;
-      box-shadow: var(--shadow-md);
+      max-width: 1000px;
+      min-height: 560px;
+      background: var(--white);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow:
+        0 30px 80px rgba(0, 0, 0, 0.35),
+        0 0 0 1px rgba(201, 168, 76, 0.1);
+      animation: cardEnter 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    @keyframes cardEnter {
+      from {
+        opacity: 0;
+        transform: translateY(40px) scale(0.96);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* ============================================================
+       🖼️ العمود الأيسر: الصورة
+       ============================================================ */
+    .login-image-panel {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--login-bg-1), var(--login-bg-2));
+    }
+
+    .login-image-panel img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      animation: imageZoomIn 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+      transition: transform 0.6s ease;
+    }
+
+    @keyframes imageZoomIn {
+      from {
+        opacity: 0;
+        transform: scale(1.15);
+        filter: blur(8px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0);
+      }
+    }
+
+    /* ✨ طبقة تدرج فوق الصورة */
+    .login-image-panel::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(180deg,
+          rgba(15, 26, 46, 0.3) 0%,
+          transparent 40%,
+          transparent 60%,
+          rgba(15, 26, 46, 0.7) 100%);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ✨ شريط ضوئي متحرك */
+    .login-image-panel::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 60%;
+      height: 100%;
+      background: linear-gradient(
+        120deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.15) 50%,
+        transparent 100%
+      );
+      z-index: 2;
+      animation: shineSweep 4s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes shineSweep {
+      0% { left: -100%; }
+      50% { left: 150%; }
+      100% { left: 150%; }
+    }
+
+    /* ✨ النص العلوي فوق الصورة */
+    .image-overlay-text {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      padding: 28px 24px;
+      color: var(--white);
+      z-index: 3;
       text-align: center;
-      border-top: 5px solid var(--gold);
-      animation: fadeInUp 0.6s ease both;
     }
 
-    .login-card:hover {
-      box-shadow: var(--shadow-lg);
-      transform: translateY(-2px);
-    }
-
-    .login-card .login-icon {
-      font-size: 3.5rem;
-      color: var(--gold);
-      display: block;
-      margin-bottom: 12px;
-      animation: float 3s ease-in-out infinite;
-    }
-
-    .login-card h1 {
-      font-size: 1.6rem;
+    .image-overlay-text .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 16px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(201, 168, 76, 0.5);
+      border-radius: var(--radius-full);
+      font-size: 0.72rem;
       font-weight: 800;
-      color: var(--navy);
-      margin-bottom: 4px;
+      color: var(--gold-light);
+      margin-bottom: 12px;
+      animation: badgePulse 3s ease-in-out infinite;
     }
 
-    .login-card .subtitle {
-      color: var(--gray-400);
-      font-size: 0.95rem;
-      margin-bottom: 24px;
+    @keyframes badgePulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
     }
 
-    .login-card .form-group {
-      margin-bottom: 18px;
-      text-align: right;
-    }
-
-    .login-card .form-group label {
-      display: block;
-      font-weight: 600;
-      font-size: 0.9rem;
-      color: var(--gray-600);
-      margin-bottom: 4px;
-    }
-
-    .login-card .form-group label i {
+    .image-overlay-text .badge i {
       color: var(--gold);
-      margin-left: 4px;
+      animation: iconSpin 4s linear infinite;
     }
 
-    .login-card .form-group input {
-      width: 100%;
-      padding: 12px 16px;
-      border: 2px solid var(--gray-200);
-      border-radius: var(--radius-sm);
-      font-size: 1rem;
-      font-family: inherit;
-      transition: 0.3s ease;
-      background: var(--gray-50);
+    @keyframes iconSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
     }
 
-    .login-card .form-group input:focus {
-      outline: none;
-      border-color: var(--gold);
-      box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.15);
+    .image-overlay-text h2 {
+      font-size: 1.5rem;
+      font-weight: 900;
+      margin: 0 0 6px;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
+      animation: textFloat 4s ease-in-out infinite;
+    }
+
+    @keyframes textFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .image-overlay-text p {
+      font-size: 0.88rem;
+      opacity: 0.95;
+      margin: 0;
+      text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
+    }
+
+    /* ✨ نقاط ضوئية عائمة */
+    .floating-dots {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .floating-dots span {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 12px var(--gold);
+      opacity: 0;
+      animation: dotFloat 6s ease-in-out infinite;
+    }
+
+    .floating-dots span:nth-child(1) { left: 15%; animation-delay: 0s; }
+    .floating-dots span:nth-child(2) { left: 35%; animation-delay: 1.2s; }
+    .floating-dots span:nth-child(3) { left: 55%; animation-delay: 2.4s; }
+    .floating-dots span:nth-child(4) { left: 75%; animation-delay: 3.6s; }
+    .floating-dots span:nth-child(5) { left: 90%; animation-delay: 4.8s; }
+
+    @keyframes dotFloat {
+      0% {
+        bottom: 0;
+        opacity: 0;
+        transform: translateY(0) scale(0.5);
+      }
+      20% {
+        opacity: 0.8;
+        transform: translateY(-20px) scale(1);
+      }
+      80% {
+        opacity: 0.6;
+      }
+      100% {
+        bottom: 100%;
+        opacity: 0;
+        transform: translateY(-80px) scale(0.5);
+      }
+    }
+
+    /* ============================================================
+       🔐 العمود الأيمن: الفورم
+       ============================================================ */
+    .login-form-panel {
+      padding: 44px 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
       background: var(--white);
-    }
-
-    .login-card .password-wrapper {
       position: relative;
     }
 
-    .login-card .password-wrapper input {
-      padding-left: 48px;
+    /* زخرفة ذهبية صغيرة */
+    .login-form-panel::before {
+      content: '';
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+      border-radius: 2px;
     }
 
-    .login-card .toggle-password {
+    .login-form-panel .form-header {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .login-form-panel .form-header .icon-wrap {
+      width: 68px;
+      height: 68px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.7rem;
+      margin: 0 auto 16px;
+      box-shadow:
+        0 10px 28px rgba(26, 42, 74, 0.25),
+        0 0 0 6px rgba(201, 168, 76, 0.08);
+      animation: iconFloat 3s ease-in-out infinite;
+      position: relative;
+    }
+
+    @keyframes iconFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .login-form-panel .form-header .icon-wrap::after {
+      content: '';
+      position: absolute;
+      inset: -10px;
+      border-radius: 22px;
+      border: 2px solid rgba(201, 168, 76, 0.25);
+      animation: rippleRing 2.5s ease-out infinite;
+      pointer-events: none;
+    }
+
+    @keyframes rippleRing {
+      0% { transform: scale(0.95); opacity: 1; }
+      100% { transform: scale(1.25); opacity: 0; }
+    }
+
+    .login-form-panel .form-header h1 {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin: 0 0 4px;
+    }
+
+    .login-form-panel .form-header p {
+      color: var(--gray-500);
+      font-size: 0.88rem;
+      margin: 0;
+    }
+
+    /* ===== الحقول ===== */
+    .form-group {
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .form-group label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+      font-size: 0.83rem;
+      color: var(--gray-600);
+      margin-bottom: 6px;
+    }
+
+    .form-group label i {
+      color: var(--gold);
+      font-size: 0.78rem;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 13px 16px;
+      border: 2px solid var(--gray-200);
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      background: var(--gray-50);
+      color: var(--navy);
+      transition: all 0.3s ease;
+      outline: none;
+    }
+
+    .form-group input:focus {
+      border-color: var(--gold);
+      background: var(--white);
+      box-shadow: 0 0 0 4px rgba(201, 168, 76, 0.15);
+    }
+
+    .form-group input::placeholder {
+      color: var(--gray-400);
+    }
+
+    /* ===== كلمة السر + زر العين ===== */
+    .password-wrapper {
+      position: relative;
+    }
+
+    .password-wrapper input {
+      padding-left: 46px;
+    }
+
+    .toggle-password {
       position: absolute;
       left: 12px;
       top: 50%;
       transform: translateY(-50%);
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
       background: transparent;
       border: none;
       color: var(--gray-400);
       cursor: pointer;
-      font-size: 1.1rem;
-      padding: 4px;
-    }
-
-    .login-card .toggle-password:hover {
-      color: var(--navy);
-    }
-
-    .login-card .login-btn {
-      width: 100%;
-      padding: 14px;
-      border: none;
-      border-radius: var(--radius-full);
-      background: var(--navy);
-      color: var(--white);
-      font-weight: 700;
-      font-size: 1.05rem;
-      cursor: pointer;
-      transition: 0.3s ease;
-      font-family: inherit;
+      font-size: 0.95rem;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
+      transition: all 0.25s ease;
     }
 
-    .login-card .login-btn:hover {
-      background: var(--gold);
+    .toggle-password:hover {
+      color: var(--gold-dark);
+      background: rgba(201, 168, 76, 0.1);
+      transform: translateY(-50%) scale(1.1);
+    }
+
+    /* ===== رسالة الخطأ ===== */
+    .error-msg {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      padding: 11px 14px;
+      background: #fef2f2;
+      border-right: 4px solid var(--danger);
+      border-radius: 10px;
+      color: #dc2626;
+      font-size: 0.83rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      animation: shake 0.4s ease;
+    }
+
+    .error-msg.show {
+      display: flex;
+    }
+
+    .error-msg i {
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-6px); }
+      75% { transform: translateX(6px); }
+    }
+
+    /* ===== زر الدخول ===== */
+    .login-btn {
+      width: 100%;
+      padding: 15px 20px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      font-family: inherit;
+      font-weight: 900;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 24px rgba(26, 42, 74, 0.25);
+      position: relative;
+      overflow: hidden;
+      margin-top: 4px;
+    }
+
+    /* ✨ شريط لامع متحرك */
+    .login-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.25),
+        transparent
+      );
+      transition: left 0.5s ease;
+    }
+
+    .login-btn:hover::before {
+      left: 100%;
+    }
+
+    .login-btn:hover {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
       color: var(--navy);
       transform: translateY(-2px);
-      box-shadow: 0 4px 16px rgba(201, 168, 76, 0.35);
+      box-shadow:
+        0 12px 32px rgba(201, 168, 76, 0.4),
+        0 0 24px rgba(201, 168, 76, 0.3);
     }
 
-    .login-card .login-btn:disabled {
-      opacity: 0.6;
+    .login-btn:active {
+      transform: translateY(0);
+    }
+
+    .login-btn:disabled {
+      opacity: 0.7;
       cursor: not-allowed;
       transform: none;
+      background: linear-gradient(135deg, var(--gray-400), var(--gray-500));
     }
 
-    .login-card .error-msg {
-      color: #dc2626;
-      font-size: 0.9rem;
-      margin: 12px 0 16px;
-      padding: 10px 16px;
-      background: #fef2f2;
-      border-radius: var(--radius-sm);
-      display: none;
-      border-right: 3px solid #dc2626;
-    }
-
-    .login-card .error-msg.show {
-      display: block;
-    }
-
-    .login-card .back-link {
-      display: inline-block;
-      margin-top: 18px;
-      color: var(--gray-400);
+    /* ===== الرابط الخلفي ===== */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 20px;
+      color: var(--gray-500);
       text-decoration: none;
-      font-size: 0.9rem;
-      transition: 0.3s ease;
+      font-size: 0.85rem;
+      font-weight: 700;
+      transition: all 0.25s ease;
+      align-self: center;
     }
 
-    .login-card .back-link:hover {
-      color: var(--gold);
+    .back-link:hover {
+      color: var(--gold-dark);
+      transform: translateX(-4px);
     }
 
-    /* ===== استجابة ===== */
-    @media (max-width: 768px) {
+    /* ============================================================
+       📱 Responsive
+       ============================================================ */
+
+    /* تابلت */
+    @media (max-width: 900px) {
       .login-card {
-        padding: 32px 20px;
+        grid-template-columns: 1fr;
+        max-width: 480px;
+        min-height: auto;
+      }
+
+      .login-image-panel {
+        height: 220px;
+      }
+
+      .login-image-panel img {
+        height: 220px;
+      }
+
+      .image-overlay-text {
+        padding: 16px;
+      }
+
+      .image-overlay-text h2 {
+        font-size: 1.15rem;
+      }
+
+      .image-overlay-text p {
+        font-size: 0.78rem;
+      }
+
+      .login-form-panel {
+        padding: 30px 26px;
       }
     }
 
-    @media (max-width: 480px) {
+    /* موبايل */
+    @media (max-width: 768px) and (pointer: coarse) {
+      .login-wrap {
+        min-height: calc(100vh - var(--mobile-top-bar-height) - var(--mobile-top-tabs-height));
+        padding: 16px 12px;
+      }
+
       .login-card {
-        padding: 24px 16px;
+        border-radius: 18px;
+        max-width: 100%;
       }
-      .login-card h1 {
-        font-size: 1.3rem;
+
+      .login-image-panel {
+        height: 160px;
       }
-      .login-card .login-icon {
-        font-size: 2.8rem;
+
+      .login-image-panel img {
+        height: 160px;
+      }
+
+      .image-overlay-text {
+        padding: 12px;
+      }
+
+      .image-overlay-text .badge {
+        font-size: 0.65rem;
+        padding: 4px 10px;
+        margin-bottom: 6px;
+      }
+
+      .image-overlay-text h2 {
+        font-size: 1rem;
+        margin-bottom: 2px;
+      }
+
+      .image-overlay-text p {
+        font-size: 0.7rem;
+      }
+
+      .login-form-panel {
+        padding: 24px 20px;
+      }
+
+      .login-form-panel::before {
+        top: 16px;
+        left: 16px;
+        width: 40px;
+      }
+
+      .login-form-panel .form-header {
+        margin-bottom: 22px;
+      }
+
+      .login-form-panel .form-header .icon-wrap {
+        width: 56px;
+        height: 56px;
+        font-size: 1.4rem;
+        border-radius: 14px;
+        margin-bottom: 12px;
+      }
+
+      .login-form-panel .form-header h1 {
+        font-size: 1.2rem;
+      }
+
+      .login-form-panel .form-header p {
+        font-size: 0.78rem;
+      }
+
+      .form-group {
+        margin-bottom: 14px;
+      }
+
+      .form-group input {
+        padding: 11px 14px;
+        font-size: 0.9rem;
+      }
+
+      .login-btn {
+        padding: 13px 18px;
+        font-size: 0.92rem;
+      }
+    }
+
+    /* شاشات صغيرة جداً */
+    @media (max-width: 400px) {
+      .login-image-panel {
+        height: 130px;
+      }
+
+      .login-image-panel img {
+        height: 130px;
+      }
+
+      .image-overlay-text h2 {
+        font-size: 0.9rem;
+      }
+
+      .image-overlay-text .badge {
+        display: none;
+      }
+
+      .login-form-panel {
+        padding: 20px 16px;
+      }
+
+      .login-form-panel .form-header h1 {
+        font-size: 1.05rem;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- ============================================================ -->
-  <!-- 🧠 الهيدر (يتم تحميله من main.js)                            -->
-  <!-- ============================================================ -->
+  <!-- 📱 مكونات الموبايل -->
+  <div id="mobile-top-bar"></div>
+  <div id="mobile-top-tabs"></div>
+
+  <!-- 🧠 الهيدر -->
   <div id="header-placeholder"></div>
 
-  <!-- ============================================================ -->
-  <!-- 📄 محتوى صفحة الدخول                                          -->
-  <!-- ============================================================ -->
-  <section class="login-page">
+  <!-- 📄 محتوى الصفحة -->
+  <main class="login-wrap">
     <div class="login-card">
-      <span class="login-icon"><i class="fas fa-user-shield"></i></span>
-      <h1>دخول المديرين</h1>
-      <p class="subtitle">أدخل بياناتك للوصول إلى لوحة التحكم</p>
 
-      <form id="adminLoginForm">
-        <div class="form-group">
-          <label><i class="fas fa-envelope"></i> البريد الإلكتروني</label>
-          <input type="email" id="adminEmail" placeholder="admin@example.com" required autofocus>
+      <!-- ============================================ -->
+      <!-- 🖼️ العمود الأيسر: الصورة                    -->
+      <!-- ============================================ -->
+      <div class="login-image-panel">
+        <img
+          src="https://i.ibb.co/Vb5jg82/welcom-admin.jpg"
+          alt="مرحباً - أولاد شعلان"
+          onerror="this.style.display='none'">
+
+        <!-- نقاط ضوئية عائمة -->
+        <div class="floating-dots">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
 
-        <div class="form-group">
-          <label><i class="fas fa-lock"></i> كلمة السر</label>
-          <div class="password-wrapper">
-            <input type="password" id="adminPassword" placeholder="••••••••" required>
-            <button type="button" class="toggle-password" onclick="togglePasswordVisibility()">
-              <i class="fas fa-eye" id="passwordIcon"></i>
-            </button>
+        <!-- نص فوق الصورة -->
+        <div class="image-overlay-text">
+          <div class="badge">
+            <i class="fas fa-crown"></i>
+            لوحة التحكم
           </div>
+          <h2>أولاد شعلان</h2>
+          <p>منظفات • ورقيات • جملة وقطاعي</p>
+        </div>
+      </div>
+
+      <!-- ============================================ -->
+      <!-- 🔐 العمود الأيمن: الفورم                    -->
+      <!-- ============================================ -->
+      <div class="login-form-panel">
+        <div class="form-header">
+          <div class="icon-wrap">
+            <i class="fas fa-user-shield"></i>
+          </div>
+          <h1>دخول المديرين</h1>
+          <p>أدخل بياناتك للوصول إلى لوحة التحكم</p>
         </div>
 
-        <div id="loginError" class="error-msg">
-          <i class="fas fa-exclamation-circle"></i>
-          <span id="errorText">البريد الإلكتروني أو كلمة السر غير صحيحة</span>
-        </div>
+        <form id="adminLoginForm" autocomplete="on">
+          <div class="form-group">
+            <label>
+              <i class="fas fa-envelope"></i>
+              البريد الإلكتروني
+            </label>
+            <input
+              type="email"
+              id="adminEmail"
+              placeholder="admin@example.com"
+              required
+              autofocus
+              autocomplete="username">
+          </div>
 
-        <button type="submit" class="login-btn" id="loginBtn">
-          <i class="fas fa-sign-in-alt"></i> دخول
-        </button>
-      </form>
+          <div class="form-group">
+            <label>
+              <i class="fas fa-lock"></i>
+              كلمة السر
+            </label>
+            <div class="password-wrapper">
+              <input
+                type="password"
+                id="adminPassword"
+                placeholder="••••••••"
+                required
+                autocomplete="current-password">
+              <button
+                type="button"
+                class="toggle-password"
+                onclick="togglePasswordVisibility()"
+                title="إظهار/إخفاء كلمة السر">
+                <i class="fas fa-eye" id="passwordIcon"></i>
+              </button>
+            </div>
+          </div>
 
-      <a href="/gomla/" class="back-link">
-        <i class="fas fa-arrow-right"></i> العودة للرئيسية
-      </a>
+          <div id="loginError" class="error-msg">
+            <i class="fas fa-exclamation-circle"></i>
+            <span id="errorText">البريد الإلكتروني أو كلمة السر غير صحيحة</span>
+          </div>
+
+          <button type="submit" class="login-btn" id="loginBtn">
+            <i class="fas fa-sign-in-alt"></i>
+            دخول
+          </button>
+        </form>
+
+        <a href="/gomla/" class="back-link">
+          <i class="fas fa-arrow-right"></i>
+          العودة للرئيسية
+        </a>
+      </div>
+
     </div>
-  </section>
+  </main>
 
-  <!-- ============================================================ -->
-  <!-- 👣 الفوتر (يتم تحميله من main.js)                            -->
-  <!-- ============================================================ -->
+  <!-- 📱 التبويبات السفلى + الحقوق -->
+  <div id="mobile-bottom-tabs"></div>
+  <div id="mobile-copyright"></div>
+
+  <!-- 👣 الفوتر -->
   <div id="footer-placeholder"></div>
 
-  <!-- ============================================================ -->
-  <!-- 🧠 السايدبار (يتم تحميله من main.js)                         -->
-  <!-- ============================================================ -->
+  <!-- 🧠 السايدبار -->
   <div id="sidebar-placeholder"></div>
 
-  <!-- ============================================================ -->
-  <!-- 🍞 Toast Container                                            -->
-  <!-- ============================================================ -->
+  <!-- 🍞 Toast -->
   <div id="toast-container"></div>
 
-  <!-- ============================================================ -->
-  <!-- 📚 Firebase & JavaScript                                      -->
-  <!-- ============================================================ -->
-
+  <!-- 📚 Firebase & Scripts -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-
   <script src="../assets/js/firebase-config.js"></script>
   <script src="../assets/js/main.js"></script>
 
-  <!-- ============================================================ -->
-  <!-- 📝 كود الصفحة الخاص (دخول المديرين)                          -->
-  <!-- ============================================================ -->
   <script>
     // ============================================================
-    // 🔐 دخول المديرين - admin/login.html
+    // 📄 admin/login.html v2.0
+    // 🔐 دخول المديرين
     // ============================================================
-
-    // ===== استخدام آمن لـ db و auth =====
-
 
     // ===== عناصر الصفحة =====
     const form = document.getElementById('adminLoginForm');
@@ -306,9 +860,13 @@
     const errorDiv = document.getElementById('loginError');
     const errorText = document.getElementById('errorText');
 
-    // ===== إظهار/إخفاء كلمة السر =====
+    // ============================================================
+    // 👁️ إظهار/إخفاء كلمة السر
+    // ============================================================
     function togglePasswordVisibility() {
       const icon = document.getElementById('passwordIcon');
+      if (!icon) return;
+
       if (passwordInput.type === 'password') {
         passwordInput.type = 'text';
         icon.classList.remove('fa-eye');
@@ -320,96 +878,161 @@
       }
     }
 
-    // ===== تسجيل الدخول =====
-    form.addEventListener('submit', function(e) {
+    // ============================================================
+    // 🔔 إظهار الخطأ / النجاح
+    // ============================================================
+    function showError(message) {
+      errorText.textContent = message;
+      errorDiv.classList.remove('show');
+      // إعادة تشغيل الأنيميشن
+      void errorDiv.offsetWidth;
+      errorDiv.classList.add('show');
+    }
+
+    function hideError() {
+      errorDiv.classList.remove('show');
+    }
+
+    function setLoading(isLoading) {
+      if (isLoading) {
+        loginBtn.disabled = true;
+        loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الدخول...';
+      } else {
+        loginBtn.disabled = false;
+        loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> دخول';
+      }
+    }
+
+    // ============================================================
+    // 🔐 تسجيل الدخول
+    // ============================================================
+    form.addEventListener('submit', async function(e) {
       e.preventDefault();
 
       const email = emailInput.value.trim();
       const password = passwordInput.value;
 
-      // ===== التحقق من الإدخال =====
+      // التحقق من الإدخال
       if (!email || !password) {
-        errorText.textContent = 'يرجى إدخال البريد الإلكتروني وكلمة السر';
-        errorDiv.classList.add('show');
+        showError('يرجى إدخال البريد الإلكتروني وكلمة السر');
         return;
       }
 
-      // ===== إخفاء الخطأ السابق =====
-      errorDiv.classList.remove('show');
+      hideError();
+      setLoading(true);
 
-      // ===== تعطيل الزر =====
-      loginBtn.disabled = true;
-      loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الدخول...';
+      try {
+        // 1️⃣ تسجيل الدخول عبر Firebase Auth
+        const userCredential = await auth.signInWithEmailAndPassword(email, password);
+        const user = userCredential.user;
 
-      // ===== تسجيل الدخول عبر Firebase Auth =====
-      auth.signInWithEmailAndPassword(email, password)
-        .then((userCredential) => {
-          const user = userCredential.user;
+        // 2️⃣ التحقق من وجود المدير في Firestore
+        const doc = await db.collection('admins').doc(user.uid).get();
 
-          // ===== التحقق من وجود المدير في Firestore =====
-          return db.collection('admins').doc(user.uid).get();
-        })
-        .then((doc) => {
-          if (!doc.exists) {
-            // ===== إذا لم يكن مديراً =====
-            auth.signOut();
-            errorText.textContent = 'غير مصرح لك بالدخول إلى لوحة التحكم';
-            errorDiv.classList.add('show');
-            loginBtn.disabled = false;
-            loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> دخول';
-            return;
-          }
+        if (!doc.exists) {
+          await auth.signOut();
+          showError('غير مصرح لك بالدخول إلى لوحة التحكم');
+          setLoading(false);
+          return;
+        }
 
-          // ===== استخراج بيانات المدير =====
-          const adminData = doc.data();
-          adminData.id = doc.id;
+        // 3️⃣ استخراج بيانات المدير
+        const adminData = doc.data();
+        adminData.id = doc.id;
+        if (!adminData.uid) adminData.uid = user.uid;
 
-          // ===== حفظ بيانات المدير =====
-          localStorage.setItem('admin', JSON.stringify(adminData));
-          localStorage.setItem('adminId', doc.id);
+        // 4️⃣ حفظ بيانات المدير في localStorage
+        localStorage.setItem('admin', JSON.stringify(adminData));
+        localStorage.setItem('adminId', doc.id);
 
-          // ===== عرض رسالة ترحيب =====
-          showToast(`✅ مرحباً ${adminData.name}`, 'success');
+        // 5️⃣ رسالة ترحيب
+        if (typeof showToast === 'function') {
+          showToast(`مرحباً ${adminData.name || 'بك'}`, 'success');
+        }
 
-          // ===== تحديث السايدبار والهيدر =====
-          if (typeof updateSidebar === 'function') updateSidebar();
-          if (typeof updateHeader === 'function') updateHeader();
+        // 6️⃣ تحديث الواجهة (السايدبار + الهيدر)
+        if (typeof updateSidebar === 'function') {
+          try { updateSidebar(); } catch (e) { console.warn('updateSidebar failed:', e); }
+        }
+        if (typeof updateHeader === 'function') {
+          try { updateHeader(); } catch (e) { console.warn('updateHeader failed:', e); }
+        }
 
-        
-          // ===== رسائل خطأ محددة =====
-          let message = 'البريد الإلكتروني أو كلمة السر غير صحيحة';
-          if (error.code === 'auth/user-not-found') {
+        // 7️⃣ التوجيه للوحة التحكم
+        setTimeout(() => {
+          window.location.href = 'home.html';
+        }, 800);
+
+      } catch (error) {
+        console.error('Login error:', error);
+
+        // رسائل خطأ محددة
+        let message = 'البريد الإلكتروني أو كلمة السر غير صحيحة';
+
+        switch (error.code) {
+          case 'auth/user-not-found':
             message = 'لا يوجد حساب بهذا البريد الإلكتروني';
-          } else if (error.code === 'auth/wrong-password') {
+            break;
+          case 'auth/wrong-password':
             message = 'كلمة السر غير صحيحة';
-          } else if (error.code === 'auth/too-many-requests') {
-            message = 'تم تجاوز عدد المحاولات، يرجى المحاولة لاحقاً';
-          }
+            break;
+          case 'auth/invalid-email':
+            message = 'البريد الإلكتروني غير صالح';
+            break;
+          case 'auth/user-disabled':
+            message = 'هذا الحساب معطل، تواصل مع الدعم';
+            break;
+          case 'auth/too-many-requests':
+            message = 'تم تجاوز عدد المحاولات، حاول لاحقاً';
+            break;
+          case 'auth/network-request-failed':
+            message = 'فشل الاتصال بالإنترنت، تحقق من الشبكة';
+            break;
+          case 'permission-denied':
+            message = 'ليس لديك صلاحية الوصول';
+            break;
+        }
 
-          errorText.textContent = message;
-          errorDiv.classList.add('show');
-          loginBtn.disabled = false;
-          loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> دخول';
-        });
-    });
-
-    // ===== دخول بالضغط على Enter =====
-    document.addEventListener('keypress', function(e) {
-      if (e.key === 'Enter') {
-        form.dispatchEvent(new Event('submit'));
+        showError(message);
+        setLoading(false);
       }
     });
 
-    // ===== التحقق من عدم وجود جلسة مفتوحة =====
+    // ============================================================
+    // ⌨️ دخول بالضغط على Enter (من أي مكان في الصفحة)
+    // ============================================================
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' && document.activeElement?.tagName !== 'TEXTAREA') {
+        // لو الفورم مش هيشتغل تلقائياً
+        if (document.activeElement === emailInput || document.activeElement === passwordInput) {
+          form.dispatchEvent(new Event('submit', { cancelable: true }));
+        }
+      }
+    });
+
+    // ============================================================
+    // 🔄 التحقق من الجلسة المفتوحة
+    // ============================================================
     document.addEventListener('DOMContentLoaded', function() {
       const adminData = localStorage.getItem('admin');
       if (adminData) {
-        // إذا كان المدير مسجلاً بالفعل، نحوله للوحة التحكم
-        window.location.href = 'https://awladsh3laan.github.io/gomla/admin/home.html';
+        // في حالة وجود جلسة سابقة، تحويل للوحة التحكم
+        try {
+          const admin = JSON.parse(adminData);
+          if (admin && admin.role) {
+            window.location.href = 'home.html';
+          }
+        } catch (e) {
+          // بيانات تالفة — احذفها
+          localStorage.removeItem('admin');
+          localStorage.removeItem('adminId');
+        }
       }
     });
 
-    // ===== تصدير الدوال للاستخدام العالمي =====
+    // ============================================================
+    // 🌐 تصدير الدوال
+    // ============================================================
     window.togglePasswordVisibility = togglePasswordVisibility;
   </script>
 
