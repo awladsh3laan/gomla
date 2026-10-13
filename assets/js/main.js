@@ -2,8 +2,9 @@
 // 🧠 main.js - الملف الموحد للدوال الأساسية
 // 📌 يحتوي على كل شيء: المستخدم، الصلاحيات، المكونات، السلة، المفضلة،
 //    الإشعارات، رفع الصور، التواريخ، Toast، ومكونات الموبايل
-// الإصدار: 6.0
-// آخر تحديث: 2026-09-19
+// الإصدار: 6.1
+// آخر تحديث: 2026-10-13
+// 🆕 v6.1: إضافة دور الموصلين (DELIVERY) + دوال الحماية + المكونات
 // ============================================================
 
 // ============================================================
@@ -12,15 +13,17 @@
 
 /**
  * الحصول على بيانات المستخدم الحالي
- * @returns {Object|null} { type: 'admin'|'customer'|'cashier', data: {...} }
+ * @returns {Object|null} { type: 'admin'|'customer'|'cashier'|'delivery', data: {...} }
  */
 function getCurrentUser() {
   const adminData = localStorage.getItem('admin');
   const customerData = localStorage.getItem('customer');
   const cashierData = localStorage.getItem('cashier');
+  const deliveryData = localStorage.getItem('deliveryData');
   
   if (adminData) return { type: 'admin', data: JSON.parse(adminData) };
   if (cashierData) return { type: 'cashier', data: JSON.parse(cashierData) };
+  if (deliveryData) return { type: 'delivery', data: JSON.parse(deliveryData) };
   if (customerData) return { type: 'customer', data: JSON.parse(customerData) };
   return null;
 }
@@ -59,6 +62,18 @@ function isCashier() {
   return !!(user && user.type === 'cashier');
 }
 
+// 🆕 الموصلين
+function isDelivery() {
+  const user = getCurrentUser();
+  return !!(user && user.type === 'delivery' && user.data.role === ROLES.DELIVERY);
+}
+
+function isDeliveryActive() {
+  const user = getCurrentUser();
+  if (!user || user.type !== 'delivery') return false;
+  return user.data.active === true;
+}
+
 function isWholesale() {
   const user = getCurrentUser();
   return !!(user && user.type === 'customer' && user.data.role === ROLES.WHOLESALE);
@@ -88,6 +103,7 @@ function getRoleArabicName(role) {
     [ROLES.CASHIER]: 'كاشير',
     [ROLES.WHOLESALE]: 'تاجر',
     [ROLES.RETAIL]: 'عميل',
+    [ROLES.DELIVERY]: 'موصل',
     [ROLES.GUEST]: 'زائر'
   };
   return names[role] || role || 'غير معروف';
@@ -120,10 +136,7 @@ function _redirectWithToast(url, message, delay = 1500) {
 }
 
 /**
- * ============================================================
  * 🔒 حماية الصفحات العامة (تحتاج تسجيل دخول)
- * ============================================================
- * @param {string} redirectUrl - لو مش مسجل (افتراضي: customer-login)
  */
 function protectPage(redirectUrl = '/gomla/customer-login.html') {
   const user = getCurrentUser();
@@ -135,42 +148,25 @@ function protectPage(redirectUrl = '/gomla/customer-login.html') {
 }
 
 /**
- * ============================================================
- * 🔒 حماية صفحات الأدمن - النسخة المطوّرة
- * ============================================================
- * 
- * @param {Array<string>|string|null} requiredRoles - الأدوار المسموح بها
- *   - null (افتراضي): يقبل SUPER + ADMIN_PLUS + ADMIN
- *   - string: دور واحد
- *   - Array: أي دور من القائمة
- * 
- * المنطق:
- *   1) مش مسجل → admin/login.html
- *   2) مسجل لكن type !== 'admin' → الرئيسية + Toast
- *   3) مسجل كأدمن لكن دوره غير مصرح → admin/home.html + Toast
- *   4) OK → يرجع true
+ * 🔒 حماية صفحات الأدمن
  */
 function protectAdminPage(requiredRoles = null) {
   const user = getCurrentUser();
   
-  // ===== 1) مش مسجل دخول =====
+  // 1) مش مسجل دخول
   if (!user) {
     window.location.href = '/gomla/admin/login.html';
     return false;
   }
   
-  // ===== 2) مسجل لكن مش من نوع admin (عميل/تاجر/كاشير) =====
+  // 2) مسجل لكن مش من نوع admin
   if (user.type !== 'admin') {
-    _redirectWithToast(
-      '/gomla/',
-      '⚠️ ليس لديك صلاحية للوصول لهذه الصفحة'
-    );
+    _redirectWithToast('/gomla/', 'ليس لديك صلاحية للوصول لهذه الصفحة');
     return false;
   }
   
-  // ===== 3) تحديد الأدوار المسموح بها =====
+  // 3) تحديد الأدوار المسموح بها
   let allowedRoles;
-  
   if (requiredRoles === null || requiredRoles === undefined) {
     allowedRoles = [ROLES.SUPER, ROLES.ADMIN_PLUS, ROLES.ADMIN];
   } else if (Array.isArray(requiredRoles)) {
@@ -179,15 +175,11 @@ function protectAdminPage(requiredRoles = null) {
     allowedRoles = [requiredRoles];
   }
   
-  // ===== 4) التحقق من الدور =====
+  // 4) التحقق من الدور
   const userRole = user.data.role;
-  
   if (!allowedRoles.includes(userRole)) {
     const requiredNames = allowedRoles.map(r => getRoleArabicName(r)).join(' أو ');
-    _redirectWithToast(
-      '/gomla/admin/home.html',
-      `⚠️ هذه الصفحة تتطلب: ${requiredNames}`
-    );
+    _redirectWithToast('/gomla/admin/home.html', `هذه الصفحة تتطلب: ${requiredNames}`);
     return false;
   }
   
@@ -212,74 +204,89 @@ function protectAdminPlusPage() {
  * 🔒 حماية الأدمن (أي مستوى أدمن)
  */
 function protectAnyAdminPage() {
-  return protectAdminPage(); // افتراضي: كل الأدمن
+  return protectAdminPage();
 }
 
 /**
- * ============================================================
  * 🔒 حماية صفحات الكاشير
- * ============================================================
- * يقبل: cashier + أي أدمن
  */
 function protectCashierPage() {
   const user = getCurrentUser();
   
-  // مش مسجل → صفحة دخول الكاشير
   if (!user) {
     window.location.href = '/gomla/cashier-login.html';
     return false;
   }
   
-  // أدمن → مسموح
   if (user.type === 'admin') {
     if ([ROLES.SUPER, ROLES.ADMIN_PLUS, ROLES.ADMIN].includes(user.data.role)) {
       return true;
     }
   }
   
-  // كاشير → مسموح
   if (user.type === 'cashier') {
     return true;
   }
   
-  // أي حد تاني → الرئيسية
-  _redirectWithToast(
-    '/gomla/',
-    '⚠️ ليس لديك صلاحية للوصول لهذه الصفحة'
-  );
+  _redirectWithToast('/gomla/', 'ليس لديك صلاحية للوصول لهذه الصفحة');
   return false;
 }
 
 /**
- * ============================================================
  * 🔒 حماية صفحات العميل / التاجر
- * ============================================================
- * @param {Array<string>} allowedRoles - افتراضي: RETAIL + WHOLESALE
  */
 function protectCustomerPage(allowedRoles = [ROLES.RETAIL, ROLES.WHOLESALE]) {
   const user = getCurrentUser();
   
-  // مش مسجل → صفحة دخول العملاء
   if (!user) {
     window.location.href = '/gomla/customer-login.html';
     return false;
   }
   
-  // أدمن → لوحة التحكم
   if (user.type === 'admin') {
-    _redirectWithToast('/gomla/admin/home.html', '⚠️ هذه الصفحة للعملاء فقط');
+    _redirectWithToast('/gomla/admin/home.html', 'هذه الصفحة للعملاء فقط');
     return false;
   }
   
-  // كاشير → صفحة الكاشير
   if (user.type === 'cashier') {
-    _redirectWithToast('/gomla/cashier/home.html', '⚠️ هذه الصفحة للعملاء فقط');
+    _redirectWithToast('/gomla/cashier/home.html', 'هذه الصفحة للعملاء فقط');
     return false;
   }
   
-  // عميل/تاجر لكن دوره غير مسموح
+  if (user.type === 'delivery') {
+    _redirectWithToast('/gomla/delivery/home.html', 'هذه الصفحة للعملاء فقط');
+    return false;
+  }
+  
   if (!allowedRoles.includes(user.data.role)) {
-    _redirectWithToast('/gomla/', '⚠️ ليس لديك صلاحية للوصول لهذه الصفحة');
+    _redirectWithToast('/gomla/', 'ليس لديك صلاحية للوصول لهذه الصفحة');
+    return false;
+  }
+  
+  return true;
+}
+
+/**
+ * 🆕 🔒 حماية صفحات الموصلين
+ */
+function protectDeliveryPage() {
+  const user = getCurrentUser();
+  
+  // مش مسجل → صفحة دخول الموصلين
+  if (!user) {
+    window.location.href = '/gomla/delivery-login.html';
+    return false;
+  }
+  
+  // مش من نوع delivery
+  if (user.type !== 'delivery') {
+    _redirectWithToast('/gomla/', 'هذه الصفحة للموصلين فقط');
+    return false;
+  }
+  
+  // حساب معطل
+  if (user.data.active !== true) {
+    _redirectWithToast('/gomla/delivery-login.html', 'حسابك معطل، تواصل مع الإدارة');
     return false;
   }
   
@@ -293,15 +300,16 @@ function protectCustomerPage(allowedRoles = [ROLES.RETAIL, ROLES.WHOLESALE]) {
 function logoutUser() {
   if (!confirm('هل أنت متأكد من تسجيل الخروج؟')) return;
   
-  // مسح البيانات مع إغلاق جلسة Firebase
   firebase.auth().signOut()
     .catch((err) => console.warn('SignOut error:', err))
     .finally(() => {
       localStorage.removeItem('admin');
       localStorage.removeItem('customer');
       localStorage.removeItem('cashier');
+      localStorage.removeItem('deliveryData');
       localStorage.removeItem('adminId');
       localStorage.removeItem('customerCode');
+      localStorage.removeItem('deliveryCode');
       
       window.location.href = '/gomla/';
     });
@@ -313,29 +321,30 @@ function logoutUser() {
 
 window.isAdminPlus = isAdminPlus;
 window.isCustomer = isCustomer;
+window.isDelivery = isDelivery;
+window.isDeliveryActive = isDeliveryActive;
 window.getRoleArabicName = getRoleArabicName;
 window.protectAdminPlusPage = protectAdminPlusPage;
 window.protectAnyAdminPage = protectAnyAdminPage;
 window.protectCustomerPage = protectCustomerPage;
+window.protectDeliveryPage = protectDeliveryPage;
+
 // ============================================================
 // 3️⃣ مراقب الجلسات المتعددة (Multi-Session Watcher)
-// ============================================================
-// 📌 المشكلة: Firebase Auth بيستخدم جلسة واحدة لكل browser
-// 📌 عند تسجيل دخول جديد في tab تاني، الـ tab الحالي مش حاسس
-// 📌 الحل: نراقب localStorage + نعرض Overlay + إعادة تحميل
 // ============================================================
 
 (function() {
   'use strict';
 
   // ===== الإعدادات =====
-  const WATCHED_KEYS = ['admin', 'customer', 'cashier'];
+  const WATCHED_KEYS = ['admin', 'customer', 'cashier', 'deliveryData'];
   const COUNTDOWN_SECONDS = 5;
   const EXCLUDED_PAGES = [
     '/login.html',
     '/customer-login.html',
     '/trader-login.html',
     '/cashier-login.html',
+    '/delivery-login.html',
     '/admin/login.html'
   ];
 
@@ -344,14 +353,12 @@ window.protectCustomerPage = protectCustomerPage;
   let overlayShown = false;
   let countdownTimer = null;
 
-  // ============================================================
-  // 📸 أخذ Snapshot للمفاتيح
-  // ============================================================
   function takeSnapshot() {
     return {
       admin: localStorage.getItem('admin'),
       customer: localStorage.getItem('customer'),
-      cashier: localStorage.getItem('cashier')
+      cashier: localStorage.getItem('cashier'),
+      deliveryData: localStorage.getItem('deliveryData')
     };
   }
 
@@ -359,20 +366,15 @@ window.protectCustomerPage = protectCustomerPage;
     if (!a || !b) return false;
     return a.admin === b.admin &&
            a.customer === b.customer &&
-           a.cashier === b.cashier;
+           a.cashier === b.cashier &&
+           a.deliveryData === b.deliveryData;
   }
 
-  // ============================================================
-  // 🚫 هل الصفحة الحالية مستثناة؟
-  // ============================================================
   function isExcludedPage() {
     const path = window.location.pathname;
     return EXCLUDED_PAGES.some(excluded => path.endsWith(excluded));
   }
 
-  // ============================================================
-  // 🎭 اسم الدور بالعربي (من الـ localStorage key + البيانات)
-  // ============================================================
   function getRoleNameFromKey(key, data) {
     if (!data) return 'حساب آخر';
     
@@ -386,6 +388,7 @@ window.protectCustomerPage = protectCustomerPage;
     }
     
     if (key === 'cashier') return 'كاشير';
+    if (key === 'deliveryData') return 'موصل';
     
     if (key === 'customer') {
       if (data.role === 'wholesale') return 'تاجر';
@@ -395,14 +398,9 @@ window.protectCustomerPage = protectCustomerPage;
     return 'حساب آخر';
   }
 
-  // ============================================================
-  // 🎨 بناء الـ Overlay
-  // ============================================================
   function buildOverlayHTML(type, roleName) {
     const isLogin = type === 'login';
-    const isLogout = type === 'logout';
 
-    // الألوان والأيقونات
     const config = isLogin
       ? {
           iconClass: 'fa-user-check',
@@ -426,52 +424,24 @@ window.protectCustomerPage = protectCustomerPage;
     return `
       <div class="session-notice-overlay" id="sessionNoticeOverlay">
         <div class="session-notice-box">
-          
-          <!-- شريط علوي ملون -->
           <div class="session-notice-top-bar" style="background:${config.iconBg};"></div>
-
-          <!-- الأيقونة -->
           <div class="session-notice-icon" style="background:${config.iconBg};">
             <i class="fas ${config.iconClass}" style="color:${config.iconColor};"></i>
           </div>
-
-          <!-- العنوان -->
           <h2 class="session-notice-title" style="color:${config.titleColor};">
             ${config.title}
           </h2>
-
-          <!-- الرسالة -->
-          <p class="session-notice-message">
-            ${config.message}
-          </p>
-
-          <!-- الرسالة الفرعية -->
+          <p class="session-notice-message">${config.message}</p>
           <p class="session-notice-submessage">
             <i class="fas fa-info-circle"></i>
             ${config.subMessage}
           </p>
-
-          <!-- العدّاد الدائري -->
           <div class="session-notice-counter-wrap">
             <svg class="session-counter-svg" viewBox="0 0 120 120">
-              <!-- الدائرة الخلفية -->
-              <circle 
-                cx="60" cy="60" r="52" 
-                fill="none" 
-                stroke="#e5e7eb" 
-                stroke-width="8" />
-              <!-- الدائرة المتحركة -->
-              <circle 
-                id="sessionCounterCircle"
-                cx="60" cy="60" r="52" 
-                fill="none" 
-                stroke="url(#counterGradient)" 
-                stroke-width="8" 
-                stroke-linecap="round"
-                stroke-dasharray="326.7"
-                stroke-dashoffset="0"
-                transform="rotate(-90 60 60)" />
-              <!-- تدرج لوني -->
+              <circle cx="60" cy="60" r="52" fill="none" stroke="#e5e7eb" stroke-width="8" />
+              <circle id="sessionCounterCircle" cx="60" cy="60" r="52" fill="none"
+                stroke="url(#counterGradient)" stroke-width="8" stroke-linecap="round"
+                stroke-dasharray="326.7" stroke-dashoffset="0" transform="rotate(-90 60 60)" />
               <defs>
                 <linearGradient id="counterGradient" x1="0%" y1="0%" x2="100%" y2="100%">
                   <stop offset="0%" stop-color="#c9a84c" />
@@ -479,95 +449,71 @@ window.protectCustomerPage = protectCustomerPage;
                 </linearGradient>
               </defs>
             </svg>
-            
-            <!-- الرقم في الوسط -->
-            <div class="session-counter-number" id="sessionCounterNumber">
-              ${COUNTDOWN_SECONDS}
-            </div>
+            <div class="session-counter-number" id="sessionCounterNumber">${COUNTDOWN_SECONDS}</div>
           </div>
-
-          <!-- النص التوضيحي -->
           <div class="session-notice-hint">
             سيتم التنفيذ خلال <strong id="sessionCounterHint">${COUNTDOWN_SECONDS}</strong> ثواني
           </div>
-
-          <!-- زر الانتقال الفوري -->
           <button class="session-notice-btn" id="sessionGoBtn" style="background:${config.iconBg};">
             <i class="fas fa-arrow-left"></i>
             الانتقال الآن
           </button>
-
         </div>
       </div>
     `;
   }
 
-  // ============================================================
-  // 🎬 عرض الـ Overlay
-  // ============================================================
   function showOverlay(type, roleName) {
     if (overlayShown) return;
     overlayShown = true;
 
-    // حقن CSS إذا لم يكن موجوداً
     injectStyles();
 
-    // إنشاء الـ Overlay
     const container = document.createElement('div');
     container.innerHTML = buildOverlayHTML(type, roleName);
     const overlay = container.firstElementChild;
     document.body.appendChild(overlay);
-
-    // منع السكرول
     document.body.style.overflow = 'hidden';
 
-    // ===== بدء العدّاد =====
     let seconds = COUNTDOWN_SECONDS;
     const numberEl = document.getElementById('sessionCounterNumber');
     const hintEl = document.getElementById('sessionCounterHint');
     const circleEl = document.getElementById('sessionCounterCircle');
     const goBtn = document.getElementById('sessionGoBtn');
 
-    // طول محيط الدائرة
     const CIRCUMFERENCE = 326.7;
     let elapsed = 0;
 
-    // دالة التنفيذ
     function executeAction() {
       if (countdownTimer) clearInterval(countdownTimer);
       
       if (type === 'logout') {
-        // مسح localStorage وإعادة توجيه
         localStorage.removeItem('admin');
         localStorage.removeItem('customer');
         localStorage.removeItem('cashier');
+        localStorage.removeItem('deliveryData');
         localStorage.removeItem('adminId');
         localStorage.removeItem('customerCode');
+        localStorage.removeItem('deliveryCode');
         window.location.href = '/gomla/';
       } else {
-        // login بحساب جديد → reload
         window.location.reload();
       }
     }
 
-    // زر الانتقال الفوري
     goBtn.addEventListener('click', executeAction);
 
-    // العدّاد كل ثانية
     countdownTimer = setInterval(() => {
       seconds--;
       elapsed += 1;
 
-      // تحديث الرقم
       if (numberEl) numberEl.textContent = Math.max(0, seconds);
       if (hintEl) hintEl.textContent = Math.max(0, seconds);
 
-      // تحديث الدائرة (تدريجياً)
       const progress = Math.min(elapsed / COUNTDOWN_SECONDS, 1);
       const offset = CIRCUMFERENCE * progress;
       if (circleEl) circleEl.style.strokeDashoffset = offset;
 
-      // نهاية العدّاد
       if (seconds <= 0) {
         clearInterval(countdownTimer);
         countdownTimer = null;
@@ -576,346 +522,158 @@ window.protectCustomerPage = protectCustomerPage;
     }, 1000);
   }
 
-  // ============================================================
-  // 💉 حقن CSS (مرة واحدة فقط)
-  // ============================================================
   function injectStyles() {
     if (document.getElementById('sessionNoticeStyles')) return;
 
     const style = document.createElement('style');
     style.id = 'sessionNoticeStyles';
     style.textContent = `
-      /* ============================================================
-         🎨 Overlay الجلسات المتعددة
-         ============================================================ */
       .session-notice-overlay {
-        position: fixed;
-        inset: 0;
+        position: fixed; inset: 0;
         background: rgba(15, 26, 46, 0.88);
         backdrop-filter: blur(8px);
         -webkit-backdrop-filter: blur(8px);
         z-index: 999999;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        display: flex; align-items: center; justify-content: center;
         padding: 20px;
         animation: snFadeIn 0.3s ease;
         overflow-y: auto;
       }
-
-      @keyframes snFadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-      }
-
+      @keyframes snFadeIn { from { opacity: 0; } to { opacity: 1; } }
       .session-notice-box {
         background: #ffffff;
         border-radius: 20px;
         padding: 32px 28px 28px;
-        max-width: 440px;
-        width: 100%;
-        box-shadow: 
-          0 25px 70px rgba(0, 0, 0, 0.5),
-          0 0 0 1px rgba(201, 168, 76, 0.2);
-        text-align: center;
-        position: relative;
-        overflow: hidden;
+        max-width: 440px; width: 100%;
+        box-shadow: 0 25px 70px rgba(0,0,0,0.5), 0 0 0 1px rgba(201,168,76,0.2);
+        text-align: center; position: relative; overflow: hidden;
         animation: snSlideUp 0.5s cubic-bezier(0.22, 1, 0.36, 1);
       }
-
       @keyframes snSlideUp {
-        0% {
-          opacity: 0;
-          transform: translateY(30px) scale(0.95);
-        }
-        100% {
-          opacity: 1;
-          transform: translateY(0) scale(1);
-        }
+        0% { opacity: 0; transform: translateY(30px) scale(0.95); }
+        100% { opacity: 1; transform: translateY(0) scale(1); }
       }
-
-      /* شريط علوي */
       .session-notice-top-bar {
-        position: absolute;
-        top: 0;
-        right: 0;
-        left: 0;
-        height: 6px;
+        position: absolute; top: 0; right: 0; left: 0; height: 6px;
       }
-
-      /* الأيقونة الدائرية */
       .session-notice-icon {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto 20px;
-        font-size: 2.2rem;
-        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+        width: 80px; height: 80px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        margin: 0 auto 20px; font-size: 2.2rem;
+        box-shadow: 0 12px 32px rgba(0,0,0,0.2);
         animation: snIconPulse 2s ease-in-out infinite;
         position: relative;
       }
-
       .session-notice-icon::before {
-        content: '';
-        position: absolute;
-        inset: -8px;
-        border-radius: 50%;
-        background: inherit;
-        opacity: 0.2;
+        content: ''; position: absolute; inset: -8px;
+        border-radius: 50%; background: inherit; opacity: 0.2;
         animation: snIconRipple 2s ease-out infinite;
       }
-
-      @keyframes snIconPulse {
-        0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.05); }
-      }
-
+      @keyframes snIconPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
       @keyframes snIconRipple {
-        0% {
-          transform: scale(1);
-          opacity: 0.3;
-        }
-        100% {
-          transform: scale(1.4);
-          opacity: 0;
-        }
+        0% { transform: scale(1); opacity: 0.3; }
+        100% { transform: scale(1.4); opacity: 0; }
       }
-
-      /* العنوان */
       .session-notice-title {
-        font-size: 1.4rem;
-        font-weight: 900;
-        margin-bottom: 10px;
-        line-height: 1.3;
+        font-size: 1.4rem; font-weight: 900;
+        margin-bottom: 10px; line-height: 1.3;
         font-family: 'Tajawal', sans-serif;
       }
-
-      /* الرسالة */
       .session-notice-message {
-        font-size: 0.95rem;
-        color: #4b5563;
-        line-height: 1.6;
-        margin-bottom: 8px;
+        font-size: 0.95rem; color: #4b5563;
+        line-height: 1.6; margin-bottom: 8px;
         font-family: 'Tajawal', sans-serif;
       }
-
-      .session-notice-message strong {
-        color: #1a2a4a;
-        font-weight: 900;
-      }
-
-      /* الرسالة الفرعية */
+      .session-notice-message strong { color: #1a2a4a; font-weight: 900; }
       .session-notice-submessage {
-        font-size: 0.82rem;
-        color: #9ca3af;
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        margin-bottom: 22px;
-        padding: 6px 14px;
-        background: #f9fafb;
-        border-radius: 20px;
+        font-size: 0.82rem; color: #9ca3af;
+        display: inline-flex; align-items: center; gap: 6px;
+        margin-bottom: 22px; padding: 6px 14px;
+        background: #f9fafb; border-radius: 20px;
         font-family: 'Tajawal', sans-serif;
       }
-
-      .session-notice-submessage i {
-        color: #c9a84c;
-        font-size: 0.75rem;
-      }
-
-      /* العدّاد الدائري */
+      .session-notice-submessage i { color: #c9a84c; font-size: 0.75rem; }
       .session-notice-counter-wrap {
-        position: relative;
-        width: 130px;
-        height: 130px;
+        position: relative; width: 130px; height: 130px;
         margin: 0 auto 16px;
       }
-
-      .session-counter-svg {
-        width: 100%;
-        height: 100%;
-        display: block;
-      }
-
-      #sessionCounterCircle {
-        transition: stroke-dashoffset 1s linear;
-      }
-
+      .session-counter-svg { width: 100%; height: 100%; display: block; }
+      #sessionCounterCircle { transition: stroke-dashoffset 1s linear; }
       .session-counter-number {
-        position: absolute;
-        top: 50%;
-        left: 50%;
+        position: absolute; top: 50%; left: 50%;
         transform: translate(-50%, -50%);
-        font-size: 2.8rem;
-        font-weight: 900;
-        color: #1a2a4a;
-        font-family: 'Tajawal', sans-serif;
-        line-height: 1;
+        font-size: 2.8rem; font-weight: 900; color: #1a2a4a;
+        font-family: 'Tajawal', sans-serif; line-height: 1;
         animation: snNumberPulse 1s ease-in-out infinite;
       }
-
       @keyframes snNumberPulse {
-        0%, 100% { transform: translate(-50%, -50%) scale(1); }
+        0%,100% { transform: translate(-50%, -50%) scale(1); }
         50% { transform: translate(-50%, -50%) scale(1.08); }
       }
-
-      /* النص التوضيحي */
       .session-notice-hint {
-        font-size: 0.85rem;
-        color: #6b7280;
+        font-size: 0.85rem; color: #6b7280;
         margin-bottom: 22px;
         font-family: 'Tajawal', sans-serif;
       }
-
-      .session-notice-hint strong {
-        color: #c9a84c;
-        font-weight: 900;
-        font-size: 1rem;
-      }
-
-      /* الزر */
+      .session-notice-hint strong { color: #c9a84c; font-weight: 900; font-size: 1rem; }
       .session-notice-btn {
-        width: 100%;
-        padding: 15px 24px;
-        border: none;
-        border-radius: 100px;
+        width: 100%; padding: 15px 24px;
+        border: none; border-radius: 100px;
         color: #ffffff;
         font-family: 'Tajawal', sans-serif;
-        font-weight: 900;
-        font-size: 1rem;
+        font-weight: 900; font-size: 1rem;
         cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        transition: all 0.3s ease;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-        position: relative;
-        overflow: hidden;
+        display: flex; align-items: center; justify-content: center;
+        gap: 10px; transition: all 0.3s ease;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        position: relative; overflow: hidden;
       }
-
       .session-notice-btn::before {
-        content: '';
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 0;
-        height: 0;
-        border-radius: 50%;
-        background: rgba(255, 255, 255, 0.25);
+        content: ''; position: absolute; top: 50%; left: 50%;
+        width: 0; height: 0; border-radius: 50%;
+        background: rgba(255,255,255,0.25);
         transform: translate(-50%, -50%);
         transition: width 0.5s ease, height 0.5s ease;
       }
-
-      .session-notice-btn:hover::before {
-        width: 500px;
-        height: 500px;
-      }
-
+      .session-notice-btn:hover::before { width: 500px; height: 500px; }
       .session-notice-btn:hover {
         transform: translateY(-2px);
-        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 12px 32px rgba(0,0,0,0.3);
       }
-
-      .session-notice-btn:active {
-        transform: translateY(0);
+      .session-notice-btn:active { transform: translateY(0); }
+      .session-notice-btn i, .session-notice-btn span {
+        position: relative; z-index: 1;
       }
-
-      .session-notice-btn i,
-      .session-notice-btn span {
-        position: relative;
-        z-index: 1;
-      }
-
-      /* ============================================================
-         📱 Responsive
-         ============================================================ */
       @media (max-width: 480px) {
-        .session-notice-overlay {
-          padding: 14px;
-        }
-
-        .session-notice-box {
-          padding: 26px 20px 22px;
-          border-radius: 16px;
-        }
-
-        .session-notice-icon {
-          width: 68px;
-          height: 68px;
-          font-size: 1.8rem;
-          margin-bottom: 16px;
-        }
-
-        .session-notice-title {
-          font-size: 1.15rem;
-        }
-
-        .session-notice-message {
-          font-size: 0.88rem;
-        }
-
-        .session-notice-submessage {
-          font-size: 0.75rem;
-          padding: 5px 12px;
-        }
-
-        .session-notice-counter-wrap {
-          width: 110px;
-          height: 110px;
-        }
-
-        .session-counter-number {
-          font-size: 2.3rem;
-        }
-
-        .session-notice-hint {
-          font-size: 0.78rem;
-          margin-bottom: 18px;
-        }
-
-        .session-notice-btn {
-          padding: 13px 20px;
-          font-size: 0.92rem;
-        }
+        .session-notice-overlay { padding: 14px; }
+        .session-notice-box { padding: 26px 20px 22px; border-radius: 16px; }
+        .session-notice-icon { width: 68px; height: 68px; font-size: 1.8rem; margin-bottom: 16px; }
+        .session-notice-title { font-size: 1.15rem; }
+        .session-notice-message { font-size: 0.88rem; }
+        .session-notice-submessage { font-size: 0.75rem; padding: 5px 12px; }
+        .session-notice-counter-wrap { width: 110px; height: 110px; }
+        .session-counter-number { font-size: 2.3rem; }
+        .session-notice-hint { font-size: 0.78rem; margin-bottom: 18px; }
+        .session-notice-btn { padding: 13px 20px; font-size: 0.92rem; }
       }
     `;
     document.head.appendChild(style);
   }
 
-  // ============================================================
-  // 🎯 معالج storage event
-  // ============================================================
   function handleStorageChange(e) {
-    // تجاهل لو مش مفتاح من اللي بنراقبهم
     if (!e.key || !WATCHED_KEYS.includes(e.key)) return;
-
-    // تجاهل لو الـ Overlay ظاهر بالفعل
     if (overlayShown) return;
-
-    // تجاهل لو الصفحة الحالية مستثناة
     if (isExcludedPage()) return;
 
-    // خذ snapshot جديدة
     const newSnapshot = takeSnapshot();
-
-    // لو مفيش تغيير فعلي، تجاهل
     if (snapshotsAreEqual(newSnapshot, lastSnapshot)) return;
 
-    // في تغيير فعلي!
-    const oldSnapshot = lastSnapshot;
     lastSnapshot = newSnapshot;
 
-    // حدد نوع التغيير
     if (e.newValue === null) {
-      // ===== حالة logout =====
       console.log('🔄 Session change detected: LOGOUT');
       showOverlay('logout', null);
     } else {
-      // ===== حالة login جديد =====
       let newUser = null;
       try {
         newUser = JSON.parse(e.newValue);
@@ -929,26 +687,16 @@ window.protectCustomerPage = protectCustomerPage;
     }
   }
 
-  // ============================================================
-  // 🚀 بدء المراقبة
-  // ============================================================
   function initSessionWatcher() {
-    // تجاهل لو الصفحة مستثناة
     if (isExcludedPage()) {
       console.log('ℹ️ Session watcher: excluded page');
       return;
     }
-
-    // خذ snapshot أولية
     lastSnapshot = takeSnapshot();
-
-    // استمع للتغييرات
     window.addEventListener('storage', handleStorageChange);
-
     console.log('✅ Session watcher initialized');
   }
 
-  // بدء عند تحميل الصفحة
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initSessionWatcher);
   } else {
@@ -956,6 +704,7 @@ window.protectCustomerPage = protectCustomerPage;
   }
 
 })();
+
 // ============================================================
 // 2️⃣ نظام Toast
 // ============================================================
@@ -1041,11 +790,9 @@ async function uploadImage(file, onProgress) {
   try {
     if (onProgress) onProgress(10);
     
-    // ضغط الصورة
     const compressedFile = await imageCompression(file, IMAGE_CONFIG);
     if (onProgress) onProgress(40);
     
-    // رفع على ImgBB
     const formData = new FormData();
     formData.append('image', compressedFile);
     
@@ -1066,7 +813,7 @@ async function uploadImage(file, onProgress) {
     }
   } catch (error) {
     console.error('❌ Error uploading image:', error);
-    showToast('⚠️ فشل رفع الصورة: ' + error.message, 'error');
+    showToast('فشل رفع الصورة: ' + error.message, 'error');
     return null;
   }
 }
@@ -1084,11 +831,47 @@ function generateCode(prefix = '', length = 4) {
   return result;
 }
 
+// 🆕 توليد كود الموصل (DEL-XXXXX@#$)
+function generateDeliveryCode() {
+  const chars = 'ABCDEFGHIJKLMNPQRSTUVWXYZ23456789';
+  const prefix = (DELIVERY_CONFIG && DELIVERY_CONFIG.CODE_PREFIX) || 'DEL-';
+  const length = (DELIVERY_CONFIG && DELIVERY_CONFIG.CODE_LENGTH) || 5;
+  const markers = (DELIVERY_CONFIG && DELIVERY_CONFIG.MARKERS) || ['@#$'];
+  
+  let code = prefix;
+  for (let i = 0; i < length; i++) {
+    code += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  // العلامة المميزة
+  const marker = markers[Math.floor(Math.random() * markers.length)];
+  code += marker;
+  
+  return code;
+}
+
+// 🆕 توليد إيميل الموصل من الكود
+function generateDeliveryEmail(code) {
+  if (!code) return '';
+  // نحوّل الكود لصيغة الإيميل: DEL-A2B4C5@#$ → del-a2b4c5-40@delivery.awladshalaan.com
+  const domain = (DELIVERY_CONFIG && DELIVERY_CONFIG.EMAIL_DOMAIN) || 'delivery.awladshalaan.com';
+  
+  // استبدال الرموز المميزة برموز آمنة
+  let safeCode = code.toLowerCase()
+    .replace(/@/g, '-40')   // @ → -40
+    .replace(/#/g, '-35')   // # → -35
+    .replace(/\$/g, '-36')  // $ → -36
+    .replace(/%/g, '-37')   // % → -37
+    .replace(/&/g, '-38')   // & → -38
+    .replace(/\*/g, '-42'); // * → -42
+  
+  return `${safeCode}@${domain}`;
+}
+
 function copyToClipboard(text) {
   if (navigator.clipboard) {
     navigator.clipboard.writeText(text)
-      .then(() => showToast('✅ تم النسخ', 'success'))
-      .catch(() => showToast('❌ فشل النسخ', 'error'));
+      .then(() => showToast('تم النسخ', 'success'))
+      .catch(() => showToast('فشل النسخ', 'error'));
   } else {
     const ta = document.createElement('textarea');
     ta.value = text;
@@ -1096,12 +879,29 @@ function copyToClipboard(text) {
     ta.select();
     document.execCommand('copy');
     ta.remove();
-    showToast('✅ تم النسخ', 'success');
+    showToast('تم النسخ', 'success');
   }
 }
 
 function validatePhone(phone) {
   return /^01[0-9]{9}$/.test(phone);
+}
+
+/**
+ * تدوير الإجمالي لأقرب 5 (رياضي)
+ */
+function roundToNearest5(amount) {
+  return Math.round(amount / 5) * 5;
+}
+
+/**
+ * حساب رسوم الدفع
+ */
+function calculatePaymentFee(baseTotal, method) {
+  if (method === 'wallet') {
+    return baseTotal * (WALLET_FEE_PERCENT / 100);
+  }
+  return 0;
 }
 
 /**
@@ -1116,7 +916,6 @@ function calculateAutoMaxOrder(stockQuantity) {
   if (stock < 30) return 4;
   if (stock < 50) return 5;
   if (stock === 50) return 7;
-  // أكثر من 50: كل 5 وحدات +2
   const extra = Math.floor((stock - 50) / 5);
   return 7 + (extra * 2);
 }
@@ -1163,7 +962,6 @@ function logActivity(action, details = '') {
 async function addToCart(productId, quantity = 1, customPrice = null) {
   const user = getCurrentUser();
   
-  // إذا كان زائر → حفظ في localStorage
   if (!user) {
     return addToGuestCart(productId, quantity, customPrice);
   }
@@ -1171,22 +969,20 @@ async function addToCart(productId, quantity = 1, customPrice = null) {
   try {
     const productDoc = await db.collection(COLLECTIONS.PRODUCTS).doc(productId).get();
     if (!productDoc.exists) {
-      showToast('❌ المنتج غير موجود', 'error');
+      showToast('المنتج غير موجود', 'error');
       return false;
     }
     
     const product = productDoc.data();
     const userId = user.data.id || user.data.uid;
     const userRole = user.data.role;
-    const isWholesale = userRole === ROLES.WHOLESALE || userRole === ROLES.ADMIN || userRole === ROLES.SUPER;
+    const isWholesale = userRole === ROLES.WHOLESALE || userRole === ROLES.ADMIN || userRole === ROLES.SUPER || userRole === ROLES.ADMIN_PLUS;
     
-    // حساب السعر
     let price = customPrice;
     if (!price) {
       price = isWholesale ? (product.wholesalePrice || 0) : (product.retailPrice || 0);
     }
     
-    // التحقق من الحد الأقصى
     if (isWholesale && product.maxOrder) {
       const existing = await db.collection(COLLECTIONS.CART)
         .where('userId', '==', userId)
@@ -1195,12 +991,11 @@ async function addToCart(productId, quantity = 1, customPrice = null) {
       
       const existingQty = existing.empty ? 0 : (existing.docs[0].data().quantity || 0);
       if (existingQty + quantity > product.maxOrder) {
-        showToast(`⚠️ الحد الأقصى للطلب ${product.maxOrder}`, 'warning');
+        showToast(`الحد الأقصى للطلب ${product.maxOrder}`, 'warning');
         return false;
       }
     }
     
-    // التحقق من المخزون (للقطاعي)
     if (!isWholesale) {
       const stock = product.stockQuantity || 0;
       const existing = await db.collection(COLLECTIONS.CART)
@@ -1210,12 +1005,11 @@ async function addToCart(productId, quantity = 1, customPrice = null) {
       
       const existingQty = existing.empty ? 0 : (existing.docs[0].data().quantity || 0);
       if (existingQty + quantity > stock) {
-        showToast(`⚠️ المخزون المتاح ${stock} فقط`, 'warning');
+        showToast(`المخزون المتاح ${stock} فقط`, 'warning');
         return false;
       }
     }
     
-    // إضافة أو تحديث
     const existing = await db.collection(COLLECTIONS.CART)
       .where('userId', '==', userId)
       .where('productId', '==', productId)
@@ -1242,13 +1036,13 @@ async function addToCart(productId, quantity = 1, customPrice = null) {
       });
     }
     
-    showToast('✅ تم الإضافة للسلة', 'success');
+    showToast('تم الإضافة للسلة', 'success');
     updateCartBadge();
     return true;
     
   } catch (error) {
     console.error('Error adding to cart:', error);
-    showToast('❌ حدث خطأ', 'error');
+    showToast('حدث خطأ', 'error');
     return false;
   }
 }
@@ -1270,7 +1064,7 @@ function addToGuestCart(productId, quantity, customPrice) {
   }
   
   localStorage.setItem('guest_cart', JSON.stringify(guestCart));
-  showToast('✅ تم الإضافة للسلة', 'success');
+  showToast('تم الإضافة للسلة', 'success');
   updateCartBadge();
   return true;
 }
@@ -1319,7 +1113,7 @@ async function removeFromCart(cartItemId) {
   try {
     await db.collection(COLLECTIONS.CART).doc(cartItemId).delete();
     updateCartBadge();
-    showToast('✅ تم الحذف', 'success');
+    showToast('تم الحذف', 'success');
   } catch (error) {
     console.error('Error removing from cart:', error);
   }
@@ -1378,7 +1172,7 @@ async function updateCartBadge() {
 async function addToWishlist(productId) {
   const user = getCurrentUser();
   if (!user) {
-    showToast('⚠️ سجل الدخول أولاً', 'warning');
+    showToast('سجل الدخول أولاً', 'warning');
     return;
   }
   
@@ -1390,7 +1184,7 @@ async function addToWishlist(productId) {
       .get();
     
     if (!existing.empty) {
-      showToast('⚠️ المنتج في المفضلة بالفعل', 'warning');
+      showToast('المنتج في المفضلة بالفعل', 'warning');
       return;
     }
     
@@ -1400,10 +1194,10 @@ async function addToWishlist(productId) {
       addedAt: firebase.firestore.FieldValue.serverTimestamp()
     });
     
-    showToast('❤️ تم الإضافة للمفضلة', 'success');
+    showToast('تم الإضافة للمفضلة', 'success');
   } catch (error) {
     console.error('Error adding to wishlist:', error);
-    showToast('❌ حدث خطأ', 'error');
+    showToast('حدث خطأ', 'error');
   }
 }
 
@@ -1422,7 +1216,7 @@ async function removeFromWishlist(productId) {
     snapshot.forEach(doc => batch.delete(doc.ref));
     await batch.commit();
     
-    showToast('✅ تم الحذف من المفضلة', 'success');
+    showToast('تم الحذف من المفضلة', 'success');
   } catch (error) {
     console.error('Error removing from wishlist:', error);
   }
@@ -1455,7 +1249,8 @@ async function loadNotifications() {
   
   try {
     const userId = user.data.id || user.data.uid;
-    const collection = user.type === 'admin' ? 'admin_notifications' : 'customer_notifications';
+    let collection = 'customer_notifications';
+    if (user.type === 'admin') collection = 'admin_notifications';
     
     const snapshot = await db.collection(collection)
       .where('userId', '==', userId)
@@ -1571,11 +1366,13 @@ function updateHeader() {
     if (name) name.textContent = user.data.name || 'مستخدم';
     if (role) {
       const roleNames = {
-        super: '👑 سوبر أدمن',
-        admin: '🛡️ مشرف',
-        cashier: '🧑‍💻 كاشير',
-        wholesale: '🏪 تاجر',
-        retail: '👤 عميل'
+        super: 'سوبر أدمن',
+        admin_plus: 'أدمن بلص',
+        admin: 'أدمن',
+        cashier: 'كاشير',
+        wholesale: 'تاجر',
+        retail: 'عميل',
+        delivery: 'موصل'
       };
       role.textContent = roleNames[user.data.role] || 'مستخدم';
     }
@@ -1593,12 +1390,12 @@ function updateHeaderButtons(role) {
   
   let html = '';
   
-  if (role === ROLES.SUPER || role === ROLES.ADMIN) {
+  if (role === ROLES.SUPER || role === ROLES.ADMIN_PLUS || role === ROLES.ADMIN) {
     html = `
       <a href="/gomla/admin/dashboard.html" class="btn btn-sm btn-outline">لوحة التحكم</a>
       <a href="/gomla/admin/orders.html" class="btn btn-sm btn-outline">الطلبات</a>
       <div class="dropdown-wrapper">
-        <button class="btn btn-sm btn-outline">المتاجر ▾</button>
+        <button class="btn btn-sm btn-outline">المتاجر</button>
         <div class="dropdown-menu">
           <a href="/gomla/store-wholesale.html"><i class="fas fa-store"></i> متجر الجملة</a>
           <a href="/gomla/store-retail.html"><i class="fas fa-shopping-cart"></i> متجر القطاعي</a>
@@ -1609,6 +1406,12 @@ function updateHeaderButtons(role) {
     html = `
       <a href="/gomla/cashier/home.html" class="btn btn-sm btn-outline">لوحة الكاشير</a>
       <a href="/gomla/cashier/sales.html" class="btn btn-sm btn-gold">فاتورة جديدة</a>
+    `;
+  } else if (role === ROLES.DELIVERY) {
+    html = `
+      <a href="/gomla/delivery/home.html" class="btn btn-sm btn-outline">لوحة الموصل</a>
+      <a href="/gomla/delivery/orders.html" class="btn btn-sm btn-outline">أوردراتي</a>
+      <a href="/gomla/delivery/available.html" class="btn btn-sm btn-outline">منطقتي</a>
     `;
   } else if (role === ROLES.WHOLESALE) {
     html = `
@@ -1645,7 +1448,6 @@ function updateFooter() {
   const user = getCurrentUser();
   const role = user ? user.data.role : ROLES.GUEST;
   
-  // العمود 1: ثابت
   const col1 = document.getElementById('footer-col-1');
   if (col1) {
     col1.innerHTML = `
@@ -1657,16 +1459,23 @@ function updateFooter() {
     `;
   }
   
-  // العمود 2
   const col2 = document.getElementById('footer-col-2');
   if (col2) {
-    if (role === ROLES.SUPER || role === ROLES.ADMIN) {
+    if (role === ROLES.SUPER || role === ROLES.ADMIN_PLUS || role === ROLES.ADMIN) {
       col2.innerHTML = `
         <a href="/gomla/admin/dashboard.html">لوحة التحكم</a>
         <a href="/gomla/admin/products.html">المنتجات</a>
         <a href="/gomla/admin/orders.html">الطلبات</a>
         <a href="/gomla/admin/customers.html">العملاء</a>
         <a href="/gomla/admin/invoices.html">الفواتير</a>
+      `;
+    } else if (role === ROLES.DELIVERY) {
+      col2.innerHTML = `
+        <a href="/gomla/delivery/home.html">لوحة الموصل</a>
+        <a href="/gomla/delivery/orders.html">أوردراتي</a>
+        <a href="/gomla/delivery/available.html">أوردرات منطقتي</a>
+        <a href="/gomla/delivery/collections.html">تحصيلاتي</a>
+        <a href="/gomla/delivery/profile.html">بياناتي</a>
       `;
     } else if (role === ROLES.WHOLESALE) {
       col2.innerHTML = `
@@ -1692,7 +1501,6 @@ function updateFooter() {
     }
   }
   
-  // العمود 3
   const col3 = document.getElementById('footer-col-3');
   if (col3) {
     if (role === ROLES.SUPER) {
@@ -1701,6 +1509,10 @@ function updateFooter() {
         <a href="/gomla/admin/generate-codes.html">توليد الأكواد</a>
         <a href="/gomla/admin/cashbox.html">الصندوق</a>
         <a href="/gomla/admin/financial-reports.html">التقارير</a>
+      `;
+    } else if (role === ROLES.ADMIN_PLUS) {
+      col3.innerHTML = `
+        <a href="/gomla/admin/profile.html">بياناتي</a>
       `;
     } else if (role === ROLES.ADMIN) {
       col3.innerHTML = `
@@ -1711,7 +1523,6 @@ function updateFooter() {
     }
   }
   
-  // حقوق
   const copyright = document.getElementById('footer-copyright');
   if (copyright) {
     copyright.textContent = 'تم تنفيذ النظام كاملاً بواسطة Famo';
@@ -1737,7 +1548,6 @@ function updateSidebar() {
   const user = getCurrentUser();
   const role = user ? user.data.role : ROLES.GUEST;
   
-  // معلومات المستخدم
   const avatar = document.getElementById('sidebarAvatar');
   const name = document.getElementById('sidebarUsername');
   const userRole = document.getElementById('sidebarUserRole');
@@ -1747,11 +1557,13 @@ function updateSidebar() {
     if (name) name.textContent = user.data.name || 'مستخدم';
     if (userRole) {
       const roleNames = {
-        super: '👑 سوبر أدمن',
-        admin: '🛡️ مشرف',
-        cashier: '🧑‍💻 كاشير',
-        wholesale: '🏪 تاجر',
-        retail: '👤 عميل'
+        super: 'سوبر أدمن',
+        admin_plus: 'أدمن بلص',
+        admin: 'أدمن',
+        cashier: 'كاشير',
+        wholesale: 'تاجر',
+        retail: 'عميل',
+        delivery: 'موصل'
       };
       userRole.textContent = roleNames[role] || 'مستخدم';
     }
@@ -1761,7 +1573,6 @@ function updateSidebar() {
     if (userRole) userRole.textContent = 'مرحباً بك';
   }
   
-  // الروابط
   const nav = document.getElementById('sidebarNav');
   if (!nav) return;
   
@@ -1773,6 +1584,7 @@ function updateSidebar() {
       { icon: 'fa-home', text: 'لوحة المسئول', url: '/gomla/admin/home.html' },
       { icon: 'fa-tachometer-alt', text: 'لوحة التحكم', url: '/gomla/admin/dashboard.html' },
       { icon: 'fa-key', text: 'توليد الأكواد', url: '/gomla/admin/generate-codes.html' },
+      { icon: 'fa-truck-fast', text: 'إدارة الموصلين', url: '/gomla/admin/delivery-agents.html' },
       { icon: 'fa-boxes', text: 'المنتجات', url: '/gomla/admin/products.html' },
       { icon: 'fa-file-pdf', text: 'استخراج PDF', url: '/gomla/admin/extract-pdf.html' },
       { icon: 'fa-users', text: 'العملاء والتجار', url: '/gomla/admin/customers.html' },
@@ -1788,14 +1600,15 @@ function updateSidebar() {
       { icon: 'fa-barcode', text: 'قارئ الباركود', url: '/gomla/admin/barcode-scanner.html' },
       { icon: 'fa-trophy', text: 'المستويات', url: '/gomla/admin/ranks-levels.html' },
       { icon: 'fa-cog', text: 'الإعدادات', url: '/gomla/admin/settings.html' },
-      { icon: 'fa-ticket-alt', text: 'إدارة الدعم', url: '/gomla/admin/support.html' }
+      { icon: 'fa-ticket-alt', text: 'إدارة الدعم', url: '/gomla/admin/support.html' },
+      { icon: 'fa-lock', text: 'إدارة السياسات', url: '/gomla/admin/privacy-manager.html' }
     ];
-  } else if (role === ROLES.ADMINPLUS) {
+  } else if (role === ROLES.ADMIN_PLUS) {
     links = [
       { icon: 'fa-home', text: 'الرئيسية', url: '/gomla' },
       { icon: 'fa-home', text: 'لوحة المسئول', url: '/gomla/admin/home.html' },
       { icon: 'fa-tachometer-alt', text: 'لوحة التحكم', url: '/gomla/admin/dashboard.html' },
-      { icon: 'fa-key', text: 'توليد الأكواد', url: '/gomla/admin/generate-codes.html' },
+      { icon: 'fa-truck-fast', text: 'إدارة الموصلين', url: '/gomla/admin/delivery-agents.html' },
       { icon: 'fa-boxes', text: 'المنتجات', url: '/gomla/admin/products.html' },
       { icon: 'fa-file-pdf', text: 'استخراج PDF', url: '/gomla/admin/extract-pdf.html' },
       { icon: 'fa-users', text: 'العملاء والتجار', url: '/gomla/admin/customers.html' },
@@ -1822,6 +1635,14 @@ function updateSidebar() {
       { icon: 'fa-chart-line', text: 'التقارير', url: '/gomla/admin/financial-reports.html' },
       { icon: 'fa-ticket-alt', text: 'إدارة الدعم', url: '/gomla/admin/support.html' }
     ];
+  } else if (role === ROLES.DELIVERY) {
+    links = [
+      { icon: 'fa-home', text: 'لوحة الموصل', url: '/gomla/delivery/home.html' },
+      { icon: 'fa-box', text: 'أوردراتي', url: '/gomla/delivery/orders.html' },
+      { icon: 'fa-map-marked-alt', text: 'أوردرات منطقتي', url: '/gomla/delivery/available.html' },
+      { icon: 'fa-money-bill-wave', text: 'تحصيلاتي', url: '/gomla/delivery/collections.html' },
+      { icon: 'fa-user', text: 'بياناتي', url: '/gomla/delivery/profile.html' }
+    ];
   } else if (role === ROLES.CASHIER) {
     links = [
       { icon: 'fa-home', text: 'الرئيسية', url: '/gomla' },
@@ -1834,14 +1655,14 @@ function updateSidebar() {
   } else if (role === ROLES.WHOLESALE) {
     links = [
       { icon: 'fa-home', text: 'الرئيسية', url: '/gomla' },
-      { icon: 'fa-house', text: 'لوحة التُجار', url: '/gomla/trader-home.html' },
+      { icon: 'fa-house', text: 'لوحة التجار', url: '/gomla/trader-home.html' },
       { icon: 'fa-percent', text: 'الخصومات', url: '/gomla/discounts.html' },
       { icon: 'fa-store', text: 'متجر الجملة', url: '/gomla/store-wholesale.html' },
       { icon: 'fa-shopping-bag', text: 'طلباتي', url: '/gomla/customer/orders.html' },
       { icon: 'fa-file-invoice', text: 'فواتيري', url: '/gomla/customer/invoices.html' },
       { icon: 'fa-coins', text: 'الذمة المالية', url: '/gomla/customer/balance.html' },
       { icon: 'fa-truck', text: 'تتبع الطلبات', url: '/gomla/tracking.html' },
-      { icon: ' fa-headset', text: 'الدعم والمساعدة', url: '/gomla/support.html' }
+      { icon: 'fa-headset', text: 'الدعم والمساعدة', url: '/gomla/support.html' }
     ];
   } else if (role === ROLES.RETAIL) {
     links = [
@@ -1852,13 +1673,13 @@ function updateSidebar() {
       { icon: 'fa-file-invoice', text: 'فواتيري', url: '/gomla/customer/invoices.html' },
       { icon: 'fa-truck', text: 'تتبع الطلبات', url: '/gomla/tracking.html' },
       { icon: 'fa-heart', text: 'المفضلة', url: '/gomla/wishlist.html' },
-      { icon: ' fa-headset', text: 'الدعم والمساعدة', url: '/gomla/support.html' },
+      { icon: 'fa-headset', text: 'الدعم والمساعدة', url: '/gomla/support.html' },
       { icon: 'fa-percent', text: 'العروض', url: '/gomla/offers.html' }
     ];
   } else {
     links = [
       { icon: 'fa-home', text: 'الرئيسية', url: '/gomla/' },
-      { icon: ' fa-headset', text: 'الدعم والمساعدة', url: '/gomla/support.html' },
+      { icon: 'fa-headset', text: 'الدعم والمساعدة', url: '/gomla/support.html' },
       { icon: 'fa-store', text: 'متجر القطاعي', url: '/gomla/store-retail.html' },
       { icon: 'fa-user-plus', text: 'تسجيل عميل', url: '/gomla/customer-login.html' }
     ];
@@ -1877,7 +1698,6 @@ function updateSidebar() {
   });
   nav.innerHTML = html;
   
-  // زر الخروج
   const footer = document.querySelector('.sidebar-footer');
   if (footer) {
     if (user) {
@@ -1935,9 +1755,6 @@ function isMobile() {
   return window.innerWidth <= MOBILE_BREAKPOINT;
 }
 
-/**
- * الشريط العلوي للموبايل
- */
 function loadMobileTopBar() {
   const placeholder = document.getElementById('mobile-top-bar');
   if (!placeholder) return;
@@ -1965,10 +1782,12 @@ function loadMobileTopBar() {
           <span class="badge-count" id="mobile-notification-badge">0</span>
         </button>
         
-        <button class="top-bar-btn" onclick="openCart()" title="السلة">
-          <i class="fas fa-shopping-cart"></i>
-          <span class="badge-count" id="mobile-cart-badge">0</span>
-        </button>
+        ${user && user.type !== 'delivery' ? `
+          <button class="top-bar-btn" onclick="openCart()" title="السلة">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="badge-count" id="mobile-cart-badge">0</span>
+          </button>
+        ` : ''}
         
         ${showUser ? `
           <button class="top-bar-btn avatar-btn" onclick="openProfile()" title="بياناتي">
@@ -1979,7 +1798,7 @@ function loadMobileTopBar() {
             <i class="fas fa-sign-out-alt"></i>
           </button>
         ` : `
-          <a href="/gomla/alogin.html" class="top-bar-btn" title="دخول">
+          <a href="/gomla/login.html" class="top-bar-btn" title="دخول">
             <i class="fas fa-user"></i>
           </a>
         `}
@@ -1990,9 +1809,6 @@ function loadMobileTopBar() {
   placeholder.innerHTML = html;
 }
 
-/**
- * التبويبات العليا حسب الصلاحية
- */
 function loadMobileTopTabs() {
   const placeholder = document.getElementById('mobile-top-tabs');
   if (!placeholder) return;
@@ -2004,6 +1820,7 @@ function loadMobileTopTabs() {
     tabs = [
       { text: 'لوحة التحكم', url: '/gomla/admin/dashboard.html', icon: 'fa-tachometer-alt' },
       { text: 'الطلبات', url: '/gomla/admin/orders.html', icon: 'fa-shopping-bag' },
+      { text: 'الموصلين', url: '/gomla/admin/delivery-agents.html', icon: 'fa-truck-fast' },
       { text: 'المنتجات', url: '/gomla/admin/products.html', icon: 'fa-boxes' },
       { text: 'الصندوق', url: '/gomla/admin/cashbox.html', icon: 'fa-cash-register' },
       { text: 'متجر الجملة', url: '/gomla/store-wholesale.html' },
@@ -2013,12 +1830,12 @@ function loadMobileTopTabs() {
     tabs = [
       { text: 'لوحة التحكم', url: '/gomla/admin/dashboard.html', icon: 'fa-tachometer-alt' },
       { text: 'الطلبات', url: '/gomla/admin/orders.html', icon: 'fa-shopping-bag' },
+      { text: 'الموصلين', url: '/gomla/admin/delivery-agents.html', icon: 'fa-truck-fast' },
       { text: 'المنتجات', url: '/gomla/admin/products.html', icon: 'fa-boxes' },
       { text: 'الصندوق', url: '/gomla/admin/cashbox.html', icon: 'fa-cash-register' },
       { text: 'متجر الجملة', url: '/gomla/store-wholesale.html' },
       { text: 'متجر القطاعي', url: '/gomla/store-retail.html' }
     ];
-
   } else if (role === ROLES.ADMIN) {
     tabs = [
       { text: 'لوحة التحكم', url: '/gomla/admin/dashboard.html', icon: 'fa-tachometer-alt' },
@@ -2028,6 +1845,13 @@ function loadMobileTopTabs() {
       { text: 'مبيعات الفروع', url: '/gomla/admin/daily-sales.html', icon: 'fa-chart-bar' },
       { text: 'متجر الجملة', url: '/gomla/store-wholesale.html' },
       { text: 'متجر القطاعي', url: '/gomla/store-retail.html' }
+    ];
+  } else if (role === ROLES.DELIVERY) {
+    tabs = [
+      { text: 'لوحتي', url: '/gomla/delivery/home.html', icon: 'fa-home' },
+      { text: 'أوردراتي', url: '/gomla/delivery/orders.html', icon: 'fa-box' },
+      { text: 'منطقتي', url: '/gomla/delivery/available.html', icon: 'fa-map-marked-alt' },
+      { text: 'تحصيلاتي', url: '/gomla/delivery/collections.html', icon: 'fa-money-bill-wave' }
     ];
   } else if (role === ROLES.CASHIER) {
     tabs = [
@@ -2051,7 +1875,6 @@ function loadMobileTopTabs() {
       { text: 'عروض', url: '/gomla/offers.html', icon: 'fa-percent' }
     ];
   } else {
-    // الزائر
     tabs = [
       { text: 'أولاد شعلان ستور', url: '/gomla/store-retail.html', icon: 'fa-store' },
       { text: 'تسجيل كعميل', url: '/gomla/customer-register.html', icon: 'fa-user-plus' },
@@ -2099,19 +1922,23 @@ function toggleMobileTabDropdown(el) {
   if (!isShown) dropdown.classList.add('show');
 }
 
-/**
- * التبويبات السفلى حسب الصفحة
- */
 function loadMobileBottomTabs() {
   const placeholder = document.getElementById('mobile-bottom-tabs');
   if (!placeholder) return;
   
   const path = window.location.pathname;
-  const role = getUserRole();
   let tabs = [];
   
-  // الصفحات الرئيسية
-  if (path === '/' || path.includes('index.html') || path.includes('store-')) {
+  if (path.includes('delivery/')) {
+    tabs = [
+      { text: 'لوحتي', url: '/gomla/delivery/home.html', icon: 'fa-home' },
+      { text: 'أوردراتي', url: '/gomla/delivery/orders.html', icon: 'fa-box' },
+      { text: 'منطقتي', url: '/gomla/delivery/available.html', icon: 'fa-map-marked-alt' },
+      { text: 'تحصيلاتي', url: '/gomla/delivery/collections.html', icon: 'fa-money-bill-wave' },
+      { text: 'القائمة', url: '#', icon: 'fa-bars', onclick: 'openSidebar()' }
+    ];
+  }
+  else if (path === '/' || path.includes('index.html') || path.includes('store-')) {
     tabs = [
       { text: 'رئيسية', url: '/gomla', icon: 'fa-home' },
       { text: 'الأقسام', url: '/gomla/categories.html', icon: 'fa-th-large' },
@@ -2120,18 +1947,16 @@ function loadMobileBottomTabs() {
       { text: 'القائمة', url: '#', icon: 'fa-bars', onclick: 'openSidebar()' }
     ];
   }
-  // صفحة المنتجات
   else if (path.includes('admin/products.html')) {
     tabs = [
- { text: 'لوحة التحكم', url: '/gomla/admin/dashboard.html', icon: 'fa-plus' },   
-  { text: 'إضافة منتج', url: '#', icon: 'fa-plus', onclick: 'openAddModal()' },
+      { text: 'لوحة التحكم', url: '/gomla/admin/dashboard.html', icon: 'fa-plus' },
+      { text: 'إضافة منتج', url: '#', icon: 'fa-plus', onclick: 'openAddModal()' },
       { text: 'إضافة براند', url: '#', icon: 'fa-copyright', onclick: 'openBrandModal()' },
       { text: 'إضافة تصنيف', url: '#', icon: 'fa-tags', onclick: 'openCategoryModal()' },
       { text: 'نسخة احتياطية', url: '#', icon: 'fa-download', onclick: 'exportProducts()' },
       { text: 'القائمة', url: '#', icon: 'fa-bars', onclick: 'openSidebar()' }
     ];
   }
-  // صفحة الطلبات
   else if (path.includes('admin/orders.html')) {
     tabs = [
       { text: 'تصدير', url: '#', icon: 'fa-file-export', onclick: 'exportOrders()' },
@@ -2141,7 +1966,15 @@ function loadMobileBottomTabs() {
       { text: 'القائمة', url: '#', icon: 'fa-bars', onclick: 'openSidebar()' }
     ];
   }
-  // صفحة الفواتير
+  else if (path.includes('admin/delivery-agents.html')) {
+    tabs = [
+      { text: 'إضافة موصل', url: '#', icon: 'fa-user-plus', onclick: 'openAddAgentModal()' },
+      { text: 'بحث', url: '#', icon: 'fa-search', onclick: 'focusSearch()' },
+      { text: 'تصفية', url: '#', icon: 'fa-filter', onclick: 'scrollToFilters()' },
+      { text: 'إحصائيات', url: '#', icon: 'fa-chart-pie', onclick: 'scrollToStats()' },
+      { text: 'القائمة', url: '#', icon: 'fa-bars', onclick: 'openSidebar()' }
+    ];
+  }
   else if (path.includes('admin/invoices.html')) {
     tabs = [
       { text: 'فاتورة جديدة', url: '#', icon: 'fa-plus', onclick: 'openAddInvoice()' },
@@ -2151,7 +1984,6 @@ function loadMobileBottomTabs() {
       { text: 'القائمة', url: '#', icon: 'fa-bars', onclick: 'openSidebar()' }
     ];
   }
-  // صفحة العملاء
   else if (path.includes('admin/customers.html')) {
     tabs = [
       { text: 'إضافة عميل', url: '#', icon: 'fa-user-plus', onclick: 'openAddCustomer()' },
@@ -2161,7 +1993,6 @@ function loadMobileBottomTabs() {
       { text: 'القائمة', url: '#', icon: 'fa-bars', onclick: 'openSidebar()' }
     ];
   }
-  // صفحة لوحة التحكم
   else if (path.includes('admin/dashboard.html')) {
     tabs = [
       { text: 'الإحصائيات', url: '#', icon: 'fa-chart-pie', onclick: 'scrollToStats()' },
@@ -2171,7 +2002,6 @@ function loadMobileBottomTabs() {
       { text: 'القائمة', url: '#', icon: 'fa-bars', onclick: 'openSidebar()' }
     ];
   }
-  // صفحة الكاشير
   else if (path.includes('cashier/')) {
     tabs = [
       { text: 'فاتورة جديدة', url: '/gomla/cashier/sales.html', icon: 'fa-file-invoice' },
@@ -2181,7 +2011,6 @@ function loadMobileBottomTabs() {
       { text: 'القائمة', url: '#', icon: 'fa-bars', onclick: 'openSidebar()' }
     ];
   }
-  // صفحة السلة
   else if (path.includes('cart.html')) {
     tabs = [
       { text: 'المتجر', url: '/gomla/store-retail.html', icon: 'fa-store' },
@@ -2191,7 +2020,6 @@ function loadMobileBottomTabs() {
       { text: 'القائمة', url: '#', icon: 'fa-bars', onclick: 'openSidebar()' }
     ];
   }
-  // صفحة افتراضية
   else {
     tabs = [
       { text: 'الرئيسية', url: '/gomla/', icon: 'fa-home' },
@@ -2224,9 +2052,6 @@ function loadMobileBottomTabs() {
   placeholder.innerHTML = html;
 }
 
-/**
- * شريط الحقوق
- */
 function loadMobileCopyright() {
   const placeholder = document.getElementById('mobile-copyright');
   if (!placeholder) return;
@@ -2239,20 +2064,16 @@ function loadMobileCopyright() {
 }
 
 // ============================================================
-// 🔍 نظام البحث الموحد (يعمل في كل الصفحات)
+// 🔍 نظام البحث الموحد
 // ============================================================
 
 let searchTimeoutGlobal = null;
 
-/**
- * فتح نافذة البحث
- */
 function openSearchModal() {
   const overlay = document.getElementById('searchModalOverlay');
   const input = document.getElementById('searchModalInput');
   
   if (!overlay) {
-    // لو النافذة مش موجودة → انتقل لصفحة البحث
     window.location.href = '/gomla/search.html';
     return;
   }
@@ -2271,9 +2092,6 @@ function openSearchModal() {
   if (resultsContainer) resultsContainer.innerHTML = '';
 }
 
-/**
- * إغلاق نافذة البحث
- */
 function closeSearchModal(event) {
   if (event && event.target !== event.currentTarget) return;
   
@@ -2287,19 +2105,15 @@ function closeSearchModal(event) {
   if (input) input.value = '';
 }
 
-/**
- * التعامل مع ضغطات لوحة المفاتيح
- */
 function handleSearchKeydown(event) {
   if (event.key === 'Escape') {
     closeSearchModal();
   } else if (event.key === 'Enter') {
     const value = event.target.value.trim();
     if (value) {
-      // الانتقال لصفحة نتائج البحث
       const user = getCurrentUser();
       const role = user ? user.data.role : ROLES.GUEST;
-      const type = (role === ROLES.WHOLESALE || role === ROLES.ADMIN || role === ROLES.SUPER) 
+      const type = (role === ROLES.WHOLESALE || role === ROLES.ADMIN || role === ROLES.SUPER || role === ROLES.ADMIN_PLUS) 
         ? 'wholesale' 
         : 'retail';
       
@@ -2308,9 +2122,6 @@ function handleSearchKeydown(event) {
   }
 }
 
-/**
- * البحث السريع بكلمة جاهزة
- */
 function quickSearch(term) {
   const input = document.getElementById('searchModalInput');
   if (input) {
@@ -2319,26 +2130,20 @@ function quickSearch(term) {
   }
 }
 
-/**
- * البحث الفوري
- */
 async function handleModalSearch(searchTerm) {
   const resultsContainer = document.getElementById('searchResults');
   const initialContent = document.getElementById('searchInitialContent');
   
   if (!resultsContainer) return;
   
-  // لو البحث قصير
   if (!searchTerm || searchTerm.trim().length < 2) {
     if (initialContent) initialContent.style.display = 'block';
     resultsContainer.innerHTML = '';
     return;
   }
   
-  // إخفاء المحتوى الأولي
   if (initialContent) initialContent.style.display = 'none';
   
-  // عرض التحميل
   resultsContainer.innerHTML = `
     <div class="search-loading">
       <i class="fas fa-spinner fa-spin"></i>
@@ -2346,25 +2151,21 @@ async function handleModalSearch(searchTerm) {
     </div>
   `;
   
-  // Debounce
   if (searchTimeoutGlobal) clearTimeout(searchTimeoutGlobal);
   
   searchTimeoutGlobal = setTimeout(async () => {
     try {
       const term = searchTerm.trim().toLowerCase();
       
-      // تحديد نوع المستخدم
       const user = getCurrentUser();
       const role = user ? user.data.role : ROLES.GUEST;
-      const isWholesale = role === ROLES.WHOLESALE || role === ROLES.ADMIN || role === ROLES.SUPER;
+      const isWholesale = role === ROLES.WHOLESALE || role === ROLES.ADMIN || role === ROLES.SUPER || role === ROLES.ADMIN_PLUS;
       
-      // جلب المنتجات
       const snapshot = await db.collection(COLLECTIONS.PRODUCTS)
         .where('available', '==', true)
         .limit(50)
         .get();
       
-      // فلترة النتائج
       const results = [];
       snapshot.forEach(doc => {
         const p = doc.data();
@@ -2381,7 +2182,6 @@ async function handleModalSearch(searchTerm) {
         }
       });
       
-      // عرض النتائج
       if (results.length === 0) {
         resultsContainer.innerHTML = `
           <div class="search-empty">
@@ -2401,7 +2201,6 @@ async function handleModalSearch(searchTerm) {
       `;
       
       results.slice(0, 15).forEach(p => {
-        // 🔒 السعر حسب نوع المستخدم
         const price = isWholesale ? 
           (p.wholesalePrice || 0) : 
           (p.retailPrice || 0);
@@ -2453,7 +2252,6 @@ async function handleModalSearch(searchTerm) {
   }, 300);
 }
 
-// ===== ESC لإغلاق النافذة =====
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
     const overlay = document.getElementById('searchModalOverlay');
@@ -2463,13 +2261,11 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-// تصدير للاستخدام العالمي
 window.openSearchModal = openSearchModal;
 window.closeSearchModal = closeSearchModal;
 window.handleSearchKeydown = handleSearchKeydown;
 window.handleModalSearch = handleModalSearch;
 window.quickSearch = quickSearch;
-//نهاية البحث 
 
 function openCart() {
   window.location.href = '/gomla/cart.html';
@@ -2486,6 +2282,8 @@ function openProfile() {
     window.location.href = '/gomla/admin/profile.html';
   } else if (user.type === 'cashier') {
     window.location.href = '/gomla/cashier/home.html';
+  } else if (user.type === 'delivery') {
+    window.location.href = '/gomla/delivery/profile.html';
   } else {
     window.location.href = '/gomla/customer/profile.html';
   }
@@ -2512,67 +2310,19 @@ function closeSidebar() {
 }
 
 // ============================================================
-// 🚀 تشغيل الصفحة
-// ============================================================
-
-document.addEventListener('DOMContentLoaded', async function() {
-  // تحميل المكونات الأساسية
-  loadHeader();
-  loadFooter();
-  loadSidebar();
-  
-  // تحميل مكونات الموبايل
-  if (isMobile()) {
-    loadMobileTopBar();
-    loadMobileTopTabs();
-    loadMobileBottomTabs();
-    loadMobileCopyright();
-  }
-  
-  // تحديث العدادات
-  updateCartBadge();
-  updateNotificationBadge();
-  
-  // إغلاق القوائم عند الضغط خارجها
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('.notification-badge')) {
-      document.querySelectorAll('.notifications-dropdown').forEach(el => el.classList.remove('show'));
-    }
-    if (!e.target.closest('.dropdown-wrapper') && !e.target.closest('.mobile-tab-dropdown')) {
-      document.querySelectorAll('.dropdown-menu, .mobile-tab-dropdown').forEach(el => el.classList.remove('show'));
-    }
-  });
-  
-  // إعادة تحميل عند تغيير حجم الشاشة
-  window.addEventListener('resize', () => {
-    if (isMobile()) {
-      loadMobileTopBar();
-      loadMobileTopTabs();
-      loadMobileBottomTabs();
-      loadMobileCopyright();
-    }
-  });
-  
-  console.log('✅ main.js v6.0 loaded successfully');
-});
-// ============================================================
-// 📊 تحديث الإحصائيات العامة (يُستدعى من صفحة الأدمن)
+// 📊 تحديث الإحصائيات العامة
 // ============================================================
 async function updatePublicStats() {
   try {
-    // عدّ العملاء
     const customersSnap = await db.collection(COLLECTIONS.CUSTOMERS).get();
     const customersCount = customersSnap.size;
 
-    // عدّ الطلبات
     const ordersSnap = await db.collection(COLLECTIONS.ORDERS).get();
     const ordersCount = ordersSnap.size;
 
-    // عدّ المنتجات
     const productsSnap = await db.collection(COLLECTIONS.PRODUCTS).get();
     const productsCount = productsSnap.size;
 
-    // حفظ في مجموعة public_stats
     await db.collection('public_stats').doc('general').set({
       customers: customersCount,
       orders: ordersCount,
@@ -2589,6 +2339,47 @@ async function updatePublicStats() {
 }
 
 window.updatePublicStats = updatePublicStats;
+
+// ============================================================
+// 🚀 تشغيل الصفحة
+// ============================================================
+
+document.addEventListener('DOMContentLoaded', async function() {
+  loadHeader();
+  loadFooter();
+  loadSidebar();
+  
+  if (isMobile()) {
+    loadMobileTopBar();
+    loadMobileTopTabs();
+    loadMobileBottomTabs();
+    loadMobileCopyright();
+  }
+  
+  updateCartBadge();
+  updateNotificationBadge();
+  
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.notification-badge')) {
+      document.querySelectorAll('.notifications-dropdown').forEach(el => el.classList.remove('show'));
+    }
+    if (!e.target.closest('.dropdown-wrapper') && !e.target.closest('.mobile-tab-dropdown')) {
+      document.querySelectorAll('.dropdown-menu, .mobile-tab-dropdown').forEach(el => el.classList.remove('show'));
+    }
+  });
+  
+  window.addEventListener('resize', () => {
+    if (isMobile()) {
+      loadMobileTopBar();
+      loadMobileTopTabs();
+      loadMobileBottomTabs();
+      loadMobileCopyright();
+    }
+  });
+  
+  console.log('✅ main.js v6.1 loaded successfully');
+});
+
 // ============================================================
 // 🌐 تصدير الدوال عالمياً
 // ============================================================
@@ -2597,16 +2388,24 @@ window.updatePublicStats = updatePublicStats;
 window.getCurrentUser = getCurrentUser;
 window.getUserRole = getUserRole;
 window.isSuperAdmin = isSuperAdmin;
+window.isAdminPlus = isAdminPlus;
 window.isAdmin = isAdmin;
 window.isCashier = isCashier;
+window.isDelivery = isDelivery;
+window.isDeliveryActive = isDeliveryActive;
 window.isWholesale = isWholesale;
 window.isRetail = isRetail;
+window.isCustomer = isCustomer;
 window.isGuest = isGuest;
 window.hasPermission = hasPermission;
 window.protectPage = protectPage;
 window.protectAdminPage = protectAdminPage;
 window.protectSuperAdminPage = protectSuperAdminPage;
+window.protectAdminPlusPage = protectAdminPlusPage;
 window.protectCashierPage = protectCashierPage;
+window.protectCustomerPage = protectCustomerPage;
+window.protectDeliveryPage = protectDeliveryPage;
+window.getRoleArabicName = getRoleArabicName;
 window.logoutUser = logoutUser;
 
 // Toast
@@ -2623,8 +2422,12 @@ window.uploadImage = uploadImage;
 
 // مساعدة
 window.generateCode = generateCode;
+window.generateDeliveryCode = generateDeliveryCode;
+window.generateDeliveryEmail = generateDeliveryEmail;
 window.copyToClipboard = copyToClipboard;
 window.validatePhone = validatePhone;
+window.roundToNearest5 = roundToNearest5;
+window.calculatePaymentFee = calculatePaymentFee;
 window.calculateAutoMaxOrder = calculateAutoMaxOrder;
 window.calculateShipping = calculateShipping;
 window.logActivity = logActivity;
@@ -2669,3 +2472,7 @@ window.openProfile = openProfile;
 window.openSidebar = openSidebar;
 window.closeSidebar = closeSidebar;
 window.toggleMobileTabDropdown = toggleMobileTabDropdown;
+
+// ============================================================
+// ✅ نهاية main.js v6.1
+// ============================================================
