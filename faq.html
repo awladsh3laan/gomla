@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الدليل الشامل والأسئلة الشائعة - أولاد شعلان للمنظفات والورقيات</title>
+  <meta name="description" content="الدليل الشامل والأسئلة الشائعة - كل ما تحتاج معرفته عن استخدام موقع أولاد شعلان">
+  <meta name="theme-color" content="#1a2a4a">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/gomla/assets/css/style.css">
+  <link rel="icon" href="/gomla/assets/images/favicon.ico">
+
+  <style>
+    html, body { overflow-x: hidden !important; max-width: 100vw; }
+    .page-content, .page-content .container { overflow-x: hidden; min-width: 0; max-width: 100%; }
+
+    /* Hero */
+    .faq-hero {
+      background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 50%, var(--navy-light) 100%);
+      border-radius: var(--radius-lg);
+      padding: 42px 24px 38px;
+      margin-bottom: 20px;
+      color: var(--white);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 15px 45px rgba(15,26,46,.35);
+      border-bottom: 4px solid var(--gold);
+    }
+    .faq-hero::before {
+      content: '';
+      position: absolute;
+      top: -100px; right: -80px;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(201,168,76,.3) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+    }
+    .faq-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: -60px;
+      width: 220px; height: 220px;
+      background: radial-gradient(circle, rgba(135,206,235,.15) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 10s ease-in-out infinite reverse;
+    }
+    .faq-hero-inner { position: relative; z-index: 1; }
+    .faq-hero .hero-icon {
+      width: 84px; height: 84px;
+      border-radius: 20px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.3rem;
+      margin: 0 auto 16px;
+      box-shadow: 0 12px 32px rgba(201,168,76,.5);
+      border: 3px solid rgba(255,255,255,.2);
+      animation: pulse 3s ease-in-out infinite;
+    }
+    .faq-hero .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 14px;
+      background: rgba(255,255,255,.12);
+      color: var(--gold-light);
+      border: 1px solid rgba(201,168,76,.4);
+      border-radius: var(--radius-full);
+      font-size: 0.72rem; font-weight: 800;
+      backdrop-filter: blur(10px);
+      margin-bottom: 12px;
+    }
+    .faq-hero .hero-badge i {
+      color: var(--gold);
+      animation: iconSpin 6s linear infinite;
+    }
+    @keyframes iconSpin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+    .faq-hero h1 {
+      font-size: 1.75rem; font-weight: 900;
+      margin-bottom: 8px; color: var(--white);
+    }
+    .faq-hero h1 .gold-text { color: var(--gold); }
+    .faq-hero .hero-sub {
+      font-size: 0.95rem; opacity: .9;
+      color: rgba(255,255,255,.9);
+      max-width: 600px; margin: 0 auto 14px;
+      line-height: 1.7;
+    }
+    .faq-hero .hero-date {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px;
+      background: rgba(255,255,255,.1);
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      color: var(--gold-light);
+      font-weight: 700;
+      border: 1px solid rgba(201,168,76,.3);
+    }
+    .faq-hero .hero-date i { color: var(--gold); }
+
+    /* Search Bar */
+    .faq-search-wrap {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+    }
+    .faq-search {
+      position: relative;
+    }
+    .faq-search input {
+      width: 100%;
+      padding: 14px 48px 14px 16px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-full);
+      font-family: inherit;
+      font-size: 0.95rem;
+      background: var(--gray-50);
+      outline: none;
+      transition: var(--transition);
+    }
+    .faq-search input:focus {
+      border-color: var(--gold);
+      background: var(--white);
+      box-shadow: 0 0 0 4px rgba(201,168,76,.15);
+    }
+    .faq-search .si {
+      position: absolute;
+      right: 18px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--gold);
+      pointer-events: none;
+      font-size: 1rem;
+    }
+    .faq-search .clear-btn {
+      position: absolute;
+      left: 14px; top: 50%;
+      transform: translateY(-50%);
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--gray-100);
+      border: none;
+      color: var(--gray-500);
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      transition: var(--transition);
+    }
+    .faq-search .clear-btn.show { display: flex; }
+    .faq-search .clear-btn:hover {
+      background: #ef4444;
+      color: var(--white);
+    }
+    .search-info {
+      display: none;
+      padding: 8px 14px;
+      margin-top: 10px;
+      background: linear-gradient(135deg, #fcf9f0, #f8f4e8);
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      color: var(--gold-dark);
+      font-weight: 700;
+      border-right: 3px solid var(--gold);
+    }
+    .search-info.show { display: flex; align-items: center; gap: 6px; }
+    .search-info i { color: var(--gold); }
+
+    /* TOC */
+    .toc-card {
+      background: linear-gradient(135deg, #fcf9f0, #f8f4e8);
+      border: 2px solid var(--gold-light);
+      border-radius: var(--radius-md);
+      margin-bottom: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    .toc-header {
+      display: flex; align-items: center;
+      justify-content: space-between;
+      padding: 14px 18px;
+      cursor: pointer;
+      user-select: none;
+      gap: 10px;
+    }
+    .toc-header h3 {
+      font-size: 1rem; font-weight: 900;
+      color: var(--navy); margin: 0;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .toc-header h3 i { color: var(--gold); }
+    .toc-header .toc-toggle {
+      color: var(--gold-dark);
+      transition: var(--transition);
+      font-size: 0.9rem;
+    }
+    .toc-card.open .toc-toggle { transform: rotate(180deg); }
+    .toc-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .4s ease;
+      padding: 0 18px;
+    }
+    .toc-card.open .toc-body {
+      max-height: 1200px;
+      padding: 4px 18px 18px;
+    }
+    .toc-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 6px;
+    }
+    .toc-link {
+      display: flex; align-items: center; gap: 8px;
+      padding: 9px 12px;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      color: var(--navy);
+      text-decoration: none;
+      font-weight: 700;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .toc-link:hover {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--white);
+      border-color: var(--gold-dark);
+      transform: translateX(-4px);
+    }
+    .toc-link i { color: var(--gold); transition: var(--transition); }
+    .toc-link:hover i { color: var(--white); }
+    .toc-num {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: var(--navy); color: var(--gold);
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 0.68rem; font-weight: 900;
+      flex-shrink: 0;
+    }
+    .toc-link:hover .toc-num {
+      background: var(--white); color: var(--gold-dark);
+    }
+
+    /* Section */
+    .faq-section {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      margin-bottom: 14px;
+      overflow: hidden;
+      scroll-margin-top: 80px;
+      animation: fadeInUp .5s ease both;
+    }
+    .faq-section.hidden { display: none; }
+    .faq-section-header {
+      display: flex; align-items: center; gap: 12px;
+      padding: 16px 20px;
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      position: relative;
+    }
+    .faq-section-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; right: 0; left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light), var(--gold), var(--gold-dark));
+      background-size: 200% 100%;
+      animation: shimmer 3s linear infinite;
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .faq-section-header .sec-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.15rem;
+      flex-shrink: 0;
+      box-shadow: 0 6px 16px rgba(201,168,76,.4);
+    }
+    .faq-section-header .sec-info { flex: 1; min-width: 0; }
+    .faq-section-header .sec-num {
+      font-size: 0.68rem;
+      color: var(--gold-light);
+      font-weight: 800;
+      margin-bottom: 2px;
+      letter-spacing: .5px;
+    }
+    .faq-section-header h2 {
+      margin: 0;
+      font-size: 1.05rem;
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.4;
+    }
+    .faq-section-header .sec-count {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(201,168,76,.3);
+      border-radius: var(--radius-full);
+      font-size: 0.68rem;
+      font-weight: 800;
+      color: var(--gold-light);
+      flex-shrink: 0;
+    }
+    .faq-section-body {
+      padding: 18px 20px;
+    }
+
+    /* FAQ Items */
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .faq-item {
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      background: var(--white);
+      transition: var(--transition);
+    }
+    .faq-item:hover {
+      border-color: var(--gold-light);
+    }
+    .faq-item.open {
+      border-color: var(--gold);
+      box-shadow: 0 4px 12px rgba(201,168,76,.15);
+    }
+    .faq-item.hidden { display: none; }
+    .faq-q {
+      padding: 13px 16px;
+      cursor: pointer;
+      font-weight: 700;
+      color: var(--navy);
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      user-select: none;
+      transition: var(--transition);
+    }
+    .faq-item.open .faq-q {
+      background: linear-gradient(135deg, #fcf9f0, #f8f4e8);
+    }
+    .faq-q:hover {
+      background: var(--gray-50);
+    }
+    .faq-item.open .faq-q:hover {
+      background: linear-gradient(135deg, #fcf9f0, #f8f4e8);
+    }
+    .faq-q .q-icon {
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      color: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.72rem;
+      font-weight: 900;
+      flex-shrink: 0;
+    }
+    .faq-q .q-text { flex: 1; }
+    .faq-q .q-toggle {
+      color: var(--gray-400);
+      font-size: 0.78rem;
+      transition: transform 0.3s ease;
+      flex-shrink: 0;
+    }
+    .faq-item.open .faq-q .q-toggle {
+      transform: rotate(180deg);
+      color: var(--gold-dark);
+    }
+    .faq-a {
+      display: none;
+      padding: 14px 16px;
+      border-top: 1px solid var(--gray-200);
+      font-size: 0.85rem;
+      line-height: 1.9;
+      color: var(--gray-700);
+      background: #fafbfd;
+    }
+    .faq-item.open .faq-a { display: block; animation: fadeIn .3s ease; }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* No Results */
+    .no-results {
+      display: none;
+      text-align: center;
+      padding: 60px 20px;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      border: 2px dashed var(--gray-300);
+    }
+    .no-results.show { display: block; }
+    .no-results .nr-icon {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: var(--gray-100);
+      color: var(--gray-400);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 16px;
+    }
+    .no-results h3 {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .no-results p {
+      font-size: 0.88rem;
+      color: var(--gray-500);
+      margin-bottom: 18px;
+    }
+
+    /* CTA at end */
+    .faq-cta {
+      margin-top: 20px;
+      padding: 24px 20px;
+      background: linear-gradient(135deg, #fcf9f0, #f8f4e8);
+      border: 2px solid var(--gold-light);
+      border-radius: var(--radius-md);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .faq-cta::before {
+      content: '';
+      position: absolute;
+      top: -40px; right: -40px;
+      width: 180px; height: 180px;
+      background: radial-gradient(circle, rgba(201,168,76,.2), transparent 70%);
+      border-radius: 50%;
+    }
+    .faq-cta .cta-icon {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem;
+      margin: 0 auto 14px;
+      box-shadow: 0 8px 24px rgba(201,168,76,.5);
+      animation: bellRing 2.5s ease-in-out infinite;
+      position: relative; z-index: 1;
+    }
+    @keyframes bellRing {
+      0%,100%,20%,40% { transform: rotate(0deg); }
+      10%,30% { transform: rotate(12deg); }
+    }
+    .faq-cta h3 {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 6px;
+      position: relative; z-index: 1;
+    }
+    .faq-cta p {
+      font-size: 0.88rem;
+      color: var(--gray-600);
+      margin-bottom: 16px;
+      position: relative; z-index: 1;
+    }
+    .faq-cta-btns {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      position: relative; z-index: 1;
+    }
+    .faq-cta-btn {
+      padding: 11px 22px;
+      border-radius: var(--radius-full);
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 0.88rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+    }
+    .faq-cta-btn.primary {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--white);
+      box-shadow: 0 6px 18px rgba(201,168,76,.4);
+    }
+    .faq-cta-btn.primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(201,168,76,.6);
+    }
+    .faq-cta-btn.outline {
+      background: var(--white);
+      color: var(--navy);
+      border: 2px solid var(--gray-200);
+    }
+    .faq-cta-btn.outline:hover {
+      border-color: var(--gold);
+      color: var(--gold-dark);
+    }
+
+    /* Loading */
+    .pp-loading {
+      text-align: center;
+      padding: 60px 20px;
+    }
+    .pp-loading i {
+      font-size: 2rem;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+    .pp-loading p {
+      color: var(--gray-500);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) and (pointer: coarse) {
+      .faq-hero { padding: 30px 18px 26px; border-radius: var(--radius-md); }
+      .faq-hero .hero-icon { width: 68px; height: 68px; font-size: 1.85rem; border-radius: 16px; }
+      .faq-hero h1 { font-size: 1.3rem; }
+      .faq-hero .hero-sub { font-size: 0.85rem; }
+
+      .faq-search input { padding: 12px 44px 12px 14px; font-size: 0.88rem; }
+      .faq-search .si { right: 16px; font-size: 0.9rem; }
+
+      .toc-grid { grid-template-columns: 1fr; }
+      .toc-header h3 { font-size: 0.9rem; }
+
+      .faq-section-header { padding: 13px 16px; }
+      .faq-section-header .sec-icon { width: 38px; height: 38px; font-size: 1rem; }
+      .faq-section-header h2 { font-size: 0.92rem; }
+      .faq-section-header .sec-count { display: none; }
+      .faq-section-body { padding: 14px 16px; }
+
+      .faq-q { padding: 11px 13px; font-size: 0.84rem; gap: 8px; }
+      .faq-q .q-icon { width: 22px; height: 22px; font-size: 0.65rem; }
+      .faq-a { padding: 12px 14px; font-size: 0.8rem; }
+
+      .faq-cta { padding: 20px 16px; }
+      .faq-cta h3 { font-size: 1rem; }
+      .faq-cta-btns { flex-direction: column; }
+      .faq-cta-btn { width: 100%; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="mobile-top-bar"></div>
+  <div id="mobile-top-tabs"></div>
+  <div id="header-placeholder"></div>
+
+  <main class="page-content">
+    <div class="container">
+
+      <!-- Hero -->
+      <section class="faq-hero">
+        <div class="faq-hero-inner">
+          <div class="hero-icon">
+            <i class="fas fa-question-circle"></i>
+          </div>
+          <div class="hero-badge">
+            <i class="fas fa-book"></i>
+            دليل شامل ومفصل
+          </div>
+          <h1>
+            الدليل الشامل <span class="gold-text">والأسئلة الشائعة</span>
+          </h1>
+          <p class="hero-sub">
+            كل ما تحتاج معرفته عن استخدام الموقع — من التسجيل للتسوق، من الدفع للتوصيل، ومن الدعم للاستبدال.
+          </p>
+          <div class="hero-date" id="lastUpdatedBadge">
+            <i class="fas fa-clock"></i>
+            <span id="lastUpdatedText">آخر تحديث: —</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Search -->
+      <div class="faq-search-wrap">
+        <div class="faq-search">
+          <input type="text" id="faqSearchInput" placeholder="ابحث عن سؤالك... (مثال: كيف أسجل، الدفع، الشحن)"
+                 oninput="handleSearch(this.value)" autocomplete="off">
+          <i class="fas fa-search si"></i>
+          <button class="clear-btn" id="clearSearchBtn" onclick="clearSearch()" title="مسح البحث">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="search-info" id="searchInfo">
+          <i class="fas fa-filter"></i>
+          <span id="searchInfoText">—</span>
+        </div>
+      </div>
+
+      <!-- TOC -->
+      <div class="toc-card open" id="tocCard">
+        <div class="toc-header" onclick="toggleTOC()">
+          <h3>
+            <i class="fas fa-list-ul"></i>
+            محتويات الدليل
+          </h3>
+          <i class="fas fa-chevron-down toc-toggle"></i>
+        </div>
+        <div class="toc-body">
+          <div class="toc-grid" id="tocGrid">
+            <div class="pp-loading" style="grid-column:1/-1;padding:20px;">
+              <i class="fas fa-spinner fa-spin"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sections -->
+      <div id="sectionsContainer">
+        <div class="pp-loading">
+          <i class="fas fa-spinner fa-spin"></i>
+          <p>جاري تحميل الدليل...</p>
+        </div>
+      </div>
+
+      <!-- No Results -->
+      <div class="no-results" id="noResults">
+        <div class="nr-icon">
+          <i class="fas fa-search-minus"></i>
+        </div>
+        <h3>لا توجد نتائج مطابقة</h3>
+        <p>جرب كلمات أخرى أو افتح تذكرة دعم وهنساعدك.</p>
+        <button class="faq-cta-btn primary" onclick="clearSearch()">
+          <i class="fas fa-redo"></i>
+          عرض كل الأسئلة
+        </button>
+      </div>
+
+      <!-- CTA -->
+      <div class="faq-cta" id="faqCTA">
+        <div class="cta-icon">
+          <i class="fas fa-headset"></i>
+        </div>
+        <h3>ملقيتش إجابتك؟</h3>
+        <p>فريق الدعم جاهز يساعدك في أي وقت — تواصل معانا أو افتح تذكرة موثقة.</p>
+        <div class="faq-cta-btns">
+          <a href="/gomla/support.html" class="faq-cta-btn primary">
+            <i class="fas fa-ticket-alt"></i>
+            افتح تذكرة دعم
+          </a>
+          <a href="https://wa.me/201068385028" target="_blank" rel="noopener" class="faq-cta-btn outline">
+            <i class="fab fa-whatsapp"></i>
+            كلمنا واتساب
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="mobile-bottom-tabs"></div>
+  <div id="mobile-copyright"></div>
+  <div id="footer-placeholder"></div>
+  <div id="sidebar-placeholder"></div>
+  <div id="toast-container"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="/gomla/assets/js/firebase-config.js"></script>
+  <script src="/gomla/assets/js/main.js"></script>
+
+  <script>
+    // ============================================================
+    // 📄 faq.html — الدليل الشامل + الأسئلة الشائعة
+    // ============================================================
+
+    const CURRENT_COLLECTION = 'faq_sections';
+    const CURRENT_META = 'faq_meta';
+
+    let _allSections = [];
+    let _searchTerm = '';
+    let _searchTimeout = null;
+
+    // ============================================================
+    // 📌 المحتوى الافتراضي (Fallback)
+    // ============================================================
+    const FALLBACK_SECTIONS = [
+      { order: 1, title: "التسجيل والدخول", icon: "fa-user-plus", bodyType: "faq", active: true,
+        items: [
+          { title: "كيف أسجل حساب عميل جديد؟", text: "من صفحة login.html اختار \"دخول العملاء\" ثم اضغط \"تسجيل عميل جديد\". املأ البيانات (الاسم، الهاتف، الإيميل، العنوان، كلمة المرور) وفعّل حسابك فوراً." },
+          { title: "كيف أدخل كعميل؟", text: "افتح login.html → اضغط \"دخول العملاء\" → ادخل الإيميل وكلمة المرور. لو نسيت كلمة المرور، كلمنا على الواتساب." },
+          { title: "كيف أدخل كتاجر بالكود؟", text: "افتح login.html → \"دخول التجار\" → ادخل الكود الخاص بك (مثال: MHL-A1B2). الكود بيجي من السوبر أدمن بعد الموافقة على طلبك." },
+          { title: "كيف أدخل كموصل؟", text: "افتح login.html → \"دخول الموصلين\" → ادخل كودك الخاص (مثال: DEL-A2B4C5@#$). الكود بيجي من الأدمن بعد انضمامك لفريق التوصيل." },
+          { title: "ما الفرق بين العميل والتاجر؟", text: "العميل بيتسوق بأسعار القطاعي مع حد أقصى = المخزون. التاجر بيتسوق بأسعار الجملة مع حد أدنى 1500 ج.م وبيشوف هامش الربح وملاحظات المنتج." }
+        ] },
+      { order: 2, title: "التسوق والتصفح", icon: "fa-shopping-cart", bodyType: "faq", active: true,
+        items: [
+          { title: "كيف أتصفح المنتجات؟", text: "من الصفحة الرئيسية → اضغط \"المتجر\". تقدر تتصفح من الأقسام، البراندات، أو تشوف كل المنتجات في صفحة واحدة." },
+          { title: "إيه الفرق بين متجر الجملة والقطاعي؟", text: "الجملة للتجار فقط بأسعار خاصة ووحدات كبيرة (كرتونة/بالة). القطاعي لكل الزوار بأسعار المستهلك ووحدات صغيرة (قطعة)." },
+          { title: "كيف أبحث عن منتج؟", text: "اضغط أيقونة البحث (العدسة) في الأعلى. اكتب اسم المنتج أو البراند أو الباركود، هيظهرلك نتائج فورية." },
+          { title: "كيف أضيف منتج للسلة؟", text: "من صفحة المنتج → اضغط \"أضف للسلة\". أو من شبكة المنتجات → اضغط أيقونة السلة على كارت المنتج." },
+          { title: "كيف أضيف منتج للمفضلة؟", text: "من صفحة المنتج → اضغط أيقونة القلب. تقدر تشوف كل المفضلة من صفحة \"المفضلة\" في التبويبات السفلية." }
+        ] },
+      { order: 3, title: "السلة والطلبات", icon: "fa-shopping-basket", bodyType: "faq", active: true,
+        items: [
+          { title: "كيف أعدل الكميات في السلة؟", text: "من صفحة السلة → استخدم أزرار +/- لتعديل الكمية. أو اكتب الرقم مباشرة في الحقل." },
+          { title: "ما الحد الأدنى لطلب الجملة؟", text: "الحد الأدنى لفاتورة الجملة 1500 ج.م. لو أقل من كده النظام مش هيسمح بإتمام الطلب." },
+          { title: "ما الحد الأقصى لكل منتج؟", text: "للتجار: حسب ما يحدده الأدمن لكل منتج. للعملاء: الحد الأقصى = المخزون المتاح حالياً." },
+          { title: "كيف أحذف منتج من السلة؟", text: "من صفحة السلة → اضغط أيقونة سلة المهملات بجانب المنتج. أو قلل الكمية لصفر." },
+          { title: "كيف أتمم الطلب؟", text: "من السلة → اضغط \"إتمام الطلب\". املأ بيانات التوصيل، اختر طريقة الدفع، وأكد الطلب." }
+        ] },
+      { order: 4, title: "الشحن والتوصيل", icon: "fa-truck-fast", bodyType: "faq", active: true,
+        items: [
+          { title: "كيف أختار منطقة الشحن؟", text: "في صفحة إتمام الطلب → اختر منطقتك من قائمة المناطق. الشحن يتحسب تلقائياً حسب المنطقة." },
+          { title: "متى يكون الشحن مجاني؟", text: "الجملة: مجاني عند 5000 ج.م (طنطا/المنصورة) أو 2000 ج.م (المحلة). القطاعي: مجاني عند 2500 ج.م." },
+          { title: "كم يستغرق التوصيل؟", text: "طنطا: 24-48 ساعة. المنصورة والمحلة: 2-4 أيام عمل. مواعيد العمل من 9 ص للـ 10 م." },
+          { title: "كيف أتابع طلبي؟", text: "من صفحة \"طلباتي\" أو \"تتبع الطلب\". هتشوف 4 مراحل: قيد المراجعة → جاري التحضير → تم الشحن → تم التسليم." },
+          { title: "إيه معنى كل حالة في تتبع الطلب؟", text: "قيد المراجعة: استلمنا طلبك. جاري التحضير: نحضّر المنتجات. تم الشحن: في الطريق إليك. تم التسليم: استلمت طلبك بنجاح." }
+        ] },
+      { order: 5, title: "الدفع والرصيد", icon: "fa-credit-card", bodyType: "faq", active: true,
+        items: [
+          { title: "ما طرق الدفع المتاحة؟", text: "3 طرق: (1) الدفع عند الاستلام — بدون رسوم (2) إنستا باي — بدون رسوم (3) محفظة إلكترونية — رسوم 1% إضافية." },
+          { title: "إيه رسوم المحفظة الإلكترونية؟", text: "رسوم 1% على إجمالي الطلب (منتجات + شحن). تُضاف تلقائياً لو اخترت الدفع بالمحفظة." },
+          { title: "كيف أشوف رصيدي؟", text: "من حسابك → \"الذمة المالية\" أو \"رصيدي\". هتشوف الرصيد الحالي + سجل الفواتير + إمكانية الإبلاغ عن سداد." },
+          { title: "كيف أبلغ عن سداد؟", text: "من صفحة \"رصيدي\" → اضغط \"أبلغ عن سداد\" → املأ المبلغ والتاريخ وارفع صورة الإيصال. الأدمن هيراجع ويخصم من رصيدك تلقائياً." },
+          { title: "كيف أشوف فواتيري؟", text: "من حسابك → \"فواتيري\". هتشوف كل الفواتير مع إمكانية التحميل والطباعة." }
+        ] },
+      { order: 6, title: "العروض والخصومات", icon: "fa-percent", bodyType: "faq", active: true,
+        items: [
+          { title: "إيه الفرق بين العرض والخصم؟", text: "العروض للمتجر القطاعي (تخفيض على السعر). الخصومات للمتجر الجملة (نسبة خصم على الإجمالي للتجار)." },
+          { title: "كيف أعرف إن فيه عرض على منتج؟", text: "المنتجات اللي عليها عرض بيظهر عليها شارة \"عرض\" + السعر القديم مشطوب. تقدر تشوف كل العروض من صفحة \"العروض\"." },
+          { title: "كيف أستفيد من الخصم؟", text: "الخصم بيتطبق تلقائياً على طلبات الجملة خلال فترة الخصم. للتجار المعتمدين بس." }
+        ] },
+      { order: 7, title: "الإشعارات والمتابعة", icon: "fa-bell", bodyType: "faq", active: true,
+        items: [
+          { title: "كيف أشوف إشعاراتي؟", text: "اضغط أيقونة الجرس في الأعلى. هتشوف كل الإشعارات الجديدة مع إمكانية تحديد الكل كمقروء." },
+          { title: "كيف أتابع طلبي؟", text: "من صفحة \"طلباتي\" اضغط على الطلب → هتشوف الخط الزمني لكل مرحلة." },
+          { title: "كيف أستخدم صفحة طلباتي؟", text: "من الحساب → \"طلباتي\". هتشوف كل الطلبات مع الحالة والإجمالي. تقدر تفتح أي طلب للتفاصيل." }
+        ] },
+      { order: 8, title: "الدعم والمساعدة", icon: "fa-headset", bodyType: "faq", active: true,
+        items: [
+          { title: "كيف أفتح تذكرة دعم؟", text: "من صفحة \"الدعم والمساعدة\" → اضغط \"افتح تذكرة دعم\". املأ التصنيف والموضوع والتفاصيل وأرسل." },
+          { title: "كيف أتابع تذكرة دعم؟", text: "من صفحة الدعم → قسم \"تذاكري\". اضغط على أي تذكرة لمشاهدة الردود والتفاعل." },
+          { title: "كيف أتواصل مع الدعم؟", text: "3 طرق: واتساب (01068385028)، إيميل (awladsh3laan@gmail.com)، أو فتح تذكرة دعم موثقة." },
+          { title: "إيه الفرق بين التذكرة والواتساب؟", text: "التذكرة موثقة ومحفوظة بتاريخ ورقم. الواتساب أسرع لكن بدون سجل رسمي. للشكاوى المهمة استخدم التذكرة." }
+        ] },
+      { order: 9, title: "خاص بالتجار", icon: "fa-store", bodyType: "faq", active: true,
+        items: [
+          { title: "كيف أحصل على كود تاجر؟", text: "من صفحة login.html → \"دخول التجار\" → اضغط \"طلب كود تاجر\". أو كلمنا على الواتساب. هنراجع طلبك ونبعتلك الكود." },
+          { title: "ما الحد الأدنى لطلب الجملة؟", text: "1500 ج.م كحد أدنى. لو أقل من كده النظام مش هيكمل الطلب." },
+          { title: "كيف أشوف هامش الربح؟", text: "من صفحة تفاصيل المنتج (للتاجر) → هتشوف هامش الربح في القطعة والوحدة." },
+          { title: "كيف أستخدم الملاحظات؟", text: "ملاحظات التاجر بتظهر في صفحة المنتج (للتاجر بس) وبتفيدك في معرفة معلومات إضافية عن المنتج." }
+        ] },
+      { order: 10, title: "خاص بالموصلين", icon: "fa-truck-fast", bodyType: "faq", active: true,
+        items: [
+          { title: "كيف أصبح موصل؟", text: "تواصل معنا على الواتساب → هنراجع طلبك → لو موافق، الأدمن هينشئ حسابك ويبعتلك كودك الخاص." },
+          { title: "كيف أدخل بالنظام؟", text: "من صفحة login.html → \"دخول الموصلين\" → ادخل كودك (مثال: DEL-A2B4C5@#$). هتوصل للوحة الموصل." },
+          { title: "كيف أستلم أوردر؟", text: "من لوحة الموصل → \"أوردراتي\" → اضغط على الأوردر → \"استلمت الأوردر\". الأوردر يتنقل لجانب \"جاري التوصيل\"." },
+          { title: "كيف أحصل على أجرة الشحن؟", text: "فلوس الشحن (shippingCost) من حقك. وقت التصفية مع الأدمن، بتسلم فلوس المنتجات بس وتخلي فلوس الشحن." }
+        ] },
+      { order: 11, title: "أسئلة عامة", icon: "fa-info-circle", bodyType: "faq", active: true,
+        items: [
+          { title: "هل الموقع آمن؟", text: "نعم. نستخدم تشفير SSL + Firebase Security + كلمات مرور مشفّرة. لا نشارك بياناتك مع أي طرف ثالث." },
+          { title: "هل أحتاج بطاقة بنكية؟", text: "لا. تقدر تدفع كاش عند الاستلام. لكن لو عاوز تدفع بمحفظة أو إنستا باي، تقدر تختار دي." },
+          { title: "كيف ألغي طلب؟", text: "من صفحة \"طلباتي\" → افتح الطلب → لو لسه \"قيد المراجعة\" تقدر تلغيه. بعد التحضير، كلمنا." },
+          { title: "كيف أعدل بياناتي؟", text: "من الحساب → \"بياناتي\". تقدر تعدل الاسم، الهاتف، والعنوان." }
+        ] }
+    ];
+
+    // ============================================================
+    // 🚀 Init
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', () => {
+      loadContent();
+      loadMeta();
+    });
+
+    // ============================================================
+    // 📖 تحميل الأقسام
+    // ============================================================
+    async function loadContent() {
+      try {
+        const snap = await db.collection(CURRENT_COLLECTION)
+          .where('active', '==', true)
+          .orderBy('order', 'asc')
+          .get();
+
+        let sections = [];
+        snap.forEach(d => sections.push({ id: d.id, ...d.data() }));
+
+        if (!sections.length) {
+          console.info('ℹ️ الكولكشن فاضي - استخدام المحتوى الافتراضي');
+          sections = FALLBACK_SECTIONS.map((s, i) => ({ id: 'fallback-' + i, ...s }));
+        }
+
+        _allSections = sections;
+        renderSections(sections);
+        renderTOC(sections);
+
+      } catch (err) {
+        console.warn('loadContent error:', err);
+        const sections = FALLBACK_SECTIONS.map((s, i) => ({ id: 'fallback-' + i, ...s }));
+        _allSections = sections;
+        renderSections(sections);
+        renderTOC(sections);
+      }
+    }
+
+    // ============================================================
+    // 🎨 عرض الأقسام
+    // ============================================================
+    function renderSections(sections) {
+      const container = document.getElementById('sectionsContainer');
+      if (!container) return;
+
+      container.innerHTML = sections.map((s, idx) => {
+        const anchorId = 'faq-section-' + (idx + 1);
+        const items = s.items || [];
+        return `
+          <section class="faq-section" id="${anchorId}" data-section-idx="${idx}" style="animation-delay:${idx * 0.05}s;">
+            <div class="faq-section-header">
+              <div class="sec-icon">
+                <i class="fas ${s.icon || 'fa-question-circle'}"></i>
+              </div>
+              <div class="sec-info">
+                <div class="sec-num">القسم ${idx + 1}</div>
+                <h2>${escapeHtml(s.title)}</h2>
+              </div>
+              <span class="sec-count">
+                <i class="fas fa-comments"></i>
+                ${items.length}
+              </span>
+            </div>
+            <div class="faq-section-body">
+              ${s.body ? `<p style="margin:0 0 12px;font-size:0.9rem;color:var(--gray-600);line-height:1.8;">${s.body}</p>` : ''}
+              <div class="faq-list" data-list-idx="${idx}">
+                ${items.map((it, i) => renderFaqItem(idx, i, it)).join('')}
+              </div>
+            </div>
+          </section>
+        `;
+      }).join('');
+    }
+
+    function renderFaqItem(sectionIdx, itemIdx, item) {
+      const itemId = `faq-item-${sectionIdx}-${itemIdx}`;
+      return `
+        <div class="faq-item" id="${itemId}" data-section-idx="${sectionIdx}" data-item-idx="${itemIdx}">
+          <div class="faq-q" onclick="toggleItem('${itemId}')">
+            <span class="q-icon"><i class="fas fa-question"></i></span>
+            <span class="q-text">${escapeHtml(item.title || '')}</span>
+            <i class="fas fa-chevron-down q-toggle"></i>
+          </div>
+          <div class="faq-a">${escapeHtml(item.text || '')}</div>
+        </div>
+      `;
+    }
+
+    function toggleItem(itemId) {
+      const item = document.getElementById(itemId);
+      if (!item) return;
+      item.classList.toggle('open');
+    }
+
+    // ============================================================
+    // 📑 TOC
+    // ============================================================
+    function renderTOC(sections) {
+      const grid = document.getElementById('tocGrid');
+      if (!grid) return;
+
+      if (!sections.length) {
+        grid.innerHTML = '<div style="text-align:center;color:var(--gray-400);padding:14px;grid-column:1/-1;">لا يوجد محتوى</div>';
+        return;
+      }
+
+      grid.innerHTML = sections.map((s, i) => `
+        <a class="toc-link" onclick="scrollToSection('faq-section-${i + 1}')">
+          <span class="toc-num">${i + 1}</span>
+          <i class="fas ${s.icon || 'fa-question-circle'}"></i>
+          <span>${escapeHtml(s.title)}</span>
+        </a>
+      `).join('');
+    }
+
+    function scrollToSection(id) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      if (window.innerWidth <= 768) {
+        document.getElementById('tocCard').classList.remove('open');
+      }
+    }
+
+    function toggleTOC() {
+      const card = document.getElementById('tocCard');
+      if (card) card.classList.toggle('open');
+    }
+
+    // ============================================================
+    // 🔍 البحث الفوري
+    // ============================================================
+    function handleSearch(value) {
+      const clearBtn = document.getElementById('clearSearchBtn');
+      if (clearBtn) {
+        clearBtn.classList.toggle('show', value.length > 0);
+      }
+
+      if (_searchTimeout) clearTimeout(_searchTimeout);
+      _searchTimeout = setTimeout(() => {
+        _searchTerm = value.trim().toLowerCase();
+        applySearchFilter();
+      }, 200);
+    }
+
+    function clearSearch() {
+      const input = document.getElementById('faqSearchInput');
+      if (input) input.value = '';
+      _searchTerm = '';
+      const clearBtn = document.getElementById('clearSearchBtn');
+      if (clearBtn) clearBtn.classList.remove('show');
+      applySearchFilter();
+    }
+
+    function applySearchFilter() {
+      const info = document.getElementById('searchInfo');
+      const infoText = document.getElementById('searchInfoText');
+      const noResults = document.getElementById('noResults');
+      const cta = document.getElementById('faqCTA');
+
+      if (!_searchTerm) {
+        // عرض كل الأقسام
+        document.querySelectorAll('.faq-section').forEach(s => s.classList.remove('hidden'));
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('hidden'));
+        if (info) info.classList.remove('show');
+        if (noResults) noResults.classList.remove('show');
+        if (cta) cta.style.display = 'block';
+        return;
+      }
+
+      let totalMatches = 0;
+      let visibleSections = 0;
+
+      document.querySelectorAll('.faq-section').forEach(section => {
+        let sectionMatches = 0;
+
+        section.querySelectorAll('.faq-item').forEach(item => {
+          const title = (item.querySelector('.q-text')?.textContent || '').toLowerCase();
+          const answer = (item.querySelector('.faq-a')?.textContent || '').toLowerCase();
+          const matches = title.includes(_searchTerm) || answer.includes(_searchTerm);
+
+          if (matches) {
+            item.classList.remove('hidden');
+            sectionMatches++;
+            totalMatches++;
+          } else {
+            item.classList.add('hidden');
+          }
+        });
+
+        if (sectionMatches > 0) {
+          section.classList.remove('hidden');
+          visibleSections++;
+        } else {
+          section.classList.add('hidden');
+        }
+      });
+
+      // معلومات البحث
+      if (info && infoText) {
+        info.classList.add('show');
+        if (totalMatches > 0) {
+          infoText.textContent = `تم العثور على ${totalMatches} سؤال في ${visibleSections} قسم`;
+        } else {
+          infoText.textContent = 'لا توجد نتائج مطابقة';
+        }
+      }
+
+      // No Results
+      if (noResults) {
+        noResults.classList.toggle('show', totalMatches === 0);
+      }
+      if (cta) {
+        cta.style.display = totalMatches === 0 ? 'none' : 'block';
+      }
+    }
+
+    // ============================================================
+    // 📅 آخر تحديث
+    // ============================================================
+    async function loadMeta() {
+      const el = document.getElementById('lastUpdatedText');
+      if (!el) return;
+      try {
+        const doc = await db.collection('site_content').doc(CURRENT_META).get();
+        if (doc.exists && doc.data().lastUpdated) {
+          const d = doc.data().lastUpdated.toDate ? doc.data().lastUpdated.toDate() : new Date(doc.data().lastUpdated);
+          el.textContent = 'آخر تحديث: ' + d.toLocaleDateString('ar-EG', {
+            year: 'numeric', month: 'long', day: 'numeric'
+          });
+          return;
+        }
+        el.textContent = 'آخر تحديث: —';
+      } catch (e) {
+        console.warn('loadMeta error:', e);
+        el.textContent = 'آخر تحديث: —';
+      }
+    }
+
+    // ============================================================
+    // 🛠️ Helpers
+    // ============================================================
+    function escapeHtml(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[c]));
+    }
+
+    window.toggleTOC = toggleTOC;
+    window.scrollToSection = scrollToSection;
+    window.toggleItem = toggleItem;
+    window.handleSearch = handleSearch;
+    window.clearSearch = clearSearch;
+  </script>
+
+</body>
+</html>
