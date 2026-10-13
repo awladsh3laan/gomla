@@ -1,0 +1,2039 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>إدارة المحتوى - أولاد شعلان</title>
+  <meta name="theme-color" content="#1a2a4a">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="icon" href="../assets/images/favicon.ico">
+
+  <style>
+    /* ============================================================
+       🎨 إدارة المحتوى الموحدة - v1.0
+       ============================================================ */
+    html, body { overflow-x: hidden !important; max-width: 100vw; }
+    .page-content, .page-content .container { overflow-x: hidden; min-width: 0; max-width: 100%; }
+
+    /* ===== Header ===== */
+    .cm-header {
+      background: linear-gradient(135deg, var(--navy-dark), var(--navy), var(--navy-light));
+      border-radius: var(--radius-lg);
+      padding: 22px 24px;
+      margin-bottom: 18px;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(15,26,46,.35);
+      border-bottom: 4px solid var(--gold);
+    }
+    .cm-header::before {
+      content: '';
+      position: absolute;
+      top: -50%; right: -15%;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(201,168,76,.25), transparent 70%);
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+    }
+    .cm-header-content {
+      position: relative; z-index: 1;
+      display: flex; align-items: center;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .cm-header-content .header-icon {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      box-shadow: 0 8px 24px rgba(201,168,76,.5);
+    }
+    .cm-header-content .header-text { flex: 1; min-width: 200px; }
+    .cm-header-content .header-text h1 {
+      font-size: 1.3rem; font-weight: 900;
+      margin-bottom: 4px; color: var(--white);
+    }
+    .cm-header-content .header-text p {
+      font-size: 0.82rem; opacity: .9;
+      color: rgba(255,255,255,.9); margin: 0;
+    }
+    .cm-header-content .header-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 14px;
+      background: rgba(255,255,255,.15);
+      color: var(--gold-light);
+      border: 1px solid rgba(201,168,76,.5);
+      border-radius: var(--radius-full);
+      font-size: 0.75rem; font-weight: 800;
+    }
+    .cm-header-content .header-badge i { color: var(--gold); }
+
+    /* ===== Tabs ===== */
+    .cm-tabs-wrap {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 8px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      overflow: hidden;
+      min-width: 0;
+    }
+    .cm-tabs {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 4px;
+      scrollbar-width: thin;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-x: contain;
+      min-width: 0;
+      max-width: 100%;
+    }
+    .cm-tabs::-webkit-scrollbar { height: 4px; }
+    .cm-tabs::-webkit-scrollbar-thumb {
+      background: var(--gold);
+      border-radius: 10px;
+    }
+
+    .cm-tab {
+      flex-shrink: 0;
+      padding: 11px 18px;
+      border: 2px solid var(--gray-200);
+      background: var(--white);
+      color: var(--gray-600);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+      position: relative;
+    }
+    .cm-tab:hover {
+      border-color: var(--gold-light);
+      background: var(--gray-50);
+    }
+    .cm-tab.active {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      border-color: var(--navy);
+      box-shadow: 0 6px 16px rgba(26,42,74,.25);
+    }
+    .cm-tab.active i { color: var(--gold); }
+    .cm-tab i { font-size: 0.95rem; }
+    .cm-tab .tab-count {
+      background: rgba(0,0,0,.08);
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 0.68rem;
+      font-weight: 800;
+      min-width: 22px;
+      text-align: center;
+    }
+    .cm-tab.active .tab-count {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    /* ===== Stats ===== */
+    .cm-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .cm-stat-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 14px 12px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      text-align: center;
+      transition: var(--transition);
+    }
+    .cm-stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--gold-light);
+    }
+    .cm-stat-card .stat-icon {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.05rem;
+      margin: 0 auto 8px;
+    }
+    .stat-icon.blue { background: rgba(59,130,246,.12); color: #2563eb; }
+    .stat-icon.green { background: rgba(34,197,94,.12); color: #16a34a; }
+    .stat-icon.orange { background: rgba(245,158,11,.12); color: #d97706; }
+    .stat-icon.purple { background: rgba(139,92,246,.12); color: #7c3aed; }
+    .cm-stat-card .stat-number {
+      font-size: 1.2rem; font-weight: 900;
+      color: var(--navy); line-height: 1.2;
+      margin-bottom: 2px;
+    }
+    .cm-stat-card .stat-label {
+      font-size: 0.68rem; color: var(--gray-500);
+      font-weight: 700;
+    }
+
+    /* ===== Toolbar ===== */
+    .cm-toolbar {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .cm-search {
+      position: relative;
+      flex: 1;
+      min-width: 200px;
+    }
+    .cm-search input {
+      width: 100%;
+      padding: 10px 40px 10px 14px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.88rem;
+      background: var(--gray-50);
+      outline: none;
+      transition: var(--transition);
+    }
+    .cm-search input:focus {
+      border-color: var(--gold);
+      background: var(--white);
+      box-shadow: 0 0 0 4px rgba(201,168,76,.15);
+    }
+    .cm-search .si {
+      position: absolute;
+      right: 13px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray-400);
+      pointer-events: none;
+    }
+
+    /* ===== Sections List ===== */
+    .cm-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+    .cm-section-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--gray-200);
+      box-shadow: var(--shadow-sm);
+      padding: 14px 16px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 14px;
+      align-items: center;
+    }
+    .cm-section-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 5px; height: 100%;
+      background: var(--gold);
+    }
+    .cm-section-card.inactive::before {
+      background: var(--gray-300);
+    }
+    .cm-section-card.inactive {
+      opacity: 0.65;
+      background: var(--gray-50);
+    }
+    .cm-section-card:hover {
+      border-color: var(--gold-light);
+      box-shadow: var(--shadow-md);
+    }
+    .cm-order {
+      width: 42px; height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.05rem;
+      font-weight: 900;
+      flex-shrink: 0;
+      border: 2px solid var(--white);
+      box-shadow: 0 4px 12px rgba(26,42,74,.2);
+    }
+    .cm-section-info { min-width: 0; }
+    .cm-section-info h4 {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin: 0 0 5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .cm-section-info h4 i { color: var(--gold); font-size: 0.9rem; }
+    .cm-section-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      font-size: 0.7rem;
+      color: var(--gray-500);
+      align-items: center;
+    }
+    .cm-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 9px;
+      background: var(--gray-100);
+      border-radius: var(--radius-full);
+      font-size: 0.68rem;
+      font-weight: 700;
+      color: var(--gray-600);
+    }
+    .cm-pill.green { background: rgba(34,197,94,.12); color: #16a34a; }
+    .cm-pill.orange { background: rgba(245,158,11,.12); color: #d97706; }
+    .cm-pill.purple { background: rgba(139,92,246,.12); color: #7c3aed; }
+    .cm-pill.blue { background: rgba(59,130,246,.12); color: #2563eb; }
+    .cm-pill i { font-size: 0.6rem; }
+
+    .cm-actions {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+    .cm-action-btn {
+      width: 34px; height: 34px;
+      border-radius: 10px;
+      border: 2px solid var(--gray-200);
+      background: var(--white);
+      color: var(--gray-600);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 0.82rem;
+    }
+    .cm-action-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+    .cm-action-btn.up:hover { background: #3b82f6; color: white; border-color: #2563eb; }
+    .cm-action-btn.down:hover { background: #3b82f6; color: white; border-color: #2563eb; }
+    .cm-action-btn.edit:hover { background: #f59e0b; color: white; border-color: #d97706; }
+    .cm-action-btn.toggle:hover { background: var(--gold); color: var(--navy); border-color: var(--gold-dark); }
+    .cm-action-btn.delete:hover { background: #ef4444; color: white; border-color: #dc2626; }
+    .cm-action-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    /* ===== Empty / Loading ===== */
+    .cm-empty {
+      text-align: center;
+      padding: 50px 20px;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      border: 2px dashed var(--gray-300);
+    }
+    .cm-empty .empty-icon {
+      width: 80px; height: 80px;
+      border-radius: 50%;
+      background: var(--gray-100);
+      color: var(--gray-400);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2rem;
+      margin: 0 auto 16px;
+    }
+    .cm-empty h3 {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .cm-empty p {
+      font-size: 0.85rem;
+      color: var(--gray-500);
+      margin-bottom: 18px;
+    }
+
+    /* ===== Modal ===== */
+    .cm-modal-header {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      padding: 18px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      border-radius: var(--radius-md) var(--radius-md) 0 0;
+    }
+    .cm-modal-header h3 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .cm-modal-header h3 i { color: var(--gold); }
+
+    /* Items editor */
+    .items-editor {
+      border: 2px dashed var(--gray-200);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      background: var(--gray-50);
+      margin-top: 6px;
+    }
+    .item-row {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      padding: 10px;
+      margin-bottom: 8px;
+      position: relative;
+    }
+    .item-row:last-child { margin-bottom: 0; }
+    .item-row .row-num {
+      position: absolute;
+      top: -8px;
+      right: 10px;
+      background: var(--navy);
+      color: var(--gold);
+      font-size: 0.65rem;
+      font-weight: 900;
+      padding: 2px 8px;
+      border-radius: 10px;
+      z-index: 1;
+    }
+    .item-row .remove-item {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: #fee2e2;
+      color: #dc2626;
+      border: none;
+      cursor: pointer;
+      font-size: 0.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+    .item-row .remove-item:hover {
+      background: #dc2626;
+      color: white;
+    }
+    .item-row .item-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      padding-right: 6px;
+    }
+    .item-row .item-grid.two-col {
+      grid-template-columns: 100px 1fr;
+    }
+    .item-row label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--gray-500);
+      margin-bottom: 3px;
+      display: block;
+    }
+    .item-row input,
+    .item-row textarea {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 0.82rem;
+      background: var(--white);
+      outline: none;
+      transition: var(--transition);
+    }
+    .item-row input:focus,
+    .item-row textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(201,168,76,.15);
+    }
+    .item-row textarea {
+      resize: vertical;
+      min-height: 50px;
+    }
+    .add-item-btn {
+      width: 100%;
+      padding: 10px;
+      border: 2px dashed var(--gold-light);
+      background: transparent;
+      color: var(--gold-dark);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .add-item-btn:hover {
+      background: rgba(201,168,76,.08);
+      border-color: var(--gold);
+    }
+
+    .type-hint {
+      font-size: 0.72rem;
+      color: var(--gray-500);
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 5px;
+    }
+    .type-hint i { color: var(--gold); }
+
+    /* Toggle switch */
+    .switch-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 14px;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      margin-top: 14px;
+    }
+    .switch-row .switch-label {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .switch-row .switch-label i { color: var(--gold); }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 46px;
+      height: 24px;
+    }
+    .switch input { display: none; }
+    .switch .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--gray-300);
+      border-radius: 24px;
+      transition: .3s;
+    }
+    .switch .slider::before {
+      content: '';
+      position: absolute;
+      height: 18px; width: 18px;
+      left: 3px; bottom: 3px;
+      background: white;
+      border-radius: 50%;
+      transition: .3s;
+      box-shadow: 0 2px 4px rgba(0,0,0,.2);
+    }
+    .switch input:checked + .slider {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    }
+    .switch input:checked + .slider::before {
+      transform: translateX(22px);
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) and (pointer: coarse) {
+      .cm-header { padding: 18px 16px; border-radius: var(--radius-md); }
+      .cm-header-content .header-icon { width: 46px; height: 46px; font-size: 1.2rem; }
+      .cm-header-content .header-text h1 { font-size: 1.02rem; }
+      .cm-header-content .header-text p { font-size: 0.72rem; }
+
+      .cm-tab { padding: 9px 14px; font-size: 0.78rem; }
+      .cm-tab i { font-size: 0.85rem; }
+
+      .cm-stats { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .cm-stat-card { padding: 11px 8px; }
+      .cm-stat-card .stat-icon { width: 34px; height: 34px; font-size: 0.9rem; }
+      .cm-stat-card .stat-number { font-size: 1rem; }
+
+      .cm-toolbar { padding: 10px; }
+      .cm-search { min-width: 100%; }
+
+      .cm-section-card {
+        grid-template-columns: auto 1fr;
+        gap: 10px;
+        padding: 12px 14px;
+      }
+      .cm-actions {
+        grid-column: 1 / -1;
+        justify-content: flex-end;
+        flex-wrap: wrap;
+        padding-top: 8px;
+        border-top: 1px solid var(--gray-100);
+      }
+      .cm-order { width: 38px; height: 38px; font-size: 0.95rem; }
+      .cm-section-info h4 { font-size: 0.88rem; }
+      .cm-action-btn { width: 32px; height: 32px; font-size: 0.75rem; }
+
+      .item-row .item-grid.two-col { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="mobile-top-bar"></div>
+  <div id="mobile-top-tabs"></div>
+  <div id="header-placeholder"></div>
+
+  <main class="page-content">
+    <div class="container">
+
+      <!-- Header -->
+      <div class="cm-header">
+        <div class="cm-header-content">
+          <div class="header-icon"><i class="fas fa-file-alt"></i></div>
+          <div class="header-text">
+            <h1>إدارة المحتوى</h1>
+            <p>إدارة الصفحات القانونية والمعلوماتية من مكان واحد</p>
+          </div>
+          <span class="header-badge">
+            <i class="fas fa-crown"></i>
+            سوبر أدمن
+          </span>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="cm-tabs-wrap">
+        <div class="cm-tabs" id="cmTabs">
+          <button class="cm-tab active" data-collection="privacy_sections" data-meta="privacy_meta">
+            <i class="fas fa-lock"></i>
+            <span>سياسة الخصوصية</span>
+            <span class="tab-count" id="tabCount-privacy">0</span>
+          </button>
+          <button class="cm-tab" data-collection="shipping_sections" data-meta="shipping_meta">
+            <i class="fas fa-truck-fast"></i>
+            <span>سياسة الشحن</span>
+            <span class="tab-count" id="tabCount-shipping">0</span>
+          </button>
+          <button class="cm-tab" data-collection="exchange_sections" data-meta="exchange_meta">
+            <i class="fas fa-exchange-alt"></i>
+            <span>الاستبدال والإرجاع</span>
+            <span class="tab-count" id="tabCount-exchange">0</span>
+          </button>
+          <button class="cm-tab" data-collection="terms_sections" data-meta="terms_meta">
+            <i class="fas fa-file-contract"></i>
+            <span>الشروط والأحكام</span>
+            <span class="tab-count" id="tabCount-terms">0</span>
+          </button>
+          <button class="cm-tab" data-collection="faq_sections" data-meta="faq_meta">
+            <i class="fas fa-question-circle"></i>
+            <span>الأسئلة الشائعة</span>
+            <span class="tab-count" id="tabCount-faq">0</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="cm-stats">
+        <div class="cm-stat-card">
+          <div class="stat-icon blue"><i class="fas fa-list"></i></div>
+          <div class="stat-number" id="statTotal">0</div>
+          <div class="stat-label">إجمالي الأقسام</div>
+        </div>
+        <div class="cm-stat-card">
+          <div class="stat-icon green"><i class="fas fa-eye"></i></div>
+          <div class="stat-number" id="statActive">0</div>
+          <div class="stat-label">نشطة</div>
+        </div>
+        <div class="cm-stat-card">
+          <div class="stat-icon orange"><i class="fas fa-eye-slash"></i></div>
+          <div class="stat-number" id="statInactive">0</div>
+          <div class="stat-label">مخفية</div>
+        </div>
+        <div class="cm-stat-card">
+          <div class="stat-icon purple"><i class="fas fa-clock"></i></div>
+          <div class="stat-number" id="statUpdated" style="font-size:0.82rem;">—</div>
+          <div class="stat-label">آخر تحديث</div>
+        </div>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="cm-toolbar">
+        <div class="cm-search">
+          <input type="text" id="searchInput" placeholder="ابحث في الأقسام..." oninput="handleSearch(this.value)">
+          <i class="fas fa-search si"></i>
+        </div>
+        <button class="btn btn-gold" onclick="openAddModal()">
+          <i class="fas fa-plus"></i>
+          قسم جديد
+        </button>
+        <button class="btn btn-outline" onclick="openSeedConfirm()">
+          <i class="fas fa-download"></i>
+          استيراد الافتراضي
+        </button>
+      </div>
+
+      <!-- Sections List -->
+      <div class="cm-list" id="sectionsList">
+        <div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i><p>جاري التحميل...</p></div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="mobile-bottom-tabs"></div>
+  <div id="mobile-copyright"></div>
+  <div id="footer-placeholder"></div>
+  <div id="sidebar-placeholder"></div>
+  <div id="toast-container"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="../assets/js/firebase-config.js"></script>
+  <script src="../assets/js/main.js"></script>
+
+  <script>
+    // ============================================================
+    // 📄 admin/content-manager.html v1.0
+    // إدارة موحدة للصفحات القانونية والمعلوماتية
+    // ============================================================
+
+    let _admin = null;
+    let _currentCollection = 'privacy_sections';
+    let _currentMeta = 'privacy_meta';
+    let _sections = [];
+    let _filtered = [];
+    let _search = '';
+    let _editingId = null;
+    let _currentItems = [];
+    let _unsub = null;
+
+    const ICON_OPTIONS = [
+      'fa-book-open', 'fa-handshake', 'fa-database', 'fa-bullseye', 'fa-cookie-bite',
+      'fa-shield-virus', 'fa-user-lock', 'fa-balance-scale', 'fa-credit-card',
+      'fa-user-check', 'fa-sync-alt', 'fa-headset', 'fa-file-alt', 'fa-lock',
+      'fa-key', 'fa-shield-alt', 'fa-fire', 'fa-ban', 'fa-trash', 'fa-user-shield',
+      'fa-eye', 'fa-flag', 'fa-heart', 'fa-star', 'fa-check-circle', 'fa-info-circle',
+      'fa-gavel', 'fa-user', 'fa-users', 'fa-globe', 'fa-image', 'fa-shopping-bag',
+      'fa-truck-fast', 'fa-file-invoice-dollar', 'fa-phone', 'fa-envelope',
+      'fa-ticket-alt', 'fa-clock', 'fa-shield', 'fa-cog', 'fa-truck', 'fa-box',
+      'fa-calendar-alt', 'fa-exchange-alt', 'fa-undo', 'fa-times-circle',
+      'fa-question-circle', 'fa-life-ring', 'fa-comments', 'fa-cart-shopping',
+      'fa-list-ol', 'fa-hourglass-half', 'fa-map-marker-alt', 'fa-road',
+      'fa-file-contract', 'fa-gavel', 'fa-flag-checkered'
+    ];
+
+    const TYPE_LABELS = {
+      text: 'فقرة نصية',
+      quote: 'اقتباس مميز',
+      list: 'قائمة نقطية',
+      cards: 'شبكة كروت',
+      table: 'جدول',
+      contact: 'كروت تواصل',
+      steps: 'خطوات مرقمة',
+      faq: 'أسئلة وأجوبة'
+    };
+
+    // ============================================================
+    // 🚀 Init
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', () => {
+      if (typeof protectSuperAdminPage === 'function') {
+        const ok = protectSuperAdminPage();
+        if (ok === false) return;
+      }
+
+      if (typeof getCurrentUser !== 'function') {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      const user = getCurrentUser();
+      if (!user || !user.data || user.data.role !== ROLES.SUPER) {
+        if (typeof showToast === 'function') {
+          showToast('هذه الصفحة للسوبر أدمن فقط', 'error');
+        }
+        setTimeout(() => { window.location.href = 'home.html'; }, 1300);
+        return;
+      }
+
+      _admin = user.data;
+
+      // استرجاع آخر تبويب مفتوح
+      const savedTab = sessionStorage.getItem('cm_active_tab');
+      if (savedTab) {
+        const tab = document.querySelector(`.cm-tab[data-collection="${savedTab}"]`);
+        if (tab) {
+          document.querySelectorAll('.cm-tab').forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          _currentCollection = tab.dataset.collection;
+          _currentMeta = tab.dataset.meta;
+        }
+      }
+
+      setupTabs();
+      loadSections();
+      loadMeta();
+    });
+
+    // ============================================================
+    // 🎯 إدارة التبويبات
+    // ============================================================
+    function setupTabs() {
+      document.querySelectorAll('.cm-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          if (_unsub) { _unsub(); _unsub = null; }
+
+          document.querySelectorAll('.cm-tab').forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+
+          _currentCollection = tab.dataset.collection;
+          _currentMeta = tab.dataset.meta;
+          _search = '';
+          const si = document.getElementById('searchInput');
+          if (si) si.value = '';
+
+          sessionStorage.setItem('cm_active_tab', _currentCollection);
+
+          loadSections();
+          loadMeta();
+        });
+      });
+    }
+
+    // ============================================================
+    // 📥 تحميل الأقسام (Realtime)
+    // ============================================================
+    function loadSections() {
+      if (_unsub) { _unsub(); _unsub = null; }
+
+      const list = document.getElementById('sectionsList');
+      if (list) {
+        list.innerHTML = `<div class="loading-spinner"><i class="fas fa-spinner fa-spin"></i><p>جاري التحميل...</p></div>`;
+      }
+
+      _unsub = db.collection(_currentCollection)
+        .orderBy('order', 'asc')
+        .onSnapshot(snap => {
+          _sections = [];
+          snap.forEach(d => _sections.push({ id: d.id, ...d.data() }));
+          updateStats();
+          updateTabCounts();
+          applyFilter();
+        }, err => {
+          console.error('loadSections error:', err);
+          const l = document.getElementById('sectionsList');
+          if (l) {
+            l.innerHTML = `<div class="cm-empty">
+              <div class="empty-icon"><i class="fas fa-exclamation-triangle"></i></div>
+              <h3>فشل التحميل</h3>
+              <p>${err.code === 'permission-denied' ? 'ليس لديك صلاحية' : 'حدث خطأ في الاتصال'}</p>
+            </div>`;
+          }
+        });
+    }
+
+    // تحديث عدد كل تبويب
+    async function updateTabCounts() {
+      const collections = [
+        { id: 'privacy', collection: 'privacy_sections' },
+        { id: 'shipping', collection: 'shipping_sections' },
+        { id: 'exchange', collection: 'exchange_sections' },
+        { id: 'terms', collection: 'terms_sections' },
+        { id: 'faq', collection: 'faq_sections' }
+      ];
+
+      for (const c of collections) {
+        try {
+          let count = 0;
+          if (c.collection === _currentCollection) {
+            count = _sections.length;
+          } else {
+            const snap = await db.collection(c.collection).get();
+            count = snap.size;
+          }
+          const el = document.getElementById(`tabCount-${c.id}`);
+          if (el) el.textContent = count;
+        } catch (e) {
+          // تجاهل الأخطاء
+        }
+      }
+    }
+
+    // ============================================================
+    // 📊 الإحصائيات
+    // ============================================================
+    function updateStats() {
+      const total = _sections.length;
+      const active = _sections.filter(s => s.active !== false).length;
+      const inactive = total - active;
+      setText('statTotal', total);
+      setText('statActive', active);
+      setText('statInactive', inactive);
+    }
+
+    function setText(id, v) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = v;
+    }
+
+    // ============================================================
+    // 📅 آخر تحديث
+    // ============================================================
+    async function loadMeta() {
+      const el = document.getElementById('statUpdated');
+      if (!el) return;
+      try {
+        const doc = await db.collection('site_content').doc(_currentMeta).get();
+        if (doc.exists && doc.data().lastUpdated) {
+          const d = doc.data().lastUpdated.toDate ? doc.data().lastUpdated.toDate() : new Date(doc.data().lastUpdated);
+          el.textContent = d.toLocaleDateString('ar-EG', { month: 'short', day: 'numeric' });
+        } else {
+          el.textContent = '—';
+        }
+      } catch (e) {
+        el.textContent = '—';
+      }
+    }
+
+    // ============================================================
+    // 🔍 بحث + عرض
+    // ============================================================
+    function handleSearch(v) {
+      _search = v.trim().toLowerCase();
+      applyFilter();
+    }
+
+    function applyFilter() {
+      if (!_search) {
+        _filtered = _sections.slice();
+      } else {
+        _filtered = _sections.filter(s =>
+          (s.title || '').toLowerCase().includes(_search)
+        );
+      }
+      renderList();
+    }
+
+    function renderList() {
+      const list = document.getElementById('sectionsList');
+      if (!list) return;
+
+      if (!_filtered.length) {
+        list.innerHTML = `
+          <div class="cm-empty">
+            <div class="empty-icon"><i class="fas fa-inbox"></i></div>
+            <h3>${_sections.length ? 'لا نتائج للبحث' : 'مفيش أقسام لسه'}</h3>
+            <p>${_sections.length ? 'جرب كلمة تانية' : 'ابدأ بإضافة قسم جديد أو استيراد المحتوى الافتراضي'}</p>
+            ${!_sections.length ? `
+              <button class="btn btn-gold" onclick="openAddModal()">
+                <i class="fas fa-plus"></i>
+                إضافة أول قسم
+              </button>
+            ` : ''}
+          </div>
+        `;
+        return;
+      }
+
+      list.innerHTML = _filtered.map((s, idx) => {
+        const isFirst = _sections.indexOf(s) === 0;
+        const isLast = _sections.indexOf(s) === _sections.length - 1;
+        const typeLabel = TYPE_LABELS[s.bodyType] || s.bodyType || '—';
+        const active = s.active !== false;
+
+        return `
+          <div class="cm-section-card ${active ? '' : 'inactive'}">
+            <div class="cm-order">${s.order || idx + 1}</div>
+
+            <div class="cm-section-info">
+              <h4>
+                <i class="fas ${s.icon || 'fa-file-alt'}"></i>
+                ${escapeHtml(s.title || 'بدون عنوان')}
+              </h4>
+              <div class="cm-section-meta">
+                <span class="cm-pill purple">
+                  <i class="fas fa-shapes"></i>
+                  ${typeLabel}
+                </span>
+                <span class="cm-pill ${active ? 'green' : 'orange'}">
+                  <i class="fas ${active ? 'fa-check-circle' : 'fa-eye-slash'}"></i>
+                  ${active ? 'نشط' : 'مخفي'}
+                </span>
+                <span class="cm-pill">
+                  <i class="fas fa-list-ol"></i>
+                  عدد العناصر: ${(s.items && s.items.length) || 0}
+                </span>
+              </div>
+            </div>
+
+            <div class="cm-actions">
+              <button class="cm-action-btn up" ${isFirst ? 'disabled' : ''}
+                      onclick="moveUp('${s.id}')" title="تحريك لأعلى">
+                <i class="fas fa-arrow-up"></i>
+              </button>
+              <button class="cm-action-btn down" ${isLast ? 'disabled' : ''}
+                      onclick="moveDown('${s.id}')" title="تحريك لأسفل">
+                <i class="fas fa-arrow-down"></i>
+              </button>
+              <button class="cm-action-btn toggle"
+                      onclick="toggleActive('${s.id}')" title="${active ? 'إخفاء' : 'إظهار'}">
+                <i class="fas ${active ? 'fa-eye-slash' : 'fa-eye'}"></i>
+              </button>
+              <button class="cm-action-btn edit" onclick="openEditModal('${s.id}')" title="تعديل">
+                <i class="fas fa-pen"></i>
+              </button>
+              <button class="cm-action-btn delete" onclick="confirmDelete('${s.id}')" title="حذف">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // ============================================================
+    // 🔼🔼 الترتيب
+    // ============================================================
+    async function moveUp(id) {
+      const idx = _sections.findIndex(s => s.id === id);
+      if (idx <= 0) return;
+      await swapOrders(idx, idx - 1);
+    }
+
+    async function moveDown(id) {
+      const idx = _sections.findIndex(s => s.id === id);
+      if (idx < 0 || idx >= _sections.length - 1) return;
+      await swapOrders(idx, idx + 1);
+    }
+
+    async function swapOrders(i, j) {
+      try {
+        const a = _sections[i];
+        const b = _sections[j];
+        const batch = db.batch();
+        batch.update(db.collection(_currentCollection).doc(a.id), { order: b.order || (j + 1) });
+        batch.update(db.collection(_currentCollection).doc(b.id), { order: a.order || (i + 1) });
+        await batch.commit();
+        await touchMeta();
+      } catch (err) {
+        console.error(err);
+        showToast('فشل الترتيب', 'error');
+      }
+    }
+
+    // ============================================================
+    // 👁️ إظهار/إخفاء
+    // ============================================================
+    async function toggleActive(id) {
+      const s = _sections.find(x => x.id === id);
+      if (!s) return;
+      try {
+        await db.collection(_currentCollection).doc(id).update({
+          active: !(s.active !== false),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+        await touchMeta();
+        showToast(s.active !== false ? 'تم إخفاء القسم' : 'تم إظهار القسم', 'success');
+      } catch (err) {
+        console.error(err);
+        showToast('فشل التحديث', 'error');
+      }
+    }
+
+    // ============================================================
+    // ➕ Modal إضافة
+    // ============================================================
+    function openAddModal() {
+      _editingId = null;
+      const nextOrder = _sections.length ? Math.max(..._sections.map(s => s.order || 0)) + 1 : 1;
+      showEditorModal({
+        title: 'إضافة قسم جديد',
+        icon: 'fa-plus',
+        data: {
+          title: '',
+          icon: 'fa-file-alt',
+          bodyType: 'text',
+          body: '',
+          items: [],
+          order: nextOrder,
+          active: true
+        }
+      });
+    }
+
+    // ============================================================
+    // ✏️ Modal تعديل
+    // ============================================================
+    function openEditModal(id) {
+      const s = _sections.find(x => x.id === id);
+      if (!s) return;
+      _editingId = id;
+      showEditorModal({
+        title: 'تعديل القسم',
+        icon: 'fa-pen',
+        data: { ...s }
+      });
+    }
+
+    // ============================================================
+    // 🎨 بناء Modal المحرر
+    // ============================================================
+    function showEditorModal({ title, icon, data }) {
+      const iconsListHtml = ICON_OPTIONS.map(i => `<option value="${i}">`).join('');
+      const typesOptions = Object.entries(TYPE_LABELS).map(([k, v]) =>
+        `<option value="${k}" ${data.bodyType === k ? 'selected' : ''}>${v}</option>`
+      ).join('');
+
+      const modalHtml = `
+        <div class="modal-overlay show" id="editorModal" onclick="closeEditorModal(event)">
+          <div class="modal-content medium" onclick="event.stopPropagation()" style="max-width:700px;">
+            <div class="cm-modal-header">
+              <h3><i class="fas ${icon}"></i> ${title}</h3>
+              <button class="modal-close" onclick="closeEditorModal()"><i class="fas fa-times"></i></button>
+            </div>
+
+            <div class="modal-body">
+
+              <div class="form-group">
+                <label>عنوان القسم <span class="required">*</span></label>
+                <input type="text" id="fTitle" maxlength="120" value="${escapeAttr(data.title)}" placeholder="مثال: مقدمة">
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label>الأيقونة</label>
+                  <input type="text" id="fIcon" list="iconList" value="${escapeAttr(data.icon)}" placeholder="fa-file-alt">
+                  <datalist id="iconList">${iconsListHtml}</datalist>
+                  <div class="type-hint">
+                    <i class="fas fa-info-circle"></i>
+                    اكتب اسم أيقونة Font Awesome أو اختر من القائمة
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>نوع المحتوى <span class="required">*</span></label>
+                  <select id="fBodyType" onchange="onTypeChange(this.value)">
+                    ${typesOptions}
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label id="fBodyLabel">نص توضيحي (اختياري)</label>
+                <textarea id="fBody" placeholder="نص يظهر قبل المحتوى..." maxlength="3000" style="min-height:80px;">${escapeHtml(data.body || '')}</textarea>
+                <div class="type-hint">
+                  <i class="fas fa-info-circle"></i>
+                  يدعم HTML البسيط مثل &lt;strong&gt; و &lt;br&gt;
+                </div>
+              </div>
+
+              <div class="form-group" id="itemsEditorGroup">
+                <label id="itemsLabel">عناصر القسم</label>
+                <div class="items-editor" id="itemsEditor"></div>
+                <button class="add-item-btn" type="button" onclick="addItem()" style="margin-top:8px;">
+                  <i class="fas fa-plus"></i>
+                  إضافة عنصر
+                </button>
+              </div>
+
+              <div class="switch-row">
+                <div class="switch-label">
+                  <i class="fas fa-eye"></i>
+                  القسم نشط (يظهر في الصفحة)
+                </div>
+                <label class="switch">
+                  <input type="checkbox" id="fActive" ${data.active !== false ? 'checked' : ''}>
+                  <span class="slider"></span>
+                </label>
+              </div>
+
+            </div>
+
+            <div class="modal-actions">
+              <button class="btn btn-outline" onclick="closeEditorModal()">
+                <i class="fas fa-times"></i>
+                إلغاء
+              </button>
+              <button class="btn btn-gold" id="saveBtn" onclick="saveSection()">
+                <i class="fas fa-save"></i>
+                حفظ
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const existing = document.getElementById('editorModal');
+      if (existing) existing.remove();
+
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
+      document.body.style.overflow = 'hidden';
+
+      _currentItems = (data.items || []).map(it => ({ ...it }));
+      renderItemsEditor(data.bodyType);
+    }
+
+    let _currentBodyType = 'text';
+
+    function onTypeChange(type) {
+      _currentBodyType = type;
+      renderItemsEditor(type);
+    }
+
+    // ============================================================
+    // 🎯 محرر العناصر
+    // ============================================================
+    function renderItemsEditor(type) {
+      _currentBodyType = type;
+      const itemsGroup = document.getElementById('itemsEditorGroup');
+      if (!itemsGroup) return;
+
+      const bodyLabel = document.getElementById('fBodyLabel');
+      const itemsLabel = document.getElementById('itemsLabel');
+      const bodyField = document.getElementById('fBody');
+
+      // الأنواع اللي مش محتاجة عناصر
+      if (type === 'text' || type === 'quote') {
+        itemsGroup.style.display = 'none';
+        if (bodyLabel) bodyLabel.textContent = 'المحتوى (يقبل HTML البسيط)';
+        if (bodyField) bodyField.placeholder = 'اكتب المحتوى هنا...';
+        return;
+      }
+
+      itemsGroup.style.display = 'block';
+
+      // تسميات حسب النوع
+      const labels = {
+        list: { body: 'نص توضيحي (اختياري)', items: 'عناصر القائمة', btn: 'إضافة بند', ph: 'مثال: الاسم الكامل' },
+        cards: { body: 'نص توضيحي (اختياري)', items: 'كروت القسم', btn: 'إضافة كارت', ph: 'مثال: بيانات الحساب' },
+        table: { body: 'نص توضيحي (اختياري)', items: 'صفوف الجدول', btn: 'إضافة صف', ph: 'مثال: 100' },
+        contact: { body: 'نص توضيحي (اختياري)', items: 'وسائل التواصل', btn: 'إضافة وسيلة', ph: 'مثال: واتساب' },
+        steps: { body: 'نص توضيحي (اختياري)', items: 'الخطوات', btn: 'إضافة خطوة', ph: 'مثال: تواصل معنا' },
+        faq: { body: 'نص توضيحي (اختياري)', items: 'الأسئلة والأجوبة', btn: 'إضافة سؤال', ph: 'مثال: كيف أسجل؟' }
+      };
+
+      const l = labels[type] || labels.list;
+      if (bodyLabel) bodyLabel.textContent = l.body;
+      if (itemsLabel) itemsLabel.textContent = l.items;
+      if (bodyField) bodyField.placeholder = 'نص يظهر قبل العناصر (اختياري)...';
+
+      if (!_currentItems.length) {
+        _currentItems = [createEmptyItem(type)];
+      }
+
+      renderItems();
+
+      const addBtn = document.querySelector('.add-item-btn');
+      if (addBtn) {
+        addBtn.innerHTML = `<i class="fas fa-plus"></i> ${l.btn}`;
+      }
+    }
+
+    function createEmptyItem(type) {
+      if (type === 'list') return { text: '' };
+      if (type === 'table') return { label: '', value: '' };
+      if (type === 'contact') return { icon: 'fas fa-link', title: '', text: '', url: '', color: '#1a2a4a' };
+      if (type === 'steps') return { icon: 'fa-check', title: '', text: '' };
+      if (type === 'faq') return { title: '', text: '' };
+      return { icon: 'fa-info', title: '', text: '' }; // cards
+    }
+
+    function renderItems() {
+      const editor = document.getElementById('itemsEditor');
+      const type = _currentBodyType;
+      if (!editor) return;
+
+      editor.innerHTML = _currentItems.map((it, i) => {
+        let content = '';
+
+        if (type === 'list') {
+          content = `
+            <div class="item-grid">
+              <div>
+                <label>النص</label>
+                <textarea oninput="_currentItems[${i}].text = this.value" maxlength="500">${escapeHtml(it.text || '')}</textarea>
+              </div>
+            </div>
+          `;
+        } else if (type === 'table') {
+          content = `
+            <div class="item-grid two-col">
+              <div>
+                <label>العنوان</label>
+                <input type="text" value="${escapeAttr(it.label || '')}" oninput="_currentItems[${i}].label = this.value" maxlength="100">
+              </div>
+              <div>
+                <label>القيمة</label>
+                <input type="text" value="${escapeAttr(it.value || '')}" oninput="_currentItems[${i}].value = this.value" maxlength="300">
+              </div>
+            </div>
+          `;
+        } else if (type === 'contact') {
+          content = `
+            <div class="item-grid">
+              <div class="item-grid two-col">
+                <div>
+                  <label>الأيقونة (Font Awesome)</label>
+                  <input type="text" value="${escapeAttr(it.icon || '')}" oninput="_currentItems[${i}].icon = this.value" placeholder="fas fa-envelope">
+                </div>
+                <div>
+                  <label>اللون (Hex)</label>
+                  <input type="text" value="${escapeAttr(it.color || '#1a2a4a')}" oninput="_currentItems[${i}].color = this.value" placeholder="#1a2a4a">
+                </div>
+              </div>
+              <div>
+                <label>الاسم الظاهر</label>
+                <input type="text" value="${escapeAttr(it.title || '')}" oninput="_currentItems[${i}].title = this.value" maxlength="60">
+              </div>
+              <div>
+                <label>القيمة (رقم/إيميل)</label>
+                <input type="text" value="${escapeAttr(it.text || '')}" oninput="_currentItems[${i}].text = this.value" maxlength="120">
+              </div>
+              <div>
+                <label>الرابط (URL)</label>
+                <input type="text" value="${escapeAttr(it.url || '')}" oninput="_currentItems[${i}].url = this.value" maxlength="300" placeholder="https://...">
+              </div>
+            </div>
+          `;
+        } else if (type === 'steps') {
+          content = `
+            <div class="item-grid">
+              <div class="item-grid two-col">
+                <div>
+                  <label>الأيقونة</label>
+                  <input type="text" value="${escapeAttr(it.icon || '')}" oninput="_currentItems[${i}].icon = this.value" placeholder="fa-check">
+                </div>
+                <div>
+                  <label>عنوان الخطوة</label>
+                  <input type="text" value="${escapeAttr(it.title || '')}" oninput="_currentItems[${i}].title = this.value" maxlength="100">
+                </div>
+              </div>
+              <div>
+                <label>الوصف (اختياري)</label>
+                <textarea oninput="_currentItems[${i}].text = this.value" maxlength="400">${escapeHtml(it.text || '')}</textarea>
+              </div>
+            </div>
+          `;
+        } else if (type === 'faq') {
+          content = `
+            <div class="item-grid">
+              <div>
+                <label>السؤال</label>
+                <input type="text" value="${escapeAttr(it.title || '')}" oninput="_currentItems[${i}].title = this.value" maxlength="200">
+              </div>
+              <div>
+                <label>الإجابة</label>
+                <textarea oninput="_currentItems[${i}].text = this.value" maxlength="1500" style="min-height:70px;">${escapeHtml(it.text || '')}</textarea>
+              </div>
+            </div>
+          `;
+        } else { // cards
+          content = `
+            <div class="item-grid">
+              <div class="item-grid two-col">
+                <div>
+                  <label>الأيقونة</label>
+                  <input type="text" value="${escapeAttr(it.icon || '')}" oninput="_currentItems[${i}].icon = this.value" placeholder="fa-star">
+                </div>
+                <div>
+                  <label>العنوان</label>
+                  <input type="text" value="${escapeAttr(it.title || '')}" oninput="_currentItems[${i}].title = this.value" maxlength="80">
+                </div>
+              </div>
+              <div>
+                <label>الوصف</label>
+                <textarea oninput="_currentItems[${i}].text = this.value" maxlength="400">${escapeHtml(it.text || '')}</textarea>
+              </div>
+            </div>
+          `;
+        }
+
+        return `
+          <div class="item-row">
+            <span class="row-num">${i + 1}</span>
+            <button class="remove-item" onclick="removeItem(${i})" title="حذف">
+              <i class="fas fa-times"></i>
+            </button>
+            ${content}
+          </div>
+        `;
+      }).join('');
+    }
+
+    function addItem() {
+      _currentItems.push(createEmptyItem(_currentBodyType));
+      renderItems();
+    }
+
+    function removeItem(idx) {
+      _currentItems.splice(idx, 1);
+      renderItems();
+    }
+
+    // ============================================================
+    // 💾 حفظ
+    // ============================================================
+    async function saveSection() {
+      const btn = document.getElementById('saveBtn');
+      const title = document.getElementById('fTitle').value.trim();
+      const icon = document.getElementById('fIcon').value.trim() || 'fa-file-alt';
+      const bodyType = document.getElementById('fBodyType').value;
+      const body = document.getElementById('fBody').value.trim();
+      const active = document.getElementById('fActive').checked;
+
+      if (!title) {
+        showToast('اكتب عنوان القسم', 'warning');
+        document.getElementById('fTitle').focus();
+        return;
+      }
+
+      let items = [];
+      if (bodyType === 'list' || bodyType === 'faq') {
+        items = _currentItems.filter(it => (it.text || '').trim() || (it.title || '').trim());
+      } else if (bodyType === 'table') {
+        items = _currentItems.filter(it => (it.label || '').trim() || (it.value || '').trim());
+      } else if (bodyType === 'contact' || bodyType === 'cards' || bodyType === 'steps') {
+        items = _currentItems.filter(it => (it.title || '').trim() || (it.text || '').trim());
+      }
+
+      if (['list', 'table', 'cards', 'contact', 'steps', 'faq'].includes(bodyType) && !items.length) {
+        showToast('أضف عنصر واحد على الأقل', 'warning');
+        return;
+      }
+
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الحفظ...';
+
+      try {
+        const now = firebase.firestore.FieldValue.serverTimestamp();
+        const payload = {
+          title,
+          icon,
+          bodyType,
+          body,
+          items,
+          active,
+          updatedAt: now
+        };
+
+        if (_editingId) {
+          await db.collection(_currentCollection).doc(_editingId).update(payload);
+        } else {
+          payload.order = _sections.length ? Math.max(..._sections.map(s => s.order || 0)) + 1 : 1;
+          payload.createdAt = now;
+          await db.collection(_currentCollection).add(payload);
+        }
+
+        await touchMeta();
+        showToast('تم الحفظ', 'success');
+        closeEditorModal();
+        updateTabCounts();
+
+      } catch (err) {
+        console.error(err);
+        showToast('فشل الحفظ: ' + (err.message || ''), 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-save"></i> حفظ';
+      }
+    }
+
+    function closeEditorModal(event) {
+      if (event && event.target !== event.currentTarget) return;
+      const m = document.getElementById('editorModal');
+      if (m) m.remove();
+      document.body.style.overflow = '';
+      _editingId = null;
+      _currentItems = [];
+    }
+
+    // ============================================================
+    // 🗑️ حذف
+    // ============================================================
+    function confirmDelete(id) {
+      const s = _sections.find(x => x.id === id);
+      if (!s) return;
+
+      const modalHtml = `
+        <div class="modal-overlay show" id="deleteModal" onclick="closeDeleteModal(event)">
+          <div class="modal-content small" onclick="event.stopPropagation()">
+            <div class="cm-modal-header" style="background:linear-gradient(135deg,#dc2626,#991b1b);">
+              <h3><i class="fas fa-trash"></i> تأكيد الحذف</h3>
+              <button class="modal-close" onclick="closeDeleteModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" style="text-align:center;padding:24px;">
+              <div style="width:70px;height:70px;border-radius:50%;background:#fee2e2;color:#dc2626;display:flex;align-items:center;justify-content:center;font-size:1.8rem;margin:0 auto 14px;">
+                <i class="fas fa-exclamation-triangle"></i>
+              </div>
+              <h4 style="font-size:1.05rem;color:var(--navy);margin-bottom:8px;">متأكد من حذف "${escapeHtml(s.title)}"؟</h4>
+              <p style="font-size:0.85rem;color:var(--gray-500);margin-bottom:0;">لا يمكن استرجاع القسم بعد الحذف.</p>
+            </div>
+            <div class="modal-actions">
+              <button class="btn btn-outline" onclick="closeDeleteModal()">
+                <i class="fas fa-times"></i> إلغاء
+              </button>
+              <button class="btn btn-danger" id="confirmDelBtn" onclick="doDelete('${id}')">
+                <i class="fas fa-trash"></i> حذف نهائي
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+      const existing = document.getElementById('deleteModal');
+      if (existing) existing.remove();
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeDeleteModal(event) {
+      if (event && event.target !== event.currentTarget) return;
+      const m = document.getElementById('deleteModal');
+      if (m) m.remove();
+      document.body.style.overflow = '';
+    }
+
+    async function doDelete(id) {
+      const btn = document.getElementById('confirmDelBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الحذف...';
+      try {
+        await db.collection(_currentCollection).doc(id).delete();
+        await touchMeta();
+        showToast('تم الحذف', 'success');
+        closeDeleteModal();
+        updateTabCounts();
+      } catch (err) {
+        console.error(err);
+        showToast('فشل الحذف', 'error');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-trash"></i> حذف نهائي';
+      }
+    }
+
+    // ============================================================
+    // 📥 استيراد المحتوى الافتراضي
+    // ============================================================
+    const SEED_DATA = {
+      privacy_sections: [
+        { title: "مقدمة", icon: "fa-book-open", bodyType: "text",
+          body: "في <strong>أولاد شعلان للمنظفات والورقيات</strong>، نحن نأخذ خصوصيتك على محمل الجد. توضح سياسة الخصوصية هذه كيفية جمع واستخدام وحماية معلوماتك الشخصية عند استخدام موقعنا الإلكتروني أو خدماتنا." },
+        { title: "التزامنا", icon: "fa-handshake", bodyType: "quote",
+          body: "باستخدامك للموقع، فإنك توافق على الممارسات الموضحة في هذه السياسة. احرص على قراءتها بالكامل قبل استخدام خدماتنا." },
+        { title: "البيانات اللي بنجمعها", icon: "fa-database", bodyType: "cards",
+          items: [
+            { icon: "fa-user", title: "بيانات الحساب", text: "الاسم الكامل، رقم الهاتف، البريد الإلكتروني، العنوان، المدينة، كلمة المرور المشفّرة" },
+            { icon: "fa-globe", title: "بيانات تلقائية", text: "عنوان IP، نوع المتصفح، نظام التشغيل، الصفحات المزارة، وقت وتاريخ الزيارة" },
+            { icon: "fa-shopping-bag", title: "بيانات الطلبات", text: "سجل الطلبات، الفواتير، طرق الدفع، عنوان التوصيل، الرصيد المالي" },
+            { icon: "fa-image", title: "ملفات ترفعها", text: "صور إيصالات السداد، صور المنتجات في تذاكر الدعم" }
+          ] },
+        { title: "ليه بنستخدم بياناتك؟", icon: "fa-bullseye", bodyType: "cards",
+          items: [
+            { icon: "fa-truck-fast", title: "تنفيذ الطلبات", text: "توصيل طلباتك في الوقت المحدد للعنوان الصحيح" },
+            { icon: "fa-file-invoice-dollar", title: "إدارة الحساب", text: "إدارة حسابك وفواتيرك ورصيدك المالي" },
+            { icon: "fa-phone", title: "التواصل", text: "إبلاغك بحالة طلبك والعروض الجديدة" },
+            { icon: "fa-star", title: "تحسين التجربة", text: "تطوير خدماتنا بناءً على استخدامك" },
+            { icon: "fa-shield-alt", title: "الحماية", text: "حماية حسابك من الاختراق والاحتيال" },
+            { icon: "fa-gavel", title: "الالتزام القانوني", text: "استيفاء المتطلبات القانونية في مصر" }
+          ] },
+        { title: "ملفات تعريف الارتباط (Cookies)", icon: "fa-cookie-bite", bodyType: "text",
+          body: "نستخدم ملفات تعريف الارتباط (Cookies) لتخصيص تجربتك وتحسين خدماتنا.<br><br><strong>الأنواع:</strong> ضرورية (لتشغيل الموقع - لا يمكن إيقافها) • وظيفية (تفضل اللغة والإعدادات) • تحليلية (لفهم استخدام الموقع) • تسويقية (لعرض إعلانات ذات صلة - اختيارية).<br><br>يمكنك التحكم في Cookies من إعدادات المتصفح، لكن قد لا تعمل بعض أجزاء الموقع بشكل صحيح عند إيقافها." },
+        { title: "كيف بنحمي بياناتك؟", icon: "fa-shield-virus", bodyType: "cards",
+          items: [
+            { icon: "fa-lock", title: "تشفير SSL/TLS", text: "كل الاتصالات مشفّرة بين متصفحك والسيرفر" },
+            { icon: "fa-fire", title: "Firebase Security", text: "قواعد أمان صارمة على قاعدة البيانات" },
+            { icon: "fa-key", title: "كلمات مرور مشفّرة", text: "لا نحتفظ بكلمات المرور بنصها الأصلي" },
+            { icon: "fa-user-shield", title: "وصول محدود", text: "فقط الأدمن المصرح له يصل للبيانات" },
+            { icon: "fa-ban", title: "عدم المشاركة", text: "لا نبيع أو نشارك بياناتك مع أي طرف ثالث" },
+            { icon: "fa-trash", title: "حذف آمن", text: "يمكنك طلب حذف حسابك في أي وقت" }
+          ] },
+        { title: "هل نشارك بياناتك مع حد؟", icon: "fa-user-lock", bodyType: "quote",
+          body: "<strong>لا نبيع أو نؤجر أو نشارك بياناتك الشخصية مع أي طرف ثالث.</strong><br><br>الاستثناءات الوحيدة: موظفو التوصيل • متطلبات قانونية • حماية حقوقنا في حالات الاحتيال" },
+        { title: "حقوقك", icon: "fa-balance-scale", bodyType: "table",
+          items: [
+            { label: "الاطلاع", value: "تطلب نسخة من بياناتك المحفوظة" },
+            { label: "التصحيح", value: "تعدّل أي بيانات خاطئة" },
+            { label: "الحذف", value: "تطلب حذف حسابك نهائيًا" },
+            { label: "الاعتراض", value: "ترفض استخدام بياناتك لأغراض تسويقية" },
+            { label: "نقل البيانات", value: "تحصل على بياناتك بصيغة قابلة للقراءة" }
+          ] },
+        { title: "بيانات الدفع", icon: "fa-credit-card", bodyType: "list",
+          items: [
+            "نحن لا نحتفظ ببيانات بطاقاتك البنكية على الإطلاق",
+            "كاش عند التسليم — الأكثر شيوعًا",
+            "تحويل بنكي — ترفق صورة الإيصال",
+            "محفظة إلكترونية (فودافون كاش / انستاباي)",
+            "نظام آجل للتجار — بحدود دين متفق عليها"
+          ] },
+        { title: "العمر المطلوب", icon: "fa-user-check", bodyType: "text",
+          body: "خدماتنا موجهة للبالغين فقط (18 سنة أو أكثر). لو اكتشفنا أننا جمعنا بيانات من شخص أقل من 18 سنة بدون إذن ولي الأمر، سنحذفها فورًا." },
+        { title: "تعديلات السياسة", icon: "fa-sync-alt", bodyType: "text",
+          body: "يحق لنا تحديث هذه السياسة في أي وقت.<br><br>• سننشر الإصدار الجديد على هذه الصفحة<br>• هنحدّث \"آخر تحديث\" أعلى الصفحة<br>• التغييرات الجوهرية هنبلّغك بها بالإيميل" },
+        { title: "تواصل معنا", icon: "fa-headset", bodyType: "contact",
+          body: "عندك سؤال عن خصوصيتك؟ فريقنا جاهز يساعدك.",
+          items: [
+            { icon: "fab fa-whatsapp", title: "واتساب", text: "01068385028", url: "https://wa.me/201068385028", color: "#25D366" },
+            { icon: "fas fa-envelope", title: "إيميل", text: "awladsh3laan@gmail.com", url: "mailto:awladsh3laan@gmail.com", color: "#EA4335" },
+            { icon: "fas fa-ticket-alt", title: "تذكرة دعم", text: "اضغط هنا", url: "/gomla/support.html", color: "#c9a84c" }
+          ] }
+      ],
+
+      shipping_sections: [
+        { title: "مقدمة", icon: "fa-truck-fast", bodyType: "text",
+          body: "نوفر خدمة توصيل سريعة وآمنة لكل عملائنا. توضح سياسة الشحن كل ما تحتاج معرفته عن مناطق التوصيل، الأسعار، والمواعيد." },
+        { title: "مناطق التوصيل للجملة", icon: "fa-warehouse", bodyType: "table",
+          body: "نوصل لطلبات الجملة للمدن التالية:",
+          items: [
+            { label: "طنطا", value: "125 ج.م - شحن مجاني عند 5000 ج.م" },
+            { label: "المنصورة", value: "125 ج.م - شحن مجاني عند 5000 ج.م" },
+            { label: "المحلة", value: "50 ج.م - شحن مجاني عند 2000 ج.م" }
+          ] },
+        { title: "مناطق التوصيل للقطاعي", icon: "fa-map-marker-alt", bodyType: "cards",
+          body: "نغطي كل مناطق المحلة الكبرى. شحن مجاني عند 2500 ج.م.",
+          items: [
+            { icon: "fa-check", title: "مناطق 25 ج.م", text: "الرجبي، أبو شاهين" },
+            { icon: "fa-check", title: "مناطق 35 ج.م", text: "السبع بنات، الجمهورية، سكة زفتى، الشعبية، الشعراوي، العلو، الشون، المعهد الديني، شارع 10، البندر، المشحمة، أبو راضي" },
+            { icon: "fa-check", title: "مناطق 45 ج.م", text: "الزراعة، أبو علي" },
+            { icon: "fa-check", title: "مناطق 50 ج.م", text: "كفر حجازي" }
+          ] },
+        { title: "مواعيد التوصيل", icon: "fa-clock", bodyType: "cards",
+          items: [
+            { icon: "fa-bolt", title: "طنطا", text: "خلال 24-48 ساعة" },
+            { icon: "fa-truck", title: "المنصورة والمحلة", text: "خلال 2-4 أيام عمل" },
+            { icon: "fa-clock", title: "مواعيد العمل", text: "يومياً من 9 صباحاً حتى 10 مساءً" }
+          ] },
+        { title: "تتبع طلبك", icon: "fa-route", bodyType: "steps",
+          body: "تتبع طلبك بسهولة من خلال صفحة \"تتبع الطلب\" أو من حسابك:",
+          items: [
+            { icon: "fa-clipboard-check", title: "قيد المراجعة", text: "استلمنا طلبك وجاري مراجعته" },
+            { icon: "fa-box", title: "جاري التحضير", text: "نحضّر منتجاتك للتغليف" },
+            { icon: "fa-truck", title: "تم الشحن", text: "طلبك في الطريق إليك" },
+            { icon: "fa-home", title: "تم التسليم", text: "استلمت طلبك بنجاح" }
+          ] },
+        { title: "تأخيرات محتملة", icon: "fa-exclamation-triangle", bodyType: "list",
+          body: "قد تحدث تأخيرات في حالات:",
+          items: [
+            "ظروف جوية سيئة (أمطار، عواصف)",
+            "ظروف طارئة على الطريق",
+            "عنوان غير واضح أو غير مكتمل",
+            "ضغط على خطوط الإنتاج",
+            "في هذه الحالات، سنتواصل معك فوراً"
+          ] },
+        { title: "استلام الطلب", icon: "fa-clipboard-check", bodyType: "list",
+          body: "نصائح مهمة عند استلام طلبك:",
+          items: [
+            "افحص الطلب بعناية قبل التوقيع",
+            "تأكد من مطابقة المنتجات للفاتورة",
+            "لو وجدت أي تلف، ارفض الطلب واذكر السبب",
+            "احتفظ بالفاتورة لضمان حقوقك",
+            "أكد الاستلام من حسابك على الموقع"
+          ] },
+        { title: "تواصل معنا", icon: "fa-headset", bodyType: "contact",
+          body: "استفسارات الشحن؟ فريقنا جاهز لمساعدتك.",
+          items: [
+            { icon: "fab fa-whatsapp", title: "واتساب", text: "01068385028", url: "https://wa.me/201068385028", color: "#25D366" },
+            { icon: "fas fa-envelope", title: "إيميل", text: "awladsh3laan@gmail.com", url: "mailto:awladsh3laan@gmail.com", color: "#EA4335" },
+            { icon: "fas fa-ticket-alt", title: "تذكرة دعم", text: "اضغط هنا", url: "/gomla/support.html", color: "#c9a84c" }
+          ] }
+      ],
+
+      exchange_sections: [
+        { title: "التزامنا", icon: "fa-handshake", bodyType: "quote",
+          body: "رضاك أولويتنا. نوفر سياسة استبدال وإرجاع واضحة وعادلة تحفظ حقوقك وطمأنك." },
+        { title: "شروط الاستبدال", icon: "fa-clipboard-list", bodyType: "list",
+          body: "لتأهيل طلب الاستبدال، يجب تحقيق الشروط التالية:",
+          items: [
+            "خلال 3 أيام من استلام الطلب",
+            "المنتج في حالته الأصلية",
+            "العبوة سليمة (إن أمكن)",
+            "الاحتفاظ بالفاتورة الأصلية",
+            "تقديم سبب واضح للاستبدال"
+          ] },
+        { title: "الحالات المقبولة", icon: "fa-check-circle", bodyType: "cards",
+          items: [
+            { icon: "fa-times-circle", title: "منتج تالف", text: "وصل إليك منتج مكسور أو تالف بدون استخدام" },
+            { icon: "fa-exchange-alt", title: "منتج غير مطابق", text: "استلمت منتج مختلف عن اللي طلبته" },
+            { icon: "fa-exclamation-circle", title: "خطأ مننا", text: "أي خطأ من الشركة في الطلب أو التوصيل" },
+            { icon: "fa-calendar-times", title: "قرب الانتهاء", text: "تاريخ انتهاء المنتج أقل من المدة المتوقعة" }
+          ] },
+        { title: "الحالات المرفوضة", icon: "fa-ban", bodyType: "list",
+          body: "لا يمكن قبول الاستبدال في الحالات التالية:",
+          items: [
+            "مر على الشراء أكثر من 3 أيام",
+            "المنتج مستخدم أو مفتوح",
+            "سوء الاستخدام أو التخزين الخاطئ",
+            "المنتجات الغذائية المفتوحة",
+            "منتجات العناية الشخصية المفتوحة",
+            "العروض والخصومات النهائية"
+          ] },
+        { title: "خطوات الاستبدال", icon: "fa-route", bodyType: "steps",
+          body: "للاستبدال، اتبع الخطوات:",
+          items: [
+            { icon: "fa-phone", title: "تواصل معنا", text: "خلال 3 أيام من الاستلام" },
+            { icon: "fa-camera", title: "ارفع صورة", text: "صورة واضحة للمنتج والمشكلة" },
+            { icon: "fa-clipboard-check", title: "نراجع الطلب", text: "نفحص الطلب خلال 24 ساعة" },
+            { icon: "fa-truck", title: "نرسل مندوب", text: "لاستلام المنتج من عندك" },
+            { icon: "fa-check-circle", title: "الاستبدال", text: "نستبدل أو نرد المبلغ" }
+          ] },
+        { title: "استرداد المبلغ", icon: "fa-money-bill-wave", bodyType: "cards",
+          items: [
+            { icon: "fa-money-bill-wave", title: "كاش", text: "استرداد نقدي مباشر عند الاستلام" },
+            { icon: "fa-wallet", title: "رصيد", text: "رصيد في حسابك على الموقع" },
+            { icon: "fa-university", title: "تحويل بنكي", text: "لحسابك البنكي خلال 3-7 أيام عمل" },
+            { icon: "fa-clock", title: "المدة", text: "خلال 3-7 أيام عمل حسب الطريقة" }
+          ] },
+        { title: "منتجات غير قابلة للإرجاع", icon: "fa-times-circle", bodyType: "list",
+          body: "المنتجات التالية غير قابلة للإرجاع لأسباب صحية أو أمنية:",
+          items: [
+            "المواد الغذائية المفتوحة",
+            "منتجات العناية الشخصية المفتوحة",
+            "المنتجات بأسعار خاصة أو نهائية",
+            "المنتجات المشتراة بخصم كبير",
+            "المنتجات المُخصصة (طلبية خاصة)"
+          ] },
+        { title: "رسوم الإرجاع", icon: "fa-coins", bodyType: "table",
+          items: [
+            { label: "خطأ من الشركة", value: "الشركة تتحمل كل الرسوم" },
+            { label: "خطأ من العميل", value: "العميل يتحمل رسوم التوصيل" },
+            { label: "الاستبدال بمنتج آخر", value: "بدون رسوم إضافية" }
+          ] },
+        { title: "تواصل معنا", icon: "fa-headset", bodyType: "contact",
+          body: "للاستبدال أو الاستفسار، كلمنا:",
+          items: [
+            { icon: "fab fa-whatsapp", title: "واتساب", text: "01068385028", url: "https://wa.me/201068385028", color: "#25D366" },
+            { icon: "fas fa-envelope", title: "إيميل", text: "awladsh3laan@gmail.com", url: "mailto:awladsh3laan@gmail.com", color: "#EA4335" },
+            { icon: "fas fa-ticket-alt", title: "تذكرة دعم", text: "اضغط هنا", url: "/gomla/support.html", color: "#c9a84c" }
+          ] }
+      ],
+
+      terms_sections: [
+        { title: "قبول الشروط", icon: "fa-check-circle", bodyType: "quote",
+          body: "باستخدامك لموقع <strong>أولاد شعلان</strong> أو خدماتنا، فإنك توافق على الالتزام بهذه الشروط والأحكام. لو مش موافق، يرجى عدم استخدام الموقع." },
+        { title: "التسجيل والحساب", icon: "fa-user-plus", bodyType: "list",
+          items: [
+            "يجب تقديم بيانات صحيحة ومحدثة عند التسجيل",
+            "أنت مسؤول عن سرية كلمة المرور",
+            "ممنوع مشاركة الحساب مع الآخرين",
+            "أي نشاط مشبوه يحق لنا إيقاف الحساب فوراً",
+            "يجب أن تكون 18 سنة على الأقل للتسجيل"
+          ] },
+        { title: "استخدام الموقع", icon: "fa-laptop", bodyType: "list",
+          body: "عند استخدامك للموقع، يجب الالتزام بـ:",
+          items: [
+            "عدم استخدام الموقع لأي غرض غير قانوني",
+            "عدم محاولة اختراق الموقع أو قاعدة البيانات",
+            "عدم نشر محتوى مسيء أو مخالف",
+            "عدم استخدام برامج آلية للتسوق",
+            "عدم انتحال شخصية الآخرين"
+          ] },
+        { title: "الطلبات والأسعار", icon: "fa-shopping-bag", bodyType: "cards",
+          items: [
+            { icon: "fa-check-circle", title: "تأكيد الطلب", text: "الطلب يعتبر مؤكداً بعد موافقتنا عليه" },
+            { icon: "fa-times-circle", title: "إلغاء الطلب", text: "يحق لنا إلغاء الطلب في حالات معينة" },
+            { icon: "fa-tag", title: "الأسعار", text: "قابلة للتغيير بدون إشعار مسبق" },
+            { icon: "fa-exclamation-triangle", title: "أخطاء", text: "نحتفظ بحق تصحيح أي أخطاء في الأسعار" }
+          ] },
+        { title: "الدفع", icon: "fa-credit-card", bodyType: "table",
+          items: [
+            { label: "الدفع عند الاستلام", value: "متاح لكل الطلبات" },
+            { label: "إنستا باي", value: "تحويل بنكي بدون رسوم" },
+            { label: "محفظة إلكترونية", value: "رسوم إضافية 1%" },
+            { label: "النظام الآجل", value: "للتجار المعتمدين بحدود دين" }
+          ] },
+        { title: "الملكية الفكرية", icon: "fa-copyright", bodyType: "text",
+          body: "كل محتوى الموقع (نصوص، صور، شعارات، تصميم، كود) ملك حصري لـ <strong>أولاد شعلان للمنظفات والورقيات</strong>. ممنوع نسخ أو استخدام أي جزء بدون إذن كتابي مسبق." },
+        { title: "حدود المسؤولية", icon: "fa-shield-alt", bodyType: "list",
+          items: [
+            "لا نتحمل مسؤولية الاستخدام الخاطئ للمنتجات",
+            "لا نتحمل مسؤولية انقطاع الخدمة لأسباب تقنية",
+            "مسؤوليتنا محدودة بقيمة المنتجات المستلمة",
+            "لا نتحمل مسؤولية التأخيرات بسبب ظروف قهرية"
+          ] },
+        { title: "إيقاف الحساب", icon: "fa-user-slash", bodyType: "text",
+          body: "يحق لنا إيقاف أو حذف أي حساب <strong>بدون إشعار مسبق</strong> في حالة: مخالفة الشروط، الاحتيال، الإساءة للموقع، أو أي سلوك ضار بالشركة أو العملاء." },
+        { title: "التعديلات", icon: "fa-sync-alt", bodyType: "text",
+          body: "يحق لنا تعديل هذه الشروط في أي وقت. سننشر الإصدار الجديد على هذه الصفحة ونحدّث \"آخر تحديث\". استمرارك في استخدام الموقع = موافقتك على الشروط الجديدة." },
+        { title: "القانون المطبق", icon: "fa-gavel", bodyType: "text",
+          body: "هذه الشروط تخضع لأحكام <strong>القانون المصري</strong> وتُفسَّر وفقاً له. أي نزاع يُحلّ ودياً أولاً، وإلا فالمحاكم المصرية هي المختصة." },
+        { title: "تواصل معنا", icon: "fa-headset", bodyType: "contact",
+          body: "لأي استفسار حول الشروط:",
+          items: [
+            { icon: "fab fa-whatsapp", title: "واتساب", text: "01068385028", url: "https://wa.me/201068385028", color: "#25D366" },
+            { icon: "fas fa-envelope", title: "إيميل", text: "awladsh3laan@gmail.com", url: "mailto:awladsh3laan@gmail.com", color: "#EA4335" },
+            { icon: "fas fa-ticket-alt", title: "تذكرة دعم", text: "اضغط هنا", url: "/gomla/support.html", color: "#c9a84c" }
+          ] }
+      ],
+
+      faq_sections: [
+        { title: "التسجيل والدخول", icon: "fa-user-plus", bodyType: "faq",
+          items: [
+            { title: "كيف أسجل حساب عميل جديد؟", text: "من صفحة login.html اختار \"دخول العملاء\" ثم اضغط \"تسجيل عميل جديد\". املأ البيانات (الاسم، الهاتف، الإيميل، العنوان، كلمة المرور) وفعّل حسابك فوراً." },
+            { title: "كيف أدخل كعميل؟", text: "افتح login.html → اضغط \"دخول العملاء\" → ادخل الإيميل وكلمة المرور. لو نسيت كلمة المرور، كلمنا على الواتساب." },
+            { title: "كيف أدخل كتاجر بالكود؟", text: "افتح login.html → \"دخول التجار\" → ادخل الكود الخاص بك (مثال: MHL-A1B2). الكود بيجي من السوبر أدمن بعد الموافقة على طلبك." },
+            { title: "كيف أدخل كموصل؟", text: "افتح login.html → \"دخول الموصلين\" → ادخل كودك الخاص (مثال: DEL-A2B4C5@#$). الكود بيجي من الأدمن بعد انضمامك لفريق التوصيل." },
+            { title: "ما الفرق بين العميل والتاجر؟", text: "العميل بيتسوق بأسعار القطاعي مع حد أقصى = المخزون. التاجر بيتسوق بأسعار الجملة مع حد أدنى 1500 ج.م وبيشوف هامش الربح وملاحظات المنتج." }
+          ] },
+        { title: "التسوق والتصفح", icon: "fa-shopping-cart", bodyType: "faq",
+          items: [
+            { title: "كيف أتصفح المنتجات؟", text: "من الصفحة الرئيسية → اضغط \"المتجر\". تقدر تتصفح من الأقسام، البراندات، أو تشوف كل المنتجات في صفحة واحدة." },
+            { title: "إيه الفرق بين متجر الجملة والقطاعي؟", text: "الجملة للتجار فقط بأسعار خاصة ووحدات كبيرة (كرتونة/بالة). القطاعي لكل الزوار بأسعار المستهلك ووحدات صغيرة (قطعة)." },
+            { title: "كيف أبحث عن منتج؟", text: "اضغط أيقونة البحث (العدسة) في الأعلى. اكتب اسم المنتج أو البراند أو الباركود، هيظهرلك نتائج فورية." },
+            { title: "كيف أضيف منتج للسلة؟", text: "من صفحة المنتج → اضغط \"أضف للسلة\". أو من شبكة المنتجات → اضغط أيقونة السلة على كارت المنتج." },
+            { title: "كيف أضيف منتج للمفضلة؟", text: "من صفحة المنتج → اضغط أيقونة القلب. تقدر تشوف كل المفضلة من صفحة \"المفضلة\" في التبويبات السفلية." }
+          ] },
+        { title: "السلة والطلبات", icon: "fa-shopping-basket", bodyType: "faq",
+          items: [
+            { title: "كيف أعدل الكميات في السلة؟", text: "من صفحة السلة → استخدم أزرار +/- لتعديل الكمية. أو اكتب الرقم مباشرة في الحقل." },
+            { title: "ما الحد الأدنى لطلب الجملة؟", text: "الحد الأدنى لفاتورة الجملة 1500 ج.م. لو أقل من كده النظام مش هيسمح بإتمام الطلب." },
+            { title: "ما الحد الأقصى لكل منتج؟", text: "للتجار: حسب ما يحدده الأدمن لكل منتج. للعملاء: الحد الأقصى = المخزون المتاح حالياً." },
+            { title: "كيف أحذف منتج من السلة؟", text: "من صفحة السلة → اضغط أيقونة سلة المهملات بجانب المنتج. أو قلل الكمية لصفر." },
+            { title: "كيف أتمم الطلب؟", text: "من السلة → اضغط \"إتمام الطلب\". املأ بيانات التوصيل، اختر طريقة الدفع، وأكد الطلب." }
+          ] },
+        { title: "الشحن والتوصيل", icon: "fa-truck-fast", bodyType: "faq",
+          items: [
+            { title: "كيف أختار منطقة الشحن؟", text: "في صفحة إتمام الطلب → اختر منطقتك من قائمة المناطق. الشحن يتحسب تلقائياً حسب المنطقة." },
+            { title: "متى يكون الشحن مجاني؟", text: "الجملة: مجاني عند 5000 ج.م (طنطا/المنصورة) أو 2000 ج.م (المحلة). القطاعي: مجاني عند 2500 ج.م." },
+            { title: "كم يستغرق التوصيل؟", text: "طنطا: 24-48 ساعة. المنصورة والمحلة: 2-4 أيام عمل. مواعيد العمل من 9 ص للـ 10 م." },
+            { title: "كيف أتابع طلبي؟", text: "من صفحة \"طلباتي\" أو \"تتبع الطلب\". هتشوف 4 مراحل: قيد المراجعة → جاري التحضير → تم الشحن → تم التسليم." },
+            { title: "إيه معنى كل حالة في تتبع الطلب؟", text: "قيد المراجعة: استلمنا طلبك. جاري التحضير: نحضّر المنتجات. تم الشحن: في الطريق إليك. تم التسليم: استلمت طلبك بنجاح." }
+          ] },
+        { title: "الدفع والرصيد", icon: "fa-credit-card", bodyType: "faq",
+          items: [
+            { title: "ما طرق الدفع المتاحة؟", text: "3 طرق: (1) الدفع عند الاستلام — بدون رسوم (2) إنستا باي — بدون رسوم (3) محفظة إلكترونية — رسوم 1% إضافية." },
+            { title: "إيه رسوم المحفظة الإلكترونية؟", text: "رسوم 1% على إجمالي الطلب (منتجات + شحن). تُضاف تلقائياً لو اخترت الدفع بالمحفظة." },
+            { title: "كيف أشوف رصيدي؟", text: "من حسابك → \"الذمة المالية\" أو \"رصيدي\". هتشوف الرصيد الحالي + سجل الفواتير + إمكانية الإبلاغ عن سداد." },
+            { title: "كيف أبلغ عن سداد؟", text: "من صفحة \"رصيدي\" → اضغط \"أبلغ عن سداد\" → املأ المبلغ والتاريخ وارفع صورة الإيصال. الأدمن هيراجع ويخصم من رصيدك تلقائياً." },
+            { title: "كيف أشوف فواتيري؟", text: "من حسابك → \"فواتيري\". هتشوف كل الفواتير مع إمكانية التحميل والطباعة." }
+          ] },
+        { title: "العروض والخصومات", icon: "fa-percent", bodyType: "faq",
+          items: [
+            { title: "إيه الفرق بين العرض والخصم؟", text: "العروض للمتجر القطاعي (تخفيض على السعر). الخصومات للمتجر الجملة (نسبة خصم على الإجمالي للتجار)." },
+            { title: "كيف أعرف إن فيه عرض على منتج؟", text: "المنتجات اللي عليها عرض بيظهر عليها شارة \"عرض\" + السعر القديم مشطوب. تقدر تشوف كل العروض من صفحة \"العروض\"." },
+            { title: "كيف أستفيد من الخصم؟", text: "الخصم بيتطبق تلقائياً على طلبات الجملة خلال فترة الخصم. للتجار المعتمدين بس." }
+          ] },
+        { title: "الإشعارات والمتابعة", icon: "fa-bell", bodyType: "faq",
+          items: [
+            { title: "كيف أشوف إشعاراتي؟", text: "اضغط أيقونة الجرس في الأعلى. هتشوف كل الإشعارات الجديدة مع إمكانية تحديد الكل كمقروء." },
+            { title: "كيف أتابع طلبي؟", text: "من صفحة \"طلباتي\" اضغط على الطلب → هتشوف الخط الزمني لكل مرحلة." },
+            { title: "كيف أستخدم صفحة طلباتي؟", text: "من الحساب → \"طلباتي\". هتشوف كل الطلبات مع الحالة والإجمالي. تقدر تفتح أي طلب للتفاصيل." }
+          ] },
+        { title: "الدعم والمساعدة", icon: "fa-headset", bodyType: "faq",
+          items: [
+            { title: "كيف أفتح تذكرة دعم؟", text: "من صفحة \"الدعم والمساعدة\" → اضغط \"افتح تذكرة دعم\". املأ التصنيف والموضوع والتفاصيل وأرسل." },
+            { title: "كيف أتابع تذكرة دعم؟", text: "من صفحة الدعم → قسم \"تذاكري\". اضغط على أي تذكرة لمشاهدة الردود والتفاعل." },
+            { title: "كيف أتواصل مع الدعم؟", text: "3 طرق: واتساب (01068385028)، إيميل (awladsh3laan@gmail.com)، أو فتح تذكرة دعم موثقة." },
+            { title: "إيه الفرق بين التذكرة والواتساب؟", text: "التذكرة موثقة ومحفوظة بتاريخ ورقم. الواتساب أسرع لكن بدون سجل رسمي. للشكاوى المهمة استخدم التذكرة." }
+          ] },
+        { title: "خاص بالتجار", icon: "fa-store", bodyType: "faq",
+          items: [
+            { title: "كيف أحصل على كود تاجر؟", text: "من صفحة login.html → \"دخول التجار\" → اضغط \"طلب كود تاجر\". أو كلمنا على الواتساب. هنراجع طلبك ونبعتلك الكود." },
+            { title: "ما الحد الأدنى لطلب الجملة؟", text: "1500 ج.م كحد أدنى. لو أقل من كده النظام مش هيكمل الطلب." },
+            { title: "كيف أشوف هامش الربح؟", text: "من صفحة تفاصيل المنتج (للتاجر) → هتشوف هامش الربح في القطعة والوحدة." },
+            { title: "كيف أستخدم الملاحظات؟", text: "ملاحظات التاجر بتظهر في صفحة المنتج (للتاجر بس) وبتفيدك في معرفة معلومات إضافية عن المنتج." }
+          ] },
+        { title: "خاص بالموصلين", icon: "fa-truck-fast", bodyType: "faq",
+          items: [
+            { title: "كيف أصبح موصل؟", text: "تواصل معنا على الواتساب → هنراجع طلبك → لو موافق، الأدمن هينشئ حسابك ويبعتلك كودك الخاص." },
+            { title: "كيف أدخل بالنظام؟", text: "من صفحة login.html → \"دخول الموصلين\" → ادخل كودك (مثال: DEL-A2B4C5@#$). هتوصل للوحة الموصل." },
+            { title: "كيف أستلم أوردر؟", text: "من لوحة الموصل → \"أوردراتي\" → اضغط على الأوردر → \"استلمت الأوردر\". الأوردر يتنقل لجانب \"جاري التوصيل\"." },
+            { title: "كيف أحصل على أجرة الشحن؟", text: "فلوس الشحن (shippingCost) من حقك. وقت التصفية مع الأدمن، بتسلم فلوس المنتجات بس وتخلي فلوس الشحن." }
+          ] },
+        { title: "أسئلة عامة", icon: "fa-info-circle", bodyType: "faq",
+          items: [
+            { title: "هل الموقع آمن؟", text: "نعم. نستخدم تشفير SSL + Firebase Security + كلمات مرور مشفّرة. لا نشارك بياناتك مع أي طرف ثالث." },
+            { title: "هل أحتاج بطاقة بنكية؟", text: "لا. تقدر تدفع كاش عند الاستلام. لكن لو عاوز تدفع بمحفظة أو إنستا باي، تقدر تختار دي." },
+            { title: "كيف ألغي طلب؟", text: "من صفحة \"طلباتي\" → افتح الطلب → لو لسه \"قيد المراجعة\" تقدر تلغيه. بعد التحضير، كلمنا." },
+            { title: "كيف أعدل بياناتي؟", text: "من الحساب → \"بياناتي\". تقدر تعدل الاسم، الهاتف، والعنوان." }
+          ] }
+      ]
+    };
+
+    function openSeedConfirm() {
+      const seedList = SEED_DATA[_currentCollection] || [];
+      const existingTitles = _sections.map(s => (s.title || '').trim());
+      const missing = seedList.filter(s => !existingTitles.includes(s.title));
+
+      if (!missing.length) {
+        showToast('كل الأقسام الافتراضية موجودة بالفعل', 'info');
+        return;
+      }
+
+      const collectionName = _currentCollection.replace('_sections', '');
+      const names = {
+        privacy: 'سياسة الخصوصية',
+        shipping: 'سياسة الشحن',
+        exchange: 'الاستبدال والإرجاع',
+        terms: 'الشروط والأحكام',
+        faq: 'الأسئلة الشائعة'
+      };
+
+      const modalHtml = `
+        <div class="modal-overlay show" id="seedModal" onclick="closeSeedModal(event)">
+          <div class="modal-content small" onclick="event.stopPropagation()">
+            <div class="cm-modal-header" style="background:linear-gradient(135deg,#c9a84c,#b8942a);">
+              <h3><i class="fas fa-download"></i> استيراد الأقسام الافتراضية</h3>
+              <button class="modal-close" onclick="closeSeedModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" style="padding:20px;">
+              <div style="background:#fcf9f0;border:1px solid var(--gold-light);border-radius:var(--radius-sm);padding:14px;margin-bottom:14px;font-size:0.85rem;line-height:1.7;color:var(--gray-700);">
+                <i class="fas fa-info-circle" style="color:var(--gold-dark);"></i>
+                سيتم إضافة <strong>${missing.length}</strong> قسم جديد لصفحة <strong>${names[collectionName] || ''}</strong>.
+                الأقسام الموجودة بنفس العنوان <strong>لن يتم لمسها</strong>.
+              </div>
+              <div style="max-height:240px;overflow-y:auto;background:var(--gray-50);border-radius:var(--radius-sm);padding:10px;font-size:0.82rem;">
+                ${missing.map((s, i) => `<div style="padding:5px 0;border-bottom:1px solid var(--gray-100);">${i + 1}. ${escapeHtml(s.title)}</div>`).join('')}
+              </div>
+            </div>
+            <div class="modal-actions">
+              <button class="btn btn-outline" onclick="closeSeedModal()">
+                <i class="fas fa-times"></i> إلغاء
+              </button>
+              <button class="btn btn-gold" id="seedBtn" onclick="doSeed()">
+                <i class="fas fa-download"></i> استيراد
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+      const ex = document.getElementById('seedModal');
+      if (ex) ex.remove();
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeSeedModal(event) {
+      if (event && event.target !== event.currentTarget) return;
+      const m = document.getElementById('seedModal');
+      if (m) m.remove();
+      document.body.style.overflow = '';
+    }
+
+    async function doSeed() {
+      const btn = document.getElementById('seedBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الاستيراد...';
+
+      try {
+        const seedList = SEED_DATA[_currentCollection] || [];
+        const existingTitles = _sections.map(s => (s.title || '').trim());
+        const missing = seedList.filter(s => !existingTitles.includes(s.title));
+        let startOrder = _sections.length ? Math.max(..._sections.map(s => s.order || 0)) : 0;
+        const now = firebase.firestore.FieldValue.serverTimestamp();
+        const batch = db.batch();
+
+        missing.forEach(s => {
+          startOrder++;
+          const ref = db.collection(_currentCollection).doc();
+          batch.set(ref, {
+            ...s,
+            order: startOrder,
+            active: true,
+            createdAt: now,
+            updatedAt: now
+          });
+        });
+
+        await batch.commit();
+        await touchMeta();
+        showToast(`تم استيراد ${missing.length} قسم`, 'success');
+        closeSeedModal();
+        updateTabCounts();
+      } catch (err) {
+        console.error(err);
+        showToast('فشل الاستيراد: ' + (err.message || ''), 'error');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-download"></i> استيراد';
+      }
+    }
+
+    // ============================================================
+    // 📅 تحديث meta (تاريخ آخر تعديل)
+    // ============================================================
+    async function touchMeta() {
+      try {
+        await db.collection('site_content').doc(_currentMeta).set({
+          lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
+          updatedBy: _admin.uid || _admin.id,
+          updatedByName: _admin.name || 'السوبر أدمن',
+          version: '1.0'
+        }, { merge: true });
+        loadMeta();
+      } catch (e) {
+        console.warn('touchMeta failed', e);
+      }
+    }
+
+    // ============================================================
+    // 🛠️ Helpers
+    // ============================================================
+    function escapeHtml(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[c]));
+    }
+    function escapeAttr(s) {
+      return String(s == null ? '' : s).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        closeEditorModal();
+        closeDeleteModal();
+        closeSeedModal();
+      }
+    });
+
+    window.openAddModal = openAddModal;
+    window.openEditModal = openEditModal;
+    window.closeEditorModal = closeEditorModal;
+    window.saveSection = saveSection;
+    window.moveUp = moveUp;
+    window.moveDown = moveDown;
+    window.toggleActive = toggleActive;
+    window.confirmDelete = confirmDelete;
+    window.closeDeleteModal = closeDeleteModal;
+    window.doDelete = doDelete;
+    window.openSeedConfirm = openSeedConfirm;
+    window.closeSeedModal = closeSeedModal;
+    window.doSeed = doSeed;
+    window.handleSearch = handleSearch;
+    window.onTypeChange = onTypeChange;
+    window.addItem = addItem;
+    window.removeItem = removeItem;
+  </script>
+
+</body>
+</html>
