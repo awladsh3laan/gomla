@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>أوردراتي - الموصل | أولاد شعلان</title>
+  <meta name="theme-color" content="#047857">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/gomla/assets/css/style.css">
+  <link rel="icon" href="/gomla/assets/images/favicon.ico">
+
+  <style>
+    /* ============================================================
+       🚚 أوردرات الموصل - v1.0
+       ============================================================ */
+    :root {
+      --del-green-1: #064e3b;
+      --del-green-2: #047857;
+      --del-green-3: #059669;
+      --del-green-light: #10b981;
+      --del-green-bg: #ecfdf5;
+    }
+
+    html, body { overflow-x: hidden !important; max-width: 100vw; }
+    .page-content, .page-content .container {
+      overflow-x: hidden; min-width: 0; max-width: 100%;
+    }
+
+    /* Header */
+    .do-header {
+      background: linear-gradient(135deg, var(--del-green-1), var(--del-green-2), var(--del-green-3));
+      border-radius: var(--radius-lg);
+      padding: 20px 22px;
+      margin-bottom: 14px;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(6,78,59,.35);
+      border-bottom: 4px solid var(--del-green-light);
+    }
+    .do-header::before {
+      content: '';
+      position: absolute;
+      top: -50%; right: -15%;
+      width: 260px; height: 260px;
+      background: radial-gradient(circle, rgba(16,185,129,.35), transparent 70%);
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+    }
+    .do-header-content {
+      position: relative; z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .do-header-icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--del-green-light), #34d399);
+      color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      box-shadow: 0 8px 24px rgba(16,185,129,.5);
+    }
+    .do-header-text { flex: 1; min-width: 180px; }
+    .do-header-text h1 {
+      font-size: 1.2rem; font-weight: 900;
+      margin: 0 0 3px; color: var(--white);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .do-header-text h1 i { color: #a7f3d0; }
+    .do-header-text p {
+      font-size: 0.78rem; margin: 0;
+      color: rgba(255,255,255,.85);
+    }
+    .do-header-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 14px;
+      background: rgba(255,255,255,.15);
+      color: #d1fae5;
+      border: 1px solid rgba(16,185,129,.5);
+      border-radius: var(--radius-full);
+      font-size: 0.72rem; font-weight: 800;
+      backdrop-filter: blur(10px);
+    }
+    .do-header-badge i { color: #34d399; }
+
+    /* Tabs */
+    .do-tabs-wrap {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 8px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      overflow: hidden;
+      min-width: 0;
+    }
+    .do-tabs {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 4px;
+      scrollbar-width: thin;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-x: contain;
+      min-width: 0;
+      max-width: 100%;
+    }
+    .do-tabs::-webkit-scrollbar { height: 4px; }
+    .do-tabs::-webkit-scrollbar-thumb {
+      background: var(--del-green-3);
+      border-radius: 10px;
+    }
+    .do-tab {
+      flex-shrink: 0;
+      padding: 10px 16px;
+      border: 2px solid var(--gray-200);
+      background: var(--white);
+      color: var(--gray-600);
+      border-radius: var(--radius-full);
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .do-tab:hover {
+      border-color: var(--del-green-light);
+      background: var(--del-green-bg);
+    }
+    .do-tab.active {
+      background: linear-gradient(135deg, var(--del-green-1), var(--del-green-3));
+      color: var(--white);
+      border-color: var(--del-green-2);
+      box-shadow: 0 6px 16px rgba(5,150,105,.3);
+    }
+    .do-tab.active i { color: #a7f3d0; }
+    .do-tab i { font-size: 0.85rem; }
+    .do-tab .tab-count {
+      background: rgba(0,0,0,.08);
+      padding: 1px 8px;
+      border-radius: 10px;
+      font-size: 0.68rem;
+      font-weight: 900;
+      min-width: 20px;
+      text-align: center;
+    }
+    .do-tab.active .tab-count {
+      background: rgba(255,255,255,.25);
+      color: var(--white);
+    }
+    .do-tab.urgent.active {
+      background: linear-gradient(135deg, #b91c1c, #dc2626);
+      border-color: #991b1b;
+    }
+
+    /* Toolbar */
+    .do-toolbar {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .do-search {
+      position: relative;
+      flex: 1;
+      min-width: 200px;
+    }
+    .do-search input {
+      width: 100%;
+      padding: 10px 40px 10px 14px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.85rem;
+      background: var(--gray-50);
+      outline: none;
+      transition: var(--transition);
+    }
+    .do-search input:focus {
+      border-color: var(--del-green-3);
+      background: var(--white);
+      box-shadow: 0 0 0 4px rgba(16,185,129,.15);
+    }
+    .do-search .si {
+      position: absolute;
+      right: 13px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray-400);
+      pointer-events: none;
+    }
+    .do-toolbar select {
+      padding: 10px 14px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.82rem;
+      background: var(--gray-50);
+      outline: none;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .do-toolbar select:focus {
+      border-color: var(--del-green-3);
+      background: var(--white);
+    }
+
+    /* Orders Grid */
+    .do-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .do-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      display: block;
+      text-decoration: none;
+      color: inherit;
+    }
+    .do-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 5px; height: 100%;
+      background: var(--del-green-3);
+    }
+    .do-card.status-assigned::before { background: linear-gradient(180deg, #3b82f6, #2563eb); }
+    .do-card.status-picked_up::before { background: linear-gradient(180deg, #f59e0b, #d97706); }
+    .do-card.status-delivered::before { background: linear-gradient(180deg, #22c55e, #16a34a); }
+    .do-card.status-failed::before { background: linear-gradient(180deg, #ef4444, #dc2626); }
+    .do-card:hover {
+      border-color: var(--del-green-light);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .do-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+    .do-order-num {
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      font-weight: 900;
+      color: var(--navy);
+      letter-spacing: 0.5px;
+      direction: ltr;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .do-order-num i {
+      color: var(--del-green-3);
+      font-size: 0.75rem;
+    }
+
+    .do-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      font-size: 0.68rem;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+    .do-status-pill.assigned {
+      background: rgba(59,130,246,.12);
+      color: #2563eb;
+    }
+    .do-status-pill.picked_up {
+      background: rgba(245,158,11,.12);
+      color: #d97706;
+    }
+    .do-status-pill.delivered {
+      background: rgba(34,197,94,.12);
+      color: #16a34a;
+    }
+    .do-status-pill.failed {
+      background: rgba(239,68,68,.12);
+      color: #dc2626;
+    }
+    .do-status-pill.unassigned {
+      background: rgba(107,114,128,.12);
+      color: var(--gray-600);
+    }
+
+    /* Progress bar */
+    .do-progress {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 10px;
+    }
+    .do-progress-step {
+      flex: 1;
+      height: 4px;
+      background: var(--gray-200);
+      border-radius: 2px;
+      transition: var(--transition);
+    }
+    .do-progress-step.done { background: var(--del-green-3); }
+    .do-progress-step.current {
+      background: linear-gradient(90deg, var(--del-green-3), var(--del-green-light));
+      animation: progressPulse 1.5s ease-in-out infinite;
+    }
+    @keyframes progressPulse {
+      0%,100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+
+    /* Card body */
+    .do-card-body {
+      margin-bottom: 10px;
+    }
+    .do-customer-name {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin: 0 0 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .do-customer-name i {
+      color: var(--del-green-3);
+      font-size: 0.8rem;
+    }
+
+    .do-info-row {
+      display: flex;
+      gap: 8px;
+      font-size: 0.78rem;
+      color: var(--gray-600);
+      margin-bottom: 5px;
+      align-items: center;
+    }
+    .do-info-row i {
+      color: var(--del-green-3);
+      font-size: 0.72rem;
+      width: 14px;
+      flex-shrink: 0;
+    }
+    .do-info-row .value {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .do-info-row .value.amount {
+      font-weight: 800;
+      color: var(--gold-dark);
+      font-size: 0.88rem;
+    }
+    .do-info-row .value.address {
+      white-space: normal;
+      line-height: 1.4;
+    }
+
+    /* Card footer */
+    .do-card-footer {
+      padding-top: 10px;
+      border-top: 1px dashed var(--gray-200);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .do-card-date {
+      font-size: 0.72rem;
+      color: var(--gray-500);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .do-card-date i { color: var(--del-green-3); font-size: 0.65rem; }
+
+    .do-actions-mini {
+      display: flex;
+      gap: 5px;
+    }
+    .do-mini-btn {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      border: 1.5px solid var(--gray-200);
+      background: var(--white);
+      color: var(--gray-600);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+    .do-mini-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+    .do-mini-btn.call { border-color: #93c5fd; color: #2563eb; }
+    .do-mini-btn.call:hover { background: #2563eb; color: var(--white); border-color: #1e40af; }
+    .do-mini-btn.whatsapp { border-color: #86efac; color: #16a34a; }
+    .do-mini-btn.whatsapp:hover { background: #25D366; color: var(--white); border-color: #128C7E; }
+    .do-mini-btn.map { border-color: #fca5a5; color: #dc2626; }
+    .do-mini-btn.map:hover { background: #dc2626; color: var(--white); border-color: #991b1b; }
+
+    /* Empty */
+    .do-empty {
+      text-align: center;
+      padding: 60px 20px;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      border: 2px dashed var(--gray-300);
+      grid-column: 1 / -1;
+    }
+    .do-empty .empty-icon {
+      width: 90px; height: 90px;
+      border-radius: 50%;
+      background: var(--del-green-bg);
+      color: var(--del-green-3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.4rem;
+      margin: 0 auto 16px;
+    }
+    .do-empty h3 {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .do-empty p {
+      font-size: 0.85rem;
+      color: var(--gray-500);
+      margin: 0;
+    }
+
+    /* Loading */
+    .do-loading {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--gray-400);
+      grid-column: 1 / -1;
+    }
+    .do-loading i {
+      font-size: 2.2rem;
+      color: var(--del-green-3);
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    /* Stats mini (في الأعلى) */
+    .do-stats {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .do-stat-mini {
+      background: var(--white);
+      border-radius: var(--radius-sm);
+      padding: 10px 8px;
+      text-align: center;
+      border: 1px solid var(--gray-200);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .do-stat-mini:hover {
+      border-color: var(--del-green-light);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+    .do-stat-mini.active {
+      border-color: var(--del-green-3);
+      background: var(--del-green-bg);
+      box-shadow: 0 0 0 3px rgba(16,185,129,.1);
+    }
+    .do-stat-mini .num {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--navy);
+      line-height: 1.2;
+    }
+    .do-stat-mini .lbl {
+      font-size: 0.65rem;
+      color: var(--gray-500);
+      font-weight: 700;
+      margin-top: 2px;
+    }
+    .do-stat-mini.assigned .num { color: #2563eb; }
+    .do-stat-mini.picked .num { color: #d97706; }
+    .do-stat-mini.delivered .num { color: #16a34a; }
+    .do-stat-mini.failed .num { color: #dc2626; }
+
+    /* Responsive */
+    @media (max-width: 768px) and (pointer: coarse) {
+      .do-header { padding: 16px 16px; border-radius: var(--radius-md); }
+      .do-header-icon { width: 46px; height: 46px; font-size: 1.2rem; }
+      .do-header-text h1 { font-size: 1rem; }
+      .do-header-badge { font-size: 0.68rem; padding: 4px 10px; }
+
+      .do-stats { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+      .do-stat-mini { padding: 8px 6px; }
+      .do-stat-mini .num { font-size: 1rem; }
+      .do-stat-mini .lbl { font-size: 0.6rem; }
+
+      .do-tab { padding: 8px 12px; font-size: 0.75rem; }
+      .do-tab i { font-size: 0.78rem; }
+
+      .do-toolbar { padding: 10px; }
+      .do-search { min-width: 100%; }
+
+      .do-grid { grid-template-columns: 1fr; gap: 10px; }
+      .do-card { padding: 12px 14px; }
+      .do-order-num { font-size: 0.78rem; }
+      .do-customer-name { font-size: 0.85rem; }
+      .do-info-row { font-size: 0.74rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="mobile-top-bar"></div>
+  <div id="mobile-top-tabs"></div>
+  <div id="header-placeholder"></div>
+
+  <main class="page-content">
+    <div class="container">
+
+      <!-- Header -->
+      <div class="do-header">
+        <div class="do-header-content">
+          <div class="do-header-icon">
+            <i class="fas fa-box"></i>
+          </div>
+          <div class="do-header-text">
+            <h1><i class="fas fa-list"></i> أوردراتي</h1>
+            <p>كل الأوردرات المسندة لك في مكان واحد</p>
+          </div>
+          <span class="do-header-badge">
+            <i class="fas fa-circle"></i>
+            <span id="ordersCount">0</span> أوردر
+          </span>
+        </div>
+      </div>
+
+      <!-- Stats Mini -->
+      <div class="do-stats">
+        <div class="do-stat-mini" data-filter="all" onclick="setFilter('all')">
+          <div class="num" id="statAll">0</div>
+          <div class="lbl">الكل</div>
+        </div>
+        <div class="do-stat-mini assigned" data-filter="assigned" onclick="setFilter('assigned')">
+          <div class="num" id="statAssigned">0</div>
+          <div class="lbl">جديدة</div>
+        </div>
+        <div class="do-stat-mini picked" data-filter="picked_up" onclick="setFilter('picked_up')">
+          <div class="num" id="statPicked">0</div>
+          <div class="lbl">جاري</div>
+        </div>
+        <div class="do-stat-mini delivered" data-filter="delivered" onclick="setFilter('delivered')">
+          <div class="num" id="statDelivered">0</div>
+          <div class="lbl">مسلّمة</div>
+        </div>
+        <div class="do-stat-mini failed" data-filter="failed" onclick="setFilter('failed')">
+          <div class="num" id="statFailed">0</div>
+          <div class="lbl">فشلت</div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="do-tabs-wrap">
+        <div class="do-tabs" id="doTabs">
+          <button class="do-tab active" data-filter="all" onclick="setFilter('all')">
+            <i class="fas fa-list"></i>
+            <span>الكل</span>
+            <span class="tab-count" id="tabAll">0</span>
+          </button>
+          <button class="do-tab urgent" data-filter="assigned" onclick="setFilter('assigned')">
+            <i class="fas fa-box-open"></i>
+            <span>جديدة</span>
+            <span class="tab-count" id="tabAssigned">0</span>
+          </button>
+          <button class="do-tab" data-filter="picked_up" onclick="setFilter('picked_up')">
+            <i class="fas fa-truck-moving"></i>
+            <span>جاري التوصيل</span>
+            <span class="tab-count" id="tabPicked">0</span>
+          </button>
+          <button class="do-tab" data-filter="delivered" onclick="setFilter('delivered')">
+            <i class="fas fa-check-double"></i>
+            <span>تم التسليم</span>
+            <span class="tab-count" id="tabDelivered">0</span>
+          </button>
+          <button class="do-tab" data-filter="failed" onclick="setFilter('failed')">
+            <i class="fas fa-times-circle"></i>
+            <span>فشلت</span>
+            <span class="tab-count" id="tabFailed">0</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="do-toolbar">
+        <div class="do-search">
+          <input type="text" id="searchInput" placeholder="ابحث برقم الأوردر أو اسم العميل أو الهاتف..." oninput="handleSearch(this.value)">
+          <i class="fas fa-search si"></i>
+        </div>
+        <select id="sortFilter" onchange="applyFilters()">
+          <option value="newest">الأحدث</option>
+          <option value="oldest">الأقدم</option>
+          <option value="amount-high">الأعلى مبلغاً</option>
+          <option value="amount-low">الأقل مبلغاً</option>
+        </select>
+      </div>
+
+      <!-- Orders Grid -->
+      <div class="do-grid" id="ordersGrid">
+        <div class="do-loading">
+          <i class="fas fa-spinner fa-spin"></i>
+          <p>جاري تحميل الأوردرات...</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="mobile-bottom-tabs"></div>
+  <div id="mobile-copyright"></div>
+  <div id="footer-placeholder"></div>
+  <div id="sidebar-placeholder"></div>
+  <div id="toast-container"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="/gomla/assets/js/firebase-config.js"></script>
+  <script src="/gomla/assets/js/main.js"></script>
+
+  <script>
+    // ============================================================
+    // 📄 delivery/orders.html — أوردرات الموصل
+    // ============================================================
+
+    let _agent = null;
+    let _agentId = null;
+    let _allOrders = [];
+    let _filteredOrders = [];
+    let _currentFilter = 'all';
+    let _searchTerm = '';
+    let _unsub = null;
+
+    // ============================================================
+    // 🚀 Init
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', async () => {
+      // حماية
+      if (typeof protectDeliveryPage === 'function') {
+        const ok = protectDeliveryPage();
+        if (ok === false) return;
+      }
+
+      const user = getCurrentUser();
+      if (!user || user.type !== 'delivery' || !user.data) {
+        window.location.href = '/gomla/delivery-login.html';
+        return;
+      }
+
+      _agent = user.data;
+      _agentId = _agent.uid || _agent.id;
+
+      if (!_agentId) {
+        showToast('خطأ في بيانات الموصل', 'error');
+        return;
+      }
+
+      // قراءة الفلتر من الرابط
+      const urlParams = new URLSearchParams(window.location.search);
+      const urlStatus = urlParams.get('status');
+      if (urlStatus) {
+        _currentFilter = urlStatus;
+        updateActiveFilter();
+      }
+
+      loadOrders();
+    });
+
+    // ============================================================
+    // 📥 تحميل الأوردرات
+    // ============================================================
+    function loadOrders() {
+      if (_unsub) _unsub();
+
+      _unsub = db.collection('orders')
+        .orderBy('createdAt', 'desc')
+        .limit(150)
+        .onSnapshot(snap => {
+          _allOrders = [];
+          snap.forEach(d => {
+            const data = { id: d.id, ...d.data() };
+            // فلتر: أوردرات الموصل فقط (المسندة له أو اللي استلمها)
+            if (data.deliveryAgentId === _agentId) {
+              _allOrders.push(data);
+            }
+          });
+
+          updateStats();
+          applyFilters();
+        }, err => {
+          console.error('loadOrders error:', err);
+          const grid = document.getElementById('ordersGrid');
+          if (grid) {
+            grid.innerHTML = `
+              <div class="do-empty">
+                <div class="empty-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                <h3>فشل التحميل</h3>
+                <p>${err.code === 'permission-denied' ? 'ليس لديك صلاحية' : 'حدث خطأ في الاتصال'}</p>
+              </div>
+            `;
+          }
+        });
+    }
+
+    // ============================================================
+    // 📊 الإحصائيات
+    // ============================================================
+    function updateStats() {
+      const assigned = _allOrders.filter(o => o.deliveryStatus === 'assigned' || o.deliveryStatus === 'unassigned').length;
+      const picked = _allOrders.filter(o => o.deliveryStatus === 'picked_up').length;
+      const delivered = _allOrders.filter(o => o.deliveryStatus === 'delivered').length;
+      const failed = _allOrders.filter(o => o.deliveryStatus === 'failed').length;
+      const total = _allOrders.length;
+
+      setText('statAll', total);
+      setText('statAssigned', assigned);
+      setText('statPicked', picked);
+      setText('statDelivered', delivered);
+      setText('statFailed', failed);
+
+      setText('tabAll', total);
+      setText('tabAssigned', assigned);
+      setText('tabPicked', picked);
+      setText('tabDelivered', delivered);
+      setText('tabFailed', failed);
+
+      setText('ordersCount', total);
+    }
+
+    function setText(id, val) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = val;
+    }
+
+    // ============================================================
+    // 🎯 الفلترة
+    // ============================================================
+    function setFilter(filter) {
+      _currentFilter = filter;
+      updateActiveFilter();
+      applyFilters();
+
+      // تحديث URL
+      const url = new URL(window.location);
+      if (filter === 'all') {
+        url.searchParams.delete('status');
+      } else {
+        url.searchParams.set('status', filter);
+      }
+      window.history.replaceState({}, '', url);
+    }
+
+    function updateActiveFilter() {
+      // Tabs
+      document.querySelectorAll('.do-tab').forEach(t => {
+        t.classList.toggle('active', t.dataset.filter === _currentFilter);
+      });
+      // Stat cards
+      document.querySelectorAll('.do-stat-mini').forEach(s => {
+        s.classList.toggle('active', s.dataset.filter === _currentFilter);
+      });
+    }
+
+    function handleSearch(value) {
+      _searchTerm = value.trim().toLowerCase();
+      applyFilters();
+    }
+
+    function applyFilters() {
+      const sortValue = document.getElementById('sortFilter')?.value || 'newest';
+
+      _filteredOrders = _allOrders.filter(o => {
+        // فلتر الحالة
+        if (_currentFilter !== 'all') {
+          if (_currentFilter === 'assigned') {
+            if (!(o.deliveryStatus === 'assigned' || o.deliveryStatus === 'unassigned')) return false;
+          } else if (o.deliveryStatus !== _currentFilter) {
+            return false;
+          }
+        }
+
+        // البحث
+        if (_searchTerm) {
+          const id = (o.id || '').toLowerCase();
+          const num = ('#' + o.id.slice(-8)).toLowerCase();
+          const name = (o.customerName || '').toLowerCase();
+          const phone = (o.customerPhone || '').toLowerCase();
+          const address = (o.deliveryAddress || o.customerAddress || '').toLowerCase();
+          if (!id.includes(_searchTerm) &&
+              !num.includes(_searchTerm) &&
+              !name.includes(_searchTerm) &&
+              !phone.includes(_searchTerm) &&
+              !address.includes(_searchTerm)) {
+            return false;
+          }
+        }
+
+        return true;
+      });
+
+      // الترتيب
+      switch (sortValue) {
+        case 'newest':
+          _filteredOrders.sort((a, b) => (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0));
+          break;
+        case 'oldest':
+          _filteredOrders.sort((a, b) => (a.createdAt?.toMillis?.() || 0) - (b.createdAt?.toMillis?.() || 0));
+          break;
+        case 'amount-high':
+          _filteredOrders.sort((a, b) => (b.grandTotal || b.total || 0) - (a.grandTotal || a.total || 0));
+          break;
+        case 'amount-low':
+          _filteredOrders.sort((a, b) => (a.grandTotal || a.total || 0) - (b.grandTotal || b.total || 0));
+          break;
+      }
+
+      renderOrders();
+    }
+
+    // ============================================================
+    // 🎨 عرض الأوردرات
+    // ============================================================
+    function renderOrders() {
+      const grid = document.getElementById('ordersGrid');
+      if (!grid) return;
+
+      if (!_filteredOrders.length) {
+        const msg = _searchTerm
+          ? `لا نتائج مطابقة لـ "${escapeHtml(_searchTerm)}"`
+          : (_allOrders.length ? 'لا أوردرات في هذا التصنيف' : 'مفيش أوردرات مسندة لك حالياً');
+
+        grid.innerHTML = `
+          <div class="do-empty">
+            <div class="empty-icon"><i class="fas fa-box"></i></div>
+            <h3>${_searchTerm ? 'لا نتائج' : 'مفيش أوردرات'}</h3>
+            <p>${msg}</p>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = _filteredOrders.map(o => renderOrderCard(o)).join('');
+    }
+
+    function renderOrderCard(order) {
+      const orderNum = order.id.slice(-8).toUpperCase();
+      const status = order.deliveryStatus || 'assigned';
+
+      const statusLabels = {
+        assigned: { text: 'جديد', cls: 'assigned', icon: 'fa-box-open' },
+        unassigned: { text: 'متاح', cls: 'assigned', icon: 'fa-plus-circle' },
+        picked_up: { text: 'جاري التوصيل', cls: 'picked_up', icon: 'fa-truck-moving' },
+        delivered: { text: 'تم التسليم', cls: 'delivered', icon: 'fa-check-double' },
+        failed: { text: 'فشل', cls: 'failed', icon: 'fa-times-circle' }
+      };
+      const statusInfo = statusLabels[status] || statusLabels.assigned;
+
+      const totalAmount = order.grandTotal || order.total || 0;
+      const paymentMethod = order.paymentMethod || 'cash';
+      const isCash = paymentMethod === 'cash';
+
+      const customerName = order.customerName || 'عميل';
+      const customerPhone = order.customerPhone || '';
+      const address = order.deliveryAddress || order.customerAddress || '—';
+      const region = order.region || '—';
+      const orderDate = order.createdAt?.toDate?.() || new Date();
+      const dateStr = orderDate.toLocaleDateString('ar-EG', { month: 'short', day: 'numeric' });
+
+      // Progress bar - 4 مراحل
+      const progressSteps = getProgressSteps(status);
+
+      // رقم واتساب للعميل
+      const waLink = customerPhone ? `https://wa.me/2${customerPhone}` : '#';
+      const telLink = customerPhone ? `tel:${customerPhone}` : '#';
+      const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(region + ' ' + address)}`;
+
+      return `
+        <div class="do-card status-${status}" onclick="openOrder('${order.id}')">
+          <div class="do-card-header">
+            <span class="do-order-num">
+              <i class="fas fa-hashtag"></i>
+              ${orderNum}
+            </span>
+            <span class="do-status-pill ${statusInfo.cls}">
+              <i class="fas ${statusInfo.icon}"></i>
+              ${statusInfo.text}
+            </span>
+          </div>
+
+          <div class="do-progress">
+            ${progressSteps.map(s => `<div class="do-progress-step ${s}"></div>`).join('')}
+          </div>
+
+          <div class="do-card-body">
+            <p class="do-customer-name">
+              <i class="fas fa-user"></i>
+              ${escapeHtml(customerName)}
+            </p>
+
+            <div class="do-info-row">
+              <i class="fas fa-map-marker-alt"></i>
+              <span class="value address">${escapeHtml(region)} - ${escapeHtml(address)}</span>
+            </div>
+
+            <div class="do-info-row">
+              <i class="fas fa-money-bill-wave"></i>
+              <span class="value amount">${totalAmount.toFixed(0)} ج.م</span>
+            </div>
+
+            <div class="do-info-row">
+              <i class="fas fa-credit-card"></i>
+              <span class="value">${isCash ? 'الدفع عند الاستلام' : (order.paymentMethodLabel || 'دفع مسبق')}</span>
+            </div>
+          </div>
+
+          <div class="do-card-footer">
+            <div class="do-card-date">
+              <i class="fas fa-clock"></i>
+              ${dateStr}
+            </div>
+            <div class="do-actions-mini" onclick="event.stopPropagation();">
+              ${customerPhone ? `
+                <a href="${telLink}" class="do-mini-btn call" title="اتصال">
+                  <i class="fas fa-phone"></i>
+                </a>
+                <a href="${waLink}" target="_blank" rel="noopener" class="do-mini-btn whatsapp" title="واتساب">
+                  <i class="fab fa-whatsapp"></i>
+                </a>
+              ` : ''}
+              <a href="${mapLink}" target="_blank" rel="noopener" class="do-mini-btn map" title="الاتجاهات">
+                <i class="fas fa-map-marked-alt"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // ============================================================
+    // 📊 حساب مراحل الـ Progress
+    // ============================================================
+    function getProgressSteps(status) {
+      // 4 مراحل: assigned → picked_up → delivered
+      // (نستخدم 4 مستطيلات للعرض)
+      const steps = ['', '', '', ''];
+
+      if (status === 'assigned' || status === 'unassigned') {
+        steps[0] = 'done';
+        steps[1] = 'current';
+      } else if (status === 'picked_up') {
+        steps[0] = 'done';
+        steps[1] = 'done';
+        steps[2] = 'current';
+      } else if (status === 'delivered') {
+        steps[0] = 'done';
+        steps[1] = 'done';
+        steps[2] = 'done';
+        steps[3] = 'done';
+      } else if (status === 'failed') {
+        steps[0] = 'done';
+        steps[1] = 'done';
+      }
+
+      return steps;
+    }
+
+    // ============================================================
+    // 👁️ فتح الأوردر
+    // ============================================================
+    function openOrder(orderId) {
+      window.location.href = 'order-details.html?id=' + orderId;
+    }
+
+    // ============================================================
+    // 🛠️ Helpers
+    // ============================================================
+    function escapeHtml(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[c]));
+    }
+
+    // تصدير
+    window.setFilter = setFilter;
+    window.handleSearch = handleSearch;
+    window.applyFilters = applyFilters;
+    window.openOrder = openOrder;
+    window.loadOrders = loadOrders;
+  </script>
+
+</body>
+</html>
