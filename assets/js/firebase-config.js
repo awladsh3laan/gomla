@@ -2,9 +2,10 @@
 // 🔥 firebase-config.js - الإعدادات الموحدة للمشروع
 // 📌 المصدر الوحيد لـ db و auth والثوابت
 // ⚠️ ممنوع تعريف db أو auth في أي ملف آخر
-// الإصدار: 6.1
+// الإصدار: 7.0
 // آخر تحديث: 2026-10-13
-// 🆕 v6.1: إضافة دور الموصلين (DELIVERY) + كولكشنز التوصيل
+// 🆕 v7.0: إضافة 4 كولكشنز للمحتوى (shipping/exchange/terms/faq)
+//         + تحديث رقم الواتساب + إضافة كل الكولكشنز المستقبلية
 // ============================================================
 
 // ============================================================
@@ -24,7 +25,7 @@ const firebaseConfig = {
 // ============================================================
 const IMGBB_API_KEY = "cb056b7fd83c81129d5468c5d03287b4";
 const GEMINI_API_KEY = "AQ.Ab8RN6J_44fb2fdP2YWWxwq0aNnG7DXJnSv3O8whicffxAj_g";
-const WHATSAPP_NUMBER = "01120282953";
+const WHATSAPP_NUMBER = "01068385028";
 
 // ============================================================
 // 🚀 تهيئة Firebase
@@ -59,12 +60,12 @@ window.WHATSAPP_NUMBER = WHATSAPP_NUMBER;
 // ============================================================
 window.ROLES = {
   SUPER: 'super',
-  ADMIN_PLUS: 'admin_plus',       // 🆕 مضاف (كان ناقص)
+  ADMIN_PLUS: 'admin_plus',
   ADMIN: 'admin',
   CASHIER: 'cashier',
   WHOLESALE: 'wholesale',
   RETAIL: 'retail',
-  DELIVERY: 'delivery',           // 🆕 الموصلين
+  DELIVERY: 'delivery',
   GUEST: 'guest'
 };
 
@@ -72,9 +73,7 @@ window.ROLES = {
 // 🛡️ الصلاحيات (PERMISSIONS)
 // ============================================================
 window.PERMISSIONS = {
-  super: [
-    '*'
-  ],
+  super: ['*'],
   admin_plus: [
     'products.view', 'products.create', 'products.edit',
     'orders.view', 'orders.edit', 'orders.create',
@@ -86,7 +85,8 @@ window.PERMISSIONS = {
     'purchases.view', 'purchases.edit',
     'cashbox.view', 'cashbox.edit',
     'financial.view', 'financial.approve',
-    'sections.manage', 'partners.view'
+    'sections.manage', 'partners.view',
+    'delivery.manage'
   ],
   admin: [
     'products.view', 'products.create', 'products.edit',
@@ -110,7 +110,7 @@ window.PERMISSIONS = {
     'invoices.view.own', 'balance.view.own', 'tracking.view.own',
     'wishlist.use'
   ],
-  delivery: [                      // 🆕 الموصلين
+  delivery: [
     'delivery.orders.view.own',
     'delivery.orders.pickup',
     'delivery.orders.deliver',
@@ -135,8 +135,8 @@ window.STORE_TYPES = {
 // ============================================================
 // 💰 الحدود المالية
 // ============================================================
-window.WHOLESALE_MIN_ORDER = 1500;  // ج.م
-window.RETAIL_MIN_ORDER = 0;         // لا يوجد حد أدنى
+window.WHOLESALE_MIN_ORDER = 1500;
+window.RETAIL_MIN_ORDER = 0;
 
 // ============================================================
 // 🚚 أسعار الشحن
@@ -202,23 +202,23 @@ window.PAYMENT_STATUS = {
 };
 
 // ============================================================
-// 🚚 حالات التوصيل (جديد للموصلين)
+// 🚚 حالات التوصيل
 // ============================================================
 window.DELIVERY_STATUS = {
-  UNASSIGNED: 'unassigned',       // لم يُعيَّن
-  ASSIGNED: 'assigned',           // تم التعيين
-  PICKED_UP: 'picked_up',         // استلمه الموصل
-  DELIVERED: 'delivered',         // تم التسليم
-  FAILED: 'failed'                // فشل التوصيل
+  UNASSIGNED: 'unassigned',
+  ASSIGNED: 'assigned',
+  PICKED_UP: 'picked_up',
+  DELIVERED: 'delivered',
+  FAILED: 'failed'
 };
 
 // ============================================================
 // 💳 طرق الدفع
 // ============================================================
 window.PAYMENT_METHODS = {
-  CASH: 'cash',                   // الدفع عند الاستلام
-  INSTAPAY: 'instapay',           // إنستا باي
-  WALLET: 'wallet'                // محفظة إلكترونية (+1%)
+  CASH: 'cash',
+  INSTAPAY: 'instapay',
+  WALLET: 'wallet'
 };
 
 window.PAYMENT_METHOD_LABELS = {
@@ -227,15 +227,15 @@ window.PAYMENT_METHOD_LABELS = {
   wallet: 'محفظة إلكترونية'
 };
 
-window.WALLET_FEE_PERCENT = 1;    // رسوم المحفظة (1%)
-window.PAYMENT_ACCOUNT = '01068385028';  // رقم الحساب
+window.WALLET_FEE_PERCENT = 1;
+window.PAYMENT_ACCOUNT = '01068385028';
 
 // ============================================================
 // 🚚 إعدادات الموصلين
 // ============================================================
 window.DELIVERY_CONFIG = {
   CODE_PREFIX: 'DEL-',
-  CODE_LENGTH: 5,                 // 5 حروف/أرقام
+  CODE_LENGTH: 5,
   EMAIL_DOMAIN: 'delivery.awladshalaan.com',
   MARKERS: ['@#$', '@#%', '@#&', '@#*', '@$%', '@$&', '@$*', '#$%', '#$&', '#$*', '$%&', '$%*'],
   AREAS_WHOLESALE: ['طنطا', 'المنصورة', 'المحلة'],
@@ -243,53 +243,159 @@ window.DELIVERY_CONFIG = {
     'الرجبي', 'أبو شاهين', 'السبع بنات', 'الجمهورية', 'سكة زفتى', 'الشعبية',
     'الشعراوي', 'العلو', 'الشون', 'المعهد الديني', 'شارع 10', 'البندر',
     'المشحمة', 'أبو راضي', 'الزراعة', 'أبو علي', 'كفر حجازي'
-  ]
+  ],
+  VEHICLES: ['موتوسيكل', 'توك توك', 'سيارة ربع نقل', 'سيارة نص نقل', 'دراجة', 'أخرى']
+};
+
+// ============================================================
+// 📄 أنواع محتوى الصفحات القانونية
+// ============================================================
+window.CONTENT_TYPES = {
+  TEXT: 'text',
+  QUOTE: 'quote',
+  LIST: 'list',
+  CARDS: 'cards',
+  TABLE: 'table',
+  CONTACT: 'contact',
+  STEPS: 'steps',
+  FAQ: 'faq'
+};
+
+window.CONTENT_TYPE_LABELS = {
+  text: 'فقرة نصية',
+  quote: 'اقتباس مميز',
+  list: 'قائمة نقطية',
+  cards: 'شبكة كروت',
+  table: 'جدول',
+  contact: 'كروت تواصل',
+  steps: 'خطوات مرقمة',
+  faq: 'أسئلة وأجوبة'
 };
 
 // ============================================================
 // 🗄️ أسماء الكولكشنز (لتجنب الأخطاء الإملائية)
 // ============================================================
 window.COLLECTIONS = {
+  // ===== المستخدمين =====
   ADMINS: 'admins',
   CASHIERS: 'cashiers',
   CUSTOMERS: 'customers',
   USERS: 'users',
+  DELIVERY_AGENTS: 'delivery_agents',
+  DELIVERY_LOOKUP: 'delivery_lookup',
+  DELIVERY_COLLECTIONS: 'delivery_collections',
+  TRADER_LOOKUP: 'trader_lookup',
+  
+  // ===== المنتجات =====
   PRODUCTS: 'products',
   CATEGORIES: 'categories',
   BRANDS: 'brands',
+  
+  // ===== السلة والمفضلة =====
   CART: 'cart',
   WISHLIST: 'wishlist',
+  
+  // ===== الطلبات والفواتير =====
   ORDERS: 'orders',
   INVOICES: 'invoices',
+  
+  // ===== المالية =====
   SUPPLIERS: 'suppliers',
   PURCHASES: 'purchases',
   CASHBOX: 'cashbox',
   DAILY_SALES: 'daily_sales',
+  FINANCIAL_NOTIFICATIONS: 'financial_notifications',
+  
+  // ===== الفروع =====
   BRANCHES: 'branches',
   BRANCH_INVENTORY: 'branch_inventory',
+  
+  // ===== الرتب والمكافآت =====
   RANKS: 'ranks',
   LEVELS: 'levels',
   REWARDS: 'rewards',
+  
+  // ===== الإشعارات =====
   NOTIFICATIONS: 'notifications',
+  ADMIN_NOTIFICATIONS: 'admin_notifications',
+  CUSTOMER_NOTIFICATIONS: 'customer_notifications',
+  
+  // ===== السجلات =====
   ACTIVITY_LOG: 'activityLog',
+  BARCODE_SCANS: 'barcode_scans',
+  
+  // ===== المحتوى العام =====
   QUOTES: 'quotes',
   NEWS: 'news',
   ADS: 'ads',
   SLIDER: 'slider',
-  BARCODE_SCANS: 'barcode_scans',
-  // 🆕 الكولكشنز الجديدة
-  SUPPORT_TICKETS: 'support_tickets',
-  FINANCIAL_NOTIFICATIONS: 'financial_notifications',
-  PRIVACY_SECTIONS: 'privacy_sections',
-  SITE_CONTENT: 'site_content',
   PARTNERS: 'partners',
   CUSTOM_SECTIONS: 'custom_sections',
-  TRADER_LOOKUP: 'trader_lookup',
+  SITE_CONTENT: 'site_content',
   PUBLIC_STATS: 'public_stats',
-  // 🚚 كولكشنز الموصلين
-  DELIVERY_AGENTS: 'delivery_agents',
-  DELIVERY_LOOKUP: 'delivery_lookup',
-  DELIVERY_COLLECTIONS: 'delivery_collections'
+  
+  // ===== الصفحات القانونية (5 صفحات) =====
+  PRIVACY_SECTIONS: 'privacy_sections',
+  SHIPPING_SECTIONS: 'shipping_sections',
+  EXCHANGE_SECTIONS: 'exchange_sections',
+  TERMS_SECTIONS: 'terms_sections',
+  FAQ_SECTIONS: 'faq_sections',
+  
+  // ===== ميتا المحتوى =====
+  PRIVACY_META: 'privacy_meta',
+  SHIPPING_META: 'shipping_meta',
+  EXCHANGE_META: 'exchange_meta',
+  TERMS_META: 'terms_meta',
+  FAQ_META: 'faq_meta',
+  
+  // ===== الدعم =====
+  SUPPORT_TICKETS: 'support_tickets'
+};
+
+// ============================================================
+// 📄 الصفحات القانونية (Meta Map للوصول السريع)
+// ============================================================
+window.LEGAL_PAGES = {
+  privacy: {
+    key: 'privacy',
+    label: 'سياسة الخصوصية',
+    collection: 'privacy_sections',
+    meta: 'privacy_meta',
+    page: '/gomla/privacy-policy.html',
+    icon: 'fa-lock'
+  },
+  shipping: {
+    key: 'shipping',
+    label: 'سياسة الشحن',
+    collection: 'shipping_sections',
+    meta: 'shipping_meta',
+    page: '/gomla/shipping-policy.html',
+    icon: 'fa-truck-fast'
+  },
+  exchange: {
+    key: 'exchange',
+    label: 'الاستبدال والإرجاع',
+    collection: 'exchange_sections',
+    meta: 'exchange_meta',
+    page: '/gomla/exchange-policy.html',
+    icon: 'fa-exchange-alt'
+  },
+  terms: {
+    key: 'terms',
+    label: 'الشروط والأحكام',
+    collection: 'terms_sections',
+    meta: 'terms_meta',
+    page: '/gomla/terms.html',
+    icon: 'fa-file-contract'
+  },
+  faq: {
+    key: 'faq',
+    label: 'الأسئلة الشائعة',
+    collection: 'faq_sections',
+    meta: 'faq_meta',
+    page: '/gomla/faq.html',
+    icon: 'fa-question-circle'
+  }
 };
 
 // ============================================================
@@ -297,11 +403,13 @@ window.COLLECTIONS = {
 // ============================================================
 window.SITE_URL = 'https://awladsh3laan.github.io/gomla';
 window.SITE_NAME = 'أولاد شعلان للمنظفات والورقيات';
+window.SUPPORT_WHATSAPP_LINK = `https://wa.me/2${WHATSAPP_NUMBER}`;
+window.SUPPORT_EMAIL = 'awladsh3laan@gmail.com';
 
 // ============================================================
 // 📱 إعدادات الموبايل
 // ============================================================
-window.MOBILE_BREAKPOINT = 768;  // أقل من كده = موبايل
+window.MOBILE_BREAKPOINT = 768;
 
 // ============================================================
 // 🎨 إعدادات الصور
@@ -316,7 +424,8 @@ window.IMAGE_CONFIG = {
 // ============================================================
 // ✅ تأكيد التحميل
 // ============================================================
-console.log('✅ firebase-config.js v6.1 loaded successfully');
+console.log('✅ firebase-config.js v7.0 loaded successfully');
 console.log('🔥 Firebase Project:', firebaseConfig.projectId);
 console.log('👥 Roles:', Object.keys(window.ROLES).join(', '));
 console.log('🗄️ Collections:', Object.keys(window.COLLECTIONS).length);
+console.log('📄 Legal Pages:', Object.keys(window.LEGAL_PAGES).join(', '));
