@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>أوردرات منطقتي - الموصل | أولاد شعلان</title>
+  <meta name="theme-color" content="#047857">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/gomla/assets/css/style.css">
+  <link rel="icon" href="/gomla/assets/images/favicon.ico">
+
+  <style>
+    /* ============================================================
+       🗺️ أوردرات منطقتي - v1.0
+       ============================================================ */
+    :root {
+      --del-green-1: #064e3b;
+      --del-green-2: #047857;
+      --del-green-3: #059669;
+      --del-green-light: #10b981;
+      --del-green-bg: #ecfdf5;
+      --av-blue-1: #1e40af;
+      --av-blue-2: #2563eb;
+      --av-blue-3: #3b82f6;
+    }
+
+    html, body { overflow-x: hidden !important; max-width: 100vw; }
+    .page-content, .page-content .container {
+      overflow-x: hidden; min-width: 0; max-width: 100%;
+    }
+
+    /* Header - أزرق مميز */
+    .av-header {
+      background: linear-gradient(135deg, var(--av-blue-1), var(--av-blue-2), var(--av-blue-3));
+      border-radius: var(--radius-lg);
+      padding: 20px 22px;
+      margin-bottom: 14px;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(30,64,175,.35);
+      border-bottom: 4px solid #60a5fa;
+    }
+    .av-header::before {
+      content: '';
+      position: absolute;
+      top: -50%; right: -15%;
+      width: 260px; height: 260px;
+      background: radial-gradient(circle, rgba(96,165,250,.35), transparent 70%);
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+    }
+    .av-header-content {
+      position: relative; z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .av-header-icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #60a5fa, #93c5fd);
+      color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      box-shadow: 0 8px 24px rgba(96,165,250,.5);
+      animation: mapPulse 2.5s ease-in-out infinite;
+    }
+    @keyframes mapPulse {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.06); }
+    }
+    .av-header-text { flex: 1; min-width: 180px; }
+    .av-header-text h1 {
+      font-size: 1.2rem; font-weight: 900;
+      margin: 0 0 3px; color: var(--white);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .av-header-text h1 i { color: #bfdbfe; }
+    .av-header-text p {
+      font-size: 0.78rem; margin: 0;
+      color: rgba(255,255,255,.85);
+    }
+    .av-header-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 14px;
+      background: rgba(255,255,255,.15);
+      color: #dbeafe;
+      border: 1px solid rgba(96,165,250,.5);
+      border-radius: var(--radius-full);
+      font-size: 0.72rem; font-weight: 800;
+      backdrop-filter: blur(10px);
+    }
+    .av-header-badge i { color: #bfdbfe; }
+
+    /* Region Box */
+    .av-region-box {
+      background: linear-gradient(135deg, #eff6ff, #dbeafe);
+      border: 2px solid #93c5fd;
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .av-region-box .region-icon {
+      width: 42px; height: 42px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--av-blue-2), var(--av-blue-3));
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(37,99,235,.3);
+    }
+    .av-region-box .region-content {
+      flex: 1;
+      min-width: 0;
+    }
+    .av-region-box .region-label {
+      font-size: 0.72rem;
+      color: #1e40af;
+      font-weight: 800;
+      margin-bottom: 3px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .av-region-box .region-label i { font-size: 0.68rem; }
+    .av-region-box .region-value {
+      font-size: 1.05rem;
+      color: var(--av-blue-1);
+      font-weight: 900;
+    }
+    .av-region-box .region-note {
+      font-size: 0.7rem;
+      color: #3b82f6;
+      font-weight: 700;
+      margin-top: 3px;
+    }
+
+    /* Stats */
+    .av-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .av-stat-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 14px 12px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      text-align: center;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .av-stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 4px; height: 100%;
+      background: var(--av-blue-2);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.4s ease;
+    }
+    .av-stat-card:hover::before { transform: scaleY(1); }
+    .av-stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+      border-color: #93c5fd;
+    }
+    .av-stat-card .stat-icon {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem;
+      margin: 0 auto 8px;
+    }
+    .stat-icon.blue { background: rgba(59,130,246,.12); color: #2563eb; }
+    .stat-icon.green { background: rgba(16,185,129,.15); color: var(--del-green-3); }
+    .stat-icon.gold { background: rgba(201,168,76,.15); color: var(--gold-dark); }
+    .av-stat-card .stat-number {
+      font-size: 1.2rem; font-weight: 900;
+      color: var(--navy); line-height: 1.2;
+      margin-bottom: 2px;
+    }
+    .av-stat-card .stat-number.blue { color: #2563eb; }
+    .av-stat-card .stat-number.green { color: var(--del-green-3); }
+    .av-stat-card .stat-number.gold { color: var(--gold-dark); }
+    .av-stat-card .stat-label {
+      font-size: 0.68rem; color: var(--gray-500);
+      font-weight: 700;
+    }
+
+    /* Info Box */
+    .av-info-note {
+      display: flex;
+      gap: 10px;
+      padding: 12px 14px;
+      background: #eff6ff;
+      border: 1px solid #93c5fd;
+      border-radius: var(--radius-sm);
+      font-size: 0.78rem;
+      color: #1e40af;
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+    .av-info-note i {
+      color: #3b82f6;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* Toolbar */
+    .av-toolbar {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 10px 12px;
+      margin-bottom: 14px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .av-search {
+      position: relative;
+      flex: 1;
+      min-width: 200px;
+    }
+    .av-search input {
+      width: 100%;
+      padding: 10px 40px 10px 14px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.85rem;
+      background: var(--gray-50);
+      outline: none;
+      transition: var(--transition);
+    }
+    .av-search input:focus {
+      border-color: var(--av-blue-2);
+      background: var(--white);
+      box-shadow: 0 0 0 4px rgba(59,130,246,.15);
+    }
+    .av-search .si {
+      position: absolute;
+      right: 13px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray-400);
+      pointer-events: none;
+    }
+    .av-toolbar select {
+      padding: 10px 14px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.82rem;
+      background: var(--gray-50);
+      outline: none;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .av-toolbar select:focus {
+      border-color: var(--av-blue-2);
+      background: var(--white);
+    }
+
+    /* Grid */
+    .av-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .av-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .av-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 5px; height: 100%;
+      background: linear-gradient(180deg, var(--av-blue-2), var(--av-blue-3));
+    }
+    .av-card:hover {
+      border-color: var(--av-blue-2);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(37,99,235,.15);
+    }
+
+    .av-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+    .av-order-num {
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      font-weight: 900;
+      color: var(--navy);
+      letter-spacing: 0.5px;
+      direction: ltr;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .av-order-num i {
+      color: var(--av-blue-2);
+      font-size: 0.75rem;
+    }
+
+    .av-badge-new {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: var(--white);
+      border-radius: var(--radius-full);
+      font-size: 0.65rem;
+      font-weight: 900;
+      box-shadow: 0 3px 10px rgba(245,158,11,.3);
+      animation: newPulse 2s ease-in-out infinite;
+    }
+    @keyframes newPulse {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+    .av-badge-new i { font-size: 0.6rem; }
+
+    .av-card-body { margin-bottom: 10px; }
+    .av-customer {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin: 0 0 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .av-customer i {
+      color: var(--av-blue-2);
+      font-size: 0.8rem;
+    }
+
+    .av-info-row {
+      display: flex;
+      gap: 8px;
+      font-size: 0.78rem;
+      color: var(--gray-600);
+      margin-bottom: 5px;
+      align-items: center;
+    }
+    .av-info-row i {
+      color: var(--av-blue-2);
+      font-size: 0.72rem;
+      width: 14px;
+      flex-shrink: 0;
+    }
+    .av-info-row .value {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .av-info-row .value.amount {
+      font-weight: 900;
+      color: var(--gold-dark);
+      font-size: 0.9rem;
+    }
+    .av-info-row .value.address {
+      white-space: normal;
+      line-height: 1.4;
+    }
+
+    .av-card-footer {
+      padding-top: 10px;
+      border-top: 1px dashed var(--gray-200);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .av-card-date {
+      font-size: 0.72rem;
+      color: var(--gray-500);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .av-card-date i { color: var(--av-blue-2); font-size: 0.65rem; }
+
+    /* Accept Button */
+    .av-accept-btn {
+      padding: 8px 14px;
+      background: linear-gradient(135deg, var(--del-green-3), var(--del-green-2));
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-weight: 900;
+      font-size: 0.78rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+      box-shadow: 0 4px 12px rgba(5,150,105,.3);
+    }
+    .av-accept-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(5,150,105,.5);
+    }
+    .av-accept-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .av-accept-btn i { font-size: 0.85rem; }
+
+    /* Mini actions */
+    .av-actions-mini {
+      display: flex;
+      gap: 5px;
+    }
+    .av-mini-btn {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      border: 1.5px solid var(--gray-200);
+      background: var(--white);
+      color: var(--gray-600);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+    .av-mini-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+    .av-mini-btn.call { border-color: #93c5fd; color: #2563eb; }
+    .av-mini-btn.call:hover { background: #2563eb; color: var(--white); border-color: #1e40af; }
+    .av-mini-btn.map { border-color: #fca5a5; color: #dc2626; }
+    .av-mini-btn.map:hover { background: #dc2626; color: var(--white); border-color: #991b1b; }
+
+    /* Empty */
+    .av-empty {
+      text-align: center;
+      padding: 60px 20px;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      border: 2px dashed var(--gray-300);
+      grid-column: 1 / -1;
+    }
+    .av-empty .empty-icon {
+      width: 90px; height: 90px;
+      border-radius: 50%;
+      background: #eff6ff;
+      color: #60a5fa;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.4rem;
+      margin: 0 auto 16px;
+      animation: emptyFloat 3s ease-in-out infinite;
+    }
+    @keyframes emptyFloat {
+      0%,100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+    .av-empty h3 {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .av-empty p {
+      font-size: 0.85rem;
+      color: var(--gray-500);
+      margin: 0;
+      line-height: 1.7;
+    }
+
+    /* Loading */
+    .av-loading {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--gray-400);
+      grid-column: 1 / -1;
+    }
+    .av-loading i {
+      font-size: 2.2rem;
+      color: var(--av-blue-2);
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    /* Index Error Box */
+    .av-index-error {
+      grid-column: 1 / -1;
+      background: #fef2f2;
+      border: 2px solid #fca5a5;
+      border-radius: var(--radius-md);
+      padding: 20px 22px;
+    }
+    .av-index-error h3 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+      font-weight: 900;
+      color: #991b1b;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .av-index-error h3 i { color: #dc2626; }
+    .av-index-error p {
+      margin: 0 0 10px;
+      font-size: 0.85rem;
+      color: #7f1d1d;
+      line-height: 1.7;
+    }
+    .av-index-error code {
+      display: block;
+      background: rgba(0,0,0,.05);
+      padding: 8px 12px;
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.78rem;
+      color: #7f1d1d;
+      direction: ltr;
+      text-align: left;
+      margin-bottom: 8px;
+    }
+
+    /* Modal */
+    .av-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15,26,46,.75);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      overflow-y: auto;
+      animation: fadeIn 0.25s ease;
+    }
+    .av-modal-overlay.show { display: flex; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .av-modal {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      max-width: 460px;
+      width: 100%;
+      box-shadow: 0 25px 70px rgba(0,0,0,.4);
+      animation: slideUp 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      overflow: hidden;
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .av-modal-header {
+      padding: 20px 24px;
+      background: linear-gradient(135deg, var(--del-green-1), var(--del-green-3));
+      color: var(--white);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .av-modal-header::before {
+      content: '';
+      position: absolute;
+      top: -50%; right: -20%;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(16,185,129,.3), transparent 70%);
+      border-radius: 50%;
+    }
+    .av-modal-header .icon-wrap {
+      position: relative;
+      z-index: 1;
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 10px;
+      font-size: 1.6rem;
+      border: 3px solid rgba(255,255,255,.3);
+    }
+    .av-modal-header h3 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 4px;
+      font-size: 1.1rem;
+      font-weight: 900;
+    }
+    .av-modal-header p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      font-size: 0.82rem;
+      opacity: 0.9;
+    }
+    .av-modal-body {
+      padding: 20px 24px;
+    }
+    .av-modal-body .info-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--gray-100);
+      font-size: 0.85rem;
+    }
+    .av-modal-body .info-line:last-child { border-bottom: none; }
+    .av-modal-body .info-line .lbl {
+      color: var(--gray-500);
+      font-weight: 700;
+    }
+    .av-modal-body .info-line .val {
+      color: var(--navy);
+      font-weight: 900;
+      text-align: left;
+    }
+    .av-modal-body .info-line .val.amount {
+      color: var(--gold-dark);
+      font-size: 1.05rem;
+    }
+    .av-modal-note {
+      display: flex;
+      gap: 8px;
+      padding: 10px 12px;
+      background: #eff6ff;
+      border: 1px solid #93c5fd;
+      border-radius: var(--radius-sm);
+      font-size: 0.78rem;
+      color: #1e40af;
+      line-height: 1.6;
+      margin-top: 12px;
+    }
+    .av-modal-note i {
+      color: #3b82f6;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .av-modal-actions {
+      padding: 16px 24px;
+      background: var(--gray-50);
+      display: flex;
+      gap: 10px;
+      border-top: 2px solid var(--gray-100);
+    }
+    .av-modal-actions .btn {
+      flex: 1;
+      padding: 12px 16px;
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.88rem;
+      border-radius: var(--radius-sm);
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+    .av-modal-actions .btn-cancel {
+      background: var(--white);
+      color: var(--gray-600);
+      border: 2px solid var(--gray-300);
+    }
+    .av-modal-actions .btn-cancel:hover { background: var(--gray-100); }
+    .av-modal-actions .btn-confirm {
+      background: linear-gradient(135deg, var(--del-green-3), var(--del-green-2));
+      color: var(--white);
+      box-shadow: 0 6px 18px rgba(5,150,105,.3);
+    }
+    .av-modal-actions .btn-confirm:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(5,150,105,.5);
+    }
+    .av-modal-actions .btn-confirm:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) and (pointer: coarse) {
+      .av-header { padding: 16px 16px; border-radius: var(--radius-md); }
+      .av-header-icon { width: 46px; height: 46px; font-size: 1.2rem; }
+      .av-header-text h1 { font-size: 1rem; }
+      .av-header-badge { font-size: 0.68rem; padding: 4px 10px; }
+
+      .av-region-box { padding: 12px 14px; }
+      .av-region-box .region-icon { width: 36px; height: 36px; font-size: 0.95rem; }
+      .av-region-box .region-value { font-size: 0.95rem; }
+
+      .av-stats { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+      .av-stat-card { padding: 10px 8px; }
+      .av-stat-card .stat-icon { width: 32px; height: 32px; font-size: 0.85rem; }
+      .av-stat-card .stat-number { font-size: 0.95rem; }
+      .av-stat-card .stat-label { font-size: 0.6rem; }
+
+      .av-toolbar { padding: 10px; }
+      .av-search { min-width: 100%; }
+
+      .av-grid { grid-template-columns: 1fr; gap: 10px; }
+      .av-card { padding: 12px 14px; }
+      .av-order-num { font-size: 0.78rem; }
+      .av-customer { font-size: 0.85rem; }
+
+      .av-modal { margin: 0 4px; }
+      .av-modal-header { padding: 16px 20px; }
+      .av-modal-body { padding: 16px 20px; }
+      .av-modal-actions { padding: 14px 20px; flex-direction: column-reverse; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="mobile-top-bar"></div>
+  <div id="mobile-top-tabs"></div>
+  <div id="header-placeholder"></div>
+
+  <main class="page-content">
+    <div class="container">
+
+      <!-- Header -->
+      <div class="av-header">
+        <div class="av-header-content">
+          <div class="av-header-icon">
+            <i class="fas fa-map-marked-alt"></i>
+          </div>
+          <div class="av-header-text">
+            <h1><i class="fas fa-search-location"></i> أوردرات منطقتي</h1>
+            <p>أوردرات متاحة للتوصيل في منطقتك — اقبلها واستلمها</p>
+          </div>
+          <span class="av-header-badge">
+            <i class="fas fa-circle"></i>
+            <span id="availableCount">0</span> متاح
+          </span>
+        </div>
+      </div>
+
+      <!-- Region Box -->
+      <div class="av-region-box">
+        <div class="region-icon">
+          <i class="fas fa-map-pin"></i>
+        </div>
+        <div class="region-content">
+          <div class="region-label">
+            <i class="fas fa-info-circle"></i>
+            منطقة عملك
+          </div>
+          <div class="region-value" id="regionValue">جاري التحميل...</div>
+          <div class="region-note">هتشوف بس الأوردرات المتاحة في منطقتك</div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="av-stats">
+        <div class="av-stat-card">
+          <div class="stat-icon blue"><i class="fas fa-box"></i></div>
+          <div class="stat-number blue" id="statAvailable">0</div>
+          <div class="stat-label">أوردرات متاحة</div>
+        </div>
+        <div class="av-stat-card">
+          <div class="stat-icon gold"><i class="fas fa-money-bill-wave"></i></div>
+          <div class="stat-number gold" id="statTotalAmount">0</div>
+          <div class="stat-label">إجمالي المبالغ (ج.م)</div>
+        </div>
+        <div class="av-stat-card">
+          <div class="stat-icon green"><i class="fas fa-truck"></i></div>
+          <div class="stat-number green" id="statCashOrders">0</div>
+          <div class="stat-label">تحصيل عند التسليم</div>
+        </div>
+      </div>
+
+      <!-- Info Note -->
+      <div class="av-info-note">
+        <i class="fas fa-info-circle"></i>
+        <div>
+          <strong>كيف يعمل؟</strong> الأوردرات اللي بتظهرلك هنا هي اللي <strong>لسه ما اتعينتش لأي موصل</strong> في منطقتك. لما تعمل "قبول الأوردر"، بيتحوّل لصفحة "أوردراتي" وهتروح تستلمه من المخزن.
+        </div>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="av-toolbar">
+        <div class="av-search">
+          <input type="text" id="searchInput" placeholder="ابحث برقم الأوردر أو اسم العميل..." oninput="handleSearch(this.value)">
+          <i class="fas fa-search si"></i>
+        </div>
+        <select id="sortFilter" onchange="applyFilters()">
+          <option value="newest">الأحدث</option>
+          <option value="oldest">الأقدم</option>
+          <option value="amount-high">الأعلى مبلغاً</option>
+          <option value="amount-low">الأقل مبلغاً</option>
+        </select>
+      </div>
+
+      <!-- Grid -->
+      <div class="av-grid" id="ordersGrid">
+        <div class="av-loading">
+          <i class="fas fa-spinner fa-spin"></i>
+          <p>جاري تحميل الأوردرات المتاحة...</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="mobile-bottom-tabs"></div>
+  <div id="mobile-copyright"></div>
+  <div id="footer-placeholder"></div>
+  <div id="sidebar-placeholder"></div>
+  <div id="toast-container"></div>
+
+  <!-- Modal تأكيد القبول -->
+  <div class="av-modal-overlay" id="acceptModal" onclick="closeModal('acceptModal', event)">
+    <div class="av-modal" onclick="event.stopPropagation()">
+      <div class="av-modal-header">
+        <div class="icon-wrap">
+          <i class="fas fa-hand-holding-heart"></i>
+        </div>
+        <h3>تأكيد قبول الأوردر</h3>
+        <p id="acceptOrderNum">—</p>
+      </div>
+      <div class="av-modal-body">
+
+        <div class="info-line">
+          <span class="lbl">العميل:</span>
+          <span class="val" id="acceptCustomer">—</span>
+        </div>
+        <div class="info-line">
+          <span class="lbl">المنطقة:</span>
+          <span class="val" id="acceptRegion">—</span>
+        </div>
+        <div class="info-line">
+          <span class="lbl">المبلغ:</span>
+          <span class="val amount" id="acceptAmount">—</span>
+        </div>
+        <div class="info-line">
+          <span class="lbl">طريقة الدفع:</span>
+          <span class="val" id="acceptPayment">—</span>
+        </div>
+
+        <div class="av-modal-note">
+          <i class="fas fa-info-circle"></i>
+          <div>
+            بعد القبول، الأوردر هيظهر في <strong>أوردراتي</strong>. اتجه للمخزن لاستلامه في أقرب وقت.
+          </div>
+        </div>
+
+      </div>
+      <div class="av-modal-actions">
+        <button class="btn btn-cancel" onclick="closeModal('acceptModal')">
+          <i class="fas fa-times"></i> إلغاء
+        </button>
+        <button class="btn btn-confirm" id="acceptConfirmBtn" onclick="confirmAccept()">
+          <i class="fas fa-check"></i> تأكيد القبول
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="/gomla/assets/js/firebase-config.js"></script>
+  <script src="/gomla/assets/js/main.js"></script>
+
+  <script>
+    // ============================================================
+    // 📄 delivery/available.html — أوردرات منطقتي
+    // ============================================================
+
+    let _agent = null;
+    let _agentId = null;
+    let _allOrders = [];
+    let _filteredOrders = [];
+    let _searchTerm = '';
+    let _unsub = null;
+    let _currentAcceptOrder = null;
+
+    // ============================================================
+    // 🚀 Init
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', async () => {
+      // حماية
+      if (typeof protectDeliveryPage === 'function') {
+        const ok = protectDeliveryPage();
+        if (ok === false) return;
+      }
+
+      const user = getCurrentUser();
+      if (!user || user.type !== 'delivery' || !user.data) {
+        window.location.href = '/gomla/delivery-login.html';
+        return;
+      }
+
+      _agent = user.data;
+      _agentId = _agent.uid || _agent.id;
+
+      if (!_agentId) {
+        showToast('خطأ في بيانات الموصل', 'error');
+        return;
+      }
+
+      // عرض المنطقة
+      const regionEl = document.getElementById('regionValue');
+      if (regionEl) regionEl.textContent = _agent.area || 'غير محددة';
+
+      if (!_agent.area) {
+        renderError('لم يتم تحديد منطقتك. تواصل مع الإدارة.');
+        return;
+      }
+
+      loadAvailableOrders();
+    });
+
+    // ============================================================
+    // 📥 تحميل الأوردرات المتاحة
+    // ✅ بنستخدم where('region') بس لتفادي Composite Index
+    // ============================================================
+    function loadAvailableOrders() {
+      if (_unsub) _unsub();
+
+      _unsub = db.collection('orders')
+        .where('region', '==', _agent.area)
+        .limit(100)
+        .onSnapshot(snap => {
+          _allOrders = [];
+          snap.forEach(d => {
+            const data = { id: d.id, ...d.data() };
+
+            // فلترة محلية: أوردرات غير مسندة ومتاحة
+            const isUnassigned = (!data.deliveryAgentId || data.deliveryAgentId === '');
+            const isAvailable = (data.deliveryStatus === 'unassigned' || !data.deliveryStatus);
+            const isPending = (data.status === 'pending' || data.status === 'processing' || data.status === 'preparing');
+
+            if (isUnassigned && isAvailable && isPending) {
+              _allOrders.push(data);
+            }
+          });
+
+          // ترتيب محلي (الأحدث أولاً)
+          _allOrders.sort((a, b) => {
+            const ta = a.createdAt?.toMillis?.() || 0;
+            const tb = b.createdAt?.toMillis?.() || 0;
+            return tb - ta;
+          });
+
+          updateStats();
+          applyFilters();
+
+        }, err => {
+          console.error('loadAvailableOrders error:', err);
+          renderError(err);
+        });
+    }
+
+    // ============================================================
+    // 📊 الإحصائيات
+    // ============================================================
+    function updateStats() {
+      const count = _allOrders.length;
+      const totalAmount = _allOrders.reduce((sum, o) => sum + (o.grandTotal || o.total || 0), 0);
+      const cashOrders = _allOrders.filter(o => o.paymentMethod === 'cash' || !o.paymentMethod).length;
+
+      setText('statAvailable', count);
+      setText('statTotalAmount', totalAmount.toLocaleString('en-US', { maximumFractionDigits: 0 }));
+      setText('statCashOrders', cashOrders);
+      setText('availableCount', count);
+    }
+
+    function setText(id, val) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = val;
+    }
+
+    // ============================================================
+    // 🔍 البحث والفلترة
+    // ============================================================
+    function handleSearch(value) {
+      _searchTerm = value.trim().toLowerCase();
+      applyFilters();
+    }
+
+    function applyFilters() {
+      const sortValue = document.getElementById('sortFilter')?.value || 'newest';
+
+      _filteredOrders = _allOrders.filter(o => {
+        if (_searchTerm) {
+          const id = (o.id || '').toLowerCase();
+          const num = ('#' + o.id.slice(-8)).toLowerCase();
+          const name = (o.customerName || '').toLowerCase();
+          const phone = (o.customerPhone || '').toLowerCase();
+          const address = (o.deliveryAddress || o.customerAddress || '').toLowerCase();
+          if (!id.includes(_searchTerm) &&
+              !num.includes(_searchTerm) &&
+              !name.includes(_searchTerm) &&
+              !phone.includes(_searchTerm) &&
+              !address.includes(_searchTerm)) {
+            return false;
+          }
+        }
+        return true;
+      });
+
+      // الترتيب
+      switch (sortValue) {
+        case 'newest':
+          _filteredOrders.sort((a, b) => (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0));
+          break;
+        case 'oldest':
+          _filteredOrders.sort((a, b) => (a.createdAt?.toMillis?.() || 0) - (b.createdAt?.toMillis?.() || 0));
+          break;
+        case 'amount-high':
+          _filteredOrders.sort((a, b) => (b.grandTotal || b.total || 0) - (a.grandTotal || a.total || 0));
+          break;
+        case 'amount-low':
+          _filteredOrders.sort((a, b) => (a.grandTotal || a.total || 0) - (b.grandTotal || b.total || 0));
+          break;
+      }
+
+      renderOrders();
+    }
+
+    // ============================================================
+    // 🎨 عرض الأوردرات
+    // ============================================================
+    function renderOrders() {
+      const grid = document.getElementById('ordersGrid');
+      if (!grid) return;
+
+      if (!_filteredOrders.length) {
+        const msg = _searchTerm
+          ? `لا نتائج مطابقة لـ "${escapeHtml(_searchTerm)}"`
+          : (_allOrders.length ? 'لا نتائج مطابقة' : 'مفيش أوردرات متاحة في منطقتك حالياً');
+
+        grid.innerHTML = `
+          <div class="av-empty">
+            <div class="empty-icon"><i class="fas fa-map-marked-alt"></i></div>
+            <h3>${_searchTerm ? 'لا نتائج' : 'مفيش أوردرات متاحة'}</h3>
+            <p>${msg}</p>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = _filteredOrders.map(o => renderCard(o)).join('');
+    }
+
+    function renderCard(order) {
+      const orderNum = order.id.slice(-8).toUpperCase();
+      const totalAmount = order.grandTotal || order.total || 0;
+      const paymentMethod = order.paymentMethod || 'cash';
+      const isCash = paymentMethod === 'cash';
+
+      const customerName = order.customerName || 'عميل';
+      const customerPhone = order.customerPhone || '';
+      const address = order.deliveryAddress || order.customerAddress || '—';
+      const region = order.region || '—';
+
+      const orderDate = order.createdAt?.toDate?.() || new Date();
+      const now = new Date();
+      const diffMs = now - orderDate;
+      const diffMin = Math.floor(diffMs / 60000);
+      const diffHr = Math.floor(diffMs / 3600000);
+
+      let timeAgo = 'الآن';
+      if (diffMin > 0 && diffMin < 60) timeAgo = `منذ ${diffMin} دقيقة`;
+      else if (diffHr > 0 && diffHr < 24) timeAgo = `منذ ${diffHr} ساعة`;
+      else timeAgo = orderDate.toLocaleDateString('ar-EG', { month: 'short', day: 'numeric' });
+
+      // جديد لو أقل من ساعة
+      const isNew = diffHr < 1;
+
+      const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(region + ' ' + address)}`;
+
+      return `
+        <div class="av-card">
+          <div class="av-card-header">
+            <span class="av-order-num">
+              <i class="fas fa-hashtag"></i>
+              ${orderNum}
+            </span>
+            ${isNew ? `
+              <span class="av-badge-new">
+                <i class="fas fa-bolt"></i>
+                جديد
+              </span>
+            ` : `
+              <span class="av-badge-new" style="background:linear-gradient(135deg,#6b7280,#4b5563);box-shadow:0 3px 10px rgba(107,114,128,.3);animation:none;">
+                <i class="fas fa-clock"></i>
+                ${timeAgo}
+              </span>
+            `}
+          </div>
+
+          <div class="av-card-body">
+            <p class="av-customer">
+              <i class="fas fa-user"></i>
+              ${escapeHtml(customerName)}
+            </p>
+
+            <div class="av-info-row">
+              <i class="fas fa-map-marker-alt"></i>
+              <span class="value address">${escapeHtml(address)}</span>
+            </div>
+
+            <div class="av-info-row">
+              <i class="fas fa-money-bill-wave"></i>
+              <span class="value amount">${totalAmount.toFixed(0)} ج.م</span>
+            </div>
+
+            <div class="av-info-row">
+              <i class="fas fa-credit-card"></i>
+              <span class="value">${isCash ? 'الدفع عند الاستلام' : (order.paymentMethodLabel || 'دفع مسبق')}</span>
+            </div>
+          </div>
+
+          <div class="av-card-footer">
+            <div class="av-actions-mini">
+              ${customerPhone ? `
+                <a href="tel:${customerPhone}" class="av-mini-btn call" title="اتصال">
+                  <i class="fas fa-phone"></i>
+                </a>
+              ` : ''}
+              <a href="${mapLink}" target="_blank" rel="noopener" class="av-mini-btn map" title="الاتجاهات">
+                <i class="fas fa-map-marked-alt"></i>
+              </a>
+            </div>
+            <button class="av-accept-btn" onclick="openAcceptModal('${order.id}')">
+              <i class="fas fa-check-circle"></i>
+              قبول الأوردر
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    // ============================================================
+    // ✅ Modal تأكيد القبول
+    // ============================================================
+    function openAcceptModal(orderId) {
+      const order = _allOrders.find(o => o.id === orderId);
+      if (!order) {
+        showToast('الأوردر غير موجود', 'error');
+        return;
+      }
+
+      _currentAcceptOrder = order;
+
+      const orderNum = order.id.slice(-8).toUpperCase();
+      const totalAmount = order.grandTotal || order.total || 0;
+      const paymentMethod = order.paymentMethod || 'cash';
+      const paymentLabel = order.paymentMethodLabel || (paymentMethod === 'cash' ? 'الدفع عند الاستلام' : 'دفع مسبق');
+
+      document.getElementById('acceptOrderNum').textContent = '#' + orderNum;
+      document.getElementById('acceptCustomer').textContent = order.customerName || 'عميل';
+      document.getElementById('acceptRegion').textContent = order.region || '—';
+      document.getElementById('acceptAmount').textContent = totalAmount.toFixed(0) + ' ج.م';
+      document.getElementById('acceptPayment').textContent = paymentLabel;
+
+      document.getElementById('acceptModal').classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(id, event) {
+      if (event && event.target !== event.currentTarget) return;
+      const modal = document.getElementById(id);
+      if (modal) modal.classList.remove('show');
+      document.body.style.overflow = '';
+      _currentAcceptOrder = null;
+    }
+
+    // ============================================================
+    // ✅ تنفيذ القبول
+    // ============================================================
+    async function confirmAccept() {
+      if (!_currentAcceptOrder) return;
+
+      const btn = document.getElementById('acceptConfirmBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري القبول...';
+
+      const order = _currentAcceptOrder;
+      const orderId = order.id;
+
+      try {
+        // تحقق مزدوج: هل الأوردر لسه متاح؟
+        const fresh = await db.collection('orders').doc(orderId).get();
+        if (!fresh.exists) {
+          throw new Error('الأوردر غير موجود');
+        }
+
+        const freshData = fresh.data();
+        if (freshData.deliveryAgentId && freshData.deliveryAgentId !== '') {
+          throw new Error('تم تعيين الأوردر لموصل آخر');
+        }
+
+        // تحديث الأوردر
+        await db.collection('orders').doc(orderId).update({
+          deliveryAgentId: _agentId,
+          deliveryAgentName: _agent.name || '',
+          deliveryAgentPhone: _agent.phone || '',
+          assignedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          assignedBy: 'self', // ← الموصل هو اللي قبل بنفسه
+          deliveryStatus: 'assigned',
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        // تحديث إحصائيات الموصل
+        try {
+          await db.collection('delivery_agents').doc(_agentId).update({
+            pendingOrdersCount: firebase.firestore.FieldValue.increment(1),
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        } catch (e) { console.warn('agent stats update failed:', e); }
+
+        // log activity
+        if (typeof logActivity === 'function') {
+          logActivity('قبول أوردر', `#${orderId.slice(-8).toUpperCase()}`);
+        }
+
+        showToast('تم قبول الأوردر — اتجه للمخزن لاستلامه', 'success');
+        closeModal('acceptModal');
+
+        // تحويل لصفحة أوردراتي بعد ثانيتين
+        setTimeout(() => {
+          window.location.href = 'orders.html?status=assigned';
+        }, 1500);
+
+      } catch (err) {
+        console.error('confirmAccept error:', err);
+
+        let msg = 'فشل قبول الأوردر';
+        if (err.message === 'تم تعيين الأوردر لموصل آخر') {
+          msg = 'للأسف، تم تعيين الأوردر لموصل آخر بالفعل';
+        } else if (err.message === 'الأوردر غير موجود') {
+          msg = 'الأوردر غير موجود';
+        }
+
+        showToast(msg, 'error');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-check"></i> تأكيد القبول';
+      }
+    }
+
+    // ============================================================
+    // 🛠️ Helpers
+    // ============================================================
+    function renderError(err) {
+      const grid = document.getElementById('ordersGrid');
+      if (!grid) return;
+
+      // هل الخطأ Index؟
+      const isIndexError = err && err.code === 'failed-precondition';
+      const isPermission = err && err.code === 'permission-denied';
+
+      if (isIndexError) {
+        grid.innerHTML = `
+          <div class="av-index-error">
+            <h3><i class="fas fa-database"></i> مطلوب إنشاء Index</h3>
+            <p>Firestore محتاج Index لهذا الاستعلام. اضغط على الرابط في الـ Console لإنشائه تلقائياً.</p>
+            <code>Collection: orders — Field: region (ASC)</code>
+            <p style="font-size:0.78rem;">اتواصل مع الإدارة لإنشاء الـ Index من Firebase Console.</p>
+          </div>
+        `;
+        return;
+      }
+
+      if (isPermission) {
+        grid.innerHTML = `
+          <div class="av-empty">
+            <div class="empty-icon" style="background:#fee2e2;color:#dc2626;">
+              <i class="fas fa-lock"></i>
+            </div>
+            <h3>ليس لديك صلاحية</h3>
+            <p>تواصل مع الإدارة لتفعيل صلاحية عرض الأوردرات.</p>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = `
+        <div class="av-empty">
+          <div class="empty-icon" style="background:#fee2e2;color:#dc2626;">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+          <h3>حدث خطأ</h3>
+          <p>${escapeHtml(err && err.message ? err.message : 'فشل تحميل الأوردرات')}</p>
+        </div>
+      `;
+    }
+
+    function escapeHtml(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[c]));
+    }
+
+    // ESC لإغلاق المودال
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeModal('acceptModal');
+    });
+
+    // تصدير
+    window.openAcceptModal = openAcceptModal;
+    window.closeModal = closeModal;
+    window.confirmAccept = confirmAccept;
+    window.handleSearch = handleSearch;
+    window.applyFilters = applyFilters;
+    window.loadAvailableOrders = loadAvailableOrders;
+  </script>
+
+</body>
+</html>
