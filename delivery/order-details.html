@@ -1,0 +1,1815 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تفاصيل الأوردر - الموصل | أولاد شعلان</title>
+  <meta name="theme-color" content="#047857">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/gomla/assets/css/style.css">
+  <link rel="icon" href="/gomla/assets/images/favicon.ico">
+
+  <style>
+    /* ============================================================
+       🚚 تفاصيل الأوردر - v1.0
+       ============================================================ */
+    :root {
+      --del-green-1: #064e3b;
+      --del-green-2: #047857;
+      --del-green-3: #059669;
+      --del-green-light: #10b981;
+      --del-green-bg: #ecfdf5;
+    }
+
+    html, body { overflow-x: hidden !important; max-width: 100vw; }
+    .page-content, .page-content .container {
+      overflow-x: hidden; min-width: 0; max-width: 100%;
+    }
+
+    /* Back bar */
+    .od-back-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .od-back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: var(--white);
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-full);
+      color: var(--navy);
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 0.85rem;
+      transition: var(--transition);
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .od-back-btn:hover {
+      border-color: var(--del-green-3);
+      background: var(--del-green-bg);
+      transform: translateX(4px);
+    }
+    .od-back-btn i { color: var(--del-green-3); }
+
+    .od-header-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background: linear-gradient(135deg, var(--del-green-1), var(--del-green-3));
+      color: var(--white);
+      border-radius: var(--radius-full);
+      font-size: 0.78rem;
+      font-weight: 800;
+      box-shadow: 0 6px 18px rgba(5,150,105,.3);
+    }
+    .od-header-badge i { color: #a7f3d0; }
+
+    /* Main Card */
+    .od-card {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--gray-200);
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+
+    /* Card Header */
+    .od-card-header {
+      background: linear-gradient(135deg, var(--del-green-1), var(--del-green-2));
+      color: var(--white);
+      padding: 20px 22px;
+      position: relative;
+      overflow: hidden;
+    }
+    .od-card-header::before {
+      content: '';
+      position: absolute;
+      top: -50%; right: -15%;
+      width: 250px; height: 250px;
+      background: radial-gradient(circle, rgba(16,185,129,.3), transparent 70%);
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+    }
+    .od-card-header-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .od-order-info { flex: 1; min-width: 200px; }
+    .od-order-num {
+      font-family: 'Courier New', monospace;
+      font-size: 1.4rem;
+      font-weight: 900;
+      letter-spacing: 1px;
+      color: #a7f3d0;
+      direction: ltr;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+    .od-order-num i { color: #34d399; font-size: 1.1rem; }
+    .od-order-date {
+      font-size: 0.78rem;
+      opacity: 0.9;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .od-order-date i { color: #a7f3d0; font-size: 0.72rem; }
+
+    .od-status-big {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      background: rgba(255,255,255,.15);
+      border: 2px solid rgba(16,185,129,.5);
+      border-radius: var(--radius-full);
+      font-size: 0.85rem;
+      font-weight: 900;
+      backdrop-filter: blur(10px);
+    }
+    .od-status-big i {
+      font-size: 1.05rem;
+      animation: pulseDot 2s ease-in-out infinite;
+    }
+    @keyframes pulseDot {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.15); }
+    }
+
+    /* Progress Bar */
+    .od-progress-wrap {
+      padding: 16px 22px;
+      background: linear-gradient(135deg, var(--del-green-bg), #d1fae5);
+      border-bottom: 1px solid rgba(16,185,129,.2);
+    }
+    .od-progress-steps {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 4px;
+      position: relative;
+    }
+    .od-progress-steps::before {
+      content: '';
+      position: absolute;
+      top: 18px;
+      right: 24px;
+      left: 24px;
+      height: 3px;
+      background: var(--gray-200);
+      z-index: 0;
+    }
+    .od-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      position: relative;
+      z-index: 1;
+      flex: 1;
+    }
+    .od-step-icon {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--white);
+      border: 3px solid var(--gray-200);
+      color: var(--gray-400);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      transition: var(--transition);
+    }
+    .od-step.done .od-step-icon {
+      background: linear-gradient(135deg, var(--del-green-3), var(--del-green-2));
+      border-color: var(--del-green-2);
+      color: var(--white);
+      box-shadow: 0 4px 12px rgba(5,150,105,.3);
+    }
+    .od-step.current .od-step-icon {
+      background: linear-gradient(135deg, var(--del-green-3), var(--del-green-light));
+      border-color: var(--del-green-2);
+      color: var(--white);
+      box-shadow: 0 0 0 6px rgba(16,185,129,.2);
+      animation: stepPulse 1.8s ease-in-out infinite;
+    }
+    @keyframes stepPulse {
+      0%,100% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16,185,129,.2); }
+      50% { transform: scale(1.08); box-shadow: 0 0 0 10px rgba(16,185,129,.1); }
+    }
+    .od-step-label {
+      font-size: 0.7rem;
+      font-weight: 800;
+      color: var(--gray-500);
+      text-align: center;
+      line-height: 1.3;
+    }
+    .od-step.done .od-step-label { color: var(--del-green-2); }
+    .od-step.current .od-step-label { color: var(--del-green-3); }
+
+    /* Card Body */
+    .od-card-body {
+      padding: 20px 22px;
+    }
+
+    /* Section */
+    .od-section {
+      margin-bottom: 20px;
+    }
+    .od-section:last-child { margin-bottom: 0; }
+    .od-section-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--gray-100);
+    }
+    .od-section-title i {
+      width: 32px; height: 32px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--del-green-3), var(--del-green-light));
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      box-shadow: 0 4px 12px rgba(5,150,105,.25);
+    }
+
+    /* Info Grid */
+    .od-info-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .od-info-item {
+      padding: 12px 14px;
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--gray-200);
+      transition: var(--transition);
+    }
+    .od-info-item.full { grid-column: 1 / -1; }
+    .od-info-item:hover {
+      background: var(--del-green-bg);
+      border-color: var(--del-green-light);
+    }
+    .od-info-label {
+      font-size: 0.72rem;
+      color: var(--gray-500);
+      font-weight: 700;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .od-info-label i { color: var(--del-green-3); font-size: 0.7rem; }
+    .od-info-value {
+      font-size: 0.9rem;
+      color: var(--navy);
+      font-weight: 800;
+      word-break: break-word;
+    }
+    .od-info-value.amount {
+      color: var(--gold-dark);
+      font-size: 1.05rem;
+    }
+    .od-info-value.ltr { direction: ltr; text-align: right; }
+    .od-info-value.large { font-size: 1rem; }
+
+    /* Contact Actions */
+    .od-contact-actions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .od-contact-btn {
+      padding: 12px 10px;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 0.78rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: var(--transition);
+      color: var(--white);
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .od-contact-btn.call {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      box-shadow: 0 4px 12px rgba(59,130,246,.3);
+    }
+    .od-contact-btn.whatsapp {
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      box-shadow: 0 4px 12px rgba(37,211,102,.3);
+    }
+    .od-contact-btn.map {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      box-shadow: 0 4px 12px rgba(239,68,68,.3);
+    }
+    .od-contact-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,.2);
+    }
+    .od-contact-btn i { font-size: 0.95rem; }
+
+    /* Items List */
+    .od-items-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .od-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--gray-200);
+      transition: var(--transition);
+    }
+    .od-item:hover {
+      background: var(--white);
+      border-color: var(--del-green-light);
+      box-shadow: var(--shadow-sm);
+    }
+    .od-item img {
+      width: 48px; height: 48px;
+      border-radius: 8px;
+      object-fit: cover;
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      flex-shrink: 0;
+    }
+    .od-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+    .od-item-name {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 3px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      line-height: 1.35;
+    }
+    .od-item-meta {
+      font-size: 0.72rem;
+      color: var(--gray-500);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .od-item-meta i { color: var(--del-green-3); font-size: 0.65rem; }
+    .od-item-total {
+      font-size: 0.88rem;
+      font-weight: 900;
+      color: var(--gold-dark);
+      flex-shrink: 0;
+      direction: ltr;
+    }
+
+    /* Amounts */
+    .od-amounts {
+      background: linear-gradient(135deg, var(--del-green-bg), #d1fae5);
+      border: 2px solid var(--del-green-light);
+      border-radius: var(--radius-sm);
+      padding: 14px 16px;
+      margin-top: 12px;
+    }
+    .od-amount-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 5px 0;
+      font-size: 0.85rem;
+    }
+    .od-amount-row .label {
+      color: var(--gray-600);
+      font-weight: 700;
+    }
+    .od-amount-row .value {
+      color: var(--navy);
+      font-weight: 800;
+      direction: ltr;
+    }
+    .od-amount-row .value.free {
+      color: var(--del-green-2);
+    }
+    .od-amount-row .value.gold {
+      color: var(--gold-dark);
+    }
+    .od-amount-row.total {
+      border-top: 2px dashed rgba(16,185,129,.4);
+      padding-top: 10px;
+      margin-top: 6px;
+      font-size: 1.05rem;
+    }
+    .od-amount-row.total .label {
+      color: var(--del-green-1);
+      font-weight: 900;
+    }
+    .od-amount-row.total .value {
+      color: var(--del-green-1);
+      font-weight: 900;
+      font-size: 1.15rem;
+    }
+
+    /* Notes */
+    .od-notes {
+      background: #fef9e7;
+      border: 2px solid #fcd34d;
+      border-radius: var(--radius-sm);
+      padding: 12px 14px;
+      font-size: 0.85rem;
+      color: #78350f;
+      line-height: 1.7;
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .od-notes i {
+      color: #d97706;
+      font-size: 1rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* Actions - Main Buttons */
+    .od-actions {
+      padding: 18px 22px;
+      background: var(--gray-50);
+      border-top: 2px solid var(--gray-100);
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+    .od-action-btn {
+      padding: 16px 20px;
+      border-radius: var(--radius-md);
+      border: none;
+      font-family: inherit;
+      font-weight: 900;
+      font-size: 0.95rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: var(--transition);
+      color: var(--white);
+    }
+    .od-action-btn i { font-size: 1.15rem; }
+    .od-action-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+    }
+    .od-action-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .od-action-btn.pickup {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      box-shadow: 0 8px 24px rgba(59,130,246,.35);
+    }
+    .od-action-btn.pickup:hover:not(:disabled) {
+      box-shadow: 0 12px 32px rgba(59,130,246,.5);
+    }
+
+    .od-action-btn.deliver-cash {
+      background: linear-gradient(135deg, var(--del-green-3), var(--del-green-2));
+      box-shadow: 0 8px 24px rgba(5,150,105,.35);
+    }
+    .od-action-btn.deliver-cash:hover:not(:disabled) {
+      box-shadow: 0 12px 32px rgba(5,150,105,.5);
+    }
+
+    .od-action-btn.deliver-only {
+      background: linear-gradient(135deg, #16a34a, #15803d);
+      box-shadow: 0 8px 24px rgba(22,163,74,.35);
+    }
+    .od-action-btn.deliver-only:hover:not(:disabled) {
+      box-shadow: 0 12px 32px rgba(22,163,74,.5);
+    }
+
+    .od-action-btn.fail {
+      background: linear-gradient(135deg, #dc2626, #991b1b);
+      box-shadow: 0 8px 24px rgba(220,38,38,.35);
+    }
+    .od-action-btn.fail:hover:not(:disabled) {
+      box-shadow: 0 12px 32px rgba(220,38,38,.5);
+    }
+
+    .od-action-btn.back {
+      background: var(--white);
+      color: var(--gray-700);
+      border: 2px solid var(--gray-300);
+      box-shadow: none;
+    }
+    .od-action-btn.back:hover {
+      background: var(--gray-100);
+      border-color: var(--gray-400);
+    }
+
+    .od-actions-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    /* Delivered Success Box */
+    .od-delivered-box {
+      padding: 16px 18px;
+      background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+      border: 2px solid #86efac;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .od-delivered-box .icon {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(34,197,94,.3);
+    }
+    .od-delivered-box .content { flex: 1; min-width: 0; }
+    .od-delivered-box h4 {
+      margin: 0 0 4px;
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: #166534;
+    }
+    .od-delivered-box p {
+      margin: 0;
+      font-size: 0.82rem;
+      color: #14532d;
+      line-height: 1.6;
+    }
+
+    /* Modal */
+    .od-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15,26,46,.75);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      overflow-y: auto;
+      animation: fadeIn 0.25s ease;
+    }
+    .od-modal-overlay.show { display: flex; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .od-modal {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      max-width: 460px;
+      width: 100%;
+      box-shadow: 0 25px 70px rgba(0,0,0,.4);
+      animation: slideUp 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      overflow: hidden;
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .od-modal-header {
+      padding: 20px 24px;
+      background: linear-gradient(135deg, var(--del-green-1), var(--del-green-3));
+      color: var(--white);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .od-modal-header.danger {
+      background: linear-gradient(135deg, #991b1b, #dc2626);
+    }
+    .od-modal-header::before {
+      content: '';
+      position: absolute;
+      top: -50%; right: -20%;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(255,255,255,.15), transparent 70%);
+      border-radius: 50%;
+    }
+    .od-modal-header .icon-wrap {
+      position: relative;
+      z-index: 1;
+      width: 60px; height: 60px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 10px;
+      font-size: 1.6rem;
+      border: 3px solid rgba(255,255,255,.3);
+    }
+    .od-modal-header h3 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 4px;
+      font-size: 1.1rem;
+      font-weight: 900;
+    }
+    .od-modal-header p {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      font-size: 0.82rem;
+      opacity: 0.9;
+    }
+
+    .od-modal-body { padding: 20px 24px; }
+    .od-modal-body .form-group { margin-bottom: 14px; }
+    .od-modal-body label {
+      display: block;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .od-modal-body label i {
+      color: var(--del-green-3);
+      margin-left: 4px;
+    }
+    .od-modal-body input,
+    .od-modal-body select,
+    .od-modal-body textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.95rem;
+      background: var(--gray-50);
+      outline: none;
+      transition: var(--transition);
+      color: var(--navy);
+    }
+    .od-modal-body input:focus,
+    .od-modal-body select:focus,
+    .od-modal-body textarea:focus {
+      border-color: var(--del-green-3);
+      background: var(--white);
+      box-shadow: 0 0 0 4px rgba(16,185,129,.15);
+    }
+    .od-modal-body textarea {
+      resize: vertical;
+      min-height: 70px;
+    }
+    .od-modal-body input.amount-input {
+      text-align: center;
+      font-weight: 900;
+      font-size: 1.15rem;
+    }
+
+    .od-modal-amount-box {
+      background: linear-gradient(135deg, var(--del-green-bg), #d1fae5);
+      border: 2px solid var(--del-green-light);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .od-modal-amount-box .label {
+      font-size: 0.75rem;
+      color: var(--del-green-2);
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+    .od-modal-amount-box .amount {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--del-green-1);
+      direction: ltr;
+    }
+    .od-modal-amount-box .amount small {
+      font-size: 0.9rem;
+      font-weight: 700;
+    }
+
+    .od-modal-note {
+      display: flex;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 0.78rem;
+      line-height: 1.6;
+    }
+    .od-modal-note.info {
+      background: #fef9e7;
+      border: 1px solid #fcd34d;
+      color: #78350f;
+    }
+    .od-modal-note.info i { color: #d97706; }
+    .od-modal-note.danger {
+      background: #fee2e2;
+      border: 1px solid #fca5a5;
+      color: #7f1d1d;
+    }
+    .od-modal-note.danger i { color: #dc2626; }
+    .od-modal-note i {
+      font-size: 0.95rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .od-modal-actions {
+      padding: 16px 24px;
+      background: var(--gray-50);
+      display: flex;
+      gap: 10px;
+      border-top: 2px solid var(--gray-100);
+    }
+    .od-modal-actions .btn {
+      flex: 1;
+      padding: 12px 16px;
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.88rem;
+      border-radius: var(--radius-sm);
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+    .od-modal-actions .btn-cancel {
+      background: var(--white);
+      color: var(--gray-600);
+      border: 2px solid var(--gray-300);
+    }
+    .od-modal-actions .btn-cancel:hover { background: var(--gray-100); }
+    .od-modal-actions .btn-confirm {
+      background: linear-gradient(135deg, var(--del-green-3), var(--del-green-2));
+      color: var(--white);
+      box-shadow: 0 6px 18px rgba(5,150,105,.3);
+    }
+    .od-modal-actions .btn-confirm:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(5,150,105,.5);
+    }
+    .od-modal-actions .btn-confirm:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .od-modal-actions .btn-confirm.danger {
+      background: linear-gradient(135deg, #dc2626, #991b1b);
+      box-shadow: 0 6px 18px rgba(220,38,38,.3);
+    }
+    .od-modal-actions .btn-confirm.danger:hover {
+      box-shadow: 0 10px 24px rgba(220,38,38,.5);
+    }
+
+    /* Loading */
+    .od-loading {
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--gray-400);
+    }
+    .od-loading i {
+      font-size: 2.5rem;
+      color: var(--del-green-3);
+      display: block;
+      margin-bottom: 12px;
+    }
+    .od-loading p { font-size: 0.9rem; margin: 0; }
+
+    /* Error */
+    .od-error {
+      text-align: center;
+      padding: 60px 20px;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      border: 2px dashed var(--gray-300);
+    }
+    .od-error .icon {
+      width: 90px; height: 90px;
+      border-radius: 50%;
+      background: #fee2e2;
+      color: #dc2626;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.3rem;
+      margin: 0 auto 16px;
+    }
+    .od-error h3 {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .od-error p {
+      font-size: 0.85rem;
+      color: var(--gray-500);
+      margin: 0;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) and (pointer: coarse) {
+      .od-card-header { padding: 16px 18px; }
+      .od-order-num { font-size: 1.15rem; }
+      .od-status-big { padding: 8px 14px; font-size: 0.78rem; }
+
+      .od-progress-wrap { padding: 14px 16px; }
+      .od-step-icon { width: 34px; height: 34px; font-size: 0.82rem; }
+      .od-step-label { font-size: 0.62rem; }
+
+      .od-card-body { padding: 16px 18px; }
+      .od-info-grid { grid-template-columns: 1fr; gap: 8px; }
+      .od-contact-actions { grid-template-columns: 1fr; }
+
+      .od-actions { padding: 14px 18px; }
+      .od-action-btn { padding: 14px 18px; font-size: 0.88rem; }
+      .od-actions-row { grid-template-columns: 1fr; }
+
+      .od-modal { margin: 0 4px; }
+      .od-modal-header { padding: 16px 20px; }
+      .od-modal-body { padding: 16px 20px; }
+      .od-modal-actions { padding: 14px 20px; flex-direction: column-reverse; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="mobile-top-bar"></div>
+  <div id="mobile-top-tabs"></div>
+  <div id="header-placeholder"></div>
+
+  <main class="page-content">
+    <div class="container">
+
+      <!-- Back Bar -->
+      <div class="od-back-bar">
+        <button class="od-back-btn" onclick="history.back()">
+          <i class="fas fa-arrow-right"></i>
+          رجوع
+        </button>
+        <span class="od-header-badge">
+          <i class="fas fa-truck-fast"></i>
+          لوحة الموصل
+        </span>
+      </div>
+
+      <!-- Container -->
+      <div id="odContainer">
+        <div class="od-loading">
+          <i class="fas fa-spinner fa-spin"></i>
+          <p>جاري تحميل الأوردر...</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="mobile-bottom-tabs"></div>
+  <div id="mobile-copyright"></div>
+  <div id="footer-placeholder"></div>
+  <div id="sidebar-placeholder"></div>
+  <div id="toast-container"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="/gomla/assets/js/firebase-config.js"></script>
+  <script src="/gomla/assets/js/main.js"></script>
+
+  <script>
+    // ============================================================
+    // 📄 delivery/order-details.html
+    // ============================================================
+
+    let _agent = null;
+    let _agentId = null;
+    let _orderId = null;
+    let _order = null;
+    let _unsub = null;
+
+    // ============================================================
+    // 🚀 Init
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', async () => {
+      // حماية
+      if (typeof protectDeliveryPage === 'function') {
+        const ok = protectDeliveryPage();
+        if (ok === false) return;
+      }
+
+      const user = getCurrentUser();
+      if (!user || user.type !== 'delivery' || !user.data) {
+        window.location.href = '/gomla/delivery-login.html';
+        return;
+      }
+
+      _agent = user.data;
+      _agentId = _agent.uid || _agent.id;
+
+      // قراءة ID من URL
+      const urlParams = new URLSearchParams(window.location.search);
+      _orderId = urlParams.get('id');
+
+      if (!_orderId) {
+        renderError('لم يتم تحديد الأوردر');
+        return;
+      }
+
+      loadOrder();
+    });
+
+    // ============================================================
+    // 📥 تحميل الأوردر
+    // ============================================================
+    function loadOrder() {
+      if (_unsub) _unsub();
+
+      _unsub = db.collection('orders').doc(_orderId).onSnapshot(doc => {
+        if (!doc.exists) {
+          renderError('الأوردر غير موجود');
+          return;
+        }
+
+        _order = { id: doc.id, ...doc.data() };
+
+        // التحقق من الصلاحية: لازم يكون الموصل مسند له الأوردر أو متاح في منطقته
+        const isMine = _order.deliveryAgentId === _agentId;
+        const isAvailableInRegion = 
+          (!_order.deliveryAgentId || _order.deliveryAgentId === '') &&
+          _order.region === _agent.area &&
+          _order.deliveryStatus === 'unassigned';
+
+        if (!isMine && !isAvailableInRegion) {
+          renderError('ليس لديك صلاحية لعرض هذا الأوردر');
+          return;
+        }
+
+        renderOrder();
+      }, err => {
+        console.error('loadOrder error:', err);
+        renderError('فشل تحميل الأوردر');
+      });
+    }
+
+    // ============================================================
+    // 🎨 عرض الأوردر
+    // ============================================================
+    function renderOrder() {
+      const container = document.getElementById('odContainer');
+      if (!container) return;
+
+      const order = _order;
+      const orderNum = order.id.slice(-8).toUpperCase();
+      const status = order.deliveryStatus || 'assigned';
+
+      const statusInfo = getStatusInfo(status);
+      const progressSteps = getProgressSteps(status);
+
+      const totalAmount = order.grandTotal || order.total || 0;
+      const subtotal = order.subtotal || 0;
+      const shippingCost = order.shippingCost || 0;
+      const paymentFee = order.paymentFee || 0;
+      const isFreeShipping = order.isFreeShipping === true;
+      const paymentMethod = order.paymentMethod || 'cash';
+      const paymentMethodLabel = order.paymentMethodLabel || 'الدفع عند الاستلام';
+      const isCash = paymentMethod === 'cash';
+
+      const customerName = order.customerName || 'عميل';
+      const customerPhone = order.customerPhone || '';
+      const customerPhone2 = order.customerPhone2 || '';
+      const address = order.deliveryAddress || order.customerAddress || '—';
+      const region = order.region || '—';
+      const notes = order.notes || '';
+
+      const orderDate = order.createdAt?.toDate?.() || new Date();
+      const dateStr = orderDate.toLocaleString('ar-EG', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+
+      // أزرار الاتصال
+      const waLink = customerPhone ? `https://wa.me/2${customerPhone}` : '#';
+      const telLink = customerPhone ? `tel:${customerPhone}` : '#';
+      const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(region + ' ' + address)}`;
+
+      // Items HTML
+      let itemsHtml = '';
+      (order.items || []).forEach(item => {
+        const qty = item.quantity || 1;
+        const price = item.price || 0;
+        const itemTotal = item.total || (qty * price);
+        const unit = item.unit || 'قطعة';
+        const img = item.imageUrl || '/gomla/assets/images/no-image.png';
+
+        itemsHtml += `
+          <div class="od-item">
+            <img src="${img}" alt="${escapeHtml(item.productName || 'منتج')}"
+                 onerror="this.src='/gomla/assets/images/no-image.png'">
+            <div class="od-item-info">
+              <div class="od-item-name">${escapeHtml(item.productName || 'منتج')}</div>
+              <div class="od-item-meta">
+                <span><i class="fas fa-times"></i> ${qty} ${escapeHtml(unit)}</span>
+                <span><i class="fas fa-tag"></i> ${price.toFixed(2)} ج.م</span>
+              </div>
+            </div>
+            <div class="od-item-total">${itemTotal.toFixed(2)} ج.م</div>
+          </div>
+        `;
+      });
+
+      // Actions حسب الحالة
+      let actionsHtml = '';
+      if (status === 'assigned' || status === 'unassigned') {
+        actionsHtml = `
+          <button class="od-action-btn pickup" onclick="pickUpOrder()">
+            <i class="fas fa-box-open"></i>
+            استلمت الأوردر من المخزن
+          </button>
+        `;
+      } else if (status === 'picked_up') {
+        actionsHtml = `
+          ${isCash ? `
+            <button class="od-action-btn deliver-cash" onclick="openCollectModal()">
+              <i class="fas fa-money-bill-wave"></i>
+              تم التسليم + تحصيل ${totalAmount.toFixed(0)} ج.م
+            </button>
+          ` : `
+            <button class="od-action-btn deliver-only" onclick="deliverWithoutCash()">
+              <i class="fas fa-check-double"></i>
+              تم التسليم (دفع مسبق)
+            </button>
+          `}
+          <div class="od-actions-row">
+            <button class="od-action-btn fail" onclick="openFailModal()">
+              <i class="fas fa-times-circle"></i>
+              فشل التسليم
+            </button>
+            <button class="od-action-btn back" onclick="history.back()">
+              <i class="fas fa-arrow-right"></i>
+              رجوع
+            </button>
+          </div>
+        `;
+      } else if (status === 'delivered') {
+        actionsHtml = `
+          <div class="od-delivered-box">
+            <div class="icon">
+              <i class="fas fa-check-double"></i>
+            </div>
+            <div class="content">
+              <h4>تم التسليم بنجاح</h4>
+              <p>
+                ${order.deliveredAt ? `تم التسليم بتاريخ ${formatDateTime(order.deliveredAt)}` : 'تم التسليم'}
+                ${order.cashCollected ? `<br>تم تحصيل <strong>${order.cashCollected.toFixed(0)} ج.م</strong>` : ''}
+              </p>
+            </div>
+          </div>
+          <button class="od-action-btn back" onclick="history.back()">
+            <i class="fas fa-arrow-right"></i>
+            رجوع للقائمة
+          </button>
+        `;
+      } else if (status === 'failed') {
+        actionsHtml = `
+          <div class="od-delivered-box" style="background:#fef2f2;border-color:#fca5a5;">
+            <div class="icon" style="background:linear-gradient(135deg,#ef4444,#dc2626);">
+              <i class="fas fa-times-circle"></i>
+            </div>
+            <div class="content">
+              <h4 style="color:#991b1b;">فشل التسليم</h4>
+              <p style="color:#7f1d1d;">
+                ${order.failedReason ? `السبب: ${escapeHtml(order.failedReason)}` : 'تم تسجيل فشل التسليم'}
+              </p>
+            </div>
+          </div>
+          <button class="od-action-btn back" onclick="history.back()">
+            <i class="fas fa-arrow-right"></i>
+            رجوع للقائمة
+          </button>
+        `;
+      }
+
+      // Build HTML
+      container.innerHTML = `
+        <div class="od-card">
+          <!-- Card Header -->
+          <div class="od-card-header">
+            <div class="od-card-header-content">
+              <div class="od-order-info">
+                <div class="od-order-num">
+                  <i class="fas fa-hashtag"></i>
+                  ${orderNum}
+                </div>
+                <div class="od-order-date">
+                  <i class="fas fa-clock"></i>
+                  ${dateStr}
+                </div>
+              </div>
+              <div class="od-status-big">
+                <i class="fas ${statusInfo.icon}"></i>
+                ${statusInfo.text}
+              </div>
+            </div>
+          </div>
+
+          <!-- Progress Bar -->
+          <div class="od-progress-wrap">
+            <div class="od-progress-steps">
+              <div class="od-step ${progressSteps[0]}">
+                <div class="od-step-icon"><i class="fas fa-box"></i></div>
+                <div class="od-step-label">مُعيَّن</div>
+              </div>
+              <div class="od-step ${progressSteps[1]}">
+                <div class="od-step-icon"><i class="fas fa-box-open"></i></div>
+                <div class="od-step-label">تم الاستلام</div>
+              </div>
+              <div class="od-step ${progressSteps[2]}">
+                <div class="od-step-icon"><i class="fas fa-truck"></i></div>
+                <div class="od-step-label">جاري التوصيل</div>
+              </div>
+              <div class="od-step ${progressSteps[3]}">
+                <div class="od-step-icon"><i class="fas fa-home"></i></div>
+                <div class="od-step-label">تم التسليم</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card Body -->
+          <div class="od-card-body">
+
+            <!-- Customer Section -->
+            <div class="od-section">
+              <div class="od-section-title">
+                <i class="fas fa-user"></i>
+                بيانات العميل
+              </div>
+
+              <div class="od-info-grid">
+                <div class="od-info-item full">
+                  <div class="od-info-label">
+                    <i class="fas fa-user"></i> الاسم
+                  </div>
+                  <div class="od-info-value large">${escapeHtml(customerName)}</div>
+                </div>
+
+                ${customerPhone ? `
+                  <div class="od-info-item">
+                    <div class="od-info-label">
+                      <i class="fas fa-phone"></i> الهاتف
+                    </div>
+                    <div class="od-info-value ltr">${escapeHtml(customerPhone)}</div>
+                  </div>
+                ` : ''}
+
+                ${customerPhone2 ? `
+                  <div class="od-info-item">
+                    <div class="od-info-label">
+                      <i class="fas fa-phone-volume"></i> هاتف بديل
+                    </div>
+                    <div class="od-info-value ltr">${escapeHtml(customerPhone2)}</div>
+                  </div>
+                ` : ''}
+
+                <div class="od-info-item full">
+                  <div class="od-info-label">
+                    <i class="fas fa-map-marker-alt"></i> العنوان
+                  </div>
+                  <div class="od-info-value">${escapeHtml(region)} - ${escapeHtml(address)}</div>
+                </div>
+              </div>
+
+              ${customerPhone ? `
+                <div class="od-contact-actions">
+                  <a href="${telLink}" class="od-contact-btn call">
+                    <i class="fas fa-phone"></i>
+                    اتصال
+                  </a>
+                  <a href="${waLink}" target="_blank" rel="noopener" class="od-contact-btn whatsapp">
+                    <i class="fab fa-whatsapp"></i>
+                    واتساب
+                  </a>
+                  <a href="${mapLink}" target="_blank" rel="noopener" class="od-contact-btn map">
+                    <i class="fas fa-map-marked-alt"></i>
+                    الاتجاهات
+                  </a>
+                </div>
+              ` : ''}
+            </div>
+
+            <!-- Payment Section -->
+            <div class="od-section">
+              <div class="od-section-title">
+                <i class="fas fa-credit-card"></i>
+                معلومات الدفع
+              </div>
+
+              <div class="od-info-grid">
+                <div class="od-info-item full">
+                  <div class="od-info-label">
+                    <i class="fas fa-wallet"></i> طريقة الدفع
+                  </div>
+                  <div class="od-info-value large">${escapeHtml(paymentMethodLabel)}</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Items Section -->
+            <div class="od-section">
+              <div class="od-section-title">
+                <i class="fas fa-boxes"></i>
+                المنتجات (${(order.items || []).length})
+              </div>
+
+              <div class="od-items-list">
+                ${itemsHtml || '<div style="text-align:center;padding:20px;color:var(--gray-400);">لا توجد منتجات</div>'}
+              </div>
+
+              <!-- Amounts -->
+              <div class="od-amounts">
+                <div class="od-amount-row">
+                  <span class="label">المجموع الفرعي</span>
+                  <span class="value">${subtotal.toFixed(2)} ج.م</span>
+                </div>
+
+                <div class="od-amount-row">
+                  <span class="label">الشحن</span>
+                  <span class="value ${isFreeShipping ? 'free' : ''}">
+                    ${isFreeShipping ? '<i class="fas fa-check-circle"></i> مجاني' : shippingCost.toFixed(2) + ' ج.م'}
+                  </span>
+                </div>
+
+                ${paymentFee > 0 ? `
+                  <div class="od-amount-row">
+                    <span class="label">رسوم محفظة (${order.paymentFeePercent || 1}%)</span>
+                    <span class="value gold">${paymentFee.toFixed(2)} ج.م</span>
+                  </div>
+                ` : ''}
+
+                <div class="od-amount-row total">
+                  <span class="label">الإجمالي النهائي</span>
+                  <span class="value">${totalAmount.toFixed(0)} ج.م</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Notes Section -->
+            ${notes ? `
+              <div class="od-section">
+                <div class="od-section-title">
+                  <i class="fas fa-comment-alt"></i>
+                  ملاحظات
+                </div>
+                <div class="od-notes">
+                  <i class="fas fa-info-circle"></i>
+                  <div>${escapeHtml(notes)}</div>
+                </div>
+              </div>
+            ` : ''}
+
+          </div>
+
+          <!-- Actions -->
+          <div class="od-actions">
+            ${actionsHtml}
+          </div>
+        </div>
+      `;
+
+      // حفظ المرجع للـ modal
+      window._currentOrderData = order;
+    }
+
+    // ============================================================
+    // 📊 Status Info
+    // ============================================================
+    function getStatusInfo(status) {
+      const map = {
+        assigned: { icon: 'fa-box-open', text: 'مُعيَّن' },
+        unassigned: { icon: 'fa-plus-circle', text: 'متاح' },
+        picked_up: { icon: 'fa-truck-moving', text: 'جاري التوصيل' },
+        delivered: { icon: 'fa-check-double', text: 'تم التسليم' },
+        failed: { icon: 'fa-times-circle', text: 'فشل التسليم' }
+      };
+      return map[status] || map.assigned;
+    }
+
+    // ============================================================
+    // 📊 Progress Steps
+    // ============================================================
+    function getProgressSteps(status) {
+      // 4 خطوات: معيّن - تم الاستلام - جاري - تم التسليم
+      const steps = ['', '', '', ''];
+
+      if (status === 'assigned' || status === 'unassigned') {
+        steps[0] = 'current';
+      } else if (status === 'picked_up') {
+        steps[0] = 'done';
+        steps[1] = 'done';
+        steps[2] = 'current';
+      } else if (status === 'delivered') {
+        steps[0] = 'done';
+        steps[1] = 'done';
+        steps[2] = 'done';
+        steps[3] = 'done';
+      } else if (status === 'failed') {
+        steps[0] = 'done';
+        steps[1] = 'done';
+      }
+
+      return steps;
+    }
+
+    // ============================================================
+    // 📦 استلام الأوردر
+    // ============================================================
+    async function pickUpOrder() {
+      if (!confirm('هل استلمت الأوردر من المخزن؟')) return;
+
+      try {
+        await db.collection('orders').doc(_orderId).update({
+          deliveryStatus: 'picked_up',
+          deliveryAgentId: _agentId,
+          deliveryAgentName: _agent.name || '',
+          deliveryAgentPhone: _agent.phone || '',
+          pickedUpAt: firebase.firestore.FieldValue.serverTimestamp(),
+          status: 'shipped',
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        // تحديث إحصائيات الموصل
+        try {
+          await db.collection('delivery_agents').doc(_agentId).update({
+            pendingOrdersCount: firebase.firestore.FieldValue.increment(1),
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        } catch (e) { console.warn('agent stats update failed:', e); }
+
+        showToast('تم استلام الأوردر', 'success');
+
+      } catch (err) {
+        console.error('pickUpOrder error:', err);
+        showToast('فشل التحديث', 'error');
+      }
+    }
+
+    // ============================================================
+    // 💰 Modal تحصيل المبلغ
+    // ============================================================
+    function openCollectModal() {
+      if (!_order) return;
+
+      const totalAmount = _order.grandTotal || _order.total || 0;
+      const orderNum = _orderId.slice(-8).toUpperCase();
+
+      const modalHtml = `
+        <div class="od-modal-overlay show" id="collectModal" onclick="closeModal('collectModal', event)">
+          <div class="od-modal" onclick="event.stopPropagation()">
+            <div class="od-modal-header">
+              <div class="icon-wrap">
+                <i class="fas fa-money-bill-wave"></i>
+              </div>
+              <h3>تحصيل المبلغ</h3>
+              <p>#${orderNum}</p>
+            </div>
+            <div class="od-modal-body">
+              <div class="od-modal-amount-box">
+                <div class="label">المبلغ المطلوب تحصيله</div>
+                <div class="amount">${totalAmount.toFixed(0)} <small>ج.م</small></div>
+              </div>
+
+              <div class="form-group">
+                <label><i class="fas fa-money-bill-wave"></i> المبلغ المُحصَّل فعلياً</label>
+                <input type="number" id="collectInput" class="amount-input" 
+                       min="0" step="1" max="${totalAmount}"
+                       value="${totalAmount.toFixed(0)}" inputmode="numeric">
+              </div>
+
+              <div class="od-modal-note info">
+                <i class="fas fa-info-circle"></i>
+                <div>
+                  <strong>ملاحظة:</strong> يمكنك تحصيل المبلغ كاملاً أو أقل. لو حصّلت أقل، اتأكد إنك كتبت السبب في ملاحظات الأوردر.
+                </div>
+              </div>
+            </div>
+            <div class="od-modal-actions">
+              <button class="btn btn-cancel" onclick="closeModal('collectModal')">
+                <i class="fas fa-times"></i>
+                إلغاء
+              </button>
+              <button class="btn btn-confirm" id="collectConfirmBtn" onclick="confirmCollect()">
+                <i class="fas fa-check"></i>
+                تأكيد التسليم والتحصيل
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const existing = document.getElementById('collectModal');
+      if (existing) existing.remove();
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
+      document.body.style.overflow = 'hidden';
+    }
+
+    async function confirmCollect() {
+      if (!_order) return;
+
+      const input = document.getElementById('collectInput');
+      const collected = parseFloat(input.value) || 0;
+      const totalAmount = _order.grandTotal || _order.total || 0;
+
+      if (collected < 0) {
+        showToast('ادخل مبلغ صحيح', 'warning');
+        return;
+      }
+      if (collected > totalAmount) {
+        showToast(`المبلغ أكبر من الإجمالي (${totalAmount} ج.م)`, 'warning');
+        return;
+      }
+
+      const btn = document.getElementById('collectConfirmBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التنفيذ...';
+
+      try {
+        // 1) تحديث الأوردر
+        await db.collection('orders').doc(_orderId).update({
+          deliveryStatus: 'delivered',
+          deliveredAt: firebase.firestore.FieldValue.serverTimestamp(),
+          status: 'delivered',
+          cashCollected: collected,
+          cashCollectedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          paid: collected,
+          remaining: totalAmount - collected,
+          paymentStatus: collected >= totalAmount ? 'paid' : 'partial',
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        // 2) تسجيل تحصيل
+        await db.collection('delivery_collections').add({
+          deliveryAgentId: _agentId,
+          deliveryAgentName: _agent.name || '',
+          orderId: _orderId,
+          orderNumber: '#' + _orderId.slice(-8).toUpperCase(),
+          amount: collected,
+          type: 'collect',
+          method: _order.paymentMethod || 'cash',
+          status: 'confirmed',
+          notes: '',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        // 3) تحديث رصيد الموصل
+        const userRef = db.collection('delivery_agents').doc(_agentId);
+        const userDoc = await userRef.get();
+
+        if (userDoc.exists) {
+          const agentData = userDoc.data();
+          const newCash = (agentData.currentCashOnHand || 0) + collected;
+          const newDelivered = (agentData.totalDelivered || 0) + 1;
+          const newCollected = (agentData.totalCollected || 0) + collected;
+          const newPending = Math.max(0, (agentData.pendingOrdersCount || 0) - 1);
+
+          await userRef.update({
+            currentCashOnHand: newCash,
+            totalDelivered: newDelivered,
+            totalCollected: newCollected,
+            pendingOrdersCount: newPending,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+
+          _agent.currentCashOnHand = newCash;
+          _agent.totalDelivered = newDelivered;
+          _agent.totalCollected = newCollected;
+          localStorage.setItem('deliveryData', JSON.stringify(_agent));
+
+          if (_agent.code) {
+            try {
+              await db.collection('delivery_lookup').doc(_agent.code).update({
+                currentCashOnHand: newCash,
+                totalDelivered: newDelivered,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+              });
+            } catch (e) {}
+          }
+        }
+
+        // 4) إشعار للعميل
+        if (_order.customerId) {
+          try {
+            await db.collection('customer_notifications').add({
+              userId: _order.customerId,
+              type: 'order_delivered',
+              title: 'تم تسليم طلبك',
+              body: `تم تسليم الأوردر #${_orderId.slice(-8).toUpperCase()} بنجاح. شكراً لثقتك.`,
+              read: false,
+              createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+          } catch (e) {}
+        }
+
+        // 5) log activity
+        if (typeof logActivity === 'function') {
+          logActivity('تسليم أوردر', `#${_orderId.slice(-8).toUpperCase()} - ${collected} ج.م`);
+        }
+
+        showToast('تم التسليم والتحصيل بنجاح', 'success');
+        closeModal('collectModal');
+
+      } catch (err) {
+        console.error('confirmCollect error:', err);
+        showToast('فشل التنفيذ', 'error');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-check"></i> تأكيد التسليم والتحصيل';
+      }
+    }
+
+    // ============================================================
+    // ✅ تسليم بدون تحصيل (دفع مسبق)
+    // ============================================================
+    async function deliverWithoutCash() {
+      if (!_order) return;
+      if (!confirm('هل تم تسليم الأوردر للعميل؟ (دفع مسبق)')) return;
+
+      try {
+        await db.collection('orders').doc(_orderId).update({
+          deliveryStatus: 'delivered',
+          deliveredAt: firebase.firestore.FieldValue.serverTimestamp(),
+          status: 'delivered',
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        // تحديث إحصائيات الموصل
+        const userRef = db.collection('delivery_agents').doc(_agentId);
+        const userDoc = await userRef.get();
+
+        if (userDoc.exists) {
+          const agentData = userDoc.data();
+          const newDelivered = (agentData.totalDelivered || 0) + 1;
+          const newPending = Math.max(0, (agentData.pendingOrdersCount || 0) - 1);
+
+          await userRef.update({
+            totalDelivered: newDelivered,
+            pendingOrdersCount: newPending,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+
+          _agent.totalDelivered = newDelivered;
+          localStorage.setItem('deliveryData', JSON.stringify(_agent));
+
+          if (_agent.code) {
+            try {
+              await db.collection('delivery_lookup').doc(_agent.code).update({
+                totalDelivered: newDelivered,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+              });
+            } catch (e) {}
+          }
+        }
+
+        // إشعار للعميل
+        if (_order.customerId) {
+          try {
+            await db.collection('customer_notifications').add({
+              userId: _order.customerId,
+              type: 'order_delivered',
+              title: 'تم تسليم طلبك',
+              body: `تم تسليم الأوردر #${_orderId.slice(-8).toUpperCase()} بنجاح.`,
+              read: false,
+              createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+          } catch (e) {}
+        }
+
+        showToast('تم التسليم بنجاح', 'success');
+
+      } catch (err) {
+        console.error('deliverWithoutCash error:', err);
+        showToast('فشل التحديث', 'error');
+      }
+    }
+
+    // ============================================================
+    // ❌ Modal فشل التسليم
+    // ============================================================
+    function openFailModal() {
+      if (!_order) return;
+
+      const orderNum = _orderId.slice(-8).toUpperCase();
+
+      const reasons = [
+        'العميل غير متواجد',
+        'العميل رفض الاستلام',
+        'العنوان غير صحيح',
+        'تعذر التواصل مع العميل',
+        'الطلب تالف',
+        'سبب آخر'
+      ];
+
+      const modalHtml = `
+        <div class="od-modal-overlay show" id="failModal" onclick="closeModal('failModal', event)">
+          <div class="od-modal" onclick="event.stopPropagation()">
+            <div class="od-modal-header danger">
+              <div class="icon-wrap">
+                <i class="fas fa-times-circle"></i>
+              </div>
+              <h3>فشل التسليم</h3>
+              <p>#${orderNum}</p>
+            </div>
+            <div class="od-modal-body">
+              <div class="od-modal-note danger" style="margin-bottom:16px;">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div>
+                  <strong>تنبيه:</strong> سيتم إبلاغ الإدارة بسبب فشل التسليم. تأكد من اختيار السبب الصحيح.
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label><i class="fas fa-list"></i> سبب فشل التسليم</label>
+                <select id="failReasonSelect">
+                  <option value="">-- اختر السبب --</option>
+                  ${reasons.map(r => `<option value="${r}">${r}</option>`).join('')}
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label><i class="fas fa-comment-alt"></i> تفاصيل إضافية (اختياري)</label>
+                <textarea id="failNotes" placeholder="اكتب أي تفاصيل إضافية..." maxlength="300"></textarea>
+              </div>
+            </div>
+            <div class="od-modal-actions">
+              <button class="btn btn-cancel" onclick="closeModal('failModal')">
+                <i class="fas fa-times"></i>
+                إلغاء
+              </button>
+              <button class="btn btn-confirm danger" id="failConfirmBtn" onclick="confirmFail()">
+                <i class="fas fa-times-circle"></i>
+                تأكيد فشل التسليم
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const existing = document.getElementById('failModal');
+      if (existing) existing.remove();
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
+      document.body.style.overflow = 'hidden';
+    }
+
+    async function confirmFail() {
+      if (!_order) return;
+
+      const reason = document.getElementById('failReasonSelect').value;
+      const notes = document.getElementById('failNotes').value.trim();
+
+      if (!reason) {
+        showToast('اختر سبب فشل التسليم', 'warning');
+        return;
+      }
+
+      const btn = document.getElementById('failConfirmBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التنفيذ...';
+
+      try {
+        await db.collection('orders').doc(_orderId).update({
+          deliveryStatus: 'failed',
+          failedReason: reason,
+          deliveryNotes: notes || '',
+          status: 'cancelled',
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        // تحديث pending count
+        try {
+          await db.collection('delivery_agents').doc(_agentId).update({
+            pendingOrdersCount: firebase.firestore.FieldValue.increment(-1),
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        } catch (e) {}
+
+        // log activity
+        if (typeof logActivity === 'function') {
+          logActivity('فشل تسليم أوردر', `#${_orderId.slice(-8).toUpperCase()} - ${reason}`);
+        }
+
+        showToast('تم تسجيل فشل التسليم', 'success');
+        closeModal('failModal');
+
+      } catch (err) {
+        console.error('confirmFail error:', err);
+        showToast('فشل التحديث', 'error');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-times-circle"></i> تأكيد فشل التسليم';
+      }
+    }
+
+    // ============================================================
+    // 🛠️ Helpers
+    // ============================================================
+    function closeModal(id, event) {
+      if (event && event.target !== event.currentTarget) return;
+      const modal = document.getElementById(id);
+      if (modal) modal.remove();
+      document.body.style.overflow = '';
+    }
+
+    function renderError(message) {
+      const container = document.getElementById('odContainer');
+      if (!container) return;
+
+      container.innerHTML = `
+        <div class="od-error">
+          <div class="icon">
+            <i class="fas fa-exclamation-triangle"></i>
+          </div>
+          <h3>${escapeHtml(message)}</h3>
+          <p>تأكد من الرابط وحاول مرة أخرى</p>
+          <div style="margin-top:20px;">
+            <a href="orders.html" class="od-back-btn" style="display:inline-flex;">
+              <i class="fas fa-arrow-right"></i>
+              رجوع لأوردراتي
+            </a>
+          </div>
+        </div>
+      `;
+    }
+
+    function escapeHtml(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[c]));
+    }
+
+    // ESC لإغلاق المودال
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        closeModal('collectModal');
+        closeModal('failModal');
+      }
+    });
+
+    // تصدير
+    window.pickUpOrder = pickUpOrder;
+    window.openCollectModal = openCollectModal;
+    window.confirmCollect = confirmCollect;
+    window.deliverWithoutCash = deliverWithoutCash;
+    window.openFailModal = openFailModal;
+    window.confirmFail = confirmFail;
+    window.closeModal = closeModal;
+  </script>
+
+</body>
+</html>
