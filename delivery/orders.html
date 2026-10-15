@@ -711,23 +711,24 @@
       loadOrders();
     });
 
-    // ============================================================
-    // 📥 تحميل الأوردرات
-    // ============================================================
-    function loadOrders() {
+        function loadOrders() {
       if (_unsub) _unsub();
 
+      // نستعلم عن الأوردرات المسندة للموصل فقط (يطابق القاعدة)
       _unsub = db.collection('orders')
-        .orderBy('createdAt', 'desc')
+        .where('deliveryAgentId', '==', _agentId)
         .limit(150)
         .onSnapshot(snap => {
           _allOrders = [];
           snap.forEach(d => {
-            const data = { id: d.id, ...d.data() };
-            // فلتر: أوردرات الموصل فقط (المسندة له أو اللي استلمها)
-            if (data.deliveryAgentId === _agentId) {
-              _allOrders.push(data);
-            }
+            _allOrders.push({ id: d.id, ...d.data() });
+          });
+
+          // ترتيب محلي
+          _allOrders.sort((a, b) => {
+            const ta = a.createdAt?.toMillis?.() || 0;
+            const tb = b.createdAt?.toMillis?.() || 0;
+            return tb - ta;
           });
 
           updateStats();
@@ -746,7 +747,6 @@
           }
         });
     }
-
     // ============================================================
     // 📊 الإحصائيات
     // ============================================================
