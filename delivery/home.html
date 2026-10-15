@@ -970,32 +970,25 @@
       return name.trim().charAt(0).toUpperCase();
     }
 
-    // ============================================================
-    // 📥 تحميل الأوردرات (Realtime)
-    // ============================================================
-    function loadOrders() {
+       function loadOrders() {
       if (_unsub) _unsub();
 
-      const region = _agent.area || '';
-
-      // نستخدم query بسيط ثم نفلتر محلياً (لتجنب مشاكل الـ indexes)
+      // نستعلم عن الأوردرات المسندة للموصل فقط
+      // (الـ available سيكون في صفحة available.html لاحقاً)
       _unsub = db.collection('orders')
-        .orderBy('createdAt', 'desc')
+        .where('deliveryAgentId', '==', _agentId)
         .limit(100)
         .onSnapshot(snap => {
           _orders = [];
           snap.forEach(d => {
-            const data = { id: d.id, ...d.data() };
-            // فلتر: أوردراتي أو أوردرات منطقتي المتاحة
-            const isMine = data.deliveryAgentId === _agentId;
-            const isAvailableInMyRegion = 
-              (!data.deliveryAgentId || data.deliveryAgentId === '') &&
-              data.region === region &&
-              data.deliveryStatus === 'unassigned';
+            _orders.push({ id: d.id, ...d.data() });
+          });
 
-            if (isMine || isAvailableInMyRegion) {
-              _orders.push(data);
-            }
+          // ترتيب محلي بالتاريخ (الأحدث أولاً)
+          _orders.sort((a, b) => {
+            const ta = a.createdAt?.toMillis?.() || 0;
+            const tb = b.createdAt?.toMillis?.() || 0;
+            return tb - ta;
           });
 
           renderAll();
@@ -1004,7 +997,6 @@
           showToast('فشل تحميل الأوردرات', 'error');
         });
     }
-
     // ============================================================
     // 🎨 عرض كل الأقسام
     // ============================================================
