@@ -960,23 +960,25 @@
     // 📥 تحميل الأوردرات المتاحة
     // ✅ بنستخدم where('region') بس لتفادي Composite Index
     // ============================================================
-    function loadAvailableOrders() {
+       function loadAvailableOrders() {
       if (_unsub) _unsub();
 
+      // 🆕 v7.1: تشديد كامل — 3 شروط
       _unsub = db.collection('orders')
         .where('region', '==', _agent.area)
+        .where('deliveryAgentId', '==', '')
+        .where('deliveryStatus', '==', 'unassigned')
         .limit(100)
         .onSnapshot(snap => {
           _allOrders = [];
           snap.forEach(d => {
             const data = { id: d.id, ...d.data() };
-
-            // فلترة محلية: أوردرات غير مسندة ومتاحة
-            const isUnassigned = (!data.deliveryAgentId || data.deliveryAgentId === '');
-            const isAvailable = (data.deliveryStatus === 'unassigned' || !data.deliveryStatus);
-            const isPending = (data.status === 'pending' || data.status === 'processing' || data.status === 'preparing');
-
-            if (isUnassigned && isAvailable && isPending) {
+            // فلتر إضافي بسيط: أوردر لسه في مرحلة التحضير
+            const isPending = (data.status === 'pending' ||
+                              data.status === 'processing' ||
+                              data.status === 'preparing' ||
+                              !data.status);
+            if (isPending) {
               _allOrders.push(data);
             }
           });
@@ -996,7 +998,6 @@
           renderError(err);
         });
     }
-
     // ============================================================
     // 📊 الإحصائيات
     // ============================================================
