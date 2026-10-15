@@ -1,0 +1,1415 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>بروفايلي - الموصل | أولاد شعلان</title>
+  <meta name="theme-color" content="#047857">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/gomla/assets/css/style.css">
+  <link rel="icon" href="/gomla/assets/images/favicon.ico">
+  <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.0/dist/browser-image-compression.js"></script>
+
+  <style>
+    /* ============================================================
+       👤 بروفايل الموصل - v1.0
+       ============================================================ */
+    :root {
+      --del-green-1: #064e3b;
+      --del-green-2: #047857;
+      --del-green-3: #059669;
+      --del-green-light: #10b981;
+      --del-green-bg: #ecfdf5;
+    }
+
+    html, body { overflow-x: hidden !important; max-width: 100vw; }
+    .page-content, .page-content .container {
+      overflow-x: hidden; min-width: 0; max-width: 100%;
+    }
+
+    /* Header */
+    .pr-header {
+      background: linear-gradient(135deg, var(--del-green-1), var(--del-green-2), var(--del-green-3));
+      border-radius: var(--radius-lg);
+      padding: 20px 22px;
+      margin-bottom: 14px;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(6,78,59,.35);
+      border-bottom: 4px solid var(--del-green-light);
+    }
+    .pr-header::before {
+      content: '';
+      position: absolute;
+      top: -50%; right: -15%;
+      width: 260px; height: 260px;
+      background: radial-gradient(circle, rgba(16,185,129,.35), transparent 70%);
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+    }
+    .pr-header-content {
+      position: relative; z-index: 1;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .pr-header-icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--del-green-light), #34d399);
+      color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem;
+      flex-shrink: 0;
+      box-shadow: 0 8px 24px rgba(16,185,129,.5);
+    }
+    .pr-header-text { flex: 1; min-width: 180px; }
+    .pr-header-text h1 {
+      font-size: 1.2rem; font-weight: 900;
+      margin: 0 0 3px; color: var(--white);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .pr-header-text h1 i { color: #a7f3d0; }
+    .pr-header-text p {
+      font-size: 0.78rem; margin: 0;
+      color: rgba(255,255,255,.85);
+    }
+
+    /* Profile Hero Card */
+    .profile-hero {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--gray-200);
+      margin-bottom: 16px;
+      overflow: hidden;
+      position: relative;
+    }
+    .profile-hero-cover {
+      height: 90px;
+      background: linear-gradient(135deg, var(--del-green-1), var(--del-green-3));
+      position: relative;
+      overflow: hidden;
+    }
+    .profile-hero-cover::before {
+      content: '';
+      position: absolute;
+      top: -50%; right: -10%;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(16,185,129,.4), transparent 70%);
+      border-radius: 50%;
+      animation: float 10s ease-in-out infinite;
+    }
+    .profile-hero-cover::after {
+      content: '';
+      position: absolute;
+      bottom: -40px; left: -30px;
+      width: 140px; height: 140px;
+      background: radial-gradient(circle, rgba(16,185,129,.25), transparent 70%);
+      border-radius: 50%;
+      animation: float 12s ease-in-out infinite reverse;
+    }
+
+    .profile-hero-body {
+      padding: 0 22px 20px;
+      text-align: center;
+      margin-top: -45px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .profile-avatar-large {
+      width: 90px; height: 90px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--del-green-light), #34d399);
+      color: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.2rem; font-weight: 900;
+      margin: 0 auto 12px;
+      border: 4px solid var(--white);
+      box-shadow: 0 8px 24px rgba(5,150,105,.4);
+      overflow: hidden;
+      position: relative;
+    }
+    .profile-avatar-large img {
+      width: 100%; height: 100%; object-fit: cover;
+    }
+    .profile-avatar-large.editable { cursor: pointer; }
+    .profile-avatar-large.editable:hover::after {
+      content: '\f030';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,.55);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      border-radius: 50%;
+    }
+    .profile-avatar-large.uploading::after {
+      content: '\f110';
+      font-family: 'Font Awesome 6 Free';
+      font-weight: 900;
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,.65);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .profile-name {
+      font-size: 1.25rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin: 0 0 4px;
+    }
+    .profile-role {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 12px;
+      background: linear-gradient(135deg, var(--del-green-3), var(--del-green-2));
+      color: var(--white);
+      border-radius: var(--radius-full);
+      font-size: 0.72rem;
+      font-weight: 800;
+      margin-bottom: 14px;
+      box-shadow: 0 3px 10px rgba(5,150,105,.3);
+    }
+    .profile-role i { color: #a7f3d0; font-size: 0.68rem; }
+
+    /* Status Badge */
+    .profile-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: var(--white);
+      border-radius: var(--radius-full);
+      font-size: 0.75rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 12px rgba(34,197,94,.3);
+    }
+    .profile-status i {
+      animation: pulseDot 2s ease-in-out infinite;
+    }
+    @keyframes pulseDot {
+      0%,100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.2); }
+    }
+
+    /* Section */
+    .pr-section {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      margin-bottom: 14px;
+      overflow: hidden;
+    }
+    .pr-section-header {
+      padding: 14px 18px;
+      background: linear-gradient(135deg, var(--del-green-1), var(--del-green-3));
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      position: relative;
+    }
+    .pr-section-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; right: 0; left: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #10b981, #34d399, #a7f3d0, #34d399, #10b981);
+      background-size: 200% 100%;
+      animation: shimmer 3s linear infinite;
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .pr-section-header h3 {
+      margin: 0;
+      font-size: 0.95rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .pr-section-header h3 i { color: #a7f3d0; }
+    .pr-section-header .btn-edit-section {
+      background: rgba(255,255,255,.15);
+      color: var(--white);
+      border: 1px solid rgba(255,255,255,.25);
+      padding: 5px 12px;
+      border-radius: var(--radius-full);
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.72rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: var(--transition);
+    }
+    .pr-section-header .btn-edit-section:hover {
+      background: rgba(255,255,255,.25);
+    }
+
+    .pr-section-body {
+      padding: 16px 18px;
+    }
+
+    /* Info Row */
+    .pr-info-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .pr-info-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .pr-info-row:first-child { padding-top: 0; }
+
+    .pr-info-icon {
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--del-green-3), var(--del-green-light));
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+      box-shadow: 0 3px 10px rgba(5,150,105,.25);
+    }
+    .pr-info-content { flex: 1; min-width: 0; }
+    .pr-info-label {
+      font-size: 0.7rem;
+      color: var(--gray-500);
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+    .pr-info-value {
+      font-size: 0.9rem;
+      color: var(--navy);
+      font-weight: 800;
+      word-break: break-word;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .pr-info-value.ltr { direction: ltr; justify-content: flex-end; text-align: right; }
+    .pr-info-value.mono {
+      font-family: 'Courier New', monospace;
+      letter-spacing: 0.5px;
+      color: var(--del-green-1);
+    }
+
+    /* Copy button */
+    .copy-mini {
+      width: 28px; height: 28px;
+      border-radius: 8px;
+      border: 1.5px solid var(--gray-200);
+      background: var(--white);
+      color: var(--gray-500);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.72rem;
+      cursor: pointer;
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+    .copy-mini:hover {
+      background: var(--del-green-3);
+      color: var(--white);
+      border-color: var(--del-green-2);
+      transform: scale(1.05);
+    }
+
+    /* Stats Grid */
+    .pr-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .pr-stat-card {
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      padding: 14px 10px;
+      text-align: center;
+      transition: var(--transition);
+    }
+    .pr-stat-card:hover {
+      background: var(--del-green-bg);
+      border-color: var(--del-green-light);
+      transform: translateY(-2px);
+    }
+    .pr-stat-card .stat-icon {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      margin: 0 auto 8px;
+    }
+    .stat-icon.green { background: rgba(16,185,129,.15); color: var(--del-green-3); }
+    .stat-icon.blue { background: rgba(59,130,246,.12); color: #2563eb; }
+    .stat-icon.gold { background: rgba(201,168,76,.15); color: var(--gold-dark); }
+    .pr-stat-card .stat-number {
+      font-size: 1.05rem;
+      font-weight: 900;
+      color: var(--navy);
+      line-height: 1.2;
+      margin-bottom: 2px;
+    }
+    .pr-stat-card .stat-number.green { color: var(--del-green-3); }
+    .pr-stat-card .stat-number.blue { color: #2563eb; }
+    .pr-stat-card .stat-number.gold { color: var(--gold-dark); }
+    .pr-stat-card .stat-label {
+      font-size: 0.65rem;
+      color: var(--gray-500);
+      font-weight: 700;
+    }
+
+    /* Actions */
+    .pr-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .pr-action-btn {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      background: var(--white);
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      color: var(--navy);
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: right;
+      text-decoration: none;
+    }
+    .pr-action-btn:hover {
+      border-color: var(--del-green-3);
+      background: var(--del-green-bg);
+      transform: translateX(-4px);
+    }
+    .pr-action-btn .action-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .action-icon.green {
+      background: linear-gradient(135deg, var(--del-green-3), var(--del-green-light));
+      color: var(--white);
+    }
+    .action-icon.blue {
+      background: linear-gradient(135deg, #3b82f6, #2563eb);
+      color: var(--white);
+    }
+    .action-icon.gold {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--white);
+    }
+    .action-icon.red {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: var(--white);
+    }
+    .pr-action-btn .action-content {
+      flex: 1;
+      min-width: 0;
+    }
+    .pr-action-btn .action-title {
+      font-size: 0.88rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 2px;
+    }
+    .pr-action-btn .action-sub {
+      font-size: 0.72rem;
+      color: var(--gray-500);
+      font-weight: 600;
+    }
+    .pr-action-btn .action-arrow {
+      color: var(--gray-400);
+      font-size: 0.9rem;
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+    .pr-action-btn:hover .action-arrow {
+      color: var(--del-green-3);
+      transform: translateX(-4px);
+    }
+    .pr-action-btn.danger:hover {
+      border-color: #dc2626;
+      background: #fef2f2;
+    }
+    .pr-action-btn.danger:hover .action-arrow {
+      color: #dc2626;
+    }
+
+    /* Info Box */
+    .pr-info-note {
+      display: flex;
+      gap: 10px;
+      padding: 12px 14px;
+      background: #fef9e7;
+      border: 1px solid #fcd34d;
+      border-radius: var(--radius-sm);
+      font-size: 0.78rem;
+      color: #78350f;
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+    .pr-info-note i {
+      color: #d97706;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* Modal */
+    .pr-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15,26,46,.75);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      overflow-y: auto;
+      animation: fadeIn 0.25s ease;
+    }
+    .pr-modal-overlay.show { display: flex; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .pr-modal {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      max-width: 460px;
+      width: 100%;
+      box-shadow: 0 25px 70px rgba(0,0,0,.4);
+      animation: slideUp 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      overflow: hidden;
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .pr-modal-header {
+      padding: 18px 22px;
+      background: linear-gradient(135deg, var(--del-green-1), var(--del-green-3));
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .pr-modal-header h3 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .pr-modal-header h3 i { color: #a7f3d0; }
+    .pr-modal-header .close-btn {
+      background: rgba(255,255,255,.15);
+      border: none;
+      color: var(--white);
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      transition: var(--transition);
+    }
+    .pr-modal-header .close-btn:hover {
+      background: rgba(255,255,255,.25);
+      transform: rotate(90deg);
+    }
+
+    .pr-modal-body { padding: 20px 22px; }
+    .pr-modal-body .form-group { margin-bottom: 14px; }
+    .pr-modal-body .form-group:last-child { margin-bottom: 0; }
+    .pr-modal-body label {
+      display: block;
+      font-weight: 700;
+      font-size: 0.82rem;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .pr-modal-body label i {
+      color: var(--del-green-3);
+      margin-left: 4px;
+    }
+    .pr-modal-body input {
+      width: 100%;
+      padding: 11px 14px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.92rem;
+      background: var(--gray-50);
+      outline: none;
+      transition: var(--transition);
+      color: var(--navy);
+    }
+    .pr-modal-body input:focus {
+      border-color: var(--del-green-3);
+      background: var(--white);
+      box-shadow: 0 0 0 4px rgba(16,185,129,.15);
+    }
+    .pr-modal-body .help-text {
+      font-size: 0.72rem;
+      color: var(--gray-500);
+      margin-top: 4px;
+    }
+
+    .pr-modal-actions {
+      padding: 16px 22px;
+      background: var(--gray-50);
+      display: flex;
+      gap: 10px;
+      border-top: 2px solid var(--gray-100);
+    }
+    .pr-modal-actions .btn {
+      flex: 1;
+      padding: 12px 16px;
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.88rem;
+      border-radius: var(--radius-sm);
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+    .pr-modal-actions .btn-cancel {
+      background: var(--white);
+      color: var(--gray-600);
+      border: 2px solid var(--gray-300);
+    }
+    .pr-modal-actions .btn-cancel:hover { background: var(--gray-100); }
+    .pr-modal-actions .btn-confirm {
+      background: linear-gradient(135deg, var(--del-green-3), var(--del-green-2));
+      color: var(--white);
+      box-shadow: 0 6px 18px rgba(5,150,105,.3);
+    }
+    .pr-modal-actions .btn-confirm:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(5,150,105,.5);
+    }
+    .pr-modal-actions .btn-confirm:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) and (pointer: coarse) {
+      .pr-header { padding: 16px 16px; border-radius: var(--radius-md); }
+      .pr-header-icon { width: 46px; height: 46px; font-size: 1.2rem; }
+      .pr-header-text h1 { font-size: 1rem; }
+
+      .profile-hero-cover { height: 75px; }
+      .profile-avatar-large { width: 76px; height: 76px; font-size: 1.9rem; margin-top: -38px; }
+      .profile-name { font-size: 1.1rem; }
+
+      .pr-section-header { padding: 12px 14px; }
+      .pr-section-header h3 { font-size: 0.88rem; }
+      .pr-section-body { padding: 14px; }
+
+      .pr-info-row { gap: 10px; padding: 10px 0; }
+      .pr-info-icon { width: 34px; height: 34px; font-size: 0.85rem; }
+      .pr-info-value { font-size: 0.85rem; }
+
+      .pr-stats-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+      .pr-stat-card { padding: 10px 8px; }
+      .pr-stat-card .stat-icon { width: 30px; height: 30px; font-size: 0.78rem; }
+      .pr-stat-card .stat-number { font-size: 0.9rem; }
+      .pr-stat-card .stat-label { font-size: 0.6rem; }
+
+      .pr-action-btn { padding: 12px 14px; }
+      .pr-action-btn .action-icon { width: 36px; height: 36px; font-size: 0.92rem; }
+      .pr-action-btn .action-title { font-size: 0.82rem; }
+      .pr-action-btn .action-sub { font-size: 0.68rem; }
+
+      .pr-modal-header { padding: 14px 18px; }
+      .pr-modal-body { padding: 16px 18px; }
+      .pr-modal-actions { padding: 14px 18px; flex-direction: column-reverse; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="mobile-top-bar"></div>
+  <div id="mobile-top-tabs"></div>
+  <div id="header-placeholder"></div>
+
+  <main class="page-content">
+    <div class="container">
+
+      <!-- Header -->
+      <div class="pr-header">
+        <div class="pr-header-content">
+          <div class="pr-header-icon">
+            <i class="fas fa-user-circle"></i>
+          </div>
+          <div class="pr-header-text">
+            <h1><i class="fas fa-user"></i> بروفايلي</h1>
+            <p>بياناتك الشخصية والإحصائيات</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profile Hero -->
+      <div class="profile-hero">
+        <div class="profile-hero-cover"></div>
+        <div class="profile-hero-body">
+          <div class="profile-avatar-large editable" id="profileAvatar"
+               onclick="triggerAvatarUpload()">
+            <span id="avatarText">م</span>
+          </div>
+          <input type="file" id="avatarInput" accept="image/*" style="display:none;"
+                 onchange="handleAvatarChange(event)">
+
+          <h2 class="profile-name" id="profileName">جاري التحميل...</h2>
+          <div class="profile-role">
+            <i class="fas fa-truck-fast"></i>
+            موصل
+          </div>
+          <div class="profile-status" id="profileStatus">
+            <i class="fas fa-circle"></i>
+            نشط
+          </div>
+        </div>
+      </div>
+
+      <!-- Info Note -->
+      <div class="pr-info-note">
+        <i class="fas fa-info-circle"></i>
+        <div>
+          <strong>ملاحظة:</strong> يمكنك تعديل الاسم والصورة فقط. لو محتاج تغيير المنطقة، نوع المركبة، أو بيانات أخرى — تواصل مع الإدارة.
+        </div>
+      </div>
+
+      <!-- Contact Info Section -->
+      <div class="pr-section">
+        <div class="pr-section-header">
+          <h3>
+            <i class="fas fa-id-card"></i>
+            بيانات الدخول
+          </h3>
+          <button class="btn-edit-section" onclick="openEditModal()">
+            <i class="fas fa-pen"></i>
+            تعديل
+          </button>
+        </div>
+        <div class="pr-section-body">
+
+          <div class="pr-info-row">
+            <div class="pr-info-icon"><i class="fas fa-key"></i></div>
+            <div class="pr-info-content">
+              <div class="pr-info-label">كود الموصل</div>
+              <div class="pr-info-value mono" id="infoCode">
+                —
+                <button class="copy-mini" onclick="copyText(document.getElementById('infoCode').firstChild.textContent.trim())" title="نسخ">
+                  <i class="fas fa-copy"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="pr-info-row">
+            <div class="pr-info-icon"><i class="fas fa-envelope"></i></div>
+            <div class="pr-info-content">
+              <div class="pr-info-label">البريد الإلكتروني</div>
+              <div class="pr-info-value ltr" id="infoEmail" style="font-size:0.75rem;">—</div>
+            </div>
+          </div>
+
+          <div class="pr-info-row">
+            <div class="pr-info-icon"><i class="fas fa-user"></i></div>
+            <div class="pr-info-content">
+              <div class="pr-info-label">الاسم الكامل</div>
+              <div class="pr-info-value" id="infoName">—</div>
+            </div>
+          </div>
+
+          <div class="pr-info-row">
+            <div class="pr-info-icon"><i class="fas fa-phone"></i></div>
+            <div class="pr-info-content">
+              <div class="pr-info-label">رقم الهاتف</div>
+              <div class="pr-info-value ltr" id="infoPhone">—</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Work Info Section -->
+      <div class="pr-section">
+        <div class="pr-section-header">
+          <h3>
+            <i class="fas fa-briefcase"></i>
+            معلومات العمل
+          </h3>
+        </div>
+        <div class="pr-section-body">
+
+          <div class="pr-info-row">
+            <div class="pr-info-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div class="pr-info-content">
+              <div class="pr-info-label">منطقة العمل</div>
+              <div class="pr-info-value" id="infoArea">—</div>
+            </div>
+          </div>
+
+          <div class="pr-info-row">
+            <div class="pr-info-icon"><i class="fas fa-motorcycle"></i></div>
+            <div class="pr-info-content">
+              <div class="pr-info-label">نوع المركبة</div>
+              <div class="pr-info-value" id="infoVehicle">—</div>
+            </div>
+          </div>
+
+          <div class="pr-info-row" id="vehicleNumberRow" style="display:none;">
+            <div class="pr-info-icon"><i class="fas fa-hashtag"></i></div>
+            <div class="pr-info-content">
+              <div class="pr-info-label">رقم المركبة</div>
+              <div class="pr-info-value" id="infoVehicleNumber">—</div>
+            </div>
+          </div>
+
+          <div class="pr-info-row">
+            <div class="pr-info-icon"><i class="fas fa-calendar-alt"></i></div>
+            <div class="pr-info-content">
+              <div class="pr-info-label">تاريخ الانضمام</div>
+              <div class="pr-info-value" id="infoJoinDate">—</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Stats Section -->
+      <div class="pr-section">
+        <div class="pr-section-header">
+          <h3>
+            <i class="fas fa-chart-line"></i>
+            إحصائياتي
+          </h3>
+        </div>
+        <div class="pr-section-body">
+          <div class="pr-stats-grid">
+            <div class="pr-stat-card">
+              <div class="stat-icon green"><i class="fas fa-check-circle"></i></div>
+              <div class="stat-number green" id="statDelivered">0</div>
+              <div class="stat-label">إجمالي التسليمات</div>
+            </div>
+            <div class="pr-stat-card">
+              <div class="stat-icon gold"><i class="fas fa-coins"></i></div>
+              <div class="stat-number gold" id="statCollected">0</div>
+              <div class="stat-label">إجمالي التحصيلات</div>
+            </div>
+            <div class="stat-card-with-cash pr-stat-card">
+              <div class="stat-icon blue"><i class="fas fa-wallet"></i></div>
+              <div class="stat-number blue" id="statCash">0</div>
+              <div class="stat-label">الكاش الحالي</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions Section -->
+      <div class="pr-section">
+        <div class="pr-section-header">
+          <h3>
+            <i class="fas fa-cog"></i>
+            الإعدادات والإجراءات
+          </h3>
+        </div>
+        <div class="pr-section-body">
+          <div class="pr-actions">
+
+            <button class="pr-action-btn" onclick="openChangePasswordModal()">
+              <div class="action-icon blue"><i class="fas fa-lock"></i></div>
+              <div class="action-content">
+                <div class="action-title">تغيير كلمة المرور</div>
+                <div class="action-sub">تحديث كلمة المرور الخاصة بحسابك</div>
+              </div>
+              <i class="fas fa-chevron-left action-arrow"></i>
+            </button>
+
+            <a href="collections.html" class="pr-action-btn">
+              <div class="action-icon gold"><i class="fas fa-money-bill-wave"></i></div>
+              <div class="action-content">
+                <div class="action-title">كشف حسابي</div>
+                <div class="action-sub">كل تحصيلاتك وتصفياتك</div>
+              </div>
+              <i class="fas fa-chevron-left action-arrow"></i>
+            </a>
+
+            <a href="/gomla/support.html" class="pr-action-btn">
+              <div class="action-icon green"><i class="fas fa-headset"></i></div>
+              <div class="action-content">
+                <div class="action-title">الدعم والمساعدة</div>
+                <div class="action-sub">تواصل مع الإدارة لأي استفسار</div>
+              </div>
+              <i class="fas fa-chevron-left action-arrow"></i>
+            </a>
+
+            <button class="pr-action-btn danger" onclick="logoutUser()">
+              <div class="action-icon red"><i class="fas fa-sign-out-alt"></i></div>
+              <div class="action-content">
+                <div class="action-title">تسجيل الخروج</div>
+                <div class="action-sub">خروج من حسابك الحالي</div>
+              </div>
+              <i class="fas fa-chevron-left action-arrow"></i>
+            </button>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="mobile-bottom-tabs"></div>
+  <div id="mobile-copyright"></div>
+  <div id="footer-placeholder"></div>
+  <div id="sidebar-placeholder"></div>
+  <div id="toast-container"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="/gomla/assets/js/firebase-config.js"></script>
+  <script src="/gomla/assets/js/main.js"></script>
+
+  <script>
+    // ============================================================
+    // 📄 delivery/profile.html — بروفايل الموصل
+    // ============================================================
+
+    let _agent = null;
+    let _agentId = null;
+    let _avatarFile = null;
+    let _isSavingAvatar = false;
+
+    // ============================================================
+    // 🚀 Init
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', async () => {
+      // حماية
+      if (typeof protectDeliveryPage === 'function') {
+        const ok = protectDeliveryPage();
+        if (ok === false) return;
+      }
+
+      const user = getCurrentUser();
+      if (!user || user.type !== 'delivery' || !user.data) {
+        window.location.href = '/gomla/delivery-login.html';
+        return;
+      }
+
+      _agent = user.data;
+      _agentId = _agent.uid || _agent.id;
+
+      if (!_agentId) {
+        showToast('خطأ في بيانات الموصل', 'error');
+        return;
+      }
+
+      renderProfile();
+    });
+
+    // ============================================================
+    // 🎨 عرض البروفايل
+    // ============================================================
+    function renderProfile() {
+      const a = _agent;
+
+      // Avatar
+      const avatarEl = document.getElementById('profileAvatar');
+      const avatarTextEl = document.getElementById('avatarText');
+      if (avatarEl && avatarTextEl) {
+        if (a.avatar) {
+          avatarEl.innerHTML = `<img src="${a.avatar}" alt="${escapeHtml(a.name || '')}" onerror="this.parentElement.innerHTML='<span id=avatarText>${getInitials(a.name)}</span>'">`;
+        } else {
+          avatarTextEl.textContent = getInitials(a.name);
+        }
+      }
+
+      // Name & Status
+      setText('profileName', a.name || 'موصل');
+
+      const statusEl = document.getElementById('profileStatus');
+      if (statusEl) {
+        if (a.active === true) {
+          statusEl.className = 'profile-status';
+          statusEl.innerHTML = '<i class="fas fa-circle"></i> نشط';
+        } else {
+          statusEl.className = 'profile-status';
+          statusEl.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
+          statusEl.style.boxShadow = '0 4px 12px rgba(239,68,68,.3)';
+          statusEl.innerHTML = '<i class="fas fa-ban"></i> معطل';
+        }
+      }
+
+      // Info
+      const codeEl = document.getElementById('infoCode');
+      if (codeEl) {
+        codeEl.innerHTML = `
+          ${escapeHtml(a.code || '—')}
+          <button class="copy-mini" onclick="copyText('${escapeAttr(a.code)}')" title="نسخ">
+            <i class="fas fa-copy"></i>
+          </button>
+        `;
+      }
+
+      setText('infoEmail', a.email || '—');
+      setText('infoName', a.name || '—');
+      setText('infoPhone', a.phone || '—');
+
+      // Work Info
+      setText('infoArea', a.area || '—');
+      setText('infoVehicle', a.vehicle || '—');
+
+      if (a.vehicleNumber) {
+        const vnr = document.getElementById('vehicleNumberRow');
+        if (vnr) vnr.style.display = 'flex';
+        setText('infoVehicleNumber', a.vehicleNumber);
+      }
+
+      const joinDate = a.createdAt?.toDate?.() || (a.createdAt ? new Date(a.createdAt) : null);
+      if (joinDate) {
+        setText('infoJoinDate', joinDate.toLocaleDateString('ar-EG', {
+          year: 'numeric', month: 'long', day: 'numeric'
+        }));
+      } else {
+        setText('infoJoinDate', '—');
+      }
+
+      // Stats
+      setText('statDelivered', a.totalDelivered || 0);
+      setText('statCollected', (a.totalCollected || 0).toLocaleString('en-US', { maximumFractionDigits: 0 }));
+      setText('statCash', (a.currentCashOnHand || 0).toLocaleString('en-US', { maximumFractionDigits: 0 }));
+    }
+
+    function setText(id, val) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = val;
+    }
+
+    function getInitials(name) {
+      if (!name) return 'م';
+      return name.trim().charAt(0).toUpperCase();
+    }
+
+    // ============================================================
+    // 📸 رفع صورة جديدة
+    // ============================================================
+    function triggerAvatarUpload() {
+      if (_isSavingAvatar) return;
+      const input = document.getElementById('avatarInput');
+      if (input) input.click();
+    }
+
+    async function handleAvatarChange(event) {
+      const file = event.target.files && event.target.files[0];
+      if (!file) return;
+
+      if (!file.type.startsWith('image/')) {
+        showToast('يجب اختيار صورة', 'warning');
+        return;
+      }
+      if (file.size > 5 * 1024 * 1024) {
+        showToast('حجم الصورة كبير جداً (الحد 5MB)', 'warning');
+        return;
+      }
+
+      _avatarFile = file;
+      _isSavingAvatar = true;
+
+      const avatarEl = document.getElementById('profileAvatar');
+      if (avatarEl) avatarEl.classList.add('uploading');
+
+      try {
+        // رفع الصورة على ImgBB
+        const url = await uploadImage(file);
+
+        if (!url) throw new Error('فشل رفع الصورة');
+
+        // تحديث Firestore
+        await db.collection('delivery_agents').doc(_agentId).update({
+          avatar: url,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        // تحديث localStorage
+        _agent.avatar = url;
+        localStorage.setItem('deliveryData', JSON.stringify(_agent));
+
+        // تحديث delivery_lookup
+        if (_agent.code) {
+          try {
+            await db.collection('delivery_lookup').doc(_agent.code).update({
+              avatar: url,
+              updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+          } catch (e) { console.warn('lookup update failed:', e); }
+        }
+
+        // تحديث UI
+        if (avatarEl) {
+          avatarEl.innerHTML = `<img src="${url}" alt="${escapeHtml(_agent.name || '')}">`;
+        }
+
+        // تحديث الهيدر والموبايل
+        if (typeof updateHeader === 'function') updateHeader();
+        if (typeof updateSidebar === 'function') updateSidebar();
+        if (typeof loadMobileTopBar === 'function') loadMobileTopBar();
+
+        showToast('تم تحديث الصورة', 'success');
+
+      } catch (err) {
+        console.error('avatar upload error:', err);
+        showToast('فشل رفع الصورة', 'error');
+      } finally {
+        _isSavingAvatar = false;
+        _avatarFile = null;
+        if (avatarEl) avatarEl.classList.remove('uploading');
+        // Reset input
+        event.target.value = '';
+      }
+    }
+
+    // ============================================================
+    // ✏️ Modal تعديل البيانات
+    // ============================================================
+    function openEditModal() {
+      if (!_agent) return;
+
+      const modalHtml = `
+        <div class="pr-modal-overlay show" id="editModal" onclick="closeModal('editModal', event)">
+          <div class="pr-modal" onclick="event.stopPropagation()">
+            <div class="pr-modal-header">
+              <h3><i class="fas fa-pen"></i> تعديل البيانات</h3>
+              <button class="close-btn" onclick="closeModal('editModal')">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+            <div class="pr-modal-body">
+
+              <div class="form-group">
+                <label><i class="fas fa-user"></i> الاسم الكامل</label>
+                <input type="text" id="editName" maxlength="60" value="${escapeAttr(_agent.name)}"
+                       placeholder="مثال: محمد أحمد">
+              </div>
+
+              <div class="form-group">
+                <label><i class="fas fa-phone"></i> رقم الهاتف</label>
+                <input type="tel" id="editPhone" maxlength="11" inputmode="numeric"
+                       value="${escapeAttr(_agent.phone)}" placeholder="01xxxxxxxxx">
+                <div class="help-text">
+                  <i class="fas fa-info-circle"></i>
+                  رقم الهاتف يُستخدم للتواصل مع العملاء
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label><i class="fas fa-phone-volume"></i> رقم هاتف بديل (اختياري)</label>
+                <input type="tel" id="editPhone2" maxlength="11" inputmode="numeric"
+                       value="${escapeAttr(_agent.phone2 || '')}" placeholder="01xxxxxxxxx">
+              </div>
+
+            </div>
+            <div class="pr-modal-actions">
+              <button class="btn btn-cancel" onclick="closeModal('editModal')">
+                <i class="fas fa-times"></i> إلغاء
+              </button>
+              <button class="btn btn-confirm" id="saveEditBtn" onclick="saveProfileEdit()">
+                <i class="fas fa-save"></i> حفظ
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const existing = document.getElementById('editModal');
+      if (existing) existing.remove();
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
+      document.body.style.overflow = 'hidden';
+    }
+
+    async function saveProfileEdit() {
+      const name = document.getElementById('editName').value.trim();
+      const phone = document.getElementById('editPhone').value.trim();
+      const phone2 = document.getElementById('editPhone2').value.trim();
+
+      if (!name || name.length < 3) {
+        showToast('ادخل الاسم الكامل (3 حروف على الأقل)', 'warning');
+        document.getElementById('editName').focus();
+        return;
+      }
+      if (!phone || !/^01[0-9]{9}$/.test(phone)) {
+        showToast('رقم الهاتف يجب أن يكون 11 رقم ويبدأ بـ 01', 'warning');
+        document.getElementById('editPhone').focus();
+        return;
+      }
+      if (phone2 && !/^01[0-9]{9}$/.test(phone2)) {
+        showToast('رقم الهاتف البديل غير صحيح', 'warning');
+        document.getElementById('editPhone2').focus();
+        return;
+      }
+
+      const btn = document.getElementById('saveEditBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الحفظ...';
+
+      try {
+        await db.collection('delivery_agents').doc(_agentId).update({
+          name,
+          phone,
+          phone2: phone2 || '',
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        // تحديث localStorage
+        _agent.name = name;
+        _agent.phone = phone;
+        _agent.phone2 = phone2;
+        localStorage.setItem('deliveryData', JSON.stringify(_agent));
+
+        // تحديث delivery_lookup
+        if (_agent.code) {
+          try {
+            await db.collection('delivery_lookup').doc(_agent.code).update({
+              name, phone,
+              updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+          } catch (e) {}
+        }
+
+        // إعادة العرض
+        renderProfile();
+        if (typeof updateHeader === 'function') updateHeader();
+        if (typeof updateSidebar === 'function') updateSidebar();
+
+        showToast('تم حفظ التعديلات', 'success');
+        closeModal('editModal');
+
+      } catch (err) {
+        console.error('saveProfileEdit error:', err);
+        showToast('فشل الحفظ', 'error');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-save"></i> حفظ';
+      }
+    }
+
+    // ============================================================
+    // 🔒 Modal تغيير كلمة المرور
+    // ============================================================
+    function openChangePasswordModal() {
+      const modalHtml = `
+        <div class="pr-modal-overlay show" id="passwordModal" onclick="closeModal('passwordModal', event)">
+          <div class="pr-modal" onclick="event.stopPropagation()">
+            <div class="pr-modal-header">
+              <h3><i class="fas fa-lock"></i> تغيير كلمة المرور</h3>
+              <button class="close-btn" onclick="closeModal('passwordModal')">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+            <div class="pr-modal-body">
+
+              <div class="form-group">
+                <label><i class="fas fa-key"></i> كلمة المرور الحالية</label>
+                <input type="password" id="currentPassword" placeholder="••••••••">
+              </div>
+
+              <div class="form-group">
+                <label><i class="fas fa-lock"></i> كلمة المرور الجديدة</label>
+                <input type="password" id="newPassword" placeholder="••••••••">
+                <div class="help-text">
+                  <i class="fas fa-info-circle"></i>
+                  6 حروف على الأقل
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label><i class="fas fa-lock"></i> تأكيد كلمة المرور</label>
+                <input type="password" id="confirmPassword" placeholder="••••••••">
+              </div>
+
+            </div>
+            <div class="pr-modal-actions">
+              <button class="btn btn-cancel" onclick="closeModal('passwordModal')">
+                <i class="fas fa-times"></i> إلغاء
+              </button>
+              <button class="btn btn-confirm" id="savePasswordBtn" onclick="savePassword()">
+                <i class="fas fa-save"></i> حفظ
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const existing = document.getElementById('passwordModal');
+      if (existing) existing.remove();
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
+      document.body.style.overflow = 'hidden';
+    }
+
+    async function savePassword() {
+      const currentPwd = document.getElementById('currentPassword').value;
+      const newPwd = document.getElementById('newPassword').value;
+      const confirmPwd = document.getElementById('confirmPassword').value;
+
+      if (!currentPwd) {
+        showToast('ادخل كلمة المرور الحالية', 'warning');
+        return;
+      }
+      if (!newPwd || newPwd.length < 6) {
+        showToast('كلمة المرور الجديدة 6 حروف على الأقل', 'warning');
+        return;
+      }
+      if (newPwd !== confirmPwd) {
+        showToast('كلمتا المرور غير متطابقتين', 'warning');
+        return;
+      }
+      if (newPwd === currentPwd) {
+        showToast('كلمة المرور الجديدة مطابقة للقديمة', 'warning');
+        return;
+      }
+
+      const btn = document.getElementById('savePasswordBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الحفظ...';
+
+      try {
+        const user = firebase.auth().currentUser;
+        if (!user) {
+          throw new Error('لم يتم العثور على المستخدم');
+        }
+
+        // التحقق من كلمة المرور الحالية
+        const cred = firebase.auth.EmailAuthProvider.credential(user.email, currentPwd);
+        await user.reauthenticateWithCredential(cred);
+
+        // تحديث كلمة المرور
+        await user.updatePassword(newPwd);
+
+        showToast('تم تغيير كلمة المرور بنجاح', 'success');
+        closeModal('passwordModal');
+
+      } catch (err) {
+        console.error('savePassword error:', err);
+
+        let msg = 'فشل تغيير كلمة المرور';
+        if (err.code === 'auth/wrong-password') msg = 'كلمة المرور الحالية غير صحيحة';
+        else if (err.code === 'auth/weak-password') msg = 'كلمة المرور ضعيفة جداً';
+        else if (err.code === 'auth/too-many-requests') msg = 'محاولات كثيرة، حاول لاحقاً';
+        else if (err.code === 'auth/requires-recent-login') msg = 'سجل خروج ودخول مرة أخرى';
+
+        showToast(msg, 'error');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-save"></i> حفظ';
+      }
+    }
+
+    // ============================================================
+    // 🛠️ Helpers
+    // ============================================================
+    function closeModal(id, event) {
+      if (event && event.target !== event.currentTarget) return;
+      const modal = document.getElementById(id);
+      if (modal) modal.remove();
+      document.body.style.overflow = '';
+    }
+
+    function copyText(text) {
+      if (!text) return;
+      if (typeof copyToClipboard === 'function') {
+        copyToClipboard(text);
+      } else if (navigator.clipboard) {
+        navigator.clipboard.writeText(text)
+          .then(() => showToast('تم النسخ', 'success'))
+          .catch(() => showToast('فشل النسخ', 'error'));
+      }
+    }
+
+    function escapeHtml(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[c]));
+    }
+
+    function escapeAttr(s) {
+      return String(s == null ? '' : s).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    // ESC لإغلاق المودال
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        closeModal('editModal');
+        closeModal('passwordModal');
+      }
+    });
+
+    // تصدير
+    window.triggerAvatarUpload = triggerAvatarUpload;
+    window.handleAvatarChange = handleAvatarChange;
+    window.openEditModal = openEditModal;
+    window.saveProfileEdit = saveProfileEdit;
+    window.openChangePasswordModal = openChangePasswordModal;
+    window.savePassword = savePassword;
+    window.closeModal = closeModal;
+    window.copyText = copyText;
+  </script>
+
+</body>
+</html>
