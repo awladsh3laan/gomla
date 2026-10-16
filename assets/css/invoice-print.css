@@ -1,0 +1,344 @@
+/* ============================================================
+   🖨️ نظام الطباعة الموحد — أولاد شعلان للمنظفات والورقيات
+   Version: 1.0  |  2026-10-16
+   استخدام: في كل الصفحات اللي بتطبع فواتير
+   ============================================================ */
+
+:root {
+  --inv-ink:    #0d1117;
+  --inv-ink2:   #1f2937;
+  --inv-green:  #0f7b3e;
+  --inv-green2: #155724;
+  --inv-gold:   #a97a1a;
+  --inv-red:    #8b1a1a;
+  --inv-line:   #d7dee5;
+  --inv-muted:  #64748b;
+}
+
+/* ================================================================
+   منطقة الطباعة — مخفية على الشاشة، تظهر فقط عند window.print()
+   ================================================================ */
+#print-area { display: none; }
+
+/* ================================================================
+   صفحة A4 (210mm × 296mm)
+   ================================================================ */
+.print-page {
+  width: 210mm;
+  height: 296mm;
+  padding: 10mm;
+  box-sizing: border-box;
+  background: #fff;
+  color: #000;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: 'Tajawal', 'Cairo', Tahoma, Arial, sans-serif;
+  direction: rtl;
+  text-align: right;
+  page-break-after: always;
+  break-after: page;
+}
+.print-page:last-child { page-break-after: auto; break-after: auto; }
+
+/* ================================================================
+   هيدر الفاتورة (صفحة 1)
+   ================================================================ */
+.p-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #000;
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+  gap: 10px;
+}
+.p-store { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+.p-store img {
+  width: 18mm; height: 18mm;
+  border-radius: 2mm;
+  object-fit: cover;
+  border: 1px solid #000;
+  background: #fff;
+  flex: 0 0 auto;
+}
+.p-store-info h1 { font-size: 16px; font-weight: 800; color: #000; line-height: 1.2; }
+.p-store-info p  { font-size: 11px; font-weight: 700; margin-top: 2px; }
+
+.p-title { text-align: left; flex: 0 0 auto; }
+.p-title h2 {
+  font-size: 14px; font-weight: 800;
+  border: 2px solid #000;
+  padding: 2px 8px;
+  display: inline-block;
+  background: #fff;
+}
+.p-title p { font-size: 11px; font-weight: 700; margin-top: 3px; text-align: left; }
+
+/* بادج نوع المستخدم */
+.p-user-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 20px;
+  margin-top: 4px;
+  border: 1.5px solid currentColor;
+  background: #fff;
+}
+.p-user-badge.ut-retail       { color: #0284c7; background: #e0f2fe; }
+.p-user-badge.ut-trader-cash  { color: #047857; background: #d1fae5; }
+.p-user-badge.ut-trader-credit{ color: #92400e; background: #fef3c7; }
+.p-user-badge.ut-guest        { color: #6b7280; background: #f3f4f6; }
+
+/* ================================================================
+   الميتا (بيانات العميل + الطلب) — عمودين
+   ================================================================ */
+.p-meta {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 11px;
+}
+.p-meta-card {
+  border: 1px solid #000;
+  padding: 6px 8px;
+  line-height: 1.6;
+}
+.p-meta-card p { margin: 0; }
+.p-meta-card strong { font-weight: 800; }
+
+/* ================================================================
+   صندوق بيانات المندوب (يظهر لو موجود)
+   ================================================================ */
+.p-agent {
+  border: 1.5px solid #000;
+  padding: 6px 10px;
+  margin-bottom: 8px;
+  background: #f8f8f8;
+  font-size: 11px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4px 16px;
+}
+.p-agent-title {
+  grid-column: 1 / -1;
+  font-weight: 800;
+  font-size: 11.5px;
+  margin-bottom: 3px;
+  padding-bottom: 4px;
+  border-bottom: 1px dashed #999;
+}
+.p-agent p { margin: 0; }
+.p-agent strong { font-weight: 800; }
+
+/* ================================================================
+   صندوق طريقة الدفع
+   ================================================================ */
+.p-pay {
+  border: 1.5px solid #000;
+  padding: 6px 8px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.p-pay-label { font-weight: 800; font-size: 11.5px; }
+.p-pay-badge {
+  border: 1.5px solid #000;
+  padding: 3px 10px;
+  font-weight: 800;
+  font-size: 11.5px;
+  border-radius: 3px;
+}
+.p-pay-badge.inst { background: #000 !important; color: #fff !important; }
+
+/* ================================================================
+   هيدر الصفحات التالية (تكملة)
+   ================================================================ */
+.p-continue {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1.5px solid #000;
+  padding-bottom: 5px;
+  margin-bottom: 8px;
+  font-size: 11px;
+  font-weight: 800;
+}
+.p-continue .pg { font-size: 10px; font-weight: 700; color: #444; }
+
+/* ================================================================
+   جسم الفاتورة (يتمدد)
+   ================================================================ */
+.p-body { flex: 1 1 auto; min-height: 0; }
+.p-footer-block { margin-top: auto; }
+
+/* ================================================================
+   جدول المنتجات
+   ================================================================ */
+.p-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 10px;
+  table-layout: fixed;
+}
+.p-table th, .p-table td {
+  border: 1px solid #000;
+  padding: 4px 3px;
+  text-align: center;
+  vertical-align: middle;
+}
+.p-table th { background: #f0f0f0; font-weight: 800; color: #000; }
+.p-table td.name-cell { text-align: right; padding-right: 6px; padding-left: 4px; }
+.p-table tr { page-break-inside: avoid; break-inside: avoid; }
+
+/* ================================================================
+   الإجماليات
+   ================================================================ */
+.p-totals-container { display: flex; justify-content: flex-end; margin-top: 8px; }
+.p-totals { width: 60%; border-collapse: collapse; }
+.p-totals td {
+  border: 1px solid #000;
+  padding: 4px 8px;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #000;
+}
+.p-totals td.val { text-align: left; font-weight: 700; }
+.p-totals tr.grand td { font-size: 12px; font-weight: 800; background: #f0f0f0; }
+
+/* ================================================================
+   فوتر الفاتورة
+   ================================================================ */
+.p-footer {
+  margin-top: 8px;
+  border-top: 1.5px solid #000;
+  padding-top: 5px;
+  text-align: center;
+  font-size: 10.5px;
+  font-weight: 700;
+  color: #000;
+}
+.p-footer p { margin: 0; }
+
+/* ================================================================
+   🖨️ إعدادات الطباعة الفعلية
+   ================================================================ */
+@media print {
+  @page { size: A4 portrait; margin: 0; }
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #fff !important;
+    overflow: hidden !important;
+  }
+  body > *:not(#print-area) { display: none !important; }
+  #print-area { display: block !important; }
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+
+/* ================================================================
+   👁️ معاينة الفاتورة (Preview Overlay)
+   ================================================================ */
+.inv-preview-overlay {
+  position: fixed;
+  inset: 0;
+  background: #1a1d21;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(.4, 0, .2, 1);
+}
+.inv-preview-overlay.show { transform: translateY(0); }
+
+.inv-preview-header {
+  background: var(--inv-ink);
+  color: #fff;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, .3);
+  z-index: 10;
+  padding-top: calc(10px + env(safe-area-inset-top));
+}
+.inv-preview-header .title {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 800;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.inv-preview-header button {
+  border: none;
+  border-radius: 9px;
+  padding: 9px 12px;
+  font-size: 12px;
+  font-weight: 800;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: transform .12s;
+  font-family: inherit;
+}
+.inv-preview-header button:active { transform: scale(.95); }
+.inv-preview-header .btn-share { background: #25d366; color: #fff; }
+.inv-preview-header .btn-print { background: #fff; color: var(--inv-ink); }
+.inv-preview-header .btn-pdf   { background: #dc2626; color: #fff; }
+.inv-preview-header .btn-close {
+  background: rgba(255, 255, 255, .15);
+  color: #fff;
+  width: 38px;
+  padding: 9px 0;
+  justify-content: center;
+}
+
+.inv-preview-body {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 12px;
+  padding-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.inv-preview-scaler { display: inline-block; }
+.inv-preview-hint {
+  background: rgba(255, 255, 255, .06);
+  color: rgba(255, 255, 255, .65);
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  max-width: 400px;
+}
+
+/* ================================================================
+   📱 موبايل — تصغير تلقائي
+   ================================================================ */
+@media (max-width: 899px) {
+  .inv-preview-header .title { font-size: 12px; }
+  .inv-preview-header button { padding: 8px 10px; font-size: 11px; }
+  .inv-preview-header .btn-share span,
+  .inv-preview-header .btn-print span,
+  .inv-preview-header .btn-pdf span { display: none; }
+  .inv-preview-header .btn-share,
+  .inv-preview-header .btn-print,
+  .inv-preview-header .btn-pdf { width: 38px; padding: 9px 0; justify-content: center; }
+}
