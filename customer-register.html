@@ -4,20 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>إنشاء حساب جديد - أولاد شعلان</title>
-
   <meta name="description" content="تسجيل حساب جديد - أولاد شعلان للمنظفات والورقيات">
   <meta name="theme-color" content="#1a2a4a">
 
-  <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  
-  <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
-  
-  <!-- Style -->
   <link rel="stylesheet" href="/gomla/assets/css/style.css">
-  
-  <!-- Favicon -->
   <link rel="icon" href="/gomla/assets/images/favicon.ico">
 
   <style>
@@ -654,7 +646,7 @@
           <div class="info-note">
             <i class="fas fa-info-circle"></i>
             <span>
-              التسجيل <strong>للعملاء القطاعيين</strong> فقط. 
+              التسجيل <strong>للعملاء القطاعيين</strong> فقط.
               التجار يسجلون بواسطة كود خاص من الإدارة.
             </span>
           </div>
@@ -674,9 +666,9 @@
                 <span class="required">*</span>
               </label>
               <div class="input-wrap">
-                <input 
-                  type="text" 
-                  id="regName" 
+                <input
+                  type="text"
+                  id="regName"
                   placeholder="مثال: أحمد محمد علي"
                   maxlength="60"
                   autocomplete="name"
@@ -694,9 +686,9 @@
                 <span class="required">*</span>
               </label>
               <div class="input-wrap">
-                <input 
-                  type="tel" 
-                  id="regPhone" 
+                <input
+                  type="tel"
+                  id="regPhone"
                   placeholder="01xxxxxxxxx"
                   maxlength="11"
                   inputmode="numeric"
@@ -715,9 +707,9 @@
                 <span class="required">*</span>
               </label>
               <div class="input-wrap">
-                <input 
-                  type="text" 
-                  id="regAddress" 
+                <input
+                  type="text"
+                  id="regAddress"
                   placeholder="مثال: المحلة الكبرى - شارع الجلاء"
                   maxlength="150"
                   autocomplete="street-address"
@@ -735,9 +727,9 @@
                 <span class="required">*</span>
               </label>
               <div class="input-wrap">
-                <input 
-                  type="email" 
-                  id="regEmail" 
+                <input
+                  type="email"
+                  id="regEmail"
                   placeholder="example@email.com"
                   autocomplete="email"
                   oninput="validateField('email')">
@@ -755,16 +747,16 @@
                   <span class="required">*</span>
                 </label>
                 <div class="input-wrap">
-                  <input 
-                    type="password" 
-                    id="regPassword" 
+                  <input
+                    type="password"
+                    id="regPassword"
                     placeholder="6 أحرف على الأقل"
                     autocomplete="new-password"
                     oninput="validateField('password')">
                   <i class="fas fa-lock input-icon"></i>
-                  <button 
-                    type="button" 
-                    class="toggle-password" 
+                  <button
+                    type="button"
+                    class="toggle-password"
                     onclick="togglePassword('regPassword', this)"
                     tabindex="-1">
                     <i class="fas fa-eye"></i>
@@ -780,16 +772,16 @@
                   <span class="required">*</span>
                 </label>
                 <div class="input-wrap">
-                  <input 
-                    type="password" 
-                    id="regPasswordConfirm" 
+                  <input
+                    type="password"
+                    id="regPasswordConfirm"
                     placeholder="أعد كتابة كلمة المرور"
                     autocomplete="new-password"
                     oninput="validateField('confirm')">
                   <i class="fas fa-lock input-icon"></i>
-                  <button 
-                    type="button" 
-                    class="toggle-password" 
+                  <button
+                    type="button"
+                    class="toggle-password"
                     onclick="togglePassword('regPasswordConfirm', this)"
                     tabindex="-1">
                     <i class="fas fa-eye"></i>
@@ -801,12 +793,12 @@
 
             <!-- الشروط -->
             <div class="terms-group" id="termsGroup">
-              <input 
-                type="checkbox" 
+              <input
+                type="checkbox"
                 id="regTerms"
                 onchange="validateField('terms')">
               <label for="regTerms">
-                أوافق على 
+                أوافق على
                 <a href="/gomla/terms.html" target="_blank">الشروط والأحكام</a>
                 و
                 <a href="/gomla/privacy-policy.html" target="_blank">سياسة الخصوصية</a>
@@ -829,9 +821,9 @@
           <div class="success-icon">
             <i class="fas fa-check"></i>
           </div>
-          <h2>مرحباً بك <span class="success-name" id="successName">عميلنا العزيز</span> 🎉</h2>
+          <h2>مرحباً بك <span class="success-name" id="successName">عميلنا العزيز</span></h2>
           <p>
-            تم إنشاء حسابك بنجاح ✅
+            تم إنشاء حسابك بنجاح
             <br>
             يمكنك الآن التسوق من متجر القطاعي والاستفادة من جميع المميزات.
           </p>
@@ -849,7 +841,7 @@
 
         <!-- ===== الفوتر ===== -->
         <div class="register-footer" id="registerFooter">
-          لديك حساب بالفعل؟ 
+          لديك حساب بالفعل؟
           <a href="/gomla/customer-login.html">
             <i class="fas fa-sign-in-alt"></i>
             تسجيل الدخول
@@ -863,9 +855,6 @@
 
   <div id="toast-container"></div>
 
-  <!-- ============================================================ -->
-  <!-- Firebase & Scripts                                            -->
-  <!-- ============================================================ -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
@@ -875,8 +864,26 @@
 
   <script>
     // ============================================================
-    // 📄 customer-register.html - تسجيل العملاء
+    // 📄 customer-register.html — تسجيل العملاء
     // ============================================================
+
+    // ============================================================
+    // 🔒 حماية فورية — IIFE تمنع وميض الصفحة
+    // ============================================================
+    (function protectRegisterPage() {
+      try {
+        const adminData = localStorage.getItem('admin');
+        const customerData = localStorage.getItem('customer');
+        const cashierData = localStorage.getItem('cashier');
+        const deliveryData = localStorage.getItem('deliveryData');
+
+        if (adminData || customerData || cashierData || deliveryData) {
+          window.location.replace('/gomla/');
+        }
+      } catch (e) {
+        console.warn('protectRegisterPage error:', e);
+      }
+    })();
 
     // ===== المتغيرات =====
     let isSubmitting = false;
@@ -893,44 +900,43 @@
     // ============================================================
     // 🚀 تشغيل الصفحة
     // ============================================================
-
     document.addEventListener('DOMContentLoaded', function() {
-      // التحقق من عدم وجود مستخدم مسجل
-      const user = getCurrentUser();
-      if (user) {
-        showToast('✅ أنت مسجل دخول بالفعل', 'info');
-        setTimeout(() => {
-          const role = user.data.role;
-          if (role === ROLES.RETAIL) {
-            window.location.href = '/gomla/customer-home.html';
-          } else if (role === ROLES.WHOLESALE) {
-            window.location.href = '/gomla/trader-home.html';
-          } else {
-            window.location.href = '/gomla/';
+      // 🔒 حماية ثانية — بعد تحميل main.js
+      if (typeof getCurrentUser === 'function') {
+        const user = getCurrentUser();
+        if (user) {
+          if (typeof showToast === 'function') {
+            showToast('أنت مسجل دخول بالفعل — جاري تحويلك...', 'info');
           }
-        }, 1500);
-        return;
+          setTimeout(() => {
+            window.location.replace('/gomla/');
+          }, 1200);
+          return;
+        }
       }
 
       // التركيز التلقائي على الاسم
       setTimeout(() => {
-        document.getElementById('regName').focus();
+        const nameField = document.getElementById('regName');
+        if (nameField) nameField.focus();
       }, 500);
 
       // منع الأرقام في حقل الهاتف
-      document.getElementById('regPhone').addEventListener('keypress', function(e) {
-        if (!/[0-9]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete' && e.key !== 'Tab') {
-          e.preventDefault();
-        }
-      });
+      const phoneField = document.getElementById('regPhone');
+      if (phoneField) {
+        phoneField.addEventListener('keypress', function(e) {
+          if (!/[0-9]/.test(e.key) && e.key !== 'Backspace' && e.key !== 'Delete' && e.key !== 'Tab') {
+            e.preventDefault();
+          }
+        });
+      }
 
-      console.log('✅ customer-register.html loaded');
+      console.log('customer-register.html loaded');
     });
 
     // ============================================================
     // 🔐 إظهار/إخفاء كلمة المرور
     // ============================================================
-
     function togglePassword(fieldId, btn) {
       const field = document.getElementById(fieldId);
       const icon = btn.querySelector('i');
@@ -949,7 +955,6 @@
     // ============================================================
     // ✅ التحقق من الحقول
     // ============================================================
-
     function validateField(field) {
       const input = document.getElementById(getInputId(field));
       const errorEl = document.getElementById(getErrorId(field));
@@ -1042,9 +1047,8 @@
     }
 
     // ============================================================
-    // 📝 تسجيل الحساب (✅ بعد التعديل)
+    // 📝 تسجيل الحساب
     // ============================================================
-
     async function handleRegister(event) {
       event.preventDefault();
 
@@ -1086,19 +1090,18 @@
       let uid = null;
 
       try {
-        // ✅ 1. إنشاء حساب Firebase Auth مباشرة (بيسجل دخول تلقائياً)
-        // لو الإيميل موجود، Firebase Auth هيرفضه تلقائياً برسالة واضحة
+        // 1. إنشاء حساب Firebase Auth مباشرة (بيسجل دخول تلقائياً)
         const userCredential = await auth.createUserWithEmailAndPassword(email, password);
         uid = userCredential.user.uid;
 
-        console.log('✅ Firebase Auth account created:', uid);
+        console.log('Firebase Auth account created:', uid);
 
-        // ✅ 2. تحديث الاسم في Firebase Auth
+        // 2. تحديث الاسم في Firebase Auth
         await userCredential.user.updateProfile({
           displayName: name
         });
 
-        // ✅ 3. حفظ بيانات المستخدم في Firestore (isSignedIn() == true دلوقتي)
+        // 3. حفظ بيانات المستخدم في Firestore (isSignedIn() == true دلوقتي)
         await db.collection(COLLECTIONS.CUSTOMERS).doc(uid).set({
           id: uid,
           name: name,
@@ -1116,9 +1119,9 @@
           updatedAt: firebase.firestore.FieldValue.serverTimestamp()
         });
 
-        console.log('✅ Customer data saved to Firestore');
+        console.log('Customer data saved to Firestore');
 
-        // ✅ 4. حفظ في localStorage
+        // 4. حفظ في localStorage
         const customerData = {
           id: uid,
           name: name,
@@ -1132,7 +1135,7 @@
         };
         localStorage.setItem('customer', JSON.stringify(customerData));
 
-        // ✅ 5. تسجيل النشاط (اختياري - لو فشل مش مشكلة)
+        // 5. تسجيل النشاط (اختياري)
         try {
           await db.collection(COLLECTIONS.ACTIVITY_LOG).add({
             userId: uid,
@@ -1143,19 +1146,19 @@
             timestamp: firebase.firestore.FieldValue.serverTimestamp()
           });
         } catch (logError) {
-          console.warn('⚠️ Could not log activity:', logError);
+          console.warn('Could not log activity:', logError);
         }
 
-        // ✅ 6. عرض شاشة النجاح
+        // 6. عرض شاشة النجاح
         showSuccessScreen(name);
-        showToast('✅ تم إنشاء الحساب بنجاح', 'success');
+        showToast('تم إنشاء الحساب بنجاح', 'success');
 
       } catch (error) {
-        console.error('❌ Registration error:', error);
-        
+        console.error('Registration error:', error);
+
         // رسائل مخصصة
         let errorMessage = 'حدث خطأ أثناء التسجيل';
-        
+
         if (error.code === 'auth/email-already-in-use') {
           errorMessage = 'هذا البريد الإلكتروني مسجل بالفعل';
         } else if (error.code === 'auth/invalid-email') {
@@ -1172,13 +1175,13 @@
 
         showError(errorMessage);
 
-        // ⚠️ لو الحساب اتعمل في Auth بس فشل الحفظ في Firestore، نحذف الحساب
+        // لو الحساب اتعمل في Auth بس فشل الحفظ في Firestore، نحذف الحساب
         if (uid && auth.currentUser && error.code !== 'auth/email-already-in-use') {
           try {
             await auth.currentUser.delete();
-            console.log('🗑️ Auth account deleted after error');
+            console.log('Auth account deleted after error');
           } catch (deleteError) {
-            console.warn('⚠️ Could not delete user:', deleteError);
+            console.warn('Could not delete user:', deleteError);
           }
         }
 
@@ -1192,7 +1195,6 @@
     // ============================================================
     // ✅ شاشة النجاح
     // ============================================================
-
     function showSuccessScreen(name) {
       document.getElementById('registerBody').style.display = 'none';
       document.getElementById('registerFooter').style.display = 'none';
@@ -1203,7 +1205,6 @@
     // ============================================================
     // ❌ عرض الخطأ
     // ============================================================
-
     function showError(message) {
       const errorEl = document.getElementById('registerError');
       const errorText = document.getElementById('errorText');
@@ -1225,7 +1226,6 @@
     // ============================================================
     // 🌐 تصدير الدوال
     // ============================================================
-
     window.togglePassword = togglePassword;
     window.validateField = validateField;
     window.handleRegister = handleRegister;
