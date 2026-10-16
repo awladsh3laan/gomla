@@ -1603,7 +1603,8 @@ function updateSidebar() {
       { icon: 'fa-trophy', text: 'المستويات', url: '/gomla/admin/ranks-levels.html' },
       { icon: 'fa-cog', text: 'الإعدادات', url: '/gomla/admin/settings.html' },
       { icon: 'fa-ticket-alt', text: 'إدارة الدعم', url: '/gomla/admin/support.html' },
-      { icon: 'fa-file-alt', text: 'إدارة المحتوى', url: '/gomla/admin/content-manager.html' }
+      { icon: 'fa-file-alt', text: 'إدارة المحتوى', url: '/gomla/admin/content-manager.html' },
+      { icon: 'fa-user-plus', text: 'طلبات التسجيل', url: '/gomla/admin/registration-requests.html' }
     ];
   }
   // ===== أدمن بلص =====
@@ -1625,7 +1626,8 @@ function updateSidebar() {
       { icon: 'fa-calendar-day', text: 'المبيعات اليومية', url: '/gomla/admin/daily-sales.html' },
       { icon: 'fa-cash-register', text: 'الصندوق', url: '/gomla/admin/cashbox.html' },
       { icon: 'fa-chart-line', text: 'التقارير المالية', url: '/gomla/admin/financial-reports.html' },
-      { icon: 'fa-ticket-alt', text: 'إدارة الدعم', url: '/gomla/admin/support.html' }
+      { icon: 'fa-ticket-alt', text: 'إدارة الدعم', url: '/gomla/admin/support.html' },
+      { icon: 'fa-user-plus', text: 'طلبات التسجيل', url: '/gomla/admin/registration-requests.html' }
     ];
   }
   // ===== أدمن =====
