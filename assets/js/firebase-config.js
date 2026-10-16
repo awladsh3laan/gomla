@@ -349,9 +349,9 @@ window.COLLECTIONS = {
   FAQ_META: 'faq_meta',
   
   // ===== الدعم =====
-  SUPPORT_TICKETS: 'support_tickets'
-    // ===== طلبات التسجيل =====
-  REGISTRATION_REQUESTS: 'registration_requests',
+  SUPPORT_TICKETS: 'support_tickets',
+  // ===== طلبات التسجيل =====
+  REGISTRATION_REQUESTS: 'registration_requests'
 };
 
 // ============================================================
