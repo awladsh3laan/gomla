@@ -350,6 +350,8 @@ window.COLLECTIONS = {
   
   // ===== الدعم =====
   SUPPORT_TICKETS: 'support_tickets'
+    // ===== طلبات التسجيل =====
+  REGISTRATION_REQUESTS: 'registration_requests',
 };
 
 // ============================================================
