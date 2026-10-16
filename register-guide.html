@@ -1,0 +1,1943 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>دليل التسجيل - أولاد شعلان</title>
+  <meta name="description" content="دليل شامل للتسجيل في أولاد شعلان — عميل / تاجر / موصل">
+  <meta name="theme-color" content="#1a2a4a">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/gomla/assets/css/style.css">
+  <link rel="icon" href="/gomla/assets/images/favicon.ico">
+
+  <style>
+    /* ============================================================
+       📝 دليل التسجيل - v1.0
+       ============================================================ */
+    html, body { overflow-x: hidden !important; max-width: 100vw; }
+    .page-content, .page-content .container {
+      overflow-x: hidden; min-width: 0; max-width: 100%;
+    }
+
+    /* ===== Hero ===== */
+    .rg-hero {
+      background: linear-gradient(135deg, var(--navy-dark) 0%, var(--navy) 50%, var(--navy-light) 100%);
+      border-radius: var(--radius-lg);
+      padding: 44px 24px 40px;
+      margin-bottom: 20px;
+      color: var(--white);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 15px 45px rgba(15,26,46,.35);
+      border-bottom: 4px solid var(--gold);
+    }
+    .rg-hero::before {
+      content: '';
+      position: absolute;
+      top: -100px; right: -80px;
+      width: 320px; height: 320px;
+      background: radial-gradient(circle, rgba(201,168,76,.3) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+    }
+    .rg-hero::after {
+      content: '';
+      position: absolute;
+      bottom: -80px; left: -60px;
+      width: 240px; height: 240px;
+      background: radial-gradient(circle, rgba(135,206,235,.15) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: float 10s ease-in-out infinite reverse;
+    }
+    .rg-hero-inner { position: relative; z-index: 1; }
+    .rg-hero .hero-icon {
+      width: 88px; height: 88px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.5rem;
+      margin: 0 auto 18px;
+      box-shadow: 0 12px 32px rgba(201,168,76,.5);
+      border: 3px solid rgba(255,255,255,.2);
+      animation: pulse 3s ease-in-out infinite;
+    }
+    .rg-hero .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 14px;
+      background: rgba(255,255,255,.12);
+      color: var(--gold-light);
+      border: 1px solid rgba(201,168,76,.4);
+      border-radius: var(--radius-full);
+      font-size: 0.72rem; font-weight: 800;
+      backdrop-filter: blur(10px);
+      margin-bottom: 12px;
+    }
+    .rg-hero .hero-badge i { color: var(--gold); }
+    .rg-hero h1 {
+      font-size: 1.9rem; font-weight: 900;
+      margin-bottom: 10px; color: var(--white);
+    }
+    .rg-hero h1 .gold-text { color: var(--gold); }
+    .rg-hero .hero-sub {
+      font-size: 0.98rem; opacity: .9;
+      color: rgba(255,255,255,.9);
+      max-width: 600px; margin: 0 auto 22px;
+      line-height: 1.7;
+    }
+    .rg-hero .hero-quick-btns {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+    .rg-hero .hero-quick-btn {
+      padding: 10px 20px;
+      background: rgba(255,255,255,.12);
+      color: var(--white);
+      border: 1.5px solid rgba(255,255,255,.25);
+      border-radius: var(--radius-full);
+      text-decoration: none;
+      font-weight: 800;
+      font-size: 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: var(--transition);
+      cursor: pointer;
+      font-family: inherit;
+    }
+    .rg-hero .hero-quick-btn:hover {
+      background: var(--gold);
+      color: var(--navy);
+      border-color: var(--gold-dark);
+      transform: translateY(-2px);
+    }
+
+    /* ===== Section Card ===== */
+    .rg-section {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      border: 1px solid var(--gray-200);
+      margin-bottom: 20px;
+      overflow: hidden;
+      scroll-margin-top: 80px;
+    }
+    .rg-section-header {
+      padding: 20px 24px;
+      color: var(--white);
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .rg-section-header.customer {
+      background: linear-gradient(135deg, #1e40af, #2563eb, #3b82f6);
+    }
+    .rg-section-header.trader {
+      background: linear-gradient(135deg, #7c2d12, #b45309, #d97706);
+    }
+    .rg-section-header.delivery {
+      background: linear-gradient(135deg, var(--del-green-1, #064e3b), var(--del-green-2, #047857), var(--del-green-3, #059669));
+    }
+    .rg-section-header::after {
+      content: '';
+      position: absolute;
+      bottom: 0; right: 0; left: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold), var(--gold-light), var(--gold), var(--gold-dark));
+      background-size: 200% 100%;
+      animation: shimmer 3s linear infinite;
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .rg-section-header .sec-icon {
+      width: 56px; height: 56px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.2);
+      border: 2px solid rgba(255,255,255,.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.6rem;
+      flex-shrink: 0;
+    }
+    .rg-section-header .sec-info { flex: 1; min-width: 180px; }
+    .rg-section-header .sec-info .sec-label {
+      font-size: 0.72rem;
+      font-weight: 800;
+      opacity: 0.85;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .rg-section-header .sec-info h2 {
+      margin: 0 0 4px;
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1.3;
+    }
+    .rg-section-header .sec-info p {
+      margin: 0;
+      font-size: 0.85rem;
+      opacity: 0.92;
+      color: rgba(255,255,255,.92);
+    }
+    .rg-section-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 14px;
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.25);
+      border-radius: var(--radius-full);
+      font-size: 0.72rem;
+      font-weight: 800;
+      color: var(--white);
+      backdrop-filter: blur(10px);
+      flex-shrink: 0;
+    }
+
+    .rg-section-body {
+      padding: 24px;
+    }
+
+    /* ===== Features Grid ===== */
+    .rg-features {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .rg-feature {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 14px;
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--gray-200);
+      transition: var(--transition);
+    }
+    .rg-feature:hover {
+      border-color: var(--gold-light);
+      background: #fcf9f0;
+      transform: translateY(-2px);
+    }
+    .rg-feature .feat-icon {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+    .rg-feature .feat-text {
+      flex: 1;
+      min-width: 0;
+    }
+    .rg-feature .feat-text h4 {
+      margin: 0 0 3px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--navy);
+    }
+    .rg-feature .feat-text p {
+      margin: 0;
+      font-size: 0.75rem;
+      color: var(--gray-500);
+      line-height: 1.5;
+    }
+
+    /* ===== Steps ===== */
+    .rg-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .rg-step {
+      display: flex;
+      gap: 14px;
+      padding: 12px 14px;
+      background: linear-gradient(135deg, #fcf9f0, #f8f4e8);
+      border: 1px solid var(--gold-light);
+      border-radius: var(--radius-sm);
+      transition: var(--transition);
+    }
+    .rg-step:hover {
+      transform: translateX(-4px);
+      box-shadow: var(--shadow-sm);
+    }
+    .rg-step .step-num {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      font-weight: 900;
+      flex-shrink: 0;
+      border: 2px solid var(--white);
+      box-shadow: 0 3px 10px rgba(26,42,74,.2);
+    }
+    .rg-step .step-body { flex: 1; min-width: 0; }
+    .rg-step .step-body h4 {
+      margin: 0 0 3px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--navy);
+    }
+    .rg-step .step-body p {
+      margin: 0;
+      font-size: 0.78rem;
+      color: var(--gray-600);
+      line-height: 1.6;
+    }
+
+    /* ===== Info Boxes ===== */
+    .rg-info-box {
+      display: flex;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: var(--radius-sm);
+      font-size: 0.82rem;
+      line-height: 1.7;
+      margin-bottom: 14px;
+    }
+    .rg-info-box i {
+      font-size: 1.05rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .rg-info-box.note {
+      background: #eff6ff;
+      border: 1px solid #93c5fd;
+      color: #1e40af;
+    }
+    .rg-info-box.note i { color: #3b82f6; }
+    .rg-info-box.warning {
+      background: #fef9e7;
+      border: 1px solid #fcd34d;
+      color: #78350f;
+    }
+    .rg-info-box.warning i { color: #d97706; }
+    .rg-info-box.success {
+      background: #f0fdf4;
+      border: 1px solid #86efac;
+      color: #166534;
+    }
+    .rg-info-box.success i { color: #22c55e; }
+    .rg-info-box.danger {
+      background: #fef2f2;
+      border: 1px solid #fca5a5;
+      color: #991b1b;
+    }
+    .rg-info-box.danger i { color: #dc2626; }
+    .rg-info-box strong { font-weight: 900; }
+
+    /* ===== Data Table ===== */
+    .rg-data-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 16px;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+    }
+    .rg-data-table tr {
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .rg-data-table tr:last-child { border-bottom: none; }
+    .rg-data-table tr:nth-child(even) { background: var(--gray-50); }
+    .rg-data-table td {
+      padding: 10px 14px;
+      font-size: 0.85rem;
+      vertical-align: middle;
+      color: var(--gray-700);
+    }
+    .rg-data-table td:first-child {
+      font-weight: 800;
+      color: var(--navy);
+      width: 45%;
+      background: rgba(201,168,76,.05);
+    }
+    .rg-data-table .required-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      padding: 2px 8px;
+      background: #fef2f2;
+      color: #dc2626;
+      border-radius: var(--radius-full);
+      font-size: 0.65rem;
+      font-weight: 800;
+      margin-right: 6px;
+    }
+
+    /* ===== Action Buttons ===== */
+    .rg-actions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 2px dashed var(--gray-200);
+    }
+    .rg-action-btn {
+      padding: 14px 16px;
+      border-radius: var(--radius-md);
+      border: none;
+      font-family: inherit;
+      font-weight: 900;
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: var(--transition);
+      text-decoration: none;
+      text-align: center;
+      color: var(--white);
+      line-height: 1.3;
+    }
+    .rg-action-btn i { font-size: 1.05rem; }
+
+    .rg-action-btn.primary {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      box-shadow: 0 6px 18px rgba(26,42,74,.3);
+    }
+    .rg-action-btn.primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(26,42,74,.5);
+    }
+
+    .rg-action-btn.gold {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      box-shadow: 0 6px 18px rgba(201,168,76,.4);
+    }
+    .rg-action-btn.gold:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(201,168,76,.6);
+    }
+
+    .rg-action-btn.whatsapp {
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      box-shadow: 0 6px 18px rgba(37,211,102,.3);
+    }
+    .rg-action-btn.whatsapp:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(37,211,102,.5);
+    }
+
+    .rg-action-btn.email {
+      background: linear-gradient(135deg, #EA4335, #C5221F);
+      box-shadow: 0 6px 18px rgba(234,67,53,.3);
+    }
+    .rg-action-btn.email:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(234,67,53,.5);
+    }
+
+    .rg-action-btn.green {
+      background: linear-gradient(135deg, #059669, #047857);
+      box-shadow: 0 6px 18px rgba(5,150,105,.35);
+    }
+    .rg-action-btn.green:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(5,150,105,.55);
+    }
+
+    /* ===== Comparison Table ===== */
+    .rg-compare-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    .rg-compare-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 600px;
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+    .rg-compare-table thead {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+    }
+    .rg-compare-table th {
+      padding: 14px 12px;
+      font-size: 0.82rem;
+      font-weight: 900;
+      text-align: center;
+      color: var(--white);
+      border-left: 1px solid rgba(255,255,255,.1);
+    }
+    .rg-compare-table th:last-child { border-left: none; }
+    .rg-compare-table th i { display: block; font-size: 1.2rem; margin-bottom: 4px; }
+    .rg-compare-table td {
+      padding: 12px;
+      font-size: 0.82rem;
+      text-align: center;
+      color: var(--gray-700);
+      border-left: 1px solid var(--gray-100);
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .rg-compare-table td:first-child {
+      font-weight: 800;
+      color: var(--navy);
+      text-align: right;
+      background: var(--gray-50);
+      border-left: none;
+    }
+    .rg-compare-table tbody tr:last-child td { border-bottom: none; }
+    .rg-compare-table tbody tr:hover { background: #fcf9f0; }
+    .rg-compare-table .yes { color: #16a34a; font-weight: 900; }
+    .rg-compare-table .no { color: #dc2626; font-weight: 900; }
+
+    /* ===== Contact Section ===== */
+    .rg-contact-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .rg-contact-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 20px 14px;
+      background: var(--white);
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      color: var(--navy);
+      transition: var(--transition);
+      text-align: center;
+    }
+    .rg-contact-btn:hover {
+      border-color: var(--gold);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+    .rg-contact-btn .cb-icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      color: var(--white);
+    }
+    .rg-contact-btn .cb-icon.whatsapp {
+      background: linear-gradient(135deg, #25D366, #128C7E);
+    }
+    .rg-contact-btn .cb-icon.email {
+      background: linear-gradient(135deg, #EA4335, #C5221F);
+    }
+    .rg-contact-btn .cb-icon.support {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+    }
+    .rg-contact-btn .cb-title {
+      font-size: 0.92rem;
+      font-weight: 900;
+      color: var(--navy);
+    }
+    .rg-contact-btn .cb-sub {
+      font-size: 0.72rem;
+      color: var(--gray-500);
+      direction: ltr;
+      font-weight: 700;
+    }
+
+    /* ===== Modal ===== */
+    .rg-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15,26,46,.75);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      overflow-y: auto;
+      animation: fadeIn 0.25s ease;
+    }
+    .rg-modal-overlay.show { display: flex; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .rg-modal {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      max-width: 560px;
+      width: 100%;
+      box-shadow: 0 25px 70px rgba(0,0,0,.4);
+      animation: slideUp 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      max-height: 92vh;
+      overflow-y: auto;
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .rg-modal-header {
+      padding: 18px 24px;
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .rg-modal-header.trader {
+      background: linear-gradient(135deg, #7c2d12, #b45309, #d97706);
+    }
+    .rg-modal-header.delivery {
+      background: linear-gradient(135deg, #064e3b, #047857, #059669);
+    }
+    .rg-modal-header h3 {
+      margin: 0;
+      font-size: 1.05rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .rg-modal-header .close-btn {
+      background: rgba(255,255,255,.15);
+      border: none;
+      color: var(--white);
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+    .rg-modal-header .close-btn:hover {
+      background: rgba(255,255,255,.3);
+      transform: rotate(90deg);
+    }
+
+    .rg-modal-body {
+      padding: 22px 24px;
+    }
+    .rg-modal-body .form-group {
+      margin-bottom: 14px;
+    }
+    .rg-modal-body label {
+      display: block;
+      font-weight: 800;
+      font-size: 0.82rem;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .rg-modal-body label i {
+      color: var(--gold);
+      margin-left: 4px;
+    }
+    .rg-modal-body label .required {
+      color: var(--danger);
+      margin-right: 2px;
+    }
+    .rg-modal-body input,
+    .rg-modal-body select,
+    .rg-modal-body textarea {
+      width: 100%;
+      padding: 11px 14px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.92rem;
+      background: var(--gray-50);
+      outline: none;
+      transition: var(--transition);
+      color: var(--navy);
+    }
+    .rg-modal-body input:focus,
+    .rg-modal-body select:focus,
+    .rg-modal-body textarea:focus {
+      border-color: var(--gold);
+      background: var(--white);
+      box-shadow: 0 0 0 4px rgba(201,168,76,.15);
+    }
+    .rg-modal-body textarea {
+      resize: vertical;
+      min-height: 60px;
+    }
+    .rg-modal-body .help-text {
+      font-size: 0.72rem;
+      color: var(--gray-500);
+      margin-top: 4px;
+      line-height: 1.5;
+    }
+    .rg-modal-body .help-text i {
+      color: var(--gold);
+      font-size: 0.68rem;
+    }
+
+    .rg-credit-section {
+      background: linear-gradient(135deg, #fcf9f0, #f8f4e8);
+      border: 2px solid var(--gold-light);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      margin-bottom: 14px;
+      display: none;
+    }
+    .rg-credit-section.show { display: block; }
+    .rg-credit-section .credit-title {
+      font-size: 0.82rem;
+      font-weight: 900;
+      color: var(--gold-dark);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .rg-credit-section .credit-title i { font-size: 0.9rem; }
+
+    .rg-modal-actions {
+      padding: 16px 24px;
+      background: var(--gray-50);
+      display: flex;
+      gap: 10px;
+      border-top: 2px solid var(--gray-100);
+      position: sticky;
+      bottom: 0;
+    }
+    .rg-modal-actions .btn {
+      flex: 1;
+      padding: 12px 16px;
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.88rem;
+      border-radius: var(--radius-sm);
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: var(--transition);
+    }
+    .rg-modal-actions .btn-cancel {
+      background: var(--white);
+      color: var(--gray-600);
+      border: 2px solid var(--gray-300);
+    }
+    .rg-modal-actions .btn-cancel:hover { background: var(--gray-100); }
+    .rg-modal-actions .btn-submit {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      box-shadow: 0 6px 18px rgba(201,168,76,.4);
+    }
+    .rg-modal-actions .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(201,168,76,.6);
+    }
+    .rg-modal-actions .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) and (pointer: coarse) {
+      .rg-hero { padding: 30px 18px 26px; border-radius: var(--radius-md); }
+      .rg-hero .hero-icon { width: 68px; height: 68px; font-size: 1.9rem; border-radius: 18px; }
+      .rg-hero h1 { font-size: 1.35rem; }
+      .rg-hero .hero-sub { font-size: 0.85rem; }
+      .rg-hero .hero-quick-btn { font-size: 0.78rem; padding: 8px 16px; }
+
+      .rg-section-header { padding: 16px 18px; }
+      .rg-section-header .sec-icon { width: 46px; height: 46px; font-size: 1.3rem; }
+      .rg-section-header .sec-info h2 { font-size: 1.05rem; }
+      .rg-section-header .sec-info p { font-size: 0.78rem; }
+      .rg-section-header .sec-info .sec-label { font-size: 0.65rem; }
+      .rg-section-badge { font-size: 0.65rem; padding: 4px 10px; }
+
+      .rg-section-body { padding: 18px 16px; }
+      .rg-features { grid-template-columns: 1fr; gap: 8px; }
+      .rg-step { padding: 10px 12px; gap: 10px; }
+      .rg-step .step-num { width: 30px; height: 30px; font-size: 0.8rem; }
+      .rg-step .step-body h4 { font-size: 0.82rem; }
+      .rg-step .step-body p { font-size: 0.72rem; }
+
+      .rg-data-table td { padding: 8px 12px; font-size: 0.78rem; }
+      .rg-data-table td:first-child { width: 40%; }
+
+      .rg-actions { grid-template-columns: 1fr; gap: 8px; }
+      .rg-action-btn { padding: 12px 14px; font-size: 0.82rem; }
+
+      .rg-contact-grid { grid-template-columns: 1fr; }
+      .rg-contact-btn { padding: 16px 12px; }
+
+      .rg-modal-header { padding: 14px 16px; }
+      .rg-modal-header h3 { font-size: 0.92rem; }
+      .rg-modal-body { padding: 18px 16px; }
+      .rg-modal-actions { padding: 12px 16px; flex-direction: column-reverse; }
+
+      .rg-compare-table { min-width: 480px; }
+      .rg-compare-table th { padding: 10px 8px; font-size: 0.72rem; }
+      .rg-compare-table td { padding: 10px 8px; font-size: 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="mobile-top-bar"></div>
+  <div id="mobile-top-tabs"></div>
+  <div id="header-placeholder"></div>
+
+  <main class="page-content">
+    <div class="container">
+
+      <!-- Hero -->
+      <section class="rg-hero">
+        <div class="rg-hero-inner">
+          <div class="hero-icon">
+            <i class="fas fa-user-plus"></i>
+          </div>
+          <div class="hero-badge">
+            <i class="fas fa-rocket"></i>
+            انضم إلينا
+          </div>
+          <h1>
+            دليل <span class="gold-text">التسجيل الشامل</span>
+          </h1>
+          <p class="hero-sub">
+            اختر نوع الحساب المناسب لك — عميل، تاجر، أو موصل — وابدأ رحلتك مع أولاد شعلان للمنظفات والورقيات
+          </p>
+          <div class="hero-quick-btns">
+            <a href="#customer-section" class="hero-quick-btn">
+              <i class="fas fa-user"></i>
+              عميل
+            </a>
+            <a href="#trader-section" class="hero-quick-btn">
+              <i class="fas fa-store"></i>
+              تاجر
+            </a>
+            <a href="#delivery-section" class="hero-quick-btn">
+              <i class="fas fa-truck-fast"></i>
+              موصل
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           🛒 قسم 1: تسجيل عميل
+      ============================================================ -->
+      <section class="rg-section" id="customer-section">
+        <div class="rg-section-header customer">
+          <div class="sec-icon">
+            <i class="fas fa-user"></i>
+          </div>
+          <div class="sec-info">
+            <div class="sec-label">القسم الأول</div>
+            <h2>تسجيل عميل جديد</h2>
+            <p>تسجيل ذاتي فوري — بدون انتظار موافقة</p>
+          </div>
+          <span class="rg-section-badge">
+            <i class="fas fa-bolt"></i>
+            فوري
+          </span>
+        </div>
+        <div class="rg-section-body">
+
+          <div class="rg-info-box success">
+            <i class="fas fa-check-circle"></i>
+            <div>
+              <strong>مين يقدر يسجل؟</strong> أي حد عاوز يشتري <strong>قطاعي</strong> (للاستخدام الشخصي أو البيت) — بأسعار المستهلك.
+            </div>
+          </div>
+
+          <h3 style="margin:16px 0 10px;font-size:1rem;font-weight:900;color:var(--navy);display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-gift" style="color:var(--gold);"></i>
+            مميزات العميل
+          </h3>
+
+          <div class="rg-features">
+            <div class="rg-feature">
+              <div class="feat-icon"><i class="fas fa-tags"></i></div>
+              <div class="feat-text">
+                <h4>عروض حصرية</h4>
+                <p>خصومات خاصة للعملاء المسجلين</p>
+              </div>
+            </div>
+            <div class="rg-feature">
+              <div class="feat-icon"><i class="fas fa-heart"></i></div>
+              <div class="feat-text">
+                <h4>قائمة المفضلة</h4>
+                <p>احفظ منتجاتك المفضلة للرجوع إليها</p>
+              </div>
+            </div>
+            <div class="rg-feature">
+              <div class="feat-icon"><i class="fas fa-truck"></i></div>
+              <div class="feat-text">
+                <h4>تتبع الطلبات</h4>
+                <p>اعرف حالة طلبك لحظة بلحظة</p>
+              </div>
+            </div>
+            <div class="rg-feature">
+              <div class="feat-icon"><i class="fas fa-headset"></i></div>
+              <div class="feat-text">
+                <h4>دعم ذو أولوية</h4>
+                <p>رد سريع على استفساراتك</p>
+              </div>
+            </div>
+          </div>
+
+          <h3 style="margin:16px 0 10px;font-size:1rem;font-weight:900;color:var(--navy);display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-list-ol" style="color:var(--gold);"></i>
+            خطوات التسجيل
+          </h3>
+
+          <div class="rg-steps">
+            <div class="rg-step">
+              <div class="step-num">1</div>
+              <div class="step-body">
+                <h4>افتح صفحة التسجيل</h4>
+                <p>اضغط على الزر في الأسفل — هتفتح صفحة تسجيل العملاء مباشرة</p>
+              </div>
+            </div>
+            <div class="rg-step">
+              <div class="step-num">2</div>
+              <div class="step-body">
+                <h4>املأ البيانات</h4>
+                <p>الاسم الكامل، رقم الهاتف، العنوان، الإيميل، كلمة المرور</p>
+              </div>
+            </div>
+            <div class="rg-step">
+              <div class="step-num">3</div>
+              <div class="step-body">
+                <h4>أكد التسجيل</h4>
+                <p>وافق على الشروط واضغط "إنشاء حساب" — حسابك بيتفعّل فوراً</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="rg-info-box note">
+            <i class="fas fa-info-circle"></i>
+            <div>
+              <strong>ملاحظة:</strong> التسجيل مجاني تماماً، التفعيل فوري، والعمر المطلوب 18 سنة أو أكثر.
+            </div>
+          </div>
+
+          <div class="rg-actions" style="grid-template-columns:1fr;">
+            <a href="/gomla/customer-register.html" class="rg-action-btn primary">
+              <i class="fas fa-user-plus"></i>
+              افتح صفحة تسجيل عميل
+            </a>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============================================================
+           🏪 قسم 2: تسجيل تاجر
+      ============================================================ -->
+      <section class="rg-section" id="trader-section">
+        <div class="rg-section-header trader">
+          <div class="sec-icon">
+            <i class="fas fa-store"></i>
+          </div>
+          <div class="sec-info">
+            <div class="sec-label">القسم الثاني</div>
+            <h2>تسجيل تاجر (جملة)</h2>
+            <p>طلب انضمام بموافقة الإدارة — 1-2 يوم عمل</p>
+          </div>
+          <span class="rg-section-badge">
+            <i class="fas fa-clock"></i>
+            1-2 يوم
+          </span>
+        </div>
+        <div class="rg-section-body">
+
+          <div class="rg-info-box note">
+            <i class="fas fa-info-circle"></i>
+            <div>
+              <strong>مين يقدر يسجل؟</strong> أصحاب المحلات والسوبر ماركت اللي عاوزين يشتغلوا بأسعار <strong>الجملة</strong> ويستفيدوا من نظام الآجل.
+            </div>
+          </div>
+
+          <h3 style="margin:16px 0 10px;font-size:1rem;font-weight:900;color:var(--navy);display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-gift" style="color:var(--gold);"></i>
+            مميزات التاجر
+          </h3>
+
+          <div class="rg-features">
+            <div class="rg-feature">
+              <div class="feat-icon"><i class="fas fa-percent"></i></div>
+              <div class="feat-text">
+                <h4>أسعار الجملة</h4>
+                <p>أسعار مخفّضة للتجار والمحلات</p>
+              </div>
+            </div>
+            <div class="rg-feature">
+              <div class="feat-icon"><i class="fas fa-chart-line"></i></div>
+              <div class="feat-text">
+                <h4>هامش الربح</h4>
+                <p>اعرف ربحك في كل منتج قبل الشراء</p>
+              </div>
+            </div>
+            <div class="rg-feature">
+              <div class="feat-icon"><i class="fas fa-hand-holding-usd"></i></div>
+              <div class="feat-text">
+                <h4>فواتير آجلة</h4>
+                <p>نظام دين مرن بحدود واضحة</p>
+              </div>
+            </div>
+            <div class="rg-feature">
+              <div class="feat-icon"><i class="fas fa-tags"></i></div>
+              <div class="feat-text">
+                <h4>خصومات دورية</h4>
+                <p>عروض وخصومات خاصة للتجار</p>
+              </div>
+            </div>
+          </div>
+
+          <h3 style="margin:16px 0 10px;font-size:1rem;font-weight:900;color:var(--navy);display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-clipboard-list" style="color:var(--gold);"></i>
+            البيانات المطلوبة
+          </h3>
+
+          <table class="rg-data-table">
+            <tbody>
+              <tr>
+                <td>
+                  <span class="required-pill"><i class="fas fa-star"></i>إجباري</span>
+                  الاسم الكامل
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="required-pill"><i class="fas fa-star"></i>إجباري</span>
+                  اسم المحل / النشاط التجاري
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="required-pill"><i class="fas fa-star"></i>إجباري</span>
+                  المدينة
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="required-pill"><i class="fas fa-star"></i>إجباري</span>
+                  العنوان الكامل
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="required-pill"><i class="fas fa-star"></i>إجباري</span>
+                  رقم واتساب
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="required-pill"><i class="fas fa-star"></i>إجباري</span>
+                  طريقة التعامل (نقدي / آجل)
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3 style="margin:16px 0 10px;font-size:1rem;font-weight:900;color:var(--navy);display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-hand-holding-usd" style="color:var(--gold);"></i>
+            نظام الآجل (للتجار)
+          </h3>
+
+          <div class="rg-info-box warning">
+            <i class="fas fa-exclamation-triangle"></i>
+            <div>
+              <strong>شروط نظام الآجل:</strong>
+              <ul style="margin:8px 0 0;padding-right:20px;line-height:1.9;">
+                <li>الحد الأقصى المبدئي: <strong>5000 ج.م</strong></li>
+                <li>مدة السداد: <strong>10 أيام كحد أقصى</strong></li>
+                <li>بعد أول تعامل ناجح → يمكن رفع الليمت</li>
+                <li>الرفع حسب <strong>سرعة السداد + حجم التعامل</strong></li>
+              </ul>
+            </div>
+          </div>
+
+          <h3 style="margin:16px 0 10px;font-size:1rem;font-weight:900;color:var(--navy);display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-paper-plane" style="color:var(--gold);"></i>
+            أرسل طلبك
+          </h3>
+
+          <div class="rg-info-box note">
+            <i class="fas fa-info-circle"></i>
+            <div>
+              اختر الطريقة الأنسب لك — كل الطرق بتوصل نفس البيانات للإدارة
+            </div>
+          </div>
+
+          <div class="rg-actions">
+            <button class="rg-action-btn gold" onclick="openTraderModal()">
+              <i class="fas fa-file-signature"></i>
+              طلب انضمام تاجر
+            </button>
+            <button class="rg-action-btn whatsapp" onclick="sendTraderViaWhatsApp()">
+              <i class="fab fa-whatsapp"></i>
+              إرسال عبر واتساب
+            </button>
+            <button class="rg-action-btn email" onclick="sendTraderViaEmail()">
+              <i class="fas fa-envelope"></i>
+              إرسال عبر إيميل
+            </button>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============================================================
+           🚚 قسم 3: تسجيل موصل
+      ============================================================ -->
+      <section class="rg-section" id="delivery-section">
+        <div class="rg-section-header delivery">
+          <div class="sec-icon">
+            <i class="fas fa-truck-fast"></i>
+          </div>
+          <div class="sec-info">
+            <div class="sec-label">القسم الثالث</div>
+            <h2>تسجيل موصل (توصيل)</h2>
+            <p>طلب انضمام بموافقة الإدارة — 1-2 يوم عمل</p>
+          </div>
+          <span class="rg-section-badge">
+            <i class="fas fa-clock"></i>
+            1-2 يوم
+          </span>
+        </div>
+        <div class="rg-section-body">
+
+          <div class="rg-info-box note">
+            <i class="fas fa-info-circle"></i>
+            <div>
+              <strong>مين يقدر يسجل؟</strong> اللي عنده <strong>مركبة توصيل</strong> (موتوسيكل / سيارة / توك توك) وعاوز يكسب من توصيل الطلبات.
+            </div>
+          </div>
+
+          <h3 style="margin:16px 0 10px;font-size:1rem;font-weight:900;color:var(--navy);display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-gift" style="color:var(--gold);"></i>
+            مميزات الموصل
+          </h3>
+
+          <div class="rg-features">
+            <div class="rg-feature">
+              <div class="feat-icon"><i class="fas fa-money-bill-wave"></i></div>
+              <div class="feat-text">
+                <h4>فلوس الشحن من حقك</h4>
+                <p>تحصل على قيمة الشحن بالكامل</p>
+              </div>
+            </div>
+            <div class="rg-feature">
+              <div class="feat-icon"><i class="fas fa-mobile-alt"></i></div>
+              <div class="feat-text">
+                <h4>لوحة تحكم بالجوال</h4>
+                <p>كل شيء بضغطة زر من موبايلك</p>
+              </div>
+            </div>
+            <div class="rg-feature">
+              <div class="feat-icon"><i class="fas fa-map-marked-alt"></i></div>
+              <div class="feat-text">
+                <h4>أوردرات منطقتك</h4>
+                <p>الأوردرات تظهرلك أول بأول</p>
+              </div>
+            </div>
+            <div class="rg-feature">
+              <div class="feat-icon"><i class="fas fa-check-double"></i></div>
+              <div class="feat-text">
+                <h4>تحصيل يومي</h4>
+                <p>حصّل من العملاء وصفّي مع الإدارة</p>
+              </div>
+            </div>
+          </div>
+
+          <h3 style="margin:16px 0 10px;font-size:1rem;font-weight:900;color:var(--navy);display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-clipboard-list" style="color:var(--gold);"></i>
+            البيانات المطلوبة
+          </h3>
+
+          <table class="rg-data-table">
+            <tbody>
+              <tr>
+                <td>
+                  <span class="required-pill"><i class="fas fa-star"></i>إجباري</span>
+                  الاسم الكامل
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="required-pill"><i class="fas fa-star"></i>إجباري</span>
+                  رقم الهاتف / واتساب
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="required-pill"><i class="fas fa-star"></i>إجباري</span>
+                  نوع مركبة التوصيل
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <span class="required-pill"><i class="fas fa-star"></i>إجباري</span>
+                  المنطقة اللي تغطيها
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <h3 style="margin:16px 0 10px;font-size:1rem;font-weight:900;color:var(--navy);display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-money-check-alt" style="color:var(--gold);"></i>
+            كيف بيتم تحصيل الفلوس؟
+          </h3>
+
+          <div class="rg-info-box success">
+            <i class="fas fa-info-circle"></i>
+            <div>
+              <strong>تقسيم فلوس الأوردر:</strong>
+              <ul style="margin:8px 0 0;padding-right:20px;line-height:1.9;">
+                <li>💵 <strong>فلوس المنتجات</strong> → تُسلَّم للأدمن (تدخل الصندوق)</li>
+                <li>🚚 <strong>فلوس الشحن</strong> → من حقك بالكامل</li>
+              </ul>
+              <div style="margin-top:8px;font-size:0.78rem;">
+                <strong>مثال:</strong> أوردر 1135 ج.م (1000 منتجات + 125 شحن) → تسلّم 1000 للأدمن، وتاخد 125 شحن.
+              </div>
+            </div>
+          </div>
+
+          <h3 style="margin:16px 0 10px;font-size:1rem;font-weight:900;color:var(--navy);display:flex;align-items:center;gap:8px;">
+            <i class="fas fa-paper-plane" style="color:var(--gold);"></i>
+            أرسل طلبك
+          </h3>
+
+          <div class="rg-actions">
+            <button class="rg-action-btn green" onclick="openDeliveryModal()">
+              <i class="fas fa-file-signature"></i>
+              طلب انضمام موصل
+            </button>
+            <button class="rg-action-btn whatsapp" onclick="sendDeliveryViaWhatsApp()">
+              <i class="fab fa-whatsapp"></i>
+              إرسال عبر واتساب
+            </button>
+            <button class="rg-action-btn email" onclick="sendDeliveryViaEmail()">
+              <i class="fas fa-envelope"></i>
+              إرسال عبر إيميل
+            </button>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============================================================
+           📊 قسم 4: مقارنة سريعة
+      ============================================================ -->
+      <section class="rg-section">
+        <div class="rg-section-header" style="background:linear-gradient(135deg,var(--navy-dark),var(--navy),var(--navy-light));">
+          <div class="sec-icon">
+            <i class="fas fa-balance-scale"></i>
+          </div>
+          <div class="sec-info">
+            <div class="sec-label">القسم الرابع</div>
+            <h2>مقارنة سريعة</h2>
+            <p>شوف الفرق بين الأنواع الثلاثة بسرعة</p>
+          </div>
+        </div>
+        <div class="rg-section-body">
+
+          <div class="rg-compare-wrap">
+            <table class="rg-compare-table">
+              <thead>
+                <tr>
+                  <th>الميزة</th>
+                  <th>
+                    <i class="fas fa-user"></i>
+                    عميل
+                  </th>
+                  <th>
+                    <i class="fas fa-store"></i>
+                    تاجر
+                  </th>
+                  <th>
+                    <i class="fas fa-truck-fast"></i>
+                    موصل
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>طريقة التسجيل</td>
+                  <td>ذاتي فوري</td>
+                  <td>بموافقة</td>
+                  <td>بموافقة</td>
+                </tr>
+                <tr>
+                  <td>المدة</td>
+                  <td class="yes">فوري</td>
+                  <td>1-2 يوم</td>
+                  <td>1-2 يوم</td>
+                </tr>
+                <tr>
+                  <td>الأسعار</td>
+                  <td>قطاعي</td>
+                  <td>جملة</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>حد أدنى للطلب</td>
+                  <td>لا يوجد</td>
+                  <td>1500 ج.م</td>
+                  <td>—</td>
+                </tr>
+                <tr>
+                  <td>طريقة الدخول</td>
+                  <td>إيميل + باسورد</td>
+                  <td>كود تاجر</td>
+                  <td>كود موصل</td>
+                </tr>
+                <tr>
+                  <td>نظام الآجل</td>
+                  <td class="no">لا</td>
+                  <td class="yes">نعم (حتى 5000 ج.م)</td>
+                  <td class="no">لا</td>
+                </tr>
+                <tr>
+                  <td>الرسوم</td>
+                  <td class="yes">مجاني</td>
+                  <td class="yes">مجاني</td>
+                  <td class="yes">مجاني</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============================================================
+           📞 قسم 5: التواصل
+      ============================================================ -->
+      <section class="rg-section">
+        <div class="rg-section-header" style="background:linear-gradient(135deg,var(--navy-dark),var(--navy),var(--navy-light));">
+          <div class="sec-icon">
+            <i class="fas fa-headset"></i>
+          </div>
+          <div class="sec-info">
+            <div class="sec-label">القسم الخامس</div>
+            <h2>محتاج مساعدة؟</h2>
+            <p>تواصل معانا في أي وقت</p>
+          </div>
+        </div>
+        <div class="rg-section-body">
+
+          <div class="rg-contact-grid">
+            <a href="https://wa.me/201068385028" target="_blank" rel="noopener" class="rg-contact-btn">
+              <div class="cb-icon whatsapp"><i class="fab fa-whatsapp"></i></div>
+              <div class="cb-title">واتساب</div>
+              <div class="cb-sub">01068385028</div>
+            </a>
+            <a href="mailto:awladsh3laan@gmail.com" class="rg-contact-btn">
+              <div class="cb-icon email"><i class="fas fa-envelope"></i></div>
+              <div class="cb-title">إيميل</div>
+              <div class="cb-sub">awladsh3laan@gmail.com</div>
+            </a>
+            <a href="/gomla/support.html" class="rg-contact-btn">
+              <div class="cb-icon support"><i class="fas fa-ticket-alt"></i></div>
+              <div class="cb-title">صفحة الدعم</div>
+              <div class="cb-sub">تذكرة دعم</div>
+            </a>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <div id="mobile-bottom-tabs"></div>
+  <div id="mobile-copyright"></div>
+  <div id="footer-placeholder"></div>
+  <div id="sidebar-placeholder"></div>
+  <div id="toast-container"></div>
+
+  <!-- ============================================================
+       Modal: طلب انضمام تاجر
+  ============================================================ -->
+  <div class="rg-modal-overlay" id="traderModal" onclick="closeModal('traderModal', event)">
+    <div class="rg-modal" onclick="event.stopPropagation()">
+      <div class="rg-modal-header trader">
+        <h3><i class="fas fa-store"></i> طلب انضمام تاجر</h3>
+        <button class="close-btn" onclick="closeModal('traderModal')">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="rg-modal-body">
+
+        <div class="form-group">
+          <label><i class="fas fa-user"></i> الاسم الكامل <span class="required">*</span></label>
+          <input type="text" id="tName" maxlength="60" placeholder="مثال: محمد أحمد">
+        </div>
+
+        <div class="form-group">
+          <label><i class="fas fa-store"></i> اسم المحل / النشاط التجاري <span class="required">*</span></label>
+          <input type="text" id="tShopName" maxlength="80" placeholder="مثال: سوبر ماركت النور">
+        </div>
+
+        <div class="form-group">
+          <label><i class="fas fa-map-marker-alt"></i> المدينة <span class="required">*</span></label>
+          <select id="tCity">
+            <option value="">-- اختر المدينة --</option>
+            <option value="طنطا">طنطا</option>
+            <option value="المحلة">المحلة</option>
+            <option value="المنصورة">المنصورة</option>
+            <option value="أخرى">أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label><i class="fas fa-home"></i> العنوان الكامل <span class="required">*</span></label>
+          <input type="text" id="tAddress" maxlength="150" placeholder="مثال: شارع الجمهورية - أمام مسجد النور">
+        </div>
+
+        <div class="form-group">
+          <label><i class="fab fa-whatsapp"></i> رقم واتساب <span class="required">*</span></label>
+          <input type="tel" id="tPhone" maxlength="11" inputmode="numeric" placeholder="01xxxxxxxxx">
+          <div class="help-text">
+            <i class="fas fa-info-circle"></i>
+            هيتم التواصل معاك على الرقم ده
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label><i class="fas fa-hand-holding-usd"></i> طريقة التعامل <span class="required">*</span></label>
+          <select id="tBusinessType" onchange="toggleCreditSection(this.value)">
+            <option value="cash">نقدي (دفع فوري)</option>
+            <option value="credit">آجل (دفع مؤجل)</option>
+          </select>
+        </div>
+
+        <div class="rg-credit-section" id="creditSection">
+          <div class="credit-title">
+            <i class="fas fa-info-circle"></i>
+            بيانات نظام الآجل
+          </div>
+
+          <div class="form-group">
+            <label><i class="fas fa-money-bill-wave"></i> ليميت الآجل (ج.م)</label>
+            <input type="number" id="tCreditLimit" min="0" max="5000" step="100" value="5000" inputmode="numeric">
+            <div class="help-text">
+              <i class="fas fa-exclamation-triangle" style="color:#d97706;"></i>
+              الحد الأقصى المبدئي: 5000 ج.م (قابل للرفع بعد التعامل)
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label><i class="fas fa-calendar-check"></i> مدة السداد (أيام)</label>
+            <input type="number" id="tPaymentDays" min="1" max="10" step="1" value="10" inputmode="numeric">
+            <div class="help-text">
+              <i class="fas fa-exclamation-triangle" style="color:#d97706;"></i>
+              الحد الأقصى: 10 أيام
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label><i class="fas fa-comment-alt"></i> ملاحظات إضافية (اختياري)</label>
+          <textarea id="tNotes" maxlength="300" placeholder="أي تفاصيل إضافية تحب تشاركها..."></textarea>
+        </div>
+
+      </div>
+      <div class="rg-modal-actions">
+        <button class="btn btn-cancel" onclick="closeModal('traderModal')">
+          <i class="fas fa-times"></i> إلغاء
+        </button>
+        <button class="btn btn-submit" id="traderSubmitBtn" onclick="submitTraderRequest()">
+          <i class="fas fa-paper-plane"></i> إرسال الطلب
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       Modal: طلب انضمام موصل
+  ============================================================ -->
+  <div class="rg-modal-overlay" id="deliveryModal" onclick="closeModal('deliveryModal', event)">
+    <div class="rg-modal" onclick="event.stopPropagation()">
+      <div class="rg-modal-header delivery">
+        <h3><i class="fas fa-truck-fast"></i> طلب انضمام موصل</h3>
+        <button class="close-btn" onclick="closeModal('deliveryModal')">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="rg-modal-body">
+
+        <div class="form-group">
+          <label><i class="fas fa-user"></i> الاسم الكامل <span class="required">*</span></label>
+          <input type="text" id="dName" maxlength="60" placeholder="مثال: محمد أحمد">
+        </div>
+
+        <div class="form-group">
+          <label><i class="fab fa-whatsapp"></i> رقم الهاتف / واتساب <span class="required">*</span></label>
+          <input type="tel" id="dPhone" maxlength="11" inputmode="numeric" placeholder="01xxxxxxxxx">
+        </div>
+
+        <div class="form-group">
+          <label><i class="fas fa-motorcycle"></i> نوع مركبة التوصيل <span class="required">*</span></label>
+          <select id="dVehicle">
+            <option value="">-- اختر نوع المركبة --</option>
+            <option value="موتوسيكل">موتوسيكل</option>
+            <option value="توك توك">توك توك</option>
+            <option value="سيارة ربع نقل">سيارة ربع نقل</option>
+            <option value="سيارة نص نقل">سيارة نص نقل</option>
+            <option value="دراجة">دراجة</option>
+            <option value="أخرى">أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label><i class="fas fa-map-marked-alt"></i> المنطقة اللي تغطيها <span class="required">*</span></label>
+          <select id="dArea">
+            <option value="">-- اختر المنطقة --</option>
+            <option value="طنطا">طنطا</option>
+            <option value="المحلة">المحلة</option>
+            <option value="المنصورة">المنصورة</option>
+            <option value="أخرى">أخرى</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label><i class="fas fa-comment-alt"></i> ملاحظات إضافية (اختياري)</label>
+          <textarea id="dNotes" maxlength="300" placeholder="أي تفاصيل إضافية..."></textarea>
+        </div>
+
+      </div>
+      <div class="rg-modal-actions">
+        <button class="btn btn-cancel" onclick="closeModal('deliveryModal')">
+          <i class="fas fa-times"></i> إلغاء
+        </button>
+        <button class="btn btn-submit" id="deliverySubmitBtn" onclick="submitDeliveryRequest()">
+          <i class="fas fa-paper-plane"></i> إرسال الطلب
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="/gomla/assets/js/firebase-config.js"></script>
+  <script src="/gomla/assets/js/main.js"></script>
+
+  <script>
+    // ============================================================
+    // 📄 register-guide.html — دليل التسجيل
+    // ============================================================
+
+    const WHATSAPP_ADMIN = '201068385028';
+    const EMAIL_ADMIN = 'awladsh3laan@gmail.com';
+
+    // ============================================================
+    // 📝 Modal Helpers
+    // ============================================================
+    function closeModal(id, event) {
+      if (event && event.target !== event.currentTarget) return;
+      const modal = document.getElementById(id);
+      if (modal) modal.classList.remove('show');
+      document.body.style.overflow = '';
+    }
+
+    function openTraderModal() {
+      document.getElementById('traderModal').classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function openDeliveryModal() {
+      document.getElementById('deliveryModal').classList.add('show');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function toggleCreditSection(value) {
+      const section = document.getElementById('creditSection');
+      if (section) {
+        section.classList.toggle('show', value === 'credit');
+      }
+    }
+
+    // ============================================================
+    // 🏪 إرسال طلب تاجر
+    // ============================================================
+    async function submitTraderRequest() {
+      const name = document.getElementById('tName').value.trim();
+      const shopName = document.getElementById('tShopName').value.trim();
+      const city = document.getElementById('tCity').value;
+      const address = document.getElementById('tAddress').value.trim();
+      const phone = document.getElementById('tPhone').value.trim();
+      const businessType = document.getElementById('tBusinessType').value;
+      const creditLimit = parseInt(document.getElementById('tCreditLimit').value) || 0;
+      const paymentDays = parseInt(document.getElementById('tPaymentDays').value) || 0;
+      const notes = document.getElementById('tNotes').value.trim();
+
+      // التحقق
+      if (!name || name.length < 3) {
+        showToast('ادخل الاسم الكامل', 'warning');
+        return;
+      }
+      if (!shopName || shopName.length < 2) {
+        showToast('ادخل اسم المحل', 'warning');
+        return;
+      }
+      if (!city) {
+        showToast('اختر المدينة', 'warning');
+        return;
+      }
+      if (!address || address.length < 5) {
+        showToast('ادخل العنوان الكامل', 'warning');
+        return;
+      }
+      if (!phone || !/^01[0-9]{9}$/.test(phone)) {
+        showToast('رقم واتساب غير صحيح', 'warning');
+        return;
+      }
+
+      if (businessType === 'credit') {
+        if (creditLimit < 500 || creditLimit > 5000) {
+          showToast('ليميت الآجل يجب أن يكون بين 500 و 5000 ج.م', 'warning');
+          return;
+        }
+        if (paymentDays < 1 || paymentDays > 10) {
+          showToast('مدة السداد يجب أن تكون بين 1 و 10 أيام', 'warning');
+          return;
+        }
+      }
+
+      const btn = document.getElementById('traderSubmitBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
+
+      try {
+        const requestData = {
+          type: 'trader',
+          requestedCode: 'trader_code',
+          name,
+          phone,
+          whatsapp: phone,
+          shopName,
+          city,
+          fullAddress: address,
+          businessType,
+          creditLimit: businessType === 'credit' ? creditLimit : 0,
+          paymentDays: businessType === 'credit' ? paymentDays : 0,
+          notes,
+          attachments: [],
+          status: 'pending',
+          reviewedBy: '',
+          reviewedByName: '',
+          reviewedAt: null,
+          adminNotes: '',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+
+        await db.collection('registration_requests').add(requestData);
+
+        // إشعار للأدمن (اختياري)
+        try {
+          await db.collection('admin_notifications').add({
+            userId: 'all_admins',
+            title: 'طلب انضمام تاجر جديد',
+            body: `${name} - ${shopName} (${city})`,
+            type: 'registration_request',
+            requestType: 'trader',
+            read: false,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        } catch (e) { console.warn('Notification failed:', e); }
+
+        showToast('تم إرسال طلبك بنجاح — هنراجعه ونرد عليك قريباً', 'success');
+
+        // نسأل لو عاوز يبعت واتساب كمان
+        setTimeout(() => {
+          if (confirm('هل تحب إرسال نسخة عبر الواتساب لتسريع المراجعة؟')) {
+            sendTraderViaWhatsApp();
+          }
+          closeModal('traderModal');
+          resetTraderForm();
+        }, 500);
+
+      } catch (err) {
+        console.error('submitTraderRequest error:', err);
+        showToast('فشل الإرسال: ' + (err.message || 'حدث خطأ'), 'error');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-paper-plane"></i> إرسال الطلب';
+      }
+    }
+
+    function resetTraderForm() {
+      document.getElementById('tName').value = '';
+      document.getElementById('tShopName').value = '';
+      document.getElementById('tCity').value = '';
+      document.getElementById('tAddress').value = '';
+      document.getElementById('tPhone').value = '';
+      document.getElementById('tBusinessType').value = 'cash';
+      document.getElementById('tCreditLimit').value = '5000';
+      document.getElementById('tPaymentDays').value = '10';
+      document.getElementById('tNotes').value = '';
+      document.getElementById('creditSection').classList.remove('show');
+    }
+
+    // ============================================================
+    // 🚚 إرسال طلب موصل
+    // ============================================================
+    async function submitDeliveryRequest() {
+      const name = document.getElementById('dName').value.trim();
+      const phone = document.getElementById('dPhone').value.trim();
+      const vehicle = document.getElementById('dVehicle').value;
+      const area = document.getElementById('dArea').value;
+      const notes = document.getElementById('dNotes').value.trim();
+
+      if (!name || name.length < 3) {
+        showToast('ادخل الاسم الكامل', 'warning');
+        return;
+      }
+      if (!phone || !/^01[0-9]{9}$/.test(phone)) {
+        showToast('رقم الهاتف غير صحيح', 'warning');
+        return;
+      }
+      if (!vehicle) {
+        showToast('اختر نوع المركبة', 'warning');
+        return;
+      }
+      if (!area) {
+        showToast('اختر المنطقة', 'warning');
+        return;
+      }
+
+      const btn = document.getElementById('deliverySubmitBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
+
+      try {
+        const requestData = {
+          type: 'delivery',
+          requestedCode: 'delivery_code',
+          name,
+          phone,
+          whatsapp: phone,
+          vehicleType: vehicle,
+          coverageArea: area,
+          notes,
+          attachments: [],
+          status: 'pending',
+          reviewedBy: '',
+          reviewedByName: '',
+          reviewedAt: null,
+          adminNotes: '',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+
+        await db.collection('registration_requests').add(requestData);
+
+        try {
+          await db.collection('admin_notifications').add({
+            userId: 'all_admins',
+            title: 'طلب انضمام موصل جديد',
+            body: `${name} - ${vehicle} (${area})`,
+            type: 'registration_request',
+            requestType: 'delivery',
+            read: false,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+        } catch (e) { console.warn('Notification failed:', e); }
+
+        showToast('تم إرسال طلبك بنجاح — هنراجعه ونرد عليك قريباً', 'success');
+
+        setTimeout(() => {
+          if (confirm('هل تحب إرسال نسخة عبر الواتساب لتسريع المراجعة؟')) {
+            sendDeliveryViaWhatsApp();
+          }
+          closeModal('deliveryModal');
+          resetDeliveryForm();
+        }, 500);
+
+      } catch (err) {
+        console.error('submitDeliveryRequest error:', err);
+        showToast('فشل الإرسال: ' + (err.message || 'حدث خطأ'), 'error');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-paper-plane"></i> إرسال الطلب';
+      }
+    }
+
+    function resetDeliveryForm() {
+      document.getElementById('dName').value = '';
+      document.getElementById('dPhone').value = '';
+      document.getElementById('dVehicle').value = '';
+      document.getElementById('dArea').value = '';
+      document.getElementById('dNotes').value = '';
+    }
+
+    // ============================================================
+    // 💬 إرسال واتساب - تاجر
+    // ============================================================
+    function sendTraderViaWhatsApp() {
+      const name = document.getElementById('tName').value.trim() || '[اكتب اسمك]';
+      const shopName = document.getElementById('tShopName').value.trim() || '[اسم المحل]';
+      const city = document.getElementById('tCity').value || '[المدينة]';
+      const address = document.getElementById('tAddress').value.trim() || '[العنوان]';
+      const phone = document.getElementById('tPhone').value.trim() || '[رقمك]';
+      const businessType = document.getElementById('tBusinessType').value;
+      const creditLimit = document.getElementById('tCreditLimit').value;
+      const paymentDays = document.getElementById('tPaymentDays').value;
+      const notes = document.getElementById('tNotes').value.trim();
+
+      const typeText = businessType === 'credit'
+        ? `آجل (ليميت ${creditLimit} ج.م - سداد خلال ${paymentDays} يوم)`
+        : 'نقدي';
+
+      const msg = [
+        '🏪 طلب انضمام تاجر جديد',
+        '',
+        `👤 الاسم: ${name}`,
+        `🏬 المحل: ${shopName}`,
+        `📍 المدينة: ${city}`,
+        `🏠 العنوان: ${address}`,
+        `📱 واتساب: ${phone}`,
+        `💰 طريقة التعامل: ${typeText}`,
+        notes ? `📝 ملاحظات: ${notes}` : '',
+        '',
+        '— أرسلت من صفحة دليل التسجيل'
+      ].filter(Boolean).join('\n');
+
+      const url = `https://wa.me/${WHATSAPP_ADMIN}?text=${encodeURIComponent(msg)}`;
+      window.open(url, '_blank');
+    }
+
+    // ============================================================
+    // 📧 إرسال إيميل - تاجر
+    // ============================================================
+    function sendTraderViaEmail() {
+      const name = document.getElementById('tName').value.trim() || '[اكتب اسمك]';
+      const shopName = document.getElementById('tShopName').value.trim() || '[اسم المحل]';
+      const city = document.getElementById('tCity').value || '[المدينة]';
+      const address = document.getElementById('tAddress').value.trim() || '[العنوان]';
+      const phone = document.getElementById('tPhone').value.trim() || '[رقمك]';
+      const businessType = document.getElementById('tBusinessType').value;
+      const creditLimit = document.getElementById('tCreditLimit').value;
+      const paymentDays = document.getElementById('tPaymentDays').value;
+      const notes = document.getElementById('tNotes').value.trim();
+
+      const typeText = businessType === 'credit'
+        ? `آجل (ليميت ${creditLimit} ج.م - سداد خلال ${paymentDays} يوم)`
+        : 'نقدي';
+
+      const subject = `طلب انضمام تاجر - ${name}`;
+      const body = [
+        'طلب انضمام تاجر جديد',
+        '',
+        `الاسم: ${name}`,
+        `المحل: ${shopName}`,
+        `المدينة: ${city}`,
+        `العنوان: ${address}`,
+        `واتساب: ${phone}`,
+        `طريقة التعامل: ${typeText}`,
+        notes ? `ملاحظات: ${notes}` : ''
+      ].filter(Boolean).join('\n');
+
+      const url = `mailto:${EMAIL_ADMIN}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = url;
+    }
+
+    // ============================================================
+    // 💬 إرسال واتساب - موصل
+    // ============================================================
+    function sendDeliveryViaWhatsApp() {
+      const name = document.getElementById('dName').value.trim() || '[اكتب اسمك]';
+      const phone = document.getElementById('dPhone').value.trim() || '[رقمك]';
+      const vehicle = document.getElementById('dVehicle').value || '[نوع المركبة]';
+      const area = document.getElementById('dArea').value || '[المنطقة]';
+      const notes = document.getElementById('dNotes').value.trim();
+
+      const msg = [
+        '🚚 طلب انضمام موصل جديد',
+        '',
+        `👤 الاسم: ${name}`,
+        `📱 واتساب: ${phone}`,
+        `🛵 نوع المركبة: ${vehicle}`,
+        `🗺️ المنطقة: ${area}`,
+        notes ? `📝 ملاحظات: ${notes}` : '',
+        '',
+        '— أرسلت من صفحة دليل التسجيل'
+      ].filter(Boolean).join('\n');
+
+      const url = `https://wa.me/${WHATSAPP_ADMIN}?text=${encodeURIComponent(msg)}`;
+      window.open(url, '_blank');
+    }
+
+    // ============================================================
+    // 📧 إرسال إيميل - موصل
+    // ============================================================
+    function sendDeliveryViaEmail() {
+      const name = document.getElementById('dName').value.trim() || '[اكتب اسمك]';
+      const phone = document.getElementById('dPhone').value.trim() || '[رقمك]';
+      const vehicle = document.getElementById('dVehicle').value || '[نوع المركبة]';
+      const area = document.getElementById('dArea').value || '[المنطقة]';
+      const notes = document.getElementById('dNotes').value.trim();
+
+      const subject = `طلب انضمام موصل - ${name}`;
+      const body = [
+        'طلب انضمام موصل جديد',
+        '',
+        `الاسم: ${name}`,
+        `واتساب: ${phone}`,
+        `نوع المركبة: ${vehicle}`,
+        `المنطقة: ${area}`,
+        notes ? `ملاحظات: ${notes}` : ''
+      ].filter(Boolean).join('\n');
+
+      const url = `mailto:${EMAIL_ADMIN}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+      window.location.href = url;
+    }
+
+    // ESC لإغلاق
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        closeModal('traderModal');
+        closeModal('deliveryModal');
+      }
+    });
+
+    // تصدير
+    window.openTraderModal = openTraderModal;
+    window.openDeliveryModal = openDeliveryModal;
+    window.closeModal = closeModal;
+    window.toggleCreditSection = toggleCreditSection;
+    window.submitTraderRequest = submitTraderRequest;
+    window.submitDeliveryRequest = submitDeliveryRequest;
+    window.sendTraderViaWhatsApp = sendTraderViaWhatsApp;
+    window.sendTraderViaEmail = sendTraderViaEmail;
+    window.sendDeliveryViaWhatsApp = sendDeliveryViaWhatsApp;
+    window.sendDeliveryViaEmail = sendDeliveryViaEmail;
+  </script>
+
+</body>
+</html>
