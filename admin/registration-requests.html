@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>طلبات التسجيل - أولاد شعلان</title>
+  <meta name="theme-color" content="#1a2a4a">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="icon" href="../assets/images/favicon.ico">
+
+  <style>
+    /* ============================================================
+       📝 إدارة طلبات التسجيل - v1.0
+       ============================================================ */
+    html, body { overflow-x: hidden !important; max-width: 100vw; }
+    .page-content, .page-content .container {
+      overflow-x: hidden; min-width: 0; max-width: 100%;
+    }
+
+    /* Header */
+    .rr-header {
+      background: linear-gradient(135deg, var(--navy-dark), var(--navy), var(--navy-light));
+      border-radius: var(--radius-lg);
+      padding: 22px 24px;
+      margin-bottom: 18px;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(15,26,46,.35);
+      border-bottom: 4px solid var(--gold);
+    }
+    .rr-header::before {
+      content: '';
+      position: absolute;
+      top: -50%; right: -15%;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(201,168,76,.25), transparent 70%);
+      border-radius: 50%;
+      animation: float 8s ease-in-out infinite;
+    }
+    .rr-header-content {
+      position: relative; z-index: 1;
+      display: flex; align-items: center;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .rr-header-content .header-icon {
+      width: 56px; height: 56px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+      box-shadow: 0 8px 24px rgba(201,168,76,.5);
+    }
+    .rr-header-content .header-text { flex: 1; min-width: 200px; }
+    .rr-header-content .header-text h1 {
+      font-size: 1.3rem; font-weight: 900;
+      margin-bottom: 4px; color: var(--white);
+    }
+    .rr-header-content .header-text p {
+      font-size: 0.82rem; opacity: .9;
+      color: rgba(255,255,255,.9); margin: 0;
+    }
+    .rr-header-content .header-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 14px;
+      background: rgba(255,255,255,.15);
+      color: var(--gold-light);
+      border: 1px solid rgba(201,168,76,.5);
+      border-radius: var(--radius-full);
+      font-size: 0.75rem; font-weight: 800;
+    }
+    .rr-header-content .header-badge i { color: var(--gold); }
+
+    /* Stats */
+    .rr-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .rr-stat-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 14px 12px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      text-align: center;
+      transition: var(--transition);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .rr-stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 4px; height: 100%;
+      background: var(--gold);
+      transform: scaleY(0);
+      transform-origin: bottom;
+      transition: transform 0.4s ease;
+    }
+    .rr-stat-card:hover::before { transform: scaleY(1); }
+    .rr-stat-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--gold-light);
+    }
+    .rr-stat-card .stat-icon {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.05rem;
+      margin: 0 auto 8px;
+    }
+    .stat-icon.blue { background: rgba(59,130,246,.12); color: #2563eb; }
+    .stat-icon.gold { background: rgba(201,168,76,.15); color: var(--gold-dark); }
+    .stat-icon.green { background: rgba(34,197,94,.12); color: #16a34a; }
+    .stat-icon.red { background: rgba(239,68,68,.12); color: #dc2626; }
+    .stat-icon.purple { background: rgba(139,92,246,.12); color: #7c3aed; }
+    .stat-icon.orange { background: rgba(245,158,11,.12); color: #d97706; }
+    .rr-stat-card .stat-number {
+      font-size: 1.25rem; font-weight: 900;
+      color: var(--navy); line-height: 1.2;
+      margin-bottom: 2px;
+    }
+    .rr-stat-card .stat-number.blue { color: #2563eb; }
+    .rr-stat-card .stat-number.gold { color: var(--gold-dark); }
+    .rr-stat-card .stat-number.green { color: #16a34a; }
+    .rr-stat-card .stat-number.red { color: #dc2626; }
+    .rr-stat-card .stat-number.purple { color: #7c3aed; }
+    .rr-stat-card .stat-number.orange { color: #d97706; }
+    .rr-stat-card .stat-label {
+      font-size: 0.68rem; color: var(--gray-500);
+      font-weight: 700;
+    }
+
+    /* Toolbar */
+    .rr-toolbar {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .rr-search {
+      position: relative;
+      flex: 1;
+      min-width: 200px;
+    }
+    .rr-search input {
+      width: 100%;
+      padding: 11px 42px 11px 14px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.88rem;
+      background: var(--gray-50);
+      outline: none;
+      transition: var(--transition);
+    }
+    .rr-search input:focus {
+      border-color: var(--gold);
+      background: var(--white);
+      box-shadow: 0 0 0 4px rgba(201,168,76,.15);
+    }
+    .rr-search .si {
+      position: absolute;
+      right: 13px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray-400);
+      pointer-events: none;
+    }
+    .rr-toolbar select {
+      padding: 11px 14px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.85rem;
+      background: var(--gray-50);
+      outline: none;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .rr-toolbar select:focus {
+      border-color: var(--gold);
+      background: var(--white);
+    }
+
+    /* Tabs */
+    .rr-tabs-wrap {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 8px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      overflow: hidden;
+      min-width: 0;
+    }
+    .rr-tabs {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 4px;
+      scrollbar-width: thin;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior-x: contain;
+    }
+    .rr-tabs::-webkit-scrollbar { height: 4px; }
+    .rr-tabs::-webkit-scrollbar-thumb {
+      background: var(--gold);
+      border-radius: 10px;
+    }
+    .rr-tab {
+      flex-shrink: 0;
+      padding: 10px 16px;
+      border: 2px solid var(--gray-200);
+      background: var(--white);
+      color: var(--gray-600);
+      border-radius: var(--radius-full);
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .rr-tab:hover {
+      border-color: var(--gold-light);
+      background: var(--gray-50);
+    }
+    .rr-tab.active {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      border-color: var(--navy);
+      box-shadow: 0 4px 12px rgba(26,42,74,.25);
+    }
+    .rr-tab.active i { color: var(--gold); }
+    .rr-tab i { font-size: 0.85rem; }
+    .rr-tab .tab-count {
+      background: rgba(0,0,0,.08);
+      padding: 1px 8px;
+      border-radius: 10px;
+      font-size: 0.68rem;
+      font-weight: 900;
+      min-width: 20px;
+      text-align: center;
+    }
+    .rr-tab.active .tab-count {
+      background: var(--gold);
+      color: var(--navy);
+    }
+
+    /* Grid */
+    .rr-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .rr-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .rr-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 5px; height: 100%;
+    }
+    .rr-card.type-trader::before {
+      background: linear-gradient(180deg, #d97706, #b45309);
+    }
+    .rr-card.type-delivery::before {
+      background: linear-gradient(180deg, #059669, #047857);
+    }
+    .rr-card.status-approved::before { background: linear-gradient(180deg, #22c55e, #16a34a); }
+    .rr-card.status-rejected::before { background: linear-gradient(180deg, #ef4444, #dc2626); }
+    .rr-card:hover {
+      border-color: var(--gold-light);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .rr-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+
+    .rr-type-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      font-size: 0.7rem;
+      font-weight: 900;
+    }
+    .rr-type-badge.trader {
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      color: #78350f;
+      border: 1px solid #fcd34d;
+    }
+    .rr-type-badge.delivery {
+      background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+      color: #065f46;
+      border: 1px solid #86efac;
+    }
+
+    .rr-status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      font-size: 0.68rem;
+      font-weight: 800;
+    }
+    .rr-status-badge.pending {
+      background: rgba(245,158,11,.12);
+      color: #d97706;
+      border: 1px solid rgba(245,158,11,.3);
+    }
+    .rr-status-badge.approved {
+      background: rgba(34,197,94,.12);
+      color: #16a34a;
+      border: 1px solid rgba(34,197,94,.3);
+    }
+    .rr-status-badge.rejected {
+      background: rgba(239,68,68,.12);
+      color: #dc2626;
+      border: 1px solid rgba(239,68,68,.3);
+    }
+
+    .rr-name {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin: 0 0 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .rr-name i {
+      color: var(--gold);
+      font-size: 0.85rem;
+    }
+
+    .rr-info-row {
+      display: flex;
+      gap: 8px;
+      font-size: 0.78rem;
+      color: var(--gray-600);
+      margin-bottom: 4px;
+      align-items: center;
+    }
+    .rr-info-row i {
+      color: var(--gold);
+      font-size: 0.72rem;
+      width: 14px;
+      flex-shrink: 0;
+    }
+    .rr-info-row .value {
+      flex: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .rr-info-row .value.ltr {
+      direction: ltr;
+      text-align: right;
+    }
+
+    .rr-card-footer {
+      padding-top: 10px;
+      margin-top: 10px;
+      border-top: 1px dashed var(--gray-200);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .rr-date {
+      font-size: 0.72rem;
+      color: var(--gray-500);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .rr-date i { color: var(--gold); font-size: 0.65rem; }
+
+    .rr-actions-mini {
+      display: flex;
+      gap: 5px;
+    }
+    .rr-mini-btn {
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      border: 1.5px solid var(--gray-200);
+      background: var(--white);
+      color: var(--gray-600);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+    .rr-mini-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
+    }
+    .rr-mini-btn.view { border-color: var(--gold-light); color: var(--gold-dark); }
+    .rr-mini-btn.view:hover { background: var(--gold); color: var(--navy); border-color: var(--gold-dark); }
+    .rr-mini-btn.whatsapp { border-color: #86efac; color: #16a34a; }
+    .rr-mini-btn.whatsapp:hover { background: #25D366; color: var(--white); border-color: #128C7E; }
+    .rr-mini-btn.call { border-color: #93c5fd; color: #2563eb; }
+    .rr-mini-btn.call:hover { background: #2563eb; color: var(--white); border-color: #1e40af; }
+
+    /* Empty */
+    .rr-empty {
+      text-align: center;
+      padding: 60px 20px;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      border: 2px dashed var(--gray-300);
+      grid-column: 1 / -1;
+    }
+    .rr-empty .empty-icon {
+      width: 90px; height: 90px;
+      border-radius: 50%;
+      background: var(--gray-100);
+      color: var(--gray-400);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.4rem;
+      margin: 0 auto 16px;
+    }
+    .rr-empty h3 {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .rr-empty p {
+      font-size: 0.85rem;
+      color: var(--gray-500);
+      margin: 0;
+    }
+
+    /* Modal */
+    .rr-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15,26,46,.75);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      overflow-y: auto;
+      animation: fadeIn 0.25s ease;
+    }
+    .rr-modal-overlay.show { display: flex; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .rr-modal {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      max-width: 620px;
+      width: 100%;
+      box-shadow: 0 25px 70px rgba(0,0,0,.4);
+      animation: slideUp 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      max-height: 92vh;
+      overflow-y: auto;
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .rr-modal-header {
+      padding: 18px 22px;
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .rr-modal-header h3 {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .rr-modal-header h3 i { color: var(--gold); }
+    .rr-modal-header .close-btn {
+      background: rgba(255,255,255,.15);
+      border: none;
+      color: var(--white);
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      transition: var(--transition);
+      flex-shrink: 0;
+    }
+    .rr-modal-header .close-btn:hover {
+      background: rgba(255,255,255,.3);
+      transform: rotate(90deg);
+    }
+
+    .rr-modal-body { padding: 20px 22px; }
+
+    .rr-detail-section {
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+    .rr-detail-section h4 {
+      margin: 0 0 10px;
+      font-size: 0.88rem;
+      font-weight: 900;
+      color: var(--navy);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .rr-detail-section h4 i { color: var(--gold); }
+    .rr-detail-line {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 0;
+      font-size: 0.85rem;
+      gap: 12px;
+      align-items: center;
+    }
+    .rr-detail-line .lbl {
+      color: var(--gray-500);
+      font-weight: 700;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .rr-detail-line .lbl i { color: var(--gold); font-size: 0.72rem; }
+    .rr-detail-line .val {
+      color: var(--navy);
+      font-weight: 800;
+      text-align: left;
+      word-break: break-word;
+    }
+    .rr-detail-line .val.ltr {
+      direction: ltr;
+      text-align: right;
+    }
+    .rr-detail-line .val.amount {
+      color: var(--gold-dark);
+      font-size: 1rem;
+    }
+
+    .rr-modal-actions {
+      padding: 16px 22px;
+      background: var(--gray-50);
+      display: flex;
+      gap: 10px;
+      border-top: 2px solid var(--gray-100);
+      position: sticky;
+      bottom: 0;
+      flex-wrap: wrap;
+    }
+    .rr-modal-actions .btn {
+      flex: 1;
+      min-width: 120px;
+      padding: 12px 16px;
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.85rem;
+      border-radius: var(--radius-sm);
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+    .rr-modal-actions .btn-cancel {
+      background: var(--white);
+      color: var(--gray-600);
+      border: 2px solid var(--gray-300);
+    }
+    .rr-modal-actions .btn-cancel:hover { background: var(--gray-100); }
+    .rr-modal-actions .btn-approve {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: var(--white);
+      box-shadow: 0 6px 18px rgba(34,197,94,.3);
+    }
+    .rr-modal-actions .btn-approve:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(34,197,94,.5);
+    }
+    .rr-modal-actions .btn-reject {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: var(--white);
+      box-shadow: 0 6px 18px rgba(239,68,68,.3);
+    }
+    .rr-modal-actions .btn-reject:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(239,68,68,.5);
+    }
+    .rr-modal-actions .btn-create {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      box-shadow: 0 6px 18px rgba(201,168,76,.4);
+    }
+    .rr-modal-actions .btn-create:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(201,168,76,.6);
+    }
+
+    /* Form in modal */
+    .rr-form-group {
+      margin-bottom: 14px;
+    }
+    .rr-form-group:last-child { margin-bottom: 0; }
+    .rr-form-group label {
+      display: block;
+      font-weight: 800;
+      font-size: 0.82rem;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .rr-form-group label i { color: var(--gold); margin-left: 4px; }
+    .rr-form-group textarea {
+      width: 100%;
+      padding: 11px 14px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.9rem;
+      background: var(--gray-50);
+      outline: none;
+      resize: vertical;
+      min-height: 70px;
+      transition: var(--transition);
+      color: var(--navy);
+    }
+    .rr-form-group textarea:focus {
+      border-color: var(--gold);
+      background: var(--white);
+      box-shadow: 0 0 0 4px rgba(201,168,76,.15);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) and (pointer: coarse) {
+      .rr-header { padding: 18px 16px; border-radius: var(--radius-md); }
+      .rr-header-content .header-icon { width: 46px; height: 46px; font-size: 1.2rem; }
+      .rr-header-content .header-text h1 { font-size: 1.02rem; }
+
+      .rr-stats { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .rr-stat-card { padding: 11px 8px; }
+      .rr-stat-card .stat-icon { width: 34px; height: 34px; font-size: 0.9rem; }
+      .rr-stat-card .stat-number { font-size: 1rem; }
+
+      .rr-toolbar { padding: 10px; }
+      .rr-search { min-width: 100%; }
+
+      .rr-tab { padding: 8px 12px; font-size: 0.75rem; }
+
+      .rr-grid { grid-template-columns: 1fr; gap: 10px; }
+      .rr-card { padding: 12px 14px; }
+
+      .rr-modal { margin: 0 4px; }
+      .rr-modal-header { padding: 14px 16px; }
+      .rr-modal-body { padding: 16px; }
+      .rr-modal-actions { padding: 14px 16px; flex-direction: column; }
+      .rr-modal-actions .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="mobile-top-bar"></div>
+  <div id="mobile-top-tabs"></div>
+  <div id="header-placeholder"></div>
+
+  <main class="page-content">
+    <div class="container">
+
+      <!-- Header -->
+      <div class="rr-header">
+        <div class="rr-header-content">
+          <div class="header-icon">
+            <i class="fas fa-user-plus"></i>
+          </div>
+          <div class="header-text">
+            <h1>طلبات التسجيل</h1>
+            <p>مراجعة طلبات انضمام التجار والموصلين</p>
+          </div>
+          <span class="header-badge">
+            <i class="fas fa-shield-alt"></i>
+            الإدارة
+          </span>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="rr-stats">
+        <div class="rr-stat-card" onclick="setFilter('all')">
+          <div class="stat-icon blue"><i class="fas fa-list"></i></div>
+          <div class="stat-number blue" id="statTotal">0</div>
+          <div class="stat-label">إجمالي الطلبات</div>
+        </div>
+        <div class="rr-stat-card" onclick="setFilter('pending')">
+          <div class="stat-icon orange"><i class="fas fa-clock"></i></div>
+          <div class="stat-number orange" id="statPending">0</div>
+          <div class="stat-label">قيد المراجعة</div>
+        </div>
+        <div class="rr-stat-card" onclick="setFilter('trader')">
+          <div class="stat-icon gold"><i class="fas fa-store"></i></div>
+          <div class="stat-number gold" id="statTrader">0</div>
+          <div class="stat-label">طلبات التجار</div>
+        </div>
+        <div class="rr-stat-card" onclick="setFilter('delivery')">
+          <div class="stat-icon green"><i class="fas fa-truck-fast"></i></div>
+          <div class="stat-number green" id="statDelivery">0</div>
+          <div class="stat-label">طلبات الموصلين</div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="rr-tabs-wrap">
+        <div class="rr-tabs">
+          <button class="rr-tab active" data-filter="all" onclick="setFilter('all')">
+            <i class="fas fa-list"></i>
+            <span>الكل</span>
+            <span class="tab-count" id="tabAll">0</span>
+          </button>
+          <button class="rr-tab" data-filter="pending" onclick="setFilter('pending')">
+            <i class="fas fa-clock"></i>
+            <span>معلّقة</span>
+            <span class="tab-count" id="tabPending">0</span>
+          </button>
+          <button class="rr-tab" data-filter="trader" onclick="setFilter('trader')">
+            <i class="fas fa-store"></i>
+            <span>تجار</span>
+            <span class="tab-count" id="tabTrader">0</span>
+          </button>
+          <button class="rr-tab" data-filter="delivery" onclick="setFilter('delivery')">
+            <i class="fas fa-truck-fast"></i>
+            <span>موصلين</span>
+            <span class="tab-count" id="tabDelivery">0</span>
+          </button>
+          <button class="rr-tab" data-filter="approved" onclick="setFilter('approved')">
+            <i class="fas fa-check-circle"></i>
+            <span>مقبولة</span>
+            <span class="tab-count" id="tabApproved">0</span>
+          </button>
+          <button class="rr-tab" data-filter="rejected" onclick="setFilter('rejected')">
+            <i class="fas fa-times-circle"></i>
+            <span>مرفوضة</span>
+            <span class="tab-count" id="tabRejected">0</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Toolbar -->
+      <div class="rr-toolbar">
+        <div class="rr-search">
+          <input type="text" id="searchInput" placeholder="ابحث بالاسم أو الهاتف..." oninput="handleSearch(this.value)">
+          <i class="fas fa-search si"></i>
+        </div>
+        <select id="sortFilter" onchange="applyFilters()">
+          <option value="newest">الأحدث</option>
+          <option value="oldest">الأقدم</option>
+        </select>
+      </div>
+
+      <!-- Grid -->
+      <div class="rr-grid" id="requestsGrid">
+        <div class="loading-spinner" style="grid-column:1/-1;">
+          <i class="fas fa-spinner fa-spin"></i>
+          <p>جاري تحميل الطلبات...</p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="mobile-bottom-tabs"></div>
+  <div id="mobile-copyright"></div>
+  <div id="footer-placeholder"></div>
+  <div id="sidebar-placeholder"></div>
+  <div id="toast-container"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="../assets/js/firebase-config.js"></script>
+  <script src="../assets/js/main.js"></script>
+
+  <script>
+    // ============================================================
+    // 📄 admin/registration-requests.html
+    // ============================================================
+
+    let _admin = null;
+    let _adminId = null;
+    let _adminRole = null;
+    let _allRequests = [];
+    let _filtered = [];
+    let _currentFilter = 'all';
+    let _searchTerm = '';
+    let _currentRequest = null;
+    let _unsub = null;
+
+    // ============================================================
+    // 🚀 Init
+    // ============================================================
+    document.addEventListener('DOMContentLoaded', async () => {
+      // حماية: SUPER + ADMIN_PLUS
+      if (typeof protectAdminPlusPage === 'function') {
+        const ok = protectAdminPlusPage();
+        if (ok === false) return;
+      }
+
+      if (typeof getCurrentUser !== 'function') {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      const user = getCurrentUser();
+      if (!user || !user.data) {
+        window.location.href = 'login.html';
+        return;
+      }
+
+      _admin = user.data;
+      _adminId = _admin.uid || _admin.id;
+      _adminRole = _admin.role;
+
+      if (!_adminId) {
+        showToast('خطأ في بيانات المستخدم', 'error');
+        return;
+      }
+
+      loadRequests();
+    });
+
+    // ============================================================
+    // 📥 تحميل الطلبات (Realtime)
+    // ============================================================
+    function loadRequests() {
+      if (_unsub) _unsub();
+
+      _unsub = db.collection('registration_requests')
+        .orderBy('createdAt', 'desc')
+        .limit(200)
+        .onSnapshot(snap => {
+          _allRequests = [];
+          snap.forEach(d => {
+            _allRequests.push({ id: d.id, ...d.data() });
+          });
+          updateStats();
+          applyFilters();
+        }, err => {
+          console.error('loadRequests error:', err);
+          const grid = document.getElementById('requestsGrid');
+          if (grid) {
+            grid.innerHTML = `
+              <div class="rr-empty">
+                <div class="empty-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                <h3>فشل التحميل</h3>
+                <p>${err.code === 'permission-denied' ? 'ليس لديك صلاحية' : 'حدث خطأ في الاتصال'}</p>
+              </div>
+            `;
+          }
+        });
+    }
+
+    // ============================================================
+    // 📊 الإحصائيات
+    // ============================================================
+    function updateStats() {
+      const total = _allRequests.length;
+      const pending = _allRequests.filter(r => r.status === 'pending').length;
+      const trader = _allRequests.filter(r => r.type === 'trader').length;
+      const delivery = _allRequests.filter(r => r.type === 'delivery').length;
+      const approved = _allRequests.filter(r => r.status === 'approved').length;
+      const rejected = _allRequests.filter(r => r.status === 'rejected').length;
+
+      setText('statTotal', total);
+      setText('statPending', pending);
+      setText('statTrader', trader);
+      setText('statDelivery', delivery);
+
+      setText('tabAll', total);
+      setText('tabPending', pending);
+      setText('tabTrader', trader);
+      setText('tabDelivery', delivery);
+      setText('tabApproved', approved);
+      setText('tabRejected', rejected);
+    }
+
+    function setText(id, val) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = val;
+    }
+
+    // ============================================================
+    // 🎯 الفلترة
+    // ============================================================
+    function setFilter(filter) {
+      _currentFilter = filter;
+      document.querySelectorAll('.rr-tab').forEach(t => {
+        t.classList.toggle('active', t.dataset.filter === filter);
+      });
+      applyFilters();
+    }
+
+    function handleSearch(value) {
+      _searchTerm = value.trim().toLowerCase();
+      applyFilters();
+    }
+
+    function applyFilters() {
+      const sortValue = document.getElementById('sortFilter')?.value || 'newest';
+
+      _filtered = _allRequests.filter(r => {
+        // فلتر
+        if (_currentFilter !== 'all') {
+          if (['pending', 'approved', 'rejected'].includes(_currentFilter)) {
+            if (r.status !== _currentFilter) return false;
+          } else if (['trader', 'delivery'].includes(_currentFilter)) {
+            if (r.type !== _currentFilter) return false;
+          }
+        }
+
+        // بحث
+        if (_searchTerm) {
+          const name = (r.name || '').toLowerCase();
+          const phone = (r.phone || '').toLowerCase();
+          const shop = (r.shopName || '').toLowerCase();
+          if (!name.includes(_searchTerm) &&
+              !phone.includes(_searchTerm) &&
+              !shop.includes(_searchTerm)) return false;
+        }
+        return true;
+      });
+
+      // ترتيب
+      switch (sortValue) {
+        case 'newest':
+          _filtered.sort((a, b) => (b.createdAt?.toMillis?.() || 0) - (a.createdAt?.toMillis?.() || 0));
+          break;
+        case 'oldest':
+          _filtered.sort((a, b) => (a.createdAt?.toMillis?.() || 0) - (b.createdAt?.toMillis?.() || 0));
+          break;
+      }
+
+      renderRequests();
+    }
+
+    // ============================================================
+    // 🎨 عرض الطلبات
+    // ============================================================
+    function renderRequests() {
+      const grid = document.getElementById('requestsGrid');
+      if (!grid) return;
+
+      if (!_filtered.length) {
+        const msg = _searchTerm
+          ? `لا نتائج مطابقة لـ "${escapeHtml(_searchTerm)}"`
+          : (_allRequests.length ? 'لا طلبات في هذا التصنيف' : 'مفيش طلبات لسه');
+
+        grid.innerHTML = `
+          <div class="rr-empty">
+            <div class="empty-icon"><i class="fas fa-inbox"></i></div>
+            <h3>${_searchTerm ? 'لا نتائج' : 'مفيش طلبات'}</h3>
+            <p>${msg}</p>
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = _filtered.map(r => renderCard(r)).join('');
+    }
+
+    function renderCard(r) {
+      const isTrader = r.type === 'trader';
+      const typeClass = isTrader ? 'trader' : 'delivery';
+      const typeLabel = isTrader ? 'تاجر' : 'موصل';
+      const typeIcon = isTrader ? 'fa-store' : 'fa-truck-fast';
+
+      const status = r.status || 'pending';
+      const statusLabels = {
+        pending: { text: 'قيد المراجعة', icon: 'fa-clock' },
+        approved: { text: 'مقبول', icon: 'fa-check-circle' },
+        rejected: { text: 'مرفوض', icon: 'fa-times-circle' }
+      };
+      const statusInfo = statusLabels[status] || statusLabels.pending;
+
+      const dateStr = formatDateTime(r.createdAt);
+
+      return `
+        <div class="rr-card type-${typeClass} status-${status}" onclick="viewRequest('${r.id}')">
+          <div class="rr-card-header">
+            <span class="rr-type-badge ${typeClass}">
+              <i class="fas ${typeIcon}"></i>
+              ${typeLabel}
+            </span>
+            <span class="rr-status-badge ${status}">
+              <i class="fas ${statusInfo.icon}"></i>
+              ${statusInfo.text}
+            </span>
+          </div>
+
+          <h3 class="rr-name">
+            <i class="fas fa-user"></i>
+            ${escapeHtml(r.name || '—')}
+          </h3>
+
+          ${isTrader && r.shopName ? `
+            <div class="rr-info-row">
+              <i class="fas fa-store"></i>
+              <span class="value">${escapeHtml(r.shopName)}</span>
+            </div>
+          ` : ''}
+
+          <div class="rr-info-row">
+            <i class="fas fa-phone"></i>
+            <span class="value ltr">${escapeHtml(r.phone || '—')}</span>
+          </div>
+
+          <div class="rr-info-row">
+            <i class="fas fa-map-marker-alt"></i>
+            <span class="value">${escapeHtml(isTrader ? (r.city || '—') : (r.coverageArea || '—'))}</span>
+          </div>
+
+          ${isTrader && r.businessType ? `
+            <div class="rr-info-row">
+              <i class="fas fa-hand-holding-usd"></i>
+              <span class="value">${r.businessType === 'credit' ? `آجل (${r.creditLimit || 0} ج.م)` : 'نقدي'}</span>
+            </div>
+          ` : ''}
+
+          ${!isTrader && r.vehicleType ? `
+            <div class="rr-info-row">
+              <i class="fas fa-motorcycle"></i>
+              <span class="value">${escapeHtml(r.vehicleType)}</span>
+            </div>
+          ` : ''}
+
+          <div class="rr-card-footer">
+            <div class="rr-date">
+              <i class="fas fa-clock"></i>
+              ${dateStr}
+            </div>
+            <div class="rr-actions-mini" onclick="event.stopPropagation();">
+              <a href="tel:${escapeAttr(r.phone)}" class="rr-mini-btn call" title="اتصال">
+                <i class="fas fa-phone"></i>
+              </a>
+              <a href="https://wa.me/2${escapeAttr(r.phone)}" target="_blank" rel="noopener" class="rr-mini-btn whatsapp" title="واتساب">
+                <i class="fab fa-whatsapp"></i>
+              </a>
+              <button class="rr-mini-btn view" onclick="viewRequest('${r.id}')" title="عرض">
+                <i class="fas fa-eye"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // ============================================================
+    // 👁️ عرض التفاصيل
+    // ============================================================
+    function viewRequest(requestId) {
+      const r = _allRequests.find(x => x.id === requestId);
+      if (!r) { showToast('الطلب غير موجود', 'error'); return; }
+
+      _currentRequest = r;
+
+      const isTrader = r.type === 'trader';
+      const typeLabel = isTrader ? 'تاجر' : 'موصل';
+      const typeIcon = isTrader ? 'fa-store' : 'fa-truck-fast';
+
+      const status = r.status || 'pending';
+      const statusLabels = {
+        pending: { text: 'قيد المراجعة' },
+        approved: { text: 'مقبول' },
+        rejected: { text: 'مرفوض' }
+      };
+
+      // بيانات خاصة
+      let specificData = '';
+      if (isTrader) {
+        const businessText = r.businessType === 'credit'
+          ? `آجل — ليميت ${r.creditLimit || 0} ج.م / سداد خلال ${r.paymentDays || 0} يوم`
+          : 'نقدي';
+
+        specificData = `
+          <div class="rr-detail-section">
+            <h4><i class="fas fa-store"></i> بيانات التاجر</h4>
+            <div class="rr-detail-line">
+              <span class="lbl"><i class="fas fa-store"></i> اسم المحل</span>
+              <span class="val">${escapeHtml(r.shopName || '—')}</span>
+            </div>
+            <div class="rr-detail-line">
+              <span class="lbl"><i class="fas fa-map-marker-alt"></i> المدينة</span>
+              <span class="val">${escapeHtml(r.city || '—')}</span>
+            </div>
+            <div class="rr-detail-line">
+              <span class="lbl"><i class="fas fa-home"></i> العنوان</span>
+              <span class="val">${escapeHtml(r.fullAddress || '—')}</span>
+            </div>
+            <div class="rr-detail-line">
+              <span class="lbl"><i class="fas fa-hand-holding-usd"></i> التعامل</span>
+              <span class="val amount">${businessText}</span>
+            </div>
+          </div>
+        `;
+      } else {
+        specificData = `
+          <div class="rr-detail-section">
+            <h4><i class="fas fa-truck-fast"></i> بيانات الموصل</h4>
+            <div class="rr-detail-line">
+              <span class="lbl"><i class="fas fa-motorcycle"></i> نوع المركبة</span>
+              <span class="val">${escapeHtml(r.vehicleType || '—')}</span>
+            </div>
+            <div class="rr-detail-line">
+              <span class="lbl"><i class="fas fa-map-marked-alt"></i> منطقة التغطية</span>
+              <span class="val">${escapeHtml(r.coverageArea || '—')}</span>
+            </div>
+          </div>
+        `;
+      }
+
+      const reviewedInfo = r.reviewedBy ? `
+        <div class="rr-detail-section">
+          <h4><i class="fas fa-shield-alt"></i> المراجعة</h4>
+          <div class="rr-detail-line">
+            <span class="lbl">تمت بواسطة</span>
+            <span class="val">${escapeHtml(r.reviewedByName || '—')}</span>
+          </div>
+          ${r.reviewedAt ? `
+            <div class="rr-detail-line">
+              <span class="lbl">تاريخ المراجعة</span>
+              <span class="val">${formatDateTime(r.reviewedAt)}</span>
+            </div>
+          ` : ''}
+          ${r.adminNotes ? `
+            <div class="rr-detail-line">
+              <span class="lbl">ملاحظات</span>
+              <span class="val">${escapeHtml(r.adminNotes)}</span>
+            </div>
+          ` : ''}
+        </div>
+      ` : '';
+
+      // Buttons
+      let actionsHtml = '';
+      if (status === 'pending') {
+        actionsHtml = `
+          <button class="btn btn-cancel" onclick="closeModal('detailsModal')">إغلاق</button>
+          <button class="btn btn-reject" onclick="openRejectModal()">
+            <i class="fas fa-times"></i> رفض
+          </button>
+          <button class="btn btn-approve" onclick="approveRequest()">
+            <i class="fas fa-check"></i> موافقة
+          </button>
+        `;
+      } else if (status === 'approved') {
+        const targetPage = isTrader
+          ? 'generate-codes.html'
+          : 'delivery-agents.html';
+        actionsHtml = `
+          <button class="btn btn-cancel" onclick="closeModal('detailsModal')">إغلاق</button>
+          <a href="${targetPage}" class="btn btn-create">
+            <i class="fas fa-plus-circle"></i>
+            إنشاء حساب ${typeLabel}
+          </a>
+        `;
+      } else {
+        actionsHtml = `
+          <button class="btn btn-cancel" onclick="closeModal('detailsModal')">إغلاق</button>
+        `;
+      }
+
+      const modalHtml = `
+        <div class="rr-modal-overlay show" id="detailsModal" onclick="closeModal('detailsModal', event)">
+          <div class="rr-modal" onclick="event.stopPropagation()">
+            <div class="rr-modal-header">
+              <h3><i class="fas ${typeIcon}"></i> طلب انضمام ${typeLabel}</h3>
+              <button class="close-btn" onclick="closeModal('detailsModal')">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+            <div class="rr-modal-body">
+
+              <div class="rr-detail-section">
+                <h4><i class="fas fa-user"></i> بيانات مقدّم الطلب</h4>
+                <div class="rr-detail-line">
+                  <span class="lbl"><i class="fas fa-user"></i> الاسم</span>
+                  <span class="val">${escapeHtml(r.name || '—')}</span>
+                </div>
+                <div class="rr-detail-line">
+                  <span class="lbl"><i class="fas fa-phone"></i> الهاتف</span>
+                  <span class="val ltr">${escapeHtml(r.phone || '—')}</span>
+                </div>
+                <div class="rr-detail-line">
+                  <span class="lbl"><i class="fas fa-clock"></i> تاريخ الطلب</span>
+                  <span class="val">${formatDateTime(r.createdAt)}</span>
+                </div>
+              </div>
+
+              ${specificData}
+
+              ${r.notes ? `
+                <div class="rr-detail-section">
+                  <h4><i class="fas fa-comment-alt"></i> ملاحظات مقدّم الطلب</h4>
+                  <div style="padding:8px 0;font-size:0.85rem;color:var(--gray-700);line-height:1.7;">
+                    ${escapeHtml(r.notes)}
+                  </div>
+                </div>
+              ` : ''}
+
+              ${reviewedInfo}
+
+            </div>
+            <div class="rr-modal-actions">
+              ${actionsHtml}
+            </div>
+          </div>
+        </div>
+      `;
+
+      const existing = document.getElementById('detailsModal');
+      if (existing) existing.remove();
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal(id, event) {
+      if (event && event.target !== event.currentTarget) return;
+      const modal = document.getElementById(id);
+      if (modal) modal.remove();
+      document.body.style.overflow = '';
+      if (id === 'detailsModal') _currentRequest = null;
+    }
+
+    // ============================================================
+    // ✅ الموافقة على الطلب
+    // ============================================================
+    async function approveRequest() {
+      if (!_currentRequest) return;
+      if (!confirm(`هل أنت متأكد من الموافقة على طلب "${_currentRequest.name}"؟`)) return;
+
+      try {
+        await db.collection('registration_requests').doc(_currentRequest.id).update({
+          status: 'approved',
+          reviewedBy: _adminId,
+          reviewedByName: _admin.name || 'الأدمن',
+          reviewedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        if (typeof logActivity === 'function') {
+          logActivity('موافقة على طلب تسجيل', `${_currentRequest.name} - ${_currentRequest.type}`);
+        }
+
+        showToast('تمت الموافقة على الطلب', 'success');
+        closeModal('detailsModal');
+
+        // إعادة فتح التفاصيل لعرض زر "إنشاء حساب"
+        setTimeout(() => {
+          viewRequest(_currentRequest?.id || _currentRequest);
+        }, 500);
+
+      } catch (err) {
+        console.error('approveRequest error:', err);
+        showToast('فشل الموافقة', 'error');
+      }
+    }
+
+    // ============================================================
+    // ❌ رفض الطلب
+    // ============================================================
+    function openRejectModal() {
+      if (!_currentRequest) return;
+
+      const modalHtml = `
+        <div class="rr-modal-overlay show" id="rejectModal" onclick="closeModal('rejectModal', event)">
+          <div class="rr-modal" onclick="event.stopPropagation()" style="max-width:480px;">
+            <div class="rr-modal-header" style="background:linear-gradient(135deg,#991b1b,#dc2626);">
+              <h3><i class="fas fa-times-circle"></i> رفض الطلب</h3>
+              <button class="close-btn" onclick="closeModal('rejectModal')">
+                <i class="fas fa-times"></i>
+              </button>
+            </div>
+            <div class="rr-modal-body">
+              <div style="background:#fef2f2;border:1px solid #fca5a5;border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:14px;font-size:0.82rem;color:#991b1b;line-height:1.7;">
+                <i class="fas fa-exclamation-triangle"></i>
+                <strong>سيتم إعلام مقدّم الطلب بالسبب.</strong>
+              </div>
+
+              <div class="rr-form-group">
+                <label><i class="fas fa-comment-alt"></i> سبب الرفض <span style="color:var(--danger);">*</span></label>
+                <textarea id="rejectReason" maxlength="300" placeholder="مثال: البيانات غير مكتملة / النشاط التجاري غير موثق / المنطقة غير مغطاة حالياً"></textarea>
+              </div>
+            </div>
+            <div class="rr-modal-actions">
+              <button class="btn btn-cancel" onclick="closeModal('rejectModal')">إلغاء</button>
+              <button class="btn btn-reject" id="rejectConfirmBtn" onclick="confirmReject()">
+                <i class="fas fa-times"></i> تأكيد الرفض
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const existing = document.getElementById('rejectModal');
+      if (existing) existing.remove();
+      document.body.insertAdjacentHTML('beforeend', modalHtml);
+    }
+
+    async function confirmReject() {
+      if (!_currentRequest) return;
+
+      const reason = document.getElementById('rejectReason').value.trim();
+      if (!reason || reason.length < 5) {
+        showToast('ادخل سبب الرفض (5 حروف على الأقل)', 'warning');
+        return;
+      }
+
+      const btn = document.getElementById('rejectConfirmBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الرفض...';
+
+      try {
+        const requestId = _currentRequest.id;
+        const requestName = _currentRequest.name;
+
+        await db.collection('registration_requests').doc(requestId).update({
+          status: 'rejected',
+          reviewedBy: _adminId,
+          reviewedByName: _admin.name || 'الأدمن',
+          reviewedAt: firebase.firestore.FieldValue.serverTimestamp(),
+          adminNotes: reason,
+          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+
+        if (typeof logActivity === 'function') {
+          logActivity('رفض طلب تسجيل', `${requestName} - السبب: ${reason}`);
+        }
+
+        showToast('تم رفض الطلب', 'success');
+        closeModal('rejectModal');
+        closeModal('detailsModal');
+
+      } catch (err) {
+        console.error('confirmReject error:', err);
+        showToast('فشل الرفض', 'error');
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-times"></i> تأكيد الرفض';
+      }
+    }
+
+    // ============================================================
+    // 🛠️ Helpers
+    // ============================================================
+    function escapeHtml(s) {
+      return String(s == null ? '' : s).replace(/[&<>"']/g, c => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      }[c]));
+    }
+    function escapeAttr(s) {
+      return String(s == null ? '' : s).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    }
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        closeModal('detailsModal');
+        closeModal('rejectModal');
+      }
+    });
+
+    // تصدير
+    window.setFilter = setFilter;
+    window.handleSearch = handleSearch;
+    window.applyFilters = applyFilters;
+    window.viewRequest = viewRequest;
+    window.closeModal = closeModal;
+    window.approveRequest = approveRequest;
+    window.openRejectModal = openRejectModal;
+    window.confirmReject = confirmReject;
+    window.loadRequests = loadRequests;
+  </script>
+
+</body>
+</html>
