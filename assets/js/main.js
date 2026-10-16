@@ -1494,6 +1494,7 @@ function updateFooter() {
       col2.innerHTML = `
         <a href="/gomla/store-retail.html">متجر القطاعي</a>
         <a href="/gomla/login.html">تسجيل الدخول</a>
+        <a href="/gomla/register-guide">تسجيل حساب جديد</a>
       `;
     }
   }
@@ -1699,7 +1700,9 @@ function updateSidebar() {
       { icon: 'fa-home', text: 'الرئيسية', url: '/gomla/' },
       { icon: 'fa-headset', text: 'الدعم والمساعدة', url: '/gomla/support.html' },
       { icon: 'fa-store', text: 'متجر القطاعي', url: '/gomla/store-retail.html' },
-      { icon: 'fa-user-plus', text: 'تسجيل عميل', url: '/gomla/customer-login.html' }
+      { icon: 'fa-user-plus', text: 'تسجيل دخول عميل', url: '/gomla/customer-login.html' },
+      { icon: 'fa-user-plus', text: 'طريقة التسجيل معنا', url: '/gomla/register-guide' }
+      
     ];
   }
   
