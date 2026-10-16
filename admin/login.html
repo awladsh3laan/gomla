@@ -13,13 +13,11 @@
 
   <style>
     /* ============================================================
-       🎨 صفحة دخول المديرين - v2.0
-       ✅ تخطيط من عمودين (صورة + فورم)
-       ✅ أنيميشنات حديثة للصورة
-       ✅ متوافق مع الموبايل
+       🎨 صفحة دخول المديرين - v2.1
+       ✅ حماية موحّدة
+       ✅ تخطيط من عمودين
        ============================================================ */
 
-    /* ===== المتغيرات المحلية ===== */
     :root {
       --login-bg-1: #0f1a2e;
       --login-bg-2: #1a2a4a;
@@ -33,7 +31,6 @@
       max-width: 100vw;
     }
 
-    /* ===== الحاوية الرئيسية ===== */
     .login-wrap {
       min-height: calc(100vh - 80px);
       display: flex;
@@ -45,7 +42,6 @@
       overflow: hidden;
     }
 
-    /* خلفية متحركة (دوائر ضوئية) */
     .login-wrap::before,
     .login-wrap::after {
       content: '';
@@ -83,7 +79,6 @@
       50% { transform: translate(30px, -30px) scale(1.15); }
     }
 
-    /* ===== البطاقة الرئيسية (عمودين) ===== */
     .login-card {
       position: relative;
       z-index: 1;
@@ -112,9 +107,7 @@
       }
     }
 
-    /* ============================================================
-       🖼️ العمود الأيسر: الصورة
-       ============================================================ */
+    /* 🖼️ عمود الصورة */
     .login-image-panel {
       position: relative;
       overflow: hidden;
@@ -143,7 +136,6 @@
       }
     }
 
-    /* ✨ طبقة تدرج فوق الصورة */
     .login-image-panel::after {
       content: '';
       position: absolute;
@@ -158,7 +150,6 @@
       z-index: 1;
     }
 
-    /* ✨ شريط ضوئي متحرك */
     .login-image-panel::before {
       content: '';
       position: absolute;
@@ -183,7 +174,6 @@
       100% { left: 150%; }
     }
 
-    /* ✨ النص العلوي فوق الصورة */
     .image-overlay-text {
       position: absolute;
       bottom: 0;
@@ -247,7 +237,6 @@
       text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
     }
 
-    /* ✨ نقاط ضوئية عائمة */
     .floating-dots {
       position: absolute;
       inset: 0;
@@ -293,9 +282,7 @@
       }
     }
 
-    /* ============================================================
-       🔐 العمود الأيمن: الفورم
-       ============================================================ */
+    /* 🔐 عمود الفورم */
     .login-form-panel {
       padding: 44px 40px;
       display: flex;
@@ -305,7 +292,6 @@
       position: relative;
     }
 
-    /* زخرفة ذهبية صغيرة */
     .login-form-panel::before {
       content: '';
       position: absolute;
@@ -373,7 +359,7 @@
       margin: 0;
     }
 
-    /* ===== الحقول ===== */
+    /* حقول الإدخال */
     .form-group {
       margin-bottom: 16px;
       position: relative;
@@ -417,7 +403,7 @@
       color: var(--gray-400);
     }
 
-    /* ===== كلمة السر + زر العين ===== */
+    /* كلمة السر + زر العين */
     .password-wrapper {
       position: relative;
     }
@@ -451,7 +437,7 @@
       transform: translateY(-50%) scale(1.1);
     }
 
-    /* ===== رسالة الخطأ ===== */
+    /* رسالة الخطأ */
     .error-msg {
       display: none;
       align-items: center;
@@ -482,7 +468,7 @@
       75% { transform: translateX(6px); }
     }
 
-    /* ===== زر الدخول ===== */
+    /* زر الدخول */
     .login-btn {
       width: 100%;
       padding: 15px 20px;
@@ -505,7 +491,6 @@
       margin-top: 4px;
     }
 
-    /* ✨ شريط لامع متحرك */
     .login-btn::before {
       content: '';
       position: absolute;
@@ -546,7 +531,7 @@
       background: linear-gradient(135deg, var(--gray-400), var(--gray-500));
     }
 
-    /* ===== الرابط الخلفي ===== */
+    /* الرابط الخلفي */
     .back-link {
       display: inline-flex;
       align-items: center;
@@ -569,8 +554,6 @@
     /* ============================================================
        📱 Responsive
        ============================================================ */
-
-    /* تابلت */
     @media (max-width: 900px) {
       .login-card {
         grid-template-columns: 1fr;
@@ -603,7 +586,6 @@
       }
     }
 
-    /* موبايل */
     @media (max-width: 768px) and (pointer: coarse) {
       .login-wrap {
         min-height: calc(100vh - var(--mobile-top-bar-height) - var(--mobile-top-tabs-height));
@@ -687,7 +669,6 @@
       }
     }
 
-    /* شاشات صغيرة جداً */
     @media (max-width: 400px) {
       .login-image-panel {
         height: 130px;
@@ -728,16 +709,13 @@
   <main class="login-wrap">
     <div class="login-card">
 
-      <!-- ============================================ -->
-      <!-- 🖼️ العمود الأيسر: الصورة                    -->
-      <!-- ============================================ -->
+      <!-- 🖼️ عمود الصورة -->
       <div class="login-image-panel">
         <img
           src="https://i.ibb.co/Vb5jg82/welcom-admin.jpg"
           alt="مرحباً - أولاد شعلان"
           onerror="this.style.display='none'">
 
-        <!-- نقاط ضوئية عائمة -->
         <div class="floating-dots">
           <span></span>
           <span></span>
@@ -746,20 +724,17 @@
           <span></span>
         </div>
 
-        <!-- نص فوق الصورة -->
         <div class="image-overlay-text">
           <div class="badge">
             <i class="fas fa-crown"></i>
             لوحة التحكم
           </div>
           <h2>أولاد شعلان</h2>
-          <p>منظفات • ورقيات • جملة وقطاعي</p>
+          <p>منظفات - ورقيات - جملة وقطاعي</p>
         </div>
       </div>
 
-      <!-- ============================================ -->
-      <!-- 🔐 العمود الأيمن: الفورم                    -->
-      <!-- ============================================ -->
+      <!-- 🔐 عمود الفورم -->
       <div class="login-form-panel">
         <div class="form-header">
           <div class="icon-wrap">
@@ -848,9 +823,27 @@
 
   <script>
     // ============================================================
-    // 📄 admin/login.html v2.0
-    // 🔐 دخول المديرين
+    // 📄 admin/login.html v2.1
+    // 🔐 دخول المديرين + حماية موحّدة
     // ============================================================
+
+    // ============================================================
+    // 🔒 حماية موحّدة — فورية قبل أي كود
+    // ============================================================
+    (function protectLoginPage() {
+      try {
+        const admin = localStorage.getItem('admin');
+        const customer = localStorage.getItem('customer');
+        const cashier = localStorage.getItem('cashier');
+        const deliveryData = localStorage.getItem('deliveryData');
+
+        if (admin || customer || cashier || deliveryData) {
+          window.location.replace('/gomla/');
+        }
+      } catch (e) {
+        console.warn('protectLoginPage error:', e);
+      }
+    })();
 
     // ===== عناصر الصفحة =====
     const form = document.getElementById('adminLoginForm');
@@ -879,12 +872,11 @@
     }
 
     // ============================================================
-    // 🔔 إظهار الخطأ / النجاح
+    // 🔔 إظهار الخطأ
     // ============================================================
     function showError(message) {
       errorText.textContent = message;
       errorDiv.classList.remove('show');
-      // إعادة تشغيل الأنيميشن
       void errorDiv.offsetWidth;
       errorDiv.classList.add('show');
     }
@@ -912,7 +904,6 @@
       const email = emailInput.value.trim();
       const password = passwordInput.value;
 
-      // التحقق من الإدخال
       if (!email || !password) {
         showError('يرجى إدخال البريد الإلكتروني وكلمة السر');
         return;
@@ -922,11 +913,11 @@
       setLoading(true);
 
       try {
-        // 1️⃣ تسجيل الدخول عبر Firebase Auth
+        // 1) تسجيل الدخول عبر Firebase Auth
         const userCredential = await auth.signInWithEmailAndPassword(email, password);
         const user = userCredential.user;
 
-        // 2️⃣ التحقق من وجود المدير في Firestore
+        // 2) التحقق من وجود المدير في Firestore
         const doc = await db.collection('admins').doc(user.uid).get();
 
         if (!doc.exists) {
@@ -936,21 +927,21 @@
           return;
         }
 
-        // 3️⃣ استخراج بيانات المدير
+        // 3) استخراج بيانات المدير
         const adminData = doc.data();
         adminData.id = doc.id;
         if (!adminData.uid) adminData.uid = user.uid;
 
-        // 4️⃣ حفظ بيانات المدير في localStorage
+        // 4) حفظ بيانات المدير في localStorage
         localStorage.setItem('admin', JSON.stringify(adminData));
         localStorage.setItem('adminId', doc.id);
 
-        // 5️⃣ رسالة ترحيب
+        // 5) رسالة ترحيب
         if (typeof showToast === 'function') {
           showToast(`مرحباً ${adminData.name || 'بك'}`, 'success');
         }
 
-        // 6️⃣ تحديث الواجهة (السايدبار + الهيدر)
+        // 6) تحديث الواجهة
         if (typeof updateSidebar === 'function') {
           try { updateSidebar(); } catch (e) { console.warn('updateSidebar failed:', e); }
         }
@@ -958,7 +949,7 @@
           try { updateHeader(); } catch (e) { console.warn('updateHeader failed:', e); }
         }
 
-        // 7️⃣ التوجيه للوحة التحكم
+        // 7) التوجيه للوحة التحكم
         setTimeout(() => {
           window.location.href = 'home.html';
         }, 800);
@@ -966,7 +957,6 @@
       } catch (error) {
         console.error('Login error:', error);
 
-        // رسائل خطأ محددة
         let message = 'البريد الإلكتروني أو كلمة السر غير صحيحة';
 
         switch (error.code) {
@@ -999,11 +989,10 @@
     });
 
     // ============================================================
-    // ⌨️ دخول بالضغط على Enter (من أي مكان في الصفحة)
+    // ⌨️ دخول بالضغط على Enter
     // ============================================================
     document.addEventListener('keydown', function(e) {
       if (e.key === 'Enter' && document.activeElement?.tagName !== 'TEXTAREA') {
-        // لو الفورم مش هيشتغل تلقائياً
         if (document.activeElement === emailInput || document.activeElement === passwordInput) {
           form.dispatchEvent(new Event('submit', { cancelable: true }));
         }
@@ -1011,28 +1000,23 @@
     });
 
     // ============================================================
-    // 🔄 التحقق من الجلسة المفتوحة
+    // 🔄 حماية ثانية — بعد تحميل main.js
     // ============================================================
     document.addEventListener('DOMContentLoaded', function() {
-      const adminData = localStorage.getItem('admin');
-      if (adminData) {
-        // في حالة وجود جلسة سابقة، تحويل للوحة التحكم
-        try {
-          const admin = JSON.parse(adminData);
-          if (admin && admin.role) {
-            window.location.href = 'home.html';
+      if (typeof getCurrentUser === 'function') {
+        const user = getCurrentUser();
+        if (user) {
+          if (typeof showToast === 'function') {
+            showToast('أنت مسجل دخول بالفعل — جاري تحويلك...', 'info');
           }
-        } catch (e) {
-          // بيانات تالفة — احذفها
-          localStorage.removeItem('admin');
-          localStorage.removeItem('adminId');
+          setTimeout(() => {
+            window.location.replace('/gomla/');
+          }, 1000);
         }
       }
     });
 
-    // ============================================================
-    // 🌐 تصدير الدوال
-    // ============================================================
+    // تصدير
     window.togglePasswordVisibility = togglePasswordVisibility;
   </script>
 
