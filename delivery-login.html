@@ -445,14 +445,37 @@
   <script>
     // ============================================================
     // 📄 delivery-login.html — دخول الموصلين بالكود
+    // ✅ إضافة الحماية الموحّدة
     // ============================================================
 
+    // ============================================================
+    // 🔒 حماية موحّدة — فورية قبل أي كود
+    // ============================================================
+    (function protectLoginPage() {
+      try {
+        const admin = localStorage.getItem('admin');
+        const customer = localStorage.getItem('customer');
+        const cashier = localStorage.getItem('cashier');
+        const deliveryData = localStorage.getItem('deliveryData');
+
+        if (admin || customer || cashier || deliveryData) {
+          window.location.replace('/gomla/');
+        }
+      } catch (e) {
+        console.warn('protectLoginPage error:', e);
+      }
+    })();
+
+    // ===== عناصر الصفحة =====
     const form = document.getElementById('deliveryLoginForm');
     const codeInput = document.getElementById('deliveryCode');
     const loginBtn = document.getElementById('loginBtn');
     const errorDiv = document.getElementById('loginError');
     const errorText = document.getElementById('errorText');
 
+    // ============================================================
+    // 🔔 رسائل
+    // ============================================================
     function showError(msg) {
       errorText.textContent = msg;
       errorDiv.classList.remove('show');
@@ -460,7 +483,9 @@
       errorDiv.classList.add('show');
     }
 
-    function hideError() { errorDiv.classList.remove('show'); }
+    function hideError() {
+      errorDiv.classList.remove('show');
+    }
 
     function setLoading(isLoading) {
       if (isLoading) {
@@ -478,9 +503,10 @@
       hideError();
     }
 
-    // ===== تنسيق الكود أثناء الكتابة =====
+    // ============================================================
+    // ⌨️ تنسيق الكود أثناء الكتابة
+    // ============================================================
     codeInput.addEventListener('input', function() {
-      // نخلي الكود uppercase
       const start = this.selectionStart;
       const end = this.selectionEnd;
       this.value = this.value.toUpperCase();
@@ -510,7 +536,7 @@
       setLoading(true);
 
       try {
-        // 1️⃣ اقرأ delivery_lookup/{CODE}
+        // 1) اقرأ delivery_lookup/{CODE}
         const lookupDoc = await db.collection('delivery_lookup').doc(code).get();
 
         if (!lookupDoc.exists) {
@@ -521,18 +547,17 @@
 
         const lookup = lookupDoc.data();
 
-        // التحقق من active
         if (lookup.active === false) {
           showError('حسابك معطل، تواصل مع الإدارة');
           setLoading(false);
           return;
         }
 
-        // 2️⃣ سجل الدخول بـ Firebase Auth
+        // 2) سجل الدخول بـ Firebase Auth
         const authEmail = lookup.authEmail;
         const cred = await auth.signInWithEmailAndPassword(authEmail, code);
 
-        // 3️⃣ تحقق من UID
+        // 3) تحقق من UID
         if (cred.user.uid !== lookup.deliveryAgentId) {
           await auth.signOut();
           showError('خطأ في التحقق من الحساب');
@@ -540,7 +565,7 @@
           return;
         }
 
-        // 4️⃣ جلب البيانات الكاملة من delivery_agents
+        // 4) جلب البيانات الكاملة من delivery_agents
         const agentDoc = await db.collection('delivery_agents').doc(cred.user.uid).get();
 
         if (!agentDoc.exists) {
@@ -552,7 +577,7 @@
 
         const agentData = { uid: cred.user.uid, ...agentDoc.data() };
 
-        // 5️⃣ تحقق من active مرة تانية (في delivery_agents)
+        // 5) تحقق من active
         if (agentData.active !== true) {
           await auth.signOut();
           showError('حسابك معطل، تواصل مع الإدارة');
@@ -560,18 +585,18 @@
           return;
         }
 
-        // 6️⃣ احفظ في localStorage
+        // 6) احفظ في localStorage
         localStorage.setItem('deliveryData', JSON.stringify(agentData));
         localStorage.setItem('deliveryCode', code);
 
-        // 7️⃣ سجل آخر دخول
+        // 7) سجل آخر دخول
         try {
           await db.collection('delivery_agents').doc(cred.user.uid).update({
             lastLoginAt: firebase.firestore.FieldValue.serverTimestamp()
           });
         } catch (e) { console.warn('lastLoginAt update failed:', e); }
 
-        // 8️⃣ رسالة نجاح + توجيه
+        // 8) رسالة نجاح + توجيه
         if (typeof showToast === 'function') {
           showToast(`مرحباً ${agentData.name || 'بك'}`, 'success');
         }
@@ -611,23 +636,23 @@
     });
 
     // ============================================================
-    // 🔄 التحقق من الجلسة المفتوحة
+    // 🔄 حماية ثانية — بعد تحميل main.js
     // ============================================================
     document.addEventListener('DOMContentLoaded', function() {
-      const deliveryData = localStorage.getItem('deliveryData');
-      if (deliveryData) {
-        try {
-          const agent = JSON.parse(deliveryData);
-          if (agent && agent.role === 'delivery' && agent.active === true) {
-            window.location.href = 'delivery/home.html';
+      if (typeof getCurrentUser === 'function') {
+        const user = getCurrentUser();
+        if (user) {
+          if (typeof showToast === 'function') {
+            showToast('أنت مسجل دخول بالفعل — جاري تحويلك...', 'info');
           }
-        } catch (e) {
-          localStorage.removeItem('deliveryData');
-          localStorage.removeItem('deliveryCode');
+          setTimeout(() => {
+            window.location.replace('/gomla/');
+          }, 1000);
         }
       }
     });
 
+    // تصدير
     window.clearCode = clearCode;
   </script>
 
