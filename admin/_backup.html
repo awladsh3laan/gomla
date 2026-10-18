@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>Backup Firestore - أولاد شعلان</title>
+  <style>
+    body { font-family: system-ui; padding: 20px; background: #f5f5f5; direction: rtl; }
+    .box { max-width: 800px; margin: 0 auto; background: white; padding: 24px; border-radius: 12px; box-shadow: 0 2px 12px rgba(0,0,0,.1); }
+    h1 { color: #1a2a4a; }
+    button { padding: 10px 20px; margin: 6px; border: none; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 14px; }
+    .primary { background: #1a2a4a; color: white; }
+    .gold { background: #c9a84c; color: #1a2a4a; }
+    .log { background: #0f172a; color: #22c55e; padding: 14px; border-radius: 8px; font-family: monospace; font-size: 12px; max-height: 400px; overflow-y: auto; white-space: pre-wrap; margin-top: 16px; }
+    .progress { height: 24px; background: #e2e8f0; border-radius: 12px; overflow: hidden; margin: 16px 0; }
+    .progress-bar { height: 100%; background: linear-gradient(90deg, #c9a84c, #b8942a); transition: width 0.3s; width: 0%; display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 12px; }
+  </style>
+</head>
+<body>
+<div class="box">
+  <h1>📦 Backup Firestore — أولاد شعلان</h1>
+  <p>يقوم بتصدير كل الكوليكشنز إلى ملف JSON واحد.</p>
+
+  <button class="primary" onclick="startBackup()" id="startBtn">
+    <i>▶</i> بدء Backup كامل
+  </button>
+
+  <div class="progress"><div class="progress-bar" id="bar">0%</div></div>
+  <div class="log" id="log">جاهز للبدء...</div>
+</div>
+
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="../assets/js/firebase-config.js"></script>
+
+<script>
+const COLLECTIONS_TO_BACKUP = [
+  'admins','cashiers','customers','users','delivery_agents','delivery_lookup','trader_lookup',
+  'products','categories','brands',
+  'branches','branch_inventory','transfers',
+  'cart','wishlist','orders','invoices','invoice_archives','manual_sales','cashier_sales',
+  'suppliers','purchases','cashbox','daily_sales','financial_notifications','expenses','salaries','damages',
+  'notifications','customer_notifications','admin_notifications',
+  'activityLog','barcode_scans',
+  'quotes','news','ads','slider','custom_sections','site_content','public_stats','shipping_rates',
+  'privacy_sections','shipping_sections','exchange_sections','terms_sections','faq_sections',
+  'privacy_meta','shipping_meta','exchange_meta','terms_meta','faq_meta',
+  'support_tickets','delivery_collections','registration_requests',
+  'cardoona_invoices','cardoona_extractions','partners'
+];
+
+let backupData = {};
+let totalCollections = COLLECTIONS_TO_BACKUP.length;
+let currentIndex = 0;
+
+function log(msg, color='#22c55e') {
+  const el = document.getElementById('log');
+  el.innerHTML += `<div style="color:${color}">${msg}</div>`;
+  el.scrollTop = el.scrollHeight;
+}
+
+function updateBar(percent) {
+  const bar = document.getElementById('bar');
+  bar.style.width = percent + '%';
+  bar.textContent = percent + '%';
+}
+
+async function startBackup() {
+  const btn = document.getElementById('startBtn');
+  btn.disabled = true;
+  btn.textContent = 'جاري النسخ...';
+
+  log(`🕐 بدء Backup — ${new Date().toLocaleString('ar-EG')}`, '#c9a84c');
+  backupData = { _meta: { exportedAt: new Date().toISOString(), version: '17.1' } };
+
+  for (let i = 0; i < COLLECTIONS_TO_BACKUP.length; i++) {
+    const name = COLLECTIONS_TO_BACKUP[i];
+    try {
+      log(`📂 ${name}...`, '#94a3b8');
+      const snap = await db.collection(name).get();
+      backupData[name] = [];
+      snap.forEach(doc => {
+        const data = doc.data();
+        // تحويل Timestamps لسلاسل
+        const clean = {};
+        for (const [k, v] of Object.entries(data)) {
+          if (v && typeof v === 'object' && v.toDate) {
+            clean[k] = { __ts: v.toDate().toISOString() };
+          } else {
+            clean[k] = v;
+          }
+        }
+        backupData[name].push({ _id: doc.id, ...clean });
+      });
+      log(`✅ ${name} (${snap.size} وثيقة)`, '#22c55e');
+    } catch (err) {
+      log(`⚠️ ${name} — ${err.code || err.message}`, '#f59e0b');
+      backupData[name] = { error: err.message };
+    }
+    currentIndex++;
+    updateBar(Math.round((currentIndex / totalCollections) * 100));
+  }
+
+  // تنزيل
+  const json = JSON.stringify(backupData, null, 2);
+  const blob = new Blob([json], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  const filename = `gomla_backup_${new Date().toISOString().slice(0,19).replace(/:/g,'-')}.json`;
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+
+  log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`, '#c9a84c');
+  log(`✅ Backup مكتمل: ${filename}`, '#22c55e');
+  log(`📊 الحجم: ${(json.length / 1024 / 1024).toFixed(2)} MB`, '#c9a84c');
+  log(`💡 احفظ الملف في مكان آمن — في Google Drive أو Dropbox`, '#f59e0b');
+
+  btn.disabled = false;
+  btn.textContent = '✅ تم — أعد التحميل لنسخة جديدة';
+}
+</script>
+</body>
+</html>
