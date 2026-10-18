@@ -1,201 +1,40 @@
-# 📜 دستور مشروع أولاد شعلان — v15.0 الكامل
+# 📜 دستور مشروع أولاد شعلان — v17.0 الكامل
 
 ```markdown
 # 📜 دستور مشروع أولاد شعلان للمنظفات والورقيات
-
-**الإصدار:** 15.0 (النسخة الشاملة المحدثة — بعد إصلاح الأخطاء + نظام الطباعة + PWA)
-**آخر تحديث:** 2026-10-18
+**الإصدار:** 17.0 (Redesign + تعديلات v17.0)
+**آخر تحديث:** 2026-10-19
 **هذا الملف هو المرجع الوحيد للمشروع**
-**⚠️ استخدم هذا الملف كمرجع أساسي عند بدء محادثة جديدة**
+**⚠️ يُحدَّث بعد كل مرحلة إصلاح**
+```
 
 ---
 
-## 📌 الجزء الأول: معلومات المشروع
+## 📌 الجزء 1: معلومات المشروع
 
 | البند | التفاصيل |
 |------|----------|
-| **الاسم** | أولاد شعلان للمنظفات والورقيات |
-| **النوع** | متجر إلكتروني (جملة + قطاعي) + لوحة تحكم + أنظمة مالية + كاشير + باركود + شركاء + نظام توصيل + إدارة محتوى + **PWA** |
-| **الرابط** | https://awladsh3laan.github.io/gomla |
-| **GitHub** | https://github.com/awladsh3laan/gomla.git |
-| **التقنيات** | HTML + CSS + Vanilla JS + Firebase + **Backblaze B2 + Cloudflare Workers** |
-| **اللغة** | العربية (RTL) |
-| **الخط** | Tajawal |
-| **الأيقونات** | Font Awesome **فقط** — ممنوع أي إيموجي في الـ UI |
+| الاسم | أولاد شعلان للمنظفات والورقيات |
+| النوع | متجر إلكتروني + POS كاشير + إدارة فروع + إدارة مخزون + تكامل كرتونة (Gemini) + PWA |
+| الرابط | https://awladsh3laan.github.io/gomla |
+| GitHub | https://github.com/awladsh3laan/gomla.git |
+| التقنيات | HTML + CSS + Vanilla JS + Firebase (Spark) + ImgBB (multi-fallback) + Gemini API + Catbox |
+| اللغة | العربية (RTL) |
+| الخط | Tajawal |
+| الأيقونات | Font Awesome فقط — **ممنوع إيموجي في الـ UI** |
+| Firebase Plan | **Spark (مجاني) — بدون Cloud Functions، بدون بطاقة ائتمان** |
+| Schema Version | **v17.0** |
+| Repo | نفس الـ repo مع branch `redesign` |
 
 ---
 
-## 🔐 الجزء الثاني: نظام الدخول والصلاحيات
-
-### نظام الدخول الموحد
-
-```
-Firebase Auth + localStorage + كود سري للتجار + كود سري للموصلين + Firebase Secondary App
-```
-
-| المستخدم | الدخول | التسجيل |
-|---------|--------|---------|
-| العميل (قطاعي) | Email + Password | تسجيل ذاتي |
-| التاجر (جملة) | كود سري `MHL-XXXX` | طلب انضمام (register-guide) |
-| الموصل | كود سري `DEL-XXXXX@#$` | طلب انضمام (register-guide) |
-| الأدمن | Email + Password | السوبر أدمن |
-| أدمن بلص | Email + Password | السوبر أدمن |
-| السوبر أدمن | Email + Password | ثابت |
-| الزائر | لا يحتاج دخول | تصفح فقط |
-| الكاشير | Email + Password | السوبر أدمن |
-
----
-
-### 🆕 نظام الحماية الموحّد (v14.0)
-
-**كل صفحات الدخول/التسجيل بتعمل حماية مزدوجة:**
-
-#### 1. حماية فورية IIFE (قبل أي كود — تمنع وميض الصفحة)
-
-```javascript
-(function protectLoginPage() {
-  try {
-    const admin = localStorage.getItem('admin');
-    const customer = localStorage.getItem('customer');
-    const cashier = localStorage.getItem('cashier');
-    const deliveryData = localStorage.getItem('deliveryData');
-
-    if (admin || customer || cashier || deliveryData) {
-      window.location.replace('/gomla/');
-    }
-  } catch (e) {
-    console.warn('protectLoginPage error:', e);
-  }
-})();
-```
-
-#### 2. حماية ثانية بعد تحميل main.js
-
-```javascript
-document.addEventListener('DOMContentLoaded', function() {
-  if (typeof getCurrentUser === 'function') {
-    const user = getCurrentUser();
-    if (user) {
-      if (typeof showToast === 'function') {
-        showToast('أنت مسجل دخول بالفعل — جاري تحويلك...', 'info');
-      }
-      setTimeout(() => {
-        window.location.replace('/gomla/');
-      }, 1000);
-    }
-  }
-});
-```
-
-#### 3. الصفحات المحمية:
-- ✅ `admin/login.html`
-- ✅ `cashier-login.html`
-- ✅ `customer-login.html`
-- ✅ `trader-login.html`
-- ✅ `delivery-login.html`
-- ✅ `customer-register.html`
-- ✅ `register-guide.html`
-
-**القاعدة:** أي مستخدم مسجل دخول → تحويل موحّد إلى `/gomla/` بدون استثناء.
-
----
-
-### 🆕 نظام دخول التجار (v2.0)
-
-```
-Email:    {code-lowercase}@trader.awladshalaan.com
-Password: {code}
-```
-
-**خطوات الدخول:**
-1. التاجر يدخل الكود في `trader-login.html` (تصميم عمودين + لون بني)
-2. النظام يقرأ `trader_lookup/{CODE}` للحصول على `authEmail`
-3. `signInWithEmailAndPassword(authEmail, code)`
-4. التحقق من تطابق UID مع `customerId`
-5. جلب البيانات من `customers/{uid}`
-6. حفظ في localStorage + التوجيه لـ `trader-home.html`
-
----
-
-### 🆕 نظام دخول الموصلين (v1.0)
-
-**صيغة الكود:** `DEL-{5 حروف/أرقام} + {علامة مميزة}`
-**العلامات:** `@#$`, `@#%`, `@#&`, `@#*`, `@$%`, `@$&`, `@$*`, `#$%`, `#$&`, `#$*`, `$%&`, `$%*`
-
-```
-Email:    del-{code-lowercase}@delivery.awladshalaan.com
-Password: {code}
-```
-
-**خطوات الدخول:** (نفسها سابقة — يحفظ في `localStorage.deliveryData` ويوجه لـ `delivery/home.html`)
-
----
-
-### 🎨 تصميم صفحات الدخول الموحّد
-
-| الصفحة | اللون | الصورة |
-|--------|-------|--------|
-| `admin/login.html` | Navy + Gold | `welcom-admin.jpg` |
-| `cashier-login.html` | بنفسجي (`#4c1d95` → `#7c3aed`) | `welcome-cashier.jpg` |
-| `customer-login.html` | سماوي + ذهبي | `welcome-customer.jpg` |
-| `trader-login.html` | بني + ذهبي | `welcom-trader.jpg` |
-| `delivery-login.html` | أخضر داكن | `welcom-delivarey.jpg` |
-
-**تصميم عمودين:** صورة + أنيميشنات (يمين) + فورم (يسار)
-
----
-
-### 🆕 Firebase Secondary App
-
-**الاستخدام:** `admin/generate-codes.html` + `admin/delivery-agents.html`
-
-```javascript
-const secondaryApp = firebase.initializeApp(firebaseConfig, 'Secondary-' + Date.now());
-const secondaryAuth = secondaryApp.auth();
-await secondaryAuth.createUserWithEmailAndPassword(email, password);
-await secondaryAuth.signOut();
-await secondaryApp.delete();
-```
-
----
-
-### 🆕 نظام طلبات التسجيل (v14.0)
-
-**كولكشن:** `registration_requests`
-
-```javascript
-{
-  type: 'trader' | 'delivery',
-  requestedCode: 'trader_code' | 'delivery_code',
-  name, phone, whatsapp,
-  // للتاجر
-  shopName, city, fullAddress,
-  businessType: 'cash' | 'credit',
-  creditLimit: 0-5000, paymentDays: 1-10,
-  // للموصل
-  vehicleType, coverageArea,
-  notes, attachments,
-  status: 'pending' | 'approved' | 'rejected',
-  reviewedBy, reviewedByName, reviewedAt, adminNotes,
-  createdAt, updatedAt
-}
-```
-
-**الآلية:**
-1. المستخدم يفتح `register-guide.html`
-2. يختار نوع التسجيل → فورم Modal → Firestore
-3. الأدمن يشوف الطلبات في `admin/registration-requests.html`
-4. يوافق/يرفض → عند الموافقة ينشئ الحساب يدوياً
-
----
-
-### الأدوار والصلاحيات
+## 🔐 الجزء 2: الأدوار والصلاحيات (8 أدوار)
 
 ```javascript
 ROLES = {
-  SUPER: 'super',        // كل شيء
-  ADMIN_PLUS: 'admin_plus', // إدارة + موصلين + طلبات تسجيل
-  ADMIN: 'admin',        // إدارة أساسية
+  SUPER: 'super',
+  ADMIN_PLUS: 'admin_plus',
+  ADMIN: 'admin',
   CASHIER: 'cashier',
   WHOLESALE: 'wholesale',
   RETAIL: 'retail',
@@ -204,1211 +43,1276 @@ ROLES = {
 }
 ```
 
-**تفاصيل كل دور:** (نفس v14.0 — راجع الجدول التفصيلي سابقاً)
+### جدول الصلاحيات v17.0
+
+| الصلاحية | super | admin_plus | admin | cashier | trader | retail | delivery |
+|---------|-------|-----------|-------|---------|--------|--------|----------|
+| إدارة المنتجات | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
+| إدارة الطلبات | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
+| تعيين مندوب | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
+| **تأكيد استلام نقد** | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **كتابة cashbox** | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **كرتونة (Gemini)** | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **إدارة الفروع** | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **مبيعات كاشير (إنشاء)** | ✅ | ✅ | ❌ | ✅ | ❌ | ❌ | ❌ |
+| **مبيعات كاشير (تعديل)** | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| **فاتورة يدوية (مباشر)** | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ |
+| **فاتورة يدوية (pending)** | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ |
+| **إدارة أسعار الشحن** | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| إعدادات النظام | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| توليد أكواد | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| إدارة المحتوى | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| إدارة العلامات التجارية | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| مراجعة طلبات التسجيل | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
+| عرض أسعار الجملة | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ |
+| عرض أسعار القطاعي | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
+| الشراء | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ |
+
+**⚠️ قاعدة أساسية v17.0:**
+- **الموصل** لا يرى إلا صفحات `delivery/*` فقط
+- أي محاولة دخول لصفحات الموقع الرئيسي → شاشة "ليس لديك صلاحيات" بتقنية عالية
 
 ---
 
-### 🛡️ دوال الحماية المتقدمة
+## 🚪 الجزء 3: نظام الدخول
 
-| الدالة | الأدوار |
+### طرق الدخول
+| المستخدم | الدخول |
+|---------|---------|
+| عميل | Email + Password |
+| تاجر | كود `MHL-XXXX` |
+| مندوب | كود `DEL-XXXXX@#$` |
+| أدمن/أدمن بلص/سوبر | Email + Password |
+| كاشير | Email + Password |
+
+### حماية صفحات الدخول
+كل صفحة دخول فيها IIFE قبل أي كود:
+```javascript
+(function protectLoginPage() {
+  if (admin || customer || cashier || deliveryData) {
+    window.location.replace('/gomla/');
+  }
+})();
+```
+
+### التوجيه حسب الدور
+| الدور | الوجهة |
 |-------|---------|
-| `protectPage()` | أي مسجل |
-| `protectAdminPage()` | SUPER + ADMIN_PLUS + ADMIN |
-| `protectSuperAdminPage()` | SUPER فقط |
-| `protectAdminPlusPage()` | SUPER + ADMIN_PLUS |
-| `protectCashierPage()` | CASHIER + كل الأدمن |
-| `protectCustomerPage()` | RETAIL + WHOLESALE |
-| `protectDeliveryPage()` | DELIVERY (active) |
+| super/admin_plus/admin | `/admin/home.html` |
+| wholesale | `/trader/home.html` |
+| retail | `/customer/home.html` |
+| cashier | `/cashier/home.html` |
+| delivery | `/delivery/home.html` |
 
 ---
 
-### 🔔 نظام الجلسات المتعددة
+## 🏠 الجزء 4: الصفحة الرئيسية index.html (Redesign v17.0)
 
-**المفاتيح المراقبة:** `['admin', 'customer', 'cashier', 'deliveryData']`
-**عند التغيير:** Overlay احترافي + عدّاد 5 ثواني + تحويل تلقائي
+### 12 سيكشن بالترتيب
 
----
+#### 1. صورة الترحيب المتحركة
+- صورة أو فيديو (رابط يدوي من `site_content.welcome`)
+- تحريك: fade-in + parallax عند scroll
 
-## 🏠 الجزء الثالث: الصفحة الرئيسية index.html
+#### 2. نبذة تعريفية عن الموقع + أولاد شعلان
+- قسمان متتاليان:
+  - **الموقع**: 3-4 سطور عن المنصة
+  - **الشركة**: من `site_content.about`
+- أنيميشن slide-in
 
-### 8 سيكشنات:
-```
-1. السلايدر (من Firestore)
-2. كروت المتاجر (جملة + قطاعي)
-3. أحدث المنتجات
-4. أحدث العروض
-5. المنتجات الأكثر طلباً
-6. سيكشنات مخصصة (custom_sections)
-7. نبذة عن أولاد شعلان
-8. تواصل معنا
-```
+#### 3. السلايدر
+- من `slider` collection
+- Auto-play 5s + navigation dots
+- دعم 3 أحجام (موبايل/تابلت/ديسكتوب)
 
----
+#### 4. كروت المتاجر (حسب الصلاحية)
+| الدور | المتاجر المرئية |
+|-------|----------------|
+| guest / retail | متجر قطاعي فقط |
+| trader | متجر جملة + قطاعي |
+| cashier / admin / admin_plus / super | متجر جملة + قطاعي |
+| delivery | **لا شيء** (شاشة رفض) |
 
-## 📄 الجزء الرابع: صفحة تفاصيل المنتج
+#### 5. أحدث العروض (Offers) — للكل ماعدا trader
+- أنيميشن احترافي (كارد داخل + hover)
+- **هيدر السيكشن فيه عداد تنازلي للعروض القريبة من الانتهاء**
+- **رسالة منبثقة (Toast/Popup) عند دخول الصفحة** — تنزل تلقائياً داخل السيكشن بعد 7 ثوانٍ
+- يعرض للـ: guest, retail, cashier, admin, admin_plus, super
+- **مخفي عن**: trader
+- السعر المعروض حسب الدور
 
-**عرض حسب الصلاحية:**
-- **تاجر/أدمن:** سعر جملة + مستهلك + هامش + مخزون + ملاحظات
-- **عميل/زائر:** سعر قطاعي + وصف + براند + تصنيف + مخزون
-- **سوبر أدمن:** كل ما سبق + سعر شراء + تعديل
+#### 6. أحدث الخصومات (Discounts) — للتجار والإدارة
+- نفس أسلوب العروض
+- **رسالة منبثقة** 7 ثوانٍ
+- يعرض للـ: trader, cashier, admin, admin_plus, super
+- **مخفي عن**: guest, retail
 
----
+#### 7. الأقسام (عرض أفقي)
+- كارت لكل قسم: صورة + اسم
+- Scroll أفقي
+- أنيميشن `dropIn` عند التحميل
+- عدّاد المنتجات في كل قسم
 
-## 🏪 الجزء الخامس: المتاجر
+#### 8. أحدث المنتجات (عرض احترافي)
+- شبكة grid مع scroll عمودي
+- **أنيميشن Intersection Observer** — الكارد يظهر عند دخوله viewport
+- Hover scale 1.05 + رفع ظل
+- 10 منتجات (Load more عند الحاجة)
 
-### المتجر القطاعي (`store-retail.html`):
-```
-Brand Hero → السلايدر → البحث → أحدث المنتجات → البراندات
-→ العروض → الأقسام → جميع المنتجات
-```
+#### 9. سيكشنات مخصصة (custom_sections)
+- نفس v15.0 — من `sections-manager.html`
 
-### المتجر الجملة (`store-wholesale.html`):
-```
-Brand Hero → السلايدر → البحث → أحدث المنتجات → البراندات
-→ الخصومات → الأقسام → جميع المنتجات → شركاء النجاح
-```
+#### 10. العلامات التجارية (Brands — بدل Partners)
+- **صور رمادية (grayscale: 100%)**
+- **عند hover → تتم تلوينها (grayscale: 0)** + scale 1.1
+- عرض أفقي / شبكة
 
-**الفرق:** الجمهور / السعر / الوحدة / العروض / الشركاء / ملاحظات التاجر
+#### 11. تواصل معنا
+- 3 كروت: واتساب، إيميل، تذكرة دعم
+- ألوان مخصصة
 
----
+#### 12. Footer
+- من `footer.html`
 
-## 📂 الجزء السادس: صفحة الأقسام
+### منطق عرض الأسعار حسب الصلاحية
 
-- Hero Bar + شبكة أقسام
-- أنيميشن `dropIn` + عدد المنتجات حقيقي
-- رابط ذكي: `?type=retail/wholesale`
-
----
-
-## 📄 الجزء السابع: منتجات القسم
-
-- Breadcrumb + Sticky Bar + شرائح براندات + فلاتر + شبكة منتجات
-- السعر حسب المستخدم
-
----
-
-## 🎯 الجزء الثامن: العروض والخصومات
-
-| النظام | المتجر | يظهر لـ | الصفحة | الوحدة |
-|--------|--------|---------|--------|--------|
-| العروض | القطاعي | العملاء والزوار | `offers.html` | قطعة |
-| الخصومات | الجملة | التجار والأدمن | `discounts.html` | كرتونة/بالة |
-
----
-
-## 💳 الجزء التاسع: طرق الدفع
-
-| # | الطريقة | الرسوم | الرمز |
-|---|--------|-------|-------|
-| 1 | الدفع عند الاستلام | 0% | `cash` |
-| 2 | إنستا باي | 0% | `instapay` |
-| 3 | محفظة إلكترونية | **+1%** | `wallet` |
-
-**رقم الحساب:** `01068385028`
-
-### المعادلة:
 ```javascript
-baseTotal = subtotal + shippingCost
-paymentFee = method === 'wallet' ? baseTotal × 0.01 : 0
-totalBeforeRound = baseTotal + paymentFee
-grandTotal = roundToNearest5(totalBeforeRound)
-```
-
-### قاعدة التدوير:
-```javascript
-function roundToNearest5(amount) {
-  return Math.round(amount / 5) * 5;
+function getPriceForRole(product, role) {
+  if ([ROLES.RETAIL, ROLES.GUEST].includes(role)) {
+    return {
+      piecePrice: product.retailPrice,
+      cartonPrice: null,
+      showUnit: 'قطعة'
+    };
+  }
+  if (role === ROLES.WHOLESALE) {
+    return {
+      piecePrice: null,
+      cartonPrice: product.wholesalePrice,
+      showUnit: product.unit || 'كرتونة'
+    };
+  }
+  // cashier / admin / admin_plus / super
+  return {
+    piecePrice: product.retailPrice,
+    cartonPrice: product.wholesalePrice,
+    showUnit: 'both'  // يعرض الاثنين
+  };
 }
 ```
 
-**حقول الطلب الجديدة:**
+### شاشة الموصل الممنوع
+
+صفحة `/delivery/blocked.html` أو modal داخل الصفحة الرئيسية:
+- **كارت تقني عالي المستوى** مع animation خلفية (particles/parallax)
+- نص: **"ليس لديك صلاحيات عرض أي صفحات من الموقع أو التطبيق إلا صفحاتك الخاصة فقط"**
+- أزرار لأنشطته:
+  - لوحة الموصل
+  - أوردراتي
+  - منطقتي (Available)
+  - تحصيلاتي
+  - بياناتي
+
+---
+
+## 📄 الجزء 5: صفحة تفاصيل المنتج
+
+| الدور | يُعرض |
+|------|-------|
+| super | كل شيء + سعر الشراء + تعديل |
+| admin_plus / admin | جملة (وحدة) + قطاعي (قطعة) + مخزون مخزن + مخزون كل فرع + notes + traderNotes |
+| wholesale | جملة + قطاعي + هامش ربح + مخزون + traderNotes |
+| retail / guest | قطاعي فقط + وصف + براند + تصنيف + مخزون متاح |
+| delivery | **لا يصل** (يُعاد توجيهه) |
+
+---
+
+## 🏪 الجزء 6: المتاجر
+
+### store-retail.html — قطاعي
+Brand Hero + سلايدر + بحث + أحدث + براندات + عروض + أقسام + جميع المنتجات
+
+### store-wholesale.html — جملة
+Brand Hero (بني) + سلايدر + بحث + أحدث + براندات + **خصومات** + أقسام + جميع المنتجات + **علامات تجارية**
+
+**⚠️ حماية v17.0**: `delivery` ممنوع من الدخول → توجيه لـ `/delivery/home.html`
+
+**الـ partners section محذوف** — بدله brands
+
+---
+
+## 📂 الجزء 7: الأقسام
+
+- `categories.html`: شبكة أقسام + عدّاد حقيقي
+- `category-products.html`: Sticky bar + شريط براندات + فلاتر
+- `brand-products.html`: منتجات براند
+
+---
+
+## 🎯 الجزء 8: العروض والخصومات (Schema موحد v17.0)
+
+### الحقول الموحدة في `products`
 ```javascript
 {
-  paymentMethod, paymentMethodLabel,
-  paymentFeePercent, paymentFee, grandTotal,
-  paymentProof, paymentProofUploadedAt,
-  paymentStatus: 'unpaid' | 'pending' | 'paid',
-  paid: 0, remaining: grandTotal
+  // العروض (قطاعي)
+  hasRetailOffer: false,
+  retailOfferPrice: 0,
+  retailOfferStart: Timestamp|null,
+  retailOfferEnd: Timestamp|null,
+  
+  // الخصومات (جملة)
+  hasWholesaleDiscount: false,
+  wholesaleDiscountPercent: 0,
+  wholesaleDiscountStart: Timestamp|null,
+  wholesaleDiscountEnd: Timestamp|null,
+  
+  // ملاحظات
+  notes: '',          // للجميع
+  traderNotes: ''     // للتجار والإدارة فقط
 }
 ```
 
----
+**⚠️ مهم**: `admin/products.html` **لازم** يكتب الحقول دي بالظبط. أي صفحة تقرأ منهم.
 
-## 🚚 الجزء العاشر: نظام الموصلين
-
-### الكولكشنز:
-- `delivery_agents/{uid}` — بيانات الموصل
-- `delivery_lookup/{CODE}` — كود الدخول
-- `delivery_collections/{id}` — التحصيلات
-
-### سير العمل:
-```
-1. العميل يعمل أوردر → deliveryStatus: 'unassigned'
-2. الأدمن يعيّن → 'assigned'
-   أو الموصل يقبل بنفسه من available.html
-3. الموصل يستلم من المخزن → 'picked_up'
-4. الموصل يسلّم للعميل → 'delivered'
-   → لو cash: يحصّل المبلغ
-5. الأدمن يؤكد استلام المبلغ → (workflow جديد v15.0 — راجع الجزء 33)
-```
-
-### 💰 تقسيم الفلوس:
-```
-الفلوس اللي الموصل بيحصلها من العميل:
-├── 💵 فلوس المنتجات (subtotal) → الصندوق تحت بند "أوردرات دليفري"
-└── 🚚 فلوس الشحن (shippingCost) → من حق الموصل
-```
-
-### صفحات الموصلين — كلها ✅:
-`delivery-login.html` / `home.html` / `orders.html` / `available.html` / `order-details.html` / `collections.html` / `profile.html`
-
-### صفحات إدارة الموصلين:
-- `admin/delivery-agents.html` ✅
-- `admin/assign-delivery.html` ✅ (v1.0 — v15.0)
-- `admin/delivery-settlements.html` ⏳
+**⚠️ توافق خلفي مؤقت**: الحقل القديم `hasOffer` + `offerPrice` يُقرأ كـ alias لو `hasRetailOffer` مش موجود (فترة انتقالية).
 
 ---
 
-## 💰 الجزء الحادي عشر: الإبلاغ عن السداد
+## 💳 الجزء 9: طرق الدفع (v17.0)
 
-**كولكشن:** `financial_notifications`
-**الصفحة:** `customer/balance.html` → إبلاغ → `admin/financial-transactions.html` → اعتماد/رفض
+### 5 طرق (بعد التعديل)
 
----
+| # | الطريقة | الرسوم | الرمز | متاح لـ |
+|---|--------|-------|-------|---------|
+| 1 | كاش عند الاستلام | 0% | `cash` | الكل |
+| 2 | إنستا باي | 0% | `instapay` | الكل |
+| 3 | محفظة إلكترونية | +1% | `wallet` | الكل |
+| 4 | **آجل للتجار فقط** | رسوم محفظة فقط | `credit` | **trader فقط** |
+| 5 | ~~كرتونة تقسيط~~ | **مرفوض** | — | — |
 
-## 🤝 الجزء الثاني عشر: نظام الشركاء
+### 🆕 نظام الآجل (Credit) — تفاصيل دقيقة
 
-**كولكشن:** `partners` — الشركاء = التجار والمحلات
-**يظهر في:** سيكشن "شركاء النجاح" في متجر الجملة
-**يدير:** سوبر أدمن فقط
+**الشروط**:
+- **الحد الأقصى**: 5000 ج.م **إجمالي الفاتورة**
+- **المدة القصوى**: 7 أيام فقط لا غير
+- **بدون فوائد أو رسوم إضافية** على التقسيط نفسه
 
----
+**رسوم المحفظة الإلكترونية على الآجل**:
+- **10 ج.م على كل 1000 ج.م** (بحد أدنى 1% من المبلغ)
+- تُضاف تلقائياً لو طريقة السداد الفعلية محفظة إلكترونية
+- مثال: فاتورة آجل 3000 ج.م تُسدد بمحفظة → رسوم 30 ج.م (3 × 10)
 
-## 🎫 الجزء الثالث عشر: تذاكر الدعم
-
-**كولكشن:** `support_tickets`
-**الصفحات:** `support.html` (للعملاء) + `admin/support.html` (للإدارة)
-
----
-
-## 🔒 الجزء الرابع عشر: إدارة المحتوى الموحّد
-
-**صفحة:** `admin/content-manager.html` (سوبر أدمن فقط)
-
-| # | الصفحة | الكولكشن |
-|---|--------|----------|
-| 1 | `privacy-policy.html` | `privacy_sections` |
-| 2 | `shipping-policy.html` | `shipping_sections` |
-| 3 | `exchange-policy.html` | `exchange_sections` |
-| 4 | `terms.html` | `terms_sections` |
-| 5 | `faq.html` | `faq_sections` |
-
-**8 أنواع محتوى:** `text`, `quote`, `list`, `cards`, `table`, `contact`, `steps`, `faq`
-
----
-
-## 🚪 الجزء الخامس عشر: بوابة الدخول login.html
-
-**5 كروت دخول:** الإدارة / التجار / العملاء / الكاشير / الموصلين
-**قسم "مستخدم جديد؟":** تسجيل عميل + طلب كود تاجر + انضم لفريق التوصيل
-
-**التوجيه حسب الدور:**
-| الدور | الوجهة |
-|-------|--------|
-| Super/Admin+/Admin | `/admin/home.html` |
-| Wholesale | `/trader-home.html` |
-| Retail | `/customer-home.html` |
-| Cashier | `/cashier/home.html` |
-| Delivery | `/delivery/home.html` |
-
----
-
-## 📝 الجزء السادس عشر: دليل التسجيل register-guide.html
-
-**صفحة واحدة تشرح كل طرق التسجيل:**
-1. تسجيل عميل — ذاتي فوري
-2. تسجيل تاجر — 3 أزرار (فورم + واتساب + إيميل)
-3. تسجيل موصل — 3 أزرار (فورم + واتساب + إيميل)
-
----
-
-## 📄 الجزء السابع عشر: إدارة طلبات التسجيل
-
-**صفحة:** `admin/registration-requests.html` (سوبر + أدمن بلص)
-**الميزات:** 4 إحصائيات + 6 تبويبات + بحث + موافقة/رفض
-
----
-
-## 🛒 الجزء الثامن عشر: السلة والدفع
-
-- **cart.html:** دعم مسجل + زائر + تاجر
-- **checkout.html (v4.0):** 3 طرق دفع + تدوير + رفع إثبات
-- **order-success.html (v2.0):** صندوق دفع + رقم حساب + إثبات
-
----
-
-## 📱 الجزء التاسع عشر: تصميم الموبايل App-Like
-
-**المبادئ:**
-```
-❌ لا يوجد هيدر كامل
-❌ لا يوجد فوتر
-✅ شريط علوي مبسط (ثابت)
-✅ تبويبات عليا حسب الصلاحية
-✅ تبويبات سفلى حسب الصفحة
-✅ شريط حقوق فقط
+**التحقق في checkout.html**:
+```javascript
+if (storeType === 'wholesale' && paymentMethod === 'credit') {
+  if (grandTotal > 5000) {
+    showMessage({
+      title: 'الحد الأقصى للتقسيط',
+      body: 'الحد الأقصى للتقسيط معنا هو 5000 جنيه فقط. يُرجى تقليل الطلب أو اختيار طريقة دفع أخرى.',
+      icon: 'fa-exclamation-triangle'
+    });
+    return false;
+  }
+  // المدة القصوى
+  installmentDays = Math.min(installmentDays || 7, 7);
+  // رسوم المحفظة لو دفع بمحفظة
+  if (settlementMethod === 'wallet') {
+    walletFee = Math.ceil(grandTotal / 1000) * 10;
+  }
+}
 ```
 
-**قواعد:**
+**ملاحظة حاسمة**:
+> **تقسيط كرتونة غير متاح كوسيلة دفع للعميل.** يتم استخراج الفواتير من كرتونة عبر Gemini، ثم تُضاف في النظام كبند كاش بعد استلام النقد من الشركة.
+
+### معادلة الدفع العامة
+```javascript
+baseTotal = subtotal + shippingCost
+paymentFee = method === 'wallet' ? baseTotal * 0.01 : 0
+totalBeforeRound = baseTotal + paymentFee
+grandTotal = roundToNearest5(totalBeforeRound)  // ينتهي بـ 0 أو 5
 ```
-✅ overflow-x: hidden
-✅ overscroll-behavior-x: contain
-✅ تحويل الجداول لـ Cards
-✅ padding-top للـ body
+
+### حالات `paymentStatus`
+```
+unpaid              → كاش لم يستلم
+pending             → instapay/wallet في المراجعة
+partial             → دفع جزئي
+paid                → مدفوع
+awaiting_cardoona   → في انتظار تأكيد كرتونة
+awaiting_agent      → مندوب استلم (تأكيد صوري)
+awaiting_admin      → في انتظار تأكيد الأدمن
 ```
 
 ---
 
-## 🗄️ الجزء العشرون: هيكل الملفات الكامل (v15.0)
+## 🚚 الجزء 10: نظام التوصيل
+
+### Collections
+- `delivery_agents/{uid}`
+- `delivery_lookup/{CODE}`
+- `delivery_collections/{id}`
+
+### Workflow (نفس v16.0)
+```
+website order → unassigned → assigned → picked_up → delivered
+              → cashCollectedByAgent (صوري)
+              → admin_plus/super يؤكد → cashbox
+```
+
+### تقسيم الفلوس
+- **فلوس المنتجات** → الصندوق (`order_payment`)
+- **فلوس الشحن** → من حق المندوب
+
+### صفحات delivery/
+- `delivery/login.html` (منقول من الجذر)
+- `delivery/home.html`
+- `delivery/orders.html`
+- `delivery/available.html`
+- `delivery/order-details.html`
+- `delivery/collections.html`
+- `delivery/profile.html`
+- `delivery/blocked.html` 🆕
+
+**⚠️ v17.0**: مندوب مش قادر يدخل أي صفحة من الموقع الرئيسي. Rules تمنع، Frontend يعرض شاشة "blocked".
+
+---
+
+## 💰 الجزء 11: الإبلاغ عن السداد
+
+- **Collection**: `financial_notifications`
+- **الصفحة**: `customer/balance.html` → إبلاغ → `admin/financial-transactions.html` → اعتماد/رفض
+- **عند الاعتماد** → Transaction:
+  - `customers.update({balance})`
+  - `customer_notifications.add()`
+  - `activityLog.add()`
+
+---
+
+## 🏷️ الجزء 12: العلامات التجارية (Brands) — بدل الشركاء
+
+### قرار v17.0
+- **`partners` collection محذوف نهائياً**
+- **يُستبدل بـ `brands`** الموجود بالفعل
+- **يديرها**: super فقط (إضافة/تعديل/حذف)
+- **تظهر في**:
+  - الصفحة الرئيسية (سيكشن 10)
+  - متجر الجملة (سيكشن "علاماتنا التجارية")
+  - متجر القطاعي (سيكشن "علاماتنا التجارية")
+
+### Schema `brands`
+```javascript
+{
+  id, name,
+  imageUrl,          // شعار
+  description,       // وصف
+  color: '#1a2a4a',  // لون البراند
+  order: 0,          // للترتيب
+  active: true,
+  productCount: 0,   // denormalized
+  createdAt, updatedAt
+}
+```
+
+### التصميم في الصفحة
+- **صور رمادية (grayscale 100%)**
+- **hover → colored** (grayscale 0) + scale 1.1 + shadow
+- أنيميشن دخول
+
+---
+
+## 🎫 الجزء 13: تذاكر الدعم
+
+- **Collection**: `support_tickets`
+- **الصفحات**: `support.html` + `admin/support.html`
+- **الحالات**: `open` → `processing` → `closed`
+- **المرفقات**: صورة واحدة (ImgBB primary + fallback)
+
+---
+
+## 📄 الجزء 14: إدارة المحتوى
+
+- **الصفحة**: `admin/content-manager.html` (super فقط)
+- **5 collections**: `privacy_sections`, `shipping_sections`, `exchange_sections`, `terms_sections`, `faq_sections`
+- **8 أنواع**: text, quote, list, cards, table, contact, steps, faq
+- **Fallback default content** في كل صفحة
+
+---
+
+## 🚪 الجزء 15: بوابة الدخول login.html
+
+5 كروت (إدارة / تجار / عملاء / كاشير / موصلين)
++ قسم "مستخدم جديد" (تسجيل عميل / طلب تاجر / انضم للتوصيل)
+
+---
+
+## 📝 الجزء 16: دليل التسجيل register-guide.html
+
+3 أقسام:
+1. **عميل** — ذاتي فوري
+2. **تاجر** — 3 أزرار (فورم + واتساب + إيميل)
+3. **موصل** — 3 أزرار (فورم + واتساب + إيميل)
+
+---
+
+## 📥 الجزء 17: طلبات التسجيل
+
+- **Collection**: `registration_requests`
+- **الصفحة**: `admin/registration-requests.html` (super + admin_plus)
+- **Workflow**: user → submit → admin approves → create account + code
+
+---
+
+## 🛒 الجزء 18: السلة والدفع
+
+### cart.html
+- 3 أنواع: مسجل / زائر / تاجر
+- **مهم جداً**: سلة الزائر تحفظ `productName, imageUrl, unit, stockQuantity, maxOrder, price` كاملة (مش بس productId)
+
+### checkout.html v5.0 (v17.0 update)
+- **4 طرق دفع للتجار** (كاش + instapay + wallet + **credit**)
+- **3 طرق للعملاء** (كاش + instapay + wallet)
+- **Trader-only**: خيار الآجل بحد أقصى 5000 ج.م + مدة 7 أيام
+- **Region محمي**: trader locked, guest/retail يختار
+- **branchId** يحدد تلقائياً من region
+- **deliveryAgentId: ''** صراحة في orderData
+- **paymentProof upload** للـ instapay/wallet
+- **رسالة منبثقة** لو تجاوز 5000 في الآجل
+
+### order-success.html
+- الزائر يقدر يشوف طلبه
+- تفاصيل الدفع
+- رابط تتبع
+
+---
+
+## 📱 الجزء 19: تصميم الموبايل App-Like
+
+- mobile-top-bar + mobile-top-tabs + mobile-bottom-tabs + copyright
+- overflow-x: hidden
+- الجداول تتحول لـ Cards
+- Footer مخفي على الموبايل
+
+---
+
+## 🗄️ الجزء 20: هيكل الملفات v17.0
 
 ```
 📁 gomla/
 ├── 📁 assets/
 │   ├── css/
-│   │   ├── style.css              (v7.0)
-│   │   ├── invoice-print.css      🆕 (v1.0 — نظام الطباعة)
-│   │   └── pwa.css                🆕 (v1.0 — تنسيقات PWA)
+│   │   ├── style.css              (v8.0)
+│   │   ├── invoice-print.css      (v2.0)
+│   │   └── pwa.css                (v1.0)
 │   │
 │   ├── js/
-│   │   ├── firebase-config.js     (v7.0)
-│   │   ├── main.js                (v7.0)
-│   │   ├── public.js
-│   │   ├── invoice-print.js       🆕 (v1.1 — الطباعة الموحدة)
-│   │   ├── invoice-storage.js     🆕 (v1.0 — Backblaze B2)
-│   │   └── pwa-register.js        🆕 (v1.0 — تسجيل Service Worker)
+│   │   ├── firebase-config.js     (v8.0)
+│   │   ├── main.js                (v8.0)
+│   │   ├── public.js              (v7.0)
+│   │   ├── invoice-print.js       (v2.0)
+│   │   ├── image-uploader.js      🆕 (v1.0 — ImgBB + 3 fallbacks)
+│   │   ├── gemini-extract.js      🆕 (v1.0 — استخراج كرتونة)
+│   │   ├── cashier-sales.js       🆕 (v1.0)
+│   │   ├── inventory.js           🆕 (v1.0)
+│   │   ├── cashbox.js             🆕 (v1.0)
+│   │   ├── shipping-rates.js      🆕 (v1.0 — إدارة أسعار الشحن)
+│   │   └── pwa-register.js        🆕 (v1.0)
 │   │
 │   ├── components/
 │   │   ├── header.html
-│   │   ├── footer.html            (v2.0)
+│   │   ├── footer.html
 │   │   └── sidebar.html
 │   │
-│   └── images/ + icons/           🆕 (أيقونات PWA)
-│       ├── icon-72.png
-│       ├── icon-96.png
-│       ├── icon-128.png
-│       ├── icon-144.png
-│       ├── icon-152.png
-│       ├── icon-192.png
-│       ├── icon-384.png
-│       └── icon-512.png
+│   ├── images/
+│   │   ├── logo.png               🆕
+│   │   ├── no-image.png
+│   │   ├── default-avatar.png
+│   │   ├── favicon.ico
+│   │   └── welcome-*.jpg
+│   │
+│   └── icons/                     🆕 PWA icons (8)
 │
-├── 📁 PWA Files (جذر المشروع)     🆕
-│   ├── manifest.json              🆕 (إعدادات التطبيق)
-│   ├── service-worker.js          🆕 (التخزين المؤقت)
-│   ├── offline.html               🆕 (صفحة "لا إنترنت")
-│   └── sw-strategies.js           🆕 (استراتيجيات التخزين)
+├── 📁 PWA Files
+│   ├── manifest.json
+│   ├── service-worker.js
+│   ├── offline.html
+│   └── sw-strategies.js
 │
-├── 📁 admin/
-│   ├── login.html                 ✅ (v2.1 + حماية)
-│   ├── home.html                  ⏳
-│   ├── dashboard.html             ⏳
-│   ├── products.html              ⏳
-│   ├── customers.html             ⏳
-│   ├── orders.html                ✅ (v4.0 🆕 — Bottom Sheet + Cards)
-│   ├── invoices.html              ⏳
-│   ├── suppliers.html             ⏳
-│   ├── purchases.html             ⏳
-│   ├── extract-pdf.html           ⏳
-│   ├── cashbox.html               ⏳ (يحتاج بند أوردرات دليفري)
-│   ├── daily-sales.html           ⏳
-│   ├── barcode-scanner.html       ⏳
-│   ├── financial-reports.html     ⏳
-│   ├── ranks-levels.html          ⏳
-│   ├── settings.html              ⏳
-│   ├── branches.html              ⏳
-│   ├── cashier.html               ⏳
-│   ├── generate-codes.html        ✅
-│   ├── sections-manager.html      ✅
-│   ├── partners-manager.html      ✅
-│   ├── financial-transactions.html ✅
-│   ├── support.html               ✅
-│   ├── content-manager.html       ✅
-│   ├── delivery-agents.html       ✅
-│   ├── assign-delivery.html       ✅ (v1.0 🆕)
-│   ├── delivery-settlements.html  ⏳
+├── 📁 admin/                      (26 صفحة)
+│   ├── login.html ✅
+│   ├── home.html ⏳
+│   ├── dashboard.html ⏳
+│   ├── products.html ⏳
+│   ├── customers.html ⏳ (إصلاح عاجل)
+│   ├── orders.html ⏳
+│   ├── invoices.html ⏳
+│   ├── cashbox.html 🆕
+│   ├── inventory-reports.html 🆕
+│   ├── financial-reports.html 🆕
+│   ├── branches.html 🆕 (admin_plus)
+│   ├── transfers.html 🆕 (admin_plus)
+│   ├── expenses.html 🆕
+│   ├── settings.html 🆕
+│   ├── roles.html 🆕
+│   ├── shipping-rates.html 🆕
+│   ├── suppliers.html 🆕
+│   ├── purchases.html 🆕
+│   ├── daily-sales.html 🆕
+│   ├── extract-pdf.html 🆕 (Gemini)
+│   ├── brands-manager.html 🆕 (بدل partners)
+│   ├── reports.html 🆕
+│   ├── barcode-scanner.html 🆕
+│   ├── generate-codes.html ✅
+│   ├── delivery-agents.html ✅
+│   ├── assign-delivery.html 🆕
+│   ├── delivery-settlements.html 🆕
 │   ├── registration-requests.html ✅
-│   └── profile.html               ⏳
+│   ├── financial-transactions.html ✅
+│   ├── support.html ✅
+│   ├── content-manager.html ✅
+│   ├── sections-manager.html ✅
+│   ├── cashier-sales-manage.html 🆕 (super فقط للتعديل)
+│   └── profile.html ⏳
 │
-├── 📁 cashier/
-│   ├── home.html                  ⏳
-│   ├── sales.html                 ⏳
-│   ├── inventory.html             ⏳
-│   ├── purchases.html             ⏳
-│   └── barcode-scanner.html       ⏳
+├── 📁 cashier/                    (6 صفحات)
+│   ├── login.html (نقل)
+│   ├── home.html
+│   ├── sales.html
+│   ├── inventory.html
+│   ├── history.html
+│   └── reports.html
 │
-├── 📁 customer/
-│   ├── profile.html               ⏳
-│   ├── orders.html                ⏳ (تحديث زر تأكيد الاستلام)
-│   ├── invoices.html              ⏳
-│   └── balance.html               ✅
+├── 📁 customer/                   (7 صفحات)
+│   ├── login.html (نقل)
+│   ├── register.html (نقل)
+│   ├── home.html (نقل)
+│   ├── orders.html ✅
+│   ├── invoices.html ✅
+│   ├── balance.html ✅
+│   └── profile.html ✅
 │
-├── 📁 delivery/                   ✅ كل الصفحات
-│   ├── home.html                  ✅
-│   ├── orders.html                ✅
-│   ├── available.html             ✅
-│   ├── order-details.html         ✅
-│   ├── collections.html           ✅
-│   └── profile.html               ✅
+├── 📁 trader/
+│   ├── login.html (نقل)
+│   └── home.html (نقل)
 │
-├── 📄 الصفحات العامة:
-│   ├── index.html                 ✅
-│   ├── store-wholesale.html       ✅
-│   ├── store-retail.html          ✅
-│   ├── categories.html            ✅
-│   ├── category-products.html     ✅
-│   ├── brand-products.html        ✅
-│   ├── offers.html                ✅
-│   ├── discounts.html             ✅
-│   ├── cart.html                  ✅
-│   ├── checkout.html              ✅ (v4.0)
-│   ├── order-success.html         ✅ (v2.0)
-│   ├── product-details.html       ✅
-│   ├── login.html                 ✅ (v3.0)
-│   ├── customer-register.html     ✅
-│   ├── customer-login.html        ✅
-│   ├── trader-login.html          ✅
-│   ├── cashier-login.html         ✅
-│   ├── delivery-login.html        ✅
-│   ├── customer-home.html         ⏳
-│   ├── trader-home.html           ⏳
-│   ├── tracking.html              ✅
-│   ├── wishlist.html              ✅
-│   ├── notifications.html         ✅
-│   ├── support.html               ✅
-│   ├── about.html                 ✅
-│   ├── privacy-policy.html        ✅
-│   ├── shipping-policy.html       ✅
-│   ├── exchange-policy.html       ✅
-│   ├── terms.html                 ✅
-│   ├── faq.html                   ✅
-│   └── register-guide.html        ✅
+├── 📁 delivery/                   (8 صفحات)
+│   ├── login.html (نقل)
+│   ├── home.html ✅
+│   ├── orders.html ✅
+│   ├── available.html ✅
+│   ├── order-details.html ✅
+│   ├── collections.html ✅
+│   ├── profile.html ✅
+│   └── blocked.html 🆕
 │
-├── 📁 worker/                     🆕 (Cloudflare Worker)
-│   └── awlad-shalaan-invoice-worker.js  🆕 (v1.0)
+├── 📄 الصفحات العامة (~26)
+│   ├── index.html ⏳ (Redesign كامل)
+│   ├── store-wholesale.html ⏳
+│   ├── store-retail.html ✅
+│   ├── categories.html ✅
+│   ├── category-products.html ✅
+│   ├── brand-products.html ✅
+│   ├── offers.html ⏳
+│   ├── discounts.html ⏳
+│   ├── cart.html ⏳
+│   ├── checkout.html ✅ (v5.0)
+│   ├── order-success.html ⏳
+│   ├── invoice.html 🆕
+│   ├── product-details.html ⏳
+│   ├── login.html ✅
+│   ├── register-guide.html ✅
+│   ├── tracking.html ✅
+│   ├── wishlist.html ✅
+│   ├── notification.html ✅
+│   ├── support.html ✅
+│   ├── about.html ✅
+│   ├── privacy-policy.html ✅
+│   ├── shipping-policy.html ✅
+│   ├── exchange-policy.html ✅
+│   ├── terms.html ✅
+│   └── faq.html ✅
 │
 ├── CONSTITUTION.md
+├── firestore.rules
 └── README.md
 ```
 
 ---
 
-## 🗄️ الجزء الحادي والعشرون: كولكشنز Firestore (48 كولكشن)
+## 🗄️ الجزء 21: كوليكشنز Firestore (55 كولكشن)
 
-| الكولكشن | الوصف |
-|----------|-------|
-| `admins`, `cashiers`, `customers`, `users` | المستخدمين |
-| `products`, `categories`, `brands` | المنتجات |
-| `cart`, `wishlist`, `orders`, `invoices` | التجارة |
-| `suppliers`, `purchases`, `cashbox`, `daily_sales` | مالي |
-| `branches`, `branch_inventory` | فروع |
-| `ranks`, `levels`, `rewards` | تحفيز |
-| `notifications`, `customer_notifications`, `admin_notifications` | إشعارات |
-| `activityLog`, `quotes`, `news`, `ads`, `slider` | محتوى |
-| `barcode_scans`, `custom_sections`, `site_content`, `partners` | إضافي |
-| `trader_lookup`, `delivery_lookup` | lookup |
-| `delivery_agents`, `delivery_collections` | توصيل |
-| `financial_notifications`, `support_tickets`, `public_stats` | متنوع |
-| `privacy_sections`, `shipping_sections`, `exchange_sections`, `terms_sections`, `faq_sections` | محتوى قانوني |
-| `registration_requests` | تسجيل |
-| **🆕 `invoice_archives`** | أرشيف JSON للفواتير |
+### المستخدمين (7)
+`admins`, `cashiers`, `customers`, `users`, `delivery_agents`, `delivery_lookup`, `trader_lookup`
 
-**الإجمالي:** 48 كولكشن
+### المنتجات والعلامات (3)
+`products`, `categories`, `brands`
+
+### الفروع والمخزون (4) 🆕
+`branches`, `branch_inventory`, `transfers`, `inventory_snapshots`
+
+### التجارة (6)
+`cart`, `wishlist`, `orders`, `invoices`, `invoice_archives`, `manual_sales`
+
+### البيع المباشر (1) 🆕
+`cashier_sales`
+
+### المالية (8)
+`suppliers`, `purchases`, `cashbox`, `daily_sales`, `financial_notifications`, `expenses`, `salaries`, `damages`
+
+### الإشعارات (3)
+`notifications`, `customer_notifications`, `admin_notifications`
+
+### السجلات (2)
+`activityLog`, `barcode_scans`
+
+### المحتوى (8)
+`quotes`, `news`, `ads`, `slider`, `custom_sections`, `site_content`, `public_stats`, `shipping_rates` 🆕
+
+### الصفحات القانونية (5 + 5 meta)
+`privacy_sections`, `shipping_sections`, `exchange_sections`, `terms_sections`, `faq_sections`, + 5 meta
+
+### الدعم والتوصيل (3)
+`support_tickets`, `delivery_collections`, `registration_requests`
+
+### كرتونة (2) 🆕
+`cardoona_invoices`, `cardoona_extractions`
+
+**الإجمالي: 55 كوليكشن**
+
+**⚠️ محذوف: `partners`** (يُستبدل بـ `brands`)
 
 ---
 
-## 🚚 الجزء الثاني والعشرون: أسعار الشحن
+## 🚚 الجزء 22: أسعار الشحن (v17.0 — قابلة للإدارة)
 
-### الجملة:
+### Schema `shipping_rates/{rateId}`
+```javascript
+{
+  id,
+  storeType: 'wholesale' | 'retail',
+  region: 'طنطا',
+  cost: 125,
+  freeThreshold: 5000,
+  active: true,
+  order: 0,
+  updatedAt, updatedBy
+}
+```
+
+### صفحة `admin/shipping-rates.html` 🆕 (super + admin_plus)
+- إضافة/تعديل/حذف منطقة
+- تغيير السعر
+- تغيير عتبة الشحن المجاني
+- تفعيل/إلغاء منطقة
+- Live preview
+
+**الأسعار الحالية (default seed)**:
+
+#### الجملة
 | المدينة | السعر | مجاني عند |
 |---------|-------|-----------|
 | طنطا | 125 | 5000 |
 | المنصورة | 125 | 5000 |
 | المحلة | 50 | 2000 |
 
-### القطاعي:
+#### القطاعي
 | المنطقة | السعر | مجاني عند |
 |---------|-------|-----------|
 | الرجبي، أبو شاهين | 25 | 2500 |
-| السبع بنات، الجمهورية، سكة زفتى، الشعبية، الشعراوي، العلو، الشون، المعهد الديني، شارع 10، البندر، المشحمة، أبو را���ي | 35 | 2500 |
+| السبع بنات، الجمهورية، سكة زفتى، الشعبية، الشعراوي، العلو، الشون، المعهد الديني، شارع 10، البندر، المشحمة، أبو راضي | 35 | 2500 |
 | الزراعة، أبو علي | 45 | 2500 |
 | كفر حجازي | 50 | 2500 |
 
 ---
 
-## 🎨 الجزء الثالث والعشرون: نظام التصميم
+## 🎨 الجزء 23: نظام التصميم
 
 ```css
 :root {
-  --navy: #1a2a4a;   --navy-light: #2a3f6a;   --navy-dark: #0f1a2e;
-  --gold: #c9a84c;   --gold-light: #e8d5a3;   --gold-dark: #b8942a;
-  --white: #ffffff;  --ddd: #0088FC;
-  --success: #22c55e; --danger: #ef4444; --warning: #f59e0b; --info: #3b82f6;
-  --del-green-1: #064e3b; --del-green-2: #047857;
-  --del-green-3: #059669; --del-green-light: #10b981;
+  --navy: #1a2a4a;
+  --navy-light: #2a3f6a;
+  --navy-dark: #0f1a2e;
+  --gold: #c9a84c;
+  --gold-light: #e8d5a3;
+  --gold-dark: #b8942a;
+  --white: #ffffff;
+  --success: #22c55e;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --info: #3b82f6;
+  --del-green-1: #064e3b;
+  --del-green-2: #047857;
+  --del-green-3: #059669;
+  --del-green-light: #10b981;
+  --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 0.3s ease;
+  --transition-fast: 0.15s ease;
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
 }
 ```
 
 ---
 
-## 📚 الجزء الرابع والعشرون: المكتبات
+## 📚 الجزء 24: المكتبات
 
 | المكتبة | الاستخدام |
 |---------|-----------|
 | Firebase SDK 9.22.0 | DB + Auth |
 | Font Awesome 6.5.0 | الأيقونات |
 | Tajawal | الخط |
-| browser-image-compression | ضغط الصور |
-| PDF.js | قراءة PDF |
-| Gemini API | استخراج ذكي |
+| browser-image-compression 2.0.2 | ضغط الصور |
+| html2canvas 1.4.1 | HTML → Image |
+| jsPDF 2.5.1 | PDF generation |
+| **PDF.js 3.11** | استخراج كرتونة (احتياطي) |
+| **Gemini API** 🆕 | استخراج كرتونة (أساسي) |
 | html5-qrcode | باركود |
 | JsBarcode | توليد باركود |
-| **html2canvas 1.4.1** 🆕 | تحويل HTML لصورة |
-| **jsPDF 2.5.1** 🆕 | توليد PDF |
 
 ---
 
-# 🆕 الأجزاء الجديدة في v15.0
+## 🛒 الجزء 25: Workflow كامل للطلبات
 
-## 🖨️ الجزء الثاني والثلاثون: نظام الطباعة الموحد
+(نفس v16.0 — order flow / cashier flow / cardoona flow / manual flow)
 
-### الملفات:
-- `assets/css/invoice-print.css` — ستايل A4 موحد
-- `assets/js/invoice-print.js` (v1.1) — منطق الطباعة والمعاينة
-- `assets/js/invoice-storage.js` (v1.0) — الربط مع Cloudflare Worker
+---
 
-### الاستخدام في أي صفحة:
+## 🏢 الجزء 26: نظام الفروع والمخزون (v17.0)
 
-```html
-<!-- ترتيب تحميل صارم -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="../assets/js/invoice-storage.js"></script>  <!-- قبل invoice-print -->
-<script src="../assets/js/invoice-print.js"></script>     <!-- الأخير -->
-```
-
+### `branches` — إدارة admin_plus
 ```javascript
-// معاينة
-InvoicePrint.preview(order);
-
-// طباعة مباشرة
-InvoicePrint.print(order);
-
-// طباعة عدة أوردرات
-InvoicePrint.printAll(orders);
-
-// حفظ PDF → رفع على B2
-InvoicePrint.saveAsPdf(order).then(r => {
-  console.log('key:', r.key);  // خزّنها في Firestore
-});
-```
-
-### أنواع المستخدمين على الفاتورة:
-
-| النوع | الشرط | البادج |
-|-------|-------|--------|
-| `retail_cash` | `storeType: 'retail'` | عميل نقدي |
-| `trader_cash` | `storeType: 'wholesale'` + `businessType: 'cash'` | تاجر نقدي |
-| `trader_credit` | `storeType: 'wholesale'` + `businessType: 'credit'` | تاجر أجل |
-| `guest` | `isGuest: true` | زائر |
-
-### بيانات المندوب على الفاتورة:
-- تظهر لكل الطلبات لو موجود `deliveryAgentName`
-- **اسم المندوب + هاتفه + المركبة (سيارة/موتوسيكل/دراجة)**
-
-### أحداث:
-- `window.dispatchEvent(new CustomEvent('invoice-uploaded', { detail: {...} }))` بعد كل رفع ناجح
-
----
-
-## 🔐 الجزء الثالث والثلاثون: Cloudflare Worker + Backblaze B2
-
-### المكونات:
-
-| المكون | الغرض |
-|--------|-------|
-| **Cloudflare Worker** | حماية المفاتيح + توقيع Presigned URLs |
-| **Backblaze B2** | تخزين PDFs بأمان (خاص) |
-| **Frontend Token** | مصادقة إضافية للـ Worker |
-
-### إعدادات Worker:
-
-```
-URL: https://awlad-shalaan-invoice-worker.awladsh3laan.workers.dev
-Secrets: B2_KEY_ID, B2_APPLICATION_KEY, B2_BUCKET, B2_ENDPOINT, B2_REGION, FRONTEND_TOKEN
-```
-
-### Endpoints:
-
-| Endpoint | Method | الغرض |
-|----------|--------|-------|
-| `/health` | GET | فحص الصحة |
-| `/sign-upload` | POST | رابط رفع مؤقت (10 دقائق) |
-| `/sign-view` | POST | رابط عرض مؤقت (ساعة — 7 أيام حد أقصى) |
-| `/delete` | POST | حذف ملف |
-
-### نمط الحماية:
-```
-FRONTEND_TOKEN في Header X-Frontend-Token
-+ توقيع HMAC-SHA256 (AWS Sig V4)
-```
-
-### الاستخدام:
-
-```javascript
-// رفع PDF
-const result = await InvoiceStorage.uploadPdf(blob, orderNo, customerName);
-// → { ok: true, key: 'invoices/2026/10/xxx.pdf', size, uploadedAt }
-
-// فتح PDF
-await InvoiceStorage.openInvoice(key);
-
-// تنزيل
-await InvoiceStorage.downloadInvoice(key, 'invoice.pdf');
-```
-
-### ⚠️ مصير B2 في v15.0:
-
-**الاستراتيجية الجديدة:**
-- **الأساسي:** حفظ JSON في Firestore (`orders/{id}.invoice`)
-- **الاحتياطي:** PDF في B2 عند الحاجة فقط (تصدير، أرشفة سنوية)
-- **السبب:** توفير مساحة، سرعة، ومرونة
-
----
-
-## 📲 الجزء الرابع والثلاثون: PWA (الموقع كتطبيق موبايل)
-
-### المفهوم:
-تحويل الموقع إلى **تطبيق فعلي** على الموبايل (Android + iOS) يمكن تثبيته من المتصفح بدون متجر.
-
-### الملفات المطلوبة:
-
-#### 1. `manifest.json` (جذر المشروع)
-
-```json
 {
-  "name": "أولاد شعلان جملة",
-  "short_name": "أولاد شعلان",
-  "description": "متجر أولاد شعلان للمنظفات والورقيات - جملة وقطاعي",
-  "start_url": "/gomla/",
-  "scope": "/gomla/",
-  "display": "standalone",
-  "orientation": "portrait",
-  "background_color": "#1a2a4a",
-  "theme_color": "#1a2a4a",
-  "lang": "ar",
-  "dir": "rtl",
-  "icons": [
-    { "src": "/gomla/assets/icons/icon-72.png",  "sizes": "72x72",   "type": "image/png" },
-    { "src": "/gomla/assets/icons/icon-96.png",  "sizes": "96x96",   "type": "image/png" },
-    { "src": "/gomla/assets/icons/icon-128.png", "sizes": "128x128", "type": "image/png" },
-    { "src": "/gomla/assets/icons/icon-144.png", "sizes": "144x144", "type": "image/png" },
-    { "src": "/gomla/assets/icons/icon-152.png", "sizes": "152x152", "type": "image/png" },
-    { "src": "/gomla/assets/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
-    { "src": "/gomla/assets/icons/icon-384.png", "sizes": "384x384", "type": "image/png" },
-    { "src": "/gomla/assets/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
-  ],
-  "screenshots": [
-    { "src": "/gomla/assets/icons/screen-mobile.png", "sizes": "1080x1920", "type": "image/png", "form_factor": "narrow" }
-  ],
-  "shortcuts": [
-    { "name": "المتجر القطاعي", "url": "/gomla/store-retail.html", "icon": "/gomla/assets/icons/icon-96.png" },
-    { "name": "المتجر الجملة", "url": "/gomla/store-wholesale.html", "icon": "/gomla/assets/icons/icon-96.png" },
-    { "name": "طلباتي", "url": "/gomla/customer/orders.html", "icon": "/gomla/assets/icons/icon-96.png" }
-  ]
+  id, name, code,  // MHL | TNT | MNS | WH
+  address, phone,
+  managerId, managerName,
+  regions: [],
+  isWarehouse: false,
+  active: true,
+  createdAt, updatedAt
 }
 ```
 
-#### 2. `service-worker.js` (جذر المشروع)
+**⚠️ v17.0**: إدارة الفروع لـ `super` + `admin_plus` فقط
 
+### `branch_inventory/{branchId_productId}`
 ```javascript
-/* ============================================================
-   📲 Service Worker — أولاد شعلان PWA
-   Version: 1.0  |  2026-10-18
-   ============================================================ */
-
-const CACHE_VERSION = 'v1.0.0';
-const STATIC_CACHE = `static-${CACHE_VERSION}`;
-const DYNAMIC_CACHE = `dynamic-${CACHE_VERSION}`;
-const IMAGE_CACHE = `images-${CACHE_VERSION}`;
-
-const STATIC_ASSETS = [
-  '/gomla/',
-  '/gomla/index.html',
-  '/gomla/offline.html',
-  '/gomla/assets/css/style.css',
-  '/gomla/assets/css/invoice-print.css',
-  '/gomla/assets/js/main.js',
-  '/gomla/assets/js/firebase-config.js',
-  '/gomla/assets/js/invoice-print.js',
-  '/gomla/assets/js/invoice-storage.js',
-  '/gomla/assets/icons/icon-192.png',
-  'https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap',
-  'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css'
-];
-
-// Install
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(STATIC_CACHE)
-      .then(cache => cache.addAll(STATIC_ASSETS))
-      .then(() => self.skipWaiting())
-  );
-});
-
-// Activate
-self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(keys => {
-      return Promise.all(
-        keys.filter(k => !k.endsWith(CACHE_VERSION))
-            .map(k => caches.delete(k))
-      );
-    }).then(() => self.clients.claim())
-  );
-});
-
-// Fetch
-self.addEventListener('fetch', event => {
-  const { request } = event;
-  const url = new URL(request.url);
-
-  // تجاهل Firebase / Worker / الخارج
-  if (
-    url.hostname.includes('firebase') ||
-    url.hostname.includes('firebaseio') ||
-    url.hostname.includes('googleapis.com') ||
-    url.hostname.includes('gstatic.com') ||
-    url.hostname.includes('workers.dev') ||
-    url.hostname.includes('backblazeb2') ||
-    request.method !== 'GET'
-  ) {
-    return; // default browser behavior
-  }
-
-  // الصور: Cache First
-  if (request.destination === 'image' || url.pathname.match(/\.(jpg|jpeg|png|gif|webp|svg)$/i)) {
-    event.respondWith(
-      caches.match(request).then(cached => {
-        if (cached) return cached;
-        return fetch(request).then(response => {
-          const clone = response.clone();
-          caches.open(IMAGE_CACHE).then(cache => cache.put(request, clone));
-          return response;
-        }).catch(() => caches.match('/gomla/assets/icons/icon-192.png'));
-      })
-    );
-    return;
-  }
-
-  // HTML / JS / CSS: Network First
-  event.respondWith(
-    fetch(request)
-      .then(response => {
-        const clone = response.clone();
-        caches.open(DYNAMIC_CACHE).then(cache => cache.put(request, clone));
-        return response;
-      })
-      .catch(() => caches.match(request).then(cached => {
-        return cached || caches.match('/gomla/offline.html');
-      }))
-  );
-});
-
-// Message from client (تحديث cache)
-self.addEventListener('message', event => {
-  if (event.data && event.data.type === 'SKIP_WAITING') {
-    self.skipWaiting();
-  }
-});
+{
+  branchId, productId,
+  warehouseQty: 0,
+  piecesQty: 0,
+  reservedQty: 0,
+  availableQty: 0,
+  minAlert: 5,
+  productName, productImage, unit,
+  lastUpdated, updatedBy
+}
 ```
 
-#### 3. `pwa-register.js` (assets/js/)
-
+### `products` — إضافة
 ```javascript
-/* ============================================================
-   📲 PWA Registration — أولاد شعلان
-   ============================================================ */
+{
+  ...existing...,
+  warehouseStock: 0,
+  warehousePieces: 0,
+  warehouseMinAlert: 10
+}
+```
 
-(function () {
-  'use strict';
+### `transfers` — نقل بين الفروع
+```javascript
+{
+  id, fromBranchId, toBranchId,
+  items: [{ productId, quantity }],
+  status: 'pending' | 'in_transit' | 'received' | 'cancelled',
+  requestedBy, requestedAt,
+  shippedBy, shippedAt,
+  receivedBy, receivedAt
+}
+```
 
-  // سجل Service Worker
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-      navigator.serviceWorker
-        .register('/gomla/service-worker.js')
-        .then(reg => {
-          console.log('✅ Service Worker registered:', reg.scope);
-        })
-        .catch(err => {
-          console.warn('❌ Service Worker registration failed:', err);
-        });
-    });
-  }
+---
 
-  // PWA Install Prompt
-  let deferredPrompt = null;
+## 💰 الجزء 27: نظام الصندوق
 
-  window.addEventListener('beforeinstallprompt', e => {
-    e.preventDefault();
-    deferredPrompt = e;
-    showInstallButton();
-  });
+### `cashbox/{entryId}`
+```javascript
+{
+  id,
+  type: 'income' | 'expense',
+  category: 'order_payment' | 'cashier_sale' | 'cardoona_sale' 
+          | 'manual_sale' | 'supplier_payment' | 'salary' | 'damage' | 'other',
+  source: 'website' | 'cashier' | 'cardoona' | 'manual',
+  branchId,
+  
+  orderId, orderNo,
+  cashierSaleId, manualSaleId,
+  
+  amount, description,
+  method: 'cash' | 'instapay' | 'wallet' | 'transfer',
+  
+  status: 'pending' | 'approved' | 'rejected',
+  approvedBy, approvedByName, approvedAt,
+  rejectionReason: '',
+  
+  createdBy, createdByName, createdByRole,
+  createdAt
+}
+```
 
-  window.addEventListener('appinstalled', () => {
-    console.log('✅ PWA installed');
-    deferredPrompt = null;
-    hideInstallButton();
-  });
+### الصلاحيات v17.0
+- **super + admin_plus**: approve/reject
+- **admin**: لا (فقط يرى)
+- **cashier**: إنشاء pending فقط
 
-  function showInstallButton() {
-    const btn = document.getElementById('pwa-install-btn');
-    if (btn) btn.style.display = 'flex';
-  }
+---
 
-  function hideInstallButton() {
-    const btn = document.getElementById('pwa-install-btn');
-    if (btn) btn.style.display = 'none';
-  }
+## 📊 الجزء 28: نظام الجرد والتقارير المالية
 
-  window.installPWA = async function () {
-    if (!deferredPrompt) {
-      if (typeof showToast === 'function') {
-        showToast('لتثبيت التطبيق: افتح القائمة → "تثبيت التطبيق"', 'info');
-      }
-      return;
+### financial-reports.html — نفس v16.0
+
+```
++ مبيعات جملة + قطاعي + كاشير + كرتونة + يدوية
+- مصروفات - مرتبات - تلفيات - مشتريات
+= صافي الربح
+
+مقارنة مع cashbox
+```
+
+### inventory-reports.html — جرد 3 مستويات
+1. **مخزون المخزن** (كراتين + قطع)
+2. **مخزون كل فرع** على حدة
+3. **مجمع** (الإجمالي)
+4. **قابل للطباعة A4**
+
+---
+
+## 🎯 الجزء 29: كرتونة — Gemini (v17.0)
+
+### القرار الحاسم
+**استخراج الفواتير عبر Gemini API** (أساسي) + PDF.js (احتياطي)
+
+### الإعدادات
+```javascript
+const GEMINI_CONFIG = {
+  apiKey: 'AIzaSy...',  // في firebase-config.js
+  model: 'gemini-1.5-flash',
+  endpoint: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent'
+};
+```
+
+### Prompt احترافي (v17.0)
+
+```
+أنت مساعد متخصص في استخراج بيانات الفواتير من ملفات PDF العربية.
+
+استخرج كامل البيانات من الفاتورة المرفقة كما هي دون تغيير أو اختصار.
+
+⚠️ قواعد صارمة:
+1. لا تُغيّر أو تختصر أي بيانات.
+2. المنتجات المتكررة بنفس الصيغة أو مقاربة (اختلاف وزن/رائحة) تُستخرج كبنود منفصلة.
+3. التركيز على عدد الكميات كما هي (لا تقريب).
+4. التركيز على الوحدة كما هي (قطعة، كرتونة، كجم، علبة...).
+5. التركيز على سعر الوحدة (القطعة) وليس الإجمالي.
+   مثال: منتج 3 × 15 = 45 → احفظ "price: 15" وليس 45.
+6. التركيز على عدد البنود كما هو (لا إنقاص، لا تزويد).
+7. التركيز على الخصومات (إن وُجدت): 
+   - خصم كرتونة
+   - خصم تاجر تجزئة
+   - خصم يدوي
+   كل واحد باسمه ومبلغه.
+8. التركيز على بند السداد:
+   - نقدي
+   - تقسيط كرتونة
+   - تقسيط + نقدي في نفس الفاتورة (استخرج المبلغين)
+9. الإجمالي قبل الخصومات وبعدها.
+10. بيانات العميل: اسم، هاتف، عنوان (لو موجودين).
+
+أعد النتيجة كـ JSON فقط بهذا الشكل:
+{
+  "invoice_no": "...",
+  "invoice_date": "YYYY-MM-DD",
+  "customer": {
+    "name": "...",
+    "phone": "...",
+    "address": "..."
+  },
+  "items": [
+    {
+      "name": "...",
+      "quantity": 0,
+      "unit": "...",
+      "price_per_unit": 0,
+      "total": 0,
+      "pieces_per_unit": 0
     }
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    console.log('PWA install outcome:', outcome);
-    deferredPrompt = null;
-    hideInstallButton();
-  };
+  ],
+  "discounts": {
+    "cardoona_discount": 0,
+    "retail_trader_discount": 0,
+    "manual_discount": 0,
+    "total_discount": 0
+  },
+  "payment": {
+    "type": "cash" | "installment" | "both",
+    "cash_amount": 0,
+    "installment_amount": 0,
+    "total_paid": 0,
+    "remaining": 0
+  },
+  "subtotal_before_discount": 0,
+  "total_after_discount": 0,
+  "notes": "..."
+}
 
-  // تحقق إن التطبيق مفتوح كـ PWA (standalone)
-  const isStandalone = window.matchMedia('(display-mode: standalone)').matches ||
-                       window.navigator.standalone === true;
-  if (isStandalone) {
-    document.documentElement.classList.add('pwa-standalone');
-  }
-})();
+تأكد: كل الأسعار والكميات مطابقة للفاتورة الأصلية.
 ```
 
-#### 4. `offline.html` (جذر المشروع)
-
-```html
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>لا يوجد إنترنت — أولاد شعلان</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;700;800&display=swap" rel="stylesheet">
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    font-family: 'Tajawal', sans-serif;
-    min-height: 100vh;
-    display: flex; align-items: center; justify-content: center;
-    background: linear-gradient(135deg, #0f1a2e 0%, #1a2a4a 50%, #2a3f6a 100%);
-    color: white; padding: 24px; text-align: center;
-  }
-  .box {
-    max-width: 400px;
-    background: rgba(255,255,255,.05);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,.1);
-    border-radius: 20px;
-    padding: 32px 24px;
-  }
-  .icon {
-    font-size: 4rem; color: #c9a84c;
-    margin-bottom: 20px;
-    animation: pulse 2s infinite;
-  }
-  @keyframes pulse {
-    0%,100% { opacity: 1; transform: scale(1); }
-    50% { opacity: .6; transform: scale(1.1); }
-  }
-  h1 { font-size: 1.5rem; margin-bottom: 12px; }
-  p { color: rgba(255,255,255,.7); line-height: 1.7; margin-bottom: 24px; }
-  button {
-    background: #c9a84c; color: #0f1a2e;
-    border: none; padding: 12px 24px;
-    border-radius: 10px; font-family: inherit;
-    font-weight: 800; font-size: 1rem; cursor: pointer;
-    display: inline-flex; align-items: center; gap: 8px;
-  }
-  button:active { transform: scale(.97); }
-</style>
-</head>
-<body>
-  <div class="box">
-    <div class="icon"><i class="fas fa-wifi-slash"></i></div>
-    <h1>لا يوجد اتصال بالإنترنت</h1>
-    <p>
-      تحقق من اتصالك بالشبكة، ثم أعد المحاولة.<br>
-      الصفحات التي زرتها سابقاً متاحة بدون إنترنت.
-    </p>
-    <button onclick="location.reload()">
-      <i class="fas fa-redo"></i> إعادة المحاولة
-    </button>
-  </div>
-</body>
-</html>
+### Workflow
+```
+1. super/admin_plus → admin/extract-pdf.html
+2. يرفع PDF → يُرسل لـ Gemini (Base64)
+3. Gemini يحلل ويُرجع JSON
+4. Preview في صفحة → المراجع يعدل يدوياً لو لازم
+5. تأكيد → Firestore Transaction:
+   • cardoona_invoices.add()
+   • orders.add({ source: 'cardoona', paymentStatus: 'awaiting_cardoona' })
+   • products.update({ warehouseStock: -qty })
+   • financial_notifications.add({ type: 'cardoona_pending' })
+6. عند استلام النقد من الشركة → admin_plus/super يدوس "استلمت"
+   → Transaction:
+     • orders.update({ paymentStatus: 'paid' })
+     • cashbox.add({ category: 'cardoona_sale', status: 'approved' })
 ```
 
-#### 5. إضافات إلى `<head>` في كل صفحة
-
-```html
-<!-- PWA Meta -->
-<link rel="manifest" href="/gomla/manifest.json">
-<meta name="theme-color" content="#1a2a4a">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="أولاد شعلان">
-<link rel="apple-touch-icon" href="/gomla/assets/icons/icon-192.png">
-```
-
-#### 6. تحميل `pwa-register.js` في كل صفحة
-
-```html
-<!-- قبل إغلاق </body> -->
-<script src="/gomla/assets/js/pwa-register.js"></script>
-```
-
-#### 7. زر "تثبيت التطبيق" (اختياري في الهيدر)
-
-```html
-<button id="pwa-install-btn" onclick="installPWA()" style="display:none;">
-  <i class="fas fa-download"></i>
-  <span>تثبيت التطبيق</span>
-</button>
-```
-
-### ملاحظات مهمة:
-
-| النقطة | التفاصيل |
-|--------|----------|
-| **HTTPS** | لازم (GitHub Pages يدعمه تلقائياً) |
-| **iOS** | التثبيت يدوي عبر Safari → Share → Add to Home Screen |
-| **Android** | يظهر تلقائياً أو من قائمة Chrome |
-| **Firebase** | لا يُخزَّن مؤقتاً (بيانات حية) |
-| **Backblaze B2** | لا يُخزَّن مؤقتاً (روابط مؤقتة) |
+### ملاحظات v17.0 حاسمة
+- **تقسيط كرتونة غير متاح كوسيلة دفع في checkout** — فقط كبند في النظام
+- **يُسجل المبلغ نقداً** بعد استلام النقد من الشركة
+- **Gemini يعمل client-side** (بدون Cloud Functions) — المفتاح في firebase-config.js
+- **احتياطي**: PDF.js لو Gemini فشل
 
 ---
 
-## 🐛 الجزء الخامس والثلاثون: الأخطاء المعروفة والمطلوب إصلاحها
+## 📝 الجزء 30: الفاتورة اليدوية
 
-### المرحلة 2.5.1 — إصلاحات عاجلة
-
-| # | الخطأ | التفاصيل | الحل |
-|---|-------|----------|------|
-| **B1** | **الشحن = 0 بعد التعديل** | في `admin/orders.html` v4.0، لما يوصل المستخدم لخطوة 5 (المراجعة)، حقل `editShippingCost` مش موجود في الصفحة → القيمة بترجع `0` | حفظ القيم في متغيرات عند الخروج من الخطوة 2 |
-| **B2** | **طلب الزائر = "منتج" + 0.00** | سلة الزائر بتخزن حقول مختلف عن checkout (اسم `name` بدل `productName`، `price` بدل `retailPrice`) | قراءة مرنة في checkout + توحيد بنية السلة |
-| **B3** | **مفيش إمكانية إنشاء طلب** | الزائر يقدر يضيف للسلة لكن عند `placeOrder` بيفشل | فحص: (1) Firestore Rules، (2) دالة `placeOrder`، (3) اسم collection |
-| **B4** | **أخطاء غير متفاعلة** | عناصر مش بتشتغل أو في رسائل console errors | تشخيص بعد رفع ملفات: `checkout.html`, `cart.html`, `main.js`, `firestore.rules` |
-
-### متطلبات إصلاح (v15.0):
-
-#### B1 — إصلاح الشحن:
+### Schema `manual_sales/{saleId}`
 ```javascript
-// في admin/orders.html
-let editShippingDraft = { cost: 0, isFree: false, date: '', time: '' };
-
-// عند الخروج من الخطوة 2 (goToStep):
-if (editingStep === 2 && nextStep === 3) {
-  editShippingDraft.cost = parseFloat(document.getElementById('editShippingCost')?.value) || 0;
-  editShippingDraft.isFree = document.getElementById('editFreeShipping')?.checked || false;
-  editShippingDraft.date = document.getElementById('editDeliveryDate')?.value || '';
-  editShippingDraft.time = document.getElementById('editDeliveryTime')?.value || '';
-}
-
-// عند استخدامها في submitEditChanges:
-const shipCost = editShippingDraft.isFree ? 0 : editShippingDraft.cost;
-```
-
-#### B2 — إصلاح بيانات الزائر:
-```javascript
-// في checkout.html — قراءة مرنة
-const normalizeItem = (item) => ({
-  productId: item.productId || item.id,
-  productName: item.productName || item.name || 'منتج',
-  quantity: Number(item.quantity || item.qty || 1),
-  unit: item.unit || 'قطعة',
-  price: Number(item.retailPrice || item.wholesalePrice || item.price || 0),
-  imageUrl: item.imageUrl || item.image || ''
-});
-```
-
-#### B3 — فحص إنشاء الطلب:
-1. تحقق من `firestore.rules`:
-```javascript
-match /orders/{orderId} {
-  allow create: if request.auth != null
-                || request.resource.data.isGuest == true;
+{
+  id, receiptNo,
+  branchId,
+  
+  createdBy, createdByName, createdByRole,
+  
+  type: 'walk_in' | 'trader' | 'other',
+  customerName, customerPhone,
+  traderId, traderCode,
+  
+  items: [...],
+  subtotal, discount, discountType, total,
+  
+  paymentMethod, paymentStatus,
+  paid, remaining,
+  
+  cashboxEntryId,
+  cashboxStatus: 'pending_approval' | 'approved',
+  
+  createdAt
 }
 ```
-2. تحقق من `placeOrder` في checkout.html
-3. تحقق من `db.collection('orders').add()` بترجع `docRef`
+
+### الصلاحيات v17.0
+| الدور | ينشئ | cashboxStatus |
+|-------|------|---------------|
+| super | ✅ | approved |
+| admin_plus | ✅ | approved |
+| admin | ✅ | approved |
+| cashier | ✅ | **pending_approval** |
+
+**ذكر المنشئ** يظهر في:
+- الفاتورة المطبوعة
+- تقرير المبيعات
+- cashbox dashboard
+- activityLog
 
 ---
 
-## 🔄 الجزء السادس والثلاثون: تعديل Workflow الموافقة (v15.0)
+## 🖨️ الجزء 31: نظام الطباعة
 
-### 🔑 القاعدة الجديدة:
+### الطباعة المحلية / PDF محلي
+- كامل التفاصيل (اسم + هاتف + عنوان)
 
-**فقط تعديلات المنتجات تحتاج موافقة العميل — الباقي إشعار فقط.**
+### PDF على استضافة خارجية (Catbox)
+- **مخفي**: العنوان + هاتف العميل
+- احترام الخصوصية
 
-### مقارنة:
+### أنواع المستخدم
+- `retail_cash`, `trader_cash`, `trader_credit`, `guest`, `cardoona`, `manual`
 
-| التغيير | الحالة القديمة | الحالة الجديدة (v15.0) |
-|---------|----------------|-------------------------|
-| **المنتجات** (إضافة/حذف/كميات/أسعار) | `awaiting_approval` + موافقة | `awaiting_approval` + موافقة ⚠️ |
-| **الشحن** | موافقة | **إشعار فقط** + تحديث مباشر ✅ |
-| **التاريخ/الوقت** | موافقة | **إشعار فقط** + تحديث مباشر ✅ |
-| **المندوب** | موافقة | **إشعار فقط** + تحديث مباشر ✅ |
-| **الملاحظات** | موافقة | **إشعار فقط** ✅ |
+---
 
-### التنفيذ في `submitEditChanges`:
+## 🔐 الجزء 32: المفاتيح والأمان (بدون بطاقة ائتمان)
+
+### ImgBB (primary)
+```javascript
+const IMGBB_API_KEY = 'cb056b7fd83c81129d5468c5d03287b4';
+```
+- **الحد**: 32MB ملف / upload
+- **مراقبة**: alert عند الاقتراب من الحد
+
+### Fallback API — نظام Image Uploader v17.0
 
 ```javascript
-// كشف التغييرات
-const oldItemsStr = JSON.stringify((editingOrder.items || []).map(i => ({ pid: i.productId, q: i.quantity, p: i.price })));
-const newItemsStr = JSON.stringify(finalItems.map(i => ({ pid: i.productId, q: i.quantity, p: i.price })));
-const itemsChanged = oldItemsStr !== newItemsStr;
-const shippingChanged = ...;
-const dateChanged = ...;
-const agentChanged = ...;
+const IMAGE_UPLOADERS = [
+  { name: 'imgbb',        apiKey: 'cb056b7fd83c81129d5468c5d03287b4', priority: 1 },
+  { name: 'yourimageshare', apiKey: '0IRG8GPXkoo337Xo',              priority: 2 },
+  { name: 'freeimage',    apiKey: '6d207e02198a847aa98d0a2a901485a5', priority: 3 },
+  { name: 'catbox',       userhash: '832ae296445cd944f9957b3b3',     priority: 4 }
+];
+```
 
-// 🔑 القاعدة الجديدة
-if (itemsChanged) {
-  // يحتاج موافقة
-  updateData.status = 'awaiting_approval';
-  updateData.pendingChanges = { hasChanges: true, ... };
-} else {
-  // إشعار فقط
-  updateData.status = editingOrder.status; // نفس الحالة
-  updateData.lastModifiedAt = now;
-  updateData.notificationSent = true;
-}
-
-// في الحالتين: أرسل إشعار
-if (notify) {
-  const notifType = itemsChanged ? 'order_updated' : 'order_modified';
-  const notifBody = itemsChanged
-    ? `تم تعديل منتجات الطلب #${orderNo} — يحتاج موافقتك`
-    : `تم تعديل بيانات طلبك #${orderNo} — لا حاجة لاتخاذ إجراء`;
-
-  await db.collection('customer_notifications').add({
-    userId: editingOrder.customerId,
-    type: notifType,
-    title: itemsChanged ? 'تعديلات تحتاج موافقة' : 'تم تحديث طلبك',
-    body: notifBody,
-    data: { orderId, changes: { itemsChanged, shippingChanged, dateChanged, agentChanged } },
-    read: false,
-    createdAt: now
-  });
+**آلية `image-uploader.js`**:
+```javascript
+async function uploadImage(file, onProgress) {
+  const compressed = await compressImage(file);
+  for (const uploader of IMAGE_UPLOADERS.sort((a,b) => a.priority - b.priority)) {
+    try {
+      const url = await tryUpload(uploader, compressed, onProgress);
+      if (url) return url;
+    } catch (err) {
+      console.warn(`❌ ${uploader.name} failed:`, err);
+      // نجرب التالي
+    }
+  }
+  throw new Error('كل مصادر رفع الصور فشلت');
 }
 ```
 
+**النتيجة**: صفر خطر انقطاع. لو imgbb فشل، البدائل شغالة.
+
+### Firebase Keys
+- في `firebase-config.js` (client-side) — **لا يمكن إخفاؤها بدون Cloud Functions**
+- **الحماية الفعلية**: **Firestore Rules صارمة** (المفتاح آمن فقط لو القواعد صحيحة)
+- **بدون بطاقة ائتمان** → لا Blaze
+
+### Gemini Key
+- في `firebase-config.js` — **مخاطرة محدودة** (الحد المجاني 15 req/min)
+- يمكن تقييده بـ API key restrictions (HTTP referrers) من Google Cloud Console
+
+### Firestore Rules
+- **صارمة في النهاية** (المرحلة 5)
+- **مرنة في المرحلة 0** (عشان الصفحات تشتغل)
+
+### ❌ محذوف من v16.0
+- **Cloudflare R2** (يطلب بطاقة ائتمان)
+- **Cloud Functions** (Blaze)
+
+### ✅ بدائل PDF
+- **JSON في Firestore** (أساسي)
+- **PDF محلي** (on-demand — jsPDF)
+- **Catbox** (اختياري للنسخ الخارجية) — مجاني، بدون بطاقة
+
 ---
 
-## 💵 الجزء السابع والثلاثون: تأكيد استلام المبلغ (Workflow جديد)
+## 📲 الجزء 33: PWA (بدون تغيير)
 
-### الفكرة:
-عندما الأدمن/أدمن بلص/سوبر أدمن يضغط "تأكيد استلام المبلغ"، يتم **كل شيء دفعة واحدة**.
+manifest.json + service-worker.js + offline.html + sw-strategies.js + pwa-register.js + 8 icons
 
-### الشروط (قبل ظهور الزر):
-- ✅ `deliveryStatus === 'delivered'`
-- ✅ `confirmedByCustomer === true`
-- ✅ `paymentStatus !== 'paid'`
+---
 
-### عند التأكيد — يُنفَّذ التالي:
+## 🖼️ الجزء 34: رفع الصور (متعدد المصادر)
 
+### الملف: `assets/js/image-uploader.js`
 ```javascript
-async function submitConfirmPayment(orderId) {
-  const o = findOrderById(orderId);
-  const now = firebase.firestore.FieldValue.serverTimestamp();
+const IMAGE_PROVIDERS = {
+  imgbb: { ... },
+  yourimageshare: { ... },
+  freeimage: { ... },
+  catbox: { ... }
+};
 
-  const batch = db.batch();
-
-  // 1) تحديث الطلب
-  batch.update(db.collection('orders').doc(orderId), {
-    paymentStatus: 'paid',
-    paid: o.total,
-    remaining: 0,
-    status: 'delivered',        // ← تحويل لحالة "تم التسليم"
-    cashHandedToAdmin: true,
-    cashHandedAt: now,
-    cashHandedToAdminBy: currentAdminId,
-    paymentConfirmedAt: now,
-    paymentConfirmedBy: currentAdminId,
-    updatedAt: now
-  });
-
-  // 2) إضافة في الصندوق (cashbox) — بند "أوردرات دليفري"
-  const cashboxRef = db.collection('cashbox').doc();
-  batch.set(cashboxRef, {
-    type: 'income',
-    category: 'delivery_orders',  // ← بند أوردرات دليفري
-    source: 'order_payment',
-    orderId: orderId,
-    orderNumber: o.orderNo,
-    customerName: o.customerName,
-    amount: o.subtotal,           // ← فلوس المنتجات فقط
-    shippingAmount: o.shippingCost, // ← للمندوب
-    totalAmount: o.total,
-    paymentMethod: o.paymentMethod,
-    deliveryAgentId: o.deliveryAgentId,
-    deliveryAgentName: o.deliveryAgentName,
-    recordedBy: currentAdminId,
-    recordedAt: now,
-    notes: `استلام مبلغ طلب #${o.orderNo}`
-  });
-
-  // 3) حفظ الفاتورة كـ JSON في Firestore
-  const invoiceData = {
-    orderNo: o.orderNo,
-    customerName: o.customerName,
-    customerPhone: o.customerPhone,
-    customerAddress: o.customerAddress,
-    items: o.items,
-    subtotal: o.subtotal,
-    shippingCost: o.shippingCost,
-    isFreeShipping: o.isFreeShipping,
-    total: o.total,
-    userType: detectUserType(o),  // 'retail_cash' | 'trader_cash' | 'trader_credit' | 'guest'
-    paymentMethod: o.paymentMethod,
-    paymentStatus: 'paid',
-    paidAt: now,
-    paidBy: currentAdminId,
-    deliveryAgentName: o.deliveryAgentName,
-    deliveryVehicle: o.deliveryVehicle,
-    generatedAt: now
-  };
-
-  batch.update(db.collection('orders').doc(orderId), {
-    invoice: invoiceData,
-    invoiceSavedAt: now
-  });
-
-  // 4) تسجيل في delivery_collections (تصفية)
-  const collectionRef = db.collection('delivery_collections').doc();
-  batch.set(collectionRef, {
-    deliveryAgentId: o.deliveryAgentId,
-    deliveryAgentName: o.deliveryAgentName,
-    orderId: orderId,
-    orderNumber: o.orderNo,
-    amount: o.total,
-    type: 'settle',
-    method: o.paymentMethod,
-    status: 'confirmed',
-    confirmedBy: currentAdminId,
-    createdAt: now
-  });
-
-  await batch.commit();
-
-  // 5) إشعارات (خارج batch لأنها كولكشن مختلفة)
-  try {
-    await db.collection('customer_notifications').add({
-      userId: o.customerId,
-      type: 'payment_confirmed',
-      title: 'تم تأكيد دفعك',
-      body: `تم استلام مبلغ ${o.total.toFixed(2)} ج.م لطلب #${o.orderNo}`,
-      data: { orderId },
-      read: false,
-      createdAt: now
-    });
-  } catch (e) { console.warn(e); }
-
-  try {
-    await db.collection('admin_notifications').add({
-      userId: o.deliveryAgentId,
-      type: 'settlement_confirmed',
-      title: 'تمت التصفية',
-      body: `تم استلام مبلغ طلب #${o.orderNo}`,
-      data: { orderId },
-      read: false,
-      createdAt: now
-    });
-  } catch (e) { console.warn(e); }
-
-  showToast('تم تأكيد استلام المبلغ وإضافته للصندوق', 'success');
+async function uploadImage(file, onProgress) {
+  // 1. ضغط
+  const compressed = await imageCompression(file, IMAGE_CONFIG);
+  
+  // 2. محاولة كل مزود بالترتيب
+  for (const [name, config] of Object.entries(IMAGE_PROVIDERS)) {
+    try {
+      const url = await uploadTo(name, config, compressed);
+      if (url) {
+        // سجل نجاح
+        await logUploadSuccess(name, url);
+        return url;
+      }
+    } catch (err) {
+      // سجل فشل + جرب التالي
+      logUploadFailure(name, err);
+    }
+  }
+  
+  throw new Error('فشل رفع الصورة عبر كل المصادر');
 }
 ```
 
-### 📦 مصير B2 في هذا النظام:
-
-| السيناريو | الاستخدام |
-|-----------|-----------|
-| **كل طلب عادي** | JSON في Firestore فقط (2-5 KB) |
-| **تصدير PDF عند الطلب** | يرفع على B2 مؤقتاً |
-| **أرشفة سنوية** | PDFs لكل الطلبات → B2 |
-| **نسخ احتياطي** | JSON كامل → B2 شهرياً |
-
-**السبب:**
-- 1800 طلب/شهر × 400 KB = **720 MB** ← 10 GB في سنة تقريباً
-- JSON: 1800 × 5 KB = **9 MB** فقط
-- B2 يفضل للطوارئ والأرشيف
-
-### مزايا حفظ JSON:
-
-| ✅ ميزة | التفاصيل |
-|---------|----------|
-| **صغير جداً** | 2-5 KB لكل طلب |
-| **سريع** | قراءة فورية من Firestore |
-| **قابل للبحث** | Firestore queries تعمل عليه |
-| **قابل لإعادة توليد الطباعة** | `InvoicePrint.print(order)` يشتغل عادي |
-| **مرن** | تقدر تصدّر PDF في أي وقت لو احتجت |
+### إدارة الحصص
+- تتبع استخدام كل مزود في `site_content.upload_stats`
+- تنبيه admin لما يقرب من الحد
 
 ---
 
-## 🚀 الجزء الثامن والثلاثون: المراحل التنفيذية (v15.0)
+## ⚠️ الجزء 35: الأخطاء المعروفة (قائمة شاملة)
 
-### ✅ مكتمل:
-- المرحلة صفر: التنظيف — 100%
-- المرحلة 1: الصفحة الرئيسية والمتاجر — 100%
-- المرحلة 2: صفحات العملاء — 85%
-- المرحلة 2.5: الموصلين + الدفع — 95%
-  - ✅ `admin/orders.html` v4.0
-  - ✅ `admin/assign-delivery.html` v1.0
-  - ✅ نظام الطباعة الموحد
-  - ✅ Cloudflare Worker + B2
-  - ✅ PWA Files
-- المرحلة 6: المحتوى القانوني — 100%
-- المرحلة 7: دليل التسجيل — 100%
+### 🔴 فئة A: أخطاء أمنية حرجة (10)
 
-### 🚧 قيد التنفيذ (المرحلة 2.5.1 — إصلاح الأخطاء):
-- ⏳ B1: إصلاح الشحن = 0
-- ⏳ B2: إصلاح بيانات الزائر
-- ⏳ B3: تفعيل إنشاء الطلب
-- ⏳ B4: الأخطاء الغير متفاعلة
+| # | الخطأ | الملف | الحل |
+|---|-------|-------|------|
+| A1 | مفاتيح API مكشوفة | firebase-config.js | **مقبول** (Spark) + rules صارمة |
+| A2 | `customers create` مفتوح للجميع | firestore.rules | تحديث rule |
+| A3 | `invoices create` مفتوح للجميع | firestore.rules | تحديث rule |
+| A4 | `admins update` يرقّي super | firestore.rules | منع تعديل role |
+| A5 | `activityLog create: if true` | firestore.rules | منع الزوار |
+| A6 | `orders update` يسمح للمندوب بغيّر status | firestore.rules | منع |
+| A7 | `delivery_agents read` لأي مسجل | firestore.rules | منع |
+| A8 | إشعارات المندوبين ممنوعة من القراءة | firestore.rules | تعديل rule |
+| A9 | الزائر لا يستطيع قراءة order-success/tracking | firestore.rules | تعديل rule |
+| A10 | `FRONTEND_TOKEN` في العميل (v15) | invoice-storage.js | **محذوف** (R2 مش مستخدم) |
 
-### ⏳ متبقي:
-- `admin/delivery-settlements.html`
-- `admin/cashbox.html` (بند أوردرات دليفري)
-- `customer/orders.html` (زر تأكيد الاستلام)
-- تحديث `admin/orders.html` (Workflow الموافقة الجديد — الجزء 36)
-- المرحلة 3: لوحة التحكم — 0%
-- المرحلة 4: الأنظمة المالية — 0%
-- المرحلة 5: الأنظمة التشغيلية — 0%
+### 🔴 فئة B: ميزات مكسورة (35)
+
+| # | الملف | المشكلة |
+|---|-------|---------|
+| B1 | admin/customers.html | "Klasno" قبل DOCTYPE + function ناقصة + script src فاضي |
+| B2 | admin/dashboard.html | يستخدم orders_wholesale/retail (غير موجودين) |
+| B3 | admin/invoices.html | const db = SyntaxError + invoice.html مش موجود |
+| B4 | admin/products.html | حذف تصنيف/براند = حذف كل المنتجات |
+| B5 | admin/products.html | يحفظ hasOffer فقط، الصفحات تقرأ hasRetailOffer |
+| B6 | admin/products.html | retailUnit vs retailunit bug |
+| B7 | admin/products.html | lowStockThreshold متثبت على 5 |
+| B8 | admin/products.html | showToast مكرر + HTML مكسور |
+| B9 | admin/home + customers | يحملون core.js/sidebar.js/admin.js المحذوفين |
+| B10 | main.js | logoutAdmin() غير موجودة |
+| B11 | main.js | مسارات صور relative |
+| B12 | main.js | updatePublicStats() محظورة بالـ rules |
+| B13 | cart.html | isGuest (المعرّف isGuestUser) |
+| B14 | cart.html | سلة الزائر بدون productName/imageUrl |
+| B15 | checkout.html | region غير محمي |
+| B16 | order-success.html | الزائر لا يقدر يشوف |
+| B17 | admin/registration-requests | approveRequest يضيع _currentRequest |
+| B18 | admin/delivery-agents | تسريب Auth orphans |
+| B19 | delivery/available | Composite Index مطلوب |
+| B20 | delivery/home + order-details | المندوب يعمل تأكيد دفع بنفسه |
+| B21 | delivery-login | مسار نسبي delivery/home.html |
+| B22 | customer-login | دخول المندوب/الكاشير مستحيل |
+| B23 | customer-home | "عروض مميزة" فاضي |
+| B24 | trader-home | "خصومات" فاضي |
+| B25 | offers.html | دايماً فاضي |
+| B26 | discounts.html | دايماً فاضي |
+| B27 | brand-products | لا يعرض عرض/خصم |
+| B28 | category-products | لا يعرض عرض/خصم |
+| B29 | store-wholesale | HTML مكسور |
+| B30 | product-details | زر "تعديل" مش شغال |
+| B31 | index.html | رقم واتساب غلط |
+| B32 | index.html | إيميل غلط |
+| B33 | tracking + support | رقم واتساب غلط |
+| B34 | about.html | إحصائيات دايماً fallback |
+| B35 | notification.html | غير realtime + batch limit 500 |
+| B36 | register-guide | userId: 'all_admins' ضائعة |
+| B37 | categories.html | N+1 query |
+| B38 | products.html | HTML مكسور (form-row جوه form-row) |
+| B39 | coupon/logout | cashier لا يستطيع الخروج |
+| B40 | customer-login | يحوّل تاجر لـ trader-home.html (404) |
+
+### 🔴 فئة C: تعارضات Schema (10)
+
+| # | المشكلة |
+|---|---------|
+| C1 | orders vs orders_wholesale/retail |
+| C2 | invoices vs invoices_wholesale/retail |
+| C3 | hasOffer/offerPrice vs hasRetailOffer |
+| C4 | hasWholesaleDiscount مش متحفظ في admin/products |
+| C5 | admin_plus مش في شراء |
+| C6 | paymentStatus غير موحد |
+| C7 | notes vs traderNotes |
+| C8 | discount غير موحد |
+| C9 | customerId vs uid vs id |
+| C10 | deliveryAgentId: '' غير مضمون في checkout |
+
+### 🔴 فئة D: ملفات ناقصة (35)
+
+- 24 صفحة admin/pages جديدة
+- 6 صفحات cashier
+- 8 صفحات PWA
+- 8 PWA icons
+- صور welcome
+- logo.png
+- invoice.html
+
+### 🟡 فئة E: مسارات تحتاج نقل (7)
+
+- customer-home, customer-login, customer-register
+- trader-home, trader-login
+- delivery-login
+- cashier-login
+
+### 🟡 فئة F: مشاكل معمارية (15)
+
+- نمطان مختلطان (placeholders vs inline)
+- صفحة دخول مختلفة (IIFE واحدة)
+- 5 صفحات محتوى بـ ~500 سطر مكرر
+- main.js 1500+ سطر
+- logging غير مركزي
+- validation على السيرفر مفقود
+- migrations مفقودة
+- schema versioning مفقود
+- نظام أذونات موحد مفقود
+- حقن HTML بدون sanitize
+- اختبارات صفر
+- version control strategy
+
+### 🟢 فئة G: تحسينات UX (10)
+
+- notification.html يحول لـ notifications.html
+- store-retail لحماية trader
+- order-success يخفي حساس للزائر
+- checkout validation على السيرفر
+- products.html pagination cursor-based
+- categories.html N+1
+- delivery/home realtime refresh
+- wallet fee واضح
+- shipping-rates admin panel
+- brands grayscale effect
+
+**الإجمالي: ~**100 مشكلة****
 
 ---
 
-## 🔑 الجزء التاسع والثلاثون: المفاتيح والإعدادات
+## 🚀 الجزء 36: المراحل التنفيذية
+
+| المرحلة | المدة | المخرجات |
+|---------|-------|----------|
+| **0** | 1-2 يوم | Backup + إصلاحات طوارئ (A2-A9 + B1-B12) |
+| **1** | 3-4 أيام | Schema + Migrations (B4-B9 + C1-C10) |
+| **2** | 5-7 أيام | Redesign كل الصفحات |
+| **3** | 7-10 أيام | ميزات جديدة (كاشير + فروع + جرد + كرتونة Gemini + brands-manager + shipping-rates + manual) |
+| **4** | 1-2 يوم | image-uploader.js (4 fallbacks) + Gemini integration |
+| **5** | 2-3 أيام | Rules صارمة + اختبار كامل |
+| **6** | 1 يوم | دستور v17.1 |
+
+### المرحلة 0 — تفصيل
+1. Backup Firestore كامل
+2. إصلاح `customers.html`
+3. إصلاح `store-wholesale.html`
+4. توحيد `orders`/`invoices`
+5. إصلاح `logoutAdmin`
+6. إصلاح صور main.js
+7. تصحيح WhatsApp/Email
+8. إصلاح schema العروض في admin/products
+9. **Rules مرنة مؤقتة**
+10. تقرير قبل/بعد
+
+---
+
+## 🔑 الجزء 37: المفاتيح والإعدادات
 
 ```javascript
 // Firebase
@@ -1416,27 +1320,21 @@ const firebaseConfig = {
   apiKey: "AIzaSyCdU3HadKWtzKtTAO9x7mcVPq6eodTqPzA",
   authDomain: "awlad-shalaan-wholesale.firebaseapp.com",
   projectId: "awlad-shalaan-wholesale",
-  storageBucket: "awlad-shalaan-wholesale.firebasestorage.app",
-  messagingSenderId: "390602001768",
-  appId: "1:390602001768:web:05ec185f34ff0b5f7c1add"
+  // ...
 };
 
-// Backblaze B2
-const B2_CONFIG = {
-  endpoint: 's3.us-east-005.backblazeb2.com',
-  bucket: 'awlad-shalaan-invoices',
-  region: 'us-east-005',
-  keyId: '00546f2cb06160f0000000002'
-  // applicationKey محفوظ في Cloudflare Worker Secrets
+// Image Uploaders (multi-fallback)
+const IMAGE_UPLOADERS = {
+  imgbb:          { apiKey: 'cb056b7fd83c81129d5468c5d03287b4', priority: 1 },
+  yourimageshare: { apiKey: '0IRG8GPXkoo337Xo',              priority: 2 },
+  freeimage:      { apiKey: '6d207e02198a847aa98d0a2a901485a5', priority: 3 },
+  catbox:         { userhash: '832ae296445cd944f9957b3b3',      priority: 4 }
 };
 
-// Cloudflare Worker
-const WORKER_URL = 'https://awlad-shalaan-invoice-worker.awladsh3laan.workers.dev';
-const FRONTEND_TOKEN = '[في invoice-storage.js]';
-
-// Other Keys
-const IMGBB_API_KEY = "cb056b7fd83c81129d5468c5d03287b4";
+// Gemini
 const GEMINI_API_KEY = "AQ.Ab8RN6J_44fb2fdP2YWWxwq0aNnG7DXJnSv3O8whicffxAj_g";
+
+// Constants
 const WHATSAPP_NUMBER = "01068385028";
 const PAYMENT_ACCOUNT = "01068385028";
 const SUPPORT_EMAIL = "awladsh3laan@gmail.com";
@@ -1444,175 +1342,136 @@ const SUPPORT_EMAIL = "awladsh3laan@gmail.com";
 
 ---
 
-## 📊 الجزء الأربعون: إحصائيات المشروع (v15.0)
+## 📊 الجزء 38: إحصائيات المشروع
 
-| المقياس | العدد |
-|---------|------|
-| الصفحات المكتملة | **~60** |
-| الصفحات المتبقية (المرحلة 2.5) | **3** |
-| صفحات المرحلة 3-5 | **~30** |
-| الكولكشنز في Firestore | **48** |
-| الأنظمة الكاملة | **52** |
-| نسبة الإنجاز الكلي | **~75%** |
-
-| المرحلة | الحالة |
-|---------|--------|
-| المرحلة صفر | ✅ 100% |
-| المرحلة 1 | ✅ 100% |
-| المرحلة 2 | 🚧 85% |
-| المرحلة 2.5 | 🚧 95% |
-| **المرحلة 2.5.1 (إصلاحات)** | 🚧 0% ← **التالي** |
-| المرحلة 3 | ⏳ 0% |
-| المرحلة 4 | ⏳ 0% |
-| المرحلة 5 | ⏳ 0% |
-| المرحلة 6 | ✅ 100% |
-| المرحلة 7 | ✅ 100% |
+| المقياس | v16.0 | v17.0 |
+|---------|-------|-------|
+| الصفحات المكتملة | ~57 | ~57 |
+| الصفحات المتبقية | ~30 | ~32 (+blocked) |
+| الكوليكشنز | 54 | **55** |
+| الأنظمة | 60 | **63** |
+| المشاكل المعروفة | ~100 | ~100 |
+| نسبة الإنجاز | Redesign | Redesign |
 
 ---
 
-## 🎯 الجزء الحادي والأربعون: الأنظمة الكاملة (52 نظام)
+## ✅ الجزء 39: القرارات النهائية v17.0
 
-(47 نظام من v14.0 — كلها محفوظة)
+1-95. **كل قرارات v16.0 محفوظة (مع تعديلات)**
 
-**+ الإضافات الجديدة (v15.0):**
-| # | النظام | الحالة |
-|---|--------|--------|
-| 48 | **نظام الطباعة الموحد (InvoicePrint)** | ✅ |
-| 49 | **الرفع الآمن على B2 عبر Worker** | ✅ |
-| 50 | **إدارة المندوبين المركزي (assign-delivery)** | ✅ |
-| 51 | **PWA — تطبيق موبايل فعلي** | ✅ (ملفات) |
-| 52 | **حفظ JSON للفواتير في Firestore** | ✅ (موثق — يطبق في 2.5.1) |
-
----
-
-## 🎯 الجزء الثاني والأربعون: تعليمات المحادثة الجديدة
-
-```
-عند بدء محادثة جديدة:
-1. ارفع CONSTITUTION.md (هذا الملف — v15.0)
-2. ارفع آخر ملفات عملنا عليها
-3. اكتب:
-   "أنا أعمل على مشروع أولاد شعلان جملة.
-   راجع الدستور v15.0 أولاً.
-   آخر ملف: [اسم الملف]
-   المرحلة: [رقم المرحلة]
-   أكمل من حيث توقفنا."
-```
+**+ الإضافات الجديدة:**
+96. **Image Uploader multi-fallback** (4 مزودين)
+97. **إدارة الفروع** تحت admin_plus
+98. **مبيعات الكاشير** إنشاء admin_plus+super، تعديل super فقط
+99. **الصفحة الرئيسية 12 سيكشن** (جديد)
+100. **أحدث العروض/الخصومات** برسالة منبثقة 7 ثوانٍ
+101. **الموصل ممنوع** من صفحات الموقع الرئيسي
+102. **عرض الأسعار حسب الصلاحية** (5 مستويات)
+103. **partners محذوف** → brands بديل
+104. **الآجل** بحد 5000 ج.م + مدة 7 أيام + رسوم محفظة 10ج/1000ج
+105. **كرتونة تقسيط** غير متاح كوسيلة دفع (بند كاش فقط)
+106. **shipping-rates admin panel**
+107. **Gemini** أساسي لكرتونة (prompt محسّن)
+108. **PDF.js** احتياطي لكرتونة
+109. **Cloudflare R2 محذوف** (يطلب بطاقة)
+110. **Catbox** بديل PDF خارجي
+111. **Firebase Storage** غير مستخدم (البطاقة)
+112. **كل الفواتير JSON في Firestore** (أساسي)
 
 ---
 
-## 🚀 الجزء الثالث والأربعون: الخطوة القادمة
+## 🎯 الجزء 40: الخطوة القادمة
 
-### الأولوية العاجلة (المرحلة 2.5.1):
+**بعد موافقتك على v17.0**، نبدأ **المرحلة 0** فوراً.
 
-**الترتيب المقترح:**
+### المرحلة 0 — المهام
+1. Backup Firestore كامل
+2. إصلاح `customers.html` المكسور
+3. إصلاح `store-wholesale.html`
+4. توحيد `orders`/`invoices`
+5. إصلاح `logoutAdmin`
+6. إصلاح صور main.js
+7. تصحيح WhatsApp/Email في 4 صفحات
+8. إصلاح schema العروض في admin/products
+9. **Rules مرنة مؤقتة**
+10. تقرير قبل/بعد
 
-1. 🐛 **B1-B4: إصلاح الأخطاء الأربعة**
-   - إرسال: `checkout.html`, `cart.html`, `main.js`, `firestore.rules`
-   - تشخيص + إصلاح
-   - اختبار كامل على الزائر + العميل + التاجر
-
-2. 🔄 **تطبيق Workflow الموافقة الجديد** على `admin/orders.html`
-   - المنتجات فقط تحتاج موافقة
-   - الباقي إشعار فقط
-
-3. 💵 **تطبيق Workflow تأكيد الدفع** على `admin/orders.html`
-   - Cashbox entry + JSON invoice + status: delivered
-
-### بعد ذلك:
-
-4. ⏳ `admin/delivery-settlements.html`
-5. ⏳ تحديث `admin/cashbox.html` (بند أوردرات دليفري)
-6. ⏳ تحديث `customer/orders.html` (زر تأكيد الاستلام)
-
-### ثم:
-
-7. المرحلة 3 (لوحة التحكم — 9 صفحات)
-8. المرحلة 4 (الأنظمة المالية — 5 صفحات)
-9. المرحلة 5 (الأنظمة التشغيلية — 11 صفحة)
+**بعد المرحلة 0** → نحدّث الدستور v17.1 وندخل المرحلة 1.
 
 ---
 
-## ✅ الجزء الرابع والأربعون: القرارات النهائية (v15.0)
+## 📌 ملاحظات ختامية
 
-1-60. **كل القرارات السابقة محفوظة**
-
-**+ الإضافات الجديدة (v15.0):**
-61. **نظام طباعة موحد** في `invoice-print.js` v1.1
-62. **Cloudflare Worker** كـ proxy آمن لـ B2 (لا مفاتيح في الفرونت)
-63. **Backblaze B2** للطوارئ والأرشيف فقط
-64. **JSON في Firestore** للفواتير العادية (الأساسي)
-65. **PWA كامل** — الموقع يشتغل كتطبيق موبايل
-66. **Service Worker** بـ Network First للـ HTML/JS و Cache First للصور
-67. **إصلاح Bug B1** — الشحن بعد التعديل
-68. **إصلاح Bug B2** — بيانات الزائر
-69. **إصلاح Bug B3** — إنشاء الطلب
-70. **تعديلات المنتجات فقط تحتاج موافقة** — الباقي إشعار
-71. **تأكيد الدفع = Cashbox + JSON invoice + status: delivered**
-72. **بيانات المندوب على الفاتورة** لكل الطلبات (سيارة / موتوسكل / دراجة)
-73. **48 كولكشن** (زيادة `invoice_archives`)
-74. **صفحة `assign-delivery.html`** v1.0
-75. **حماية إضافية** لكل صفحات الطباعة (تحقق من الصلاحية قبل الطباعة)
+1. **كل صورة/فيلم/نص** يجب أن يكون له بديل (fallback) — لضمان استمرارية الموقع
+2. **كل عملية مالية** يجب أن تكون في Transaction (ذرّية)
+3. **كل إشعار** يجب أن يكون fan-out (لكل أدمن UID حقيقي)
+4. **كل فاتورة** يجب أن تُسجّل `createdBy` + `createdAt`
+5. **كل صفحة** يجب أن تحمي نفسها IIFE قبل أي كود
+6. **الدستور حي** — يُحدَّث بعد كل مرحلة
+7. **الـ Repo واحد** — branch `redesign` للتطوير
+8. **Firebase Project واحد** — نفس المشروع
+9. **الأمان في النهاية** — rules صارمة بعد إصلاح الصفحات
+10. **Spark Plan فقط** — بدون Cloud Functions، بدون بطاقة
 
 ---
 
-## 📝 ملاحظات نهائية
+**هذا هو المرجع الرسمي الكامل v17.0 ✅**
 
-1. **كل الإيموجي ممنوعة** — Font Awesome فقط
-2. **حماية الأدوار مطبقة** في كل صفحة
-3. **الجلسات المتعددة** (4 مفاتيح: admin, customer, cashier, deliveryData)
-4. **الموصلون يدخلون بالكود فقط** `DEL-XXXXX@#$`
-5. **التجار يدخلون بالكود فقط** `MHL-XXXX`
-6. **الإجمالي دائمًا ينتهي بـ 0 أو 5**
-7. **فلوس الشحن للموصل، فلوس المنتجات للصندوق**
-8. **أدمن بلص يدير الموصلين + يراجع طلبات التسجيل**
-9. **السوبر أدمن فقط يدير المحتوى والشركاء والإعدادات**
-10. **تصميم login موحّد (عمودين + صورة + أنيميشنات)**
-11. **🆕 نظام الطباعة موحد** — كل الصفحات تستخدم نفس الأسلوب
-12. **🆕 B2 للطوارئ فقط** — JSON هو الأساسي
-13. **🆕 PWA = تطبيق حقيقي** على الموبايل
-14. **🆕 تعديلات المنتجات فقط** تحتاج موافقة
-15. **🆕 تأكيد الدفع = Cashbox + JSON + status: delivered**
-
----
-
-## ✅ هذا هو المرجع الرسمي الكامل للمشروع (v15.0)
-
-**آخر تحديث:** 2026-10-18
-**الإصدار:** 15.0
-**الحالة:** المرحلة 2.5.1 — إصلاح الأخطاء + تطبيق Workflow الجديد
-
-**عند بدء محادثة جديدة:**
-- ارفع هذا الملف أولاً
-- ارفع آخر ملفات عملنا عليها
-- أخبرني بالخطوة القادمة
-
----
-
-**دي النسخة الكاملة من الدستور v15.0 ✅**
-
-**قولي دلوقتي:**
-- **"احفظ وأبدأ"** → ابدأ مباشرة في المرحلة 2.5.1
-- **"فيه تعديل"** → عدّل أي جزء
-- **"ابعت الملفات"** → ابدأ في تشخيص B1-B4
+**آخر تحديث:** 2026-10-19
+**الحالة:** المرحلة 0 — استعداد للتنفيذ
 ```
 
 ---
 
-## 📋 ملخص ما تم إضافته في v15.0
+# 🎯 رأيي في التعديلات
 
-| # | القسم | النوع |
-|---|-------|-------|
-| 1 | **الجزء 32** — نظام الطباعة الموحد | 🆕 جديد كامل |
-| 2 | **الجزء 33** — Cloudflare Worker + B2 | 🆕 جديد كامل |
-| 3 | **الجزء 34** — PWA (تطبيق موبايل) | 🆕 جديد كامل |
-| 4 | **الجزء 35** — الأخطاء B1-B4 | 🆕 جديد كامل |
-| 5 | **الجزء 36** — Workflow الموافقة الجديد | 🆕 جديد كامل |
-| 6 | **الجزء 37** — Workflow تأكيد الدفع | 🆕 جديد كامل |
-| 7 | هيكل الملفات | ✏️ محدّث (PWA + worker + icons) |
-| 8 | 48 كولكشن (+ `invoice_archives`) | ✏️ محدّث |
-| 9 | 52 نظام (+ 5 جديد) | ✏️ محدّث |
-| 10 | القرارات 61-75 | 🆕 جديد |
-| 11 | Timeline | ✏️ محدّث (2.5.1) |
+## ملاحظاتي على تعديلاتك:
 
-**جاهز للخطوة القادمة:** قولي **"احفظ وأبدأ"** أو **"ابعت الملفات"** عشان نبدأ في B1-B4.
+### ✅ ممتازة:
+1. **ImgBB + 3 fallbacks** — حل ذكي جداً. الحد الفعلي 32MB/upload مش/ساعة. البدائل شغالة.
+2. **الموصل ممنوع** — قرار صحيح (أمان + UX)
+3. **الآجل بحد 5000 + 7 أيام** — منطقي جداً
+4. **رسوم محفظة 10ج/1000ج على الآجل** — يغطي التكلفة الفعلية
+5. **شركاء → علامات تجارية** — يستخدم infrastructure موجود
+6. **Gemini أولاً** — أفضل من PDF.js (أذكى في فهم النصوص العربية)
+7. **إخفاء بيانات في PDF خارجي فقط** — قرار أمني سليم
+8. **shipping-rates admin panel** — ضروري جداً
+9. **إدارة الفروع تحت admin_plus** — منطقي
+10. **تعديل مبيعات كاشير = super فقط** — أمان مالي
+
+### ⚠️ 3 ملاحظات تقنية:
+
+**1. Gemini API — الحصة المجانية**
+- **الحد**: 15 request/min, 1M tokens/day (كافي جداً)
+- **لا يحتاج بطاقة** ✅
+- **لكن**: المفتاح في العميل = أي حد يستهلكه
+- **الحل**: API key restrictions (HTTP referrers) من Google Cloud Console — مجاني
+
+**2. لماذا Cloudflare R2 رُفض؟**
+- R2 يحتاج بطاقة (للتحقق فقط، حتى في الخطة المجانية)
+- **البديل الصحيح**: **Catbox** (اللي إنت عملته) — مجاني، لا بطاقة، 200MB/file
+- **JSON في Firestore** = 10MB max/doc — **كافي جداً** لفاتورة
+
+**3. عرض الأسعار (5 مستويات) — تحديث منطقي**
+- guest/retail: قطاعي فقط
+- trader: جملة فقط
+- cashier/admin/admin_plus/super: **الاثنين** (مفيد جداً للتشغيل)
+- delivery: **لا شيء** (ممنوع)
+
+---
+
+## 🚀 جاهز للبدء؟
+
+**لو موافق على دستور v17.0**، قول:
+
+**"يلا نبدأ المرحلة 0"**
+
+وأنا هبعتلك في الرد التالي:
+- ✅ **Backup Script** (Firestore كامل)
+- ✅ **10 ملفات إصلاح** جاهزة (customers.html, store-wholesale.html, main.js, firebase-config.js, admin/products.html, firestore.rules مؤقت, وأكثر)
+- ✅ **تقرير قبل/بعد** لكل ملف
+- ✅ **خطوات الاختبار**
+
+**كل ملف هيبقى كود كامل جاهز للنسخ المباشر** — بدون "أضف كذا" أو "عدّل كذا". كود نهائي.
+
+**قولي "يلا نبدأ" 🚀**
