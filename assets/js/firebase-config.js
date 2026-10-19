@@ -40,11 +40,11 @@ window.db.enablePersistence({ synchronizeTabs: true })
 // ============================================================
 window.WORKER_URL = 'https://awlad-shalaan-apis.awladsh3laan.workers.dev';
 
-// المسارات المتوقعة في الـ Worker
 window.WORKER_ENDPOINTS = {
   uploadImage: `${window.WORKER_URL}/api/upload-image`,
   gemini:      `${window.WORKER_URL}/api/gemini`,
-  pdf:         `${window.WORKER_URL}/api/pdf`
+  pdf:         `${window.WORKER_URL}/api/pdf`,
+  health:      `${window.WORKER_URL}/health`
 };
 
 // ============================================================
@@ -504,8 +504,7 @@ window.uploadImage = async function(file, onProgress) {
   if (onProgress) onProgress(20);
 
   const formData = new FormData();
-  formData.append('file', compressed);
-
+formData.append('image', compressed);  // ✅
   let response;
   try {
     response = await fetch(window.WORKER_ENDPOINTS.uploadImage, {
