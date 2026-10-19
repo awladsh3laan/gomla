@@ -15,10 +15,9 @@
 
   <style>
     /* ============================================================
-       🎨 ستايل صفحة العميل الرئيسية
+       🎨 ستايل صفحة العميل الرئيسية (customer/home.html)
        ============================================================ */
 
-    /* ===== رأس الترحيب ===== */
     .welcome-header {
       background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
       border-radius: var(--radius-lg);
@@ -30,822 +29,397 @@
       box-shadow: 0 12px 40px rgba(37, 99, 235, 0.25);
       border-bottom: 4px solid var(--gold);
     }
-
     .welcome-header::before {
       content: '';
       position: absolute;
-      top: -50%;
-      right: -15%;
-      width: 350px;
-      height: 350px;
+      top: -50%; right: -15%;
+      width: 350px; height: 350px;
       background: radial-gradient(circle, rgba(255, 255, 255, 0.12) 0%, transparent 70%);
       border-radius: 50%;
       animation: float 8s ease-in-out infinite;
     }
-
     .welcome-header::after {
       content: '';
       position: absolute;
-      bottom: -40%;
-      left: -10%;
-      width: 250px;
-      height: 250px;
+      bottom: -40%; left: -10%;
+      width: 250px; height: 250px;
       background: radial-gradient(circle, rgba(201, 168, 76, 0.2) 0%, transparent 70%);
       border-radius: 50%;
       animation: float 10s ease-in-out infinite reverse;
     }
-
     .welcome-header-content {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
+      position: relative; z-index: 1;
+      display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
     }
-
-    .welcome-header-content .avatar-wrap {
-      position: relative;
-      flex-shrink: 0;
-    }
-
+    .welcome-header-content .avatar-wrap { position: relative; flex-shrink: 0; }
     .welcome-header-content .avatar-wrap img {
-      width: 90px;
-      height: 90px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 4px solid var(--gold);
+      width: 90px; height: 90px; border-radius: 50%;
+      object-fit: cover; border: 4px solid var(--gold);
       background: var(--white);
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
       animation: logo-pulse 3s ease-in-out infinite;
     }
-
     .welcome-header-content .avatar-wrap .online-dot {
-      position: absolute;
-      bottom: 6px;
-      right: 6px;
-      width: 18px;
-      height: 18px;
-      background: #22c55e;
-      border-radius: 50%;
+      position: absolute; bottom: 6px; right: 6px;
+      width: 18px; height: 18px;
+      background: #22c55e; border-radius: 50%;
       border: 3px solid var(--white);
       box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.3);
       animation: pulse 2s ease-in-out infinite;
     }
-
-    .welcome-header-content .welcome-text {
-      flex: 1;
-      min-width: 200px;
-    }
-
+    .welcome-header-content .welcome-text { flex: 1; min-width: 200px; }
     .welcome-header-content .welcome-text h1 {
-      font-size: 1.6rem;
-      font-weight: 900;
-      margin-bottom: 6px;
-      line-height: 1.3;
+      font-size: 1.6rem; font-weight: 900;
+      margin-bottom: 6px; line-height: 1.3;
     }
-
-    .welcome-header-content .welcome-text h1 .gold {
-      color: var(--gold);
-    }
-
+    .welcome-header-content .welcome-text h1 .gold { color: var(--gold); }
     .welcome-header-content .welcome-text p {
-      font-size: 0.9rem;
-      opacity: 0.9;
-      margin-bottom: 10px;
+      font-size: 0.9rem; opacity: 0.9; margin-bottom: 10px;
     }
-
     .welcome-header-content .welcome-text .user-badges {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
+      display: flex; gap: 8px; flex-wrap: wrap;
     }
-
     .welcome-header-content .welcome-text .user-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
+      display: inline-flex; align-items: center; gap: 5px;
       background: rgba(255, 255, 255, 0.15);
-      padding: 5px 12px;
-      border-radius: var(--radius-full);
-      font-size: 0.75rem;
-      font-weight: 700;
+      padding: 5px 12px; border-radius: var(--radius-full);
+      font-size: 0.75rem; font-weight: 700;
       border: 1px solid rgba(255, 255, 255, 0.2);
       backdrop-filter: blur(10px);
     }
+    .welcome-header-content .welcome-text .user-badge i { color: var(--gold); }
 
-    .welcome-header-content .welcome-text .user-badge i {
-      color: var(--gold);
-    }
-
-    /* ===== الإحصائيات ===== */
     .customer-stats-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-      gap: 14px;
-      margin-bottom: 24px;
+      gap: 14px; margin-bottom: 24px;
     }
-
     .customer-stat-card {
-      background: var(--white);
-      border-radius: var(--radius-md);
-      padding: 18px;
-      box-shadow: var(--shadow-sm);
+      background: var(--white); border-radius: var(--radius-md);
+      padding: 18px; box-shadow: var(--shadow-sm);
       border: 1px solid var(--gray-200);
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      transition: var(--transition);
-      cursor: pointer;
-      text-decoration: none;
-      color: inherit;
-      position: relative;
-      overflow: hidden;
+      display: flex; align-items: center; gap: 14px;
+      transition: var(--transition); cursor: pointer;
+      text-decoration: none; color: inherit;
+      position: relative; overflow: hidden;
     }
-
     .customer-stat-card::before {
       content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 4px;
-      height: 100%;
+      position: absolute; top: 0; right: 0;
+      width: 4px; height: 100%;
       background: var(--gold);
-      transform: scaleY(0);
-      transform-origin: bottom;
+      transform: scaleY(0); transform-origin: bottom;
       transition: transform 0.4s ease;
     }
-
-    .customer-stat-card:hover::before {
-      transform: scaleY(1);
-    }
-
+    .customer-stat-card:hover::before { transform: scaleY(1); }
     .customer-stat-card:hover {
       transform: translateY(-4px);
       box-shadow: var(--shadow-lg);
       border-color: var(--gold-light);
     }
-
     .customer-stat-card .stat-icon-wrap {
-      width: 50px;
-      height: 50px;
-      border-radius: var(--radius-sm);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.4rem;
-      flex-shrink: 0;
+      width: 50px; height: 50px; border-radius: var(--radius-sm);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
     }
-
-    .customer-stat-card .stat-icon-wrap.blue {
-      background: rgba(37, 99, 235, 0.12);
-      color: #2563eb;
-    }
-
-    .customer-stat-card .stat-icon-wrap.green {
-      background: rgba(34, 197, 94, 0.12);
-      color: #16a34a;
-    }
-
-    .customer-stat-card .stat-icon-wrap.gold {
-      background: rgba(201, 168, 76, 0.15);
-      color: var(--gold-dark);
-    }
-
-    .customer-stat-card .stat-icon-wrap.red {
-      background: rgba(239, 68, 68, 0.12);
-      color: #dc2626;
-    }
-
-    .customer-stat-card .stat-icon-wrap.purple {
-      background: rgba(139, 92, 246, 0.12);
-      color: #7c3aed;
-    }
-
-    .customer-stat-card .stat-info-wrap {
-      flex: 1;
-      min-width: 0;
-    }
-
+    .customer-stat-card .stat-icon-wrap.blue { background: rgba(37, 99, 235, 0.12); color: #2563eb; }
+    .customer-stat-card .stat-icon-wrap.green { background: rgba(34, 197, 94, 0.12); color: #16a34a; }
+    .customer-stat-card .stat-icon-wrap.gold { background: rgba(201, 168, 76, 0.15); color: var(--gold-dark); }
+    .customer-stat-card .stat-icon-wrap.red { background: rgba(239, 68, 68, 0.12); color: #dc2626; }
+    .customer-stat-card .stat-icon-wrap.purple { background: rgba(139, 92, 246, 0.12); color: #7c3aed; }
+    .customer-stat-card .stat-info-wrap { flex: 1; min-width: 0; }
     .customer-stat-card .stat-number {
-      font-size: 1.5rem;
-      font-weight: 900;
-      color: var(--navy);
-      line-height: 1.2;
-      margin-bottom: 2px;
+      font-size: 1.5rem; font-weight: 900;
+      color: var(--navy); line-height: 1.2; margin-bottom: 2px;
     }
-
-    .customer-stat-card .stat-number.gold {
-      color: var(--gold-dark);
-    }
-
-    .customer-stat-card .stat-number.green {
-      color: #16a34a;
-    }
-
-    .customer-stat-card .stat-number.red {
-      color: #dc2626;
-    }
-
+    .customer-stat-card .stat-number.gold { color: var(--gold-dark); }
+    .customer-stat-card .stat-number.green { color: #16a34a; }
+    .customer-stat-card .stat-number.red { color: #dc2626; }
     .customer-stat-card .stat-label {
-      font-size: 0.78rem;
-      color: var(--gray-500);
-      font-weight: 600;
+      font-size: 0.78rem; color: var(--gray-500); font-weight: 600;
     }
 
-    /* ===== الوصول السريع ===== */
     .quick-access-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-      gap: 12px;
-      margin-bottom: 24px;
+      gap: 12px; margin-bottom: 24px;
     }
-
     .quick-access-card {
-      background: var(--white);
-      border-radius: var(--radius-md);
-      padding: 18px 12px;
-      text-align: center;
-      box-shadow: var(--shadow-sm);
-      text-decoration: none;
-      color: var(--gray-800);
-      border: 2px solid transparent;
+      background: var(--white); border-radius: var(--radius-md);
+      padding: 18px 12px; text-align: center;
+      box-shadow: var(--shadow-sm); text-decoration: none;
+      color: var(--gray-800); border: 2px solid transparent;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-      opacity: 0;
-      transform: translateY(-20px);
+      display: flex; flex-direction: column;
+      align-items: center; gap: 8px;
+      cursor: pointer; position: relative; overflow: hidden;
+      opacity: 0; transform: translateY(-20px);
       animation: dropIn 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
     }
-
     .quick-access-card:nth-child(1) { animation-delay: 0.05s; }
     .quick-access-card:nth-child(2) { animation-delay: 0.1s; }
     .quick-access-card:nth-child(3) { animation-delay: 0.15s; }
     .quick-access-card:nth-child(4) { animation-delay: 0.2s; }
     .quick-access-card:nth-child(5) { animation-delay: 0.25s; }
     .quick-access-card:nth-child(6) { animation-delay: 0.3s; }
-
     @keyframes dropIn {
-      0% {
-        opacity: 0;
-        transform: translateY(-20px) scale(0.9);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
+      0% { opacity: 0; transform: translateY(-20px) scale(0.9); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
     }
-
     .quick-access-card:hover {
       transform: translateY(-6px);
       box-shadow: var(--shadow-lg);
       border-color: var(--gold);
     }
-
     .quick-access-card .qa-icon {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
+      width: 50px; height: 50px; border-radius: 50%;
       background: linear-gradient(135deg, var(--navy), var(--navy-light));
-      color: var(--gold);
-      font-size: 1.3rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      color: var(--gold); font-size: 1.3rem;
+      display: flex; align-items: center; justify-content: center;
       transition: transform 0.3s ease;
       box-shadow: 0 6px 16px rgba(26, 42, 74, 0.2);
     }
-
     .quick-access-card:hover .qa-icon {
       transform: scale(1.1) rotate(-5deg);
       background: linear-gradient(135deg, var(--gold), var(--gold-dark));
       color: var(--navy);
     }
-
     .quick-access-card .qa-title {
-      font-size: 0.88rem;
-      font-weight: 800;
-      color: var(--navy);
-      line-height: 1.3;
+      font-size: 0.88rem; font-weight: 800;
+      color: var(--navy); line-height: 1.3;
     }
-
-    .quick-access-card .qa-sub {
-      font-size: 0.7rem;
-      color: var(--gray-400);
-    }
-
+    .quick-access-card .qa-sub { font-size: 0.7rem; color: var(--gray-400); }
     .quick-access-card .qa-badge {
-      position: absolute;
-      top: 8px;
-      left: 8px;
-      background: var(--danger);
-      color: var(--white);
-      font-size: 0.65rem;
-      font-weight: 800;
-      padding: 2px 8px;
-      border-radius: var(--radius-full);
-      min-width: 20px;
-      text-align: center;
+      position: absolute; top: 8px; left: 8px;
+      background: var(--danger); color: var(--white);
+      font-size: 0.65rem; font-weight: 800;
+      padding: 2px 8px; border-radius: var(--radius-full);
+      min-width: 20px; text-align: center;
     }
 
-    /* ===== الأقسام ===== */
     .customer-section {
-      background: var(--white);
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--gray-200);
-      margin-bottom: 24px;
-      overflow: hidden;
+      background: var(--white); border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm); border: 1px solid var(--gray-200);
+      margin-bottom: 24px; overflow: hidden;
     }
-
     .customer-section .section-header {
-      padding: 16px 20px;
-      border-bottom: 2px solid var(--gray-100);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
+      padding: 16px 20px; border-bottom: 2px solid var(--gray-100);
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 12px; flex-wrap: wrap;
       background: linear-gradient(135deg, #fcf9f0, #f8f4e8);
     }
-
     .customer-section .section-header h2 {
-      font-size: 1rem;
-      font-weight: 800;
-      color: var(--navy);
-      margin: 0;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      font-size: 1rem; font-weight: 800;
+      color: var(--navy); margin: 0;
+      display: flex; align-items: center; gap: 8px;
     }
-
-    .customer-section .section-header h2 i {
-      color: var(--gold);
-    }
-
+    .customer-section .section-header h2 i { color: var(--gold); }
     .customer-section .section-header .view-all-link {
-      font-size: 0.82rem;
-      color: var(--gold-dark);
-      text-decoration: none;
-      font-weight: 700;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
+      font-size: 0.82rem; color: var(--gold-dark);
+      text-decoration: none; font-weight: 700;
+      display: inline-flex; align-items: center; gap: 4px;
       transition: all 0.2s ease;
     }
-
     .customer-section .section-header .view-all-link:hover {
-      color: var(--gold);
-      transform: translateX(-4px);
+      color: var(--gold); transform: translateX(-4px);
     }
+    .customer-section .section-body { padding: 16px 20px; }
 
-    .customer-section .section-body {
-      padding: 16px 20px;
-    }
-
-    /* ===== بطاقة الرصيد ===== */
     .balance-card {
       background: linear-gradient(135deg, var(--navy), var(--navy-light));
       border-radius: var(--radius-md);
-      padding: 20px;
-      color: var(--white);
-      position: relative;
-      overflow: hidden;
+      padding: 20px; color: var(--white);
+      position: relative; overflow: hidden;
     }
-
     .balance-card::before {
       content: '';
       position: absolute;
-      top: -50%;
-      right: -20%;
-      width: 200px;
-      height: 200px;
+      top: -50%; right: -20%;
+      width: 200px; height: 200px;
       background: radial-gradient(circle, rgba(201, 168, 76, 0.2) 0%, transparent 70%);
       border-radius: 50%;
     }
-
-    .balance-card > * {
-      position: relative;
-      z-index: 1;
-    }
-
+    .balance-card > * { position: relative; z-index: 1; }
     .balance-card .balance-label {
-      font-size: 0.85rem;
-      opacity: 0.9;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
+      font-size: 0.85rem; opacity: 0.9; margin-bottom: 8px;
+      display: flex; align-items: center; gap: 6px;
     }
-
-    .balance-card .balance-label i {
-      color: var(--gold);
-    }
-
+    .balance-card .balance-label i { color: var(--gold); }
     .balance-card .balance-amount {
-      font-size: 2rem;
-      font-weight: 900;
-      color: var(--gold);
-      margin-bottom: 8px;
-      line-height: 1.2;
+      font-size: 2rem; font-weight: 900;
+      color: var(--gold); margin-bottom: 8px; line-height: 1.2;
     }
-
     .balance-card .balance-status {
       font-size: 0.8rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 4px 12px;
-      border-radius: var(--radius-full);
-      font-weight: 700;
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 4px 12px; border-radius: var(--radius-full); font-weight: 700;
     }
-
     .balance-card .balance-status.clear {
       background: rgba(34, 197, 94, 0.2);
       color: #86efac;
       border: 1px solid rgba(34, 197, 94, 0.3);
     }
-
     .balance-card .balance-status.due {
       background: rgba(239, 68, 68, 0.2);
       color: #fca5a5;
       border: 1px solid rgba(239, 68, 68, 0.3);
     }
 
-    /* ===== آخر الطلبات ===== */
-    .recent-orders-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
+    .recent-orders-list { display: flex; flex-direction: column; gap: 10px; }
     .recent-order-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px;
-      background: var(--gray-50);
+      display: flex; align-items: center; gap: 12px;
+      padding: 12px; background: var(--gray-50);
       border-radius: var(--radius-sm);
       border: 1px solid var(--gray-200);
-      transition: var(--transition);
-      cursor: pointer;
-      text-decoration: none;
-      color: inherit;
+      transition: var(--transition); cursor: pointer;
+      text-decoration: none; color: inherit;
     }
-
     .recent-order-item:hover {
       background: var(--white);
       border-color: var(--gold);
       transform: translateX(-4px);
       box-shadow: var(--shadow-sm);
     }
-
     .recent-order-item .order-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: var(--radius-sm);
+      width: 44px; height: 44px; border-radius: var(--radius-sm);
       background: linear-gradient(135deg, var(--gold-light), var(--gold));
       color: var(--navy);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.1rem;
-      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
     }
-
-    .recent-order-item .order-info {
-      flex: 1;
-      min-width: 0;
-    }
-
+    .recent-order-item .order-info { flex: 1; min-width: 0; }
     .recent-order-item .order-info .order-num {
-      font-size: 0.85rem;
-      font-weight: 800;
-      color: var(--navy);
-      margin-bottom: 2px;
+      font-size: 0.85rem; font-weight: 800;
+      color: var(--navy); margin-bottom: 2px;
     }
-
     .recent-order-item .order-info .order-date {
-      font-size: 0.72rem;
-      color: var(--gray-500);
-      display: flex;
-      align-items: center;
-      gap: 4px;
+      font-size: 0.72rem; color: var(--gray-500);
+      display: flex; align-items: center; gap: 4px;
     }
-
     .recent-order-item .order-info .order-date i {
-      color: var(--gold);
-      font-size: 0.65rem;
+      color: var(--gold); font-size: 0.65rem;
     }
-
     .recent-order-item .order-status-badge {
-      padding: 4px 12px;
-      border-radius: var(--radius-full);
-      font-size: 0.7rem;
-      font-weight: 800;
-      flex-shrink: 0;
+      padding: 4px 12px; border-radius: var(--radius-full);
+      font-size: 0.7rem; font-weight: 800; flex-shrink: 0;
     }
-
-    .recent-order-item .order-status-badge.pending {
-      background: rgba(245, 158, 11, 0.15);
-      color: #d97706;
-    }
-
-    .recent-order-item .order-status-badge.processing {
-      background: rgba(59, 130, 246, 0.15);
-      color: #2563eb;
-    }
-
-    .recent-order-item .order-status-badge.shipped {
-      background: rgba(139, 92, 246, 0.15);
-      color: #7c3aed;
-    }
-
-    .recent-order-item .order-status-badge.delivered {
-      background: rgba(34, 197, 94, 0.15);
-      color: #16a34a;
-    }
-
-    .recent-order-item .order-status-badge.cancelled {
-      background: rgba(239, 68, 68, 0.15);
-      color: #dc2626;
-    }
-
+    .recent-order-item .order-status-badge.pending { background: rgba(245, 158, 11, 0.15); color: #d97706; }
+    .recent-order-item .order-status-badge.processing { background: rgba(59, 130, 246, 0.15); color: #2563eb; }
+    .recent-order-item .order-status-badge.shipped { background: rgba(139, 92, 246, 0.15); color: #7c3aed; }
+    .recent-order-item .order-status-badge.delivered { background: rgba(34, 197, 94, 0.15); color: #16a34a; }
+    .recent-order-item .order-status-badge.cancelled { background: rgba(239, 68, 68, 0.15); color: #dc2626; }
     .recent-order-item .order-total {
-      font-size: 0.9rem;
-      font-weight: 800;
-      color: var(--gold-dark);
-      flex-shrink: 0;
+      font-size: 0.9rem; font-weight: 800;
+      color: var(--gold-dark); flex-shrink: 0;
     }
 
-    /* ===== العروض المميزة ===== */
     .featured-offers-scroll {
-      display: flex;
-      gap: 12px;
-      overflow-x: auto;
-      padding: 4px;
-      scrollbar-width: thin;
+      display: flex; gap: 12px; overflow-x: auto;
+      padding: 4px; scrollbar-width: thin;
       -webkit-overflow-scrolling: touch;
     }
-
-    .featured-offers-scroll::-webkit-scrollbar {
-      height: 5px;
-    }
-
+    .featured-offers-scroll::-webkit-scrollbar { height: 5px; }
     .featured-offers-scroll::-webkit-scrollbar-thumb {
-      background: var(--gold);
-      border-radius: 10px;
+      background: var(--gold); border-radius: 10px;
     }
-
     .featured-offer-card {
-      min-width: 200px;
-      max-width: 220px;
-      background: var(--white);
-      border-radius: var(--radius-md);
-      overflow: hidden;
-      box-shadow: var(--shadow-sm);
-      border: 2px solid var(--danger);
-      cursor: pointer;
-      transition: var(--transition);
-      flex-shrink: 0;
-      text-decoration: none;
-      color: inherit;
-      position: relative;
+      min-width: 200px; max-width: 220px;
+      background: var(--white); border-radius: var(--radius-md);
+      overflow: hidden; box-shadow: var(--shadow-sm);
+      border: 2px solid var(--danger); cursor: pointer;
+      transition: var(--transition); flex-shrink: 0;
+      text-decoration: none; color: inherit; position: relative;
     }
-
     .featured-offer-card:hover {
       transform: translateY(-4px);
       box-shadow: var(--shadow-lg);
       border-color: #dc2626;
     }
-
     .featured-offer-card .discount-ribbon {
-      position: absolute;
-      top: 8px;
-      left: 8px;
-      background: var(--danger);
-      color: var(--white);
-      padding: 4px 12px;
-      border-radius: var(--radius-full);
-      font-size: 0.75rem;
-      font-weight: 800;
-      z-index: 5;
+      position: absolute; top: 8px; left: 8px;
+      background: var(--danger); color: var(--white);
+      padding: 4px 12px; border-radius: var(--radius-full);
+      font-size: 0.75rem; font-weight: 800; z-index: 5;
     }
-
     .featured-offer-card img {
-      width: 100%;
-      height: 130px;
-      object-fit: cover;
-      background: var(--gray-100);
+      width: 100%; height: 130px; object-fit: cover; background: var(--gray-100);
     }
-
-    .featured-offer-card .offer-body {
-      padding: 10px 12px 12px;
-    }
-
+    .featured-offer-card .offer-body { padding: 10px 12px 12px; }
     .featured-offer-card .offer-name {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--navy);
-      margin-bottom: 6px;
+      font-size: 0.85rem; font-weight: 700;
+      color: var(--navy); margin-bottom: 6px;
       display: -webkit-box;
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       overflow: hidden;
       min-height: 36px;
     }
-
     .featured-offer-card .offer-price {
-      display: flex;
-      align-items: baseline;
-      gap: 6px;
-      flex-wrap: wrap;
+      display: flex; align-items: baseline;
+      gap: 6px; flex-wrap: wrap;
     }
-
     .featured-offer-card .offer-price .new-price {
-      font-size: 1rem;
-      font-weight: 900;
-      color: var(--danger);
+      font-size: 1rem; font-weight: 900; color: var(--danger);
     }
-
     .featured-offer-card .offer-price .old-price {
-      font-size: 0.75rem;
-      color: var(--gray-400);
+      font-size: 0.75rem; color: var(--gray-400);
       text-decoration: line-through;
     }
 
-    /* ===== حالة فارغة ===== */
-    .mini-empty {
-      text-align: center;
-      padding: 32px 16px;
-      color: var(--gray-400);
-    }
-
+    .mini-empty { text-align: center; padding: 32px 16px; color: var(--gray-400); }
     .mini-empty i {
-      font-size: 2rem;
-      display: block;
-      margin-bottom: 8px;
-      color: var(--gray-300);
+      font-size: 2rem; display: block;
+      margin-bottom: 8px; color: var(--gray-300);
     }
+    .mini-empty p { font-size: 0.85rem; margin-bottom: 12px; }
+    .mini-loading { text-align: center; padding: 24px; color: var(--gray-400); }
+    .mini-loading i { color: var(--gold); font-size: 1.5rem; }
 
-    .mini-empty p {
-      font-size: 0.85rem;
-      margin-bottom: 12px;
-    }
-
-    /* ===== تحميل ===== */
-    .mini-loading {
-      text-align: center;
-      padding: 24px;
-      color: var(--gray-400);
-    }
-
-    .mini-loading i {
-      color: var(--gold);
-      font-size: 1.5rem;
-    }
-
-    /* ===== Responsive ===== */
     @media (max-width: 768px) and (pointer: coarse) {
-      .welcome-header {
-        padding: 20px 16px;
-        border-radius: var(--radius-md);
-      }
-
-      .welcome-header-content .avatar-wrap img {
-        width: 68px;
-        height: 68px;
-      }
-
-      .welcome-header-content .welcome-text h1 {
-        font-size: 1.2rem;
-      }
-
-      .welcome-header-content .welcome-text p {
-        font-size: 0.83rem;
-      }
-
-      .customer-stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-      }
-
-      .customer-stat-card {
-        padding: 12px;
-        gap: 10px;
-      }
-
-      .customer-stat-card .stat-icon-wrap {
-        width: 40px;
-        height: 40px;
-        font-size: 1.1rem;
-      }
-
-      .customer-stat-card .stat-number {
-        font-size: 1.15rem;
-      }
-
-      .customer-stat-card .stat-label {
-        font-size: 0.68rem;
-      }
-
-      .quick-access-grid {
-        grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
-        gap: 10px;
-      }
-
-      .quick-access-card {
-        padding: 14px 8px;
-      }
-
-      .quick-access-card .qa-icon {
-        width: 42px;
-        height: 42px;
-        font-size: 1.1rem;
-      }
-
-      .quick-access-card .qa-title {
-        font-size: 0.78rem;
-      }
-
-      .customer-section .section-header {
-        padding: 12px 14px;
-      }
-
-      .customer-section .section-body {
-        padding: 12px 14px;
-      }
-
-      .balance-card {
-        padding: 16px;
-      }
-
-      .balance-card .balance-amount {
-        font-size: 1.6rem;
-      }
-
-      .recent-order-item {
-        padding: 10px;
-        gap: 10px;
-      }
-
-      .recent-order-item .order-icon {
-        width: 38px;
-        height: 38px;
-        font-size: 0.95rem;
-      }
-
-      .recent-order-item .order-info .order-num {
-        font-size: 0.78rem;
-      }
+      .welcome-header { padding: 20px 16px; border-radius: var(--radius-md); }
+      .welcome-header-content .avatar-wrap img { width: 68px; height: 68px; }
+      .welcome-header-content .welcome-text h1 { font-size: 1.2rem; }
+      .welcome-header-content .welcome-text p { font-size: 0.83rem; }
+      .customer-stats-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .customer-stat-card { padding: 12px; gap: 10px; }
+      .customer-stat-card .stat-icon-wrap { width: 40px; height: 40px; font-size: 1.1rem; }
+      .customer-stat-card .stat-number { font-size: 1.15rem; }
+      .customer-stat-card .stat-label { font-size: 0.68rem; }
+      .quick-access-grid { grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px; }
+      .quick-access-card { padding: 14px 8px; }
+      .quick-access-card .qa-icon { width: 42px; height: 42px; font-size: 1.1rem; }
+      .quick-access-card .qa-title { font-size: 0.78rem; }
+      .customer-section .section-header { padding: 12px 14px; }
+      .customer-section .section-body { padding: 12px 14px; }
+      .balance-card { padding: 16px; }
+      .balance-card .balance-amount { font-size: 1.6rem; }
+      .recent-order-item { padding: 10px; gap: 10px; }
+      .recent-order-item .order-icon { width: 38px; height: 38px; font-size: 0.95rem; }
+      .recent-order-item .order-info .order-num { font-size: 0.78rem; }
     }
-
     @media (max-width: 480px) {
-      .welcome-header-content {
-        flex-direction: column;
-        text-align: center;
-      }
-
-      .welcome-header-content .welcome-text {
-        text-align: center;
-      }
-
-      .welcome-header-content .welcome-text .user-badges {
-        justify-content: center;
-      }
-
-      .welcome-header-content .welcome-text h1 {
-        font-size: 1.05rem;
-      }
+      .welcome-header-content { flex-direction: column; text-align: center; }
+      .welcome-header-content .welcome-text { text-align: center; }
+      .welcome-header-content .welcome-text .user-badges { justify-content: center; }
+      .welcome-header-content .welcome-text h1 { font-size: 1.05rem; }
     }
   </style>
 </head>
 <body>
 
-  <!-- مكونات الموبايل -->
   <div id="mobile-top-bar"></div>
   <div id="mobile-top-tabs"></div>
-
-  <!-- الهيدر -->
   <div id="header-placeholder"></div>
 
-  <!-- المحتوى -->
   <main class="page-content">
     <div class="container">
 
-      <!-- ============================================================ -->
-      <!-- 👋 رأس الترحيب                                               -->
-      <!-- ============================================================ -->
+      <!-- رأس الترحيب -->
       <div class="welcome-header">
         <div class="welcome-header-content">
           <div class="avatar-wrap">
-            <img src="/gomla/assets/images/default-avatar.png" 
-                 alt="صورة العميل" 
+            <img src="/gomla/assets/images/default-avatar.png"
+                 alt="صورة العميل"
                  id="customerAvatar"
                  onerror="this.src='/gomla/assets/images/default-avatar.png'">
             <div class="online-dot"></div>
@@ -867,129 +441,84 @@
         </div>
       </div>
 
-      <!-- ============================================================ -->
-      <!-- 📊 الإحصائيات                                                -->
-      <!-- ============================================================ -->
+      <!-- الإحصائيات -->
       <div class="customer-stats-grid" id="statsGrid">
-
         <a href="/gomla/customer/orders.html" class="customer-stat-card">
-          <div class="stat-icon-wrap blue">
-            <i class="fas fa-shopping-bag"></i>
-          </div>
+          <div class="stat-icon-wrap blue"><i class="fas fa-shopping-bag"></i></div>
           <div class="stat-info-wrap">
             <div class="stat-number" id="statOrders">0</div>
             <div class="stat-label">إجمالي الطلبات</div>
           </div>
         </a>
-
         <a href="/gomla/customer/orders.html?status=pending" class="customer-stat-card">
-          <div class="stat-icon-wrap gold">
-            <i class="fas fa-clock"></i>
-          </div>
+          <div class="stat-icon-wrap gold"><i class="fas fa-clock"></i></div>
           <div class="stat-info-wrap">
             <div class="stat-number gold" id="statPending">0</div>
             <div class="stat-label">قيد الانتظار</div>
           </div>
         </a>
-
         <a href="/gomla/wishlist.html" class="customer-stat-card">
-          <div class="stat-icon-wrap red">
-            <i class="fas fa-heart"></i>
-          </div>
+          <div class="stat-icon-wrap red"><i class="fas fa-heart"></i></div>
           <div class="stat-info-wrap">
             <div class="stat-number red" id="statWishlist">0</div>
             <div class="stat-label">المفضلة</div>
           </div>
         </a>
-
         <a href="/gomla/customer/balance.html" class="customer-stat-card">
-          <div class="stat-icon-wrap green">
-            <i class="fas fa-wallet"></i>
-          </div>
+          <div class="stat-icon-wrap green"><i class="fas fa-wallet"></i></div>
           <div class="stat-info-wrap">
             <div class="stat-number green" id="statBalance">0</div>
             <div class="stat-label">الرصيد الحالي</div>
           </div>
         </a>
-
       </div>
 
-      <!-- ============================================================ -->
-      <!-- 🚀 الوصول السريع                                              -->
-      <!-- ============================================================ -->
+      <!-- الوصول السريع -->
       <div class="quick-access-grid">
-
         <a href="/gomla/store-retail.html" class="quick-access-card">
-          <div class="qa-icon">
-            <i class="fas fa-shopping-cart"></i>
-          </div>
+          <div class="qa-icon"><i class="fas fa-shopping-cart"></i></div>
           <div class="qa-title">المتجر</div>
           <div class="qa-sub">تسوق الآن</div>
         </a>
-
         <a href="/gomla/customer/orders.html" class="quick-access-card">
-          <div class="qa-icon">
-            <i class="fas fa-list-alt"></i>
-          </div>
+          <div class="qa-icon"><i class="fas fa-list-alt"></i></div>
           <div class="qa-title">طلباتي</div>
           <div class="qa-sub">تابع طلباتك</div>
         </a>
-
         <a href="/gomla/offers.html" class="quick-access-card">
-          <div class="qa-icon">
-            <i class="fas fa-percent"></i>
-          </div>
+          <div class="qa-icon"><i class="fas fa-percent"></i></div>
           <div class="qa-title">العروض</div>
           <div class="qa-sub">وفّر أكثر</div>
         </a>
-
         <a href="/gomla/wishlist.html" class="quick-access-card">
-          <div class="qa-icon">
-            <i class="fas fa-heart"></i>
-          </div>
+          <div class="qa-icon"><i class="fas fa-heart"></i></div>
           <div class="qa-title">المفضلة</div>
           <div class="qa-sub">منتجاتك المفضلة</div>
           <span class="qa-badge" id="wishlistBadge" style="display:none;">0</span>
         </a>
-
         <a href="/gomla/tracking.html" class="quick-access-card">
-          <div class="qa-icon">
-            <i class="fas fa-truck"></i>
-          </div>
+          <div class="qa-icon"><i class="fas fa-truck"></i></div>
           <div class="qa-title">تتبع الطلب</div>
           <div class="qa-sub">حالة الشحنة</div>
         </a>
-
         <a href="/gomla/customer/profile.html" class="quick-access-card">
-          <div class="qa-icon">
-            <i class="fas fa-user-edit"></i>
-          </div>
+          <div class="qa-icon"><i class="fas fa-user-edit"></i></div>
           <div class="qa-title">بياناتي</div>
           <div class="qa-sub">تعديل الحساب</div>
         </a>
-
       </div>
 
-      <!-- ============================================================ -->
-      <!-- 💰 بطاقة الرصيد                                              -->
-      <!-- ============================================================ -->
+      <!-- الذمة المالية -->
       <div class="customer-section">
         <div class="section-header">
-          <h2>
-            <i class="fas fa-wallet"></i>
-            الذمة المالية
-          </h2>
+          <h2><i class="fas fa-wallet"></i> الذمة المالية</h2>
           <a href="/gomla/customer/balance.html" class="view-all-link">
-            التفاصيل
-            <i class="fas fa-arrow-left"></i>
+            التفاصيل <i class="fas fa-arrow-left"></i>
           </a>
         </div>
         <div class="section-body">
           <div class="balance-card">
-            <div class="balance-label">
-              <i class="fas fa-coins"></i>
-              رصيدك الحالي
-            </div>
+            <div class="balance-label"><i class="fas fa-coins"></i> رصيدك الحالي</div>
             <div class="balance-amount" id="balanceAmount">0.00 ج.م</div>
             <div class="balance-status clear" id="balanceStatus">
               <i class="fas fa-check-circle"></i>
@@ -999,18 +528,12 @@
         </div>
       </div>
 
-      <!-- ============================================================ -->
-      <!-- 📦 آخر الطلبات                                               -->
-      <!-- ============================================================ -->
+      <!-- آخر الطلبات -->
       <div class="customer-section">
         <div class="section-header">
-          <h2>
-            <i class="fas fa-history"></i>
-            آخر الطلبات
-          </h2>
+          <h2><i class="fas fa-history"></i> آخر الطلبات</h2>
           <a href="/gomla/customer/orders.html" class="view-all-link">
-            كل الطلبات
-            <i class="fas fa-arrow-left"></i>
+            كل الطلبات <i class="fas fa-arrow-left"></i>
           </a>
         </div>
         <div class="section-body">
@@ -1023,18 +546,12 @@
         </div>
       </div>
 
-      <!-- ============================================================ -->
-      <!-- 🎁 العروض المميزة                                            -->
-      <!-- ============================================================ -->
+      <!-- العروض المميزة -->
       <div class="customer-section">
         <div class="section-header">
-          <h2>
-            <i class="fas fa-percent"></i>
-            عروض مميزة لك
-          </h2>
+          <h2><i class="fas fa-percent"></i> عروض مميزة لك</h2>
           <a href="/gomla/offers.html" class="view-all-link">
-            كل العروض
-            <i class="fas fa-arrow-left"></i>
+            كل العروض <i class="fas fa-arrow-left"></i>
           </a>
         </div>
         <div class="section-body">
@@ -1049,26 +566,18 @@
     </div>
   </main>
 
-  <!-- التبويبات السفلى -->
   <div id="mobile-bottom-tabs"></div>
   <div id="mobile-copyright"></div>
-
-  <!-- الفوتر -->
   <div id="footer-placeholder"></div>
-
-  <!-- السايدبار -->
   <div id="sidebar-placeholder"></div>
-
-  <!-- Toast Container -->
   <div id="toast-container"></div>
 
-  <!-- نافذة البحث -->
   <div class="search-modal-overlay" id="searchModalOverlay" onclick="closeSearchModal(event)">
     <div class="search-modal" onclick="event.stopPropagation()">
       <div class="search-modal-header">
         <i class="fas fa-search search-icon"></i>
-        <input type="text" 
-               id="searchModalInput" 
+        <input type="text"
+               id="searchModalInput"
                placeholder="ابحث عن منتج..."
                autocomplete="off"
                oninput="handleModalSearch(this.value)"
@@ -1085,16 +594,13 @@
           </div>
           <div class="search-suggestions-chips">
             <a href="#" class="search-chip" onclick="quickSearch('منظف')">
-              <i class="fas fa-spray-can"></i>
-              منظفات
+              <i class="fas fa-spray-can"></i> منظفات
             </a>
             <a href="#" class="search-chip" onclick="quickSearch('ورق')">
-              <i class="fas fa-toilet-paper"></i>
-              ورقيات
+              <i class="fas fa-toilet-paper"></i> ورقيات
             </a>
             <a href="#" class="search-chip" onclick="quickSearch('صابون')">
-              <i class="fas fa-soap"></i>
-              صابون
+              <i class="fas fa-soap"></i> صابون
             </a>
           </div>
         </div>
@@ -1107,44 +613,70 @@
     </div>
   </div>
 
-  <!-- Firebase & Scripts -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-
   <script src="/gomla/assets/js/firebase-config.js"></script>
   <script src="/gomla/assets/js/main.js"></script>
 
   <script>
     // ============================================================
-    // 📄 customer-home.html - صفحة العميل الرئيسية
+    // 📄 customer/home.html — v3.0
+    // ✅ إصلاحات:
+    //   1. تصحيح مسارات redirect
+    //   2. إضافة delivery case
+    //   3. إضافة validateInstallmentDays() helper
+    //   4. تصحيح /admin/home.html → /admin/dashboard.html
     // ============================================================
 
-    // ===== المتغيرات =====
     let customerData = null;
     let customerId = null;
 
     // ============================================================
+    // 🆕 Helper: التحقق من مدة الآجل (مشترك بين الصفحات)
+    // ملاحظة: العميل القطاعي مش عنده أقساط — الدالة جاهزة
+    //          للاستخدام لو احتجتها في صفحات تانية
+    // ============================================================
+    function validateInstallmentDays(days) {
+      const cfg = window.CREDIT_CONFIG || {};
+      const allowed = Array.isArray(cfg.ALLOWED_DAYS) ? cfg.ALLOWED_DAYS : [7];
+      const d = parseInt(days, 10);
+      if (isNaN(d) || !allowed.includes(d)) {
+        return allowed[0]; // default 7
+      }
+      return d;
+    }
+
+    // ============================================================
     // 🚀 تحميل الصفحة
     // ============================================================
-
     async function loadCustomerHome() {
+      if (typeof getCurrentUser !== 'function') {
+        console.error('getCurrentUser غير معرّف - تحقق من main.js');
+        window.location.href = '/gomla/';
+        return;
+      }
+
       const user = getCurrentUser();
 
-      // 🔒 حماية: عميل قطاعي فقط
+      // 🔒 حماية: عميل مسجل فقط
       if (!user) {
-        window.location.href = '/gomla/customer-login.html';
+        window.location.href = '/gomla/customer/login.html';
         return;
       }
 
       if (user.data.role !== ROLES.RETAIL) {
-        // لو مش عميل قطاعي، نحوله حسب دوره
+        // توجيه حسب الدور
         if (user.data.role === ROLES.WHOLESALE) {
-          window.location.href = '/gomla/trader-home.html';
-        } else if (user.data.role === ROLES.SUPER || user.data.role === ROLES.ADMIN_PLUS || user.data.role === ROLES.ADMIN) {
-          window.location.href = '/gomla/admin/home.html';
+          window.location.href = '/gomla/trader/home.html';
+        } else if (user.data.role === ROLES.SUPER ||
+                   user.data.role === ROLES.ADMIN_PLUS ||
+                   user.data.role === ROLES.ADMIN) {
+          window.location.href = '/gomla/admin/dashboard.html';
         } else if (user.data.role === ROLES.CASHIER) {
           window.location.href = '/gomla/cashier/home.html';
+        } else if (user.data.role === ROLES.DELIVERY) {
+          window.location.href = '/gomla/delivery/home.html';
         } else {
           window.location.href = '/gomla/';
         }
@@ -1154,10 +686,8 @@
       customerData = user.data;
       customerId = customerData.id || customerData.uid;
 
-      // عرض البيانات
       renderWelcomeHeader();
 
-      // تحميل الإحصائيات والبيانات
       await Promise.all([
         loadCustomerStats(),
         loadBalance(),
@@ -1168,86 +698,63 @@
     }
 
     // ============================================================
-    // 👋 عرض رأس الترحيب
+    // 👋 رأس الترحيب
     // ============================================================
-
     function renderWelcomeHeader() {
       const nameEl = document.getElementById('customerName');
       const avatarEl = document.getElementById('customerAvatar');
       const memberEl = document.getElementById('memberSince');
       const welcomeMsg = document.getElementById('welcomeMessage');
 
-      if (nameEl) {
-        nameEl.textContent = customerData.name || 'عميلنا العزيز';
-      }
+      if (nameEl) nameEl.textContent = customerData.name || 'عميلنا العزيز';
+      if (avatarEl && customerData.avatar) avatarEl.src = customerData.avatar;
 
-      if (avatarEl && customerData.avatar) {
-        avatarEl.src = customerData.avatar;
-      }
-
-      // رسالة ترحيب حسب الوقت
       const hour = new Date().getHours();
       let greeting = 'سعداء بوجودك معنا في أولاد شعلان';
-      if (hour < 12) {
-        greeting = 'صباح الخير! نتمنى لك يوماً سعيداً 🌞';
-      } else if (hour < 18) {
-        greeting = 'مساء الخير! كيف حالك اليوم؟ ☀️';
-      } else {
-        greeting = 'مساء الخير! تصفح منتجاتنا المميزة 🌙';
-      }
+      if (hour < 12) greeting = 'صباح الخير! نتمنى لك يوماً سعيداً';
+      else if (hour < 18) greeting = 'مساء الخير! كيف حالك اليوم؟';
+      else greeting = 'مساء الخير! تصفح منتجاتنا المميزة';
       if (welcomeMsg) welcomeMsg.textContent = greeting;
 
-      // تاريخ العضوية
       if (memberEl && customerData.createdAt) {
-        const date = customerData.createdAt.toDate ? 
-          customerData.createdAt.toDate() : 
-          new Date(customerData.createdAt);
-        
-        const months = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو',
-                       'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
-        
+        const date = customerData.createdAt.toDate
+          ? customerData.createdAt.toDate()
+          : new Date(customerData.createdAt);
+        const months = ['يناير','فبراير','مارس','أبريل','مايو','يونيو',
+                       'يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
         memberEl.textContent = `عضو منذ ${months[date.getMonth()]} ${date.getFullYear()}`;
       }
     }
 
     // ============================================================
-    // 📊 تحميل الإحصائيات
+    // 📊 الإحصائيات
     // ============================================================
-
     async function loadCustomerStats() {
       try {
-        // جلب طلبات العميل
-        const ordersSnapshot = await db.collection(COLLECTIONS.ORDERS)
+        const snapshot = await db.collection(COLLECTIONS.ORDERS)
           .where('customerId', '==', customerId)
           .get();
 
-        let totalOrders = 0;
-        let pendingOrders = 0;
-
-        ordersSnapshot.forEach(doc => {
-          const order = doc.data();
+        let totalOrders = 0, pendingOrders = 0;
+        snapshot.forEach(doc => {
+          const o = doc.data();
           totalOrders++;
-          if (order.status === 'pending') {
-            pendingOrders++;
-          }
+          if (o.status === 'pending') pendingOrders++;
         });
 
         document.getElementById('statOrders').textContent = totalOrders;
         document.getElementById('statPending').textContent = pendingOrders;
-
       } catch (error) {
         console.error('Error loading stats:', error);
       }
     }
 
     // ============================================================
-    // 💰 تحميل الرصيد
+    // 💰 الرصيد
     // ============================================================
-
     async function loadBalance() {
       try {
         const doc = await db.collection(COLLECTIONS.CUSTOMERS).doc(customerId).get();
-        
         if (!doc.exists) return;
 
         const data = doc.data();
@@ -1263,40 +770,28 @@
         if (statusEl) {
           if (balance > 0) {
             statusEl.className = 'balance-status due';
-            statusEl.innerHTML = `
-              <i class="fas fa-exclamation-circle"></i>
-              مديونية: ${balance.toFixed(2)} ج.م
-            `;
+            statusEl.innerHTML = `<i class="fas fa-exclamation-circle"></i> مديونية: ${balance.toFixed(2)} ج.م`;
           } else if (balance < 0) {
             statusEl.className = 'balance-status clear';
-            statusEl.innerHTML = `
-              <i class="fas fa-check-circle"></i>
-              رصيد دائن: ${Math.abs(balance).toFixed(2)} ج.م
-            `;
+            statusEl.innerHTML = `<i class="fas fa-check-circle"></i> رصيد دائن: ${Math.abs(balance).toFixed(2)} ج.م`;
           } else {
             statusEl.className = 'balance-status clear';
-            statusEl.innerHTML = `
-              <i class="fas fa-check-circle"></i>
-              لا توجد مديونيات
-            `;
+            statusEl.innerHTML = `<i class="fas fa-check-circle"></i> لا توجد مديونيات`;
           }
         }
 
-        // تحديث إحصائية الرصيد
         const statBalance = document.getElementById('statBalance');
         if (statBalance) {
           statBalance.textContent = `${Math.abs(balance).toFixed(0)} ج.م`;
         }
-
       } catch (error) {
         console.error('Error loading balance:', error);
       }
     }
 
     // ============================================================
-    // 📦 تحميل آخر الطلبات
+    // 📦 آخر الطلبات
     // ============================================================
-
     async function loadRecentOrders() {
       const container = document.getElementById('recentOrders');
       if (!container) return;
@@ -1314,72 +809,56 @@
               <i class="fas fa-shopping-bag"></i>
               <p>لا توجد طلبات حتى الآن</p>
               <a href="/gomla/store-retail.html" class="btn btn-primary btn-sm">
-                <i class="fas fa-shopping-cart"></i>
-                ابدأ التسوق
+                <i class="fas fa-shopping-cart"></i> ابدأ التسوق
               </a>
-            </div>
-          `;
+            </div>`;
           return;
         }
 
-        let html = '';
         const statusMap = {
-          pending: 'قيد الانتظار',
-          processing: 'قيد المعالجة',
-          shipped: 'تم الشحن',
-          delivered: 'تم التسليم',
-          cancelled: 'ملغي'
+          pending: 'قيد الانتظار', processing: 'قيد المعالجة',
+          shipped: 'تم الشحن', delivered: 'تم التسليم', cancelled: 'ملغي'
         };
 
+        let html = '';
         snapshot.forEach(doc => {
           const order = doc.data();
           const orderNumber = doc.id.slice(-8).toUpperCase();
-          const date = order.createdAt ? 
-            (order.createdAt.toDate ? order.createdAt.toDate() : new Date(order.createdAt)) : 
-            new Date();
-          
+          const date = order.createdAt
+            ? (order.createdAt.toDate ? order.createdAt.toDate() : new Date(order.createdAt))
+            : new Date();
           const dateStr = date.toLocaleDateString('ar-EG', {
             year: 'numeric', month: 'short', day: 'numeric'
           });
-          
           const status = order.status || 'pending';
           const statusText = statusMap[status] || 'قيد الانتظار';
 
           html += `
             <a href="/gomla/tracking.html?id=${doc.id}" class="recent-order-item">
-              <div class="order-icon">
-                <i class="fas fa-receipt"></i>
-              </div>
+              <div class="order-icon"><i class="fas fa-receipt"></i></div>
               <div class="order-info">
                 <div class="order-num">#${orderNumber}</div>
-                <div class="order-date">
-                  <i class="fas fa-calendar"></i>
-                  ${dateStr}
-                </div>
+                <div class="order-date"><i class="fas fa-calendar"></i> ${dateStr}</div>
               </div>
               <span class="order-status-badge ${status}">${statusText}</span>
               <div class="order-total">${(order.total || 0).toFixed(0)} ج.م</div>
-            </a>
-          `;
+            </a>`;
         });
 
         container.innerHTML = html;
-
       } catch (error) {
         console.error('Error loading recent orders:', error);
         container.innerHTML = `
           <div class="mini-empty">
             <i class="fas fa-exclamation-triangle"></i>
             <p>حدث خطأ في تحميل الطلبات</p>
-          </div>
-        `;
+          </div>`;
       }
     }
 
     // ============================================================
-    // 🎁 تحميل العروض المميزة
+    // 🎁 العروض المميزة
     // ============================================================
-
     async function loadFeaturedOffers() {
       const container = document.getElementById('featuredOffers');
       if (!container) return;
@@ -1396,25 +875,24 @@
             <div class="mini-empty" style="width:100%;">
               <i class="fas fa-percent"></i>
               <p>لا توجد عروض حالياً</p>
-            </div>
-          `;
+            </div>`;
           return;
         }
 
         let html = '';
-
         snapshot.forEach(doc => {
           const p = doc.data();
           const id = doc.id;
           const originalPrice = p.retailPrice || 0;
           const offerPrice = p.retailOfferPrice || 0;
-          const discount = originalPrice > 0 ? 
-            Math.round(((originalPrice - offerPrice) / originalPrice) * 100) : 0;
+          const discount = originalPrice > 0
+            ? Math.round(((originalPrice - offerPrice) / originalPrice) * 100)
+            : 0;
 
           html += `
             <a href="/gomla/product-details.html?id=${id}&type=retail" class="featured-offer-card">
               <div class="discount-ribbon">${discount}% خصم</div>
-              <img src="${p.imageUrl || '/gomla/assets/images/no-image.png'}" 
+              <img src="${p.imageUrl || '/gomla/assets/images/no-image.png'}"
                    alt="${p.name}"
                    onerror="this.src='/gomla/assets/images/no-image.png'">
               <div class="offer-body">
@@ -1424,21 +902,18 @@
                   <span class="old-price">${originalPrice.toFixed(2)} ج.م</span>
                 </div>
               </div>
-            </a>
-          `;
+            </a>`;
         });
 
         container.innerHTML = html;
-
       } catch (error) {
         console.error('Error loading offers:', error);
       }
     }
 
     // ============================================================
-    // ❤️ تحميل عدد المفضلة
+    // ❤️ المفضلة
     // ============================================================
-
     async function loadWishlistCount() {
       try {
         const snapshot = await db.collection(COLLECTIONS.WISHLIST)
@@ -1447,13 +922,9 @@
 
         const count = snapshot.size;
 
-        // تحديث إحصائية المفضلة
         const statWishlist = document.getElementById('statWishlist');
-        if (statWishlist) {
-          statWishlist.textContent = count;
-        }
+        if (statWishlist) statWishlist.textContent = count;
 
-        // تحديث شارة المفضلة
         const wishlistBadge = document.getElementById('wishlistBadge');
         if (wishlistBadge) {
           if (count > 0) {
@@ -1463,24 +934,22 @@
             wishlistBadge.style.display = 'none';
           }
         }
-
       } catch (error) {
         console.error('Error loading wishlist count:', error);
       }
     }
 
     // ============================================================
-    // 🚀 تشغيل الصفحة
+    // 🚀 تشغيل
     // ============================================================
-
     document.addEventListener('DOMContentLoaded', function() {
       loadCustomerHome();
-      console.log('✅ customer-home.html loaded');
+      console.log('✅ customer/home.html v3.0 loaded');
     });
 
-    // تصدير
+    // ===== Exports =====
     window.loadCustomerHome = loadCustomerHome;
-
+    window.validateInstallmentDays = validateInstallmentDays;
   </script>
 
 </body>
