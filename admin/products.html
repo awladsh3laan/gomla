@@ -976,7 +976,7 @@
 
       currentUserRole = user.data?.role || 'admin';
       isSuper = currentUserRole === 'super';
-      isAdminPlus = currentUserRole === 'admin_plus';
+      isAdminPlususer = currentUserRole === 'admin_plus';
       isAdmin = ['super', 'admin_plus', 'admin'].includes(currentUserRole);
       currentAdminId = user.data?.id || user.data?.uid || '';
       currentAdminName = user.data?.name || '';
