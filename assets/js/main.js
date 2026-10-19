@@ -1,15 +1,22 @@
 // ============================================================
-// 🧠 main.js — v8.1 (كامل)
+// 🧠 main.js — v8.2 (كامل)
 // 📌 الملف الموحد للدوال الأساسية
-// الإصدار: 8.1
+// الإصدار: 8.2
 // آخر تحديث: 2026-10-19
-// 🆕 v8.1 (المرحلة 0):
-//   - إصلاح logoutAdmin (alias لـ logoutUser)
-//   - مسارات الصور absolute (/gomla/assets/images/...)
-//   - uploadImage عبر Cloudflare Worker (المفاتيح متخفية)
-//   - إزالة updatePublicStats (Rules تمنع الكتابة)
-//   - إصلاح firebase.auth().signOut() لما مفيش session
-//   - إضافة حماية null checks في loadHeader/updateHeader
+// 🆕 v8.2 (المرحلة 0 — مكملة):
+//   - تحديث 8 مسارات قديمة → v17.2
+//   - customer-login → customer/login
+//   - cashier-login  → cashier/login
+//   - delivery-login → delivery/login
+//   - trader-login   → trader/login
+//   - customer-register → customer/register
+// ✅ v8.1 (محفوظ):
+//   - logoutAdmin (alias لـ logoutUser)
+//   - مسارات الصور absolute
+//   - uploadImage عبر Cloudflare Worker
+//   - إزالة updatePublicStats
+//   - إصلاح firebase.auth().signOut()
+//   - حماية null checks
 // ============================================================
 
 // ============================================================
@@ -121,7 +128,7 @@ function _redirectWithToast(url, message, delay = 1500) {
   setTimeout(() => { window.location.href = url; }, delay);
 }
 
-function protectPage(redirectUrl = '/gomla/customer-login.html') {
+function protectPage(redirectUrl = '/gomla/customer/login.html') {
   const user = getCurrentUser();
   if (!user) {
     window.location.href = redirectUrl;
@@ -178,7 +185,7 @@ function protectCashierPage() {
   const user = getCurrentUser();
   
   if (!user) {
-    window.location.href = '/gomla/cashier-login.html';
+    window.location.href = '/gomla/cashier/login.html';
     return false;
   }
   
@@ -200,7 +207,7 @@ function protectCustomerPage(allowedRoles = [ROLES.RETAIL, ROLES.WHOLESALE]) {
   const user = getCurrentUser();
   
   if (!user) {
-    window.location.href = '/gomla/customer-login.html';
+    window.location.href = '/gomla/customer/login.html';
     return false;
   }
   
@@ -231,7 +238,7 @@ function protectDeliveryPage() {
   const user = getCurrentUser();
   
   if (!user) {
-    window.location.href = '/gomla/delivery-login.html';
+    window.location.href = '/gomla/delivery/login.html';
     return false;
   }
   
@@ -241,7 +248,7 @@ function protectDeliveryPage() {
   }
   
   if (user.data.active !== true) {
-    _redirectWithToast('/gomla/delivery-login.html', 'حسابك معطل، تواصل مع الإدارة');
+    _redirectWithToast('/gomla/delivery/login.html', 'حسابك معطل، تواصل مع الإدارة');
     return false;
   }
   
@@ -274,7 +281,7 @@ function logoutUser() {
   window.location.href = '/gomla/';
 }
 
-// 🆕 v8.1: Alias للصفحات القديمة
+// Alias للصفحات القديمة
 window.logoutAdmin = logoutUser;
 
 // ============================================================
@@ -287,8 +294,13 @@ window.logoutAdmin = logoutUser;
   const WATCHED_KEYS = ['admin', 'customer', 'cashier', 'deliveryData'];
   const COUNTDOWN_SECONDS = 5;
   const EXCLUDED_PAGES = [
-    '/login.html', '/customer-login.html', '/trader-login.html',
-    '/cashier-login.html', '/delivery-login.html', '/admin/login.html'
+    '/login.html',
+    '/customer/login.html',
+    '/customer/register.html',
+    '/trader/login.html',
+    '/cashier/login.html',
+    '/delivery/login.html',
+    '/admin/login.html'
   ];
 
   let lastSnapshot = null;
@@ -649,7 +661,7 @@ function formatTime(timestamp) {
 }
 
 // ============================================================
-// 4️⃣ رفع الصور عبر Cloudflare Worker (v8.1)
+// 4️⃣ رفع الصور عبر Cloudflare Worker
 // ============================================================
 
 async function uploadImage(file, onProgress) {
@@ -1558,7 +1570,7 @@ function updateSidebar() {
       { icon: 'fa-home', text: 'الرئيسية', url: '/gomla/' },
       { icon: 'fa-headset', text: 'الدعم والمساعدة', url: '/gomla/support.html' },
       { icon: 'fa-store', text: 'متجر القطاعي', url: '/gomla/store-retail.html' },
-      { icon: 'fa-user-plus', text: 'تسجيل دخول عميل', url: '/gomla/customer-login.html' },
+      { icon: 'fa-user-plus', text: 'تسجيل دخول عميل', url: '/gomla/customer/login.html' },
       { icon: 'fa-user-plus', text: 'طريقة التسجيل معنا', url: '/gomla/register-guide.html' }
     ];
   }
@@ -1743,7 +1755,7 @@ function loadMobileTopTabs() {
   } else {
     tabs = [
       { text: 'أولاد شعلان ستور', url: '/gomla/store-retail.html', icon: 'fa-store' },
-      { text: 'تسجيل كعميل', url: '/gomla/customer-register.html', icon: 'fa-user-plus' },
+      { text: 'تسجيل كعميل', url: '/gomla/customer/register.html', icon: 'fa-user-plus' },
       { text: 'تسجيل كتاجر', url: '/gomla/support.html', icon: 'fa-store-alt' },
       { text: 'تسجيل الدخول', url: '/gomla/login.html', icon: 'fa-sign-in-alt' }
     ];
@@ -1857,7 +1869,7 @@ function openSearchModal() {
   const input = document.getElementById('searchModalInput');
   
   if (!overlay) {
-    window.location.href = '/gomla/search.html';
+    window.location.href = '/gomla/store-retail.html';
     return;
   }
   
@@ -2042,7 +2054,7 @@ function openCart() {
 function openProfile() {
   const user = getCurrentUser();
   if (!user) {
-    window.location.href = '/gomla/customer-login.html';
+    window.location.href = '/gomla/customer/login.html';
     return;
   }
   
@@ -2114,7 +2126,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
   });
   
-  console.log('✅ main.js v8.1 loaded successfully');
+  console.log('✅ main.js v8.2 loaded successfully');
 });
 
 // ============================================================
@@ -2201,4 +2213,4 @@ window.openSidebar = openSidebar;
 window.closeSidebar = closeSidebar;
 window.toggleMobileTabDropdown = toggleMobileTabDropdown;
 
-console.log('✅ main.js v8.1 exports set');
+console.log('✅ main.js v8.2 exports set');
