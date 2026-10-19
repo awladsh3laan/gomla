@@ -13,27 +13,16 @@
   <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.0/dist/browser-image-compression.js"></script>
 
   <style>
-    /* ============================================================
-       🎨 admin/products.html v3.0 — Design Tokens
-       ============================================================ */
     html, body { overflow-x: hidden !important; max-width: 100vw; }
-
-    /* ===== Page Header ===== */
     .ph-header {
       background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
-      border-radius: var(--radius-lg);
-      padding: 22px 24px;
-      margin-bottom: 18px;
-      color: var(--white);
-      position: relative;
-      overflow: hidden;
+      border-radius: var(--radius-lg); padding: 22px 24px; margin-bottom: 18px;
+      color: var(--white); position: relative; overflow: hidden;
       box-shadow: 0 12px 40px rgba(26, 42, 74, 0.25);
       border-bottom: 4px solid var(--gold);
     }
     .ph-header::before {
-      content: '';
-      position: absolute;
-      top: -50%; right: -15%;
+      content: ''; position: absolute; top: -50%; right: -15%;
       width: 300px; height: 300px;
       background: radial-gradient(circle, rgba(201,168,76,.18) 0%, transparent 70%);
       border-radius: 50%;
@@ -45,13 +34,10 @@
     }
     .ph-header-left { display: flex; align-items: center; gap: 16px; flex: 1; min-width: 200px; }
     .ph-header-icon {
-      width: 56px; height: 56px;
-      border-radius: 50%;
+      width: 56px; height: 56px; border-radius: 50%;
       background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-      color: var(--navy);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.4rem;
-      flex-shrink: 0;
+      color: var(--navy); display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
       box-shadow: 0 8px 24px rgba(201,168,76,.4);
     }
     .ph-header h1 { font-size: 1.35rem; font-weight: 900; margin: 0 0 3px; color: var(--white); }
@@ -65,11 +51,8 @@
       cursor: pointer; transition: var(--transition);
       display: inline-flex; align-items: center; gap: 6px;
     }
-    .ph-header-actions .btn:hover {
-      background: var(--gold); color: var(--navy); border-color: var(--gold);
-    }
+    .ph-header-actions .btn:hover { background: var(--gold); color: var(--navy); border-color: var(--gold); }
 
-    /* ===== Tabs ===== */
     .ph-tabs {
       display: flex; gap: 6px; margin-bottom: 16px;
       background: var(--white); padding: 8px;
@@ -103,7 +86,6 @@
     }
     .ph-tab.active .tab-count { background: var(--gold); color: var(--navy); }
 
-    /* ===== Stats ===== */
     .ph-stats {
       display: grid; grid-template-columns: repeat(5, 1fr);
       gap: 10px; margin-bottom: 16px;
@@ -135,7 +117,6 @@
     .stat-number.orange { color: #d97706; }
     .ph-stat-card .stat-label { font-size: 0.68rem; color: var(--gray-500); font-weight: 700; line-height: 1.2; }
 
-    /* ===== Filter Bar ===== */
     .ph-filters {
       background: var(--white); border-radius: var(--radius-md);
       padding: 12px 14px; margin-bottom: 16px;
@@ -168,26 +149,17 @@
     }
     .ph-filters .btn-icon-only:hover { border-color: var(--gold); color: var(--gold-dark); }
 
-    /* ============================================================
-       🎴 Product Card Grid (التصور الجديد)
-       ============================================================ */
     .pc-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 16px;
       margin-bottom: 24px;
     }
-
     .pc-card {
-      background: var(--white);
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--gray-200);
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transition: var(--transition);
-      position: relative;
+      background: var(--white); border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm); border: 1px solid var(--gray-200);
+      overflow: hidden; display: flex; flex-direction: column;
+      transition: var(--transition); position: relative;
     }
     .pc-card:hover {
       transform: translateY(-4px);
@@ -195,10 +167,8 @@
       border-color: var(--gold-light);
     }
     .pc-card.unavailable { opacity: 0.7; }
-
     .pc-image-wrap {
-      position: relative;
-      aspect-ratio: 1;
+      position: relative; aspect-ratio: 1;
       background: linear-gradient(135deg, #f8f9fa, #e9ecef);
       overflow: hidden;
     }
@@ -208,7 +178,6 @@
       transition: transform 0.4s ease;
     }
     .pc-card:hover .pc-image { transform: scale(1.05); }
-
     .pc-badges {
       position: absolute; top: 8px; right: 8px;
       display: flex; flex-direction: column; gap: 4px;
@@ -226,27 +195,19 @@
     .pc-badge.wholesale-discount { background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: white; }
 
     .pc-body {
-      padding: 12px 14px;
-      display: flex; flex-direction: column; gap: 8px;
-      flex: 1;
+      padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; flex: 1;
     }
     .pc-title {
       font-size: 0.95rem; font-weight: 900;
       color: var(--navy); margin: 0;
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
-      line-height: 1.3;
-      min-height: 2.6em;
+      display: -webkit-box; -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical; overflow: hidden;
+      line-height: 1.3; min-height: 2.6em;
     }
     .pc-meta { font-size: 0.7rem; color: var(--gray-500); font-weight: 600; }
-
     .pc-price-row {
       display: flex; justify-content: space-between;
-      align-items: center;
-      font-size: 0.82rem;
-      padding: 3px 0;
+      align-items: center; font-size: 0.82rem; padding: 3px 0;
     }
     .pc-price-row .lbl { color: var(--gray-500); font-weight: 700; font-size: 0.75rem; }
     .pc-price-row .val { font-weight: 900; color: var(--navy); }
@@ -256,10 +217,8 @@
     .pc-stock {
       display: flex; justify-content: space-between;
       align-items: center; gap: 6px;
-      padding: 6px 8px;
-      background: var(--gray-50);
-      border-radius: var(--radius-sm);
-      font-size: 0.78rem;
+      padding: 6px 8px; background: var(--gray-50);
+      border-radius: var(--radius-sm); font-size: 0.78rem;
       margin-top: 2px;
     }
     .pc-stock .stock-label { color: var(--gray-600); font-weight: 700; }
@@ -270,12 +229,10 @@
     .pc-actions {
       display: grid; grid-template-columns: 1fr 1fr 1fr;
       gap: 6px; padding-top: 8px;
-      border-top: 1px solid var(--gray-100);
-      margin-top: 4px;
+      border-top: 1px solid var(--gray-100); margin-top: 4px;
     }
     .pc-action-btn {
-      padding: 7px 4px;
-      border: 1.5px solid;
+      padding: 7px 4px; border: 1.5px solid;
       border-radius: var(--radius-sm);
       font-family: inherit; font-weight: 800;
       font-size: 0.68rem; cursor: pointer;
@@ -290,7 +247,6 @@
     .pc-action-btn.delete { border-color: #fca5a5; color: #dc2626; }
     .pc-action-btn.delete:hover { background: #dc2626; color: var(--white); border-color: #dc2626; }
 
-    /* ===== Empty / Loading ===== */
     .pc-empty, .pc-loading {
       text-align: center; padding: 60px 20px;
       background: var(--white); border-radius: var(--radius-md);
@@ -306,12 +262,8 @@
     .pc-empty h3 { font-size: 1.1rem; font-weight: 900; color: var(--navy); margin-bottom: 6px; }
     .pc-empty p { font-size: 0.85rem; color: var(--gray-500); }
     .pc-loading i { font-size: 2rem; color: var(--gold); margin-bottom: 10px; }
-
     .load-more-container { text-align: center; padding: 16px; margin-bottom: 24px; }
 
-    /* ============================================================
-       🪟 Modals (مشترك)
-       ============================================================ */
     .modal-overlay {
       display: none; position: fixed; inset: 0;
       background: rgba(15, 26, 46, 0.75);
@@ -375,7 +327,6 @@
     .btn-danger { background: var(--danger); color: white; }
     .btn-danger:hover { background: #b91c1c; }
 
-    /* ===== Form ===== */
     .form-section {
       margin-bottom: 20px; padding-bottom: 16px;
       border-bottom: 1px solid var(--gray-100);
@@ -383,8 +334,7 @@
     .form-section:last-child { border-bottom: none; margin-bottom: 0; }
     .form-section h4 {
       font-size: 0.9rem; color: var(--navy); margin-bottom: 12px;
-      display: flex; align-items: center; gap: 8px;
-      font-weight: 900;
+      display: flex; align-items: center; gap: 8px; font-weight: 900;
     }
     .form-section h4 i { color: var(--gold); }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
@@ -409,7 +359,6 @@
     .form-group .help-text { font-size: 0.72rem; color: var(--gray-500); margin-top: 3px; }
     .form-group .help-text i { color: var(--gold); }
 
-    /* ===== Image Upload ===== */
     .image-upload-area {
       border: 2px dashed var(--gray-300); border-radius: var(--radius-sm);
       padding: 14px; text-align: center; cursor: pointer;
@@ -424,9 +373,7 @@
     }
     .image-upload-area .upload-icon { font-size: 1.8rem; color: var(--gray-400); }
     .image-upload-area .upload-text { font-size: 0.82rem; color: var(--gray-500); margin-top: 4px; }
-    .image-upload-area .upload-progress {
-      display: none; margin-top: 8px;
-    }
+    .image-upload-area .upload-progress { display: none; margin-top: 8px; }
     .image-upload-area .progress-bar {
       width: 100%; height: 6px; background: var(--gray-200);
       border-radius: 3px; overflow: hidden;
@@ -437,7 +384,6 @@
     }
     .image-upload-area .progress-text { font-size: 0.72rem; color: var(--gray-500); margin-top: 3px; }
 
-    /* ===== Delete Option Modal ===== */
     .delete-warning {
       background: #fef3c7; border: 2px solid #fbbf24;
       border-radius: var(--radius-sm); padding: 12px;
@@ -463,21 +409,14 @@
       font-family: inherit; font-size: 0.85rem; width: 100%;
     }
 
-    /* ============================================================
-       📱 Responsive
-       ============================================================ */
     @media (max-width: 1024px) {
       .pc-grid { grid-template-columns: repeat(2, 1fr); }
       .ph-stats { grid-template-columns: repeat(3, 1fr); }
     }
-
     @media (max-width: 768px) {
       .pc-grid { grid-template-columns: 1fr; gap: 12px; }
       .pc-card { flex-direction: row; }
-      .pc-image-wrap {
-        width: 110px; min-width: 110px;
-        aspect-ratio: 1;
-      }
+      .pc-image-wrap { width: 110px; min-width: 110px; aspect-ratio: 1; }
       .pc-body { padding: 10px 12px; }
       .pc-title { font-size: 0.88rem; min-height: auto; }
       .pc-actions { grid-template-columns: 1fr 1fr 1fr; padding-top: 6px; margin-top: 0; }
@@ -497,18 +436,12 @@
       .modal-body { padding: 16px; }
       .modal-actions { padding: 12px 16px; }
     }
-
     @media (max-width: 480px) {
       .pc-grid { gap: 10px; }
       .pc-image-wrap { width: 90px; min-width: 90px; }
-      .pc-card { padding: 0; }
       .pc-stock { font-size: 0.72rem; padding: 5px 6px; }
       .ph-stats { grid-template-columns: 1fr 1fr; gap: 6px; }
     }
-
-    /* ===== Utility ===== */
-    .hidden { display: none !important; }
-    .text-center { text-align: center; }
   </style>
 </head>
 <body>
@@ -520,9 +453,6 @@
   <main class="page-content">
     <div class="container">
 
-      <!-- ============================================================ -->
-      <!-- 🎯 Page Header                                               -->
-      <!-- ============================================================ -->
       <div class="ph-header">
         <div class="ph-header-inner">
           <div class="ph-header-left">
@@ -545,9 +475,6 @@
         </div>
       </div>
 
-      <!-- ============================================================ -->
-      <!-- 🗂️ Tabs — 3 only (P7: brands/categories = super only)       -->
-      <!-- ============================================================ -->
       <div class="ph-tabs" id="phTabs">
         <button class="ph-tab active" data-tab="products" onclick="switchTab('products')">
           <i class="fas fa-box"></i>
@@ -566,12 +493,8 @@
         </button>
       </div>
 
-      <!-- ============================================================ -->
-      <!-- 📦 Tab: Products                                             -->
-      <!-- ============================================================ -->
       <div class="tab-content active" id="tab-products">
 
-        <!-- Stats -->
         <div class="ph-stats">
           <div class="ph-stat-card">
             <div class="stat-icon blue"><i class="fas fa-box"></i></div>
@@ -600,7 +523,6 @@
           </div>
         </div>
 
-        <!-- Filters -->
         <div class="ph-filters">
           <div class="ph-search">
             <input type="text" id="searchInput" placeholder="بحث بالاسم / الباركود / SKU..." oninput="onSearchInput()">
@@ -631,7 +553,6 @@
           </button>
         </div>
 
-        <!-- Grid -->
         <div class="pc-grid" id="productsGrid">
           <div class="pc-loading">
             <i class="fas fa-spinner fa-spin"></i>
@@ -639,7 +560,6 @@
           </div>
         </div>
 
-        <!-- Load More -->
         <div class="load-more-container">
           <button class="btn btn-outline" id="loadMoreBtn" onclick="loadMoreProducts()" style="display:none;">
             <i class="fas fa-chevron-down"></i> تحميل المزيد
@@ -647,9 +567,6 @@
         </div>
       </div>
 
-      <!-- ============================================================ -->
-      <!-- 🏷️ Tab: Brands (super only)                                  -->
-      <!-- ============================================================ -->
       <div class="tab-content" id="tab-brands">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px;">
           <h2 style="font-size:1.15rem;font-weight:900;color:var(--navy);margin:0;">
@@ -667,9 +584,6 @@
         </div>
       </div>
 
-      <!-- ============================================================ -->
-      <!-- 📂 Tab: Categories (super only)                              -->
-      <!-- ============================================================ -->
       <div class="tab-content" id="tab-categories">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:8px;">
           <h2 style="font-size:1.15rem;font-weight:900;color:var(--navy);margin:0;">
@@ -696,9 +610,7 @@
   <div id="sidebar-placeholder"></div>
   <div id="toast-container"></div>
 
-  <!-- ============================================================ -->
-  <!-- 🪟 Modal: Product Add/Edit (Dynamic by Role)                 -->
-  <!-- ============================================================ -->
+  <!-- Product Modal -->
   <div class="modal-overlay" id="productModal">
     <div class="modal-content large">
       <div class="modal-header">
@@ -707,9 +619,7 @@
       </div>
       <form id="productForm" onsubmit="saveProduct(event)">
         <input type="hidden" id="productId" value="">
-        <div class="modal-body" id="productModalBody">
-          <!-- يُملأ ديناميكياً حسب الدور -->
-        </div>
+        <div class="modal-body" id="productModalBody"></div>
         <div class="modal-actions">
           <button type="button" class="btn btn-outline" onclick="closeModal('productModal')">إلغاء</button>
           <button type="submit" class="btn btn-gold" id="saveProductBtn">
@@ -720,9 +630,7 @@
     </div>
   </div>
 
-  <!-- ============================================================ -->
-  <!-- 👁️ Modal: View Product                                       -->
-  <!-- ============================================================ -->
+  <!-- View Product Modal -->
   <div class="modal-overlay" id="viewProductModal">
     <div class="modal-content medium">
       <div class="modal-header">
@@ -735,9 +643,7 @@
     </div>
   </div>
 
-  <!-- ============================================================ -->
-  <!-- 🏷️ Modal: Category Add/Edit (super only)                     -->
-  <!-- ============================================================ -->
+  <!-- Category Modal -->
   <div class="modal-overlay" id="categoryModal">
     <div class="modal-content small">
       <div class="modal-header">
@@ -778,9 +684,7 @@
     </div>
   </div>
 
-  <!-- ============================================================ -->
-  <!-- 🏷️ Modal: Brand Add/Edit (super only)                        -->
-  <!-- ============================================================ -->
+  <!-- Brand Modal -->
   <div class="modal-overlay" id="brandModal">
     <div class="modal-content small">
       <div class="modal-header">
@@ -825,9 +729,7 @@
     </div>
   </div>
 
-  <!-- ============================================================ -->
-  <!-- 🔴 P1: Delete Category Modal (نقل / حذف الكل / إلغاء)          -->
-  <!-- ============================================================ -->
+  <!-- Delete Category Modal -->
   <div class="modal-overlay" id="deleteCategoryModal">
     <div class="modal-content small">
       <div class="modal-header" style="background:linear-gradient(135deg,#991b1b,#dc2626);">
@@ -857,9 +759,7 @@
           </label>
           <label class="delete-option">
             <input type="radio" name="deleteCategoryAction" value="cancel" onchange="onDeleteCategoryActionChange()">
-            <div>
-              <div class="option-label">إلغاء</div>
-            </div>
+            <div><div class="option-label">إلغاء</div></div>
           </label>
         </div>
       </div>
@@ -872,9 +772,7 @@
     </div>
   </div>
 
-  <!-- ============================================================ -->
-  <!-- 🔴 P2: Delete Brand Modal                                     -->
-  <!-- ============================================================ -->
+  <!-- Delete Brand Modal -->
   <div class="modal-overlay" id="deleteBrandModal">
     <div class="modal-content small">
       <div class="modal-header" style="background:linear-gradient(135deg,#991b1b,#dc2626);">
@@ -904,9 +802,7 @@
           </label>
           <label class="delete-option">
             <input type="radio" name="deleteBrandAction" value="cancel" onchange="onDeleteBrandActionChange()">
-            <div>
-              <div class="option-label">إلغاء</div>
-            </div>
+            <div><div class="option-label">إلغاء</div></div>
           </label>
         </div>
       </div>
@@ -919,9 +815,6 @@
     </div>
   </div>
 
-  <!-- ============================================================ -->
-  <!-- Scripts                                                      -->
-  <!-- ============================================================ -->
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
@@ -930,10 +823,23 @@
 
   <script>
   // ============================================================
-  // 📄 admin/products.html v3.0
+  // 📄 admin/products.html v3.1
+  // ✅ Fix: pageState بدل المتغيرات المستقلة (يحل مشكلة redeclaration)
+  // ✅ Fix: إزالة دوال الرفع المحلية — استخدام window.uploadImage
   // ============================================================
 
-  // ===== State =====
+  // ⚠️ كل الحالة في object واحد لتجنب التصادم مع main.js
+  const pageState = {
+    role: 'guest',
+    isSuper: false,
+    isAdminPlus: false,
+    isAdmin: false,
+    adminId: '',
+    adminName: '',
+    currentTab: 'products'
+  };
+
+  // State مستقل للبيانات
   let allProducts = [];
   let allCategories = [];
   let allBrands = [];
@@ -942,17 +848,13 @@
   const PAGE_SIZE = 12;
   let searchDebounce = null;
   let unsubscribeProducts = null;
-  let currentUserRole = 'guest';
-  let isSuper = false;
 
-  let currentAdminId = null;
-  let currentAdminName = '';
-  let currentTab = 'products';
-  // Image upload state
+  // Image state
   let productImageUrl = '';
   let categoryImageUrl = '';
   let brandImageUrl = '';
-  // Delete modal state
+
+  // Delete context
   let deleteCategoryContext = null;
   let deleteBrandContext = null;
 
@@ -961,11 +863,14 @@
   // ============================================================
   document.addEventListener('DOMContentLoaded', async () => {
     try {
-      // P10: fallback للمستخدم
+      // المستخدم
       let user = null;
       if (typeof getCurrentUser === 'function') user = getCurrentUser();
       if (!user) {
-        try { user = JSON.parse(localStorage.getItem('admin') || 'null'); user = user ? { type: 'admin', data: user } : null; } catch(e){}
+        try {
+          const raw = JSON.parse(localStorage.getItem('admin') || 'null');
+          if (raw) user = { type: 'admin', data: raw };
+        } catch(e){}
       }
       if (!user || user.type !== 'admin') {
         if (typeof showToast === 'function') showToast('غير مصرح', 'error');
@@ -973,35 +878,31 @@
         return;
       }
 
-      currentUserRole = user.data?.role || 'admin';
-      isSuper = currentUserRole === 'super';
-      isAdminPlususer = currentUserRole === 'admin_plus';
-      isAdmin = ['super', 'admin_plus', 'admin'].includes(currentUserRole);
-      currentAdminId = user.data?.id || user.data?.uid || '';
-      currentAdminName = user.data?.name || '';
+      pageState.role = user.data?.role || 'admin';
+      pageState.isSuper = pageState.role === 'super';
+      pageState.isAdminPlus = pageState.role === 'admin_plus';
+      pageState.isAdmin = ['super', 'admin_plus', 'admin'].includes(pageState.role);
+      pageState.adminId = user.data?.id || user.data?.uid || '';
+      pageState.adminName = user.data?.name || '';
 
-      // P10: استخدام checkAdminAccessDirect أو تجاهلها
       if (typeof checkAdminAccessDirect === 'function') {
         const ok = await checkAdminAccessDirect();
         if (!ok) return;
       }
 
-      // P7: إخفاء تبويبات super فقط
+      // إخفاء super-only
       document.querySelectorAll('.super-only').forEach(el => {
-        el.style.display = isSuper ? '' : 'none';
+        el.style.display = pageState.isSuper ? '' : 'none';
       });
 
       await loadAllData();
 
-      // ESC لإغلاق النوافذ
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
           document.querySelectorAll('.modal-overlay.show').forEach(m => m.classList.remove('show'));
           document.body.style.overflow = '';
         }
       });
-
-      // إغلاق بالضغط على الخلفية
       document.querySelectorAll('.modal-overlay').forEach(m => {
         m.addEventListener('click', function(e) {
           if (e.target === this) {
@@ -1011,76 +912,16 @@
         });
       });
 
+      console.log('✅ products.html v3.1 ready — role:', pageState.role);
+
     } catch (err) {
       console.error('Init error:', err);
     }
   });
 
   // ============================================================
-  // 🖼️ P9: Image Uploader (multi-fallback: IMGBB → Catbox)
+  // 🖼️ Image Upload — عبر window.uploadImage (Worker)
   // ============================================================
-  async function uploadImage(file, onProgress) {
-    if (!file) throw new Error('لا يوجد ملف');
-
-    // ضغط
-    let compressed = file;
-    try {
-      compressed = await imageCompression(file, {
-        maxSizeMB: 1,
-        maxWidthOrHeight: 800,
-        useWebWorker: true,
-        fileType: 'image/jpeg'
-      });
-    } catch (e) {
-      console.warn('Compression failed, using original', e);
-    }
-
-    if (onProgress) onProgress(20);
-
-    // حاول بـ IMGBB أولاً
-    try {
-      const url = await _uploadIMGBB(compressed, onProgress);
-      if (url) return url;
-    } catch (e) {
-      console.warn('IMGBB failed:', e);
-    }
-
-    // Fallback: Catbox
-    try {
-      const url = await _uploadCatbox(compressed, onProgress);
-      if (url) return url;
-    } catch (e) {
-      console.warn('Catbox failed:', e);
-    }
-
-    throw new Error('فشل رفع الصورة من كل المصادر');
-  }
-
-  async function _uploadIMGBB(file, onProgress) {
-    const apiKey = 'cb056b7fd83c81129d5468c5d03287b4';
-    const fd = new FormData();
-    fd.append('image', file);
-    if (onProgress) onProgress(40);
-    const res = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, { method: 'POST', body: fd });
-    const data = await res.json();
-    if (onProgress) onProgress(100);
-    if (data?.success && data?.data?.url) return data.data.url;
-    throw new Error('IMGBB returned no URL');
-  }
-
-  async function _uploadCatbox(file, onProgress) {
-    const fd = new FormData();
-    fd.append('reqtype', 'fileupload');
-    fd.append('userhash', '832ae296445cd944f9957b3b3');
-    fd.append('fileToUpload', file);
-    if (onProgress) onProgress(60);
-    const res = await fetch('https://catbox.moe/user/api.php', { method: 'POST', body: fd });
-    const text = await res.text();
-    if (onProgress) onProgress(100);
-    if (text && text.startsWith('https://')) return text.trim();
-    throw new Error('Catbox returned invalid URL');
-  }
-
   async function handleImageUpload(event, type) {
     const file = event.target.files?.[0];
     if (!file) return;
@@ -1091,6 +932,11 @@
     }
     if (file.size > 5 * 1024 * 1024) {
       showToast('حجم الصورة يجب أن يكون أقل من 5 ميجا', 'warning');
+      return;
+    }
+
+    if (typeof window.uploadImage !== 'function') {
+      showToast('window.uploadImage غير متاح - تحقق من firebase-config.js v8.3', 'error');
       return;
     }
 
@@ -1112,7 +958,7 @@
 
     try {
       showToast('⏳ جاري رفع الصورة...', 'info');
-      const url = await uploadImage(file, updateProgress);
+      const url = await window.uploadImage(file, updateProgress);
 
       if (type === 'product') { productImageUrl = url; _showPreview('product', url); }
       else if (type === 'category') { categoryImageUrl = url; _showPreview('category', url); }
@@ -1154,11 +1000,11 @@
   }
 
   // ============================================================
-  // 📥 Load All Data
+  // 📥 Load
   // ============================================================
   async function loadAllData() {
     await Promise.all([loadCategories(), loadBrands()]);
-    loadProducts(); // realtime
+    loadProducts();
   }
 
   function loadProducts() {
@@ -1189,9 +1035,7 @@
       updateTabCounts();
       populateFilterSelects();
       renderCategories();
-    } catch (err) {
-      console.warn('Load categories:', err);
-    }
+    } catch (err) { console.warn('Load categories:', err); }
   }
 
   async function loadBrands() {
@@ -1202,9 +1046,7 @@
       updateTabCounts();
       populateFilterSelects();
       renderBrands();
-    } catch (err) {
-      console.warn('Load brands:', err);
-    }
+    } catch (err) { console.warn('Load brands:', err); }
   }
 
   function populateFilterSelects() {
@@ -1233,13 +1075,12 @@
   }
 
   // ============================================================
-  // 📊 Stats & Counts
+  // 📊 Stats
   // ============================================================
   function updateStats() {
     const total = allProducts.length;
     const available = allProducts.filter(p => p.available !== false).length;
     const unavailable = total - available;
-    // P6: fallback
     const offers = allProducts.filter(p => (p.hasRetailOffer ?? p.hasOffer) === true && p.available !== false).length;
     const lowStock = allProducts.filter(p => {
       if (p.available === false) return false;
@@ -1247,7 +1088,6 @@
       const stock = getTotalStock(p);
       return stock > 0 && stock <= threshold;
     }).length;
-
     _setText('statTotal', total);
     _setText('statAvailable', available);
     _setText('statUnavailable', unavailable);
@@ -1266,7 +1106,6 @@
     if (el) el.textContent = val;
   }
 
-  // P5: حساب إجمالي المخزون
   function getTotalStock(p) {
     if (p.warehouseStock !== undefined || p.warehousePieces !== undefined) {
       const units = p.warehouseStock || 0;
@@ -1277,26 +1116,18 @@
     return p.stockQuantity || 0;
   }
 
-  // P5: عرض كراتين + قطع
   function formatStockDisplay(p) {
     const perUnit = p.piecesPerUnit || 1;
     const unit = p.unit || 'قطعة';
-
     if (p.warehouseStock !== undefined || p.warehousePieces !== undefined) {
       const wUnits = p.warehouseStock || 0;
       const wPieces = p.warehousePieces || 0;
-      if (unit === 'قطعة' || perUnit === 1) {
-        return `${wUnits + wPieces} قطعة`;
-      }
+      if (unit === 'قطعة' || perUnit === 1) return `${wUnits + wPieces} قطعة`;
       const totalPieces = wUnits * perUnit + wPieces;
-      if (wPieces > 0) {
-        return `${wUnits} ${unit} + ${wPieces} قطعة`;
-      }
+      if (wPieces > 0) return `${wUnits} ${unit} + ${wPieces} قطعة`;
       return `${wUnits} ${unit} (${totalPieces} قطعة)`;
     }
-
-    const qty = p.stockQuantity || 0;
-    return `${qty} ${unit}`;
+    return `${p.stockQuantity || 0} ${unit}`;
   }
 
   // ============================================================
@@ -1368,7 +1199,7 @@
   }
 
   // ============================================================
-  // 🎴 Render Products (Cards)
+  // 🎴 Render
   // ============================================================
   function renderProducts() {
     const grid = document.getElementById('productsGrid');
@@ -1378,19 +1209,16 @@
       grid.innerHTML = `<div class="pc-empty">
         <div class="empty-icon"><i class="fas fa-box-open"></i></div>
         <h3>لا توجد منتجات</h3>
-        <p>${isAdmin ? 'ابدأ بإضافة منتج جديد' : 'لا توجد نتائج'}</p>
-        ${isAdmin ? '<button class="btn btn-gold" style="margin-top:12px;" onclick="openProductModal()"><i class="fas fa-plus"></i> إضافة منتج</button>' : ''}
+        <p>${pageState.isAdmin ? 'ابدأ بإضافة منتج جديد' : 'لا توجد نتائج'}</p>
+        ${pageState.isAdmin ? '<button class="btn btn-gold" style="margin-top:12px;" onclick="openProductModal()"><i class="fas fa-plus"></i> إضافة منتج</button>' : ''}
       </div>`;
       document.getElementById('loadMoreBtn').style.display = 'none';
       return;
     }
 
-    const start = 0;
     const end = (currentPage + 1) * PAGE_SIZE;
-    const list = filteredProducts.slice(start, end);
-
+    const list = filteredProducts.slice(0, end);
     grid.innerHTML = list.map(p => renderProductCard(p)).join('');
-
     document.getElementById('loadMoreBtn').style.display =
       filteredProducts.length > end ? 'inline-flex' : 'none';
   }
@@ -1398,19 +1226,15 @@
   function renderProductCard(p) {
     const isAvailable = p.available !== false;
     const hasOffer = (p.hasRetailOffer ?? p.hasOffer) === true && isAvailable;
-    const hasWholesaleDiscount = p.hasWholesaleDiscount === true && isAvailable && isSuper;
+    const hasWholesaleDiscount = p.hasWholesaleDiscount === true && isAvailable && pageState.isSuper;
     const stock = getTotalStock(p);
     const threshold = p.lowStockThreshold || 5;
     const isLowStock = isAvailable && stock > 0 && stock <= threshold;
     const isOutOfStock = isAvailable && stock === 0;
-    // P6: use new schema with fallback
     const retailPrice = p.retailPrice || 0;
     const offerPrice = p.retailOfferPrice ?? p.offerPrice ?? 0;
     const wholesalePrice = p.wholesalePrice || 0;
     const purchasePrice = p.purchasePrice || 0;
-    const unit = p.unit || 'قطعة';
-    const piecesPerUnit = p.piecesPerUnit || 1;
-
     const imageUrl = p.imageUrl || '/gomla/assets/images/no-image.png';
 
     const badges = [];
@@ -1420,7 +1244,7 @@
     if (hasWholesaleDiscount) badges.push(`<span class="pc-badge wholesale-discount"><i class="fas fa-tag"></i> خصم ${p.wholesaleDiscountPercent}%</span>`);
     if (isLowStock) badges.push('<span class="pc-badge low-stock"><i class="fas fa-exclamation-triangle"></i> منخفض</span>');
 
-    const canSeePurchase = isSuper || isAdminPlus;
+    const canSeePurchase = pageState.isSuper || pageState.isAdminPlus;
 
     return `
       <div class="pc-card ${isAvailable ? '' : 'unavailable'}">
@@ -1444,14 +1268,12 @@
             <div class="pc-price-row">
               <span class="lbl">شراء:</span>
               <span class="val purchase">${purchasePrice > 0 ? purchasePrice.toFixed(2) + ' ج' : '—'}</span>
-            </div>
-          ` : ''}
+            </div>` : ''}
           ${hasOffer ? `
             <div class="pc-price-row">
               <span class="lbl">عرض:</span>
               <span class="val" style="color:#d97706;">${offerPrice.toFixed(2)} ج</span>
-            </div>
-          ` : ''}
+            </div>` : ''}
 
           <div class="pc-stock ${isOutOfStock ? 'empty' : isLowStock ? 'low' : ''}">
             <span class="stock-label"><i class="fas fa-warehouse"></i></span>
@@ -1462,7 +1284,7 @@
             <button class="pc-action-btn view" onclick="viewProduct('${p.id}')" title="عرض">
               <i class="fas fa-eye"></i> عرض
             </button>
-            ${isAdmin ? `
+            ${pageState.isAdmin ? `
               <button class="pc-action-btn edit" onclick="openProductModal('${p.id}')" title="تعديل">
                 <i class="fas fa-pen"></i> تعديل
               </button>
@@ -1485,20 +1307,12 @@
     renderProducts();
   }
 
-  // ============================================================
-  // 🏷️ Render Brands
-  // ============================================================
   function renderBrands() {
     const grid = document.getElementById('brandsGrid');
     if (!grid) return;
-    if (!isSuper) { grid.innerHTML = '<div class="pc-empty"><h3>صلاحية super فقط</h3></div>'; return; }
-
+    if (!pageState.isSuper) { grid.innerHTML = '<div class="pc-empty"><h3>صلاحية super فقط</h3></div>'; return; }
     if (allBrands.length === 0) {
-      grid.innerHTML = `<div class="pc-empty">
-        <div class="empty-icon"><i class="fas fa-copyright"></i></div>
-        <h3>لا توجد براندات</h3>
-        <p>أضف أول براند</p>
-      </div>`;
+      grid.innerHTML = `<div class="pc-empty"><div class="empty-icon"><i class="fas fa-copyright"></i></div><h3>لا توجد براندات</h3><p>أضف أول براند</p></div>`;
       return;
     }
     grid.innerHTML = allBrands.map(b => {
@@ -1523,20 +1337,12 @@
     }).join('');
   }
 
-  // ============================================================
-  // 📂 Render Categories
-  // ============================================================
   function renderCategories() {
     const grid = document.getElementById('categoriesGrid');
     if (!grid) return;
-    if (!isSuper) { grid.innerHTML = '<div class="pc-empty"><h3>صلاحية super فقط</h3></div>'; return; }
-
+    if (!pageState.isSuper) { grid.innerHTML = '<div class="pc-empty"><h3>صلاحية super فقط</h3></div>'; return; }
     if (allCategories.length === 0) {
-      grid.innerHTML = `<div class="pc-empty">
-        <div class="empty-icon"><i class="fas fa-tags"></i></div>
-        <h3>لا توجد تصنيفات</h3>
-        <p>أضف أول تصنيف</p>
-      </div>`;
+      grid.innerHTML = `<div class="pc-empty"><div class="empty-icon"><i class="fas fa-tags"></i></div><h3>لا توجد تصنيفات</h3><p>أضف أول تصنيف</p></div>`;
       return;
     }
     grid.innerHTML = allCategories.map(c => {
@@ -1560,26 +1366,22 @@
     }).join('');
   }
 
-  // ============================================================
-  // 🔄 Tabs
-  // ============================================================
   function switchTab(tab) {
-    if ((tab === 'brands' || tab === 'categories') && !isSuper) {
+    if ((tab === 'brands' || tab === 'categories') && !pageState.isSuper) {
       showToast('صلاحية super فقط', 'warning');
       return;
     }
-    currentTab = tab;
+    pageState.currentTab = tab;
     document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
     document.querySelectorAll('.ph-tab').forEach(el => el.classList.toggle('active', el.dataset.tab === tab));
     document.getElementById('tab-' + tab)?.classList.add('active');
   }
 
   // ============================================================
-  // 🪟 Product Modal (Dynamic by Role)
+  // 🪟 Product Modal
   // ============================================================
   function openProductModal(productId) {
-    if (!isAdmin) { showToast('غير مصرح', 'warning'); return; }
-
+    if (!pageState.isAdmin) { showToast('غير مصرح', 'warning'); return; }
     const isEdit = !!productId;
     const existing = isEdit ? allProducts.find(p => p.id === productId) : null;
     if (isEdit && !existing) { showToast('المنتج غير موجود', 'error'); return; }
@@ -1587,11 +1389,11 @@
     productImageUrl = existing?.imageUrl || '';
 
     document.getElementById('productModalTitle').innerHTML =
-      `<i class="fas fa-${isEdit ? 'pen' : 'plus'}"></i> ${isEdit ? 'تعديل' : 'إضافة'} منتج ${isSuper ? '(سوبر)' : isAdminPlus ? '(أدمن بلص)' : ''}`;
+      `<i class="fas fa-${isEdit ? 'pen' : 'plus'}"></i> ${isEdit ? 'تعديل' : 'إضافة'} منتج ${pageState.isSuper ? '(سوبر)' : pageState.isAdminPlus ? '(أدمن بلص)' : ''}`;
     document.getElementById('productId').value = productId || '';
     document.getElementById('saveProductBtn').innerHTML = `<i class="fas fa-save"></i> ${isEdit ? 'تحديث' : 'حفظ'}`;
 
-    document.getElementById('productModalBody').innerHTML = isSuper
+    document.getElementById('productModalBody').innerHTML = pageState.isSuper
       ? buildSuperProductForm(existing)
       : buildLimitedProductForm(existing);
 
@@ -1603,7 +1405,6 @@
     }, 50);
   }
 
-  // ===== Modal: Limited (admin_plus / admin) =====
   function buildLimitedProductForm(p) {
     const hasOffer = (p?.hasRetailOffer ?? p?.hasOffer) === true;
     const offerEnd = p?.retailOfferEnd || p?.offerEndDate;
@@ -1669,9 +1470,8 @@
         </div>
         <div class="form-row">
           <div class="form-group">
-            <label>سعر الشراء <i class="fas fa-lock" style="color:var(--gold);font-size:0.7rem;"></i></label>
+            <label>سعر الشراء</label>
             <input type="number" id="purchasePrice" min="0" step="0.01" value="${p?.purchasePrice || ''}">
-            <div class="help-text">للإدارة فقط</div>
           </div>
           <div class="form-group">
             <label>الحد الأقصى للطلب</label>
@@ -1688,7 +1488,7 @@
             <input type="number" id="warehouseStock" min="0" value="${p?.warehouseStock ?? p?.stockQuantity ?? 0}" oninput="updateCalculations()">
           </div>
           <div class="form-group">
-            <label>قطع إضافية في المخزن</label>
+            <label>قطع إضافية</label>
             <input type="number" id="warehousePieces" min="0" value="${p?.warehousePieces || 0}" oninput="updateCalculations()">
           </div>
         </div>
@@ -1736,7 +1536,6 @@
     `;
   }
 
-  // ===== Modal: Full (super) =====
   function buildSuperProductForm(p) {
     const hasRetailOffer = (p?.hasRetailOffer ?? p?.hasOffer) === true;
     const hasWholesaleDiscount = p?.hasWholesaleDiscount === true;
@@ -1784,11 +1583,11 @@
           <textarea id="productDescription" rows="2" maxlength="500">${_esc(p?.description || '')}</textarea>
         </div>
         <div class="form-group">
-          <label>ملاحظات داخلية (للمشرفين فقط)</label>
+          <label>ملاحظات داخلية</label>
           <textarea id="productNotes" rows="2" maxlength="300">${_esc(p?.notes || '')}</textarea>
         </div>
         <div class="form-group">
-          <label>ملاحظات للتجار <i class="fas fa-store" style="color:var(--gold);font-size:0.7rem;"></i></label>
+          <label>ملاحظات للتجار</label>
           <textarea id="productTraderNotes" rows="2" maxlength="300">${_esc(p?.traderNotes || '')}</textarea>
           <div class="help-text">تظهر للتجار فقط</div>
         </div>
@@ -1955,34 +1754,26 @@
     `;
   }
 
-  // ============================================================
-  // 🧮 Calculations (live update)
-  // ============================================================
   function updateCalculations() {
     const unit = document.getElementById('productUnit')?.value || 'قطعة';
     const piecesGroup = document.getElementById('piecesPerUnitGroup');
     const piecesInput = document.getElementById('piecesPerUnit');
-
     if (piecesGroup && piecesInput) {
       piecesGroup.style.display = unit === 'قطعة' ? 'none' : 'block';
       if (unit === 'قطعة') piecesInput.value = 1;
     }
-
     const pieces = parseInt(piecesInput?.value) || 1;
     const wholesale = parseFloat(document.getElementById('wholesalePrice')?.value) || 0;
     const retail = parseFloat(document.getElementById('retailPrice')?.value) || 0;
-    const purchase = parseFloat(document.getElementById('purchasePrice')?.value) || 0;
     const wUnits = parseInt(document.getElementById('warehouseStock')?.value) || 0;
     const wPieces = parseInt(document.getElementById('warehousePieces')?.value) || 0;
 
-    // P6: عرض/إخفاء حقول العرض
     const hasOffer = document.getElementById('hasOffer')?.value === 'true';
     const offerDurationGroup = document.getElementById('offerDurationGroup');
     const retailOfferFields = document.getElementById('retailOfferFields');
     if (offerDurationGroup) offerDurationGroup.style.display = hasOffer ? 'block' : 'none';
     if (retailOfferFields) retailOfferFields.style.display = hasOffer ? 'block' : 'none';
 
-    // سعر القطعة + هامش
     const unitPiecePrice = pieces > 0 && wholesale > 0 ? wholesale / pieces : 0;
     const profit = retail > 0 && unitPiecePrice > 0 ? retail - unitPiecePrice : 0;
     const unitPiecePriceEl = document.getElementById('unitPiecePrice');
@@ -1993,7 +1784,6 @@
       profitEl.style.color = profit >= 0 ? '#16a34a' : '#dc2626';
     }
 
-    // P5: إجمالي القطع
     const total = (unit === 'قطعة' || pieces === 1) ? (wUnits + wPieces) : (wUnits * pieces + wPieces);
     const totalEl = document.getElementById('totalPiecesDisplay');
     if (totalEl) totalEl.value = total + ' قطعة';
@@ -2006,12 +1796,11 @@
   }
 
   // ============================================================
-  // 💾 Save Product
+  // 💾 Save
   // ============================================================
   async function saveProduct(event) {
     event.preventDefault();
-    if (!isAdmin) { showToast('غير مصرح', 'warning'); return; }
-
+    if (!pageState.isAdmin) { showToast('غير مصرح', 'warning'); return; }
     const btn = document.getElementById('saveProductBtn');
     btn.disabled = true;
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الحفظ...';
@@ -2020,14 +1809,12 @@
       const id = document.getElementById('productId').value;
       const name = document.getElementById('productName').value.trim();
       const categoryId = document.getElementById('productCategory').value;
-
       if (!name) throw new Error('اسم المنتج مطلوب');
       if (!categoryId) throw new Error('التصنيف مطلوب');
 
       const cat = allCategories.find(c => c.id === categoryId);
       const categoryName = cat?.name || '';
 
-      // ===== Base data (all roles) =====
       const unit = document.getElementById('productUnit')?.value || 'قطعة';
       const piecesPerUnit = unit === 'قطعة' ? 1 : (parseInt(document.getElementById('piecesPerUnit')?.value) || 1);
       const wholesalePrice = parseFloat(document.getElementById('wholesalePrice')?.value) || 0;
@@ -2042,65 +1829,53 @@
       const available = document.getElementById('productAvailable')?.value === 'true';
 
       const data = {
-        name,
-        categoryId, categoryName,
-        unit,
-        piecesPerUnit,
-        retailUnit: 'قطعة', // P3: توحيد الاسم
-        wholesalePrice,
-        retailPrice,
-        purchasePrice,
+        name, categoryId, categoryName,
+        unit, piecesPerUnit,
+        retailUnit: 'قطعة',
+        wholesalePrice, retailPrice, purchasePrice,
         maxOrder,
-        // P5: warehouse fields
         warehouseStock: wStock,
         warehousePieces: wPieces,
-        stockQuantity: totalPieces, // backward compat
+        stockQuantity: totalPieces,
         available,
-        // P6: new offer schema with fallback
         hasRetailOffer: hasOffer && offerPrice > 0,
         retailOfferPrice: hasOffer ? offerPrice : 0,
         updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
-        updatedBy: currentAdminId
+        updatedBy: pageState.adminId
       };
 
-      // Offer dates
       if (hasOffer && offerPrice > 0) {
-        if (isSuper) {
+        if (pageState.isSuper) {
           const offerStart = document.getElementById('offerStart')?.value;
           const offerEnd = document.getElementById('offerEnd')?.value;
           data.retailOfferStart = offerStart ? new Date(offerStart) : null;
           data.retailOfferEnd = offerEnd ? new Date(offerEnd) : null;
         } else {
-          // Limited: auto duration
           const days = parseInt(document.getElementById('offerDuration')?.value) || 7;
           const now = new Date();
-          const end = new Date(now.getTime() + days * 86400000);
           data.retailOfferStart = now;
-          data.retailOfferEnd = end;
+          data.retailOfferEnd = new Date(now.getTime() + days * 86400000);
         }
       } else {
         data.retailOfferStart = null;
         data.retailOfferEnd = null;
       }
 
-      // Image
       if (productImageUrl) data.imageUrl = productImageUrl;
 
-      // ===== Super-only fields =====
-      if (isSuper) {
+      if (pageState.isSuper) {
         const brandId = document.getElementById('productBrand')?.value || '';
         const brand = allBrands.find(b => b.id === brandId);
         data.brandId = brandId;
         data.brandName = brand?.name || '';
         data.description = document.getElementById('productDescription')?.value?.trim() || '';
         data.notes = document.getElementById('productNotes')?.value?.trim() || '';
-        data.traderNotes = document.getElementById('productTraderNotes')?.value?.trim() || ''; // P4
-        data.lowStockThreshold = parseInt(document.getElementById('lowStockThreshold')?.value) || 5; // P8
+        data.traderNotes = document.getElementById('productTraderNotes')?.value?.trim() || '';
+        data.lowStockThreshold = parseInt(document.getElementById('lowStockThreshold')?.value) || 5;
         data.barcode = document.getElementById('productBarcode')?.value?.trim() || '';
         data.sku = document.getElementById('productSku')?.value?.trim() || '';
         data.keywords = document.getElementById('productKeywords')?.value?.trim() || '';
 
-        // Wholesale discount (super only)
         const hasWD = document.getElementById('hasWholesaleDiscount')?.value === 'true';
         data.hasWholesaleDiscount = hasWD;
         if (hasWD) {
@@ -2116,7 +1891,6 @@
         }
       }
 
-      // Clean undefined
       Object.keys(data).forEach(k => { if (data[k] === undefined) delete data[k]; });
 
       if (id) {
@@ -2126,7 +1900,7 @@
         data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
         data.salesCount = 0;
         data.viewsCount = 0;
-        data.createdBy = currentAdminId;
+        data.createdBy = pageState.adminId;
         await db.collection('products').add(data);
         showToast('✅ تم إضافة المنتج', 'success');
       }
@@ -2142,16 +1916,15 @@
   }
 
   // ============================================================
-  // 👁️ View Product
+  // 👁️ View
   // ============================================================
   function viewProduct(productId) {
     const p = allProducts.find(x => x.id === productId);
     if (!p) return;
-
     const stock = getTotalStock(p);
     const hasOffer = (p.hasRetailOffer ?? p.hasOffer) === true && p.available !== false;
     const offerPrice = p.retailOfferPrice ?? p.offerPrice ?? 0;
-    const canSeePurchase = isSuper || isAdminPlus;
+    const canSeePurchase = pageState.isSuper || pageState.isAdminPlus;
     const img = p.imageUrl || '/gomla/assets/images/no-image.png';
 
     document.getElementById('viewProductContent').innerHTML = `
@@ -2163,25 +1936,19 @@
           <h3 style="margin:0 0 8px;color:var(--navy);font-size:1.2rem;">${_esc(p.name)}</h3>
           ${p.categoryName ? `<div style="font-size:0.8rem;color:var(--gray-500);margin-bottom:4px;"><i class="fas fa-tag" style="color:var(--gold);"></i> ${_esc(p.categoryName)}</div>` : ''}
           ${p.brandName ? `<div style="font-size:0.8rem;color:var(--gray-500);margin-bottom:8px;"><i class="fas fa-copyright" style="color:var(--gold);"></i> ${_esc(p.brandName)}</div>` : ''}
-
           <div style="background:var(--gray-50);padding:10px;border-radius:8px;margin:10px 0;display:flex;flex-direction:column;gap:6px;font-size:0.85rem;">
             <div style="display:flex;justify-content:space-between;"><span>جملة:</span><strong style="color:var(--gold-dark);">${(p.wholesalePrice||0).toFixed(2)} ج</strong></div>
             <div style="display:flex;justify-content:space-between;"><span>قطاعي:</span><strong>${(p.retailPrice||0).toFixed(2)} ج</strong></div>
             ${canSeePurchase ? `<div style="display:flex;justify-content:space-between;"><span>شراء:</span><strong style="color:#7c3aed;">${(p.purchasePrice||0).toFixed(2)} ج</strong></div>` : ''}
             ${hasOffer ? `<div style="display:flex;justify-content:space-between;background:#fef3c7;padding:6px;border-radius:6px;margin-top:4px;"><span>🎯 عرض:</span><strong style="color:#d97706;">${offerPrice.toFixed(2)} ج</strong></div>` : ''}
           </div>
-
           <div style="background:#e0f2fe;padding:10px;border-radius:8px;margin:8px 0;font-size:0.85rem;">
-            <div style="display:flex;justify-content:space-between;">
-              <span>📦 المخزون:</span>
-              <strong style="color:#0369a1;">${formatStockDisplay(p)}</strong>
-            </div>
+            <div style="display:flex;justify-content:space-between;"><span>📦 المخزون:</span><strong style="color:#0369a1;">${formatStockDisplay(p)}</strong></div>
             <div style="text-align:center;font-size:0.72rem;color:#64748b;margin-top:4px;">(إجمالي ${stock} قطعة)</div>
           </div>
-
           ${p.description ? `<div style="background:#f8f9fa;padding:8px;border-radius:8px;margin-top:8px;font-size:0.82rem;"><strong>📝 الوصف:</strong><div style="margin-top:4px;color:#475569;">${_esc(p.description)}</div></div>` : ''}
-          ${p.traderNotes && isSuper ? `<div style="background:#fef9c3;padding:8px;border-radius:8px;margin-top:8px;font-size:0.82rem;"><strong>🏪 ملاحظات للتجار:</strong><div style="margin-top:4px;color:#713f12;">${_esc(p.traderNotes)}</div></div>` : ''}
-          ${p.notes && (isSuper || isAdminPlus) ? `<div style="background:#fee2e2;padding:8px;border-radius:8px;margin-top:8px;font-size:0.82rem;"><strong>📌 ملاحظات:</strong><div style="margin-top:4px;color:#991b1b;">${_esc(p.notes)}</div></div>` : ''}
+          ${p.traderNotes && pageState.isSuper ? `<div style="background:#fef9c3;padding:8px;border-radius:8px;margin-top:8px;font-size:0.82rem;"><strong>🏪 ملاحظات للتجار:</strong><div style="margin-top:4px;color:#713f12;">${_esc(p.traderNotes)}</div></div>` : ''}
+          ${p.notes && (pageState.isSuper || pageState.isAdminPlus) ? `<div style="background:#fee2e2;padding:8px;border-radius:8px;margin-top:8px;font-size:0.82rem;"><strong>📌 ملاحظات:</strong><div style="margin-top:4px;color:#991b1b;">${_esc(p.notes)}</div></div>` : ''}
         </div>
       </div>
     `;
@@ -2190,10 +1957,10 @@
   }
 
   // ============================================================
-  // 🗑️ Delete Product
+  // 🗑️ Delete
   // ============================================================
   async function deleteProduct(id) {
-    if (!isAdmin) return;
+    if (!pageState.isAdmin) return;
     if (!confirm('⚠️ حذف هذا المنتج؟ لا يمكن التراجع.')) return;
     try {
       await db.collection('products').doc(id).delete();
@@ -2204,13 +1971,12 @@
   }
 
   // ============================================================
-  // 🏷️ Brand Add/Edit/Save
+  // 🏷️ Brand CRUD
   // ============================================================
   function openBrandModal(brandId) {
-    if (!isSuper) { showToast('صلاحية super فقط', 'warning'); return; }
+    if (!pageState.isSuper) { showToast('صلاحية super فقط', 'warning'); return; }
     const isEdit = !!brandId;
     const existing = isEdit ? allBrands.find(b => b.id === brandId) : null;
-
     brandImageUrl = existing?.imageUrl || '';
 
     document.getElementById('brandModalTitle').innerHTML = `<i class="fas fa-${isEdit ? 'pen' : 'plus'}"></i> ${isEdit ? 'تعديل' : 'إضافة'} براند`;
@@ -2236,20 +2002,17 @@
 
   async function saveBrand(event) {
     event.preventDefault();
-    if (!isSuper) return;
+    if (!pageState.isSuper) return;
     const btn = document.getElementById('saveBrandBtn');
     btn.disabled = true;
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>...';
-
     try {
       const id = document.getElementById('brandId').value;
       const name = document.getElementById('brandName').value.trim();
       const description = document.getElementById('brandDescription').value.trim();
       if (!name) throw new Error('الاسم مطلوب');
-
       const data = { name, description, updatedAt: firebase.firestore.FieldValue.serverTimestamp() };
       if (brandImageUrl) data.imageUrl = brandImageUrl;
-
       if (id) {
         await db.collection('brands').doc(id).update(data);
         showToast('✅ تم التحديث', 'success');
@@ -2268,26 +2031,20 @@
     }
   }
 
-  // ============================================================
-  // 🔴 P2: Delete Brand Modal (نقل / حذف / إلغاء)
-  // ============================================================
   function openDeleteBrandModal(brandId) {
-    if (!isSuper) return;
+    if (!pageState.isSuper) return;
     const brand = allBrands.find(b => b.id === brandId);
     if (!brand) return;
-
     const affected = allProducts.filter(p => p.brandId === brandId);
     deleteBrandContext = { id: brandId, name: brand.name, count: affected.length };
 
     document.getElementById('deleteBrandName').textContent = brand.name;
     document.getElementById('deleteBrandCount').textContent = affected.length;
 
-    // Fill target select (other brands)
     const target = document.getElementById('deleteBrandTarget');
     target.innerHTML = '<option value="">— اختر براند —</option>' +
       allBrands.filter(b => b.id !== brandId).map(b => `<option value="${b.id}">${_esc(b.name)}</option>`).join('');
 
-    // Disable transfer option if no other brands
     const otherBrands = allBrands.filter(b => b.id !== brandId);
     const transferRadio = document.querySelector('input[name="deleteBrandAction"][value="transfer"]');
     if (otherBrands.length === 0) {
@@ -2313,41 +2070,32 @@
   async function confirmDeleteBrand() {
     if (!deleteBrandContext) return;
     const action = document.querySelector('input[name="deleteBrandAction"]:checked')?.value;
-
     if (action === 'cancel') { closeModal('deleteBrandModal'); return; }
-
     const btn = document.getElementById('confirmDeleteBrandBtn');
     btn.disabled = true;
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التنفيذ...';
-
     try {
       const affected = allProducts.filter(p => p.brandId === deleteBrandContext.id);
-
       if (action === 'transfer') {
         const targetId = document.getElementById('deleteBrandTarget').value;
         if (!targetId) throw new Error('اختر براند للنقل');
         const targetBrand = allBrands.find(b => b.id === targetId);
         if (!targetBrand) throw new Error('البراند غير موجود');
-
-        // نقل على دفعات
         const batch = db.batch();
         affected.forEach(p => {
           batch.update(db.collection('products').doc(p.id), {
-            brandId: targetId,
-            brandName: targetBrand.name
+            brandId: targetId, brandName: targetBrand.name
           });
         });
         await batch.commit();
         showToast(`✅ تم نقل ${affected.length} منتج`, 'success');
       } else if (action === 'delete') {
-        // حذف البراند + كل المنتجات المرتبطة
         const batch = db.batch();
         affected.forEach(p => batch.delete(db.collection('products').doc(p.id)));
         batch.delete(db.collection('brands').doc(deleteBrandContext.id));
         await batch.commit();
         showToast(`✅ تم حذف البراند و${affected.length} منتج`, 'success');
       }
-
       closeModal('deleteBrandModal');
       deleteBrandContext = null;
       loadBrands();
@@ -2360,13 +2108,12 @@
   }
 
   // ============================================================
-  // 🏷️ Category Add/Edit/Save
+  // 🏷️ Category CRUD
   // ============================================================
   function openCategoryModal(categoryId) {
-    if (!isSuper) { showToast('صلاحية super فقط', 'warning'); return; }
+    if (!pageState.isSuper) { showToast('صلاحية super فقط', 'warning'); return; }
     const isEdit = !!categoryId;
     const existing = isEdit ? allCategories.find(c => c.id === categoryId) : null;
-
     categoryImageUrl = existing?.imageUrl || '';
 
     document.getElementById('categoryModalTitle').innerHTML = `<i class="fas fa-${isEdit ? 'pen' : 'plus'}"></i> ${isEdit ? 'تعديل' : 'إضافة'} تصنيف`;
@@ -2391,19 +2138,16 @@
 
   async function saveCategory(event) {
     event.preventDefault();
-    if (!isSuper) return;
+    if (!pageState.isSuper) return;
     const btn = document.getElementById('saveCategoryBtn');
     btn.disabled = true;
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>...';
-
     try {
       const id = document.getElementById('categoryId').value;
       const name = document.getElementById('categoryName').value.trim();
       if (!name) throw new Error('الاسم مطلوب');
-
       const data = { name, updatedAt: firebase.firestore.FieldValue.serverTimestamp() };
       if (categoryImageUrl) data.imageUrl = categoryImageUrl;
-
       if (id) {
         await db.collection('categories').doc(id).update(data);
         showToast('✅ تم التحديث', 'success');
@@ -2422,14 +2166,10 @@
     }
   }
 
-  // ============================================================
-  // 🔴 P1: Delete Category Modal (نقل / حذف / إلغاء)
-  // ============================================================
   function openDeleteCategoryModal(categoryId) {
-    if (!isSuper) return;
+    if (!pageState.isSuper) return;
     const cat = allCategories.find(c => c.id === categoryId);
     if (!cat) return;
-
     const affected = allProducts.filter(p => p.categoryId === categoryId);
     deleteCategoryContext = { id: categoryId, name: cat.name, count: affected.length };
 
@@ -2465,27 +2205,21 @@
   async function confirmDeleteCategory() {
     if (!deleteCategoryContext) return;
     const action = document.querySelector('input[name="deleteCategoryAction"]:checked')?.value;
-
     if (action === 'cancel') { closeModal('deleteCategoryModal'); return; }
-
     const btn = document.getElementById('confirmDeleteCategoryBtn');
     btn.disabled = true;
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التنفيذ...';
-
     try {
       const affected = allProducts.filter(p => p.categoryId === deleteCategoryContext.id);
-
       if (action === 'transfer') {
         const targetId = document.getElementById('deleteCategoryTarget').value;
         if (!targetId) throw new Error('اختر تصنيف للنقل');
         const targetCat = allCategories.find(c => c.id === targetId);
         if (!targetCat) throw new Error('التصنيف غير موجود');
-
         const batch = db.batch();
         affected.forEach(p => {
           batch.update(db.collection('products').doc(p.id), {
-            categoryId: targetId,
-            categoryName: targetCat.name
+            categoryId: targetId, categoryName: targetCat.name
           });
         });
         await batch.commit();
@@ -2497,7 +2231,6 @@
         await batch.commit();
         showToast(`✅ تم حذف التصنيف و${affected.length} منتج`, 'success');
       }
-
       closeModal('deleteCategoryModal');
       deleteCategoryContext = null;
       loadCategories();
@@ -2510,13 +2243,10 @@
   }
 
   // ============================================================
-  // 📤 Export CSV
+  // 📤 Export
   // ============================================================
   function exportProductsCSV() {
-    if (filteredProducts.length === 0) {
-      showToast('لا يوجد منتجات', 'warning');
-      return;
-    }
+    if (filteredProducts.length === 0) { showToast('لا يوجد منتجات', 'warning'); return; }
     let csv = 'الاسم,التصنيف,البراند,الوحدة,الجملة,القطاعي,الشراء,المخزون,متاح,عرض\n';
     filteredProducts.forEach(p => {
       const hasOffer = (p.hasRetailOffer ?? p.hasOffer) === true;
@@ -2551,6 +2281,21 @@
     const d = t.toDate ? t.toDate() : new Date(t);
     if (isNaN(d.getTime())) return '';
     return d.toISOString().slice(0, 10);
+  }
+
+  function showToast(message, type) {
+    if (typeof window.showToast === 'function') { window.showToast(message, type); return; }
+    const container = document.getElementById('toast-container');
+    if (!container) { console.log('Toast:', message); return; }
+    const t = document.createElement('div');
+    t.className = `toast toast-${type}`;
+    t.textContent = message;
+    container.appendChild(t);
+    setTimeout(() => t.classList.add('show'), 10);
+    setTimeout(() => {
+      t.classList.remove('show');
+      setTimeout(() => t.remove(), 300);
+    }, 3000);
   }
 
   // ============================================================
