@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>إدارة الفروع - أولاد شعلان</title>
+  <meta name="description" content="إدارة فروع أولاد شعلان">
+  <meta name="theme-color" content="#1a2a4a">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/gomla/assets/css/style.css">
+  <link rel="icon" href="/gomla/assets/images/favicon.ico">
+
+  <style>
+    html, body { overflow-x: hidden !important; max-width: 100vw; }
+
+    /* ===== Page Header ===== */
+    .br-header {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+      border-radius: var(--radius-lg);
+      padding: 22px 24px;
+      margin-bottom: 18px;
+      color: var(--white);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 40px rgba(26,42,74,.25);
+      border-bottom: 4px solid var(--gold);
+    }
+    .br-header::before {
+      content: '';
+      position: absolute;
+      top: -50%; right: -15%;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(201,168,76,.18) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .br-header-inner {
+      position: relative; z-index: 1;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .br-header-left { display: flex; align-items: center; gap: 16px; flex: 1; min-width: 220px; }
+    .br-header-icon {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+      box-shadow: 0 8px 24px rgba(201,168,76,.4);
+    }
+    .br-header h1 { font-size: 1.35rem; font-weight: 900; margin: 0 0 3px; color: var(--white); }
+    .br-header p { font-size: 0.83rem; opacity: 0.88; margin: 0; }
+    .br-header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .br-header-actions .btn {
+      background: rgba(255,255,255,.15); color: var(--white);
+      border: 1px solid rgba(255,255,255,.3);
+      padding: 8px 14px; border-radius: var(--radius-sm);
+      font-family: inherit; font-weight: 700; font-size: 0.82rem;
+      cursor: pointer; transition: var(--transition);
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .br-header-actions .btn:hover { background: var(--gold); color: var(--navy); border-color: var(--gold); }
+
+    /* ===== Stats ===== */
+    .br-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    .br-stat {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 14px 12px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      text-align: center;
+      transition: var(--transition);
+    }
+    .br-stat:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--gold-light); }
+    .br-stat-icon {
+      width: 40px; height: 40px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.05rem; margin: 0 auto 8px;
+    }
+    .br-stat-icon.blue   { background: rgba(59,130,246,.12); color: #2563eb; }
+    .br-stat-icon.green  { background: rgba(34,197,94,.12);  color: #16a34a; }
+    .br-stat-icon.gold   { background: rgba(201,168,76,.15); color: var(--gold-dark); }
+    .br-stat-icon.purple { background: rgba(139,92,246,.12); color: #7c3aed; }
+    .br-stat-num { font-size: 1.15rem; font-weight: 900; color: var(--navy); line-height: 1.2; margin-bottom: 2px; }
+    .br-stat-num.green { color: #16a34a; }
+    .br-stat-num.gold  { color: var(--gold-dark); }
+    .br-stat-label { font-size: 0.68rem; color: var(--gray-500); font-weight: 700; }
+
+    /* ===== Filter Bar ===== */
+    .br-filters {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+    }
+    .br-search { position: relative; flex: 1; min-width: 200px; }
+    .br-search input {
+      width: 100%; padding: 10px 40px 10px 14px;
+      border: 2px solid var(--gray-200); border-radius: var(--radius-sm);
+      font-family: inherit; font-size: 0.88rem;
+      background: var(--gray-50); outline: none; transition: var(--transition);
+    }
+    .br-search input:focus { border-color: var(--gold); background: var(--white); box-shadow: 0 0 0 4px rgba(201,168,76,.15); }
+    .br-search i { position: absolute; right: 13px; top: 50%; transform: translateY(-50%); color: var(--gray-400); }
+    .br-filters select {
+      padding: 10px 14px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit; font-size: 0.85rem;
+      background: var(--gray-50); outline: none;
+      cursor: pointer; min-width: 140px;
+    }
+    .br-filters select:focus { border-color: var(--gold); background: var(--white); }
+    .br-filters .btn-icon-only {
+      padding: 10px 14px;
+      border: 2px solid var(--gray-200);
+      background: var(--white); border-radius: var(--radius-sm);
+      color: var(--gray-600); cursor: pointer; transition: var(--transition);
+    }
+    .br-filters .btn-icon-only:hover { border-color: var(--gold); color: var(--gold-dark); }
+
+    /* ===== Grid ===== */
+    .br-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    /* ===== Branch Card ===== */
+    .branch-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      padding: 16px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .branch-card::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 5px; height: 100%;
+      background: var(--gold);
+    }
+    .branch-card.type-warehouse::before { background: linear-gradient(180deg, #8b5cf6, #7c3aed); }
+    .branch-card.type-retail::before    { background: linear-gradient(180deg, #22c55e, #16a34a); }
+    .branch-card.type-wholesale::before { background: linear-gradient(180deg, var(--gold), var(--gold-dark)); }
+    .branch-card.inactive { opacity: 0.65; background: var(--gray-50); }
+    .branch-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--gold-light);
+    }
+
+    .branch-card-head {
+      display: flex; justify-content: space-between;
+      align-items: flex-start; gap: 10px;
+    }
+    .branch-name {
+      font-size: 1rem; font-weight: 900;
+      color: var(--navy); margin: 0;
+      display: flex; align-items: center; gap: 6px;
+      flex-wrap: wrap;
+    }
+    .branch-name i { color: var(--gold); font-size: 0.9rem; }
+    .branch-code-badge {
+      font-family: 'Courier New', monospace;
+      background: var(--gray-100);
+      color: var(--navy);
+      padding: 2px 10px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 900;
+      direction: ltr;
+      display: inline-block;
+    }
+
+    .branch-status-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 3px 10px; border-radius: var(--radius-full);
+      font-size: 0.65rem; font-weight: 800;
+      white-space: nowrap; flex-shrink: 0;
+    }
+    .branch-status-badge.active   { background: rgba(34,197,94,.15); color: #16a34a; }
+    .branch-status-badge.inactive { background: rgba(107,114,128,.15); color: #4b5563; }
+
+    .branch-info-row {
+      display: flex; align-items: center; gap: 6px;
+      font-size: 0.78rem; color: var(--gray-600);
+      min-width: 0;
+    }
+    .branch-info-row i {
+      color: var(--gold); font-size: 0.72rem;
+      width: 14px; text-align: center; flex-shrink: 0;
+    }
+    .branch-info-row .val {
+      overflow: hidden; text-overflow: ellipsis;
+      white-space: nowrap; flex: 1; min-width: 0;
+    }
+    .branch-info-row .val.phone { direction: ltr; text-align: right; font-weight: 700; color: var(--navy); }
+
+    .branch-type-row {
+      display: flex; align-items: center; gap: 6px;
+      padding: 6px 10px;
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem; font-weight: 800;
+      margin-top: 2px;
+    }
+    .branch-type-row.warehouse { background: #f3e8ff; color: #6b21a8; }
+    .branch-type-row.retail    { background: #dcfce7; color: #15803d; }
+    .branch-type-row.wholesale { background: #fef3c7; color: #b45309; }
+
+    .branch-regions {
+      display: flex; gap: 4px; flex-wrap: wrap;
+      padding-top: 8px; border-top: 1px dashed var(--gray-200);
+      margin-top: 4px;
+    }
+    .branch-region-tag {
+      font-size: 0.65rem;
+      padding: 2px 8px;
+      background: var(--gray-100);
+      color: var(--gray-700);
+      border-radius: 10px;
+      font-weight: 700;
+    }
+    .branch-region-tag.more {
+      background: var(--gold-light);
+      color: var(--gold-dark);
+    }
+
+    .branch-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 6px;
+      padding-top: 8px;
+      border-top: 1px solid var(--gray-100);
+      margin-top: 4px;
+    }
+    .branch-action-btn {
+      padding: 7px 4px;
+      border: 1.5px solid;
+      border-radius: var(--radius-sm);
+      font-family: inherit; font-weight: 800;
+      font-size: 0.68rem; cursor: pointer;
+      transition: all .2s ease;
+      display: inline-flex; align-items: center; justify-content: center;
+      gap: 4px; background: var(--white); white-space: nowrap;
+    }
+    .branch-action-btn.edit   { border-color: #fcd34d; color: #d97706; }
+    .branch-action-btn.edit:hover { background: #f59e0b; color: var(--white); border-color: #d97706; }
+    .branch-action-btn.toggle { border-color: var(--gray-300); color: var(--gray-700); }
+    .branch-action-btn.toggle.off { border-color: #86efac; color: #16a34a; }
+    .branch-action-btn.toggle:hover { background: var(--gray-600); color: var(--white); border-color: var(--gray-600); }
+    .branch-action-btn.toggle.off:hover { background: #22c55e; color: var(--white); border-color: #16a34a; }
+    .branch-action-btn.delete { border-color: #fca5a5; color: #dc2626; }
+    .branch-action-btn.delete:hover { background: #dc2626; color: var(--white); border-color: #dc2626; }
+    .branch-action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* ===== Empty / Loading ===== */
+    .br-empty, .br-loading {
+      text-align: center; padding: 60px 20px;
+      background: var(--white);
+      border-radius: var(--radius-md);
+      border: 2px dashed var(--gray-300);
+      grid-column: 1/-1;
+    }
+    .br-empty .empty-icon {
+      width: 90px; height: 90px; border-radius: 50%;
+      background: var(--gray-100); color: var(--gray-400);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.2rem; margin: 0 auto 16px;
+    }
+    .br-empty h3 { font-size: 1.1rem; font-weight: 900; color: var(--navy); margin-bottom: 6px; }
+    .br-empty p { font-size: 0.85rem; color: var(--gray-500); }
+    .br-loading i { font-size: 2rem; color: var(--gold); margin-bottom: 10px; }
+
+    /* ===== Modal ===== */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(15,26,46,.75);
+      backdrop-filter: blur(4px);
+      z-index: 999; justify-content: center; align-items: center;
+      padding: 20px; overflow-y: auto;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal-content {
+      background: var(--white); border-radius: var(--radius-lg);
+      max-width: 640px; width: 100%;
+      max-height: 90vh; overflow-y: auto;
+      padding: 0; position: relative;
+      animation: modalSlide .3s cubic-bezier(.4,0,.2,1);
+    }
+    .modal-content.small { max-width: 480px; }
+    @keyframes modalSlide { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .modal-header {
+      padding: 18px 22px;
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      display: flex; justify-content: space-between; align-items: center;
+      position: sticky; top: 0; z-index: 2;
+    }
+    .modal-header h2, .modal-header h3 {
+      font-size: 1.1rem; font-weight: 900; margin: 0;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .modal-header h2 i, .modal-header h3 i { color: var(--gold); }
+    .modal-close {
+      background: rgba(255,255,255,.15); border: none;
+      color: var(--white); width: 32px; height: 32px;
+      border-radius: 50%; cursor: pointer; font-size: 1.1rem;
+      transition: var(--transition);
+    }
+    .modal-close:hover { background: var(--danger); transform: rotate(90deg); }
+    .modal-body { padding: 20px 22px; }
+    .modal-actions {
+      padding: 16px 22px; border-top: 2px solid var(--gray-100);
+      display: flex; gap: 10px; justify-content: flex-end;
+      position: sticky; bottom: 0; background: var(--white);
+    }
+
+    .btn {
+      padding: 9px 18px; border: none; border-radius: var(--radius-sm);
+      font-family: inherit; font-weight: 800; font-size: 0.85rem;
+      cursor: pointer; transition: var(--transition);
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-outline { background: transparent; border: 2px solid var(--gray-300); color: var(--gray-700); }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold-dark); }
+    .btn-gold { background: var(--gold); color: var(--navy); }
+    .btn-gold:hover { background: var(--gold-dark); color: var(--white); transform: translateY(-1px); }
+    .btn-danger { background: var(--danger); color: white; }
+    .btn-danger:hover { background: #b91c1c; }
+
+    /* ===== Form ===== */
+    .form-section {
+      margin-bottom: 20px; padding-bottom: 16px;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .form-section:last-child { border-bottom: none; margin-bottom: 0; }
+    .form-section h4 {
+      font-size: 0.9rem; color: var(--navy); margin-bottom: 12px;
+      display: flex; align-items: center; gap: 8px; font-weight: 900;
+    }
+    .form-section h4 i { color: var(--gold); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .form-group { margin-bottom: 12px; }
+    .form-group label {
+      display: block; font-weight: 700; font-size: 0.82rem;
+      color: var(--gray-700); margin-bottom: 4px;
+    }
+    .form-group label .required { color: var(--danger); }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; padding: 9px 12px;
+      border: 2px solid var(--gray-200); border-radius: var(--radius-sm);
+      font-family: inherit; font-size: 0.88rem;
+      background: var(--gray-50); transition: var(--transition);
+      outline: none;
+    }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      border-color: var(--gold); background: var(--white);
+      box-shadow: 0 0 0 4px rgba(201,168,76,.15);
+    }
+    .form-group input[readonly] { background: #f0f0f0; color: var(--gray-600); cursor: not-allowed; }
+    .form-group .help-text { font-size: 0.72rem; color: var(--gray-500); margin-top: 3px; }
+    .form-group .help-text i { color: var(--gold); }
+
+    /* Regions chips */
+    .regions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 6px;
+      margin-top: 6px;
+      max-height: 180px;
+      overflow-y: auto;
+      padding: 8px;
+      background: var(--gray-50);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--gray-200);
+    }
+    .region-checkbox {
+      display: flex; align-items: center; gap: 6px;
+      padding: 6px 10px;
+      background: var(--white);
+      border: 1.5px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-size: 0.78rem; font-weight: 700;
+      color: var(--gray-700);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .region-checkbox:hover { border-color: var(--gold); background: #fcf9f0; }
+    .region-checkbox input[type="checkbox"] {
+      width: 16px; height: 16px;
+      accent-color: var(--gold); cursor: pointer;
+    }
+    .region-checkbox.checked {
+      background: #fcf9f0;
+      border-color: var(--gold);
+      color: var(--navy);
+    }
+
+    /* Delete Warning */
+    .delete-warning {
+      background: #fef3c7;
+      border: 2px solid #fbbf24;
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      margin-bottom: 16px;
+      display: flex; gap: 10px;
+    }
+    .delete-warning i { color: #d97706; font-size: 1.3rem; flex-shrink: 0; }
+    .delete-warning p { margin: 0; font-size: 0.88rem; color: #92400e; font-weight: 700; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .br-header { padding: 16px; border-radius: var(--radius-md); }
+      .br-header-icon { width: 46px; height: 46px; font-size: 1.2rem; }
+      .br-header h1 { font-size: 1.05rem; }
+      .br-header p { font-size: 0.72rem; }
+      .br-stats { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .br-stat { padding: 11px 8px; }
+      .br-stat-icon { width: 34px; height: 34px; font-size: 0.9rem; }
+      .br-stat-num { font-size: 1rem; }
+      .br-filters { padding: 10px; flex-direction: column; align-items: stretch; }
+      .br-search { min-width: 100%; }
+      .br-filters select { min-width: 100%; }
+      .br-grid { grid-template-columns: 1fr; gap: 10px; }
+      .branch-card { padding: 12px 14px; }
+      .branch-name { font-size: 0.88rem; }
+      .branch-info-row { font-size: 0.72rem; }
+      .form-row { grid-template-columns: 1fr; gap: 0; }
+      .modal-content { padding: 0; margin: 10px; }
+      .modal-body { padding: 16px; }
+      .modal-actions { padding: 12px 16px; }
+    }
+    @media (max-width: 480px) {
+      .branch-actions { grid-template-columns: 1fr 1fr; }
+      .regions-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="mobile-top-bar"></div>
+  <div id="mobile-top-tabs"></div>
+  <div id="header-placeholder"></div>
+
+  <main class="page-content">
+    <div class="container">
+
+      <!-- Header -->
+      <div class="br-header">
+        <div class="br-header-inner">
+          <div class="br-header-left">
+            <div class="br-header-icon"><i class="fas fa-building"></i></div>
+            <div>
+              <h1>إدارة الفروع</h1>
+              <p>الفروع · المخزن المركزي · المناطق</p>
+            </div>
+          </div>
+          <div class="br-header-actions">
+            <button class="btn" onclick="openBranchModal()">
+              <i class="fas fa-plus"></i> إضافة فرع
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="br-stats">
+        <div class="br-stat">
+          <div class="br-stat-icon blue"><i class="fas fa-building"></i></div>
+          <div class="br-stat-num" id="statTotal">0</div>
+          <div class="br-stat-label">إجمالي الفروع</div>
+        </div>
+        <div class="br-stat">
+          <div class="br-stat-icon green"><i class="fas fa-check-circle"></i></div>
+          <div class="br-stat-num green" id="statActive">0</div>
+          <div class="br-stat-label">نشط</div>
+        </div>
+        <div class="br-stat">
+          <div class="br-stat-icon gold"><i class="fas fa-warehouse"></i></div>
+          <div class="br-stat-num gold" id="statWarehouses">0</div>
+          <div class="br-stat-label">مخازن</div>
+        </div>
+        <div class="br-stat">
+          <div class="br-stat-icon purple"><i class="fas fa-store"></i></div>
+          <div class="br-stat-num" id="statStores">0</div>
+          <div class="br-stat-label">فروع بيع</div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="br-filters">
+        <div class="br-search">
+          <input type="text" id="searchInput" placeholder="بحث بالكود / الاسم / المدير..." oninput="onSearchInput()">
+          <i class="fas fa-search"></i>
+        </div>
+        <select id="typeFilter" onchange="applyFilters()">
+          <option value="">كل الأنواع</option>
+          <option value="warehouse">مخزن مركزي</option>
+          <option value="retail">قطاعي</option>
+          <option value="wholesale">جملة</option>
+        </select>
+        <select id="statusFilter" onchange="applyFilters()">
+          <option value="">كل الحالات</option>
+          <option value="active">نشط</option>
+          <option value="inactive">معطل</option>
+        </select>
+        <button class="btn-icon-only" onclick="resetFilters()" title="إعادة تعيين">
+          <i class="fas fa-undo"></i>
+        </button>
+      </div>
+
+      <!-- Grid -->
+      <div class="br-grid" id="branchesGrid">
+        <div class="br-loading"><i class="fas fa-spinner fa-spin"></i><p>جاري تحميل الفروع...</p></div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="mobile-bottom-tabs"></div>
+  <div id="mobile-copyright"></div>
+  <div id="footer-placeholder"></div>
+  <div id="sidebar-placeholder"></div>
+  <div id="toast-container"></div>
+
+  <!-- Branch Modal -->
+  <div class="modal-overlay" id="branchModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="branchModalTitle"><i class="fas fa-plus"></i> إضافة فرع</h2>
+        <button class="modal-close" onclick="closeModal('branchModal')">&times;</button>
+      </div>
+      <form id="branchForm" onsubmit="saveBranch(event)">
+        <input type="hidden" id="branchId" value="">
+        <div class="modal-body">
+
+          <div class="form-section">
+            <h4><i class="fas fa-info-circle"></i> البيانات الأساسية</h4>
+            <div class="form-row">
+              <div class="form-group">
+                <label>كود الفرع <span class="required">*</span></label>
+                <input type="text" id="branchCode" required maxlength="5"
+                  pattern="[A-Z]{2,5}" placeholder="مثال: WH, TNT, RGB"
+                  style="text-transform:uppercase;font-family:'Courier New',monospace;font-weight:900;direction:ltr;text-align:center;">
+                <div class="help-text"><i class="fas fa-info-circle"></i> 2-5 حروف إنجليزية كبيرة</div>
+              </div>
+              <div class="form-group">
+                <label>نوع الفرع <span class="required">*</span></label>
+                <select id="branchType" required onchange="onBranchTypeChange()">
+                  <option value="retail">قطاعي</option>
+                  <option value="wholesale">جملة</option>
+                  <option value="warehouse">مخزن مركزي</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>اسم الفرع <span class="required">*</span></label>
+              <input type="text" id="branchName" required maxlength="60" placeholder="مثال: طلعت حرب">
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h4><i class="fas fa-address-card"></i> بيانات التواصل</h4>
+            <div class="form-row">
+              <div class="form-group">
+                <label>رقم الهاتف</label>
+                <input type="tel" id="branchPhone" maxlength="11" placeholder="01xxxxxxxxx">
+              </div>
+              <div class="form-group">
+                <label>المدير المسئول</label>
+                <input type="text" id="branchManagerName" maxlength="60" placeholder="اسم المدير">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>العنوان</label>
+              <input type="text" id="branchAddress" maxlength="150" placeholder="العنوان الكامل">
+            </div>
+          </div>
+
+          <div class="form-section" id="regionsSection">
+            <h4><i class="fas fa-map-marked-alt"></i> المناطق المخدومة</h4>
+            <div class="help-text" style="margin-bottom:8px;">
+              <i class="fas fa-info-circle"></i> اختر المناطق اللي الفرع ده بيوصلها (اختياري)
+            </div>
+            <div class="regions-grid" id="regionsGrid"></div>
+          </div>
+
+          <div class="form-section">
+            <h4><i class="fas fa-toggle-on"></i> الحالة</h4>
+            <div class="form-group">
+              <label>حالة الفرع</label>
+              <select id="branchActive">
+                <option value="true">نشط</option>
+                <option value="false">معطل</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn btn-outline" onclick="closeModal('branchModal')">إلغاء</button>
+          <button type="submit" class="btn btn-gold" id="saveBranchBtn">
+            <i class="fas fa-save"></i> حفظ
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Delete Modal -->
+  <div class="modal-overlay" id="deleteBranchModal">
+    <div class="modal-content small">
+      <div class="modal-header" style="background:linear-gradient(135deg,#991b1b,#dc2626);">
+        <h3><i class="fas fa-exclamation-triangle"></i> حذف فرع</h3>
+        <button class="modal-close" onclick="closeModal('deleteBranchModal')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="delete-warning">
+          <i class="fas fa-exclamation-triangle"></i>
+          <p>سيتم حذف الفرع "<strong id="deleteBranchName"></strong>" نهائياً. <span id="deleteBranchWarning"></span></p>
+        </div>
+        <div class="form-group">
+          <label>تأكيد بالكتابة</label>
+          <input type="text" id="deleteConfirmText" placeholder='اكتب "DELETE" للتأكيد'
+            style="font-family:'Courier New',monospace;text-align:center;direction:ltr;">
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-outline" onclick="closeModal('deleteBranchModal')">إلغاء</button>
+        <button class="btn btn-danger" id="confirmDeleteBtn" onclick="confirmDeleteBranch()" disabled>
+          <i class="fas fa-trash"></i> حذف نهائي
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="/gomla/assets/js/firebase-config.js"></script>
+  <script src="/gomla/assets/js/main.js"></script>
+
+  <script>
+  // ============================================================
+  // admin/branches.html — v1.0
+  // ⚠️ استراتيجية: ممنوع تعريف دوال موجودة في main.js
+  // ============================================================
+
+  const brState = {
+    role: 'guest',
+    isSuper: false,
+    isAdminPlus: false,
+    adminId: '',
+    branches: [],
+    filtered: [],
+    deleteContext: null,
+    searchDebounce: null,
+    unsubscribe: null
+  };
+
+  const BRANCH_TYPES_LABELS = {
+    warehouse: 'مخزن مركزي',
+    retail: 'قطاعي',
+    wholesale: 'جملة'
+  };
+
+  // ============================================================
+  // Init
+  // ============================================================
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      const user = getCurrentUser();
+      if (!user || user.type !== 'admin') {
+        window.location.href = '/gomla/admin/login.html';
+        return;
+      }
+
+      brState.role = user.data?.role || 'admin';
+      brState.isSuper = brState.role === 'super';
+      brState.isAdminPlus = brState.role === 'admin_plus';
+      brState.adminId = user.data?.id || user.data?.uid || '';
+
+      if (!brState.isSuper && !brState.isAdminPlus) {
+        document.body.innerHTML = `
+          <div style="padding:60px 20px;text-align:center;font-family:Tajawal,sans-serif;">
+            <i class="fas fa-lock" style="font-size:4rem;color:#dc2626;margin-bottom:20px;"></i>
+            <h1 style="color:#1e293b;">صلاحية super / admin_plus فقط</h1>
+            <p style="color:#64748b;">هذه الصفحة للسوبر أدمن والأدمن بلص فقط.</p>
+            <a href="/gomla/admin/dashboard.html" style="display:inline-block;margin-top:20px;padding:10px 24px;background:#7c3aed;color:white;text-decoration:none;border-radius:8px;font-weight:800;">
+              رجوع للوحة التحكم
+            </a>
+          </div>`;
+        return;
+      }
+
+      loadBranches();
+
+      // ESC handler
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          document.querySelectorAll('.modal-overlay.show').forEach(m => m.classList.remove('show'));
+          document.body.style.overflow = '';
+        }
+      });
+      document.querySelectorAll('.modal-overlay').forEach(m => {
+        m.addEventListener('click', function(e) {
+          if (e.target === this) {
+            this.classList.remove('show');
+            document.body.style.overflow = '';
+          }
+        });
+      });
+
+      // Delete confirm input listener
+      const delInput = document.getElementById('deleteConfirmText');
+      if (delInput) {
+        delInput.addEventListener('input', () => {
+          const btn = document.getElementById('confirmDeleteBtn');
+          btn.disabled = delInput.value.trim() !== 'DELETE';
+        });
+      }
+
+      console.log('✅ branches.html v1.0 ready — role:', brState.role);
+
+    } catch (err) {
+      console.error('Init error:', err);
+    }
+  });
+
+  // ============================================================
+  // Load Branches (realtime)
+  // ============================================================
+  function loadBranches() {
+    if (brState.unsubscribe) brState.unsubscribe();
+
+    const grid = document.getElementById('branchesGrid');
+    if (grid) grid.innerHTML = `<div class="br-loading"><i class="fas fa-spinner fa-spin"></i><p>جاري التحميل...</p></div>`;
+
+    brState.unsubscribe = db.collection('branches')
+      .onSnapshot(snap => {
+        brState.branches = [];
+        snap.forEach(doc => brState.branches.push({ id: doc.id, ...doc.data() }));
+
+        // ترتيب: المخازن أولاً ثم الفروع
+        brState.branches.sort((a, b) => {
+          if (a.type === 'warehouse' && b.type !== 'warehouse') return -1;
+          if (a.type !== 'warehouse' && b.type === 'warehouse') return 1;
+          return (a.name || '').localeCompare(b.name || '', 'ar');
+        });
+
+        updateStats();
+        applyFilters();
+
+      }, err => {
+        console.error('Load branches error:', err);
+        if (grid) grid.innerHTML = `
+          <div class="br-empty">
+            <div class="empty-icon"><i class="fas fa-exclamation-triangle"></i></div>
+            <h3>فشل التحميل</h3>
+            <p>${err.code === 'permission-denied' ? 'ليس لديك صلاحية' : 'خطأ في الاتصال'}</p>
+          </div>`;
+      });
+  }
+
+  // ============================================================
+  // Stats
+  // ============================================================
+  function updateStats() {
+    const total = brState.branches.length;
+    const active = brState.branches.filter(b => b.active !== false).length;
+    const warehouses = brState.branches.filter(b => b.type === 'warehouse').length;
+    const stores = brState.branches.filter(b => b.type === 'retail' || b.type === 'wholesale').length;
+
+    _setText('statTotal', total);
+    _setText('statActive', active);
+    _setText('statWarehouses', warehouses);
+    _setText('statStores', stores);
+  }
+
+  function _setText(id, val) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val;
+  }
+
+  // ============================================================
+  // Filters
+  // ============================================================
+  function onSearchInput() {
+    if (brState.searchDebounce) clearTimeout(brState.searchDebounce);
+    brState.searchDebounce = setTimeout(applyFilters, 300);
+  }
+
+  function applyFilters() {
+    const search = (document.getElementById('searchInput')?.value || '').trim().toLowerCase();
+    const type = document.getElementById('typeFilter')?.value || '';
+    const status = document.getElementById('statusFilter')?.value || '';
+
+    let list = [...brState.branches];
+
+    if (search) {
+      list = list.filter(b =>
+        (b.code || '').toLowerCase().includes(search) ||
+        (b.name || '').toLowerCase().includes(search) ||
+        (b.managerName || '').toLowerCase().includes(search) ||
+        (b.phone || '').includes(search)
+      );
+    }
+    if (type) list = list.filter(b => b.type === type);
+    if (status === 'active') list = list.filter(b => b.active !== false);
+    else if (status === 'inactive') list = list.filter(b => b.active === false);
+
+    brState.filtered = list;
+    renderBranches();
+  }
+
+  function resetFilters() {
+    document.getElementById('searchInput').value = '';
+    document.getElementById('typeFilter').value = '';
+    document.getElementById('statusFilter').value = '';
+    applyFilters();
+  }
+
+  // ============================================================
+  // Render
+  // ============================================================
+  function renderBranches() {
+    const grid = document.getElementById('branchesGrid');
+    if (!grid) return;
+
+    if (brState.filtered.length === 0) {
+      grid.innerHTML = `
+        <div class="br-empty">
+          <div class="empty-icon"><i class="fas fa-building"></i></div>
+          <h3>لا توجد فروع</h3>
+          <p>${brState.branches.length === 0 ? 'ابدأ بإضافة فرع' : 'لا توجد نتائج مطابقة'}</p>
+          ${brState.branches.length === 0 ? `
+            <button class="btn btn-gold" style="margin-top:12px;" onclick="openBranchModal()">
+              <i class="fas fa-plus"></i> إضافة فرع
+            </button>
+          ` : ''}
+        </div>`;
+      return;
+    }
+
+    grid.innerHTML = brState.filtered.map(b => renderBranchCard(b)).join('');
+  }
+
+  function renderBranchCard(b) {
+    const isActive = b.active !== false;
+    const typeClass = 'type-' + (b.type || 'retail');
+    const typeLabel = BRANCH_TYPES_LABELS[b.type] || b.type;
+    const regions = Array.isArray(b.regions) ? b.regions : [];
+    const isWarehouse = b.type === 'warehouse';
+
+    // منع حذف المخزن المركزي
+    const canDelete = brState.isSuper && !isWarehouse;
+
+    return `
+      <div class="branch-card ${typeClass} ${isActive ? '' : 'inactive'}">
+        <div class="branch-card-head">
+          <div>
+            <h3 class="branch-name">
+              <i class="fas ${isWarehouse ? 'fa-warehouse' : 'fa-store'}"></i>
+              ${_esc(b.name || 'بدون اسم')}
+            </h3>
+            <span class="branch-code-badge">${_esc(b.code || '—')}</span>
+          </div>
+          <span class="branch-status-badge ${isActive ? 'active' : 'inactive'}">
+            <i class="fas ${isActive ? 'fa-check-circle' : 'fa-ban'}"></i>
+            ${isActive ? 'نشط' : 'معطل'}
+          </span>
+        </div>
+
+        <div class="branch-type-row ${b.type || 'retail'}">
+          <i class="fas ${isWarehouse ? 'fa-warehouse' : 'fa-tag'}"></i>
+          ${typeLabel}
+        </div>
+
+        ${b.managerName ? `
+          <div class="branch-info-row">
+            <i class="fas fa-user-tie"></i>
+            <span class="val">${_esc(b.managerName)}</span>
+          </div>
+        ` : ''}
+
+        ${b.phone ? `
+          <div class="branch-info-row">
+            <i class="fas fa-phone"></i>
+            <span class="val phone">${_esc(b.phone)}</span>
+          </div>
+        ` : ''}
+
+        ${b.address ? `
+          <div class="branch-info-row">
+            <i class="fas fa-map-marker-alt"></i>
+            <span class="val">${_esc(b.address)}</span>
+          </div>
+        ` : ''}
+
+        ${regions.length > 0 ? `
+          <div class="branch-regions">
+            ${regions.slice(0, 4).map(r => `<span class="branch-region-tag">${_esc(r)}</span>`).join('')}
+            ${regions.length > 4 ? `<span class="branch-region-tag more">+${regions.length - 4}</span>` : ''}
+          </div>
+        ` : ''}
+
+        <div class="branch-actions">
+          <button class="branch-action-btn edit" onclick="openBranchModal('${b.id}')">
+            <i class="fas fa-pen"></i> تعديل
+          </button>
+          <button class="branch-action-btn toggle ${isActive ? '' : 'off'}" onclick="toggleBranchActive('${b.id}')">
+            <i class="fas ${isActive ? 'fa-eye-slash' : 'fa-eye'}"></i>
+            ${isActive ? 'تعطيل' : 'تفعيل'}
+          </button>
+          <button class="branch-action-btn delete" onclick="openDeleteModal('${b.id}')" ${canDelete ? '' : 'disabled title="لا يمكن حذف المخزن المركزي"'}>
+            <i class="fas fa-trash"></i> حذف
+          </button>
+        </div>
+      </div>
+    `;
+  }
+
+  function _esc(s) {
+    return String(s ?? '').replace(/[&<>"']/g, c => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[c]));
+  }
+
+  // ============================================================
+  // Modal Add/Edit
+  // ============================================================
+  function openBranchModal(branchId) {
+    const isEdit = !!branchId;
+    const existing = isEdit ? brState.branches.find(b => b.id === branchId) : null;
+
+    document.getElementById('branchModalTitle').innerHTML =
+      `<i class="fas fa-${isEdit ? 'pen' : 'plus'}"></i> ${isEdit ? 'تعديل' : 'إضافة'} فرع`;
+    document.getElementById('branchId').value = branchId || '';
+    document.getElementById('branchCode').value = existing?.code || '';
+    document.getElementById('branchCode').readOnly = isEdit;
+    document.getElementById('branchName').value = existing?.name || '';
+    document.getElementById('branchType').value = existing?.type || 'retail';
+    document.getElementById('branchPhone').value = existing?.phone || '';
+    document.getElementById('branchManagerName').value = existing?.managerName || '';
+    document.getElementById('branchAddress').value = existing?.address || '';
+    document.getElementById('branchActive').value = existing?.active !== false ? 'true' : 'false';
+
+    // مناطق
+    buildRegionsGrid(existing?.regions || []);
+
+    // لو المخزن المركزي، منع تغيير النوع
+    if (isEdit && existing?.type === 'warehouse') {
+      document.getElementById('branchType').disabled = true;
+      document.getElementById('branchCode').readOnly = true;
+    } else {
+      document.getElementById('branchType').disabled = false;
+    }
+
+    onBranchTypeChange();
+
+    document.getElementById('saveBranchBtn').innerHTML = `<i class="fas fa-save"></i> ${isEdit ? 'تحديث' : 'حفظ'}`;
+
+    document.getElementById('branchModal').classList.add('show');
+    document.body.style.overflow = 'hidden';
+
+    // Focus code input لو إضافة
+    if (!isEdit) {
+      setTimeout(() => document.getElementById('branchCode')?.focus(), 100);
+    }
+  }
+
+  function buildRegionsGrid(selectedRegions) {
+    const grid = document.getElementById('regionsGrid');
+    const allRegions = (window.DELIVERY_CONFIG?.AREAS_RETAIL || []).concat(
+      window.DELIVERY_CONFIG?.AREAS_WHOLESALE || []
+    );
+    // إزالة التكرار
+    const uniqueRegions = [...new Set(allRegions)];
+
+    grid.innerHTML = uniqueRegions.map(r => {
+      const checked = selectedRegions.includes(r);
+      return `
+        <label class="region-checkbox ${checked ? 'checked' : ''}">
+          <input type="checkbox" value="${_esc(r)}" ${checked ? 'checked' : ''}
+            onchange="this.closest('.region-checkbox').classList.toggle('checked', this.checked)">
+          <span>${_esc(r)}</span>
+        </label>
+      `;
+    }).join('');
+  }
+
+  function onBranchTypeChange() {
+    const type = document.getElementById('branchType').value;
+    const regionsSection = document.getElementById('regionsSection');
+    // المخزن المركزي مش بيخدم مناطق مباشرة
+    regionsSection.style.display = type === 'warehouse' ? 'none' : 'block';
+  }
+
+  // ============================================================
+  // Save Branch
+  // ============================================================
+  async function saveBranch(event) {
+    event.preventDefault();
+    const btn = document.getElementById('saveBranchBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الحفظ...';
+
+    try {
+      const id = document.getElementById('branchId').value;
+      const code = document.getElementById('branchCode').value.trim().toUpperCase();
+      const name = document.getElementById('branchName').value.trim();
+      const type = document.getElementById('branchType').value;
+      const phone = document.getElementById('branchPhone').value.trim();
+      const managerName = document.getElementById('branchManagerName').value.trim();
+      const address = document.getElementById('branchAddress').value.trim();
+      const active = document.getElementById('branchActive').value === 'true';
+
+      // Validation
+      if (!code || !/^[A-Z]{2,5}$/.test(code)) {
+        throw new Error('الكود يجب أن يكون 2-5 حروف إنجليزية كبيرة');
+      }
+      if (!name || name.length < 2) {
+        throw new Error('اسم الفرع مطلوب (حرفين على الأقل)');
+      }
+      if (phone && !/^01[0-9]{9}$/.test(phone)) {
+        throw new Error('رقم الهاتف غير صحيح (11 رقم يبدأ بـ 01)');
+      }
+
+      // regions
+      const regions = [];
+      document.querySelectorAll('#regionsGrid input[type="checkbox"]:checked').forEach(cb => {
+        regions.push(cb.value);
+      });
+
+      // بناء البيانات
+      const data = {
+        code,
+        name,
+        type,
+        isWarehouse: type === 'warehouse',
+        phone: phone || '',
+        managerName: managerName || '',
+        managerId: '',
+        address: address || '',
+        regions,
+        active,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        updatedBy: brState.adminId
+      };
+
+      if (id) {
+        // تحديث
+        await db.collection('branches').doc(id).update(data);
+        window.showToast('✅ تم تحديث الفرع', 'success');
+      } else {
+        // إضافة — نتأكد إن الكود مش مستخدم
+        const existing = await db.collection('branches').where('code', '==', code).limit(1).get();
+        if (!existing.empty) {
+          throw new Error(`الكود "${code}" مستخدم بالفعل`);
+        }
+
+        data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
+        data.createdBy = brState.adminId;
+
+        await db.collection('branches').doc(code).set(data);
+        window.showToast('✅ تم إضافة الفرع', 'success');
+      }
+
+      closeModal('branchModal');
+
+    } catch (err) {
+      console.error('Save branch error:', err);
+      window.showToast('❌ ' + err.message, 'error');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-save"></i> حفظ';
+    }
+  }
+
+  // ============================================================
+  // Toggle Active
+  // ============================================================
+  async function toggleBranchActive(branchId) {
+    const branch = brState.branches.find(b => b.id === branchId);
+    if (!branch) return;
+
+    const newActive = branch.active === false;
+    const action = newActive ? 'تفعيل' : 'تعطيل';
+
+    if (!confirm(`هل تريد ${action} الفرع "${branch.name}"؟`)) return;
+
+    try {
+      await db.collection('branches').doc(branchId).update({
+        active: newActive,
+        updatedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        updatedBy: brState.adminId
+      });
+      window.showToast(`✅ تم ${action} الفرع`, 'success');
+    } catch (err) {
+      console.error('Toggle branch error:', err);
+      window.showToast('❌ فشل التحديث', 'error');
+    }
+  }
+
+  // ============================================================
+  // Delete Branch
+  // ============================================================
+  async function openDeleteModal(branchId) {
+    const branch = brState.branches.find(b => b.id === branchId);
+    if (!branch) return;
+
+    if (branch.type === 'warehouse') {
+      window.showToast('لا يمكن حذف المخزن المركزي', 'warning');
+      return;
+    }
+
+    brState.deleteContext = { id: branchId, name: branch.name };
+
+    document.getElementById('deleteBranchName').textContent = branch.name;
+    document.getElementById('deleteBranchWarning').textContent = '';
+
+    // فحص: هل فيه branch_inventory مرتبط؟
+    try {
+      const invSnap = await db.collection('branch_inventory')
+        .where('branchId', '==', branchId)
+        .limit(1).get();
+      if (!invSnap.empty) {
+        document.getElementById('deleteBranchWarning').textContent =
+          ' ⚠️ يحتوي على مخزون! ستحتاج نقل المخزون قبل الحذف.';
+      }
+    } catch (e) {
+      // skip
+    }
+
+    // فحص: هل فيه cashbox entries مرتبطة؟
+    document.getElementById('deleteConfirmText').value = '';
+    document.getElementById('confirmDeleteBtn').disabled = true;
+
+    document.getElementById('deleteBranchModal').classList.add('show');
+    document.body.style.overflow = 'hidden';
+  }
+
+  async function confirmDeleteBranch() {
+    if (!brState.deleteContext) return;
+    const btn = document.getElementById('confirmDeleteBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الحذف...';
+
+    try {
+      await db.collection('branches').doc(brState.deleteContext.id).delete();
+      window.showToast('✅ تم حذف الفرع', 'success');
+      closeModal('deleteBranchModal');
+      brState.deleteContext = null;
+    } catch (err) {
+      console.error('Delete branch error:', err);
+      window.showToast('❌ فشل الحذف: ' + err.message, 'error');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-trash"></i> حذف نهائي';
+    }
+  }
+
+  // ============================================================
+  // Helpers
+  // ============================================================
+  function closeModal(id) {
+    document.getElementById(id)?.classList.remove('show');
+    document.body.style.overflow = '';
+  }
+
+  // ============================================================
+  // Exports
+  // ============================================================
+  window.openBranchModal = openBranchModal;
+  window.saveBranch = saveBranch;
+  window.toggleBranchActive = toggleBranchActive;
+  window.openDeleteModal = openDeleteModal;
+  window.confirmDeleteBranch = confirmDeleteBranch;
+  window.onBranchTypeChange = onBranchTypeChange;
+  window.onSearchInput = onSearchInput;
+  window.applyFilters = applyFilters;
+  window.resetFilters = resetFilters;
+  window.closeModal = closeModal;
+  </script>
+
+</body>
+</html>
