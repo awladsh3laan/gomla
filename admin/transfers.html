@@ -1,0 +1,1760 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>نقل المخزون - أولاد شعلان</title>
+  <meta name="description" content="نقل المخزون بين الفروع">
+  <meta name="theme-color" content="#1a2a4a">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/gomla/assets/css/style.css">
+  <link rel="icon" href="/gomla/assets/images/favicon.ico">
+
+  <style>
+    html, body { overflow-x: hidden !important; max-width: 100vw; }
+
+    /* ===== Page Header ===== */
+    .tr-header {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+      border-radius: var(--radius-lg); padding: 22px 24px; margin-bottom: 18px;
+      color: var(--white); position: relative; overflow: hidden;
+      box-shadow: 0 12px 40px rgba(26,42,74,.25);
+      border-bottom: 4px solid var(--gold);
+    }
+    .tr-header::before {
+      content: ''; position: absolute; top: -50%; right: -15%;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(201,168,76,.18) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .tr-header-inner {
+      position: relative; z-index: 1;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .tr-header-left { display: flex; align-items: center; gap: 16px; flex: 1; min-width: 220px; }
+    .tr-header-icon {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy); display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+      box-shadow: 0 8px 24px rgba(201,168,76,.4);
+    }
+    .tr-header h1 { font-size: 1.35rem; font-weight: 900; margin: 0 0 3px; color: var(--white); }
+    .tr-header p { font-size: 0.83rem; opacity: 0.88; margin: 0; }
+
+    /* ===== Tabs ===== */
+    .tr-tabs {
+      display: flex; gap: 6px; margin-bottom: 16px;
+      background: var(--white); padding: 8px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+    }
+    .tr-tab {
+      flex: 1; padding: 12px 18px;
+      border: 2px solid var(--gray-200); background: var(--white);
+      color: var(--gray-600); border-radius: var(--radius-sm);
+      font-family: inherit; font-weight: 800; font-size: 0.85rem;
+      cursor: pointer; transition: all .25s ease;
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .tr-tab:hover { border-color: var(--gold-light); background: var(--gray-50); }
+    .tr-tab.active {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white); border-color: var(--navy);
+      box-shadow: 0 6px 16px rgba(26,42,74,.25);
+    }
+    .tr-tab.active i { color: var(--gold); }
+
+    .tr-section { display: none; }
+    .tr-section.active { display: block; }
+
+    /* ===== Form Card ===== */
+    .tr-form-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    .tr-form-header {
+      padding: 14px 20px;
+      background: linear-gradient(135deg, #fcf9f0, #f8f4e8);
+      border-bottom: 2px solid var(--gray-100);
+    }
+    .tr-form-header h2 {
+      font-size: 0.95rem; font-weight: 900;
+      color: var(--navy); margin: 0;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .tr-form-header h2 i { color: var(--gold); }
+    .tr-form-body { padding: 20px; }
+
+    /* ===== Branch Selectors ===== */
+    .tr-branches-row {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 12px;
+      align-items: end;
+      margin-bottom: 20px;
+    }
+    .tr-branch-selector {
+      background: var(--gray-50);
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      transition: var(--transition);
+    }
+    .tr-branch-selector.from { border-color: #fca5a5; background: #fef2f2; }
+    .tr-branch-selector.to   { border-color: #86efac; background: #f0fdf4; }
+    .tr-branch-selector label {
+      display: block; font-size: 0.75rem;
+      font-weight: 800; color: var(--gray-600);
+      margin-bottom: 6px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .tr-branch-selector.from label { color: #b91c1c; }
+    .tr-branch-selector.to   label { color: #166534; }
+    .tr-branch-selector select {
+      width: 100%; padding: 10px 12px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit; font-size: 0.9rem;
+      font-weight: 800; background: var(--white);
+      outline: none; cursor: pointer;
+    }
+    .tr-branch-selector select:focus { border-color: var(--gold); }
+    .tr-arrow-icon {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; margin-bottom: 8px;
+      box-shadow: 0 4px 12px rgba(26,42,74,.2);
+    }
+    .tr-branch-info {
+      font-size: 0.7rem; color: var(--gray-500);
+      margin-top: 4px;
+    }
+
+    /* ===== Products Table ===== */
+    .tr-products-header {
+      display: flex; justify-content: space-between;
+      align-items: center; gap: 12px;
+      margin-bottom: 12px; flex-wrap: wrap;
+    }
+    .tr-products-header h3 {
+      font-size: 0.9rem; font-weight: 900;
+      color: var(--navy); margin: 0;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .tr-products-header h3 i { color: var(--gold); }
+    .tr-products-header .count-badge {
+      background: var(--gold);
+      color: var(--navy);
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 0.72rem;
+      font-weight: 900;
+    }
+
+    .tr-table-wrap {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      margin-bottom: 16px;
+    }
+    .tr-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+    .tr-table thead { background: var(--gray-50); }
+    .tr-table th {
+      padding: 10px 12px;
+      text-align: right;
+      font-weight: 800;
+      color: var(--gray-600);
+      border-bottom: 2px solid var(--gray-200);
+      white-space: nowrap;
+      font-size: 0.78rem;
+    }
+    .tr-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--gray-100);
+      vertical-align: middle;
+    }
+    .tr-table tbody tr:hover { background: var(--gray-50); }
+    .tr-table tbody tr:last-child td { border-bottom: none; }
+
+    .tr-prod-cell {
+      display: flex; align-items: center; gap: 8px;
+      min-width: 0;
+    }
+    .tr-prod-img {
+      width: 40px; height: 40px; border-radius: 6px;
+      object-fit: cover; border: 1px solid var(--gray-200);
+      flex-shrink: 0;
+    }
+    .tr-prod-info { min-width: 0; flex: 1; }
+    .tr-prod-name {
+      font-size: 0.85rem; font-weight: 800;
+      color: var(--navy);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .tr-prod-unit {
+      font-size: 0.68rem; color: var(--gray-500);
+    }
+
+    .tr-qty-input {
+      width: 70px; padding: 7px 8px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit; font-size: 0.85rem;
+      font-weight: 800; text-align: center;
+      outline: none;
+    }
+    .tr-qty-input:focus { border-color: var(--gold); }
+    .tr-qty-input:disabled {
+      background: var(--gray-100);
+      cursor: not-allowed;
+      color: var(--gray-400);
+    }
+
+    .tr-total-pieces {
+      font-size: 0.85rem;
+      font-weight: 900;
+      color: var(--gold-dark);
+      text-align: center;
+    }
+    .tr-available {
+      font-size: 0.72rem;
+      color: var(--gray-500);
+      text-align: center;
+    }
+    .tr-available.warn { color: #d97706; font-weight: 800; }
+    .tr-available.error { color: #dc2626; font-weight: 800; }
+
+    .tr-remove-btn {
+      background: #fee2e2;
+      color: #dc2626;
+      border: none;
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .tr-remove-btn:hover { background: #dc2626; color: var(--white); }
+
+    /* ===== Summary ===== */
+    .tr-summary {
+      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
+      border: 2px dashed #0284c7;
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .tr-summary-item { text-align: center; }
+    .tr-summary-item .lbl {
+      font-size: 0.72rem;
+      color: #0369a1;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+    .tr-summary-item .val {
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: #0c4a6e;
+    }
+
+    /* ===== Notes ===== */
+    .tr-notes {
+      margin-bottom: 16px;
+    }
+    .tr-notes label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--gray-700);
+      margin-bottom: 6px;
+    }
+    .tr-notes textarea {
+      width: 100%; padding: 10px 12px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.88rem;
+      background: var(--gray-50);
+      outline: none;
+      min-height: 70px;
+      resize: vertical;
+    }
+    .tr-notes textarea:focus { border-color: var(--gold); background: var(--white); }
+
+    /* ===== Actions ===== */
+    .tr-form-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      padding-top: 14px;
+      border-top: 2px solid var(--gray-100);
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--gray-300);
+      color: var(--gray-700);
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold-dark); }
+    .btn-gold {
+      background: var(--gold);
+      color: var(--navy);
+    }
+    .btn-gold:hover { background: var(--gold-dark); color: var(--white); transform: translateY(-1px); }
+    .btn-primary {
+      background: linear-gradient(135deg, #065f46, #10b981);
+      color: var(--white);
+    }
+    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(16,185,129,.3); }
+
+    /* ===== Empty state ===== */
+    .tr-empty {
+      text-align: center;
+      padding: 40px 20px;
+      background: var(--white);
+      border: 2px dashed var(--gray-300);
+      border-radius: var(--radius-md);
+    }
+    .tr-empty i {
+      font-size: 2.5rem;
+      color: var(--gray-300);
+      margin-bottom: 12px;
+      display: block;
+    }
+    .tr-empty h3 {
+      font-size: 1rem;
+      font-weight: 900;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .tr-empty p {
+      font-size: 0.85rem;
+      color: var(--gray-500);
+      margin-bottom: 14px;
+    }
+
+    /* ===== History ===== */
+    .tr-filters {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .tr-filters select, .tr-filters input {
+      padding: 9px 12px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.85rem;
+      background: var(--gray-50);
+      outline: none;
+      min-width: 130px;
+    }
+    .tr-filters select:focus, .tr-filters input:focus {
+      border-color: var(--gold);
+      background: var(--white);
+    }
+
+    .tr-history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .tr-history-item {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--gray-200);
+      padding: 14px 16px;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .tr-history-item:hover {
+      border-color: var(--gold-light);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+    .tr-history-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+    .tr-history-id {
+      font-family: 'Courier New', monospace;
+      font-size: 0.78rem;
+      font-weight: 900;
+      color: var(--navy);
+      background: var(--gray-100);
+      padding: 2px 10px;
+      border-radius: 6px;
+    }
+    .tr-history-date {
+      font-size: 0.72rem;
+      color: var(--gray-500);
+      display: flex; align-items: center; gap: 4px;
+    }
+    .tr-history-route {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+    }
+    .tr-route-branch {
+      display: flex; align-items: center; gap: 6px;
+      padding: 6px 12px;
+      border-radius: var(--radius-full);
+      font-size: 0.8rem;
+      font-weight: 800;
+    }
+    .tr-route-branch.from { background: #fee2e2; color: #991b1b; }
+    .tr-route-branch.to   { background: #dcfce7; color: #166534; }
+    .tr-route-arrow {
+      color: var(--gold);
+      font-size: 0.9rem;
+    }
+    .tr-history-meta {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      font-size: 0.75rem;
+      color: var(--gray-600);
+    }
+    .tr-history-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .tr-history-meta i {
+      color: var(--gold);
+      font-size: 0.7rem;
+    }
+    .tr-history-status {
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 800;
+    }
+    .tr-history-status.completed {
+      background: rgba(34,197,94,.15);
+      color: #166534;
+    }
+    .tr-history-status.cancelled {
+      background: rgba(239,68,68,.15);
+      color: #991b1b;
+    }
+
+    /* ===== Product Picker Modal ===== */
+    .tr-picker-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      background: rgba(15,26,46,.75);
+      backdrop-filter: blur(4px);
+      z-index: 999;
+      justify-content: center; align-items: center;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    .tr-picker-overlay.show { display: flex; }
+    .tr-picker {
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      max-width: 640px;
+      width: 100%;
+      max-height: 90vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      animation: pickerSlide .3s ease;
+    }
+    @keyframes pickerSlide {
+      from { transform: translateY(-30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    .tr-picker-head {
+      padding: 16px 20px;
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .tr-picker-head h3 {
+      margin: 0; font-size: 1rem; font-weight: 900;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .tr-picker-head h3 i { color: var(--gold); }
+    .tr-picker-close {
+      background: rgba(255,255,255,.15);
+      border: none;
+      color: white;
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+    .tr-picker-close:hover { background: var(--danger); }
+    .tr-picker-search {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--gray-200);
+      position: relative;
+    }
+    .tr-picker-search input {
+      width: 100%;
+      padding: 10px 40px 10px 14px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit;
+      font-size: 0.88rem;
+      outline: none;
+    }
+    .tr-picker-search input:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 4px rgba(201,168,76,.15);
+    }
+    .tr-picker-search i {
+      position: absolute;
+      right: 28px; top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray-400);
+    }
+    .tr-picker-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px;
+    }
+    .tr-picker-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid transparent;
+      cursor: pointer;
+      transition: all .2s ease;
+    }
+    .tr-picker-item:hover {
+      background: #fcf9f0;
+      border-color: var(--gold-light);
+    }
+    .tr-picker-item.selected {
+      background: #f0fdf4;
+      border-color: #22c55e;
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+    .tr-picker-item img {
+      width: 42px; height: 42px;
+      border-radius: 6px;
+      object-fit: cover;
+      border: 1px solid var(--gray-200);
+      flex-shrink: 0;
+    }
+    .tr-picker-item-info { flex: 1; min-width: 0; }
+    .tr-picker-item-name {
+      font-size: 0.85rem; font-weight: 800; color: var(--navy);
+      margin-bottom: 2px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .tr-picker-item-meta {
+      font-size: 0.7rem; color: var(--gray-500);
+      display: flex; gap: 8px; flex-wrap: wrap;
+    }
+    .tr-picker-item-meta .available {
+      color: #16a34a;
+      font-weight: 800;
+    }
+    .tr-picker-item-meta .available.low { color: #d97706; }
+    .tr-picker-item-meta .available.zero { color: #dc2626; }
+    .tr-picker-item .selected-badge {
+      color: #16a34a;
+      font-size: 1.2rem;
+    }
+
+    .tr-picker-empty {
+      padding: 40px 20px;
+      text-align: center;
+      color: var(--gray-400);
+    }
+    .tr-picker-empty i {
+      font-size: 2rem;
+      margin-bottom: 8px;
+      display: block;
+      color: var(--gray-300);
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 768px) {
+      .tr-header { padding: 16px; border-radius: var(--radius-md); }
+      .tr-header-icon { width: 46px; height: 46px; font-size: 1.2rem; }
+      .tr-header h1 { font-size: 1.05rem; }
+      .tr-header p { font-size: 0.72rem; }
+      .tr-tabs { flex-direction: column; }
+      .tr-tab { padding: 10px 14px; font-size: 0.78rem; }
+
+      .tr-branches-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+      .tr-arrow-icon {
+        width: 100%; height: 36px;
+        border-radius: var(--radius-sm);
+        margin: 0;
+      }
+      .tr-arrow-icon i { transform: rotate(90deg); }
+
+      .tr-form-body { padding: 14px; }
+      .tr-summary { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .tr-table th, .tr-table td { padding: 8px 6px; font-size: 0.78rem; }
+      .tr-table th:nth-child(3), .tr-table td:nth-child(3),
+      .tr-table th:nth-child(6), .tr-table td:nth-child(6) { display: none; }
+      .tr-qty-input { width: 55px; padding: 5px 4px; font-size: 0.78rem; }
+      .tr-form-actions { flex-direction: column; }
+      .tr-form-actions .btn { justify-content: center; }
+    }
+    @media (max-width: 480px) {
+      .tr-summary { grid-template-columns: 1fr; }
+      .tr-prod-img { width: 32px; height: 32px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="mobile-top-bar"></div>
+  <div id="mobile-top-tabs"></div>
+  <div id="header-placeholder"></div>
+
+  <main class="page-content">
+    <div class="container">
+
+      <!-- Header -->
+      <div class="tr-header">
+        <div class="tr-header-inner">
+          <div class="tr-header-left">
+            <div class="tr-header-icon"><i class="fas fa-exchange-alt"></i></div>
+            <div>
+              <h1>نقل المخزون</h1>
+              <p>تحويل بين المخزن المركزي والفروع</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tr-tabs">
+        <button class="tr-tab active" data-tab="new" onclick="switchTrTab('new')">
+          <i class="fas fa-plus-circle"></i> نقلة جديدة
+        </button>
+        <button class="tr-tab" data-tab="history" onclick="switchTrTab('history')">
+          <i class="fas fa-history"></i> سجل النقلات
+        </button>
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- Tab: New Transfer                                            -->
+      <!-- ============================================================ -->
+      <div class="tr-section active" id="tr-new">
+
+        <div class="tr-form-card">
+          <div class="tr-form-header">
+            <h2><i class="fas fa-route"></i> تفاصيل النقلة</h2>
+          </div>
+          <div class="tr-form-body">
+
+            <!-- Branch selectors -->
+            <div class="tr-branches-row">
+              <div class="tr-branch-selector from">
+                <label><i class="fas fa-sign-out-alt"></i> من فرع</label>
+                <select id="fromBranchSelect" onchange="onBranchChange()">
+                  <option value="">— اختر الفرع —</option>
+                </select>
+                <div class="tr-branch-info" id="fromBranchInfo"></div>
+              </div>
+              <div class="tr-arrow-icon"><i class="fas fa-arrow-left"></i></div>
+              <div class="tr-branch-selector to">
+                <label><i class="fas fa-sign-in-alt"></i> إلى فرع</label>
+                <select id="toBranchSelect" onchange="onBranchChange()">
+                  <option value="">— اختر الفرع —</option>
+                </select>
+                <div class="tr-branch-info" id="toBranchInfo"></div>
+              </div>
+            </div>
+
+            <!-- Products -->
+            <div class="tr-products-header">
+              <h3>
+                <i class="fas fa-boxes"></i> المنتجات
+                <span class="count-badge" id="itemsCount">0</span>
+              </h3>
+              <button class="btn btn-gold" onclick="openProductPicker()" id="addProductBtn" disabled>
+                <i class="fas fa-plus"></i> إضافة منتج
+              </button>
+            </div>
+
+            <div id="productsArea">
+              <div class="tr-empty">
+                <i class="fas fa-box-open"></i>
+                <h3>لم تتم إضافة منتجات</h3>
+                <p>اختر "من فرع" و "إلى فرع" أولاً ثم اضغط "إضافة منتج"</p>
+              </div>
+            </div>
+
+            <!-- Summary -->
+            <div class="tr-summary" id="summaryBox" style="display:none;">
+              <div class="tr-summary-item">
+                <div class="lbl">عدد المنتجات</div>
+                <div class="val" id="summaryItemsCount">0</div>
+              </div>
+              <div class="tr-summary-item">
+                <div class="lbl">إجمالي القطع</div>
+                <div class="val" id="summaryTotalPieces">0</div>
+              </div>
+              <div class="tr-summary-item">
+                <div class="lbl">إجمالي الوحدات</div>
+                <div class="val" id="summaryTotalUnits">0</div>
+              </div>
+            </div>
+
+            <!-- Notes -->
+            <div class="tr-notes">
+              <label><i class="fas fa-comment-alt" style="color:var(--gold);"></i> ملاحظات (اختياري)</label>
+              <textarea id="transferNotes" maxlength="300" placeholder="سبب النقل، ملاحظات التحميل، إلخ..."></textarea>
+            </div>
+
+            <!-- Actions -->
+            <div class="tr-form-actions">
+              <button type="button" class="btn btn-outline" onclick="resetTransferForm()">
+                <i class="fas fa-redo"></i> إعادة تعيين
+              </button>
+              <button type="button" class="btn btn-primary" onclick="submitTransfer()" id="submitTransferBtn" disabled>
+                <i class="fas fa-paper-plane"></i> تنفيذ النقل
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ============================================================ -->
+      <!-- Tab: History                                                 -->
+      <!-- ============================================================ -->
+      <div class="tr-section" id="tr-history">
+
+        <div class="tr-filters">
+          <select id="historyFromFilter" onchange="loadHistory()">
+            <option value="">من فرع (الكل)</option>
+          </select>
+          <select id="historyToFilter" onchange="loadHistory()">
+            <option value="">إلى فرع (الكل)</option>
+          </select>
+          <button class="btn btn-outline" onclick="resetHistoryFilters()" style="padding:9px 14px;">
+            <i class="fas fa-undo"></i> إعادة تعيين
+          </button>
+        </div>
+
+        <div class="tr-history-list" id="historyList">
+          <div class="tr-empty">
+            <i class="fas fa-spinner fa-spin"></i>
+            <h3>جاري التحميل...</h3>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <div id="mobile-bottom-tabs"></div>
+  <div id="mobile-copyright"></div>
+  <div id="footer-placeholder"></div>
+  <div id="sidebar-placeholder"></div>
+  <div id="toast-container"></div>
+
+  <!-- ===== Product Picker Modal ===== -->
+  <div class="tr-picker-overlay" id="productPickerOverlay" onclick="closeProductPicker(event)">
+    <div class="tr-picker" onclick="event.stopPropagation()">
+      <div class="tr-picker-head">
+        <h3><i class="fas fa-boxes"></i> اختر منتج</h3>
+        <button class="tr-picker-close" onclick="closeProductPicker()">&times;</button>
+      </div>
+      <div class="tr-picker-search">
+        <input type="text" id="pickerSearch" placeholder="بحث بالاسم / الباركود..." oninput="filterPickerList()">
+        <i class="fas fa-search"></i>
+      </div>
+      <div class="tr-picker-list" id="pickerList"></div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="/gomla/assets/js/firebase-config.js"></script>
+  <script src="/gomla/assets/js/main.js"></script>
+
+  <script>
+  // ============================================================
+  // admin/transfers.html — v1.0
+  // ⚠️ استراتيجية: مفيش تكرار من main.js
+  // ============================================================
+
+  const trState = {
+    role: 'guest',
+    isSuper: false,
+    isAdminPlus: false,
+    adminId: '',
+    adminName: '',
+    branches: [],
+    productsByBranch: {},    // cache: branchId → [{productId, product, stock}]
+    items: [],               // [{productId, product, units, pieces}]
+    pickerSearch: '',
+    historyUnsub: null
+  };
+
+  const UNIT_PIECES_DEFAULT = 1;
+
+  // ============================================================
+  // Init
+  // ============================================================
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      const user = getCurrentUser();
+      if (!user || user.type !== 'admin') {
+        window.location.href = '/gomla/admin/login.html';
+        return;
+      }
+
+      trState.role = user.data?.role || 'admin';
+      trState.isSuper = trState.role === 'super';
+      trState.isAdminPlus = trState.role === 'admin_plus';
+      trState.adminId = user.data?.id || user.data?.uid || '';
+      trState.adminName = user.data?.name || '';
+
+      if (!trState.isSuper && !trState.isAdminPlus) {
+        document.body.innerHTML = `
+          <div style="padding:60px 20px;text-align:center;font-family:Tajawal,sans-serif;">
+            <i class="fas fa-lock" style="font-size:4rem;color:#dc2626;margin-bottom:20px;"></i>
+            <h1 style="color:#1e293b;">صلاحية super / admin_plus فقط</h1>
+            <p style="color:#64748b;">هذه الصفحة للسوبر أدمن والأدمن بلص فقط.</p>
+            <a href="/gomla/admin/dashboard.html" style="display:inline-block;margin-top:20px;padding:10px 24px;background:#7c3aed;color:white;text-decoration:none;border-radius:8px;font-weight:800;">
+              رجوع للوحة التحكم
+            </a>
+          </div>`;
+        return;
+      }
+
+      await loadBranches();
+      populateBranchSelects();
+      loadHistory();
+
+      // ESC
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          if (document.getElementById('productPickerOverlay').classList.contains('show')) {
+            closeProductPicker();
+          }
+        }
+      });
+
+      console.log('✅ transfers.html v1.0 ready — role:', trState.role);
+
+    } catch (err) {
+      console.error('Init error:', err);
+    }
+  });
+
+  // ============================================================
+  // Load Branches
+  // ============================================================
+  async function loadBranches() {
+    try {
+      const snap = await db.collection('branches')
+        .where('active', '==', true)
+        .get();
+      trState.branches = [];
+      snap.forEach(doc => trState.branches.push({ id: doc.id, ...doc.data() }));
+      trState.branches.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ar'));
+    } catch (err) {
+      console.error('Load branches error:', err);
+      window.showToast('فشل تحميل الفروع', 'error');
+    }
+  }
+
+  function populateBranchSelects() {
+    const fromSel = document.getElementById('fromBranchSelect');
+    const toSel = document.getElementById('toBranchSelect');
+    const histFrom = document.getElementById('historyFromFilter');
+    const histTo = document.getElementById('historyToFilter');
+
+    const options = trState.branches.map(b => {
+      const label = b.name + (b.type === 'warehouse' ? ' (مخزن)' : '');
+      return `<option value="${b.id}">${_esc(label)}</option>`;
+    }).join('');
+
+    fromSel.innerHTML = '<option value="">— اختر الفرع —</option>' + options;
+    toSel.innerHTML = '<option value="">— اختر الفرع —</option>' + options;
+    histFrom.innerHTML = '<option value="">من فرع (الكل)</option>' + options;
+    histTo.innerHTML = '<option value="">إلى فرع (الكل)</option>' + options;
+  }
+
+  function onBranchChange() {
+    const from = document.getElementById('fromBranchSelect').value;
+    const to = document.getElementById('toBranchSelect').value;
+
+    // Info display
+    const fromInfo = document.getElementById('fromBranchInfo');
+    const toInfo = document.getElementById('toBranchInfo');
+    const fromBranch = trState.branches.find(b => b.id === from);
+    const toBranch = trState.branches.find(b => b.id === to);
+
+    fromInfo.textContent = fromBranch ? `${fromBranch.type === 'warehouse' ? 'مخزن' : 'فرع'} · كود: ${fromBranch.code}` : '';
+    toInfo.textContent = toBranch ? `${toBranch.type === 'warehouse' ? 'مخزن' : 'فرع'} · كود: ${toBranch.code}` : '';
+
+    // Enable add product only if both set and different
+    const addBtn = document.getElementById('addProductBtn');
+    addBtn.disabled = !from || !to || from === to;
+
+    if (from && to && from === to) {
+      window.showToast('لا يمكن النقل من فرع إلى نفسه', 'warning');
+    }
+
+    // Clear items if from changed
+    if (trState.items.length > 0 && from !== trState.currentFrom) {
+      if (!confirm('تغيير الفرع المصدر سيمسح المنتجات المضافة. متابعة؟')) {
+        document.getElementById('fromBranchSelect').value = trState.currentFrom || '';
+        onBranchChange();
+        return;
+      }
+      trState.items = [];
+      renderItems();
+    }
+    trState.currentFrom = from;
+
+    updateSubmitBtn();
+  }
+
+  // ============================================================
+  // Products Picker
+  // ============================================================
+  async function openProductPicker() {
+    const from = document.getElementById('fromBranchSelect').value;
+    if (!from) { window.showToast('اختر الفرع المصدر أولاً', 'warning'); return; }
+
+    const overlay = document.getElementById('productPickerOverlay');
+    const list = document.getElementById('pickerList');
+
+    list.innerHTML = '<div class="tr-picker-empty"><i class="fas fa-spinner fa-spin"></i><p>جاري التحميل...</p></div>';
+    overlay.classList.add('show');
+    document.body.style.overflow = 'hidden';
+
+    try {
+      await loadProductsForBranch(from);
+      renderPickerList();
+      document.getElementById('pickerSearch').value = '';
+      trState.pickerSearch = '';
+      setTimeout(() => document.getElementById('pickerSearch')?.focus(), 100);
+    } catch (err) {
+      list.innerHTML = `<div class="tr-picker-empty"><i class="fas fa-exclamation-triangle"></i><p>فشل التحميل</p></div>`;
+    }
+  }
+
+  async function loadProductsForBranch(branchId) {
+    const branch = trState.branches.find(b => b.id === branchId);
+    if (!branch) throw new Error('الفرع غير موجود');
+
+    const isWarehouse = branch.type === 'warehouse';
+    const list = [];
+
+    if (isWarehouse) {
+      // من products
+      const snap = await db.collection('products')
+        .where('available', '==', true)
+        .limit(500).get();
+      snap.forEach(doc => {
+        const p = doc.data();
+        const ppu = p.piecesPerUnit || 1;
+        const units = p.warehouseStock || 0;
+        const pieces = p.warehousePieces || 0;
+        const totalPieces = units * ppu + pieces;
+        if (totalPieces > 0) {
+          list.push({
+            productId: doc.id,
+            product: { id: doc.id, ...p },
+            ppu,
+            units: units,
+            pieces: pieces,
+            totalPieces: totalPieces
+          });
+        }
+      });
+    } else {
+      // من branch_inventory
+      const snap = await db.collection('branch_inventory')
+        .where('branchId', '==', branchId)
+        .where('piecesQty', '>', 0)
+        .limit(500).get();
+
+      const productIds = [];
+      const invMap = {};
+      snap.forEach(doc => {
+        const d = doc.data();
+        invMap[d.productId] = d;
+        productIds.push(d.productId);
+      });
+
+      // Load product details in batches
+      if (productIds.length > 0) {
+        const chunks = [];
+        for (let i = 0; i < productIds.length; i += 30) {
+          chunks.push(productIds.slice(i, i + 30));
+        }
+        for (const chunk of chunks) {
+          const pSnap = await db.collection('products')
+            .where(firebase.firestore.FieldPath.documentId(), 'in', chunk).get();
+          pSnap.forEach(pDoc => {
+            const p = pDoc.data();
+            const inv = invMap[pDoc.id];
+            if (!inv) return;
+            list.push({
+              productId: pDoc.id,
+              product: { id: pDoc.id, ...p },
+              ppu: p.piecesPerUnit || 1,
+              units: 0,
+              pieces: inv.piecesQty || 0,
+              totalPieces: inv.piecesQty || 0
+            });
+          });
+        }
+      }
+    }
+
+    list.sort((a, b) => (a.product.name || '').localeCompare(b.product.name || '', 'ar'));
+    trState.productsByBranch[branchId] = list;
+  }
+
+  function renderPickerList() {
+    const list = document.getElementById('pickerList');
+    const from = document.getElementById('fromBranchSelect').value;
+    const available = trState.productsByBranch[from] || [];
+
+    if (available.length === 0) {
+      list.innerHTML = `
+        <div class="tr-picker-empty">
+          <i class="fas fa-box-open"></i>
+          <p>لا توجد منتجات متاحة في هذا الفرع</p>
+        </div>`;
+      return;
+    }
+
+    const filtered = available.filter(a => {
+      if (!trState.pickerSearch) return true;
+      const q = trState.pickerSearch.toLowerCase();
+      return (a.product.name || '').toLowerCase().includes(q) ||
+             (a.product.barcode || '').toLowerCase().includes(q);
+    });
+
+    if (filtered.length === 0) {
+      list.innerHTML = `
+        <div class="tr-picker-empty">
+          <i class="fas fa-search-minus"></i>
+          <p>لا توجد نتائج</p>
+        </div>`;
+      return;
+    }
+
+    const selectedIds = new Set(trState.items.map(i => i.productId));
+    const isWh = trState.branches.find(b => b.id === from)?.type === 'warehouse';
+
+    list.innerHTML = filtered.map(a => {
+      const p = a.product;
+      const isSelected = selectedIds.has(a.productId);
+      const img = p.imageUrl || '/gomla/assets/images/no-image.png';
+      const unit = p.unit || 'قطعة';
+      const ppu = a.ppu;
+
+      let availableText = '';
+      if (isWh) {
+        availableText = `${a.units} ${unit} + ${a.pieces} قطعة (${a.totalPieces} قطعة)`;
+      } else {
+        availableText = `${a.pieces} قطعة`;
+      }
+
+      return `
+        <div class="tr-picker-item ${isSelected ? 'selected' : ''}" onclick="${isSelected ? '' : `selectPickerProduct('${a.productId}')`}">
+          <img src="${img}" onerror="this.src='/gomla/assets/images/no-image.png'">
+          <div class="tr-picker-item-info">
+            <div class="tr-picker-item-name">${_esc(p.name || 'منتج')}</div>
+            <div class="tr-picker-item-meta">
+              <span class="available">متاح: ${availableText}</span>
+            </div>
+          </div>
+          ${isSelected ? '<i class="fas fa-check-circle selected-badge"></i>' : '<i class="fas fa-plus-circle" style="color:var(--gold);font-size:1.1rem;"></i>'}
+        </div>
+      `;
+    }).join('');
+  }
+
+  function filterPickerList() {
+    trState.pickerSearch = document.getElementById('pickerSearch').value;
+    renderPickerList();
+  }
+
+  function selectPickerProduct(productId) {
+    const from = document.getElementById('fromBranchSelect').value;
+    const available = trState.productsByBranch[from] || [];
+    const item = available.find(a => a.productId === productId);
+    if (!item) return;
+
+    trState.items.push({
+      productId,
+      product: item.product,
+      available: item,
+      units: 0,
+      pieces: 0
+    });
+
+    closeProductPicker();
+    renderItems();
+  }
+
+  function closeProductPicker(event) {
+    if (event && event.target !== event.currentTarget) return;
+    document.getElementById('productPickerOverlay').classList.remove('show');
+    document.body.style.overflow = '';
+  }
+
+  // ============================================================
+  // Items Rendering
+  // ============================================================
+  function renderItems() {
+    const area = document.getElementById('productsArea');
+    const countEl = document.getElementById('itemsCount');
+    countEl.textContent = trState.items.length;
+
+    if (trState.items.length === 0) {
+      area.innerHTML = `
+        <div class="tr-empty">
+          <i class="fas fa-box-open"></i>
+          <h3>لم تتم إضافة منتجات</h3>
+          <p>اضغط "إضافة منتج" لاختيار المنتجات</p>
+        </div>`;
+      document.getElementById('summaryBox').style.display = 'none';
+      updateSubmitBtn();
+      return;
+    }
+
+    const from = document.getElementById('fromBranchSelect').value;
+    const fromBranch = trState.branches.find(b => b.id === from);
+    const isWh = fromBranch?.type === 'warehouse';
+
+    let html = `
+      <div class="tr-table-wrap">
+        <table class="tr-table">
+          <thead>
+            <tr>
+              <th style="width:40px;">#</th>
+              <th>المنتج</th>
+              ${isWh ? '<th style="text-align:center;">وحدات</th>' : ''}
+              <th style="text-align:center;">${isWh ? 'قطع إضافية' : 'قطع'}</th>
+              <th style="text-align:center;">إجمالي قطع</th>
+              <th style="width:50px;"></th>
+            </tr>
+          </thead>
+          <tbody>
+    `;
+
+    trState.items.forEach((item, idx) => {
+      const p = item.product;
+      const img = p.imageUrl || '/gomla/assets/images/no-image.png';
+      const unit = p.unit || 'قطعة';
+      const ppu = item.available.ppu;
+
+      let totalPieces = 0;
+      if (isWh) {
+        totalPieces = (item.units || 0) * ppu + (item.pieces || 0);
+      } else {
+        totalPieces = item.pieces || 0;
+      }
+
+      const available = item.available;
+      const isOver = totalPieces > available.totalPieces;
+
+      html += `
+        <tr>
+          <td style="text-align:center;color:var(--gray-500);font-weight:800;">${idx + 1}</td>
+          <td>
+            <div class="tr-prod-cell">
+              <img src="${img}" class="tr-prod-img" onerror="this.src='/gomla/assets/images/no-image.png'">
+              <div class="tr-prod-info">
+                <div class="tr-prod-name">${_esc(p.name)}</div>
+                <div class="tr-prod-unit">الوحدة: ${unit} · متاح: ${available.totalPieces} قطعة</div>
+              </div>
+            </div>
+          </td>
+          ${isWh ? `
+            <td style="text-align:center;">
+              <input type="number" class="tr-qty-input" min="0"
+                value="${item.units || 0}"
+                onchange="updateItemQty(${idx}, 'units', this.value)"
+                oninput="updateItemQty(${idx}, 'units', this.value)">
+            </td>
+          ` : ''}
+          <td style="text-align:center;">
+            <input type="number" class="tr-qty-input" min="0"
+              value="${item.pieces || 0}"
+              onchange="updateItemQty(${idx}, 'pieces', this.value)"
+              oninput="updateItemQty(${idx}, 'pieces', this.value)">
+          </td>
+          <td class="tr-total-pieces">
+            <span style="color:${isOver ? '#dc2626' : 'var(--gold-dark)'};">${totalPieces}</span>
+            ${isOver ? '<i class="fas fa-exclamation-triangle" style="color:#dc2626;margin-right:4px;"></i>' : ''}
+          </td>
+          <td style="text-align:center;">
+            <button class="tr-remove-btn" onclick="removeItem(${idx})" title="حذف">
+              <i class="fas fa-times"></i>
+            </button>
+          </td>
+        </tr>
+      `;
+    });
+
+    html += `
+          </tbody>
+        </table>
+      </div>
+    `;
+
+    area.innerHTML = html;
+    updateSummary();
+    updateSubmitBtn();
+  }
+
+  function updateItemQty(idx, field, value) {
+    const item = trState.items[idx];
+    if (!item) return;
+    const v = parseInt(value) || 0;
+    item[field] = Math.max(0, v);
+    renderItems();
+  }
+
+  function removeItem(idx) {
+    trState.items.splice(idx, 1);
+    renderItems();
+  }
+
+  function updateSummary() {
+    const summaryBox = document.getElementById('summaryBox');
+    if (trState.items.length === 0) {
+      summaryBox.style.display = 'none';
+      return;
+    }
+    summaryBox.style.display = 'grid';
+
+    const from = document.getElementById('fromBranchSelect').value;
+    const isWh = trState.branches.find(b => b.id === from)?.type === 'warehouse';
+
+    let totalPieces = 0;
+    let totalUnits = 0;
+
+    trState.items.forEach(item => {
+      const ppu = item.available.ppu;
+      if (isWh) {
+        totalPieces += (item.units || 0) * ppu + (item.pieces || 0);
+        totalUnits += (item.units || 0);
+      } else {
+        totalPieces += (item.pieces || 0);
+      }
+    });
+
+    document.getElementById('summaryItemsCount').textContent = trState.items.length;
+    document.getElementById('summaryTotalPieces').textContent = totalPieces;
+    document.getElementById('summaryTotalUnits').textContent = isWh ? totalUnits : '—';
+  }
+
+  function updateSubmitBtn() {
+    const btn = document.getElementById('submitTransferBtn');
+    const from = document.getElementById('fromBranchSelect').value;
+    const to = document.getElementById('toBranchSelect').value;
+
+    let valid = true;
+    if (!from || !to || from === to) valid = false;
+    if (trState.items.length === 0) valid = false;
+
+    // Check all items have qty > 0
+    const fromBranch = trState.branches.find(b => b.id === from);
+    const isWh = fromBranch?.type === 'warehouse';
+
+    for (const item of trState.items) {
+      const total = isWh
+        ? (item.units || 0) * item.available.ppu + (item.pieces || 0)
+        : (item.pieces || 0);
+      if (total <= 0) { valid = false; break; }
+      if (total > item.available.totalPieces) { valid = false; break; }
+    }
+
+    btn.disabled = !valid;
+  }
+
+  // ============================================================
+  // Submit Transfer (Transaction)
+  // ============================================================
+  async function submitTransfer() {
+    const from = document.getElementById('fromBranchSelect').value;
+    const to = document.getElementById('toBranchSelect').value;
+    const notes = document.getElementById('transferNotes').value.trim();
+
+    if (!from || !to || from === to) {
+      window.showToast('اختر فرعين مختلفين', 'warning');
+      return;
+    }
+    if (trState.items.length === 0) {
+      window.showToast('أضف منتجات أولاً', 'warning');
+      return;
+    }
+
+    const btn = document.getElementById('submitTransferBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التنفيذ...';
+
+    try {
+      const fromBranch = trState.branches.find(b => b.id === from);
+      const toBranch = trState.branches.find(b => b.id === to);
+      const fromIsWh = fromBranch.type === 'warehouse';
+      const toIsWh = toBranch.type === 'warehouse';
+
+      const now = firebase.firestore.FieldValue.serverTimestamp();
+      const transferItems = [];
+
+      await db.runTransaction(async (t) => {
+        // 1. Read all products (for warehouse operations)
+        const productReads = {};
+        if (fromIsWh || toIsWh) {
+          for (const item of trState.items) {
+            const pRef = db.collection('products').doc(item.productId);
+            const pDoc = await t.get(pRef);
+            if (!pDoc.exists) throw new Error(`المنتج ${item.productId} غير موجود`);
+            productReads[item.productId] = { ref: pRef, data: pDoc.data() };
+          }
+        }
+
+        // 2. Read all branch_inventory (for non-warehouse operations)
+        const invReads = {};
+        for (const item of trState.items) {
+          // from branch inv
+          if (!fromIsWh) {
+            const ref = db.collection('branch_inventory').doc(`${from}_${item.productId}`);
+            const doc = await t.get(ref);
+            invReads[`from_${item.productId}`] = {
+              ref,
+              data: doc.exists ? doc.data() : null
+            };
+          }
+          // to branch inv
+          if (!toIsWh) {
+            const ref = db.collection('branch_inventory').doc(`${to}_${item.productId}`);
+            const doc = await t.get(ref);
+            invReads[`to_${item.productId}`] = {
+              ref,
+              data: doc.exists ? doc.data() : null
+            };
+          }
+        }
+
+        // 3. Compute & apply changes
+        for (const item of trState.items) {
+          const ppu = item.available.ppu;
+          const totalPieces = fromIsWh
+            ? (item.units || 0) * ppu + (item.pieces || 0)
+            : (item.pieces || 0);
+
+          if (totalPieces <= 0) throw new Error(`منتج بدون كمية: ${item.product.name}`);
+
+          // ===== DEDUCT from source =====
+          if (fromIsWh) {
+            const prod = productReads[item.productId];
+            if (!prod) throw new Error('منتج غير موجود في المخزن');
+            const curTotal = (prod.data.warehouseStock || 0) * ppu + (prod.data.warehousePieces || 0);
+            if (curTotal < totalPieces) {
+              throw new Error(`مخزون ${item.product.name} غير كافٍ (متاح ${curTotal}، مطلوب ${totalPieces})`);
+            }
+            const newTotal = curTotal - totalPieces;
+            const newUnits = Math.floor(newTotal / ppu);
+            const newPieces = newTotal % ppu;
+
+            t.update(prod.ref, {
+              warehouseStock: newUnits,
+              warehousePieces: newPieces,
+              updatedAt: now
+            });
+          } else {
+            const inv = invReads[`from_${item.productId}`];
+            if (!inv || !inv.data) throw new Error(`مخزون فرع ${fromBranch.name} غير موجود للمنتج`);
+            const curPieces = inv.data.piecesQty || 0;
+            if (curPieces < totalPieces) {
+              throw new Error(`مخزون ${item.product.name} في ${fromBranch.name} غير كافٍ`);
+            }
+            t.update(inv.ref, {
+              piecesQty: curPieces - totalPieces,
+              availableQty: Math.max(0, (inv.data.availableQty || curPieces) - totalPieces),
+              lastUpdated: now,
+              updatedBy: trState.adminId
+            });
+          }
+
+          // ===== ADD to destination =====
+          if (toIsWh) {
+            const prod = productReads[item.productId];
+            if (!prod) throw new Error('منتج غير موجود');
+            const curTotal = (prod.data.warehouseStock || 0) * ppu + (prod.data.warehousePieces || 0);
+            const newTotal = curTotal + totalPieces;
+            const newUnits = Math.floor(newTotal / ppu);
+            const newPieces = newTotal % ppu;
+
+            t.update(prod.ref, {
+              warehouseStock: newUnits,
+              warehousePieces: newPieces,
+              updatedAt: now
+            });
+          } else {
+            const inv = invReads[`to_${item.productId}`];
+            if (inv.data) {
+              // Update existing
+              t.update(inv.ref, {
+                piecesQty: (inv.data.piecesQty || 0) + totalPieces,
+                availableQty: (inv.data.availableQty || 0) + totalPieces,
+                lastUpdated: now,
+                updatedBy: trState.adminId
+              });
+            } else {
+              // Create new
+              const p = item.product;
+              t.set(inv.ref, {
+                branchId: to,
+                productId: item.productId,
+                piecesQty: totalPieces,
+                availableQty: totalPieces,
+                reservedQty: 0,
+                minAlert: 10,
+                productName: p.name || '',
+                productImage: p.imageUrl || '',
+                unit: p.unit || 'قطعة',
+                piecesPerUnit: ppu,
+                lastUpdated: now,
+                updatedBy: trState.adminId
+              });
+            }
+          }
+
+          transferItems.push({
+            productId: item.productId,
+            productName: item.product.name || '',
+            productImage: item.product.imageUrl || '',
+            unit: item.product.unit || 'قطعة',
+            piecesPerUnit: ppu,
+            units: fromIsWh ? (item.units || 0) : 0,
+            extraPieces: fromIsWh ? (item.pieces || 0) : 0,
+            totalPieces: totalPieces
+          });
+        }
+
+        // 3. Create transfer record
+        const tRef = db.collection('transfers').doc();
+        t.set(tRef, {
+          id: tRef.id,
+          fromBranchId: from,
+          fromBranchName: fromBranch.name,
+          fromBranchCode: fromBranch.code,
+          toBranchId: to,
+          toBranchName: toBranch.name,
+          toBranchCode: toBranch.code,
+          items: transferItems,
+          totalItems: transferItems.length,
+          totalPieces: transferItems.reduce((s, i) => s + i.totalPieces, 0),
+          status: 'completed',
+          notes: notes || '',
+          requestedBy: trState.adminId,
+          requestedByName: trState.adminName,
+          requestedAt: now,
+          completedAt: now,
+          completedBy: trState.adminId,
+          completedByName: trState.adminName
+        });
+      });
+
+      window.showToast('✅ تم تنفيذ النقلة بنجاح', 'success');
+      resetTransferForm();
+      loadHistory();
+
+    } catch (err) {
+      console.error('Submit transfer error:', err);
+      window.showToast('❌ ' + (err.message || 'فشل التنفيذ'), 'error');
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-paper-plane"></i> تنفيذ النقل';
+      updateSubmitBtn();
+    }
+  }
+
+  function resetTransferForm() {
+    document.getElementById('fromBranchSelect').value = '';
+    document.getElementById('toBranchSelect').value = '';
+    document.getElementById('transferNotes').value = '';
+    document.getElementById('fromBranchInfo').textContent = '';
+    document.getElementById('toBranchInfo').textContent = '';
+    trState.items = [];
+    trState.currentFrom = '';
+    renderItems();
+    document.getElementById('addProductBtn').disabled = true;
+  }
+
+  // ============================================================
+  // History
+  // ============================================================
+  function loadHistory() {
+    if (trState.historyUnsub) trState.historyUnsub();
+
+    const fromFilter = document.getElementById('historyFromFilter')?.value || '';
+    const toFilter = document.getElementById('historyToFilter')?.value || '';
+
+    trState.historyUnsub = db.collection('transfers')
+      .orderBy('requestedAt', 'desc')
+      .limit(100)
+      .onSnapshot(snap => {
+        const list = [];
+        snap.forEach(doc => {
+          const d = doc.data();
+          if (fromFilter && d.fromBranchId !== fromFilter) return;
+          if (toFilter && d.toBranchId !== toFilter) return;
+          list.push({ id: doc.id, ...d });
+        });
+        renderHistory(list);
+      }, err => {
+        console.error('History error:', err);
+        document.getElementById('historyList').innerHTML = `
+          <div class="tr-empty">
+            <i class="fas fa-exclamation-triangle"></i>
+            <h3>فشل تحميل السجل</h3>
+          </div>`;
+      });
+  }
+
+  function renderHistory(list) {
+    const container = document.getElementById('historyList');
+    if (list.length === 0) {
+      container.innerHTML = `
+        <div class="tr-empty">
+          <i class="fas fa-inbox"></i>
+          <h3>لا توجد نقلات</h3>
+          <p>لم يتم تسجيل أي عمليات نقل بعد</p>
+        </div>`;
+      return;
+    }
+
+    container.innerHTML = list.map(tr => {
+      const dateStr = tr.requestedAt ? formatDateTime(tr.requestedAt) : '—';
+      const statusText = tr.status === 'completed' ? 'مكتملة' : 'ملغاة';
+      return `
+        <div class="tr-history-item" onclick="viewTransferDetails('${tr.id}')">
+          <div class="tr-history-head">
+            <span class="tr-history-id">#${tr.id.slice(-8).toUpperCase()}</span>
+            <span class="tr-history-date"><i class="fas fa-calendar"></i> ${dateStr}</span>
+            <span class="tr-history-status ${tr.status}">${statusText}</span>
+          </div>
+          <div class="tr-history-route">
+            <span class="tr-route-branch from">
+              <i class="fas fa-sign-out-alt"></i>
+              ${_esc(tr.fromBranchName || '—')}
+            </span>
+            <i class="fas fa-arrow-left tr-route-arrow"></i>
+            <span class="tr-route-branch to">
+              <i class="fas fa-sign-in-alt"></i>
+              ${_esc(tr.toBranchName || '—')}
+            </span>
+          </div>
+          <div class="tr-history-meta">
+            <span><i class="fas fa-box"></i> ${tr.totalItems || 0} منتج</span>
+            <span><i class="fas fa-cubes"></i> ${tr.totalPieces || 0} قطعة</span>
+            <span><i class="fas fa-user"></i> ${_esc(tr.requestedByName || '—')}</span>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function resetHistoryFilters() {
+    document.getElementById('historyFromFilter').value = '';
+    document.getElementById('historyToFilter').value = '';
+    loadHistory();
+  }
+
+  async function viewTransferDetails(id) {
+    try {
+      const doc = await db.collection('transfers').doc(id).get();
+      if (!doc.exists) return;
+      const tr = doc.data();
+
+      let itemsHtml = tr.items.map((item, i) => `
+        <tr>
+          <td style="text-align:center;">${i + 1}</td>
+          <td>
+            <div class="tr-prod-cell">
+              <img src="${item.productImage || '/gomla/assets/images/no-image.png'}" class="tr-prod-img">
+              <div class="tr-prod-info">
+                <div class="tr-prod-name">${_esc(item.productName)}</div>
+                <div class="tr-prod-unit">${_esc(item.unit)}</div>
+              </div>
+            </div>
+          </td>
+          <td style="text-align:center;font-weight:800;">${item.units || 0}</td>
+          <td style="text-align:center;font-weight:800;">${item.extraPieces || 0}</td>
+          <td style="text-align:center;font-weight:900;color:var(--gold-dark);">${item.totalPieces}</td>
+        </tr>
+      `).join('');
+
+      const html = `
+        <div class="tr-picker-overlay show" id="detailsOverlay" onclick="closeDetailsOverlay(event)" style="display:flex;">
+          <div class="tr-picker" style="max-width:720px;" onclick="event.stopPropagation()">
+            <div class="tr-picker-head">
+              <h3><i class="fas fa-info-circle"></i> تفاصيل النقلة #${id.slice(-8).toUpperCase()}</h3>
+              <button class="tr-picker-close" onclick="closeDetailsOverlay()">&times;</button>
+            </div>
+            <div style="padding:16px 20px;overflow-y:auto;">
+              <div class="tr-history-route" style="margin-bottom:14px;">
+                <span class="tr-route-branch from">
+                  <i class="fas fa-sign-out-alt"></i> ${_esc(tr.fromBranchName)}
+                </span>
+                <i class="fas fa-arrow-left tr-route-arrow"></i>
+                <span class="tr-route-branch to">
+                  <i class="fas fa-sign-in-alt"></i> ${_esc(tr.toBranchName)}
+                </span>
+              </div>
+
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:14px;font-size:0.82rem;">
+                <div><strong>التاريخ:</strong> ${formatDateTime(tr.requestedAt)}</div>
+                <div><strong>المنفذ:</strong> ${_esc(tr.requestedByName || '—')}</div>
+                <div><strong>الحالة:</strong> مكتملة</div>
+                <div><strong>المنتجات:</strong> ${tr.totalItems}</div>
+                <div><strong>القطع:</strong> ${tr.totalPieces}</div>
+              </div>
+
+              <div class="tr-table-wrap">
+                <table class="tr-table">
+                  <thead>
+                    <tr>
+                      <th style="width:40px;">#</th>
+                      <th>المنتج</th>
+                      <th style="text-align:center;">وحدات</th>
+                      <th style="text-align:center;">قطع إضافية</th>
+                      <th style="text-align:center;">إجمالي</th>
+                    </tr>
+                  </thead>
+                  <tbody>${itemsHtml}</tbody>
+                </table>
+              </div>
+
+              ${tr.notes ? `
+                <div style="margin-top:14px;padding:10px 12px;background:var(--gray-50);border-radius:8px;font-size:0.82rem;">
+                  <strong>ملاحظات:</strong> ${_esc(tr.notes)}
+                </div>
+              ` : ''}
+
+              <div style="margin-top:16px;text-align:center;">
+                <button class="btn btn-outline" onclick="closeDetailsOverlay()">إغلاق</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.body.insertAdjacentHTML('beforeend', html);
+      document.body.style.overflow = 'hidden';
+
+    } catch (err) {
+      console.error('View details error:', err);
+    }
+  }
+
+  function closeDetailsOverlay(event) {
+    if (event && event.target !== event.currentTarget) return;
+    const el = document.getElementById('detailsOverlay');
+    if (el) el.remove();
+    document.body.style.overflow = '';
+  }
+
+  // ============================================================
+  // Tabs
+  // ============================================================
+  function switchTrTab(tab) {
+    document.querySelectorAll('.tr-tab').forEach(el => el.classList.toggle('active', el.dataset.tab === tab));
+    document.querySelectorAll('.tr-section').forEach(el => el.classList.remove('active'));
+    document.getElementById('tr-' + tab).classList.add('active');
+  }
+
+  // ============================================================
+  // Helpers
+  // ============================================================
+  function _esc(s) {
+    return String(s ?? '').replace(/[&<>"']/g, c => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[c]));
+  }
+
+  // ============================================================
+  // Exports
+  // ============================================================
+  window.switchTrTab = switchTrTab;
+  window.onBranchChange = onBranchChange;
+  window.openProductPicker = openProductPicker;
+  window.closeProductPicker = closeProductPicker;
+  window.filterPickerList = filterPickerList;
+  window.selectPickerProduct = selectPickerProduct;
+  window.updateItemQty = updateItemQty;
+  window.removeItem = removeItem;
+  window.submitTransfer = submitTransfer;
+  window.resetTransferForm = resetTransferForm;
+  window.loadHistory = loadHistory;
+  window.resetHistoryFilters = resetHistoryFilters;
+  window.viewTransferDetails = viewTransferDetails;
+  window.closeDetailsOverlay = closeDetailsOverlay;
+  </script>
+
+</body>
+</html>
