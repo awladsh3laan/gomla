@@ -1,11 +1,11 @@
 // ============================================================
-// 🔥 firebase-config.js — v8.3
+// 🔥 firebase-config.js — v8.4
 // 📌 المصدر الوحيد لـ db و auth والثوابت
 // ⚠️ ممنوع تعريف db أو auth في أي ملف آخر
 // ⚠️ ممنوع وضع أي مفاتيح API حساسة هنا. استخدم Cloudflare Worker.
 // ✅ جميع الخدمات الخارجية (ImgBB / Gemini / PDF) تتم عبر WORKER_URL فقط
-//  الإصدار: 8.3
-// آخر تحديث: 2026-10-19
+//  الإصدار: 8.4
+// آخر تحديث: 2026-10-21
 // ============================================================
 
 // ============================================================
@@ -289,9 +289,10 @@ window.SHIPPING_RATES_DEFAULTS = {
     'كفر حجازي': { cost: 50, freeThreshold: 2500 }
   }
 };
+
 // ⚠️ Alias للتوافق مع checkout.html (v4.0 و v5.0)
 window.SHIPPING_RATES = window.SHIPPING_RATES_DEFAULTS;
-const SHIPPING_RATES = window.SHIPPING_RATES;
+
 // ============================================================
 // 🏷️ أكواد المدن للتجار
 // ============================================================
@@ -411,45 +412,100 @@ window.CONTENT_TYPE_LABELS = {
 };
 
 // ============================================================
-// 🗄️ أسماء الكوليكشنز — 62 كوليكشن
+// 🗄️ أسماء الكوليكشنز — 63 كوليكشن
+// ✅ تم إصلاح هذا القسم (فاصلة ناقصة + قوس زائد)
 // ============================================================
 window.COLLECTIONS = {
-  ADMINS: 'admins', CASHIERS: 'cashiers', CUSTOMERS: 'customers', USERS: 'users',
-  DELIVERY_AGENTS: 'delivery_agents', DELIVERY_LOOKUP: 'delivery_lookup',
+  // المستخدمين والصلاحيات
+  ADMINS: 'admins',
+  CASHIERS: 'cashiers',
+  CUSTOMERS: 'customers',
+  USERS: 'users',
+  DELIVERY_AGENTS: 'delivery_agents',
+  DELIVERY_LOOKUP: 'delivery_lookup',
   TRADER_LOOKUP: 'trader_lookup',
-  PRODUCTS: 'products', CATEGORIES: 'categories', BRANDS: 'brands',
-  BRANCHES: 'branches', BRANCH_INVENTORY: 'branch_inventory',
-  TRANSFERS: 'transfers', INVENTORY_SNAPSHOTS: 'inventory_snapshots',
-  CART: 'cart', WISHLIST: 'wishlist',
-  ORDERS: 'orders', INVOICES: 'invoices', INVOICE_ARCHIVES: 'invoice_archives',
-  MANUAL_SALES: 'manual_sales', CASHIER_SALES: 'cashier_sales',
-  SUPPLIERS: 'suppliers', PURCHASES: 'purchases',
-  CASHBOX: 'cashbox', DAILY_SALES: 'daily_sales',
-  FINANCIAL_NOTIFICATIONS: 'financial_notifications',
-  EXPENSES: 'expenses', SALARIES: 'salaries', DAMAGES: 'damages',
-  EMPLOYEES: 'employees', SALARY_PAYMENTS: 'salary_payments',
-  RETURNS: 'returns', SUPPLIER_RETURNS_PENDING: 'supplier_returns_pending',
-  INSTALLMENT_PLANS: 'installment_plans', DAILY_CLOSES: 'daily_closes',
-  WHATSAPP_OUTBOX: 'whatsapp_outbox',
-  NOTIFICATIONS: 'notifications', CUSTOMER_NOTIFICATIONS: 'customer_notifications',
-  ADMIN_NOTIFICATIONS: 'admin_notifications',
-  ACTIVITY_LOG: 'activityLog', BARCODE_SCANS: 'barcode_scans',
-  QUOTES: 'quotes', NEWS: 'news', ADS: 'ads', SLIDER: 'slider',
-  CUSTOM_SECTIONS: 'custom_sections', SITE_CONTENT: 'site_content',
-  PUBLIC_STATS: 'public_stats', SHIPPING_RATES: 'shipping_rates',
-  PRIVACY_SECTIONS: 'privacy_sections', SHIPPING_SECTIONS: 'shipping_sections',
-  EXCHANGE_SECTIONS: 'exchange_sections', TERMS_SECTIONS: 'terms_sections',
-  FAQ_SECTIONS: 'faq_sections',
-  SUPPORT_TICKETS: 'support_tickets',
-  DELIVERY_COLLECTIONS: 'delivery_collections',
-  REGISTRATION_REQUESTS: 'registration_requests',
+
+  // المنتجات والمخزون
+  PRODUCTS: 'products',
+  PRODUCTS_RESERVED: 'reservedPieces',
+  CATEGORIES: 'categories',
+  BRANDS: 'brands',
+  BRANCHES: 'branches',
+  BRANCH_INVENTORY: 'branch_inventory',
+  TRANSFERS: 'transfers',
+  INVENTORY_SNAPSHOTS: 'inventory_snapshots',
+
+  // السلة والمفضلة
+  CART: 'cart',
+  WISHLIST: 'wishlist',
+
+  // الطلبات والفواتير
+  ORDERS: 'orders',
+  INVOICES: 'invoices',
+  INVOICE_ARCHIVES: 'invoice_archives',
+  MANUAL_SALES: 'manual_sales',
+  CASHIER_SALES: 'cashier_sales',
   CARDOONA_INVOICES: 'cardoona_invoices',
-  CARDOONA_EXTRACTIONS: 'cardoona_extractions'
-  PRODUCTS_RESERVED: 'reservedPieces',  // 🆕 v17.3 — Reserve
-  }
+  CARDOONA_EXTRACTIONS: 'cardoona_extractions',
+
+  // الموردين والمشتريات
+  SUPPLIERS: 'suppliers',
+  PURCHASES: 'purchases',
+
+  // الصندوق والمالية
+  CASHBOX: 'cashbox',
+  DAILY_SALES: 'daily_sales',
+  FINANCIAL_NOTIFICATIONS: 'financial_notifications',
+  EXPENSES: 'expenses',
+  SALARIES: 'salaries',
+  SALARY_PAYMENTS: 'salary_payments',
+  DAMAGES: 'damages',
+  EMPLOYEES: 'employees',
+  RETURNS: 'returns',
+  SUPPLIER_RETURNS_PENDING: 'supplier_returns_pending',
+  INSTALLMENT_PLANS: 'installment_plans',
+  DAILY_CLOSES: 'daily_closes',
+
+  // الرسائل والإشعارات
+  WHATSAPP_OUTBOX: 'whatsapp_outbox',
+  NOTIFICATIONS: 'notifications',
+  CUSTOMER_NOTIFICATIONS: 'customer_notifications',
+  ADMIN_NOTIFICATIONS: 'admin_notifications',
+  SUPPORT_TICKETS: 'support_tickets',
+
+  // السجلات
+  ACTIVITY_LOG: 'activityLog',
+  BARCODE_SCANS: 'barcode_scans',
+
+  // المحتوى
+  QUOTES: 'quotes',
+  NEWS: 'news',
+  ADS: 'ads',
+  SLIDER: 'slider',
+  CUSTOM_SECTIONS: 'custom_sections',
+  SITE_CONTENT: 'site_content',
+
+  // الإحصائيات والإعدادات
+  PUBLIC_STATS: 'public_stats',
+  SHIPPING_RATES: 'shipping_rates',
+
+  // الصفحات القانونية
+  PRIVACY_SECTIONS: 'privacy_sections',
+  SHIPPING_SECTIONS: 'shipping_sections',
+  EXCHANGE_SECTIONS: 'exchange_sections',
+  TERMS_SECTIONS: 'terms_sections',
+  FAQ_SECTIONS: 'faq_sections',
+
+  // التوصيل
+  DELIVERY_COLLECTIONS: 'delivery_collections',
+
+  // التسجيل
+  REGISTRATION_REQUESTS: 'registration_requests'
 };
+
 // 🆕 Helper للـ Bootstrap
 window.BOOTSTRAP_SETUP_DOC = 'setup_status';
+
 // ============================================================
 // 📄 Meta Docs
 // ============================================================
@@ -509,7 +565,8 @@ window.uploadImage = async function(file, onProgress) {
   if (onProgress) onProgress(20);
 
   const formData = new FormData();
-formData.append('image', compressed);  // ✅
+  formData.append('image', compressed);
+
   let response;
   try {
     response = await fetch(window.WORKER_ENDPOINTS.uploadImage, {
@@ -539,7 +596,7 @@ formData.append('image', compressed);  // ✅
 // ============================================================
 // ✅ تأكيد التحميل
 // ============================================================
-console.log('✅ firebase-config.js v8.3 loaded');
+console.log('✅ firebase-config.js v8.4 loaded');
 console.log('🔥 Firebase Project:', firebaseConfig.projectId);
 console.log('🛡️ Worker URL:', window.WORKER_URL ? 'Set' : '⚠️ NOT SET');
 console.log('🔐 API Keys in client: NONE ✅ (كل الخدمات عبر Worker)');
