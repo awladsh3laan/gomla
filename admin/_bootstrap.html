@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bootstrap — المرحلة 1</title>
+  <meta name="theme-color" content="#1a2a4a">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/gomla/assets/css/style.css">
+  <link rel="icon" href="/gomla/assets/images/favicon.ico">
+
+  <style>
+    body { background: #f1f5f9; }
+    .bs-header {
+      background: linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%);
+      border-radius: 16px; padding: 22px 24px; margin-bottom: 20px;
+      color: white; box-shadow: 0 12px 40px rgba(124,58,237,.3);
+      border-bottom: 4px solid #f59e0b;
+    }
+    .bs-header h1 { font-size: 1.4rem; font-weight: 900; margin: 0 0 4px; }
+    .bs-header p { font-size: 0.85rem; opacity: 0.9; margin: 0; }
+    .bs-header .warning {
+      margin-top: 12px; padding: 10px 14px;
+      background: rgba(255,255,255,.15);
+      border-radius: 8px; font-size: 0.82rem;
+      border-right: 3px solid #fbbf24;
+    }
+
+    .bs-tabs {
+      display: flex; gap: 8px; margin-bottom: 20px;
+      background: white; padding: 8px; border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,.05);
+    }
+    .bs-tab {
+      flex: 1; padding: 14px; border: 2px solid transparent;
+      background: transparent; border-radius: 8px;
+      font-family: inherit; font-weight: 800; font-size: 0.9rem;
+      color: #64748b; cursor: pointer; transition: all 0.2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+    }
+    .bs-tab:hover { background: #f8fafc; color: #334155; }
+    .bs-tab.active {
+      background: linear-gradient(135deg, #7c3aed, #5b21b6);
+      color: white; box-shadow: 0 4px 12px rgba(124,58,237,.3);
+    }
+    .bs-tab .badge {
+      background: rgba(0,0,0,.15); padding: 2px 8px;
+      border-radius: 10px; font-size: 0.7rem; font-weight: 900;
+    }
+    .bs-tab.active .badge { background: #fbbf24; color: #5b21b6; }
+
+    .bs-section { display: none; }
+    .bs-section.active { display: block; }
+
+    .bs-card {
+      background: white; border-radius: 12px;
+      padding: 18px 20px; margin-bottom: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,.05);
+      border: 2px solid #e2e8f0;
+      transition: all 0.2s;
+    }
+    .bs-card:hover { border-color: #cbd5e1; }
+    .bs-card.done {
+      border-color: #22c55e; background: #f0fdf4;
+    }
+    .bs-card.done .bs-card-title i.fa-check-circle { color: #16a34a; }
+    .bs-card.failed { border-color: #dc2626; background: #fef2f2; }
+
+    .bs-card-head {
+      display: flex; justify-content: space-between;
+      align-items: flex-start; gap: 12px; flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .bs-card-title {
+      font-size: 1rem; font-weight: 900; color: #1e293b;
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    }
+    .bs-card-title i.fa-check-circle { color: #94a3b8; }
+    .bs-card-badge {
+      font-size: 0.7rem; padding: 3px 10px; border-radius: 20px;
+      font-weight: 800; background: #e0e7ff; color: #4338ca;
+    }
+    .bs-card-badge.required { background: #fee2e2; color: #b91c1c; }
+    .bs-card-badge.optional { background: #dbeafe; color: #1d4ed8; }
+
+    .bs-card-desc {
+      font-size: 0.82rem; color: #64748b; line-height: 1.6;
+      margin-bottom: 12px; padding-right: 20px;
+    }
+    .bs-card-desc code {
+      background: #f1f5f9; padding: 2px 6px; border-radius: 4px;
+      font-size: 0.78rem; color: #7c3aed; direction: ltr; display: inline-block;
+    }
+
+    .bs-card-actions {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      align-items: center;
+    }
+    .bs-btn {
+      padding: 8px 16px; border: none; border-radius: 6px;
+      font-family: inherit; font-weight: 800; font-size: 0.82rem;
+      cursor: pointer; transition: all 0.2s;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .bs-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .bs-btn-check { background: #dbeafe; color: #1d4ed8; }
+    .bs-btn-check:hover:not(:disabled) { background: #bfdbfe; }
+    .bs-btn-run { background: #7c3aed; color: white; }
+    .bs-btn-run:hover:not(:disabled) { background: #5b21b6; transform: translateY(-1px); }
+    .bs-btn-run:disabled { background: #cbd5e1; }
+    .bs-btn-danger { background: #dc2626; color: white; }
+    .bs-btn-danger:hover:not(:disabled) { background: #b91c1c; }
+
+    .bs-info {
+      font-size: 0.75rem; color: #94a3b8; font-weight: 700;
+      padding: 4px 10px; background: #f1f5f9; border-radius: 6px;
+    }
+    .bs-info.success { background: #dcfce7; color: #166534; }
+    .bs-info.warn { background: #fef3c7; color: #92400e; }
+    .bs-info.error { background: #fee2e2; color: #991b1b; }
+
+    .bs-progress {
+      height: 6px; background: #e2e8f0; border-radius: 3px;
+      overflow: hidden; margin-top: 10px; display: none;
+    }
+    .bs-progress.active { display: block; }
+    .bs-progress-fill {
+      height: 100%; background: linear-gradient(90deg, #7c3aed, #a855f7);
+      width: 0%; transition: width 0.3s;
+    }
+
+    #bs-log {
+      background: #0f172a; color: #e2e8f0;
+      border-radius: 12px; padding: 16px; margin-top: 20px;
+      font-family: 'Courier New', monospace; font-size: 0.8rem;
+      max-height: 400px; overflow-y: auto; direction: ltr;
+      display: none;
+    }
+    #bs-log.active { display: block; }
+    #bs-log .log-line { padding: 2px 0; }
+    #bs-log .log-line.ok { color: #86efac; }
+    #bs-log .log-line.err { color: #fca5a5; }
+    #bs-log .log-line.info { color: #93c5fd; }
+    #bs-log .log-line.warn { color: #fde047; }
+    #bs-log .log-time { color: #64748b; margin-right: 8px; }
+
+    .bs-final {
+      background: linear-gradient(135deg, #065f46, #10b981);
+      color: white; border-radius: 12px; padding: 20px;
+      text-align: center; margin-top: 20px;
+      display: none; box-shadow: 0 8px 24px rgba(16,185,129,.3);
+    }
+    .bs-final.active { display: block; }
+    .bs-final i { font-size: 2.5rem; margin-bottom: 8px; }
+    .bs-final h2 { font-size: 1.3rem; font-weight: 900; margin: 0 0 8px; }
+    .bs-final p { font-size: 0.9rem; opacity: 0.95; margin: 0; }
+
+    @media (max-width: 640px) {
+      .bs-tabs { flex-direction: column; }
+      .bs-card-head { flex-direction: column; }
+      .bs-card-actions { width: 100%; }
+      .bs-btn { flex: 1; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="header-placeholder"></div>
+
+  <main class="page-content">
+    <div class="container">
+
+      <div class="bs-header">
+        <h1><i class="fas fa-rocket"></i> Bootstrap — المرحلة 1</h1>
+        <p>Seeds + Migrations لـ Schema v17.2</p>
+        <div class="warning">
+          <i class="fas fa-exclamation-triangle"></i>
+          <strong>تحذير:</strong> اشتغل على البيانات الإنتاجية. شغّل <code>Seeds</code> أولاً ثم <code>Migrations</code>. أي إجراء لازم تأكيد صريح.
+        </div>
+      </div>
+
+      <div class="bs-tabs">
+        <button class="bs-tab active" data-tab="seeds" onclick="switchBootstrapTab('seeds')">
+          <i class="fas fa-seedling"></i> 1. Seeds
+          <span class="badge" id="tabCount-seeds">0</span>
+        </button>
+        <button class="bs-tab" data-tab="migrations" onclick="switchBootstrapTab('migrations')">
+          <i class="fas fa-database"></i> 2. Migrations
+          <span class="badge" id="tabCount-migrations">0</span>
+        </button>
+      </div>
+
+      <!-- SEEDS TAB -->
+      <div class="bs-section active" id="bs-seeds">
+        <div id="seedsContainer"></div>
+      </div>
+
+      <!-- MIGRATIONS TAB -->
+      <div class="bs-section" id="bs-migrations">
+        <div id="migrationsContainer"></div>
+      </div>
+
+      <!-- LOG -->
+      <div id="bs-log"></div>
+
+      <!-- FINAL -->
+      <div class="bs-final" id="bs-final">
+        <i class="fas fa-check-circle"></i>
+        <h2>✅ المرحلة 1 — مكتملة</h2>
+        <p>كل الـ Seeds والـ Migrations اتنفذت. جاهز للانتقال للمرحلة 2.</p>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="footer-placeholder"></div>
+  <div id="toast-container"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="/gomla/assets/js/firebase-config.js"></script>
+  <script src="/gomla/assets/js/main.js"></script>
+
+  <script>
+  // ============================================================
+  // 📄 admin/_bootstrap.html — v1.0
+  // ⚠️ استراتيجية صارمة: نستخدم window.showToast من main.js فقط
+  // ============================================================
+
+  const BOOTSTRAP_CONFIG = {
+    setupDoc: 'setup_status',  // في site_content
+    batchSize: 400            // أقل من 500 (حد Firestore) للأمان
+  };
+
+  const bootState = {
+    role: 'guest',
+    isSuper: false,
+    setupStatus: null,
+    seeds: {},
+    migrations: {}
+  };
+
+  // ============================================================
+  // 📦 SEEDS
+  // ============================================================
+  const SEEDS = {
+    branches: {
+      name: 'Branches (الفروع)',
+      description: 'إنشاء 3 فروع: WH (مخزن مركزي)، TNT (طلعت حرب)، RGB (الرجبي). يستخدم <code>code</code> كـ document ID.',
+      required: true,
+      collection: 'branches',
+      data: [
+        { id: 'WH',  code: 'WH',  name: 'المخزن المركزي',  type: 'warehouse', isWarehouse: true,  address: '', phone: window.PAYMENT_ACCOUNT || '', managerId: '', managerName: '', regions: [], active: true },
+        { id: 'TNT', code: 'TNT', name: 'طلعت حرب',        type: 'retail',    isWarehouse: false, address: '', phone: window.PAYMENT_ACCOUNT || '', managerId: '', managerName: '', regions: [], active: true },
+        { id: 'RGB', code: 'RGB', name: 'الرجبي',          type: 'retail',    isWarehouse: false, address: '', phone: window.PAYMENT_ACCOUNT || '', managerId: '', managerName: '', regions: [], active: true }
+      ]
+    },
+
+    employees: {
+      name: 'Employees (الموظفين)',
+      description: 'إنشاء 5 موظفين افتراضيين. <strong>لازم تعدل الرواتب بعد كده من <code>admin/employees.html</code>.</strong>',
+      required: true,
+      collection: 'employees',
+      data: [
+        {
+          id: 'emp_owner',
+          name: 'المالك',
+          phone: window.PAYMENT_ACCOUNT || '',
+          employeeType: 'admin_plus',
+          branchId: '',
+          userId: '', userType: '',
+          baseSalary: 0,
+          allowances: { housing: 0, transport: 0, phone: 0, other: 0 },
+          incentiveConfig: { perDelivery: 0, perSuccessfulCollection: 0 },
+          active: true,
+          advances: 0,
+          notes: 'المالك — بدون راتب',
+          _isSeed: true
+        },
+        {
+          id: 'emp_admin_1',
+          name: 'موظف الأدمن',
+          phone: '',
+          employeeType: 'admin',
+          branchId: 'TNT',
+          userId: '', userType: '',
+          baseSalary: 0,
+          allowances: { housing: 0, transport: 0, phone: 0, other: 0 },
+          incentiveConfig: { perDelivery: 0, perSuccessfulCollection: 0 },
+          active: true,
+          advances: 0,
+          notes: '⚠️ عدل الراتب',
+          _isSeed: true
+        },
+        {
+          id: 'emp_cashier_1',
+          name: 'موظف الكاشير',
+          phone: '',
+          employeeType: 'cashier',
+          branchId: 'RGB',
+          userId: '', userType: '',
+          baseSalary: 0,
+          allowances: { housing: 0, transport: 0, phone: 0, other: 0 },
+          incentiveConfig: { perDelivery: 0, perSuccessfulCollection: 0 },
+          active: true,
+          advances: 0,
+          notes: '⚠️ عدل الراتب',
+          _isSeed: true
+        },
+        {
+          id: 'emp_branch_manager',
+          name: 'مسئول فرع طلعت حرب',
+          phone: '',
+          employeeType: 'delivery',
+          branchId: 'TNT',
+          userId: '', userType: '',
+          baseSalary: 0,
+          allowances: { housing: 0, transport: 0, phone: 0, other: 0 },
+          incentiveConfig: { perDelivery: 0, perSuccessfulCollection: 0 },
+          active: true,
+          advances: 0,
+          notes: 'مسئول الفرع يعمل كموصل',
+          _isSeed: true
+        },
+        {
+          id: 'emp_delivery_fixed',
+          name: 'الموصّل الثابت',
+          phone: '',
+          employeeType: 'delivery',
+          branchId: 'WH',
+          userId: '', userType: '',
+          baseSalary: 0,
+          allowances: { housing: 0, transport: 0, phone: 0, other: 0 },
+          incentiveConfig: { perDelivery: 5, perSuccessfulCollection: 10 },
+          active: true,
+          advances: 0,
+          notes: '⚠️ عدل الراتب + الحوافز',
+          _isSeed: true
+        }
+      ]
+    },
+
+    shipping_rates: {
+      name: 'Shipping Rates (أسعار الشحن)',
+      description: 'تحميل أسعار الشحن الافتراضية من <code>SHIPPING_RATES_DEFAULTS</code> (3 جملة + 17 قطاعي).',
+      required: false,
+      custom: 'shipping_rates'
+    },
+
+    public_stats: {
+      name: 'Public Stats (الإحصائيات)',
+      description: 'إنشاء أولي لـ <code>site_content/public_stats</code> — يُستخدم في الصفحة الرئيسية.',
+      required: false,
+      collection: 'site_content',
+      data: [
+        {
+          id: 'public_stats',
+          totalProducts: 0, totalOrders: 0, totalCustomers: 0,
+          totalBrands: 0, totalCategories: 0,
+          updatedAt: null, _isSeed: true
+        }
+      ]
+    }
+  };
+
+  // ============================================================
+  // 🔄 MIGRATIONS
+  // ============================================================
+  const MIGRATIONS = {
+    products_stock: {
+      name: 'Products: stockQuantity → warehouseStock + warehousePieces',
+      description: 'يقرأ <code>stockQuantity</code> ويحوله لـ <code>warehouseStock</code> + <code>warehousePieces</code> باستخدام <code>piecesPerUnit</code>.',
+      collection: 'products',
+      query: (col) => col.where('warehouseStock', '==', null).limit(5000),
+      filter: (doc) => doc.stockQuantity !== undefined && doc.warehouseStock === undefined,
+      transform: (doc) => {
+        const piecesPerUnit = doc.piecesPerUnit || 1;
+        const oldQty = doc.stockQuantity || 0;
+        const units = piecesPerUnit > 0 ? Math.floor(oldQty / piecesPerUnit) : oldQty;
+        const pieces = piecesPerUnit > 0 ? oldQty % piecesPerUnit : 0;
+        return {
+          warehouseStock: units,
+          warehousePieces: pieces,
+          stockQuantity: oldQty  // keep for backward compat
+        };
+      }
+    },
+
+    products_retail_offer: {
+      name: 'Products: hasOffer → hasRetailOffer',
+      description: 'يحول <code>hasOffer</code>/<code>offerPrice</code>/<code>offerStartDate</code>/<code>offerEndDate</code> للـ schema الجديد <code>hasRetailOffer</code>/<code>retailOfferPrice</code>/<code>retailOfferStart</code>/<code>retailOfferEnd</code>.',
+      collection: 'products',
+      filter: (doc) => doc.hasOffer !== undefined && doc.hasRetailOffer === undefined,
+      transform: (doc) => ({
+        hasRetailOffer: doc.hasOffer === true,
+        retailOfferPrice: doc.offerPrice || 0,
+        retailOfferStart: doc.offerStartDate || null,
+        retailOfferEnd: doc.offerEndDate || null
+      })
+    },
+
+    products_retail_unit: {
+      name: 'Products: retailunit → retailUnit (typo fix)',
+      description: 'يصلح خطأ إملائي: <code>retailunit</code> (حروف صغيرة) → <code>retailUnit</code>.',
+      collection: 'products',
+      filter: (doc) => doc.retailunit !== undefined && doc.retailUnit === undefined,
+      transform: (doc) => ({ retailUnit: doc.retailunit || 'قطعة' })
+    },
+
+    customers_balance: {
+      name: 'Customers: إضافة balance + active',
+      description: 'يضمن إن كل عميل عنده <code>balance</code> (default 0) و <code>active</code> (default true).',
+      collection: 'customers',
+      filter: (doc) => doc.balance === undefined || doc.active === undefined,
+      transform: (doc) => ({
+        balance: doc.balance ?? 0,
+        active: doc.active !== false
+      })
+    },
+
+    orders_delivery: {
+      name: 'Orders: deliveryAgentId + deliveryStatus',
+      description: 'يضمن إن كل طلب عنده <code>deliveryAgentId: ''</code> و <code>deliveryStatus: 'unassigned'</code>.',
+      collection: 'orders',
+      filter: (doc) => doc.deliveryAgentId === undefined || doc.deliveryStatus === undefined,
+      transform: (doc) => ({
+        deliveryAgentId: doc.deliveryAgentId ?? '',
+        deliveryStatus: doc.deliveryStatus || 'unassigned',
+        cashCollectedByAgent: doc.cashCollectedByAgent || false,
+        confirmedByAdmin: doc.confirmedByAdmin || false
+      })
+    }
+  };
+
+  // ============================================================
+  // 🚀 Init
+  // ============================================================
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      if (typeof getCurrentUser !== 'function') {
+        alert('main.js غير محمل — تحقق من الاتصال');
+        return;
+      }
+
+      const user = getCurrentUser();
+      if (!user || user.type !== 'admin') {
+        window.location.href = '/gomla/admin/login.html';
+        return;
+      }
+
+      bootState.role = user.data?.role;
+      bootState.isSuper = bootState.role === 'super';
+
+      if (!bootState.isSuper) {
+        document.body.innerHTML = `
+          <div style="padding:60px 20px;text-align:center;font-family:Tajawal,sans-serif;">
+            <i class="fas fa-lock" style="font-size:4rem;color:#dc2626;margin-bottom:20px;"></i>
+            <h1 style="color:#1e293b;">صلاحية super فقط</h1>
+            <p style="color:#64748b;">هذه الصفحة للسوبر أدمن فقط.</p>
+            <a href="/gomla/admin/dashboard.html" style="display:inline-block;margin-top:20px;padding:10px 24px;background:#7c3aed;color:white;text-decoration:none;border-radius:8px;font-weight:800;">
+              رجوع للوحة التحكم
+            </a>
+          </div>`;
+        return;
+      }
+
+      // تحميل setup_status
+      await loadSetupStatus();
+
+      // رسم الواجهة
+      renderSeeds();
+      renderMigrations();
+      updateTabCounts();
+
+      logLine('info', `✅ Bootstrap v1.0 ready | role: ${bootState.role}`);
+      if (bootState.setupStatus) {
+        logLine('warn', `⚠️ Last run: ${bootState.setupStatus.completedAt ? new Date(bootState.setupStatus.completedAt.toMillis?.() || bootState.setupStatus.completedAt).toLocaleString('ar-EG') : 'unknown'}`);
+      }
+
+    } catch (err) {
+      console.error('Bootstrap init error:', err);
+      logLine('err', 'Init error: ' + err.message);
+    }
+  });
+
+  async function loadSetupStatus() {
+    try {
+      const doc = await db.collection('site_content').doc(BOOTSTRAP_CONFIG.setupDoc).get();
+      bootState.setupStatus = doc.exists ? doc.data() : null;
+
+      if (bootState.setupStatus?.migrationsRun) {
+        bootState.setupStatus.migrationsRun.forEach(m => {
+          if (MIGRATIONS[m]) bootState.migrations[m] = 'done';
+        });
+      }
+      if (bootState.setupStatus?.seedsRun) {
+        bootState.setupStatus.seedsRun.forEach(s => {
+          if (SEEDS[s]) bootState.seeds[s] = 'done';
+        });
+      }
+    } catch (err) {
+      console.warn('Could not load setup_status:', err);
+    }
+  }
+
+  async function saveSetupStatus() {
+    const data = {
+      seedsRun: Object.keys(bootState.seeds).filter(k => bootState.seeds[k] === 'done'),
+      migrationsRun: Object.keys(bootState.migrations).filter(k => bootState.migrations[k] === 'done'),
+      completedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      updatedBy: bootState.adminId || ''
+    };
+    await db.collection('site_content').doc(BOOTSTRAP_CONFIG.setupDoc).set(data, { merge: true });
+    bootState.setupStatus = { ...bootState.setupStatus, ...data };
+  }
+
+  // ============================================================
+  // 🎨 Render
+  // ============================================================
+  function renderSeeds() {
+    const container = document.getElementById('seedsContainer');
+    container.innerHTML = Object.entries(SEEDS).map(([key, seed]) => {
+      const status = bootState.seeds[key];
+      const isDone = status === 'done';
+      return `
+        <div class="bs-card ${isDone ? 'done' : ''}" id="seed-card-${key}">
+          <div class="bs-card-head">
+            <div class="bs-card-title">
+              <i class="fas fa-${isDone ? 'check-circle' : 'circle'}"></i>
+              ${seed.name}
+              ${seed.required ? '<span class="bs-card-badge required">مطلوب</span>' : '<span class="bs-card-badge optional">اختياري</span>'}
+              ${isDone ? '<span class="bs-card-badge" style="background:#dcfce7;color:#166534;">✅ تم</span>' : ''}
+            </div>
+          </div>
+          <div class="bs-card-desc">${seed.description}</div>
+          <div class="bs-card-actions">
+            <button class="bs-btn bs-btn-check" onclick="dryRunSeed('${key}')" ${isDone ? 'disabled' : ''}>
+              <i class="fas fa-search"></i> فحص
+            </button>
+            <button class="bs-btn bs-btn-run" onclick="runSeed('${key}')" ${isDone ? 'disabled' : ''}>
+              <i class="fas fa-play"></i> تشغيل
+            </button>
+            <span class="bs-info" id="seed-info-${key}">لم يُشغَّل بعد</span>
+          </div>
+          <div class="bs-progress" id="seed-progress-${key}">
+            <div class="bs-progress-fill" id="seed-fill-${key}"></div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function renderMigrations() {
+    const container = document.getElementById('migrationsContainer');
+    container.innerHTML = Object.entries(MIGRATIONS).map(([key, mig]) => {
+      const status = bootState.migrations[key];
+      const isDone = status === 'done';
+      return `
+        <div class="bs-card ${isDone ? 'done' : ''}" id="mig-card-${key}">
+          <div class="bs-card-head">
+            <div class="bs-card-title">
+              <i class="fas fa-${isDone ? 'check-circle' : 'circle'}"></i>
+              ${mig.name}
+              ${isDone ? '<span class="bs-card-badge" style="background:#dcfce7;color:#166534;">✅ تم</span>' : ''}
+            </div>
+          </div>
+          <div class="bs-card-desc">${mig.description}</div>
+          <div class="bs-card-actions">
+            <button class="bs-btn bs-btn-check" onclick="dryRunMigration('${key}')">
+              <i class="fas fa-search"></i> فحص
+            </button>
+            <button class="bs-btn bs-btn-run" onclick="runMigration('${key}')" ${isDone ? 'disabled' : ''}>
+              <i class="fas fa-play"></i> تشغيل
+            </button>
+            <span class="bs-info" id="mig-info-${key}">لم يُشغَّل بعد</span>
+          </div>
+          <div class="bs-progress" id="mig-progress-${key}">
+            <div class="bs-progress-fill" id="mig-fill-${key}"></div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function updateTabCounts() {
+    const seedsDone = Object.values(bootState.seeds).filter(v => v === 'done').length;
+    const migsDone = Object.values(bootState.migrations).filter(v => v === 'done').length;
+    document.getElementById('tabCount-seeds').textContent = `${seedsDone}/${Object.keys(SEEDS).length}`;
+    document.getElementById('tabCount-migrations').textContent = `${migsDone}/${Object.keys(MIGRATIONS).length}`;
+  }
+
+  function switchBootstrapTab(tab) {
+    document.querySelectorAll('.bs-tab').forEach(el => el.classList.toggle('active', el.dataset.tab === tab));
+    document.querySelectorAll('.bs-section').forEach(el => el.classList.remove('active'));
+    document.getElementById('bs-' + tab).classList.add('active');
+  }
+
+  // ============================================================
+  // 🌱 Seeds — Dry Run + Run
+  // ============================================================
+  async function dryRunSeed(key) {
+    const seed = SEEDS[key];
+    const infoEl = document.getElementById(`seed-info-${key}`);
+    infoEl.className = 'bs-info';
+    infoEl.textContent = '⏳ جاري الفحص...';
+
+    try {
+      if (seed.custom === 'shipping_rates') {
+        const existing = await db.collection('shipping_rates').limit(1).get();
+        if (existing.empty) {
+          const total = Object.keys(window.SHIPPING_RATES_DEFAULTS.wholesale).length
+                      + Object.keys(window.SHIPPING_RATES_DEFAULTS.retail).length;
+          infoEl.className = 'bs-info warn';
+          infoEl.textContent = `سيتم إضافة ${total} سعر شحن`;
+        } else {
+          infoEl.className = 'bs-info success';
+          infoEl.textContent = `موجود بالفعل (${existing.size}+ سجل)`;
+        }
+        return;
+      }
+
+      // تحقق من وجود المستندات
+      let existingCount = 0;
+      for (const item of seed.data) {
+        const doc = await db.collection(seed.collection).doc(item.id).get();
+        if (doc.exists) existingCount++;
+      }
+
+      const toAdd = seed.data.length - existingCount;
+      if (toAdd === 0) {
+        infoEl.className = 'bs-info success';
+        infoEl.textContent = `كل الـ ${seed.data.length} موجود بالفعل`;
+      } else {
+        infoEl.className = 'bs-info warn';
+        infoEl.textContent = `سيتم إضافة ${toAdd} من ${seed.data.length} (${existingCount} موجود)`;
+      }
+    } catch (err) {
+      infoEl.className = 'bs-info error';
+      infoEl.textContent = 'فشل الفحص: ' + err.message;
+      logLine('err', `Seed ${key} dryRun: ${err.message}`);
+    }
+  }
+
+  async function runSeed(key) {
+    const seed = SEEDS[key];
+    const confirm1 = prompt(`⚠️ تشغيل Seed: ${seed.name}\n\nاكتب "RUN" للتأكيد:`);
+    if (confirm1 !== 'RUN') {
+      logLine('warn', `Seed ${key} cancelled by user`);
+      return;
+    }
+
+    const infoEl = document.getElementById(`seed-info-${key}`);
+    const progressEl = document.getElementById(`seed-progress-${key}`);
+    const fillEl = document.getElementById(`seed-fill-${key}`);
+    infoEl.className = 'bs-info';
+    infoEl.textContent = '⏳ جاري التشغيل...';
+    progressEl.classList.add('active');
+    fillEl.style.width = '10%';
+
+    logLine('info', `▶️ Starting seed: ${key}`);
+
+    try {
+      if (seed.custom === 'shipping_rates') {
+        await seedShippingRates();
+      } else {
+        await seedDocuments(seed, fillEl);
+      }
+
+      bootState.seeds[key] = 'done';
+      await saveSetupStatus();
+      await refreshStateAfterRun();
+      infoEl.className = 'bs-info success';
+      infoEl.textContent = '✅ تم بنجاح';
+      fillEl.style.width = '100%';
+      logLine('ok', `✅ Seed ${key} completed`);
+      window.showToast(`✅ ${seed.name} تم`, 'success');
+      checkCompletion();
+    } catch (err) {
+      infoEl.className = 'bs-info error';
+      infoEl.textContent = '❌ فشل: ' + err.message;
+      fillEl.style.width = '0%';
+      logLine('err', `❌ Seed ${key}: ${err.message}`);
+      window.showToast(`❌ ${seed.name}: ${err.message}`, 'error');
+    }
+  }
+
+  async function seedDocuments(seed, fillEl) {
+    const now = firebase.firestore.FieldValue.serverTimestamp();
+    let done = 0;
+
+    for (const item of seed.data) {
+      const doc = await db.collection(seed.collection).doc(item.id).get();
+      if (!doc.exists) {
+        const data = { ...item, createdAt: now, updatedAt: now };
+        delete data.id;  // الـ id بيبقى في document path
+        await db.collection(seed.collection).doc(item.id).set(data);
+        logLine('ok', `  + ${seed.collection}/${item.id}`);
+      } else {
+        logLine('info', `  = ${seed.collection}/${item.id} (exists)`);
+      }
+      done++;
+      fillEl.style.width = Math.round((done / seed.data.length) * 90) + '%';
+    }
+  }
+
+  async function seedShippingRates() {
+    const now = firebase.firestore.FieldValue.serverTimestamp();
+    const defaults = window.SHIPPING_RATES_DEFAULTS;
+    const all = [];
+
+    for (const [region, cfg] of Object.entries(defaults.wholesale)) {
+      all.push({ storeType: 'wholesale', region, cost: cfg.cost, freeThreshold: cfg.freeThreshold });
+    }
+    for (const [region, cfg] of Object.entries(defaults.retail)) {
+      all.push({ storeType: 'retail', region, cost: cfg.cost, freeThreshold: cfg.freeThreshold });
+    }
+
+    let done = 0;
+    for (const rate of all) {
+      const id = `${rate.storeType}_${rate.region.replace(/\s/g, '_')}`;
+      const doc = await db.collection('shipping_rates').doc(id).get();
+      if (!doc.exists) {
+        await db.collection('shipping_rates').doc(id).set({
+          ...rate,
+          active: true,
+          order: 0,
+          createdAt: now,
+          updatedAt: now,
+          updatedBy: ''
+        });
+        logLine('ok', `  + shipping_rates/${id}`);
+      }
+      done++;
+    }
+  }
+
+  // ============================================================
+  // 🔄 Migrations — Dry Run + Run
+  // ============================================================
+  async function dryRunMigration(key) {
+    const mig = MIGRATIONS[key];
+    const infoEl = document.getElementById(`mig-info-${key}`);
+    infoEl.className = 'bs-info';
+    infoEl.textContent = '⏳ جاري الفحص...';
+
+    try {
+      const snap = await db.collection(mig.collection).limit(5000).get();
+      const affected = [];
+      snap.forEach(doc => {
+        if (mig.filter({ id: doc.id, ...doc.data() })) {
+          affected.push(doc.id);
+        }
+      });
+
+      if (affected.length === 0) {
+        infoEl.className = 'bs-info success';
+        infoEl.textContent = `✓ لا يوجد مستندات تحتاج التحويل (0/${snap.size})`;
+      } else {
+        infoEl.className = 'bs-info warn';
+        infoEl.textContent = `${affected.length} من ${snap.size} مستند يحتاج التحويل`;
+      }
+      logLine('info', `📊 ${key} dryRun: ${affected.length}/${snap.size} affected`);
+    } catch (err) {
+      infoEl.className = 'bs-info error';
+      infoEl.textContent = 'فشل الفحص: ' + err.message;
+      logLine('err', `${key} dryRun error: ${err.message}`);
+    }
+  }
+
+  async function runMigration(key) {
+    const mig = MIGRATIONS[key];
+    const confirm1 = prompt(`⚠️ تشغيل Migration: ${mig.name}\n\nاكتب "RUN" للتأكيد:`);
+    if (confirm1 !== 'RUN') {
+      logLine('warn', `Migration ${key} cancelled`);
+      return;
+    }
+
+    const infoEl = document.getElementById(`mig-info-${key}`);
+    const progressEl = document.getElementById(`mig-progress-${key}`);
+    const fillEl = document.getElementById(`mig-fill-${key}`);
+    infoEl.className = 'bs-info';
+    infoEl.textContent = '⏳ جاري التحويل...';
+    progressEl.classList.add('active');
+    fillEl.style.width = '10%';
+
+    logLine('info', `▶️ Migration ${key} starting...`);
+
+    try {
+      // قراءة كل المستندات
+      const snap = await db.collection(mig.collection).limit(5000).get();
+      const updates = [];
+      snap.forEach(doc => {
+        const data = { id: doc.id, ...doc.data() };
+        if (mig.filter(data)) {
+          const changes = mig.transform(data);
+          if (changes && Object.keys(changes).length > 0) {
+            updates.push({ ref: doc.ref, data: changes });
+          }
+        }
+      });
+
+      if (updates.length === 0) {
+        infoEl.className = 'bs-info success';
+        infoEl.textContent = '✓ لا يوجد مستندات تحتاج التحويل';
+        fillEl.style.width = '100%';
+        logLine('ok', `✅ Migration ${key} — nothing to do`);
+        bootState.migrations[key] = 'done';
+        await saveSetupStatus();
+        await refreshStateAfterRun();
+        checkCompletion();
+        return;
+      }
+
+      logLine('info', `  📝 ${updates.length} updates queued`);
+      fillEl.style.width = '20%';
+
+      // تنفيذ على دفعات
+      const BS = BOOTSTRAP_CONFIG.batchSize;
+      let processed = 0;
+      for (let i = 0; i < updates.length; i += BS) {
+        const chunk = updates.slice(i, i + BS);
+        const batch = db.batch();
+        chunk.forEach(u => batch.update(u.ref, u.data));
+        await batch.commit();
+        processed += chunk.length;
+        const pct = 20 + Math.round((processed / updates.length) * 70);
+        fillEl.style.width = pct + '%';
+        logLine('ok', `  ✓ ${processed}/${updates.length}`);
+      }
+
+      bootState.migrations[key] = 'done';
+      await saveSetupStatus();
+      await refreshStateAfterRun();
+      infoEl.className = 'bs-info success';
+      infoEl.textContent = `✅ تم تحويل ${updates.length} مستند`;
+      fillEl.style.width = '100%';
+      logLine('ok', `✅ Migration ${key} — ${updates.length} docs updated`);
+      window.showToast(`✅ ${mig.name}: ${updates.length} مستند`, 'success');
+      checkCompletion();
+
+    } catch (err) {
+      infoEl.className = 'bs-info error';
+      infoEl.textContent = '❌ فشل: ' + err.message;
+      fillEl.style.width = '0%';
+      logLine('err', `❌ Migration ${key}: ${err.message}`);
+      window.showToast(`❌ ${mig.name}: ${err.message}`, 'error');
+    }
+  }
+
+  // ============================================================
+  // 🔄 Refresh / Check completion
+  // ============================================================
+  async function refreshStateAfterRun() {
+    renderSeeds();
+    renderMigrations();
+    updateTabCounts();
+  }
+
+  function checkCompletion() {
+    const allSeedsDone = Object.keys(SEEDS).every(k => !SEEDS[k].required || bootState.seeds[k] === 'done');
+    const allMigDone = Object.keys(MIGRATIONS).every(k => bootState.migrations[k] === 'done');
+
+    if (allSeedsDone && allMigDone) {
+      document.getElementById('bs-final').classList.add('active');
+      document.getElementById('bs-final').scrollIntoView({ behavior: 'smooth' });
+      logLine('ok', '🎉 All seeds & migrations completed');
+    }
+  }
+
+  // ============================================================
+  // 📝 Log
+  // ============================================================
+  function logLine(type, msg) {
+    const log = document.getElementById('bs-log');
+    log.classList.add('active');
+    const time = new Date().toLocaleTimeString('ar-EG', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    const line = document.createElement('div');
+    line.className = 'log-line ' + type;
+    line.innerHTML = `<span class="log-time">${time}</span>${escapeHtml(msg)}`;
+    log.appendChild(line);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  function escapeHtml(s) {
+    return String(s ?? '').replace(/[&<>"']/g, c => ({
+      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+    }[c]));
+  }
+
+  // ============================================================
+  // 🌐 Exports
+  // ============================================================
+  window.switchBootstrapTab = switchBootstrapTab;
+  window.dryRunSeed = dryRunSeed;
+  window.runSeed = runSeed;
+  window.dryRunMigration = dryRunMigration;
+  window.runMigration = runMigration;
+  </script>
+
+</body>
+</html>
