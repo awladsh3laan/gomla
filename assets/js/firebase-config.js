@@ -289,7 +289,9 @@ window.SHIPPING_RATES_DEFAULTS = {
     'كفر حجازي': { cost: 50, freeThreshold: 2500 }
   }
 };
-
+// ⚠️ Alias للتوافق مع checkout.html (v4.0 و v5.0)
+window.SHIPPING_RATES = window.SHIPPING_RATES_DEFAULTS;
+const SHIPPING_RATES = window.SHIPPING_RATES;
 // ============================================================
 // 🏷️ أكواد المدن للتجار
 // ============================================================
