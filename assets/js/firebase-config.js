@@ -445,8 +445,8 @@ window.COLLECTIONS = {
   REGISTRATION_REQUESTS: 'registration_requests',
   CARDOONA_INVOICES: 'cardoona_invoices',
   CARDOONA_EXTRACTIONS: 'cardoona_extractions'
-  // 🆕 v17.3 — Reserve
-PRODUCTS_RESERVED: 'reservedPieces',
+  PRODUCTS_RESERVED: 'reservedPieces',  // 🆕 v17.3 — Reserve
+  }
 };
 // 🆕 Helper للـ Bootstrap
 window.BOOTSTRAP_SETUP_DOC = 'setup_status';
