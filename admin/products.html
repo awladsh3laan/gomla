@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>إدارة المنتجات - أولاد شعلان</title>
-  <meta name="description" content="إدارة المنتجات والبراندات والتصنيفات">
   <meta name="theme-color" content="#1a2a4a">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
@@ -27,11 +26,7 @@
       background: radial-gradient(circle, rgba(201,168,76,.18) 0%, transparent 70%);
       border-radius: 50%;
     }
-    .ph-header-inner {
-      position: relative; z-index: 1;
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 16px; flex-wrap: wrap;
-    }
+    .ph-header-inner { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
     .ph-header-left { display: flex; align-items: center; gap: 16px; flex: 1; min-width: 200px; }
     .ph-header-icon {
       width: 56px; height: 56px; border-radius: 50%;
@@ -56,8 +51,7 @@
     .ph-tabs {
       display: flex; gap: 6px; margin-bottom: 16px;
       background: var(--white); padding: 8px;
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-sm);
+      border-radius: var(--radius-md); box-shadow: var(--shadow-sm);
       border: 1px solid var(--gray-200);
       overflow-x: auto; scrollbar-width: thin;
     }
@@ -69,8 +63,7 @@
       color: var(--gray-600); border-radius: var(--radius-sm);
       font-family: inherit; font-weight: 800; font-size: 0.85rem;
       cursor: pointer; transition: all 0.25s ease;
-      display: inline-flex; align-items: center; gap: 8px;
-      white-space: nowrap;
+      display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
     }
     .ph-tab:hover { border-color: var(--gold-light); background: var(--gray-50); }
     .ph-tab.active {
@@ -86,20 +79,14 @@
     }
     .ph-tab.active .tab-count { background: var(--gold); color: var(--navy); }
 
-    .ph-stats {
-      display: grid; grid-template-columns: repeat(5, 1fr);
-      gap: 10px; margin-bottom: 16px;
-    }
+    .ph-stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin-bottom: 16px; }
     .ph-stat-card {
       background: var(--white); border-radius: var(--radius-md);
       padding: 14px 12px; box-shadow: var(--shadow-sm);
       border: 1px solid var(--gray-200); text-align: center;
       transition: var(--transition);
     }
-    .ph-stat-card:hover {
-      transform: translateY(-3px); box-shadow: var(--shadow-md);
-      border-color: var(--gold-light);
-    }
+    .ph-stat-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--gold-light); }
     .ph-stat-card .stat-icon {
       width: 40px; height: 40px; border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
@@ -130,10 +117,7 @@
       font-family: inherit; font-size: 0.88rem;
       background: var(--gray-50); outline: none; transition: var(--transition);
     }
-    .ph-search input:focus {
-      border-color: var(--gold); background: var(--white);
-      box-shadow: 0 0 0 4px rgba(201,168,76,.15);
-    }
+    .ph-search input:focus { border-color: var(--gold); background: var(--white); box-shadow: 0 0 0 4px rgba(201,168,76,.15); }
     .ph-search i { position: absolute; right: 13px; top: 50%; transform: translateY(-50%); color: var(--gray-400); }
     .ph-filters select {
       padding: 10px 14px; border: 2px solid var(--gray-200);
@@ -149,44 +133,25 @@
     }
     .ph-filters .btn-icon-only:hover { border-color: var(--gold); color: var(--gold-dark); }
 
-    .pc-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-bottom: 24px;
-    }
+    .pc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px; }
     .pc-card {
       background: var(--white); border-radius: var(--radius-md);
       box-shadow: var(--shadow-sm); border: 1px solid var(--gray-200);
       overflow: hidden; display: flex; flex-direction: column;
       transition: var(--transition); position: relative;
     }
-    .pc-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 16px 40px rgba(26,42,74,.15);
-      border-color: var(--gold-light);
-    }
+    .pc-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(26,42,74,.15); border-color: var(--gold-light); }
     .pc-card.unavailable { opacity: 0.7; }
     .pc-image-wrap {
       position: relative; aspect-ratio: 1;
-      background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-      overflow: hidden;
+      background: linear-gradient(135deg, #f8f9fa, #e9ecef); overflow: hidden;
     }
-    .pc-image {
-      width: 100%; height: 100%;
-      object-fit: contain; padding: 8px;
-      transition: transform 0.4s ease;
-    }
+    .pc-image { width: 100%; height: 100%; object-fit: contain; padding: 8px; transition: transform 0.4s ease; }
     .pc-card:hover .pc-image { transform: scale(1.05); }
-    .pc-badges {
-      position: absolute; top: 8px; right: 8px;
-      display: flex; flex-direction: column; gap: 4px;
-    }
+    .pc-badges { position: absolute; top: 8px; right: 8px; display: flex; flex-direction: column; gap: 4px; }
     .pc-badge {
-      padding: 3px 8px; border-radius: 20px;
-      font-size: 0.65rem; font-weight: 800;
-      white-space: nowrap;
-      box-shadow: 0 2px 6px rgba(0,0,0,.15);
+      padding: 3px 8px; border-radius: 20px; font-size: 0.65rem; font-weight: 800;
+      white-space: nowrap; box-shadow: 0 2px 6px rgba(0,0,0,.15);
     }
     .pc-badge.available { background: #dcfce7; color: #15803d; }
     .pc-badge.unavailable { background: #fee2e2; color: #b91c1c; }
@@ -194,32 +159,23 @@
     .pc-badge.low-stock { background: #fef3c7; color: #b45309; }
     .pc-badge.wholesale-discount { background: linear-gradient(135deg, #8b5cf6, #7c3aed); color: white; }
 
-    .pc-body {
-      padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; flex: 1;
-    }
+    .pc-body { padding: 12px 14px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
     .pc-title {
-      font-size: 0.95rem; font-weight: 900;
-      color: var(--navy); margin: 0;
-      display: -webkit-box; -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical; overflow: hidden;
-      line-height: 1.3; min-height: 2.6em;
+      font-size: 0.95rem; font-weight: 900; color: var(--navy); margin: 0;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+      overflow: hidden; line-height: 1.3; min-height: 2.6em;
     }
     .pc-meta { font-size: 0.7rem; color: var(--gray-500); font-weight: 600; }
-    .pc-price-row {
-      display: flex; justify-content: space-between;
-      align-items: center; font-size: 0.82rem; padding: 3px 0;
-    }
+    .pc-price-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.82rem; padding: 3px 0; }
     .pc-price-row .lbl { color: var(--gray-500); font-weight: 700; font-size: 0.75rem; }
     .pc-price-row .val { font-weight: 900; color: var(--navy); }
     .pc-price-row .val.gold { color: var(--gold-dark); }
     .pc-price-row .val.purchase { color: #7c3aed; }
 
     .pc-stock {
-      display: flex; justify-content: space-between;
-      align-items: center; gap: 6px;
+      display: flex; justify-content: space-between; align-items: center; gap: 6px;
       padding: 6px 8px; background: var(--gray-50);
-      border-radius: var(--radius-sm); font-size: 0.78rem;
-      margin-top: 2px;
+      border-radius: var(--radius-sm); font-size: 0.78rem; margin-top: 2px;
     }
     .pc-stock .stock-label { color: var(--gray-600); font-weight: 700; }
     .pc-stock .stock-value { font-weight: 900; color: var(--navy); }
@@ -227,9 +183,8 @@
     .pc-stock.empty .stock-value { color: #dc2626; }
 
     .pc-actions {
-      display: grid; grid-template-columns: 1fr 1fr 1fr;
-      gap: 6px; padding-top: 8px;
-      border-top: 1px solid var(--gray-100); margin-top: 4px;
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px;
+      padding-top: 8px; border-top: 1px solid var(--gray-100); margin-top: 4px;
     }
     .pc-action-btn {
       padding: 7px 4px; border: 1.5px solid;
@@ -250,8 +205,7 @@
     .pc-empty, .pc-loading {
       text-align: center; padding: 60px 20px;
       background: var(--white); border-radius: var(--radius-md);
-      border: 2px dashed var(--gray-300);
-      grid-column: 1/-1;
+      border: 2px dashed var(--gray-300); grid-column: 1/-1;
     }
     .pc-empty .empty-icon {
       width: 90px; height: 90px; border-radius: 50%;
@@ -266,10 +220,8 @@
 
     .modal-overlay {
       display: none; position: fixed; inset: 0;
-      background: rgba(15, 26, 46, 0.75);
-      backdrop-filter: blur(4px);
-      z-index: 999;
-      justify-content: center; align-items: center;
+      background: rgba(15, 26, 46, 0.75); backdrop-filter: blur(4px);
+      z-index: 999; justify-content: center; align-items: center;
       padding: 20px; overflow-y: auto;
     }
     .modal-overlay.show { display: flex; }
@@ -283,10 +235,7 @@
     .modal-content.small { max-width: 500px; }
     .modal-content.large { max-width: 900px; }
     .modal-content.medium { max-width: 650px; }
-    @keyframes modalSlide {
-      from { transform: translateY(-30px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
-    }
+    @keyframes modalSlide { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     .modal-header {
       padding: 18px 22px;
       background: linear-gradient(135deg, var(--navy), var(--navy-light));
@@ -327,10 +276,7 @@
     .btn-danger { background: var(--danger); color: white; }
     .btn-danger:hover { background: #b91c1c; }
 
-    .form-section {
-      margin-bottom: 20px; padding-bottom: 16px;
-      border-bottom: 1px solid var(--gray-100);
-    }
+    .form-section { margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--gray-100); }
     .form-section:last-child { border-bottom: none; margin-bottom: 0; }
     .form-section h4 {
       font-size: 0.9rem; color: var(--navy); margin-bottom: 12px;
@@ -339,17 +285,13 @@
     .form-section h4 i { color: var(--gold); }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     .form-group { margin-bottom: 12px; }
-    .form-group label {
-      display: block; font-weight: 700; font-size: 0.82rem;
-      color: var(--gray-700); margin-bottom: 4px;
-    }
+    .form-group label { display: block; font-weight: 700; font-size: 0.82rem; color: var(--gray-700); margin-bottom: 4px; }
     .form-group label .required { color: var(--danger); }
     .form-group input, .form-group select, .form-group textarea {
       width: 100%; padding: 9px 12px;
       border: 2px solid var(--gray-200); border-radius: var(--radius-sm);
       font-family: inherit; font-size: 0.88rem;
-      background: var(--gray-50); transition: var(--transition);
-      outline: none;
+      background: var(--gray-50); transition: var(--transition); outline: none;
     }
     .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
       border-color: var(--gold); background: var(--white);
@@ -362,26 +304,18 @@
     .image-upload-area {
       border: 2px dashed var(--gray-300); border-radius: var(--radius-sm);
       padding: 14px; text-align: center; cursor: pointer;
-      transition: var(--transition); background: var(--gray-50);
-      position: relative;
+      transition: var(--transition); background: var(--gray-50); position: relative;
     }
     .image-upload-area:hover { border-color: var(--gold); background: #fcf9f0; }
     .image-upload-area .preview-image {
       max-width: 120px; max-height: 120px;
-      border-radius: var(--radius-sm); margin-bottom: 8px;
-      object-fit: contain;
+      border-radius: var(--radius-sm); margin-bottom: 8px; object-fit: contain;
     }
     .image-upload-area .upload-icon { font-size: 1.8rem; color: var(--gray-400); }
     .image-upload-area .upload-text { font-size: 0.82rem; color: var(--gray-500); margin-top: 4px; }
     .image-upload-area .upload-progress { display: none; margin-top: 8px; }
-    .image-upload-area .progress-bar {
-      width: 100%; height: 6px; background: var(--gray-200);
-      border-radius: 3px; overflow: hidden;
-    }
-    .image-upload-area .progress-fill {
-      height: 100%; background: var(--gold); width: 0%;
-      transition: width 0.3s ease;
-    }
+    .image-upload-area .progress-bar { width: 100%; height: 6px; background: var(--gray-200); border-radius: 3px; overflow: hidden; }
+    .image-upload-area .progress-fill { height: 100%; background: var(--gold); width: 0%; transition: width 0.3s ease; }
     .image-upload-area .progress-text { font-size: 0.72rem; color: var(--gray-500); margin-top: 3px; }
 
     .delete-warning {
@@ -409,10 +343,7 @@
       font-family: inherit; font-size: 0.85rem; width: 100%;
     }
 
-    @media (max-width: 1024px) {
-      .pc-grid { grid-template-columns: repeat(2, 1fr); }
-      .ph-stats { grid-template-columns: repeat(3, 1fr); }
-    }
+    @media (max-width: 1024px) { .pc-grid { grid-template-columns: repeat(2, 1fr); } .ph-stats { grid-template-columns: repeat(3, 1fr); } }
     @media (max-width: 768px) {
       .pc-grid { grid-template-columns: 1fr; gap: 12px; }
       .pc-card { flex-direction: row; }
@@ -452,13 +383,10 @@
 
   <main class="page-content">
     <div class="container">
-
       <div class="ph-header">
         <div class="ph-header-inner">
           <div class="ph-header-left">
-            <div class="ph-header-icon">
-              <i class="fas fa-boxes"></i>
-            </div>
+            <div class="ph-header-icon"><i class="fas fa-boxes"></i></div>
             <div>
               <h1>إدارة المنتجات</h1>
               <p>المنتجات · البراندات · التصنيفات</p>
@@ -477,50 +405,26 @@
 
       <div class="ph-tabs" id="phTabs">
         <button class="ph-tab active" data-tab="products" onclick="switchTab('products')">
-          <i class="fas fa-box"></i>
-          <span>المنتجات</span>
+          <i class="fas fa-box"></i><span>المنتجات</span>
           <span class="tab-count" id="tabCount-products">0</span>
         </button>
         <button class="ph-tab super-only" data-tab="brands" onclick="switchTab('brands')">
-          <i class="fas fa-copyright"></i>
-          <span>البراندات</span>
+          <i class="fas fa-copyright"></i><span>البراندات</span>
           <span class="tab-count" id="tabCount-brands">0</span>
         </button>
         <button class="ph-tab super-only" data-tab="categories" onclick="switchTab('categories')">
-          <i class="fas fa-tags"></i>
-          <span>التصنيفات</span>
+          <i class="fas fa-tags"></i><span>التصنيفات</span>
           <span class="tab-count" id="tabCount-categories">0</span>
         </button>
       </div>
 
       <div class="tab-content active" id="tab-products">
-
         <div class="ph-stats">
-          <div class="ph-stat-card">
-            <div class="stat-icon blue"><i class="fas fa-box"></i></div>
-            <div class="stat-number" id="statTotal">0</div>
-            <div class="stat-label">إجمالي</div>
-          </div>
-          <div class="ph-stat-card">
-            <div class="stat-icon green"><i class="fas fa-check-circle"></i></div>
-            <div class="stat-number green" id="statAvailable">0</div>
-            <div class="stat-label">متاح</div>
-          </div>
-          <div class="ph-stat-card">
-            <div class="stat-icon red"><i class="fas fa-eye-slash"></i></div>
-            <div class="stat-number red" id="statUnavailable">0</div>
-            <div class="stat-label">مخفي</div>
-          </div>
-          <div class="ph-stat-card">
-            <div class="stat-icon gold"><i class="fas fa-percent"></i></div>
-            <div class="stat-number gold" id="statOffers">0</div>
-            <div class="stat-label">عروض</div>
-          </div>
-          <div class="ph-stat-card">
-            <div class="stat-icon orange"><i class="fas fa-exclamation-triangle"></i></div>
-            <div class="stat-number orange" id="statLowStock">0</div>
-            <div class="stat-label">مخزون منخفض</div>
-          </div>
+          <div class="ph-stat-card"><div class="stat-icon blue"><i class="fas fa-box"></i></div><div class="stat-number" id="statTotal">0</div><div class="stat-label">إجمالي</div></div>
+          <div class="ph-stat-card"><div class="stat-icon green"><i class="fas fa-check-circle"></i></div><div class="stat-number green" id="statAvailable">0</div><div class="stat-label">متاح</div></div>
+          <div class="ph-stat-card"><div class="stat-icon red"><i class="fas fa-eye-slash"></i></div><div class="stat-number red" id="statUnavailable">0</div><div class="stat-label">مخفي</div></div>
+          <div class="ph-stat-card"><div class="stat-icon gold"><i class="fas fa-percent"></i></div><div class="stat-number gold" id="statOffers">0</div><div class="stat-label">عروض</div></div>
+          <div class="ph-stat-card"><div class="stat-icon orange"><i class="fas fa-exclamation-triangle"></i></div><div class="stat-number orange" id="statLowStock">0</div><div class="stat-label">مخزون منخفض</div></div>
         </div>
 
         <div class="ph-filters">
@@ -528,12 +432,8 @@
             <input type="text" id="searchInput" placeholder="بحث بالاسم / الباركود / SKU..." oninput="onSearchInput()">
             <i class="fas fa-search"></i>
           </div>
-          <select id="categoryFilter" onchange="applyFilters()">
-            <option value="">كل التصنيفات</option>
-          </select>
-          <select id="brandFilter" onchange="applyFilters()">
-            <option value="">كل البراندات</option>
-          </select>
+          <select id="categoryFilter" onchange="applyFilters()"><option value="">كل التصنيفات</option></select>
+          <select id="brandFilter" onchange="applyFilters()"><option value="">كل البراندات</option></select>
           <select id="statusFilter" onchange="applyFilters()">
             <option value="">كل الحالات</option>
             <option value="available">متاح</option>
@@ -548,16 +448,11 @@
             <option value="price-low">الأقل سعراً</option>
             <option value="stock-low">الأقل مخزوناً</option>
           </select>
-          <button class="btn-icon-only" onclick="resetFilters()" title="إعادة تعيين">
-            <i class="fas fa-undo"></i>
-          </button>
+          <button class="btn-icon-only" onclick="resetFilters()" title="إعادة تعيين"><i class="fas fa-undo"></i></button>
         </div>
 
         <div class="pc-grid" id="productsGrid">
-          <div class="pc-loading">
-            <i class="fas fa-spinner fa-spin"></i>
-            <p>جاري تحميل المنتجات...</p>
-          </div>
+          <div class="pc-loading"><i class="fas fa-spinner fa-spin"></i><p>جاري تحميل المنتجات...</p></div>
         </div>
 
         <div class="load-more-container">
@@ -572,15 +467,10 @@
           <h2 style="font-size:1.15rem;font-weight:900;color:var(--navy);margin:0;">
             <i class="fas fa-copyright" style="color:var(--gold);"></i> إدارة البراندات
           </h2>
-          <button class="btn btn-gold" onclick="openBrandModal()">
-            <i class="fas fa-plus"></i> إضافة براند
-          </button>
+          <button class="btn btn-gold" onclick="openBrandModal()"><i class="fas fa-plus"></i> إضافة براند</button>
         </div>
         <div class="pc-grid" id="brandsGrid">
-          <div class="pc-loading">
-            <i class="fas fa-spinner fa-spin"></i>
-            <p>جاري التحميل...</p>
-          </div>
+          <div class="pc-loading"><i class="fas fa-spinner fa-spin"></i><p>جاري التحميل...</p></div>
         </div>
       </div>
 
@@ -589,15 +479,10 @@
           <h2 style="font-size:1.15rem;font-weight:900;color:var(--navy);margin:0;">
             <i class="fas fa-tags" style="color:var(--gold);"></i> إدارة التصنيفات
           </h2>
-          <button class="btn btn-gold" onclick="openCategoryModal()">
-            <i class="fas fa-plus"></i> إضافة تصنيف
-          </button>
+          <button class="btn btn-gold" onclick="openCategoryModal()"><i class="fas fa-plus"></i> إضافة تصنيف</button>
         </div>
         <div class="pc-grid" id="categoriesGrid">
-          <div class="pc-loading">
-            <i class="fas fa-spinner fa-spin"></i>
-            <p>جاري التحميل...</p>
-          </div>
+          <div class="pc-loading"><i class="fas fa-spinner fa-spin"></i><p>جاري التحميل...</p></div>
         </div>
       </div>
 
@@ -622,15 +507,12 @@
         <div class="modal-body" id="productModalBody"></div>
         <div class="modal-actions">
           <button type="button" class="btn btn-outline" onclick="closeModal('productModal')">إلغاء</button>
-          <button type="submit" class="btn btn-gold" id="saveProductBtn">
-            <i class="fas fa-save"></i> حفظ
-          </button>
+          <button type="submit" class="btn btn-gold" id="saveProductBtn"><i class="fas fa-save"></i> حفظ</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- View Product Modal -->
   <div class="modal-overlay" id="viewProductModal">
     <div class="modal-content medium">
       <div class="modal-header">
@@ -643,7 +525,6 @@
     </div>
   </div>
 
-  <!-- Category Modal -->
   <div class="modal-overlay" id="categoryModal">
     <div class="modal-content small">
       <div class="modal-header">
@@ -676,15 +557,12 @@
         </div>
         <div class="modal-actions">
           <button type="button" class="btn btn-outline" onclick="closeModal('categoryModal')">إلغاء</button>
-          <button type="submit" class="btn btn-gold" id="saveCategoryBtn">
-            <i class="fas fa-save"></i> حفظ
-          </button>
+          <button type="submit" class="btn btn-gold" id="saveCategoryBtn"><i class="fas fa-save"></i> حفظ</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- Brand Modal -->
   <div class="modal-overlay" id="brandModal">
     <div class="modal-content small">
       <div class="modal-header">
@@ -721,15 +599,12 @@
         </div>
         <div class="modal-actions">
           <button type="button" class="btn btn-outline" onclick="closeModal('brandModal')">إلغاء</button>
-          <button type="submit" class="btn btn-gold" id="saveBrandBtn">
-            <i class="fas fa-save"></i> حفظ
-          </button>
+          <button type="submit" class="btn btn-gold" id="saveBrandBtn"><i class="fas fa-save"></i> حفظ</button>
         </div>
       </form>
     </div>
   </div>
 
-  <!-- Delete Category Modal -->
   <div class="modal-overlay" id="deleteCategoryModal">
     <div class="modal-content small">
       <div class="modal-header" style="background:linear-gradient(135deg,#991b1b,#dc2626);">
@@ -752,10 +627,7 @@
           </label>
           <label class="delete-option danger">
             <input type="radio" name="deleteCategoryAction" value="delete" onchange="onDeleteCategoryActionChange()">
-            <div>
-              <div class="option-label">حذف كل المنتجات <i class="fas fa-exclamation-triangle"></i></div>
-              <div class="option-sub">لا يمكن التراجع — خطر!</div>
-            </div>
+            <div><div class="option-label">حذف كل المنتجات <i class="fas fa-exclamation-triangle"></i></div><div class="option-sub">لا يمكن التراجع</div></div>
           </label>
           <label class="delete-option">
             <input type="radio" name="deleteCategoryAction" value="cancel" onchange="onDeleteCategoryActionChange()">
@@ -765,14 +637,11 @@
       </div>
       <div class="modal-actions">
         <button class="btn btn-outline" onclick="closeModal('deleteCategoryModal')">إلغاء</button>
-        <button class="btn btn-danger" id="confirmDeleteCategoryBtn" onclick="confirmDeleteCategory()">
-          <i class="fas fa-trash"></i> تأكيد
-        </button>
+        <button class="btn btn-danger" id="confirmDeleteCategoryBtn" onclick="confirmDeleteCategory()"><i class="fas fa-trash"></i> تأكيد</button>
       </div>
     </div>
   </div>
 
-  <!-- Delete Brand Modal -->
   <div class="modal-overlay" id="deleteBrandModal">
     <div class="modal-content small">
       <div class="modal-header" style="background:linear-gradient(135deg,#991b1b,#dc2626);">
@@ -795,10 +664,7 @@
           </label>
           <label class="delete-option danger">
             <input type="radio" name="deleteBrandAction" value="delete" onchange="onDeleteBrandActionChange()">
-            <div>
-              <div class="option-label">حذف كل المنتجات <i class="fas fa-exclamation-triangle"></i></div>
-              <div class="option-sub">لا يمكن التراجع — خطر!</div>
-            </div>
+            <div><div class="option-label">حذف كل المنتجات <i class="fas fa-exclamation-triangle"></i></div><div class="option-sub">لا يمكن التراجع</div></div>
           </label>
           <label class="delete-option">
             <input type="radio" name="deleteBrandAction" value="cancel" onchange="onDeleteBrandActionChange()">
@@ -808,9 +674,7 @@
       </div>
       <div class="modal-actions">
         <button class="btn btn-outline" onclick="closeModal('deleteBrandModal')">إلغاء</button>
-        <button class="btn btn-danger" id="confirmDeleteBrandBtn" onclick="confirmDeleteBrand()">
-          <i class="fas fa-trash"></i> تأكيد
-        </button>
+        <button class="btn btn-danger" id="confirmDeleteBrandBtn" onclick="confirmDeleteBrand()"><i class="fas fa-trash"></i> تأكيد</button>
       </div>
     </div>
   </div>
@@ -823,12 +687,15 @@
 
   <script>
   // ============================================================
-  // 📄 admin/products.html v3.1
-  // ✅ Fix: pageState بدل المتغيرات المستقلة (يحل مشكلة redeclaration)
-  // ✅ Fix: إزالة دوال الرفع المحلية — استخدام window.uploadImage
+  // 📄 admin/products.html v3.2
+  // ⚠️ استراتيجية صارمة: ممنوع تعريف أي دالة موجودة في main.js
+  //    - showToast      → window.showToast (main.js)
+  //    - uploadImage    → window.uploadImage (main.js → Worker)
+  //    - getCurrentUser → main.js
+  //    - protectAnyAdminPage → main.js
+  //    - formatDate     → main.js
   // ============================================================
 
-  // ⚠️ كل الحالة في object واحد لتجنب التصادم مع main.js
   const pageState = {
     role: 'guest',
     isSuper: false,
@@ -839,7 +706,6 @@
     currentTab: 'products'
   };
 
-  // State مستقل للبيانات
   let allProducts = [];
   let allCategories = [];
   let allBrands = [];
@@ -849,12 +715,10 @@
   let searchDebounce = null;
   let unsubscribeProducts = null;
 
-  // Image state
   let productImageUrl = '';
   let categoryImageUrl = '';
   let brandImageUrl = '';
 
-  // Delete context
   let deleteCategoryContext = null;
   let deleteBrandContext = null;
 
@@ -863,7 +727,6 @@
   // ============================================================
   document.addEventListener('DOMContentLoaded', async () => {
     try {
-      // المستخدم
       let user = null;
       if (typeof getCurrentUser === 'function') user = getCurrentUser();
       if (!user) {
@@ -873,7 +736,6 @@
         } catch(e){}
       }
       if (!user || user.type !== 'admin') {
-        if (typeof showToast === 'function') showToast('غير مصرح', 'error');
         setTimeout(() => location.replace('/gomla/admin/login.html'), 800);
         return;
       }
@@ -890,7 +752,6 @@
         if (!ok) return;
       }
 
-      // إخفاء super-only
       document.querySelectorAll('.super-only').forEach(el => {
         el.style.display = pageState.isSuper ? '' : 'none';
       });
@@ -912,7 +773,7 @@
         });
       });
 
-      console.log('✅ products.html v3.1 ready — role:', pageState.role);
+      console.log('✅ products.html v3.2 ready — role:', pageState.role);
 
     } catch (err) {
       console.error('Init error:', err);
@@ -920,23 +781,23 @@
   });
 
   // ============================================================
-  // 🖼️ Image Upload — عبر window.uploadImage (Worker)
+  // 🖼️ Image Upload — يعتمد على window.uploadImage من main.js
   // ============================================================
   async function handleImageUpload(event, type) {
     const file = event.target.files?.[0];
     if (!file) return;
 
     if (!file.type.startsWith('image/')) {
-      showToast('الرجاء اختيار صورة فقط', 'warning');
+      window.showToast('الرجاء اختيار صورة فقط', 'warning');
       return;
     }
     if (file.size > 5 * 1024 * 1024) {
-      showToast('حجم الصورة يجب أن يكون أقل من 5 ميجا', 'warning');
+      window.showToast('حجم الصورة يجب أن يكون أقل من 5 ميجا', 'warning');
       return;
     }
 
     if (typeof window.uploadImage !== 'function') {
-      showToast('window.uploadImage غير متاح - تحقق من firebase-config.js v8.3', 'error');
+      window.showToast('window.uploadImage غير متاح — تحقق من تحميل main.js', 'error');
       return;
     }
 
@@ -957,17 +818,17 @@
     };
 
     try {
-      showToast('⏳ جاري رفع الصورة...', 'info');
+      window.showToast('⏳ جاري رفع الصورة...', 'info');
       const url = await window.uploadImage(file, updateProgress);
 
       if (type === 'product') { productImageUrl = url; _showPreview('product', url); }
       else if (type === 'category') { categoryImageUrl = url; _showPreview('category', url); }
       else if (type === 'brand') { brandImageUrl = url; _showPreview('brand', url); }
 
-      showToast('✅ تم رفع الصورة', 'success');
+      window.showToast('✅ تم رفع الصورة', 'success');
       setTimeout(() => { if (container) container.style.display = 'none'; }, 400);
     } catch (err) {
-      showToast('⚠️ فشل رفع الصورة: ' + err.message, 'error');
+      window.showToast('⚠️ فشل رفع الصورة: ' + err.message, 'error');
       if (container) container.style.display = 'none';
     }
   }
@@ -1368,7 +1229,7 @@
 
   function switchTab(tab) {
     if ((tab === 'brands' || tab === 'categories') && !pageState.isSuper) {
-      showToast('صلاحية super فقط', 'warning');
+      window.showToast('صلاحية super فقط', 'warning');
       return;
     }
     pageState.currentTab = tab;
@@ -1381,10 +1242,10 @@
   // 🪟 Product Modal
   // ============================================================
   function openProductModal(productId) {
-    if (!pageState.isAdmin) { showToast('غير مصرح', 'warning'); return; }
+    if (!pageState.isAdmin) { window.showToast('غير مصرح', 'warning'); return; }
     const isEdit = !!productId;
     const existing = isEdit ? allProducts.find(p => p.id === productId) : null;
-    if (isEdit && !existing) { showToast('المنتج غير موجود', 'error'); return; }
+    if (isEdit && !existing) { window.showToast('المنتج غير موجود', 'error'); return; }
 
     productImageUrl = existing?.imageUrl || '';
 
@@ -1800,7 +1661,7 @@
   // ============================================================
   async function saveProduct(event) {
     event.preventDefault();
-    if (!pageState.isAdmin) { showToast('غير مصرح', 'warning'); return; }
+    if (!pageState.isAdmin) { window.showToast('غير مصرح', 'warning'); return; }
     const btn = document.getElementById('saveProductBtn');
     btn.disabled = true;
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الحفظ...';
@@ -1895,20 +1756,20 @@
 
       if (id) {
         await db.collection('products').doc(id).update(data);
-        showToast('✅ تم تحديث المنتج', 'success');
+        window.showToast('✅ تم تحديث المنتج', 'success');
       } else {
         data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
         data.salesCount = 0;
         data.viewsCount = 0;
         data.createdBy = pageState.adminId;
         await db.collection('products').add(data);
-        showToast('✅ تم إضافة المنتج', 'success');
+        window.showToast('✅ تم إضافة المنتج', 'success');
       }
 
       closeModal('productModal');
     } catch (err) {
       console.error('saveProduct error:', err);
-      showToast('❌ ' + err.message, 'error');
+      window.showToast('❌ ' + err.message, 'error');
     } finally {
       btn.disabled = false;
       btn.innerHTML = '<i class="fas fa-save"></i> حفظ';
@@ -1964,9 +1825,9 @@
     if (!confirm('⚠️ حذف هذا المنتج؟ لا يمكن التراجع.')) return;
     try {
       await db.collection('products').doc(id).delete();
-      showToast('✅ تم الحذف', 'success');
+      window.showToast('✅ تم الحذف', 'success');
     } catch (err) {
-      showToast('❌ فشل الحذف', 'error');
+      window.showToast('❌ فشل الحذف', 'error');
     }
   }
 
@@ -1974,7 +1835,7 @@
   // 🏷️ Brand CRUD
   // ============================================================
   function openBrandModal(brandId) {
-    if (!pageState.isSuper) { showToast('صلاحية super فقط', 'warning'); return; }
+    if (!pageState.isSuper) { window.showToast('صلاحية super فقط', 'warning'); return; }
     const isEdit = !!brandId;
     const existing = isEdit ? allBrands.find(b => b.id === brandId) : null;
     brandImageUrl = existing?.imageUrl || '';
@@ -2015,16 +1876,16 @@
       if (brandImageUrl) data.imageUrl = brandImageUrl;
       if (id) {
         await db.collection('brands').doc(id).update(data);
-        showToast('✅ تم التحديث', 'success');
+        window.showToast('✅ تم التحديث', 'success');
       } else {
         data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
         await db.collection('brands').add(data);
-        showToast('✅ تم الإضافة', 'success');
+        window.showToast('✅ تم الإضافة', 'success');
       }
       closeModal('brandModal');
       loadBrands();
     } catch (err) {
-      showToast('❌ ' + err.message, 'error');
+      window.showToast('❌ ' + err.message, 'error');
     } finally {
       btn.disabled = false;
       btn.innerHTML = '<i class="fas fa-save"></i> حفظ';
@@ -2088,19 +1949,19 @@
           });
         });
         await batch.commit();
-        showToast(`✅ تم نقل ${affected.length} منتج`, 'success');
+        window.showToast(`✅ تم نقل ${affected.length} منتج`, 'success');
       } else if (action === 'delete') {
         const batch = db.batch();
         affected.forEach(p => batch.delete(db.collection('products').doc(p.id)));
         batch.delete(db.collection('brands').doc(deleteBrandContext.id));
         await batch.commit();
-        showToast(`✅ تم حذف البراند و${affected.length} منتج`, 'success');
+        window.showToast(`✅ تم حذف البراند و${affected.length} منتج`, 'success');
       }
       closeModal('deleteBrandModal');
       deleteBrandContext = null;
       loadBrands();
     } catch (err) {
-      showToast('❌ ' + err.message, 'error');
+      window.showToast('❌ ' + err.message, 'error');
     } finally {
       btn.disabled = false;
       btn.innerHTML = '<i class="fas fa-trash"></i> تأكيد';
@@ -2111,7 +1972,7 @@
   // 🏷️ Category CRUD
   // ============================================================
   function openCategoryModal(categoryId) {
-    if (!pageState.isSuper) { showToast('صلاحية super فقط', 'warning'); return; }
+    if (!pageState.isSuper) { window.showToast('صلاحية super فقط', 'warning'); return; }
     const isEdit = !!categoryId;
     const existing = isEdit ? allCategories.find(c => c.id === categoryId) : null;
     categoryImageUrl = existing?.imageUrl || '';
@@ -2150,16 +2011,16 @@
       if (categoryImageUrl) data.imageUrl = categoryImageUrl;
       if (id) {
         await db.collection('categories').doc(id).update(data);
-        showToast('✅ تم التحديث', 'success');
+        window.showToast('✅ تم التحديث', 'success');
       } else {
         data.createdAt = firebase.firestore.FieldValue.serverTimestamp();
         await db.collection('categories').add(data);
-        showToast('✅ تم الإضافة', 'success');
+        window.showToast('✅ تم الإضافة', 'success');
       }
       closeModal('categoryModal');
       loadCategories();
     } catch (err) {
-      showToast('❌ ' + err.message, 'error');
+      window.showToast('❌ ' + err.message, 'error');
     } finally {
       btn.disabled = false;
       btn.innerHTML = '<i class="fas fa-save"></i> حفظ';
@@ -2223,19 +2084,19 @@
           });
         });
         await batch.commit();
-        showToast(`✅ تم نقل ${affected.length} منتج`, 'success');
+        window.showToast(`✅ تم نقل ${affected.length} منتج`, 'success');
       } else if (action === 'delete') {
         const batch = db.batch();
         affected.forEach(p => batch.delete(db.collection('products').doc(p.id)));
         batch.delete(db.collection('categories').doc(deleteCategoryContext.id));
         await batch.commit();
-        showToast(`✅ تم حذف التصنيف و${affected.length} منتج`, 'success');
+        window.showToast(`✅ تم حذف التصنيف و${affected.length} منتج`, 'success');
       }
       closeModal('deleteCategoryModal');
       deleteCategoryContext = null;
       loadCategories();
     } catch (err) {
-      showToast('❌ ' + err.message, 'error');
+      window.showToast('❌ ' + err.message, 'error');
     } finally {
       btn.disabled = false;
       btn.innerHTML = '<i class="fas fa-trash"></i> تأكيد';
@@ -2246,7 +2107,7 @@
   // 📤 Export
   // ============================================================
   function exportProductsCSV() {
-    if (filteredProducts.length === 0) { showToast('لا يوجد منتجات', 'warning'); return; }
+    if (filteredProducts.length === 0) { window.showToast('لا يوجد منتجات', 'warning'); return; }
     let csv = 'الاسم,التصنيف,البراند,الوحدة,الجملة,القطاعي,الشراء,المخزون,متاح,عرض\n';
     filteredProducts.forEach(p => {
       const hasOffer = (p.hasRetailOffer ?? p.hasOffer) === true;
@@ -2258,11 +2119,11 @@
     a.download = `products_${new Date().toISOString().slice(0,10)}.csv`;
     a.click();
     URL.revokeObjectURL(a.href);
-    showToast('✅ تم التصدير', 'success');
+    window.showToast('✅ تم التصدير', 'success');
   }
 
   // ============================================================
-  // 🛠️ Helpers
+  // 🛠️ Helpers (page-specific only — NOT in main.js)
   // ============================================================
   function closeModal(id) {
     document.getElementById(id)?.classList.remove('show');
@@ -2281,21 +2142,6 @@
     const d = t.toDate ? t.toDate() : new Date(t);
     if (isNaN(d.getTime())) return '';
     return d.toISOString().slice(0, 10);
-  }
-
-  function showToast(message, type) {
-    if (typeof window.showToast === 'function') { window.showToast(message, type); return; }
-    const container = document.getElementById('toast-container');
-    if (!container) { console.log('Toast:', message); return; }
-    const t = document.createElement('div');
-    t.className = `toast toast-${type}`;
-    t.textContent = message;
-    container.appendChild(t);
-    setTimeout(() => t.classList.add('show'), 10);
-    setTimeout(() => {
-      t.classList.remove('show');
-      setTimeout(() => t.remove(), 300);
-    }, 3000);
   }
 
   // ============================================================
