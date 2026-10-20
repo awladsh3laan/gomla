@@ -446,7 +446,8 @@ window.COLLECTIONS = {
   CARDOONA_INVOICES: 'cardoona_invoices',
   CARDOONA_EXTRACTIONS: 'cardoona_extractions'
 };
-
+// 🆕 Helper للـ Bootstrap
+window.BOOTSTRAP_SETUP_DOC = 'setup_status';
 // ============================================================
 // 📄 Meta Docs
 // ============================================================
