@@ -610,6 +610,9 @@
     currentOrderId: null,
     searchDebounce: null,
     unsubscribe: null,
+    editItems: null,
+    editAvailableProducts: null,
+    editPickerSearch: '',
     initialized: false
   };
 
@@ -3339,6 +3342,17 @@
   window.sendWhatsApp = sendWhatsApp;
   window.printInvoice = printInvoice;
   window.openEditOrder = openEditOrder;
+  window.saveEditedOrder = saveEditedOrder;
+  window.renderEditOrderModal = renderEditOrderModal;
+  window.loadAvailableProductsForEdit = loadAvailableProductsForEdit;
+  window.renderEditItemsList = renderEditItemsList;
+  window.updateEditItemQty = updateEditItemQty;
+  window.removeEditItem = removeEditItem;
+  window.updateEditTotalsPreview = updateEditTotalsPreview;
+  window.openEditProductPicker = openEditProductPicker;
+  window.filterEditPicker = filterEditPicker;
+  window.renderEditPickerList = renderEditPickerList;
+  window.addProductToEditOrder = addProductToEditOrder;
   </script>
 
 </body>
