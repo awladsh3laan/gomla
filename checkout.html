@@ -660,1018 +660,1297 @@
 
   <script>
     // ============================================================
-    // 📄 checkout.html - إتمام الطلب
-    // ✅ الإصدار: 4.0 (طرق الدفع + تدوير الإجمالي)
-    // 📌 كل الأيقونات Font Awesome فقط — لا Emojis في الـ UI
-    // ============================================================
+// 📄 checkout.html — v6.0
+// ✅ Reserve logic في Transaction
+// ✅ يمنع oversell
+// ✅ يوزع على branch_inventory (retail) أو products (wholesale)
+// ============================================================
 
-    // ===== المتغيرات الأساسية =====
-    let cartItems = [];
-    let isGuestUser = false;
-    let checkoutUserId = null;
-    let checkoutUserRole = ROLES.GUEST;
-    let checkoutStoreType = 'retail';
-    let checkoutUserData = null;
-    let lockFields = false;
-    let shippingCost = 0;
-    let subtotal = 0;
-    let totalAmount = 0;
-    let selectedRegion = '';
-    let isFreeShipping = false;
-    let minOrderAmount = 0;
-    let isCheckoutSubmitting = false;
-    let isRegionLocked = false;
-    let traderCity = '';
+// ===== المتغيرات الأساسية =====
+let cartItems = [];
+let isGuestUser = false;
+let checkoutUserId = null;
+let checkoutUserRole = ROLES.GUEST;
+let checkoutStoreType = 'retail';
+let checkoutUserData = null;
+let lockFields = false;
+let shippingCost = 0;
+let subtotal = 0;
+let totalAmount = 0;
+let selectedRegion = '';
+let isFreeShipping = false;
+let minOrderAmount = 0;
+let isCheckoutSubmitting = false;
+let isRegionLocked = false;
+let traderCity = '';
 
-    // ===== 🆕 متغيرات الدفع =====
-    let selectedPaymentMethod = 'cash';
-    let paymentFee = 0;
-    let roundedTotal = 0;
-    let paymentProofFile = null;
-    let paymentProofPreview = '';
+// ===== متغيرات الدفع =====
+let selectedPaymentMethod = 'cash';
+let selectedInstallmentDays = 7;
+let paymentFee = 0;
+let roundedTotal = 0;
+let paymentProofFile = null;
+let paymentProofPreview = '';
 
-    // ===== ثوابت الدفع =====
-    const PAYMENT_ACCOUNT = '01068385028';
-    const WALLET_FEE_PERCENT = 1;
+// ===== ثوابت =====
+const PAYMENT_ACCOUNT = '01068385028';
+const WALLET_FEE_PERCENT = 1;
+const CHECKOUT_FORM_KEY = 'checkout_form_data';
 
-    // ===== حفظ/قراءة الفورم =====
-    const CHECKOUT_FORM_KEY = 'checkout_form_data';
-    function getSavedFormData() {
-      try { return JSON.parse(localStorage.getItem(CHECKOUT_FORM_KEY) || '{}'); }
-      catch { return {}; }
-    }
-    function saveFormData(data) {
-      try { localStorage.setItem(CHECKOUT_FORM_KEY, JSON.stringify(data)); }
-      catch (e) { console.warn('Could not save form data:', e); }
-    }
+// ============================================================
+// 🆕 Helper: تحديد branchId من region
+// ============================================================
+function getBranchIdForRegion(region, storeType) {
+  if (storeType === 'wholesale') return 'WH';
+  // TODO: mapping region → branch (admin/regions.html)
+  // حالياً: كل الـ retail regions → RGB (الرجبي)
+  return 'RGB';
+}
 
-    // ============================================================
-    // 🆕 دوال الدفع والتدوير
-    // ============================================================
-    function roundToNearest5(amount) {
-      return Math.round(amount / 5) * 5;
-    }
+// ============================================================
+// 🆕 Auto-release للطلبات القديمة (أكثر من 24 ساعة)
+// ============================================================
+async function releaseExpiredOrders() {
+  try {
+    const cutoff = new Date(Date.now() - 24 * 60 * 60 * 1000);
 
-    function getPaymentFeePercent(method) {
-      return method === 'wallet' ? WALLET_FEE_PERCENT : 0;
-    }
+    const snap = await db.collection('orders')
+      .where('reserved', '==', true)
+      .where('released', '==', false)
+      .where('createdAt', '<', cutoff)
+      .limit(20)
+      .get();
 
-    function getPaymentMethodLabel(method) {
-      const labels = {
-        cash: 'الدفع عند الاستلام',
-        instapay: 'إنستا باي',
-        wallet: 'محفظة إلكترونية'
-      };
-      return labels[method] || method;
-    }
+    if (snap.empty) return;
 
-    // ============================================================
-    // 🚀 تحميل الصفحة
-    // ============================================================
-    async function loadCheckout() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const urlStoreType = urlParams.get('type');
-      const user = getCurrentUser();
+    console.log(`🕒 Auto-release: ${snap.size} expired orders`);
 
-      if (user) {
-        isGuestUser = false;
-        checkoutUserId = user.data.id || user.data.uid;
-        checkoutUserRole = user.data.role || ROLES.RETAIL;
-        checkoutUserData = user.data;
-        lockFields = (checkoutUserRole === ROLES.WHOLESALE || checkoutUserRole === ROLES.RETAIL);
+    for (const doc of snap.docs) {
+      const order = doc.data();
+      if (!order.items || !Array.isArray(order.items)) continue;
 
-        if (checkoutUserRole === ROLES.WHOLESALE && checkoutUserData) {
-          traderCity = checkoutUserData.city
-                    || checkoutUserData.region
-                    || checkoutUserData.governorate
-                    || '';
-          isRegionLocked = true;
-        }
-
-        if (checkoutUserRole === ROLES.WHOLESALE) {
-          checkoutStoreType = 'wholesale';
-          minOrderAmount = window.WHOLESALE_MIN_ORDER || 1500;
-        } else if (checkoutUserRole === ROLES.RETAIL) {
-          checkoutStoreType = 'retail';
-          minOrderAmount = 0;
-        } else {
-          checkoutStoreType = urlStoreType === 'retail' ? 'retail' : 'wholesale';
-          minOrderAmount = checkoutStoreType === 'wholesale'
-            ? (window.WHOLESALE_MIN_ORDER || 1500) : 0;
-        }
-
-        await loadUserCart();
-      } else {
-        isGuestUser = true;
-        checkoutUserId = null;
-        checkoutUserRole = ROLES.GUEST;
-        checkoutStoreType = 'retail';
-        lockFields = false;
-        minOrderAmount = 0;
-        loadGuestCart();
-      }
-    }
-
-    async function loadUserCart() {
       try {
-        const snapshot = await db.collection(COLLECTIONS.CART)
-          .where('userId', '==', checkoutUserId)
-          .get();
+        await db.runTransaction(async (t) => {
+          // إعادة قراءة الطلب
+          const oDoc = await t.get(doc.ref);
+          const o = oDoc.data();
+          if (!o.reserved || o.released) return;
 
-        if (snapshot.empty) {
-          window.location.href = '/gomla/cart.html';
-          return;
-        }
+          const isWholesale = o.storeType === 'wholesale';
 
-        cartItems = [];
-        snapshot.forEach(doc => cartItems.push({ id: doc.id, ...doc.data() }));
-        renderCheckout();
-      } catch (error) {
-        console.error('Error loading cart:', error);
-        showToast('حدث خطأ في تحميل السلة', 'error');
+          for (const item of o.items) {
+            const qty = item.quantity || 0;
+            if (qty <= 0) continue;
+
+            if (isWholesale) {
+              const pRef = db.collection('products').doc(item.productId);
+              t.update(pRef, {
+                reservedPieces: firebase.firestore.FieldValue.increment(-qty)
+              });
+            } else {
+              const branchId = o.branchId || 'RGB';
+              const invRef = db.collection('branch_inventory').doc(`${branchId}_${item.productId}`);
+              const invDoc = await t.get(invRef);
+              if (invDoc.exists) {
+                t.update(invRef, {
+                  reservedQty: firebase.firestore.FieldValue.increment(-qty),
+                  availableQty: firebase.firestore.FieldValue.increment(qty)
+                });
+              }
+            }
+          }
+
+          t.update(doc.ref, {
+            released: true,
+            releasedAt: firebase.firestore.FieldValue.serverTimestamp(),
+            releaseReason: 'auto_timeout_24h',
+            status: 'auto_cancelled'
+          });
+        });
+      } catch (e) {
+        console.warn(`Auto-release failed for ${doc.id}:`, e);
       }
     }
+  } catch (err) {
+    console.warn('releaseExpiredOrders error:', err);
+  }
+}
 
-    function loadGuestCart() {
-      const saved = localStorage.getItem('guest_cart');
-      if (saved) {
-        try { cartItems = JSON.parse(saved); } catch (e) { cartItems = []; }
-      }
-      if (cartItems.length === 0) {
-        window.location.href = '/gomla/cart.html';
-        return;
-      }
-      renderCheckout();
+// ============================================================
+// Form save
+// ============================================================
+function getSavedFormData() {
+  try { return JSON.parse(localStorage.getItem(CHECKOUT_FORM_KEY) || '{}'); }
+  catch { return {}; }
+}
+function saveFormData(data) {
+  try { localStorage.setItem(CHECKOUT_FORM_KEY, JSON.stringify(data)); }
+  catch (e) { console.warn('Could not save form data:', e); }
+}
+
+// ============================================================
+// 🧮 دوال الحساب
+// ============================================================
+function roundToNearest5(amount) {
+  return Math.round(amount / 5) * 5;
+}
+
+function getPaymentFeePercent(method) {
+  return method === 'wallet' ? WALLET_FEE_PERCENT : 0;
+}
+
+function getPaymentMethodLabel(method) {
+  const labels = {
+    cash: 'الدفع عند الاستلام',
+    instapay: 'إنستا باي',
+    wallet: 'محفظة إلكترونية',
+    credit: 'آجل (تقسيط)'
+  };
+  return labels[method] || method;
+}
+
+// ============================================================
+// 🚀 تحميل الصفحة
+// ============================================================
+async function loadCheckout() {
+  // 🆕 Release expired orders (في الخلفية)
+  releaseExpiredOrders().catch(() => {});
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlStoreType = urlParams.get('type');
+  const user = getCurrentUser();
+
+  if (user) {
+    isGuestUser = false;
+    checkoutUserId = user.data.id || user.data.uid;
+    checkoutUserRole = user.data.role || ROLES.RETAIL;
+    checkoutUserData = user.data;
+    lockFields = (checkoutUserRole === ROLES.WHOLESALE || checkoutUserRole === ROLES.RETAIL);
+
+    if (checkoutUserRole === ROLES.WHOLESALE && checkoutUserData) {
+      traderCity = checkoutUserData.city
+                || checkoutUserData.region
+                || checkoutUserData.governorate
+                || '';
+      isRegionLocked = true;
     }
 
-    // ============================================================
-    // 🎨 عرض صفحة الدفع
-    // ============================================================
-    function renderCheckout() {
-      const container = document.getElementById('checkoutContainer');
-      if (!container) return;
+    if (checkoutUserRole === ROLES.WHOLESALE) {
+      checkoutStoreType = 'wholesale';
+      minOrderAmount = window.WHOLESALE_MIN_ORDER || 1500;
+    } else if (checkoutUserRole === ROLES.RETAIL) {
+      checkoutStoreType = 'retail';
+      minOrderAmount = 0;
+    } else {
+      checkoutStoreType = urlStoreType === 'retail' ? 'retail' : 'wholesale';
+      minOrderAmount = checkoutStoreType === 'wholesale'
+        ? (window.WHOLESALE_MIN_ORDER || 1500) : 0;
+    }
 
-      subtotal = 0;
-      cartItems.forEach(item => {
-        subtotal += (item.price || 0) * (item.quantity || 1);
-      });
+    await loadUserCart();
+  } else {
+    isGuestUser = true;
+    checkoutUserId = null;
+    checkoutUserRole = ROLES.GUEST;
+    checkoutStoreType = 'retail';
+    lockFields = false;
+    minOrderAmount = 0;
+    loadGuestCart();
+  }
+}
 
-      const isWholesale = checkoutStoreType === 'wholesale';
-      const regions = isWholesale
-        ? Object.keys(SHIPPING_RATES.wholesale)
-        : Object.keys(SHIPPING_RATES.retail);
+async function loadUserCart() {
+  try {
+    const snapshot = await db.collection(COLLECTIONS.CART)
+      .where('userId', '==', checkoutUserId)
+      .get();
 
-      if (isRegionLocked && traderCity) {
-        selectedRegion = traderCity;
-      }
+    if (snapshot.empty) {
+      window.location.href = '/gomla/cart.html';
+      return;
+    }
 
-      const regionLabel = isWholesale ? 'اختر المدينة' : 'اختر المنطقة';
-      const regionPlaceholder = isWholesale
-        ? 'طنطا، المنصورة، المحلة'
-        : 'الرجبي، السبع بنات، الزراعة...';
+    cartItems = [];
+    snapshot.forEach(doc => cartItems.push({ id: doc.id, ...doc.data() }));
+    renderCheckout();
+  } catch (error) {
+    console.error('Error loading cart:', error);
+    window.showToast('حدث خطأ في تحميل السلة', 'error');
+  }
+}
 
-      const savedForm = getSavedFormData();
+function loadGuestCart() {
+  const saved = localStorage.getItem('guest_cart');
+  if (saved) {
+    try { cartItems = JSON.parse(saved); } catch (e) { cartItems = []; }
+  }
+  if (cartItems.length === 0) {
+    window.location.href = '/gomla/cart.html';
+    return;
+  }
+  renderCheckout();
+}
 
-      let autoName = savedForm.name || '';
-      let autoPhone = savedForm.phone || '';
-      let autoAddress = savedForm.address || '';
+// ============================================================
+// 🎨 Render (نفس v5.0 + عرض المتاح الحقيقي)
+// ============================================================
+function renderCheckout() {
+  const container = document.getElementById('checkoutContainer');
+  if (!container) return;
 
-      if (!isGuestUser && checkoutUserData) {
-        if (!autoName) autoName = checkoutUserData.name || '';
-        if (!autoPhone) autoPhone = checkoutUserData.phone || '';
-        if (!autoAddress) autoAddress = checkoutUserData.address || '';
-      }
+  subtotal = 0;
+  cartItems.forEach(item => {
+    subtotal += (item.price || 0) * (item.quantity || 1);
+  });
 
-      let autoPhone2 = savedForm.phone2 || '';
-      let autoAddress2 = savedForm.address2 || '';
-      let autoNotes = savedForm.notes || '';
-      let autoDeliveryChoice = savedForm.deliveryChoice || 'address1';
+  const isWholesale = checkoutStoreType === 'wholesale';
+  const rates = window.SHIPPING_RATES_DEFAULTS || { wholesale: {}, retail: {} };
+  const regions = isWholesale
+    ? Object.keys(rates.wholesale || {})
+    : Object.keys(rates.retail || {});
 
-      const nameReadonly = lockFields ? 'readonly' : '';
-      const phoneReadonly = lockFields ? 'readonly' : '';
-      const addressReadonly = lockFields ? 'readonly' : '';
+  if (isRegionLocked && traderCity) {
+    selectedRegion = traderCity;
+  }
 
-      const nameRequired = (!lockFields) ? 'required' : '';
-      const phoneRequired = (!lockFields) ? 'required' : '';
-      const addressRequired = (!lockFields) ? 'required' : '';
+  const regionLabel = isWholesale ? 'اختر المدينة' : 'اختر المنطقة';
+  const regionPlaceholder = isWholesale
+    ? 'طنطا، المنصورة، المحلة'
+    : 'الرجبي، السبع بنات، الزراعة...';
 
-      let html = `
-        <div class="checkout-header">
-          <div class="header-left">
-            <div class="header-icon">
-              <i class="fas fa-check-circle"></i>
+  const savedForm = getSavedFormData();
+
+  let autoName = savedForm.name || '';
+  let autoPhone = savedForm.phone || '';
+  let autoAddress = savedForm.address || '';
+
+  if (!isGuestUser && checkoutUserData) {
+    if (!autoName) autoName = checkoutUserData.name || '';
+    if (!autoPhone) autoPhone = checkoutUserData.phone || '';
+    if (!autoAddress) autoAddress = checkoutUserData.address || '';
+  }
+
+  let autoPhone2 = savedForm.phone2 || '';
+  let autoAddress2 = savedForm.address2 || '';
+  let autoNotes = savedForm.notes || '';
+  let autoDeliveryChoice = savedForm.deliveryChoice || 'address1';
+
+  const nameReadonly = lockFields ? 'readonly' : '';
+  const phoneReadonly = lockFields ? 'readonly' : '';
+  const addressReadonly = lockFields ? 'readonly' : '';
+
+  const nameRequired = (!lockFields) ? 'required' : '';
+  const phoneRequired = (!lockFields) ? 'required' : '';
+  const addressRequired = (!lockFields) ? 'required' : '';
+
+  const creditCfg = window.CREDIT_CONFIG;
+
+  let html = `
+    <div class="checkout-header">
+      <div class="header-left">
+        <div class="header-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <h1>إتمام <span class="gold">الطلب</span></h1>
+      </div>
+      <div class="steps-badge">
+        <i class="fas fa-${isWholesale ? 'store' : 'shopping-cart'}"></i>
+        ${isWholesale ? 'متجر الجملة' : 'متجر القطاعي'}
+      </div>
+    </div>
+
+    <div class="checkout-layout">
+      <div class="checkout-form-container">
+        <form id="checkoutForm" onsubmit="handleSubmit(event)">
+
+          <!-- بيانات العميل -->
+          <div class="checkout-section">
+            <div class="section-header">
+              <div class="section-icon"><i class="fas fa-user"></i></div>
+              <h2>بيانات العميل</h2>
+              ${lockFields
+                ? `<span class="section-badge">جلب تلقائي</span>`
+                : `<span class="section-badge">${isGuestUser ? 'إدخال يدوي' : 'قابل للتعديل'}</span>`}
             </div>
-            <h1>إتمام <span class="gold">الطلب</span></h1>
+
+            <div class="form-group">
+              <label>
+                <i class="fas fa-user"></i>
+                الاسم الكامل
+                <span class="required">*</span>
+                ${lockFields ? `<span class="locked-badge"><i class="fas fa-lock"></i> مقروء</span>` : ''}
+              </label>
+              <input type="text" id="customerName" value="${autoName}"
+                placeholder="الاسم الثلاثي" maxlength="60"
+                ${nameReadonly} ${nameRequired}>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label>
+                  <i class="fas fa-phone"></i>
+                  رقم الهاتف
+                  <span class="required">*</span>
+                  ${lockFields ? `<span class="locked-badge"><i class="fas fa-lock"></i></span>` : ''}
+                </label>
+                <input type="tel" id="customerPhone" value="${autoPhone}"
+                  placeholder="01xxxxxxxxx" maxlength="11" inputmode="numeric"
+                  ${phoneReadonly} ${phoneRequired}>
+              </div>
+
+              <div class="form-group">
+                <label>
+                  <i class="fas fa-phone-volume"></i>
+                  رقم هاتف بديل (اختياري)
+                </label>
+                <input type="tel" id="customerPhone2" value="${autoPhone2}"
+                  placeholder="01xxxxxxxxx" maxlength="11" inputmode="numeric">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>
+                <i class="fas fa-map-marker-alt"></i>
+                العنوان الأساسي
+                <span class="required">*</span>
+                ${lockFields ? `<span class="locked-badge"><i class="fas fa-lock"></i></span>` : ''}
+              </label>
+              <input type="text" id="customerAddress" value="${autoAddress}"
+                placeholder="المدينة - الشارع - رقم المبنى"
+                maxlength="150" ${addressReadonly} ${addressRequired}>
+            </div>
+
+            <div class="form-group">
+              <label>
+                <i class="fas fa-map-marked-alt"></i>
+                عنوان بديل (اختياري)
+              </label>
+              <input type="text" id="customerAddress2" value="${autoAddress2}"
+                placeholder="عنوان آخر للتوصيل" maxlength="150">
+            </div>
+
+            <div class="form-group">
+              <label>
+                <i class="fas fa-truck-loading"></i>
+                عنوان التوصيل
+                <span class="required">*</span>
+              </label>
+              <div class="delivery-choice">
+                <label class="delivery-option">
+                  <input type="radio" name="deliveryChoice" value="address1"
+                    ${autoDeliveryChoice === 'address1' ? 'checked' : ''}>
+                  <i class="fas fa-home"></i>
+                  <span>العنوان الأساسي</span>
+                </label>
+                <label class="delivery-option">
+                  <input type="radio" name="deliveryChoice" value="address2"
+                    ${autoDeliveryChoice === 'address2' ? 'checked' : ''}>
+                  <i class="fas fa-map-marker-alt"></i>
+                  <span>العنوان البديل</span>
+                </label>
+              </div>
+            </div>
           </div>
-          <div class="steps-badge">
-            <i class="fas fa-${isWholesale ? 'store' : 'shopping-cart'}"></i>
-            ${isWholesale ? 'متجر الجملة' : 'متجر القطاعي'}
+
+          <!-- بيانات التوصيل -->
+          <div class="checkout-section">
+            <div class="section-header">
+              <div class="section-icon"><i class="fas fa-truck"></i></div>
+              <h2>بيانات التوصيل</h2>
+            </div>
+
+            <div class="form-group">
+              <label>
+                <i class="fas fa-map-pin"></i>
+                ${regionLabel}
+                <span class="required">*</span>
+              </label>
+              <div class="region-select-wrapper">
+                <select id="regionSelect" onchange="handleRegionChange()"
+                  required ${isRegionLocked ? 'disabled' : ''}>
+                  <option value="">-- ${regionPlaceholder} --</option>
+                  ${regions.map(r => `
+                    <option value="${r}" ${isRegionLocked && r === traderCity ? 'selected' : ''}>
+                      ${r}
+                    </option>
+                  `).join('')}
+                </select>
+              </div>
+
+              ${isRegionLocked ? `
+                <div class="help-text" style="color:#16a34a;background:#f0fdf4;padding:6px 10px;border-radius:6px;border-right:3px solid #22c55e;margin-top:8px;">
+                  <i class="fas fa-lock" style="color:#22c55e;"></i>
+                  مدينتك محددة تلقائياً: <strong>${traderCity || 'غير محدد - تواصل مع الإدارة'}</strong>
+                </div>
+              ` : `
+                <div class="help-text warning">
+                  <i class="fas fa-exclamation-triangle"></i>
+                  ${isWholesale
+                    ? 'يتم التوصيل للمدن المذكورة فقط'
+                    : 'التوصيل متاح داخل المحلة الكبرى فقط'}
+                </div>
+              `}
+            </div>
+
+            <div class="shipping-info" id="shippingInfo">
+              <i class="fas fa-info-circle"></i>
+              <div id="shippingInfoText"></div>
+            </div>
+
+            <div class="form-group">
+              <label>
+                <i class="fas fa-calendar-alt"></i>
+                موعد التوصيل المقترح
+                <span class="required">*</span>
+              </label>
+              <input type="date" id="deliveryDate" min="${getMinDate()}" required>
+              <div class="help-text">
+                <i class="fas fa-clock"></i>
+                قد تستغرق عملية التوصيل من ساعتين إلى 4 أيام عمل
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>
+                <i class="fas fa-comment-alt"></i>
+                ملاحظات (اختياري)
+              </label>
+              <textarea id="orderNotes" rows="3"
+                placeholder="أي تعليمات إضافية للتوصيل..."
+                maxlength="300">${autoNotes}</textarea>
+            </div>
+          </div>
+
+          <!-- طريقة الدفع -->
+          <div class="checkout-section">
+            <div class="section-header">
+              <div class="section-icon"><i class="fas fa-credit-card"></i></div>
+              <h2>طريقة الدفع</h2>
+              <span class="section-badge">مطلوب</span>
+            </div>
+
+            <div class="payment-methods" id="paymentMethods">
+              <label class="payment-option active" data-method="cash">
+                <input type="radio" name="paymentMethod" value="cash" checked
+                  onchange="handlePaymentChange()">
+                <div class="payment-icon">
+                  <i class="fas fa-money-bill-wave"></i>
+                </div>
+                <div class="payment-title">الدفع عند الاستلام</div>
+                <div class="payment-sub">بدون رسوم</div>
+              </label>
+
+              <label class="payment-option" data-method="instapay">
+                <input type="radio" name="paymentMethod" value="instapay"
+                  onchange="handlePaymentChange()">
+                <div class="payment-icon">
+                  <i class="fas fa-university"></i>
+                </div>
+                <div class="payment-title">إنستا باي</div>
+                <div class="payment-sub">بدون رسوم</div>
+              </label>
+
+              <label class="payment-option" data-method="wallet">
+                <span class="fee-badge">+${WALLET_FEE_PERCENT}% رسوم</span>
+                <input type="radio" name="paymentMethod" value="wallet"
+                  onchange="handlePaymentChange()">
+                <div class="payment-icon">
+                  <i class="fas fa-mobile-alt"></i>
+                </div>
+                <div class="payment-title">محفظة إلكترونية</div>
+                <div class="payment-sub">رسوم ${WALLET_FEE_PERCENT}%</div>
+              </label>
+
+              ${isWholesale ? `
+                <label class="payment-option" data-method="credit">
+                  <span class="fee-badge credit-badge">للتجار فقط</span>
+                  <input type="radio" name="paymentMethod" value="credit"
+                    onchange="handlePaymentChange()">
+                  <div class="payment-icon">
+                    <i class="fas fa-calendar-check"></i>
+                  </div>
+                  <div class="payment-title">آجل (تقسيط)</div>
+                  <div class="payment-sub">حد أقصى ${creditCfg.MAX_AMOUNT} ج.م</div>
+                </label>
+              ` : ''}
+            </div>
+
+            <div class="installment-days-selector" id="installmentDaysSelector" style="display:none;">
+              <h4><i class="fas fa-calendar-alt"></i> اختر مدة السداد</h4>
+              <div class="installment-days-options">
+                ${creditCfg.ALLOWED_DAYS.map(days => `
+                  <label class="days-option">
+                    <input type="radio" name="installmentDays" value="${days}"
+                      ${days === creditCfg.ALLOWED_DAYS[0] ? 'checked' : ''}
+                      onchange="handleInstallmentDaysChange()">
+                    <span>
+                      ${days} أيام
+                      <span class="days-sub">(${creditCfg.INSTALLMENTS_PER_DAYS[days] || 2} أقساط)</span>
+                    </span>
+                  </label>
+                `).join('')}
+              </div>
+            </div>
+
+            <div class="payment-details" id="paymentDetails" style="display:none;">
+              <div class="payment-account-box">
+                <div class="acc-icon">
+                  <i class="fas fa-mobile-alt"></i>
+                </div>
+                <div class="acc-info">
+                  <div class="acc-label">رقم المحفظة / إنستا باي</div>
+                  <div class="acc-value">${PAYMENT_ACCOUNT}</div>
+                </div>
+                <button type="button" class="acc-copy"
+                  onclick="copyPaymentAccount()" title="نسخ الرقم">
+                  <i class="fas fa-copy"></i>
+                </button>
+              </div>
+
+              <div class="form-group" style="margin-bottom:0;">
+                <label>
+                  <i class="fas fa-image"></i>
+                  صورة إثبات التحويل (اختيارية)
+                </label>
+                <label class="proof-upload-area" id="proofUploadArea" for="paymentProof">
+                  <input type="file" id="paymentProof" accept="image/*"
+                    onchange="handleProofFileChange(event)">
+                  <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                  <div class="upload-text">اضغط لرفع صورة الإيصال</div>
+                  <div class="upload-hint">JPG أو PNG — يتم الضغط تلقائياً</div>
+                </label>
+                <div id="proofPreviewWrap"></div>
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+
+      <div class="checkout-summary">
+        <div class="summary-header">
+          <i class="fas fa-receipt"></i>
+          <h3>ملخص الطلب</h3>
+        </div>
+
+        <div class="summary-items">
+          ${renderSummaryItems()}
+        </div>
+
+        <div class="summary-details">
+          <div class="summary-row">
+            <span class="label">
+              <i class="fas fa-boxes"></i>
+              إجمالي المنتجات
+            </span>
+            <span class="value">${getTotalItems()} منتج</span>
+          </div>
+
+          <div class="summary-row">
+            <span class="label">
+              <i class="fas fa-money-bill-wave"></i>
+              المجموع الفرعي
+            </span>
+            <span class="value gold">${subtotal.toFixed(2)} ج.م</span>
+          </div>
+
+          <div class="summary-row" id="shippingRow">
+            <span class="label">
+              <i class="fas fa-truck"></i>
+              الشحن
+            </span>
+            <span class="value" id="shippingValue">-- اختر المنطقة --</span>
+          </div>
+
+          <div class="summary-row payment-fee" id="paymentFeeRow" style="display:none;">
+            <span class="label">
+              <i class="fas fa-percentage"></i>
+              رسوم محفظة (${WALLET_FEE_PERCENT}%)
+            </span>
+            <span class="value" id="paymentFeeValue">0.00 ج.م</span>
+          </div>
+
+          <div class="summary-row installment-info" id="installmentInfoRow" style="display:none;">
+            <span class="label">
+              <i class="fas fa-calendar-check"></i>
+              مدة الآجل
+            </span>
+            <span class="value" id="installmentInfoValue">7 أيام (قسطان)</span>
+          </div>
+
+          <div class="summary-row total">
+            <span class="label">الإجمالي النهائي</span>
+            <span class="value" id="totalValue">${subtotal.toFixed(2)} ج.م</span>
           </div>
         </div>
 
-        <div class="checkout-layout">
-          <div class="checkout-form-container">
-            <form id="checkoutForm" onsubmit="handleSubmit(event)">
+        <button type="submit" form="checkoutForm"
+          class="btn btn-primary confirm-btn" id="confirmBtn">
+          <i class="fas fa-check-circle"></i>
+          تأكيد الطلب
+        </button>
 
-              <!-- بيانات العميل -->
-              <div class="checkout-section">
-                <div class="section-header">
-                  <div class="section-icon"><i class="fas fa-user"></i></div>
-                  <h2>بيانات العميل</h2>
-                  ${lockFields
-                    ? `<span class="section-badge">جلب تلقائي</span>`
-                    : `<span class="section-badge">${isGuestUser ? 'إدخال يدوي' : 'قابل للتعديل'}</span>`}
-                </div>
+        <a href="/gomla/cart.html" class="back-to-cart">
+          <i class="fas fa-arrow-right"></i>
+          رجوع للسلة
+        </a>
+      </div>
 
-                <div class="form-group">
-                  <label>
-                    <i class="fas fa-user"></i>
-                    الاسم الكامل
-                    <span class="required">*</span>
-                    ${lockFields ? `<span class="locked-badge"><i class="fas fa-lock"></i> مقروء</span>` : ''}
-                  </label>
-                  <input type="text" id="customerName" value="${autoName}"
-                    placeholder="الاسم الثلاثي" maxlength="60"
-                    ${nameReadonly} ${nameRequired}>
-                </div>
+    </div>
+  `;
 
-                <div class="form-row">
-                  <div class="form-group">
-                    <label>
-                      <i class="fas fa-phone"></i>
-                      رقم الهاتف
-                      <span class="required">*</span>
-                      ${lockFields ? `<span class="locked-badge"><i class="fas fa-lock"></i></span>` : ''}
-                    </label>
-                    <input type="tel" id="customerPhone" value="${autoPhone}"
-                      placeholder="01xxxxxxxxx" maxlength="11" inputmode="numeric"
-                      ${phoneReadonly} ${phoneRequired}>
-                  </div>
+  container.innerHTML = html;
 
-                  <div class="form-group">
-                    <label>
-                      <i class="fas fa-phone-volume"></i>
-                      رقم هاتف بديل (اختياري)
-                    </label>
-                    <input type="tel" id="customerPhone2" value="${autoPhone2}"
-                      placeholder="01xxxxxxxxx" maxlength="11" inputmode="numeric">
-                  </div>
-                </div>
+  if (isRegionLocked && traderCity) {
+    setTimeout(() => handleRegionChange(), 100);
+  }
+  setTimeout(() => {
+    if (!autoName) {
+      document.getElementById('customerName')?.focus();
+    } else if (!isRegionLocked) {
+      document.getElementById('regionSelect')?.focus();
+    }
+  }, 300);
+}
 
-                <div class="form-group">
-                  <label>
-                    <i class="fas fa-map-marker-alt"></i>
-                    العنوان الأساسي
-                    <span class="required">*</span>
-                    ${lockFields ? `<span class="locked-badge"><i class="fas fa-lock"></i></span>` : ''}
-                  </label>
-                  <input type="text" id="customerAddress" value="${autoAddress}"
-                    placeholder="المدينة - الشارع - رقم المبنى"
-                    maxlength="150" ${addressReadonly} ${addressRequired}>
-                </div>
+function renderSummaryItems() {
+  let html = '';
+  cartItems.forEach(item => {
+    const qty = item.quantity || 1;
+    const price = item.price || 0;
+    const itemTotal = price * qty;
+    const productName = item.productName || item.name || 'منتج';
+    const productImage = item.imageUrl || '/gomla/assets/images/no-image.png';
+    const unit = item.unit || 'قطعة';
 
-                <div class="form-group">
-                  <label>
-                    <i class="fas fa-map-marked-alt"></i>
-                    عنوان بديل (اختياري)
-                  </label>
-                  <input type="text" id="customerAddress2" value="${autoAddress2}"
-                    placeholder="عنوان آخر للتوصيل" maxlength="150">
-                  <div class="help-text">
-                    <i class="fas fa-info-circle"></i>
-                    يمكنك إضافة عنوان مختلف لتوصيل الطلب إليه
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label>
-                    <i class="fas fa-truck-loading"></i>
-                    عنوان التوصيل
-                    <span class="required">*</span>
-                  </label>
-                  <div class="delivery-choice">
-                    <label class="delivery-option">
-                      <input type="radio" name="deliveryChoice" value="address1"
-                        ${autoDeliveryChoice === 'address1' ? 'checked' : ''}>
-                      <i class="fas fa-home"></i>
-                      <span>العنوان الأساسي</span>
-                    </label>
-                    <label class="delivery-option">
-                      <input type="radio" name="deliveryChoice" value="address2"
-                        ${autoDeliveryChoice === 'address2' ? 'checked' : ''}>
-                      <i class="fas fa-map-marker-alt"></i>
-                      <span>العنوان البديل</span>
-                    </label>
-                  </div>
-                  <div class="help-text">
-                    <i class="fas fa-info-circle"></i>
-                    اختر العنوان الذي تريد توصيل الطلب إليه
-                  </div>
-                </div>
-              </div>
-
-              <!-- بيانات التوصيل -->
-              <div class="checkout-section">
-                <div class="section-header">
-                  <div class="section-icon"><i class="fas fa-truck"></i></div>
-                  <h2>بيانات التوصيل</h2>
-                </div>
-
-                <div class="form-group">
-                  <label>
-                    <i class="fas fa-map-pin"></i>
-                    ${regionLabel}
-                    <span class="required">*</span>
-                  </label>
-                  <div class="region-select-wrapper">
-                    <select id="regionSelect" onchange="handleRegionChange()"
-                      required ${isRegionLocked ? 'disabled' : ''}>
-                      <option value="">-- ${regionPlaceholder} --</option>
-                      ${regions.map(r => `
-                        <option value="${r}" ${isRegionLocked && r === traderCity ? 'selected' : ''}>
-                          ${r}
-                        </option>
-                      `).join('')}
-                    </select>
-                  </div>
-
-                  ${isRegionLocked ? `
-                    <div class="help-text" style="color:#16a34a;background:#f0fdf4;padding:6px 10px;border-radius:6px;border-right:3px solid #22c55e;margin-top:8px;">
-                      <i class="fas fa-lock" style="color:#22c55e;"></i>
-                      مدينتك محددة تلقائياً حسب الكود السري: <strong>${traderCity || 'غير محدد'}</strong>
-                    </div>
-                  ` : `
-                    <div class="help-text warning">
-                      <i class="fas fa-exclamation-triangle"></i>
-                      ${isWholesale
-                        ? 'يتم التوصيل للمدن المذكورة فقط - يرجى التواصل مع الدعم للمدن الأخرى'
-                        : 'التوصيل متاح داخل المحلة الكبرى فقط'}
-                    </div>
-                  `}
-                </div>
-
-                <div class="shipping-info" id="shippingInfo">
-                  <i class="fas fa-info-circle"></i>
-                  <div id="shippingInfoText"></div>
-                </div>
-
-                <div class="form-group">
-                  <label>
-                    <i class="fas fa-calendar-alt"></i>
-                    موعد التوصيل المقترح
-                    <span class="required">*</span>
-                  </label>
-                  <input type="date" id="deliveryDate" min="${getMinDate()}" required>
-                  <div class="help-text">
-                    <i class="fas fa-clock"></i>
-                    قد تستغرق عملية التوصيل من ساعتين إلى 4 أيام عمل حسب الظروف
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label>
-                    <i class="fas fa-comment-alt"></i>
-                    ملاحظات (اختياري)
-                  </label>
-                  <textarea id="orderNotes" rows="3"
-                    placeholder="أي تعليمات إضافية للتوصيل أو ملاحظات..."
-                    maxlength="300">${autoNotes}</textarea>
-                </div>
-              </div>
-
-              <!-- 🆕 طريقة الدفع -->
-              <div class="checkout-section">
-                <div class="section-header">
-                  <div class="section-icon"><i class="fas fa-credit-card"></i></div>
-                  <h2>طريقة الدفع</h2>
-                  <span class="section-badge">مطلوب</span>
-                </div>
-
-                <div class="payment-methods" id="paymentMethods">
-                  <label class="payment-option active" data-method="cash">
-                    <input type="radio" name="paymentMethod" value="cash" checked
-                      onchange="handlePaymentChange()">
-                    <div class="payment-icon">
-                      <i class="fas fa-money-bill-wave"></i>
-                    </div>
-                    <div class="payment-title">الدفع عند الاستلام</div>
-                    <div class="payment-sub">بدون رسوم</div>
-                  </label>
-
-                  <label class="payment-option" data-method="instapay">
-                    <input type="radio" name="paymentMethod" value="instapay"
-                      onchange="handlePaymentChange()">
-                    <div class="payment-icon">
-                      <i class="fas fa-university"></i>
-                    </div>
-                    <div class="payment-title">إنستا باي</div>
-                    <div class="payment-sub">بدون رسوم</div>
-                  </label>
-
-                  <label class="payment-option" data-method="wallet">
-                    <span class="fee-badge">+1% رسوم</span>
-                    <input type="radio" name="paymentMethod" value="wallet"
-                      onchange="handlePaymentChange()">
-                    <div class="payment-icon">
-                      <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <div class="payment-title">محفظة إلكترونية</div>
-                    <div class="payment-sub">رسوم 1%</div>
-                  </label>
-                </div>
-
-                <!-- تفاصيل التحويل (تظهر للإنستا باي والمحفظة) -->
-                <div class="payment-details" id="paymentDetails" style="display:none;">
-                  <div class="payment-account-box">
-                    <div class="acc-icon">
-                      <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <div class="acc-info">
-                      <div class="acc-label">رقم المحفظة / إنستا باي</div>
-                      <div class="acc-value">${PAYMENT_ACCOUNT}</div>
-                    </div>
-                    <button type="button" class="acc-copy"
-                      onclick="copyPaymentAccount()" title="نسخ الرقم">
-                      <i class="fas fa-copy"></i>
-                    </button>
-                  </div>
-
-                  <div class="form-group" style="margin-bottom:0;">
-                    <label>
-                      <i class="fas fa-image"></i>
-                      صورة إثبات التحويل (اختيارية)
-                    </label>
-                    <label class="proof-upload-area" id="proofUploadArea" for="paymentProof">
-                      <input type="file" id="paymentProof" accept="image/*"
-                        onchange="handleProofFileChange(event)">
-                      <i class="fas fa-cloud-upload-alt upload-icon"></i>
-                      <div class="upload-text">اضغط لرفع صورة الإيصال</div>
-                      <div class="upload-hint">JPG أو PNG — يتم الضغط تلقائياً</div>
-                    </label>
-                    <div id="proofPreviewWrap"></div>
-                  </div>
-
-                  <div class="help-text" style="margin-top:10px;">
-                    <i class="fas fa-info-circle"></i>
-                    حوّل المبلغ أولاً على الرقم أعلاه، ثم ارفع الإيصال. يمكنك أيضاً إرساله لاحقاً من صفحة الطلب.
-                  </div>
-                </div>
-              </div>
-
-            </form>
+    html += `
+      <div class="summary-item">
+        <img src="${productImage}" alt="${productName}"
+          onerror="this.src='/gomla/assets/images/no-image.png'">
+        <div class="item-info">
+          <div class="item-name">${productName}</div>
+          <div class="item-qty">
+            <i class="fas fa-times"></i>
+            ${qty} ${unit}
           </div>
+        </div>
+        <div class="item-total">${itemTotal.toFixed(2)} ج.م</div>
+      </div>
+    `;
+  });
+  return html;
+}
 
-          <!-- الملخص -->
-          <div class="checkout-summary">
-            <div class="summary-header">
-              <i class="fas fa-receipt"></i>
-              <h3>ملخص الطلب</h3>
-            </div>
+function getTotalItems() {
+  return cartItems.reduce((sum, item) => sum + (item.quantity || 1), 0);
+}
 
-            <div class="summary-items">
-              ${renderSummaryItems()}
-            </div>
+// ============================================================
+// 🚚 الشحن
+// ============================================================
+function handleRegionChange() {
+  const regionSelect = document.getElementById('regionSelect');
+  const region = regionSelect.value;
+  selectedRegion = region;
 
-            <div class="summary-details">
-              <div class="summary-row">
-                <span class="label">
-                  <i class="fas fa-boxes"></i>
-                  إجمالي المنتجات
-                </span>
-                <span class="value">${getTotalItems()} منتج</span>
-              </div>
+  const shippingInfo = document.getElementById('shippingInfo');
+  const shippingInfoText = document.getElementById('shippingInfoText');
+  const shippingValue = document.getElementById('shippingValue');
 
-              <div class="summary-row">
-                <span class="label">
-                  <i class="fas fa-money-bill-wave"></i>
-                  المجموع الفرعي
-                </span>
-                <span class="value gold">${subtotal.toFixed(2)} ج.م</span>
-              </div>
+  if (!region) {
+    shippingValue.textContent = '-- اختر المنطقة --';
+    shippingValue.style.color = 'var(--gray-500)';
+    shippingCost = 0;
+    shippingInfo.classList.remove('show');
+    recalculateTotals();
+    return;
+  }
 
-              <div class="summary-row" id="shippingRow">
-                <span class="label">
-                  <i class="fas fa-truck"></i>
-                  الشحن
-                </span>
-                <span class="value" id="shippingValue">-- اختر المنطقة --</span>
-              </div>
+  const rates = (window.SHIPPING_RATES_DEFAULTS || {})[checkoutStoreType] || {};
+  const rate = rates[region];
 
-              <!-- 🆕 رسوم الدفع -->
-              <div class="summary-row payment-fee" id="paymentFeeRow" style="display:none;">
-                <span class="label">
-                  <i class="fas fa-percentage"></i>
-                  رسوم محفظة (1%)
-                </span>
-                <span class="value" id="paymentFeeValue">0.00 ج.م</span>
-              </div>
+  if (!rate) {
+    shippingValue.textContent = 'غير متاح';
+    shippingValue.style.color = 'var(--danger)';
+    shippingCost = 0;
+    recalculateTotals();
+    return;
+  }
 
-              <div class="summary-row total">
-                <span class="label">الإجمالي النهائي</span>
-                <span class="value" id="totalValue">${subtotal.toFixed(2)} ج.م</span>
-              </div>
-            </div>
+  const isFree = subtotal >= rate.freeThreshold;
+  isFreeShipping = isFree;
+  shippingCost = isFree ? 0 : rate.cost;
 
-            <button type="submit" form="checkoutForm"
-              class="btn btn-primary confirm-btn" id="confirmBtn">
-              <i class="fas fa-check-circle"></i>
-              تأكيد الطلب
-            </button>
+  if (isFree) {
+    shippingValue.innerHTML = `<span class="value green"><i class="fas fa-check-circle"></i> مجاني</span>`;
+    shippingInfoText.innerHTML = `
+      <i class="fas fa-check-circle" style="color:#22c55e;"></i>
+      <strong>شحن مجاني!</strong> لأن مجموع طلبك تجاوز ${rate.freeThreshold} ج.م
+    `;
+    shippingInfo.classList.add('show');
+  } else {
+    shippingValue.textContent = `${shippingCost.toFixed(2)} ج.م`;
+    shippingValue.style.color = 'var(--gold-dark)';
 
-            <a href="/gomla/cart.html" class="back-to-cart">
-              <i class="fas fa-arrow-right"></i>
-              رجوع للسلة
-            </a>
-          </div>
+    const remaining = rate.freeThreshold - subtotal;
+    shippingInfoText.innerHTML = `
+      <i class="fas fa-lightbulb" style="color:var(--gold-dark);"></i>
+      أضف <strong>${remaining.toFixed(2)} ج.م</strong> للحصول على شحن مجاني
+    `;
+    shippingInfo.classList.add('show');
+  }
 
+  recalculateTotals();
+}
+
+// ============================================================
+// 💳 الدفع
+// ============================================================
+function handlePaymentChange() {
+  const checked = document.querySelector('input[name="paymentMethod"]:checked');
+  if (!checked) return;
+
+  selectedPaymentMethod = checked.value;
+
+  document.querySelectorAll('.payment-option').forEach(el => {
+    const input = el.querySelector('input[type="radio"]');
+    el.classList.toggle('active', input && input.checked);
+  });
+
+  const details = document.getElementById('paymentDetails');
+  if (details) {
+    const show = (selectedPaymentMethod === 'instapay' || selectedPaymentMethod === 'wallet');
+    details.style.display = show ? 'block' : 'none';
+  }
+
+  const installmentSelector = document.getElementById('installmentDaysSelector');
+  if (installmentSelector) {
+    installmentSelector.style.display = selectedPaymentMethod === 'credit' ? 'block' : 'none';
+  }
+
+  if (selectedPaymentMethod === 'credit') {
+    const firstDays = document.querySelector('input[name="installmentDays"]:checked')
+      || document.querySelector('input[name="installmentDays"]');
+    if (firstDays) {
+      firstDays.checked = true;
+      selectedInstallmentDays = parseInt(firstDays.value, 10) || 7;
+    }
+  }
+
+  recalculateTotals();
+}
+
+function handleInstallmentDaysChange() {
+  const checked = document.querySelector('input[name="installmentDays"]:checked');
+  if (checked) {
+    selectedInstallmentDays = parseInt(checked.value, 10) || 7;
+  }
+  recalculateTotals();
+}
+
+// ============================================================
+// 🧮 الحساب
+// ============================================================
+function recalculateTotals() {
+  const baseTotal = subtotal + shippingCost;
+  const feePercent = getPaymentFeePercent(selectedPaymentMethod);
+  paymentFee = baseTotal * (feePercent / 100);
+
+  const totalBeforeRound = baseTotal + paymentFee;
+  roundedTotal = roundToNearest5(totalBeforeRound);
+  totalAmount = roundedTotal;
+
+  const paymentFeeRow = document.getElementById('paymentFeeRow');
+  const paymentFeeValue = document.getElementById('paymentFeeValue');
+  const totalValue = document.getElementById('totalValue');
+  const installmentRow = document.getElementById('installmentInfoRow');
+  const installmentValue = document.getElementById('installmentInfoValue');
+
+  if (paymentFeeRow) {
+    paymentFeeRow.style.display = feePercent > 0 ? 'flex' : 'none';
+  }
+  if (paymentFeeValue) {
+    paymentFeeValue.textContent = paymentFee.toFixed(2) + ' ج.م';
+  }
+
+  const creditCfg = window.CREDIT_CONFIG;
+  if (selectedPaymentMethod === 'credit') {
+    const installments = creditCfg.INSTALLMENTS_PER_DAYS[selectedInstallmentDays] || 2;
+    if (installmentRow) installmentRow.style.display = 'flex';
+    if (installmentValue) {
+      installmentValue.textContent = `${selectedInstallmentDays} أيام (${installments} أقساط)`;
+    }
+  } else {
+    if (installmentRow) installmentRow.style.display = 'none';
+  }
+
+  // Credit limit
+  if (selectedPaymentMethod === 'credit' && roundedTotal > creditCfg.MAX_AMOUNT) {
+    const confirmBtn = document.getElementById('confirmBtn');
+    if (confirmBtn) {
+      confirmBtn.disabled = true;
+      confirmBtn.innerHTML = `<i class="fas fa-exclamation-triangle"></i> تجاوز حد الآجل (${creditCfg.MAX_AMOUNT} ج.م)`;
+    }
+    if (totalValue) totalValue.style.color = '#dc2626';
+  } else {
+    const confirmBtn = document.getElementById('confirmBtn');
+    if (confirmBtn && !isCheckoutSubmitting) {
+      confirmBtn.disabled = false;
+      confirmBtn.innerHTML = `<i class="fas fa-check-circle"></i> تأكيد الطلب`;
+    }
+    if (totalValue) totalValue.style.color = '';
+  }
+
+  if (totalValue) {
+    totalValue.textContent = roundedTotal.toFixed(0) + ' ج.م';
+    totalValue.classList.remove('pulse');
+    void totalValue.offsetWidth;
+    totalValue.classList.add('pulse');
+  }
+}
+
+// ============================================================
+// 📋 نسخ الحساب
+// ============================================================
+function copyPaymentAccount() {
+  if (typeof copyToClipboard === 'function') {
+    copyToClipboard(PAYMENT_ACCOUNT);
+  } else {
+    navigator.clipboard.writeText(PAYMENT_ACCOUNT)
+      .then(() => window.showToast('تم نسخ الرقم', 'success'))
+      .catch(() => window.showToast('فشل النسخ', 'error'));
+  }
+}
+
+// ============================================================
+// 🖼️ إثبات التحويل
+// ============================================================
+function handleProofFileChange(event) {
+  const file = event.target.files && event.target.files[0];
+  if (!file) return;
+
+  if (!file.type.startsWith('image/')) {
+    window.showToast('يجب اختيار صورة', 'warning');
+    return;
+  }
+  if (file.size > 5 * 1024 * 1024) {
+    window.showToast('حجم الصورة كبير جداً (الحد 5MB)', 'warning');
+    return;
+  }
+
+  paymentProofFile = file;
+
+  const area = document.getElementById('proofUploadArea');
+  const wrap = document.getElementById('proofPreviewWrap');
+  if (area) area.classList.add('has-file');
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    paymentProofPreview = e.target.result;
+    if (wrap) {
+      wrap.innerHTML = `
+        <img src="${e.target.result}" class="proof-preview" alt="إثبات التحويل">
+        <div class="proof-file-name">
+          <i class="fas fa-check-circle"></i>
+          ${file.name}
+        </div>
+        <div style="text-align:center;">
+          <button type="button" class="proof-remove-btn" onclick="removeProofFile()">
+            <i class="fas fa-trash"></i>
+            إزالة الصورة
+          </button>
         </div>
       `;
-
-      container.innerHTML = html;
-
-      if (isRegionLocked && traderCity) {
-        setTimeout(() => handleRegionChange(), 100);
-      }
-      setTimeout(() => {
-        if (!autoName) {
-          document.getElementById('customerName')?.focus();
-        } else if (!autoPhone2) {
-          document.getElementById('customerPhone2')?.focus();
-        } else if (!isRegionLocked) {
-          document.getElementById('regionSelect')?.focus();
-        }
-      }, 300);
     }
+  };
+  reader.readAsDataURL(file);
+}
 
-    function renderSummaryItems() {
-      let html = '';
-      cartItems.forEach(item => {
-        const qty = item.quantity || 1;
-        const price = item.price || 0;
-        const itemTotal = price * qty;
-        const productName = item.productName || item.name || 'منتج';
-        const productImage = item.imageUrl || '/gomla/assets/images/no-image.png';
-        const unit = item.unit || 'قطعة';
+function removeProofFile() {
+  paymentProofFile = null;
+  paymentProofPreview = '';
+  const input = document.getElementById('paymentProof');
+  if (input) input.value = '';
+  const area = document.getElementById('proofUploadArea');
+  if (area) area.classList.remove('has-file');
+  const wrap = document.getElementById('proofPreviewWrap');
+  if (wrap) wrap.innerHTML = '';
+}
 
-        html += `
-          <div class="summary-item">
-            <img src="${productImage}" alt="${productName}"
-              onerror="this.src='/gomla/assets/images/no-image.png'">
-            <div class="item-info">
-              <div class="item-name">${productName}</div>
-              <div class="item-qty">
-                <i class="fas fa-times"></i>
-                ${qty} ${unit}
-              </div>
-            </div>
-            <div class="item-total">${itemTotal.toFixed(2)} ج.م</div>
-          </div>
-        `;
-      });
-      return html;
+function getMinDate() {
+  const today = new Date();
+  today.setDate(today.getDate() + 1);
+  const dd = String(today.getDate()).padStart(2, '0');
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const yyyy = today.getFullYear();
+  return `${yyyy}-${mm}-${dd}`;
+}
+
+function getLocalDateString() {
+  const d = new Date();
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, '0');
+  const dd = String(d.getDate()).padStart(2, '0');
+  return `${yyyy}-${mm}-${dd}`;
+}
+
+// ============================================================
+// 📝 Submit — Reserve في Transaction (v6.0 🆕)
+// ============================================================
+async function handleSubmit(event) {
+  event.preventDefault();
+  if (isCheckoutSubmitting) return;
+
+  const name = document.getElementById('customerName').value.trim();
+  const phone = document.getElementById('customerPhone').value.trim();
+  const phone2 = document.getElementById('customerPhone2').value.trim();
+  const address = document.getElementById('customerAddress').value.trim();
+  const address2 = document.getElementById('customerAddress2').value.trim();
+  const deliveryChoice = document.querySelector('input[name="deliveryChoice"]:checked')?.value;
+  const deliveryDate = document.getElementById('deliveryDate').value;
+  const notes = document.getElementById('orderNotes').value.trim();
+
+  // ===== Validation =====
+  if (!name || name.length < 3) {
+    window.showToast('يرجى إدخال الاسم الكامل', 'warning');
+    document.getElementById('customerName').focus();
+    return;
+  }
+  if (!phone || !/^01[0-9]{9}$/.test(phone)) {
+    window.showToast('رقم الهاتف يجب أن يكون 11 رقم ويبدأ بـ 01', 'warning');
+    document.getElementById('customerPhone').focus();
+    return;
+  }
+  if (phone2 && !/^01[0-9]{9}$/.test(phone2)) {
+    window.showToast('رقم الهاتف البديل غير صحيح', 'warning');
+    return;
+  }
+  if (!address || address.length < 5) {
+    window.showToast('يرجى إدخال العنوان الأساسي بالتفصيل', 'warning');
+    document.getElementById('customerAddress').focus();
+    return;
+  }
+  if (!deliveryChoice) {
+    window.showToast('يرجى اختيار عنوان التوصيل', 'warning');
+    return;
+  }
+  if (deliveryChoice === 'address2' && (!address2 || address2.length < 5)) {
+    window.showToast('يرجى إدخال العنوان البديل أو تغيير اختيار التوصيل', 'warning');
+    return;
+  }
+  if (isRegionLocked) {
+    if (!traderCity) {
+      window.showToast('لم يتم تحديد مدينتك - تواصل مع الإدارة', 'error');
+      return;
     }
+    selectedRegion = traderCity;
+  } else if (!selectedRegion) {
+    window.showToast('يرجى اختيار المنطقة', 'warning');
+    return;
+  }
+  if (!deliveryDate) {
+    window.showToast('يرجى اختيار موعد التوصيل', 'warning');
+    return;
+  }
+  if (checkoutStoreType === 'wholesale' && subtotal < minOrderAmount) {
+    window.showToast(`الحد الأدنى للطلب ${minOrderAmount} ج.م`, 'warning');
+    return;
+  }
 
-    function getTotalItems() {
-      return cartItems.reduce((sum, item) => sum + (item.quantity || 1), 0);
+  const creditCfg = window.CREDIT_CONFIG;
+  if (selectedPaymentMethod === 'credit') {
+    if (roundedTotal > creditCfg.MAX_AMOUNT) {
+      window.showToast(`الحد الأقصى للتقسيط ${creditCfg.MAX_AMOUNT} ج.م`, 'error');
+      return;
     }
-
-    // ============================================================
-    // 🚚 حساب الشحن
-    // ============================================================
-    function handleRegionChange() {
-      const regionSelect = document.getElementById('regionSelect');
-      const region = regionSelect.value;
-      selectedRegion = region;
-
-      const shippingInfo = document.getElementById('shippingInfo');
-      const shippingInfoText = document.getElementById('shippingInfoText');
-      const shippingValue = document.getElementById('shippingValue');
-
-      if (!region) {
-        shippingValue.textContent = '-- اختر المنطقة --';
-        shippingValue.style.color = 'var(--gray-500)';
-        shippingCost = 0;
-        shippingInfo.classList.remove('show');
-        recalculateTotals();
-        return;
-      }
-
-      const rates = SHIPPING_RATES[checkoutStoreType];
-      const rate = rates[region];
-
-      if (!rate) {
-        shippingValue.textContent = 'غير متاح';
-        shippingValue.style.color = 'var(--danger)';
-        shippingCost = 0;
-        recalculateTotals();
-        return;
-      }
-
-      const isFree = subtotal >= rate.freeThreshold;
-      isFreeShipping = isFree;
-      shippingCost = isFree ? 0 : rate.cost;
-
-      if (isFree) {
-        shippingValue.innerHTML = `<span class="value green"><i class="fas fa-check-circle"></i> مجاني</span>`;
-        shippingInfoText.innerHTML = `
-          <i class="fas fa-check-circle" style="color:#22c55e;"></i>
-          <strong>شحن مجاني!</strong> لأن مجموع طلبك تجاوز ${rate.freeThreshold} ج.م
-        `;
-        shippingInfo.classList.add('show');
-      } else {
-        shippingValue.textContent = `${shippingCost.toFixed(2)} ج.م`;
-        shippingValue.style.color = 'var(--gold-dark)';
-
-        const remaining = rate.freeThreshold - subtotal;
-        shippingInfoText.innerHTML = `
-          <i class="fas fa-lightbulb" style="color:var(--gold-dark);"></i>
-          أضف <strong>${remaining.toFixed(2)} ج.م</strong> للحصول على شحن مجاني
-          (الحد الأدنى ${rate.freeThreshold} ج.م)
-        `;
-        shippingInfo.classList.add('show');
-      }
-
-      recalculateTotals();
+    if (roundedTotal < creditCfg.MIN_AMOUNT) {
+      window.showToast(`الحد الأدنى للتقسيط ${creditCfg.MIN_AMOUNT} ج.م`, 'warning');
+      return;
     }
-
-    // ============================================================
-    // 💳 تغيير طريقة الدفع
-    // ============================================================
-    function handlePaymentChange() {
-      const checked = document.querySelector('input[name="paymentMethod"]:checked');
-      if (!checked) return;
-
-      selectedPaymentMethod = checked.value;
-
-      document.querySelectorAll('.payment-option').forEach(el => {
-        const input = el.querySelector('input[type="radio"]');
-        el.classList.toggle('active', input && input.checked);
-      });
-
-      const details = document.getElementById('paymentDetails');
-      if (details) {
-        const show = (selectedPaymentMethod === 'instapay' || selectedPaymentMethod === 'wallet');
-        details.style.display = show ? 'block' : 'none';
-      }
-
-      recalculateTotals();
+    if (!creditCfg.ALLOWED_DAYS.includes(selectedInstallmentDays)) {
+      selectedInstallmentDays = creditCfg.ALLOWED_DAYS[0];
     }
+  }
 
-    // ============================================================
-    // 🧮 حساب الإجمالي + الرسوم + التدوير
-    // ============================================================
-    function recalculateTotals() {
-      const baseTotal = subtotal + shippingCost;
-      const feePercent = getPaymentFeePercent(selectedPaymentMethod);
-      paymentFee = baseTotal * (feePercent / 100);
-      const totalBeforeRound = baseTotal + paymentFee;
-      roundedTotal = roundToNearest5(totalBeforeRound);
-      totalAmount = roundedTotal;
+  const deliveryAddress = deliveryChoice === 'address2' ? address2 : address;
+  const branchId = getBranchIdForRegion(selectedRegion, checkoutStoreType);
+  const isWholesale = checkoutStoreType === 'wholesale';
 
-      const paymentFeeRow = document.getElementById('paymentFeeRow');
-      const paymentFeeValue = document.getElementById('paymentFeeValue');
-      const totalValue = document.getElementById('totalValue');
+  isCheckoutSubmitting = true;
+  const btn = document.getElementById('confirmBtn');
+  const originalText = btn.innerHTML;
+  btn.disabled = true;
 
-      if (paymentFeeRow) {
-        paymentFeeRow.style.display = feePercent > 0 ? 'flex' : 'none';
-      }
-      if (paymentFeeValue) {
-        paymentFeeValue.textContent = paymentFee.toFixed(2) + ' ج.م';
-      }
-      if (totalValue) {
-        totalValue.textContent = roundedTotal.toFixed(0) + ' ج.م';
-        // animation
-        totalValue.classList.remove('pulse');
-        void totalValue.offsetWidth;
-        totalValue.classList.add('pulse');
-      }
-    }
-
-    // ============================================================
-    // 📋 نسخ رقم الحساب
-    // ============================================================
-    function copyPaymentAccount() {
-      if (typeof copyToClipboard === 'function') {
-        copyToClipboard(PAYMENT_ACCOUNT);
-      } else {
-        navigator.clipboard.writeText(PAYMENT_ACCOUNT)
-          .then(() => showToast('تم نسخ الرقم', 'success'))
-          .catch(() => showToast('فشل النسخ', 'error'));
-      }
-    }
-
-    // ============================================================
-    // 🖼️ رفع إثبات التحويل
-    // ============================================================
-    function handleProofFileChange(event) {
-      const file = event.target.files && event.target.files[0];
-      if (!file) return;
-
-      if (!file.type.startsWith('image/')) {
-        showToast('يجب اختيار صورة', 'warning');
-        return;
-      }
-      if (file.size > 5 * 1024 * 1024) {
-        showToast('حجم الصورة كبير جداً (الحد 5MB)', 'warning');
-        return;
-      }
-
-      paymentProofFile = file;
-
-      const area = document.getElementById('proofUploadArea');
-      const wrap = document.getElementById('proofPreviewWrap');
-      if (area) area.classList.add('has-file');
-
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        paymentProofPreview = e.target.result;
-        if (wrap) {
-          wrap.innerHTML = `
-            <img src="${e.target.result}" class="proof-preview" alt="إثبات التحويل">
-            <div class="proof-file-name">
-              <i class="fas fa-check-circle"></i>
-              ${file.name}
-            </div>
-            <div style="text-align:center;">
-              <button type="button" class="proof-remove-btn" onclick="removeProofFile()">
-                <i class="fas fa-trash"></i>
-                إزالة الصورة
-              </button>
-            </div>
-          `;
-        }
-      };
-      reader.readAsDataURL(file);
-    }
-
-    function removeProofFile() {
-      paymentProofFile = null;
-      paymentProofPreview = '';
-      const input = document.getElementById('paymentProof');
-      if (input) input.value = '';
-      const area = document.getElementById('proofUploadArea');
-      if (area) area.classList.remove('has-file');
-      const wrap = document.getElementById('proofPreviewWrap');
-      if (wrap) wrap.innerHTML = '';
-    }
-
-    // ============================================================
-    // 📅 تاريخ أدنى
-    // ============================================================
-    function getMinDate() {
-      const today = new Date();
-      today.setDate(today.getDate() + 1);
-      const dd = String(today.getDate()).padStart(2, '0');
-      const mm = String(today.getMonth() + 1).padStart(2, '0');
-      const yyyy = today.getFullYear();
-      return `${yyyy}-${mm}-${dd}`;
-    }
-
-    // ============================================================
-    // 📝 إرسال الطلب
-    // ============================================================
-    async function handleSubmit(event) {
-      event.preventDefault();
-      if (isCheckoutSubmitting) return;
-
-      const name = document.getElementById('customerName').value.trim();
-      const phone = document.getElementById('customerPhone').value.trim();
-      const phone2 = document.getElementById('customerPhone2').value.trim();
-      const address = document.getElementById('customerAddress').value.trim();
-      const address2 = document.getElementById('customerAddress2').value.trim();
-      const deliveryChoice = document.querySelector('input[name="deliveryChoice"]:checked')?.value;
-      const deliveryDate = document.getElementById('deliveryDate').value;
-      const notes = document.getElementById('orderNotes').value.trim();
-
-      if (!name || name.length < 3) {
-        showToast('يرجى إدخال الاسم الكامل', 'warning');
-        document.getElementById('customerName').focus();
-        return;
-      }
-      if (!phone || !/^01[0-9]{9}$/.test(phone)) {
-        showToast('رقم الهاتف يجب أن يكون 11 رقم ويبدأ بـ 01', 'warning');
-        document.getElementById('customerPhone').focus();
-        return;
-      }
-      if (phone2 && !/^01[0-9]{9}$/.test(phone2)) {
-        showToast('رقم الهاتف البديل غير صحيح', 'warning');
-        document.getElementById('customerPhone2').focus();
-        return;
-      }
-      if (!address || address.length < 5) {
-        showToast('يرجى إدخال العنوان الأساسي بالتفصيل', 'warning');
-        document.getElementById('customerAddress').focus();
-        return;
-      }
-      if (!deliveryChoice) {
-        showToast('يرجى اختيار عنوان التوصيل', 'warning');
-        return;
-      }
-      if (deliveryChoice === 'address2') {
-        if (!address2 || address2.length < 5) {
-          showToast('يرجى إدخال العنوان البديل أو تغيير اختيار التوصيل', 'warning');
-          document.getElementById('customerAddress2').focus();
-          return;
-        }
-      }
-      if (isRegionLocked) {
-        if (!traderCity) {
-          showToast('لم يتم تحديد مدينتك - تواصل مع الإدارة', 'error');
-          return;
-        }
-        selectedRegion = traderCity;
-      } else {
-        if (!selectedRegion) {
-          showToast('يرجى اختيار المنطقة', 'warning');
-          document.getElementById('regionSelect').focus();
-          return;
-        }
-      }
-      if (!deliveryDate) {
-        showToast('يرجى اختيار موعد التوصيل', 'warning');
-        document.getElementById('deliveryDate').focus();
-        return;
-      }
-      if (checkoutStoreType === 'wholesale' && subtotal < minOrderAmount) {
-        const remaining = minOrderAmount - subtotal;
-        showToast(`الحد الأدنى للطلب ${minOrderAmount} ج.م - المتبقي ${remaining.toFixed(2)} ج.م`, 'warning');
-        return;
-      }
-
-      const deliveryAddress = deliveryChoice === 'address2' ? address2 : address;
-
-      isCheckoutSubmitting = true;
-      const btn = document.getElementById('confirmBtn');
-      const originalText = btn.innerHTML;
-      btn.disabled = true;
-      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري إرسال الطلب...';
-
+  try {
+    // ===== 1. رفع إثبات التحويل (اختياري) =====
+    let paymentProofUrl = '';
+    if (paymentProofFile && (selectedPaymentMethod === 'instapay' || selectedPaymentMethod === 'wallet')) {
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري رفع الإيصال...';
       try {
-        // 🆕 رفع إثبات التحويل (لو موجود)
-        let paymentProofUrl = '';
-        if (paymentProofFile && (selectedPaymentMethod === 'instapay' || selectedPaymentMethod === 'wallet')) {
-          btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري رفع الإيصال...';
-          try {
-            if (typeof uploadImage === 'function') {
-              paymentProofUrl = await uploadImage(paymentProofFile) || '';
-            }
-          } catch (e) {
-            console.warn('Proof upload failed:', e);
-          }
+        if (typeof window.uploadImage === 'function') {
+          paymentProofUrl = await window.uploadImage(paymentProofFile) || '';
         }
-
-        // 🆕 حالة الدفع حسب الطريقة
-        let paymentStatus = 'unpaid';
-        if (selectedPaymentMethod === 'instapay' || selectedPaymentMethod === 'wallet') {
-          paymentStatus = 'pending'; // في انتظار التحقق من التحويل
-        }
-
-        const orderData = {
-          // العميل
-          customerId: checkoutUserId || null,
-          customerName: name,
-          customerPhone: phone,
-          customerPhone2: phone2 || '',
-          customerAddress: address,
-          customerAddress2: address2 || '',
-          deliveryChoice: deliveryChoice,
-          deliveryAddress: deliveryAddress,
-          isGuest: isGuestUser,
-          storeType: checkoutStoreType,
-          userRole: checkoutUserRole,
-
-          // الشحن
-          region: selectedRegion,
-          regionLocked: isRegionLocked,
-          deliveryDate: deliveryDate,
-          notes: notes || '',
-
-          // المنتجات
-          items: cartItems.map(item => ({
-            productId: item.productId,
-            productName: item.productName || item.name || 'منتج',
-            quantity: item.quantity || 1,
-            unit: item.unit || 'قطعة',
-            price: item.price || 0,
-            total: (item.price || 0) * (item.quantity || 1),
-            imageUrl: item.imageUrl || ''
-          })),
-
-          // المبالغ
-          subtotal: subtotal,
-          shippingCost: shippingCost,
-          total: roundedTotal,          // الإجمالي المُدوّر
-          isFreeShipping: isFreeShipping,
-
-          // 🆕 الدفع
-          paymentMethod: selectedPaymentMethod,
-          paymentMethodLabel: getPaymentMethodLabel(selectedPaymentMethod),
-          paymentFeePercent: getPaymentFeePercent(selectedPaymentMethod),
-          paymentFee: parseFloat(paymentFee.toFixed(2)),
-          grandTotal: roundedTotal,
-          paymentProof: paymentProofUrl,
-          paymentProofUploadedAt: paymentProofUrl ? new Date().toISOString() : null,
-
-          // 🆕 حقول التوصيل (هتُستخدم لاحقاً مع نظام الموصلين)
-          deliveryStatus: 'unassigned',
-          deliveryAgentId: '',
-          deliveryAgentName: '',
-          deliveryAgentPhone: '',
-          assignedAt: null,
-          assignedBy: '',
-          pickedUpAt: null,
-          deliveredAt: null,
-          failedReason: '',
-          deliveryNotes: '',
-
-          // 🆕 تحصيل الكاش
-          cashCollected: 0,
-          cashCollectedAt: null,
-          cashHandedToAdmin: false,
-          cashHandedAt: null,
-
-          // 🆕 تأكيد العميل
-          confirmedByCustomer: false,
-          customerConfirmedAt: null,
-          customerFeedback: '',
-
-          // الحالة
-          status: 'pending',
-          paymentStatus: paymentStatus,
-          paid: 0,
-          remaining: roundedTotal,
-
-          // الطوابع الزمنية
-          orderDate: new Date().toISOString().slice(0, 10),
-          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
-          updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-        };
-
-        const orderRef = await db.collection(COLLECTIONS.ORDERS).add(orderData);
-        const orderNumber = orderRef.id.slice(-8).toUpperCase();
-
-        saveFormData({
-          name, phone, phone2, address, address2,
-          deliveryChoice, notes
-        });
-
-        // حذف السلة
-        if (isGuestUser) {
-          localStorage.removeItem('guest_cart');
-        } else {
-          const cartSnapshot = await db.collection(COLLECTIONS.CART)
-            .where('userId', '==', checkoutUserId).get();
-          const batch = db.batch();
-          cartSnapshot.forEach(doc => batch.delete(doc.ref));
-          await batch.commit();
-        }
-
-        // تسجيل النشاط
-        try {
-          await db.collection(COLLECTIONS.ACTIVITY_LOG).add({
-            userId: checkoutUserId || 'guest',
-            userName: name,
-            userRole: checkoutUserRole,
-            action: 'إنشاء طلب جديد',
-            details: `الطلب #${orderNumber} - ${roundedTotal.toFixed(0)} ج.م - ${getPaymentMethodLabel(selectedPaymentMethod)}`,
-            proposedDeliveryDate: deliveryDate,
-            confirmedDeliveryDate: null,
-            pendingChanges: null,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
-          });
-        } catch (logError) {
-          console.warn('Could not log activity:', logError);
-        }
-
-        if (typeof updateCartBadge === 'function') updateCartBadge();
-
-        window.location.href = `/gomla/order-success.html?id=${orderRef.id}`;
-
-      } catch (error) {
-        console.error('Error submitting order:', error);
-        showToast('حدث خطأ في إرسال الطلب', 'error');
-        btn.disabled = false;
-        btn.innerHTML = originalText;
-        isCheckoutSubmitting = false;
+      } catch (e) {
+        console.warn('Proof upload failed:', e);
       }
     }
 
-    // ============================================================
-    // 🚀 تشغيل
-    // ============================================================
-    document.addEventListener('DOMContentLoaded', function() {
-      loadCheckout();
-      console.log('checkout.html v4.0 loaded');
+    // ===== 2. بناء orderData =====
+    let paymentStatus = 'unpaid';
+    if (selectedPaymentMethod === 'instapay' || selectedPaymentMethod === 'wallet') {
+      paymentStatus = 'pending';
+    } else if (selectedPaymentMethod === 'credit') {
+      paymentStatus = 'awaiting_admin';
+    }
+
+    const orderData = {
+      customerId: checkoutUserId || null,
+      customerName: name,
+      customerPhone: phone,
+      customerPhone2: phone2 || '',
+      customerAddress: address,
+      customerAddress2: address2 || '',
+      deliveryChoice: deliveryChoice,
+      deliveryAddress: deliveryAddress,
+      isGuest: isGuestUser,
+      storeType: checkoutStoreType,
+      userRole: checkoutUserRole,
+      branchId: branchId,
+      region: selectedRegion,
+      regionLocked: isRegionLocked,
+      deliveryDate: deliveryDate,
+      notes: notes || '',
+      items: cartItems.map(item => ({
+        productId: item.productId,
+        productName: item.productName || item.name || 'منتج',
+        quantity: item.quantity || 1,
+        unit: item.unit || 'قطعة',
+        price: item.price || 0,
+        total: (item.price || 0) * (item.quantity || 1),
+        imageUrl: item.imageUrl || ''
+      })),
+      subtotal: subtotal,
+      shippingCost: shippingCost,
+      total: roundedTotal,
+      isFreeShipping: isFreeShipping,
+      paymentMethod: selectedPaymentMethod,
+      paymentMethodLabel: getPaymentMethodLabel(selectedPaymentMethod),
+      paymentFeePercent: getPaymentFeePercent(selectedPaymentMethod),
+      paymentFee: parseFloat(paymentFee.toFixed(2)),
+      grandTotal: roundedTotal,
+      paymentProof: paymentProofUrl,
+      paymentProofUploadedAt: paymentProofUrl ? new Date().toISOString() : null,
+      installmentDays: selectedPaymentMethod === 'credit' ? selectedInstallmentDays : null,
+      installmentStatus: selectedPaymentMethod === 'credit' ? 'pending_plan' : null,
+      deliveryStatus: 'unassigned',
+      deliveryAgentId: '',
+      deliveryAgentName: '',
+      deliveryAgentPhone: '',
+      assignedAt: null,
+      assignedBy: '',
+      pickedUpAt: null,
+      deliveredAt: null,
+      failedReason: '',
+      deliveryNotes: '',
+      cashCollected: 0,
+      cashCollectedAt: null,
+      cashHandedToAdmin: false,
+      cashHandedAt: null,
+      confirmedByCustomer: false,
+      customerConfirmedAt: null,
+      customerFeedback: '',
+      status: 'pending',
+      paymentStatus: paymentStatus,
+      paid: 0,
+      remaining: roundedTotal,
+      invoiceGenerated: false,
+      invoiceId: '',
+      balanceApplied: false,
+      balanceAppliedAt: null,
+      modifications: [],
+      notifications_sent: [],
+      orderDate: getLocalDateString(),
+      createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+
+    // ===== 3. Reserve في Transaction =====
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التحقق والحجز...';
+
+    let orderRef = null;
+
+    await db.runTransaction(async (t) => {
+      // ===== المرحلة A: قراءة كل المنتجات أولاً =====
+      const reservations = [];
+
+      for (const item of cartItems) {
+        const qty = item.quantity || 1;
+        const pid = item.productId;
+
+        if (!pid) {
+          throw new Error(`منتج "${item.productName || 'غير معروف'}" غير صالح`);
+        }
+
+        if (isWholesale) {
+          // ===== wholesale: نقرأ من products =====
+          const pRef = db.collection('products').doc(pid);
+          const pDoc = await t.get(pRef);
+
+          if (!pDoc.exists) {
+            throw new Error(`"${item.productName || 'منتج'}" غير موجود`);
+          }
+
+          const p = pDoc.data();
+          const ppu = p.piecesPerUnit || 1;
+          const totalPieces = (p.warehouseStock || 0) * ppu + (p.warehousePieces || 0);
+          const reservedPieces = p.reservedPieces || 0;
+          const available = totalPieces - reservedPieces;
+
+          if (available < qty) {
+            throw new Error(
+              `"${item.productName || 'منتج'}" — متاح ${available} قطعة فقط (المطلوب ${qty})`
+            );
+          }
+
+          reservations.push({
+            type: 'wh',
+            ref: pRef,
+            qty,
+            currentReserved: reservedPieces,
+            available
+          });
+
+        } else {
+          // ===== retail: نقرأ من branch_inventory =====
+          const invId = `${branchId}_${pid}`;
+          const invRef = db.collection('branch_inventory').doc(invId);
+          const invDoc = await t.get(invRef);
+
+          if (!invDoc.exists) {
+            throw new Error(
+              `"${item.productName || 'منتج'}" غير متوفر في منطقتك`
+            );
+          }
+
+          const inv = invDoc.data();
+          const pieces = inv.piecesQty || 0;
+          const reserved = inv.reservedQty || 0;
+          const available = Math.max(0, pieces - reserved);
+
+          if (available < qty) {
+            throw new Error(
+              `"${item.productName || 'منتج'}" — متاح ${available} قطعة فقط (المطلوب ${qty})`
+            );
+          }
+
+          reservations.push({
+            type: 'branch',
+            ref: invRef,
+            qty,
+            currentReserved: reserved,
+            available
+          });
+        }
+      }
+
+      // ===== المرحلة B: تطبيق الحجوزات =====
+      for (const r of reservations) {
+        if (r.type === 'wh') {
+          t.update(r.ref, {
+            reservedPieces: (r.currentReserved || 0) + r.qty
+          });
+        } else {
+          t.update(r.ref, {
+            reservedQty: (r.currentReserved || 0) + r.qty,
+            availableQty: Math.max(0, r.available - r.qty)
+          });
+        }
+      }
+
+      // ===== المرحلة C: إنشاء الطلب =====
+      orderRef = db.collection('orders').doc();
+
+      t.set(orderRef, {
+        ...orderData,
+        reserved: true,
+        reservedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        released: false,
+        releasedAt: null,
+        releaseReason: ''
+      });
     });
 
-    window.loadCheckout = loadCheckout;
-    window.handleRegionChange = handleRegionChange;
-    window.handlePaymentChange = handlePaymentChange;
-    window.handleSubmit = handleSubmit;
-    window.copyPaymentAccount = copyPaymentAccount;
-    window.handleProofFileChange = handleProofFileChange;
-    window.removeProofFile = removeProofFile;
-    window.recalculateTotals = recalculateTotals;
+    if (!orderRef) throw new Error('فشل إنشاء الطلب');
+
+    const orderNumber = orderRef.id.slice(-8).toUpperCase();
+
+    // ===== 4. حفظ الفورم =====
+    saveFormData({
+      name, phone, phone2, address, address2,
+      deliveryChoice, notes
+    });
+
+    // ===== 5. حذف السلة =====
+    if (isGuestUser) {
+      localStorage.removeItem('guest_cart');
+    } else {
+      const cartSnapshot = await db.collection(COLLECTIONS.CART)
+        .where('userId', '==', checkoutUserId).get();
+      const batch = db.batch();
+      cartSnapshot.forEach(doc => batch.delete(doc.ref));
+      await batch.commit();
+    }
+
+    // ===== 6. سجل النشاط =====
+    try {
+      await db.collection(COLLECTIONS.ACTIVITY_LOG).add({
+        userId: checkoutUserId || 'guest',
+        userName: name,
+        userRole: checkoutUserRole,
+        action: 'إنشاء طلب جديد (محجوز)',
+        details: `#${orderNumber} - ${roundedTotal.toFixed(0)} ج.م - ${getPaymentMethodLabel(selectedPaymentMethod)} - ${branchId}`,
+        proposedDeliveryDate: deliveryDate,
+        confirmedDeliveryDate: null,
+        pendingChanges: null,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      });
+    } catch (logError) {
+      console.warn('Could not log activity:', logError);
+    }
+
+    if (typeof updateCartBadge === 'function') updateCartBadge();
+
+    // ===== 7. Redirect =====
+    window.location.href = `/gomla/order-success.html?id=${orderRef.id}`;
+
+  } catch (error) {
+    console.error('Error submitting order:', error);
+    window.showToast('❌ ' + (error.message || 'حدث خطأ في إرسال الطلب'), 'error');
+    btn.disabled = false;
+    btn.innerHTML = originalText;
+    isCheckoutSubmitting = false;
+  }
+}
+
+// ============================================================
+// 🚀 Init
+// ============================================================
+document.addEventListener('DOMContentLoaded', function() {
+  loadCheckout();
+  console.log('✅ checkout.html v6.0 loaded — Reserve logic enabled');
+});
+
+// ===== Exports =====
+window.loadCheckout = loadCheckout;
+window.handleRegionChange = handleRegionChange;
+window.handlePaymentChange = handlePaymentChange;
+window.handleInstallmentDaysChange = handleInstallmentDaysChange;
+window.handleSubmit = handleSubmit;
+window.copyPaymentAccount = copyPaymentAccount;
+window.handleProofFileChange = handleProofFileChange;
+window.removeProofFile = removeProofFile;
+window.recalculateTotals = recalculateTotals;
+window.releaseExpiredOrders = releaseExpiredOrders;
   </script>
 
 </body>
