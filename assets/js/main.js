@@ -2310,4 +2310,7 @@ window.openSidebar = openSidebar;
 window.closeSidebar = closeSidebar;
 window.toggleMobileTabDropdown = toggleMobileTabDropdown;
 
+window.formatPaymentMethodLabel = formatPaymentMethodLabel;
+window.releaseExpiredOrders = releaseExpiredOrders;
+
 console.log('✅ main.js v8.2 exports set');
