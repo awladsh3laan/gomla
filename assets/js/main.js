@@ -2645,6 +2645,205 @@ document.addEventListener('DOMContentLoaded', async function () {
 
   console.log('✅ main.js v8.4 loaded');
 });
+// ============================================================
+// 🆕 v8.5 — Real-time Watchers + System Pulse
+// ============================================================
+
+// ===== 1) watchData — onSnapshot موحد =====
+window._activeWatchers = window._activeWatchers || {};
+
+function watchData(collectionName, options, callback) {
+  if (!window.db) { console.warn('watchData: db not ready'); return null; }
+  options = options || {};
+  const key = collectionName + '_' + JSON.stringify(options);
+  if (window._activeWatchers[key]) return window._activeWatchers[key];
+
+  let query = db.collection(collectionName);
+  if (options.where) options.where.forEach(w => { query = query.where(w[0], w[1], w[2]); });
+  if (options.orderBy) options.orderBy.forEach(o => { query = query.orderBy(o[0], o[1] || 'asc'); });
+  if (options.limit) query = query.limit(options.limit);
+
+  const unsub = query.onSnapshot(snap => {
+    const docs = [];
+    snap.forEach(doc => docs.push({ id: doc.id, ...doc.data() }));
+    try { callback(docs); } catch (e) { console.warn('watchData callback:', e); }
+  }, err => console.warn('watchData [' + collectionName + ']:', err.code));
+
+  window._activeWatchers[key] = unsub;
+  return unsub;
+}
+
+function unwatchData(collectionName, options) {
+  options = options || {};
+  const key = collectionName + '_' + JSON.stringify(options);
+  if (window._activeWatchers[key]) {
+    window._activeWatchers[key]();
+    delete window._activeWatchers[key];
+  }
+}
+
+// ===== 2) watchDoc — لمراقبة doc واحد =====
+function watchDoc(collectionName, docId, callback) {
+  if (!window.db) return null;
+  const key = `${collectionName}/${docId}`;
+  if (window._activeWatchers[key]) return window._activeWatchers[key];
+  const unsub = db.collection(collectionName).doc(docId).onSnapshot(doc => {
+    if (doc.exists) callback({ id: doc.id, ...doc.data() });
+    else callback(null);
+  }, err => console.warn('watchDoc [' + key + ']:', err.code));
+  window._activeWatchers[key] = unsub;
+  return unsub;
+}
+
+// ===== 3) pulseUpdate — إرسال إشارة "فيه تحديث" =====
+async function pulseUpdate(source, detail) {
+  if (!window.db) return;
+  try {
+    const user = getCurrentUser();
+    await db.collection('system_pulse').doc('_global').set({
+      lastUpdateAt: firebase.firestore.FieldValue.serverTimestamp(),
+      lastUpdateBy: user?.data?.id || 'system',
+      lastUpdateByName: user?.data?.name || 'system',
+      lastUpdateSource: source || 'unknown',
+      lastUpdateDetail: detail || '',
+      updateCount: firebase.firestore.FieldValue.increment(1)
+    }, { merge: true });
+  } catch (e) { console.warn('pulseUpdate failed:', e); }
+}
+
+// ===== 4) watchSystemPulse — استقبال الإشارات في صفحات الأدمن =====
+let _pulseInitialized = false;
+let _lastSeenPulseTs = 0;
+
+function watchSystemPulse(onNewUpdate) {
+  if (!window.db) return null;
+  return db.collection('system_pulse').doc('_global').onSnapshot(doc => {
+    if (!doc.exists) return;
+    const data = doc.data();
+    const newTs = data.lastUpdateAt?.toMillis?.() || 0;
+
+    if (!_pulseInitialized) {
+      _lastSeenPulseTs = newTs;
+      _pulseInitialized = true;
+      return;
+    }
+
+    if (newTs > _lastSeenPulseTs) {
+      _lastSeenPulseTs = newTs;
+      try { onNewUpdate(data); } catch (e) { console.warn('pulse callback:', e); }
+    }
+  }, err => console.warn('watchSystemPulse:', err.code));
+}
+
+// ===== 5) showRefreshBanner — بانر تحديث قابل لإعادة الاستخدام =====
+function showRefreshBanner(pulseData, onRefresh) {
+  let banner = document.getElementById('_refreshBanner');
+  if (banner) banner.remove();
+
+  const sourceLabels = {
+    orders: 'الطلبات', transfers: 'النقل', products: 'المنتجات',
+    sales: 'المبيعات', inventory: 'المخزون', branches: 'الفروع',
+    customers: 'العملاء', settings: 'الإعدادات', damages: 'التالف'
+  };
+  const sourceLabel = sourceLabels[pulseData?.lastUpdateSource] || 'صفحة أخرى';
+  const byName = pulseData?.lastUpdateByName || 'مستخدم آخر';
+  const detail = pulseData?.lastUpdateDetail || '';
+
+  banner = document.createElement('div');
+  banner.id = '_refreshBanner';
+  banner.innerHTML = `
+    <div style="
+      position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+      background: linear-gradient(135deg, #1e40af, #3b82f6);
+      color: white; padding: 14px 20px; border-radius: 12px;
+      box-shadow: 0 8px 32px rgba(30,64,175,.4);
+      z-index: 99999; max-width: 90vw; min-width: 320px;
+      display: flex; align-items: center; gap: 12px;
+      animation: slideDown 0.35s ease;
+      font-family: Tajawal, sans-serif;
+    ">
+      <div style="font-size: 1.5rem;"><i class="fas fa-sync-alt"></i></div>
+      <div style="flex: 1;">
+        <div style="font-weight: 900; font-size: 0.92rem; margin-bottom: 2px;">
+          فيه تحديث جديد في ${sourceLabel}
+        </div>
+        <div style="font-size: 0.75rem; opacity: 0.85;">
+          من ${byName}${detail ? ' · ' + detail : ''}
+        </div>
+      </div>
+      <button onclick="document.getElementById('_refreshBanner').remove(); ${onRefresh ? 'window._pulseRefresh()' : 'location.reload()'}"
+        style="background: white; color: #1e40af; border: none; padding: 8px 16px;
+        border-radius: 8px; font-weight: 900; cursor: pointer; font-family: inherit; white-space: nowrap;">
+        <i class="fas fa-redo"></i> تحديث
+      </button>
+      <button onclick="document.getElementById('_refreshBanner').remove()"
+        style="background: transparent; color: white; border: none; cursor: pointer; font-size: 1.2rem; padding: 4px;">
+        &times;
+      </button>
+    </div>
+    <style>
+      @keyframes slideDown { from { opacity: 0; transform: translate(-50%, -20px); } to { opacity: 1; transform: translate(-50%, 0); } }
+    </style>
+  `;
+  document.body.appendChild(banner);
+
+  if (onRefresh) window._pulseRefresh = onRefresh;
+  setTimeout(() => { if (banner && banner.parentNode) banner.remove(); }, 30000);
+}
+
+// ===== 6) generateInvoiceTrackCode — كود تتبع الفاتورة =====
+function generateInvoiceTrackCode() {
+  const d = new Date();
+  const ymd = d.getFullYear().toString() +
+              String(d.getMonth() + 1).padStart(2, '0') +
+              String(d.getDate()).padStart(2, '0');
+  const rand = Math.random().toString(36).substring(2, 6).toUpperCase();
+  return `INV-${ymd}-${rand}`;
+}
+
+// ===== 7) RETURN_WINDOW_HOURS + حساب العد التنازلي =====
+const RETURN_WINDOW_HOURS = 48;
+
+function getReturnDeadline(createdAt) {
+  if (!createdAt) return null;
+  const ms = createdAt.toMillis ? createdAt.toMillis() :
+             createdAt.toDate ? createdAt.toDate().getTime() :
+             (createdAt instanceof Date ? createdAt.getTime() : 0);
+  if (!ms) return null;
+  return new Date(ms + RETURN_WINDOW_HOURS * 60 * 60 * 1000);
+}
+
+function getReturnRemaining(createdAt) {
+  const deadline = getReturnDeadline(createdAt);
+  if (!deadline) return { expired: true, ms: 0, hours: 0, minutes: 0, text: 'انتهت', color: 'red' };
+  const remaining = deadline.getTime() - Date.now();
+  if (remaining <= 0) return { expired: true, ms: 0, hours: 0, minutes: 0, text: 'انتهت مدة الإرجاع', color: 'red' };
+
+  const hours = Math.floor(remaining / 3600000);
+  const minutes = Math.floor((remaining % 3600000) / 60000);
+  let color = 'green';
+  if (hours < 6) color = 'orange';
+  if (hours < 2) color = 'red';
+
+  return {
+    expired: false, ms: remaining, hours, minutes,
+    text: hours > 0 ? `${hours} ساعة و${minutes} دقيقة` : `${minutes} دقيقة`,
+    color
+  };
+}
+
+function formatReturnDeadline(createdAt) {
+  const deadline = getReturnDeadline(createdAt);
+  if (!deadline) return '—';
+  return deadline.toLocaleString('ar-EG', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+}
+
+// ===== 8) Cleanup على الخروج =====
+window.addEventListener('beforeunload', () => {
+  try {
+    Object.values(window._activeWatchers).forEach(unsub => { try { unsub(); } catch {} });
+  } catch {}
+});
 
 // ============================================================
 // 🌐 تصدير الدوال
@@ -2737,5 +2936,89 @@ window.releaseExpiredOrders = releaseExpiredOrders;
 window.formatOrderStatusLabel = formatOrderStatusLabel;
 window.addCustomerWarningNote = addCustomerWarningNote;
 window.clearCustomerWarningNote = clearCustomerWarningNote;
+// ===== 9) Exports الجديدة =====
+window.watchData = watchData;
+window.unwatchData = unwatchData;
+window.watchDoc = watchDoc;
+window.pulseUpdate = pulseUpdate;
+window.watchSystemPulse = watchSystemPulse;
+window.showRefreshBanner = showRefreshBanner;
+window.generateInvoiceTrackCode = generateInvoiceTrackCode;
+window.getReturnDeadline = getReturnDeadline;
+window.getReturnRemaining = getReturnRemaining;
+window.formatReturnDeadline = formatReturnDeadline;
+window.RETURN_WINDOW_HOURS = RETURN_WINDOW_HOURS;
 
-console.log('✅ main.js v8.4 exports set');
+// ============================================================
+// 🆕 v8.6 — Draft Persistence (حفظ العمل أثناء refresh)
+// ============================================================
+const DraftManager = {
+  PREFIX: 'gomla_draft_',
+  MAX_AGE_HOURS: 24,
+  _key(k) { return this.PREFIX + k; },
+  save(key, data) {
+    try { localStorage.setItem(this._key(key), JSON.stringify({ data, savedAt: Date.now() })); return true; }
+    catch (e) { console.warn('DraftManager.save:', e); return false; }
+  },
+  load(key, maxAge) {
+    try {
+      const raw = localStorage.getItem(this._key(key));
+      if (!raw) return null;
+      const p = JSON.parse(raw);
+      const ageH = (Date.now() - p.savedAt) / 3600000;
+      if (ageH > (maxAge || this.MAX_AGE_HOURS)) { this.clear(key); return null; }
+      return { ...p, ageHours: ageH };
+    } catch { return null; }
+  },
+  clear(key) { try { localStorage.removeItem(this._key(key)); } catch {} }
+};
+
+function debounce(fn, delay = 300) {
+  let t; return function (...args) { clearTimeout(t); t = setTimeout(() => fn.apply(this, args), delay); };
+}
+
+function createDraft(config) {
+  const { key, getState, onRestore, autoSaveMs = 500, maxAgeHours = 24 } = config;
+  const scheduleSave = debounce(() => {
+    try { const s = getState(); if (s) DraftManager.save(key, s); } catch (e) { console.warn('draft save:', e); }
+  }, autoSaveMs);
+  return {
+    saveNow() { try { const s = getState(); if (s) DraftManager.save(key, s); } catch {} },
+    autoSave: scheduleSave,
+    tryRestore() {
+      const draft = DraftManager.load(key, maxAgeHours);
+      if (draft?.data) { try { onRestore(draft.data); return draft; } catch (e) { console.warn('draft restore:', e); } }
+      return null;
+    },
+    clear() { DraftManager.clear(key); },
+    has() { return !!DraftManager.load(key, maxAgeHours); }
+  };
+}
+
+function bindDraftInputs(selector, saveFn) {
+  const c = document.querySelector(selector); if (!c) return;
+  c.addEventListener('input', saveFn);
+  c.addEventListener('change', saveFn);
+}
+
+// 🆕 Beep sound (Web Audio — بدون ملف خارجي)
+let _beepCtx = null;
+function playBeep(freq = 800, duration = 100) {
+  try {
+    if (!_beepCtx) _beepCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = _beepCtx.createOscillator(); const gain = _beepCtx.createGain();
+    osc.connect(gain); gain.connect(_beepCtx.destination);
+    osc.frequency.value = freq; osc.type = 'sine';
+    gain.gain.setValueAtTime(0.25, _beepCtx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, _beepCtx.currentTime + duration / 1000);
+    osc.start(); osc.stop(_beepCtx.currentTime + duration / 1000);
+  } catch (e) { console.warn('beep:', e); }
+}
+
+window.DraftManager = DraftManager;
+window.debounce = debounce;
+window.createDraft = createDraft;
+window.bindDraftInputs = bindDraftInputs;
+window.playBeep = playBeep;
+
+console.log('✅ main.js v8.6 DraftManager exports set');
