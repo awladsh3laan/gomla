@@ -1,0 +1,1758 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مخزون الفرع — أولاد شعلان</title>
+  <meta name="theme-color" content="#1a2a4a">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/gomla/assets/css/style.css">
+  <link rel="icon" href="/gomla/assets/images/favicon.ico">
+
+  <style>
+    html, body { overflow-x: hidden !important; max-width: 100vw; }
+
+    /* Header */
+    .ci-header {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+      border-radius: var(--radius-lg); padding: 22px 24px; margin-bottom: 18px;
+      color: var(--white); position: relative; overflow: hidden;
+      box-shadow: 0 12px 40px rgba(26,42,74,.25);
+      border-bottom: 4px solid var(--gold);
+    }
+    .ci-header::before {
+      content: ''; position: absolute; top: -50%; right: -15%;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(201,168,76,.18) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .ci-header-inner { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .ci-header-left { display: flex; align-items: center; gap: 16px; flex: 1; min-width: 220px; }
+    .ci-header-icon {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy); display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+      box-shadow: 0 8px 24px rgba(201,168,76,.4);
+    }
+    .ci-header h1 { font-size: 1.35rem; font-weight: 900; margin: 0 0 3px; color: var(--white); }
+    .ci-header p { font-size: 0.83rem; opacity: 0.88; margin: 0; }
+    .ci-header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .ci-header-actions .btn {
+      background: rgba(255,255,255,.15); color: var(--white);
+      border: 1px solid rgba(255,255,255,.3);
+      padding: 8px 14px; border-radius: var(--radius-sm);
+      font-family: inherit; font-weight: 700; font-size: 0.82rem;
+      cursor: pointer; transition: var(--transition);
+      display: inline-flex; align-items: center; gap: 6px;
+      text-decoration: none;
+    }
+    .ci-header-actions .btn:hover { background: var(--gold); color: var(--navy); border-color: var(--gold); }
+    .ci-header-actions .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .ci-header-actions .btn.gold {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy); border-color: var(--gold-dark);
+    }
+    .ci-header-actions .btn.gold:hover { background: var(--gold-dark); color: var(--white); }
+
+    /* 🆕 Admin Badge */
+    .ci-admin-badge {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: rgba(201,168,76,.25);
+      padding: 3px 10px; border-radius: 20px;
+      font-size: 0.68rem; font-weight: 900;
+      color: var(--gold); margin-top: 4px;
+    }
+
+    /* 🆕 Branch Picker */
+    .ci-picker-container {
+      background: var(--white); border-radius: var(--radius-lg);
+      padding: 32px 24px; margin-bottom: 20px;
+      box-shadow: var(--shadow-md); border: 2px solid var(--gray-200);
+      text-align: center;
+    }
+    .ci-picker-title {
+      font-size: 1.3rem; font-weight: 900;
+      color: var(--navy); margin-bottom: 8px;
+    }
+    .ci-picker-subtitle {
+      font-size: 0.88rem; color: var(--gray-500);
+      margin-bottom: 24px;
+    }
+    .ci-picker-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 14px; max-width: 900px; margin: 0 auto;
+    }
+    .ci-picker-card {
+      background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+      border: 2px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 20px 16px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-align: right;
+    }
+    .ci-picker-card:hover {
+      border-color: var(--gold);
+      background: linear-gradient(135deg, #fcf9f0, #f8f4e8);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 24px rgba(201,168,76,.2);
+    }
+    .ci-picker-card-icon {
+      width: 48px; height: 48px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; margin-bottom: 10px;
+    }
+    .ci-picker-card-name {
+      font-size: 1.05rem; font-weight: 900;
+      color: var(--navy); margin-bottom: 4px;
+    }
+    .ci-picker-card-type {
+      font-size: 0.75rem; color: var(--gray-500);
+      font-weight: 700;
+    }
+    .ci-picker-card-meta {
+      font-size: 0.72rem; color: var(--gray-600);
+      margin-top: 8px; padding-top: 8px;
+      border-top: 1px dashed var(--gray-300);
+    }
+
+    /* In-Transit Section */
+    .ci-transit-section {
+      background: linear-gradient(135deg, #fff7ed, #ffedd5);
+      border: 2px solid #fdba74;
+      border-radius: var(--radius-lg);
+      padding: 18px 20px; margin-bottom: 18px;
+      box-shadow: 0 8px 24px rgba(249,115,22,.15);
+      animation: slideInBounce 0.5s ease;
+    }
+    @keyframes slideInBounce { 0% { opacity: 0; transform: translateY(-20px); } 60% { transform: translateY(4px); } 100% { opacity: 1; transform: translateY(0); } }
+    .ci-transit-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+    .ci-transit-title { display: flex; align-items: center; gap: 12px; font-size: 1.05rem; font-weight: 900; color: #c2410c; }
+    .ci-transit-title .icon-badge {
+      width: 46px; height: 46px; border-radius: 50%;
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: white; display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; box-shadow: 0 6px 18px rgba(249,115,22,.4);
+      animation: pulseIcon 2s ease-in-out infinite;
+    }
+    @keyframes pulseIcon { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+    .ci-transit-count {
+      background: #c2410c; color: white;
+      min-width: 28px; height: 28px; padding: 0 10px;
+      border-radius: 20px; display: inline-flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; font-weight: 900;
+    }
+    .ci-transit-subtitle { font-size: 0.78rem; color: #7c2d12; font-weight: 600; margin-top: 2px; }
+    .ci-transit-list { display: flex; flex-direction: column; gap: 12px; }
+    .ci-transit-card {
+      background: white; border: 2px solid #fed7aa;
+      border-radius: 12px; padding: 14px 16px;
+      transition: var(--transition);
+    }
+    .ci-transit-card:hover { border-color: #fb923c; box-shadow: 0 6px 20px rgba(249,115,22,.15); }
+    .ci-transit-card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+    .ci-transit-num {
+      font-family: 'Courier New', monospace;
+      background: #fff7ed; padding: 3px 10px; border-radius: 6px;
+      font-size: 0.75rem; color: #c2410c; direction: ltr; font-weight: 900;
+    }
+    .ci-transit-route {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 12px; background: #fffbeb;
+      border-radius: 8px; font-size: 0.82rem; margin-bottom: 10px;
+    }
+    .ci-transit-route i { color: #f97316; }
+    .ci-transit-route strong { color: #7c2d12; }
+    .ci-transit-items { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .ci-transit-item-chip {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 5px 10px; background: #fed7aa; border-radius: 20px;
+      font-size: 0.72rem; font-weight: 700; color: #7c2d12;
+    }
+    .ci-transit-item-chip i { font-size: 0.65rem; }
+    .ci-transit-item-chip strong { color: #c2410c; }
+    .ci-transit-actions { display: flex; gap: 8px; flex-wrap: wrap; padding-top: 10px; border-top: 1px solid #fed7aa; }
+    .ci-transit-btn {
+      padding: 10px 18px; border: 2px solid; border-radius: var(--radius-sm);
+      font-family: inherit; font-weight: 900; font-size: 0.85rem; cursor: pointer;
+      transition: all .2s ease;
+      display: inline-flex; align-items: center; gap: 6px;
+      background: white;
+    }
+    .ci-transit-btn.receive {
+      background: linear-gradient(135deg, #16a34a, #15803d);
+      color: white; border-color: #15803d;
+      box-shadow: 0 4px 12px rgba(22,163,74,.3);
+    }
+    .ci-transit-btn.receive:hover { background: #15803d; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(22,163,74,.4); }
+    .ci-transit-btn.print { background: white; color: #6d28d9; border-color: #c4b5fd; }
+    .ci-transit-btn.print:hover { background: #8b5cf6; color: white; }
+    .ci-transit-btn.details { background: white; color: #475569; border-color: #cbd5e1; }
+    .ci-transit-btn.details:hover { background: #f1f5f9; }
+    .ci-late-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 3px 10px; border-radius: 20px;
+      font-size: 0.7rem; font-weight: 900;
+      background: #fee2e2; color: #991b1b;
+      animation: pulseLate 1.5s infinite;
+    }
+    @keyframes pulseLate { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+    /* Smart Alert */
+    .ci-alert-banner {
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      border: 2px solid #fbbf24; border-radius: var(--radius-md);
+      padding: 14px 18px; margin-bottom: 16px;
+      box-shadow: 0 4px 12px rgba(251,191,36,.2);
+    }
+    .ci-alert-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .ci-alert-title { display: flex; align-items: center; gap: 10px; font-size: 0.95rem; font-weight: 900; color: #92400e; }
+    .ci-alert-title .alert-icon {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: rgba(251,191,36,.3); color: #92400e;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .ci-alert-count {
+      display: inline-flex; align-items: center; justify-content: center;
+      background: #92400e; color: white;
+      min-width: 26px; height: 26px; padding: 0 8px;
+      border-radius: 20px; font-size: 0.85rem; font-weight: 900;
+    }
+    .ci-alert-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .ci-alert-actions .btn-sm {
+      padding: 8px 14px; border-radius: var(--radius-sm);
+      font-family: inherit; font-weight: 800; font-size: 0.8rem;
+      cursor: pointer; transition: var(--transition);
+      display: inline-flex; align-items: center; gap: 6px; border: 2px solid;
+    }
+    .ci-alert-actions .btn-show { background: white; color: #92400e; border-color: #fbbf24; }
+    .ci-alert-actions .btn-show:hover { background: #fbbf24; color: white; }
+    .ci-alert-actions .btn-request-all { background: #92400e; color: white; border-color: #92400e; }
+    .ci-alert-actions .btn-request-all:hover { background: #b45309; }
+    .ci-alert-preview { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+    .ci-alert-preview.open { max-height: 400px; overflow-y: auto; }
+    .ci-alert-list { background: white; border-radius: 6px; padding: 8px 12px; margin-top: 8px; }
+    .ci-alert-item { display: flex; align-items: center; gap: 8px; padding: 6px 0; font-size: 0.82rem; border-bottom: 1px solid var(--gray-100); }
+    .ci-alert-item:last-child { border-bottom: none; }
+
+    /* Stats */
+    .ci-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 16px; }
+    .ci-stat {
+      background: var(--white); border-radius: var(--radius-md);
+      padding: 14px 10px; box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200); text-align: center; transition: var(--transition); cursor: pointer;
+    }
+    .ci-stat:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--gold-light); }
+    .ci-stat.active { border-color: var(--gold); background: linear-gradient(135deg, #fcf9f0, #f8f4e8); }
+    .ci-stat-icon { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; margin: 0 auto 6px; }
+    .ci-stat-icon.navy   { background: rgba(26,42,74,.12); color: var(--navy); }
+    .ci-stat-icon.green  { background: rgba(34,197,94,.12); color: #16a34a; }
+    .ci-stat-icon.gold   { background: rgba(201,168,76,.15); color: var(--gold-dark); }
+    .ci-stat-icon.red    { background: rgba(239,68,68,.12);  color: #dc2626; }
+    .ci-stat-num { font-size: 1.15rem; font-weight: 900; color: var(--navy); line-height: 1.2; margin-bottom: 2px; }
+    .ci-stat-num.green  { color: #16a34a; }
+    .ci-stat-num.gold   { color: var(--gold-dark); }
+    .ci-stat-num.red    { color: #dc2626; }
+    .ci-stat-label { font-size: 0.65rem; color: var(--gray-500); font-weight: 700; line-height: 1.2; }
+
+    /* Tabs */
+    .ci-tabs { display: flex; gap: 6px; margin-bottom: 16px; background: var(--white); padding: 8px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--gray-200); overflow-x: auto; }
+    .ci-tab {
+      flex-shrink: 0; padding: 10px 16px;
+      border: 2px solid var(--gray-200); background: var(--white);
+      color: var(--gray-600); border-radius: var(--radius-sm);
+      font-family: inherit; font-weight: 800; font-size: 0.82rem;
+      cursor: pointer; transition: all 0.25s ease;
+      display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
+    }
+    .ci-tab:hover { border-color: var(--gold-light); background: var(--gray-50); }
+    .ci-tab.active { background: linear-gradient(135deg, var(--navy), var(--navy-light)); color: var(--white); border-color: var(--navy); box-shadow: 0 6px 16px rgba(26,42,74,.25); }
+    .ci-tab.active i { color: var(--gold); }
+    .ci-tab .tab-count { background: rgba(0,0,0,.08); padding: 1px 7px; border-radius: 10px; font-size: 0.65rem; font-weight: 900; min-width: 20px; text-align: center; }
+    .ci-tab.active .tab-count { background: var(--gold); color: var(--navy); }
+
+    /* Filters */
+    .ci-filters {
+      background: var(--white); border-radius: var(--radius-md);
+      padding: 12px 14px; margin-bottom: 16px;
+      box-shadow: var(--shadow-sm); border: 1px solid var(--gray-200);
+      display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+    }
+    .ci-search { position: relative; flex: 1; min-width: 200px; }
+    .ci-search input {
+      width: 100%; padding: 10px 40px 10px 14px;
+      border: 2px solid var(--gray-200); border-radius: var(--radius-sm);
+      font-family: inherit; font-size: 0.88rem;
+      background: var(--gray-50); outline: none; transition: var(--transition);
+    }
+    .ci-search input:focus { border-color: var(--gold); background: var(--white); box-shadow: 0 0 0 4px rgba(201,168,76,.15); }
+    .ci-search i { position: absolute; right: 13px; top: 50%; transform: translateY(-50%); color: var(--gray-400); }
+    .ci-filters select {
+      padding: 10px 12px; border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm); font-family: inherit;
+      font-size: 0.82rem; background: var(--gray-50);
+      outline: none; cursor: pointer; min-width: 120px;
+    }
+    .ci-filters select:focus { border-color: var(--gold); background: var(--white); }
+    .ci-filters .btn-icon-only {
+      padding: 10px 14px; border: 2px solid var(--gray-200);
+      background: var(--white); border-radius: var(--radius-sm);
+      color: var(--gray-600); cursor: pointer; transition: var(--transition);
+    }
+    .ci-filters .btn-icon-only:hover { border-color: var(--gold); color: var(--gold-dark); }
+
+    /* Product Cards */
+    .ci-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+    .ci-card {
+      background: var(--white); border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm); border: 1px solid var(--gray-200);
+      padding: 14px 16px; transition: var(--transition);
+      position: relative; overflow: hidden;
+      display: grid; grid-template-columns: 56px 1fr auto;
+      gap: 14px; align-items: center;
+    }
+    .ci-card::before { content: ''; position: absolute; top: 0; right: 0; width: 4px; height: 100%; background: var(--gold); }
+    .ci-card.status-available::before { background: #22c55e; }
+    .ci-card.status-low::before       { background: #f59e0b; }
+    .ci-card.status-out::before       { background: #ef4444; }
+    .ci-card-img { width: 56px; height: 56px; border-radius: 8px; object-fit: cover; border: 1px solid var(--gray-200); }
+    .ci-card-info { min-width: 0; }
+    .ci-card-name { font-size: 0.92rem; font-weight: 900; color: var(--navy); margin-bottom: 5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .ci-card-meta { display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.72rem; color: var(--gray-500); margin-bottom: 8px; }
+    .ci-card-meta span { display: inline-flex; align-items: center; gap: 3px; }
+    .ci-card-meta i { color: var(--gold); font-size: 0.65rem; }
+    .ci-card-numbers { display: flex; gap: 8px; }
+    .ci-num-box { min-width: 64px; text-align: center; padding: 8px; border-radius: 6px; background: var(--gray-50); border: 1px solid var(--gray-200); }
+    .ci-num-lbl { font-size: 0.62rem; font-weight: 800; color: var(--gray-500); margin-bottom: 2px; }
+    .ci-num-val { font-size: 1rem; font-weight: 900; color: var(--navy); line-height: 1; }
+    .ci-num-box.reserved { background: #fef3c7; border-color: #fcd34d; }
+    .ci-num-box.reserved .ci-num-val { color: #d97706; }
+    .ci-num-box.available { background: #dcfce7; border-color: #86efac; }
+    .ci-num-box.available .ci-num-val { color: #16a34a; }
+    .ci-num-box.available.low { background: #fef3c7; border-color: #fcd34d; }
+    .ci-num-box.available.low .ci-num-val { color: #d97706; }
+    .ci-num-box.available.zero { background: #fef2f2; border-color: #fca5a5; }
+    .ci-num-box.available.zero .ci-num-val { color: #dc2626; }
+    .ci-num-box.wh { background: #eff6ff; border-color: #bfdbfe; }
+    .ci-num-box.wh .ci-num-val { color: #1e40af; }
+    .ci-card-actions { display: flex; flex-direction: column; gap: 6px; }
+    .ci-action-btn {
+      padding: 8px 12px; border: 1.5px solid;
+      border-radius: var(--radius-sm);
+      font-family: inherit; font-weight: 800; font-size: 0.72rem;
+      cursor: pointer; transition: all .2s ease;
+      display: inline-flex; align-items: center; justify-content: center; gap: 5px;
+      background: var(--white); white-space: nowrap;
+    }
+    .ci-action-btn.request { border-color: #93c5fd; color: #1e40af; background: #eff6ff; }
+    .ci-action-btn.request:hover { background: #3b82f6; color: white; }
+    .ci-action-btn.request:disabled { opacity: 0.4; cursor: not-allowed; }
+    .ci-status-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 4px 10px; border-radius: var(--radius-full);
+      font-size: 0.7rem; font-weight: 900; white-space: nowrap; margin-top: 6px;
+    }
+    .ci-status-badge.status-available { background: #dcfce7; color: #15803d; }
+    .ci-status-badge.status-low       { background: #fef3c7; color: #a16207; }
+    .ci-status-badge.status-out       { background: #fef2f2; color: #991b1b; }
+
+    /* Empty / Loading */
+    .ci-empty, .ci-loading { text-align: center; padding: 60px 20px; background: var(--white); border-radius: var(--radius-md); border: 2px dashed var(--gray-300); }
+    .ci-empty .empty-icon { width: 90px; height: 90px; border-radius: 50%; background: var(--gray-100); color: var(--gray-400); display: flex; align-items: center; justify-content: center; font-size: 2.2rem; margin: 0 auto 16px; }
+    .ci-empty h3 { font-size: 1.1rem; font-weight: 900; color: var(--navy); margin-bottom: 6px; }
+    .ci-empty p { font-size: 0.85rem; color: var(--gray-500); }
+    .ci-loading i { font-size: 2rem; color: var(--gold); margin-bottom: 10px; }
+
+    /* Modal */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15,26,46,.75); backdrop-filter: blur(4px); z-index: 999; justify-content: center; align-items: center; padding: 20px; overflow-y: auto; }
+    .modal-overlay.show { display: flex; }
+    .modal-content { background: var(--white); border-radius: var(--radius-lg); max-width: 860px; width: 100%; max-height: 92vh; overflow-y: auto; padding: 0; position: relative; animation: modalSlide .3s ease; }
+    .modal-content.medium { max-width: 720px; }
+    .modal-content.small { max-width: 500px; }
+    @keyframes modalSlide { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .modal-header { padding: 18px 22px; background: linear-gradient(135deg, var(--navy), var(--navy-light)); color: var(--white); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 2; }
+    .modal-header h2 { font-size: 1.05rem; font-weight: 900; margin: 0; display: flex; align-items: center; gap: 8px; }
+    .modal-header h2 i { color: var(--gold); }
+    .modal-header.green { background: linear-gradient(135deg, #15803d, #22c55e); }
+    .modal-header.orange { background: linear-gradient(135deg, #c2410c, #f97316); }
+    .modal-header.blue { background: linear-gradient(135deg, #1e40af, #3b82f6); }
+    .modal-close { background: rgba(255,255,255,.15); border: none; color: var(--white); width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 1.1rem; transition: var(--transition); }
+    .modal-close:hover { background: var(--danger); transform: rotate(90deg); }
+    .modal-body { padding: 20px 22px; }
+    .modal-actions { padding: 16px 22px; border-top: 2px solid var(--gray-100); display: flex; gap: 10px; justify-content: flex-end; position: sticky; bottom: 0; background: var(--white); flex-wrap: wrap; }
+    .btn { padding: 9px 18px; border: none; border-radius: var(--radius-sm); font-family: inherit; font-weight: 800; font-size: 0.85rem; cursor: pointer; transition: var(--transition); display: inline-flex; align-items: center; gap: 6px; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-outline { background: transparent; border: 2px solid var(--gray-300); color: var(--gray-700); }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold-dark); }
+    .btn-gold { background: var(--gold); color: var(--navy); }
+    .btn-gold:hover { background: var(--gold-dark); color: var(--white); }
+    .btn-primary { background: #2563eb; color: white; }
+    .btn-primary:hover { background: #1e40af; }
+    .btn-success { background: #16a34a; color: white; }
+    .btn-success:hover { background: #15803d; }
+
+    /* Receipt Items */
+    .receipt-item-row {
+      display: grid; grid-template-columns: 48px 1fr 100px 100px;
+      gap: 10px; align-items: center; padding: 12px;
+      border: 1px solid var(--gray-200); border-radius: 8px;
+      margin-bottom: 8px; background: white; transition: var(--transition);
+    }
+    .receipt-item-row.changed { background: #fef9e7; border-color: #fbbf24; }
+    .receipt-item-row img { width: 48px; height: 48px; border-radius: 6px; object-fit: cover; border: 1px solid var(--gray-200); }
+    .receipt-item-info { min-width: 0; }
+    .receipt-item-name { font-size: 0.85rem; font-weight: 800; color: var(--navy); margin-bottom: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .receipt-item-meta { font-size: 0.72rem; color: var(--gray-500); }
+    .receipt-item-meta strong { color: var(--gold-dark); }
+    .receipt-qty-box { display: flex; flex-direction: column; gap: 2px; }
+    .receipt-qty-box label { font-size: 0.65rem; font-weight: 800; color: var(--gray-500); }
+    .receipt-qty-box input { padding: 8px; border: 2px solid var(--gray-200); border-radius: 6px; text-align: center; font-family: inherit; font-weight: 900; font-size: 0.9rem; outline: none; width: 100%; }
+    .receipt-qty-box input:focus { border-color: var(--gold); }
+    .receipt-qty-box input.error { border-color: #dc2626; background: #fef2f2; }
+    .receipt-summary-box {
+      background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+      border: 2px solid #86efac; border-radius: 12px;
+      padding: 14px 18px; margin-top: 14px;
+    }
+    .receipt-summary-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 0.9rem; }
+    .receipt-summary-row.total { border-top: 2px solid #86efac; margin-top: 6px; padding-top: 10px; font-size: 1rem; font-weight: 900; color: #166534; }
+    .receipt-summary-row .val.green { color: #16a34a; font-weight: 900; }
+    .receipt-summary-row .val.orange { color: #d97706; font-weight: 900; }
+    .receipt-summary-row .val.red { color: #dc2626; font-weight: 900; }
+
+    /* Info boxes */
+    .info-box { border-radius: 10px; padding: 12px 16px; margin-bottom: 14px; font-size: 0.85rem; display: flex; align-items: flex-start; gap: 10px; }
+    .info-box i { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+    .info-box.blue { background: #eff6ff; border: 1px solid #93c5fd; color: #1e40af; }
+    .info-box.yellow { background: #fef3c7; border: 1px solid #fbbf24; color: #92400e; }
+    .info-box.red { background: #fef2f2; border: 1px solid #fca5a5; color: #991b1b; }
+    .info-box.green { background: #f0fdf4; border: 1px solid #86efac; color: #166534; }
+
+    /* Transfer Request */
+    .tr-item-row {
+      display: grid; grid-template-columns: 24px 48px 1fr 110px;
+      gap: 10px; align-items: center; padding: 10px;
+      border: 1px solid var(--gray-200); border-radius: 8px;
+      margin-bottom: 8px; background: white;
+    }
+    .tr-item-row input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--gold); cursor: pointer; }
+    .tr-item-row img { width: 48px; height: 48px; border-radius: 6px; object-fit: cover; border: 1px solid var(--gray-200); }
+    .tr-item-info { min-width: 0; }
+    .tr-item-name { font-size: 0.85rem; font-weight: 800; color: var(--navy); margin-bottom: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .tr-item-meta { font-size: 0.7rem; color: var(--gray-500); }
+    .tr-item-qty input { width: 100%; padding: 7px; border: 2px solid var(--gray-200); border-radius: 6px; text-align: center; font-family: inherit; font-weight: 900; font-size: 0.9rem; outline: none; }
+    .tr-item-qty input:focus { border-color: var(--gold); }
+
+    @media (max-width: 992px) {
+      .ci-stats { grid-template-columns: repeat(2, 1fr); }
+      .ci-card { grid-template-columns: 56px 1fr; }
+      .ci-card-numbers { grid-column: 1 / -1; justify-content: space-around; padding-top: 8px; border-top: 1px solid var(--gray-100); }
+      .ci-card-actions { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; }
+      .receipt-item-row { grid-template-columns: 48px 1fr; }
+      .receipt-qty-box { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    }
+    @media (max-width: 768px) {
+      .ci-header { padding: 16px; }
+      .ci-header-icon { width: 46px; height: 46px; font-size: 1.2rem; }
+      .ci-header h1 { font-size: 1.05rem; }
+      .ci-stats { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .ci-stat { padding: 11px 8px; }
+      .ci-tab { padding: 8px 12px; font-size: 0.75rem; }
+      .ci-filters { flex-direction: column; align-items: stretch; }
+      .ci-search, .ci-filters select { min-width: 100%; }
+      .ci-card { padding: 10px 12px; }
+      .ci-card-img { width: 48px; height: 48px; }
+      .ci-num-box { min-width: 54px; padding: 6px; }
+      .ci-num-val { font-size: 0.9rem; }
+      .ci-transit-section { padding: 14px; }
+      .ci-transit-title { font-size: 0.92rem; }
+      .ci-transit-actions .ci-transit-btn { flex: 1; justify-content: center; font-size: 0.78rem; padding: 9px 12px; }
+      .modal-content { margin: 10px; }
+      .tr-item-row { grid-template-columns: 20px 40px 1fr; }
+      .tr-item-qty { grid-column: 1 / -1; display: flex; align-items: center; gap: 8px; }
+      .tr-item-qty input { width: 100px; }
+      .ci-picker-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="mobile-top-bar"></div>
+  <div id="mobile-top-tabs"></div>
+  <div id="header-placeholder"></div>
+
+  <main class="page-content">
+    <div class="container" id="mainContainer">
+      <div class="ci-loading" style="margin-top:40px;">
+        <i class="fas fa-spinner fa-spin"></i>
+        <p>جاري التحقق...</p>
+      </div>
+    </div>
+  </main>
+
+  <div id="mobile-bottom-tabs"></div>
+  <div id="mobile-copyright"></div>
+  <div id="footer-placeholder"></div>
+  <div id="sidebar-placeholder"></div>
+  <div id="toast-container"></div>
+  <div id="modalContainer"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="/gomla/assets/js/firebase-config.js"></script>
+  <script src="/gomla/assets/js/main.js"></script>
+
+  <script>
+  // ============================================================
+  // cashier/inventory.html v1.1
+  // ✅ يقبل cashier + super/admin_plus
+  // ✅ Branch picker للأدمن (أو ?branchId=XXX)
+  // ============================================================
+
+  const ciState = {
+    userType: '',
+    userRole: '',
+    userId: '',
+    userName: '',
+    isAdmin: false,
+    branchId: '',
+    branchName: '',
+    branchData: null,
+    whBranch: null,
+    products: [], categories: [], brands: [],
+    invMap: {}, whAvailMap: {},
+    merged: [], filtered: [], alertItems: [], inTransit: [],
+    currentTab: 'all',
+    searchDebounce: null,
+    loading: false, alertExpanded: false,
+    receiptTarget: null, receiptItems: [],
+    _transferReqItems: []
+  };
+
+  const STATUS_META = {
+    available: { label: 'متاح', icon: 'check-circle', cls: 'status-available' },
+    low:       { label: 'منخفض', icon: 'exclamation-triangle', cls: 'status-low' },
+    out:       { label: 'نافد', icon: 'times-circle', cls: 'status-out' }
+  };
+
+  // ============================================================
+  // Init — Route Guard
+  // ============================================================
+  document.addEventListener('DOMContentLoaded', async () => {
+    const user = getCurrentUser();
+    if (!user) { window.location.href = '/gomla/cashier/login.html'; return; }
+
+    // Accept: cashier OR admin (super/admin_plus)
+    const isCashier = user.type === 'cashier';
+    const isAdminSuperPlus = user.type === 'admin' && ['super', 'admin_plus'].includes(user.data.role);
+
+    if (!isCashier && !isAdminSuperPlus) {
+      if (user.type === 'admin') {
+        // admin عادي → يرجع للوحة الأدمن
+        window.location.href = '/gomla/admin/dashboard.html';
+      } else {
+        window.location.href = '/gomla/';
+      }
+      return;
+    }
+
+    ciState.userType = user.type;
+    ciState.userRole = user.data.role || '';
+    ciState.userId = user.data.id || user.data.uid || '';
+    ciState.userName = user.data.name || '';
+    ciState.isAdmin = isAdminSuperPlus;
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeAllModals();
+    });
+
+    // ===== Determine branchId =====
+    if (isCashier) {
+      // Cashier: from user record
+      if (!user.data.branchId) {
+        renderNoBranchError();
+        return;
+      }
+      ciState.branchId = user.data.branchId;
+      ciState.branchName = user.data.branchName || user.data.branchId;
+      await initPage();
+    } else {
+      // Admin super/plus: from URL param OR show picker
+      const urlBranchId = new URLSearchParams(window.location.search).get('branchId');
+      if (urlBranchId) {
+        ciState.branchId = urlBranchId;
+        await initPage();
+      } else {
+        await renderBranchPicker();
+      }
+    }
+  });
+
+  // ============================================================
+  // 🆕 No Branch Error (cashier بدون فرع)
+  // ============================================================
+  function renderNoBranchError() {
+    document.getElementById('mainContainer').innerHTML = `
+      <div style="min-height:60vh;display:flex;align-items:center;justify-content:center;padding:20px;">
+        <div style="background:white;padding:40px;border-radius:16px;text-align:center;max-width:500px;box-shadow:0 10px 40px rgba(0,0,0,.1);border:2px solid #fee2e2;">
+          <i class="fas fa-exclamation-triangle" style="font-size:3rem;color:#dc2626;margin-bottom:16px;display:block;"></i>
+          <h2 style="color:#1a2a4a;margin-bottom:12px;font-weight:900;">لم يتم تعيينك لفرع</h2>
+          <p style="color:#6b7280;margin-bottom:20px;line-height:1.7;">تواصل مع المسؤول لتعيينك في فرع قبل الوصول لهذه الصفحة.</p>
+          <a href="/gomla/cashier/home.html" style="display:inline-block;padding:12px 24px;background:#c9a84c;color:white;text-decoration:none;border-radius:8px;font-weight:800;">
+            <i class="fas fa-arrow-right"></i> العودة للوحة الكاشير
+          </a>
+        </div>
+      </div>`;
+  }
+
+  // ============================================================
+  // 🆕 Branch Picker (super/admin_plus بدون ?branchId)
+  // ============================================================
+  async function renderBranchPicker() {
+    try {
+      const snap = await db.collection('branches').where('active', '==', true).get();
+      const branches = [];
+      snap.forEach(doc => branches.push({ id: doc.id, ...doc.data() }));
+      // فقط الفروع (بدون WH)
+      const storeBranches = branches.filter(b => !b.isWarehouse);
+      storeBranches.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ar'));
+
+      if (storeBranches.length === 0) {
+        document.getElementById('mainContainer').innerHTML = `
+          <div class="ci-empty" style="margin-top:40px;">
+            <div class="empty-icon"><i class="fas fa-store-slash"></i></div>
+            <h3>لا توجد فروع نشطة</h3>
+            <p>أنشئ فرعاً أولاً من صفحة إدارة الفروع.</p>
+          </div>`;
+        return;
+      }
+
+      const cardsHtml = storeBranches.map(b => `
+        <div class="ci-picker-card" onclick="selectBranch('${b.id}')">
+          <div class="ci-picker-card-icon"><i class="fas fa-store"></i></div>
+          <div class="ci-picker-card-name">${esc(b.name || b.id)}</div>
+          <div class="ci-picker-card-type">${b.type === 'retail' ? 'قطاعي' : b.type === 'wholesale' ? 'جملة' : 'فرع'}</div>
+          ${b.address ? `<div class="ci-picker-card-meta"><i class="fas fa-map-marker-alt"></i> ${esc(b.address)}</div>` : ''}
+          ${b.managerName ? `<div class="ci-picker-card-meta"><i class="fas fa-user-tie"></i> ${esc(b.managerName)}</div>` : ''}
+        </div>`).join('');
+
+      document.getElementById('mainContainer').innerHTML = `
+        <div class="ci-picker-container" style="margin-top:20px;">
+          <div style="font-size:2.5rem;color:var(--gold);margin-bottom:12px;"><i class="fas fa-store-alt"></i></div>
+          <h2 class="ci-picker-title">اختر الفرع</h2>
+          <p class="ci-picker-subtitle">أنت داخل بوضع الكاشير — اختر الفرع اللي عاوز تديره</p>
+          <div class="ci-picker-grid">${cardsHtml}</div>
+          <div style="margin-top:24px;">
+            <a href="/gomla/admin/branch-inventory.html" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;background:var(--gray-100);color:var(--navy);text-decoration:none;border-radius:8px;font-weight:800;font-size:0.85rem;">
+              <i class="fas fa-arrow-right"></i> العودة لإدارة الفروع
+            </a>
+          </div>
+        </div>`;
+    } catch (err) {
+      console.error('renderBranchPicker:', err);
+      document.getElementById('mainContainer').innerHTML = `
+        <div class="ci-empty" style="margin-top:40px;">
+          <div class="empty-icon"><i class="fas fa-exclamation-triangle"></i></div>
+          <h3>فشل تحميل الفروع</h3>
+          <p>${esc(err.message)}</p>
+        </div>`;
+    }
+  }
+
+  // ============================================================
+  // 🆕 Select Branch (from picker)
+  // ============================================================
+  function selectBranch(branchId) {
+    // Redirect with URL param (bookmarkable + reload-safe)
+    window.location.href = `/gomla/cashier/inventory.html?branchId=${branchId}`;
+  }
+
+  // ============================================================
+  // Init Page (after branchId known)
+  // ============================================================
+  async function initPage() {
+    // Render page skeleton
+    renderPageSkeleton();
+
+    // Load branch info
+    await loadBranchInfo();
+
+    // If branchId not valid
+    if (!ciState.branchData) {
+      document.getElementById('mainContainer').innerHTML = `
+        <div class="ci-empty" style="margin-top:40px;">
+          <div class="empty-icon"><i class="fas fa-exclamation-triangle"></i></div>
+          <h3>الفرع غير موجود</h3>
+          <p>الفرع <strong>${esc(ciState.branchId)}</strong> غير موجود أو غير نشط.</p>
+          ${ciState.isAdmin ? `<a href="/gomla/admin/branch-inventory.html" style="display:inline-block;margin-top:16px;padding:10px 20px;background:var(--gold);color:var(--navy);text-decoration:none;border-radius:8px;font-weight:800;">العودة للأدمن</a>` : ''}
+        </div>`;
+      return;
+    }
+
+    if (ciState.branchData.isWarehouse) {
+      document.getElementById('mainContainer').innerHTML = `
+        <div class="ci-empty" style="margin-top:40px;">
+          <div class="empty-icon"><i class="fas fa-warehouse"></i></div>
+          <h3>المخزن المركزي ليس فرعاً</h3>
+          <p>صفحة الكاشير مخصصة للفروع فقط. للمخزن المركزي استخدم صفحة إدارة الفروع.</p>
+          <a href="/gomla/admin/branch-inventory.html?branchId=WH" style="display:inline-block;margin-top:16px;padding:10px 20px;background:var(--gold);color:var(--navy);text-decoration:none;border-radius:8px;font-weight:800;">فتح مخزون المخزن</a>
+        </div>`;
+      return;
+    }
+
+    await loadAll();
+    console.log('✅ cashier/inventory v1.1 ready — branch:', ciState.branchId, '— user:', ciState.userRole);
+  }
+
+  // ============================================================
+  // Render Page Skeleton
+  // ============================================================
+  function renderPageSkeleton() {
+    const roleLabel = ciState.userRole === 'super' ? 'سوبر أدمن' :
+                     ciState.userRole === 'admin_plus' ? 'أدمن بلص' :
+                     ciState.userRole === 'cashier' ? 'كاشير' : 'مستخدم';
+
+    const adminBadge = ciState.isAdmin
+      ? `<div class="ci-admin-badge"><i class="fas fa-user-shield"></i> ${roleLabel} — وضع الكاشير</div>`
+      : '';
+
+    const adminBackBtn = ciState.isAdmin
+      ? `<a href="/gomla/admin/branch-inventory.html?branchId=${ciState.branchId}" class="btn">
+           <i class="fas fa-arrow-right"></i> العودة للأدمن
+         </a>`
+      : '';
+
+    document.getElementById('mainContainer').innerHTML = `
+      <div class="ci-header">
+        <div class="ci-header-inner">
+          <div class="ci-header-left">
+            <div class="ci-header-icon"><i class="fas fa-store-alt"></i></div>
+            <div>
+              <h1 id="headerBranchName">مخزون الفرع</h1>
+              <p id="headerSubtitle">${esc(ciState.userName)} · إدارة مخزون الفرع</p>
+              ${adminBadge}
+            </div>
+          </div>
+          <div class="ci-header-actions">
+            ${adminBackBtn}
+            <button class="btn" onclick="loadAll()" id="refreshBtn">
+              <i class="fas fa-sync-alt"></i> تحديث
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div id="inTransitContainer"></div>
+      <div id="smartAlertContainer"></div>
+
+      <div class="ci-stats">
+        <div class="ci-stat active" onclick="switchTab('all', event)">
+          <div class="ci-stat-icon navy"><i class="fas fa-boxes"></i></div>
+          <div class="ci-stat-num navy" id="statTotal">0</div>
+          <div class="ci-stat-label">إجمالي المنتجات</div>
+        </div>
+        <div class="ci-stat" onclick="switchTab('available', event)">
+          <div class="ci-stat-icon green"><i class="fas fa-check-circle"></i></div>
+          <div class="ci-stat-num green" id="statAvailable">0</div>
+          <div class="ci-stat-label">متاح</div>
+        </div>
+        <div class="ci-stat" onclick="switchTab('low', event)">
+          <div class="ci-stat-icon gold"><i class="fas fa-exclamation-triangle"></i></div>
+          <div class="ci-stat-num gold" id="statLow">0</div>
+          <div class="ci-stat-label">منخفض</div>
+        </div>
+        <div class="ci-stat" onclick="switchTab('out', event)">
+          <div class="ci-stat-icon red"><i class="fas fa-times-circle"></i></div>
+          <div class="ci-stat-num red" id="statOut">0</div>
+          <div class="ci-stat-label">نافد</div>
+        </div>
+      </div>
+
+      <div class="ci-tabs">
+        <button class="ci-tab active" data-tab="all" onclick="switchTab('all')"><i class="fas fa-list"></i> الكل <span class="tab-count" id="tabCount-all">0</span></button>
+        <button class="ci-tab" data-tab="available" onclick="switchTab('available')"><i class="fas fa-check-circle"></i> متاح <span class="tab-count" id="tabCount-available">0</span></button>
+        <button class="ci-tab" data-tab="low" onclick="switchTab('low')"><i class="fas fa-exclamation-triangle"></i> منخفض <span class="tab-count" id="tabCount-low">0</span></button>
+        <button class="ci-tab" data-tab="out" onclick="switchTab('out')"><i class="fas fa-times-circle"></i> نافد <span class="tab-count" id="tabCount-out">0</span></button>
+      </div>
+
+      <div class="ci-filters">
+        <div class="ci-search">
+          <input type="text" id="ciSearch" placeholder="بحث بالاسم / الباركود / SKU..." oninput="onSearchInput()">
+          <i class="fas fa-search"></i>
+        </div>
+        <select id="ciCategory" onchange="applyFilters()"><option value="">كل التصنيفات</option></select>
+        <select id="ciBrand" onchange="applyFilters()"><option value="">كل البراندات</option></select>
+        <button class="btn-icon-only" onclick="resetFilters()" title="إعادة تعيين"><i class="fas fa-undo"></i></button>
+      </div>
+
+      <div class="ci-list" id="ciList">
+        <div class="ci-loading"><i class="fas fa-spinner fa-spin"></i><p>جاري تحميل المخزون...</p></div>
+      </div>`;
+  }
+
+  // ============================================================
+  // Load Branch Info
+  // ============================================================
+  async function loadBranchInfo() {
+    try {
+      const snap = await db.collection('branches').where('active', '==', true).get();
+      snap.forEach(doc => {
+        const b = { id: doc.id, ...doc.data() };
+        if (b.id === ciState.branchId) ciState.branchData = b;
+        if (b.isWarehouse) ciState.whBranch = b;
+      });
+      if (ciState.branchData) {
+        ciState.branchName = ciState.branchData.name || ciState.branchId;
+        const hn = document.getElementById('headerBranchName');
+        const hs = document.getElementById('headerSubtitle');
+        if (hn) hn.textContent = 'مخزون ' + ciState.branchName;
+        if (hs) hs.textContent = `${ciState.userName} · إدارة مخزون ${ciState.branchName}`;
+      }
+    } catch (err) {
+      console.warn('loadBranchInfo:', err);
+    }
+  }
+
+  // ============================================================
+  // Load All Data
+  // ============================================================
+  let _unsubTransfers = null;
+  async function loadAll() {
+    if (ciState.loading) return;
+    ciState.loading = true;
+
+    const btn = document.getElementById('refreshBtn');
+    if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> تحميل...'; }
+
+    const list = document.getElementById('ciList');
+    if (list) list.innerHTML = `<div class="ci-loading"><i class="fas fa-spinner fa-spin"></i><p>جاري التحميل...</p></div>`;
+
+    try {
+      const [pSnap, iSnap, cSnap, bSnap] = await Promise.all([
+        db.collection('products').where('available', '==', true).limit(800).get(),
+        db.collection('branch_inventory').where('branchId', '==', ciState.branchId).limit(1000).get(),
+        db.collection('categories').orderBy('name').get().catch(() => ({ forEach: () => {} })),
+        db.collection('brands').orderBy('name').get().catch(() => ({ forEach: () => {} }))
+      ]);
+
+      ciState.products = [];
+      ciState.whAvailMap = {};
+      pSnap.forEach(doc => {
+        const p = { id: doc.id, ...doc.data() };
+        ciState.products.push(p);
+        const ppu = p.piecesPerUnit || 1;
+        const total = (p.warehouseStock || 0) * ppu + (p.warehousePieces || 0);
+        const reserved = p.reservedPieces || 0;
+        ciState.whAvailMap[p.id] = Math.max(0, total - reserved);
+      });
+      ciState.products.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ar'));
+
+      ciState.invMap = {};
+      iSnap.forEach(doc => {
+        const d = doc.data();
+        ciState.invMap[d.productId] = d;
+      });
+
+      ciState.categories = [];
+      cSnap.forEach(doc => ciState.categories.push({ id: doc.id, ...doc.data() }));
+      ciState.categories.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ar'));
+
+      ciState.brands = [];
+      bSnap.forEach(doc => ciState.brands.push({ id: doc.id, ...doc.data() }));
+      ciState.brands.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ar'));
+
+      populateCategoryFilter();
+      populateBrandFilter();
+      rebuildMerged();
+      updateStats();
+      updateTabsCounts();
+      renderSmartAlert();
+      applyFilters();
+
+      // In-transit
+      if (_unsubTransfers) _unsubTransfers();
+      _unsubTransfers = db.collection('transfers')
+        .where('toBranchId', '==', ciState.branchId)
+        .where('status', '==', 'in_transit')
+        .onSnapshot(snap => {
+          ciState.inTransit = [];
+          snap.forEach(doc => ciState.inTransit.push({ id: doc.id, ...doc.data() }));
+          ciState.inTransit.sort((a, b) => {
+            const aT = a.createdAt?.toMillis?.() || 0;
+            const bT = b.createdAt?.toMillis?.() || 0;
+            return bT - aT;
+          });
+          renderInTransitSection();
+        }, err => console.warn('in_transit stream:', err));
+
+      ciState.loading = false;
+      if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-sync-alt"></i> تحديث'; }
+
+    } catch (err) {
+      ciState.loading = false;
+      if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-sync-alt"></i> تحديث'; }
+      console.error('loadAll:', err);
+      if (list) list.innerHTML = `
+        <div class="ci-empty">
+          <div class="empty-icon"><i class="fas fa-exclamation-triangle"></i></div>
+          <h3>فشل التحميل</h3>
+          <p>${err.code === 'permission-denied' ? 'ليس لديك صلاحية' : 'خطأ: ' + err.message}</p>
+        </div>`;
+    }
+  }
+
+  // ============================================================
+  // Rebuild Merged
+  // ============================================================
+  function rebuildMerged() {
+    ciState.merged = [];
+    ciState.alertItems = [];
+
+    ciState.products.forEach(p => {
+      const inv = ciState.invMap[p.id];
+      const exists = !!inv;
+      const pieces = inv?.piecesQty || 0;
+      const reserved = inv?.reservedQty || 0;
+      const available = inv?.availableQty != null ? inv.availableQty : Math.max(0, pieces - reserved);
+      const minAlert = inv?.minAlert || 10;
+      const whAvail = ciState.whAvailMap[p.id] || 0;
+
+      let status;
+      if (!exists && whAvail <= 0) return;
+      if (!exists) status = 'out';
+      else if (available <= 0) status = 'out';
+      else if (available < minAlert) status = 'low';
+      else status = 'available';
+
+      ciState.merged.push({ product: p, pieces, reserved, available, minAlert, exists, whAvail, status });
+
+      if (whAvail > 0 && status !== 'available') {
+        ciState.alertItems.push({
+          product: p,
+          reason: !exists ? 'missing' : (available === 0 ? 'out' : 'low'),
+          reasonText: !exists ? 'لم يصل للفرع' : (available === 0 ? 'خلص من الفرع' : 'أقل من العتبة'),
+          currentAtDest: available,
+          availableAtSource: whAvail,
+          suggestedQty: !exists || available === 0 ? Math.max(minAlert, 10) : Math.max(minAlert - available, 1)
+        });
+      }
+    });
+  }
+
+  // ============================================================
+  // In-Transit Section
+  // ============================================================
+  function renderInTransitSection() {
+    const container = document.getElementById('inTransitContainer');
+    if (!container) return;
+    if (ciState.inTransit.length === 0) { container.innerHTML = ''; return; }
+
+    const cardsHtml = ciState.inTransit.map(tr => {
+      const ageMs = tr.createdAt ? (Date.now() - toMs(tr.createdAt)) : 0;
+      const ageHours = Math.round(ageMs / (1000 * 60 * 60));
+      const isLate = ageHours >= 24;
+
+      const itemsChips = (tr.items || []).slice(0, 5).map(i =>
+        `<span class="ci-transit-item-chip"><i class="fas fa-box"></i> ${esc(i.productName || '')} <strong>×${i.approvedPieces || 0}</strong></span>`
+      ).join('');
+      const moreChips = (tr.items || []).length > 5 ? `<span class="ci-transit-item-chip"><i class="fas fa-plus"></i> ${(tr.items || []).length - 5} أكثر</span>` : '';
+
+      return `
+        <div class="ci-transit-card">
+          <div class="ci-transit-card-head">
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+              <span class="ci-transit-num">#${tr.id.slice(-8).toUpperCase()}</span>
+              ${tr.isDirectTransfer ? `<span style="background:#ede9fe;color:#6d28d9;padding:2px 8px;border-radius:12px;font-size:0.65rem;font-weight:900;">مباشر</span>` : ''}
+              ${isLate ? `<span class="ci-late-badge"><i class="fas fa-exclamation-triangle"></i> متأخرة ${ageHours} ساعة</span>` : ''}
+            </div>
+          </div>
+          <div class="ci-transit-route">
+            <i class="fas fa-warehouse"></i>
+            <span>من: <strong>${esc(tr.fromBranchName || tr.fromBranchId)}</strong></span>
+            <i class="fas fa-arrow-left" style="margin-right:auto;"></i>
+            <span>إلى: <strong>${esc(tr.toBranchName || tr.toBranchId)}</strong></span>
+          </div>
+          <div class="ci-transit-items">${itemsChips}${moreChips}</div>
+          <div style="font-size:0.78rem;color:#7c2d12;margin-bottom:10px;">
+            <i class="fas fa-cubes"></i> إجمالي: <strong>${tr.totalApprovedPieces || 0} قطعة</strong>
+            <span style="margin-right:12px;"><i class="fas fa-clock"></i> ${tr.createdAt ? formatDateTime(tr.createdAt) : '—'}</span>
+          </div>
+          <div class="ci-transit-actions">
+            <button class="ci-transit-btn receive" onclick="openReceiveModal('${tr.id}')"><i class="fas fa-check-double"></i> تأكيد الاستلام</button>
+            <button class="ci-transit-btn print" onclick="printTransferReceipt('${tr.id}')"><i class="fas fa-print"></i> طباعة إذن</button>
+            <button class="ci-transit-btn details" onclick="openTransitDetails('${tr.id}')"><i class="fas fa-eye"></i> تفاصيل</button>
+          </div>
+        </div>`;
+    }).join('');
+
+    container.innerHTML = `
+      <div class="ci-transit-section">
+        <div class="ci-transit-head">
+          <div class="ci-transit-title">
+            <div class="icon-badge"><i class="fas fa-truck"></i></div>
+            <div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span>بضاعة في الطريق إليك</span>
+                <span class="ci-transit-count">${ciState.inTransit.length}</span>
+              </div>
+              <div class="ci-transit-subtitle">اضغط "تأكيد الاستلام" بعد وصول البضاعة فعلياً</div>
+            </div>
+          </div>
+        </div>
+        <div class="ci-transit-list">${cardsHtml}</div>
+      </div>`;
+  }
+
+  // ============================================================
+  // Receive Modal
+  // ============================================================
+  function openReceiveModal(trId) {
+    const tr = ciState.inTransit.find(t => t.id === trId);
+    if (!tr) return;
+
+    ciState.receiptTarget = tr;
+    ciState.receiptItems = (tr.items || []).map(i => ({
+      productId: i.productId, productName: i.productName, productImage: i.productImage,
+      unit: i.unit || 'قطعة', piecesPerUnit: i.piecesPerUnit || 1,
+      approvedPieces: i.approvedPieces || 0,
+      receivedPieces: i.approvedPieces || 0,
+      damagedPieces: 0, notes: ''
+    }));
+
+    renderReceiveModal();
+  }
+
+  function renderReceiveModal() {
+    const tr = ciState.receiptTarget;
+    if (!tr) return;
+
+    const itemsHtml = ciState.receiptItems.map((it, idx) => {
+      const accounted = (it.receivedPieces || 0) + (it.damagedPieces || 0);
+      const over = accounted > it.approvedPieces;
+      const changed = it.receivedPieces !== it.approvedPieces || it.damagedPieces > 0;
+      return `
+        <div class="receipt-item-row ${changed ? 'changed' : ''}">
+          <img src="${it.productImage || '/gomla/assets/images/no-image.png'}" onerror="this.src='/gomla/assets/images/no-image.png'">
+          <div class="receipt-item-info">
+            <div class="receipt-item-name">${esc(it.productName)}</div>
+            <div class="receipt-item-meta">معتمد: <strong>${it.approvedPieces}</strong> ${esc(it.unit)} · ${it.piecesPerUnit} قطعة/وحدة</div>
+          </div>
+          <div class="receipt-qty-box">
+            <label>✅ مستلم</label>
+            <input type="number" min="0" max="${it.approvedPieces}" value="${it.receivedPieces}" class="${over ? 'error' : ''}" onchange="onReceiptReceivedChange(${idx}, this.value)">
+          </div>
+          <div class="receipt-qty-box">
+            <label>⚠️ تالف</label>
+            <input type="number" min="0" max="${it.approvedPieces}" value="${it.damagedPieces}" class="${over ? 'error' : ''}" onchange="onReceiptDamagedChange(${idx}, this.value)">
+          </div>
+        </div>`;
+    }).join('');
+
+    const totalApproved = ciState.receiptItems.reduce((s, i) => s + i.approvedPieces, 0);
+    const totalReceived = ciState.receiptItems.reduce((s, i) => s + (i.receivedPieces || 0), 0);
+    const totalDamaged = ciState.receiptItems.reduce((s, i) => s + (i.damagedPieces || 0), 0);
+    const totalMissing = Math.max(0, totalApproved - totalReceived - totalDamaged);
+    const hasError = ciState.receiptItems.some(i => (i.receivedPieces + i.damagedPieces) > i.approvedPieces);
+
+    let statusLabel, statusCls;
+    if (totalReceived === 0 && totalDamaged === 0) { statusLabel = '⚠️ رفض كامل — سيتم رفض الشحنة'; statusCls = 'red'; }
+    else if (totalMissing === 0) { statusLabel = '✅ استلام كامل' + (totalDamaged > 0 ? ` (مع ${totalDamaged} تالف)` : ''); statusCls = 'green'; }
+    else { statusLabel = `⚠️ استلام جزئي — ناقص ${totalMissing} قطعة`; statusCls = 'orange'; }
+
+    const roleLabel = ciState.userRole === 'super' ? 'سوبر أدمن' : ciState.userRole === 'admin_plus' ? 'أدمن بلص' : 'كاشير';
+
+    const html = `
+      <div class="modal-overlay show" id="receiveModal" onclick="closeModal('receiveModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+          <div class="modal-header green">
+            <h2><i class="fas fa-check-double"></i> تأكيد استلام الشحنة</h2>
+            <button class="modal-close" onclick="closeModal('receiveModal')">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="info-box blue">
+              <i class="fas fa-info-circle"></i>
+              <div>
+                <div style="font-weight:900;margin-bottom:4px;">الشحنة #${tr.id.slice(-8).toUpperCase()}</div>
+                <div>من: <strong>${esc(tr.fromBranchName || tr.fromBranchId)}</strong> → إلى: <strong>${esc(tr.toBranchName || tr.toBranchId)}</strong></div>
+              </div>
+            </div>
+            ${ciState.isAdmin ? `
+              <div class="info-box yellow">
+                <i class="fas fa-user-shield"></i>
+                <div><strong>أنت تستلم بصفتك:</strong> ${roleLabel}<div style="font-size:0.72rem;opacity:0.85;margin-top:2px;">سيُسجّل دورك في سجل الشحنة.</div></div>
+              </div>
+            ` : ''}
+            ${hasError ? `<div class="info-box red"><i class="fas fa-exclamation-triangle"></i><div><strong>خطأ:</strong> مجموع (مستلم + تالف) يتجاوز المعتمد لبعض المنتجات.</div></div>` : ''}
+            <h4 style="font-size:0.9rem;font-weight:900;color:var(--navy);margin-bottom:10px;"><i class="fas fa-boxes" style="color:var(--gold);"></i> المنتجات</h4>
+            <div id="receiptItemsList">${itemsHtml}</div>
+            <div class="receipt-summary-box">
+              <div class="receipt-summary-row"><span>إجمالي معتمد</span><strong>${totalApproved} قطعة</strong></div>
+              <div class="receipt-summary-row"><span>✅ مستلم</span><span class="val green">${totalReceived} قطعة</span></div>
+              ${totalDamaged > 0 ? `<div class="receipt-summary-row"><span>⚠️ تالف</span><span class="val orange">${totalDamaged} قطعة</span></div>` : ''}
+              ${totalMissing > 0 ? `<div class="receipt-summary-row"><span>❌ ناقص</span><span class="val red">${totalMissing} قطعة</span></div>` : ''}
+              <div class="receipt-summary-row total"><span>الحالة</span><span style="color:${statusCls === 'green' ? '#16a34a' : statusCls === 'orange' ? '#d97706' : '#dc2626'};">${statusLabel}</span></div>
+            </div>
+            <div style="margin-top:14px;">
+              <label style="display:block;font-weight:800;font-size:0.85rem;margin-bottom:6px;">ملاحظات (اختياري)</label>
+              <textarea id="receiptNotes" maxlength="400" placeholder="أي ملاحظات..." style="width:100%;padding:10px 12px;border:2px solid var(--gray-200);border-radius:6px;font-family:inherit;font-size:0.88rem;min-height:60px;resize:vertical;"></textarea>
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button class="btn btn-outline" onclick="closeModal('receiveModal')">إلغاء</button>
+            <button class="btn btn-success" id="confirmReceiveBtn" onclick="confirmReceipt()" ${hasError ? 'disabled' : ''}>
+              <i class="fas fa-check"></i> تأكيد الاستلام
+            </button>
+          </div>
+        </div>
+      </div>`;
+    document.getElementById('modalContainer').innerHTML = html;
+    document.body.style.overflow = 'hidden';
+  }
+
+  function onReceiptReceivedChange(idx, val) {
+    const it = ciState.receiptItems[idx]; if (!it) return;
+    let q = parseInt(val) || 0;
+    if (q < 0) q = 0;
+    if (q > it.approvedPieces) q = it.approvedPieces;
+    it.receivedPieces = q;
+    if (it.receivedPieces + it.damagedPieces > it.approvedPieces) it.damagedPieces = Math.max(0, it.approvedPieces - it.receivedPieces);
+    renderReceiveModal();
+  }
+  function onReceiptDamagedChange(idx, val) {
+    const it = ciState.receiptItems[idx]; if (!it) return;
+    let q = parseInt(val) || 0;
+    if (q < 0) q = 0;
+    if (q > it.approvedPieces) q = it.approvedPieces;
+    it.damagedPieces = q;
+    if (it.receivedPieces + it.damagedPieces > it.approvedPieces) it.receivedPieces = Math.max(0, it.approvedPieces - it.damagedPieces);
+    renderReceiveModal();
+  }
+
+  // ============================================================
+  // Confirm Receipt
+  // ============================================================
+  async function confirmReceipt() {
+    const tr = ciState.receiptTarget; if (!tr) return;
+    const notes = (document.getElementById('receiptNotes')?.value || '').trim();
+    const totalReceived = ciState.receiptItems.reduce((s, i) => s + (i.receivedPieces || 0), 0);
+    const totalDamaged = ciState.receiptItems.reduce((s, i) => s + (i.damagedPieces || 0), 0);
+    const totalApproved = ciState.receiptItems.reduce((s, i) => s + i.approvedPieces, 0);
+
+    if (totalReceived === 0 && totalDamaged === 0) {
+      if (!confirm('⚠️ أنت ترفض الشحنة بالكامل. سيتم إرجاع الكميات للمصدر. تأكيد؟')) return;
+    } else if (totalReceived + totalDamaged < totalApproved) {
+      if (!confirm(`⚠️ استلام جزئي: ناقص ${totalApproved - totalReceived - totalDamaged} قطعة. تأكيد؟`)) return;
+    }
+
+    const btn = document.getElementById('confirmReceiveBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري المعالجة...';
+
+    try {
+      const trRef = db.collection('transfers').doc(tr.id);
+      const now = firebase.firestore.FieldValue.serverTimestamp();
+
+      await db.runTransaction(async (t) => {
+        // ===== PHASE 1: ALL READS =====
+        const trDoc = await t.get(trRef);
+        if (!trDoc.exists) throw new Error('الشحنة غير موجودة');
+        const trData = trDoc.data();
+        if (trData.status !== 'in_transit') throw new Error('الشحنة لم تعد في حالة "في الطريق"');
+        if (trData.toBranchId !== ciState.branchId) throw new Error('الشحنة ليست لفرعك');
+
+        const invDocs = {};
+        for (const item of ciState.receiptItems) {
+          if (item.receivedPieces > 0) {
+            const invRef = db.collection('branch_inventory').doc(`${ciState.branchId}_${item.productId}`);
+            const invDoc = await t.get(invRef);
+            invDocs[item.productId] = { ref: invRef, exists: invDoc.exists, data: invDoc.data() };
+          }
+        }
+
+        let productSnapshots = [];
+        if (totalReceived === 0 && totalDamaged === 0) {
+          for (const item of trData.items || []) {
+            const pRef = db.collection('products').doc(item.productId);
+            const pDoc = await t.get(pRef);
+            if (pDoc.exists) productSnapshots.push({ ref: pRef, data: pDoc.data(), item });
+          }
+        }
+
+        // ===== PHASE 2: ALL WRITES =====
+        for (const item of ciState.receiptItems) {
+          if (item.receivedPieces <= 0) continue;
+          const inv = invDocs[item.productId]; if (!inv) continue;
+          if (inv.exists) {
+            t.update(inv.ref, {
+              piecesQty: firebase.firestore.FieldValue.increment(item.receivedPieces),
+              availableQty: firebase.firestore.FieldValue.increment(item.receivedPieces),
+              lastUpdated: now, updatedBy: ciState.userId
+            });
+          } else {
+            t.set(inv.ref, {
+              branchId: ciState.branchId, productId: item.productId,
+              piecesQty: item.receivedPieces, reservedQty: 0, availableQty: item.receivedPieces,
+              minAlert: 10, productName: item.productName, productImage: item.productImage,
+              unit: item.unit, piecesPerUnit: item.piecesPerUnit,
+              lastUpdated: now, updatedBy: ciState.userId
+            });
+          }
+        }
+
+        for (const item of ciState.receiptItems) {
+          if (item.damagedPieces <= 0) continue;
+          const dmgRef = db.collection('damages').doc();
+          t.set(dmgRef, {
+            id: dmgRef.id, productId: item.productId, productName: item.productName,
+            productImage: item.productImage, branchId: ciState.branchId,
+            branchName: ciState.branchName, piecesQty: item.damagedPieces,
+            unit: item.unit, piecesPerUnit: item.piecesPerUnit,
+            source: 'transfer', sourceId: tr.id, reason: 'damaged_during_transfer',
+            status: 'pending_review',
+            reportedBy: ciState.userId, reportedByName: ciState.userName,
+            reportedByRole: ciState.userRole, reportedAt: now, createdAt: now
+          });
+        }
+
+        let finalStatus;
+        if (totalReceived === 0 && totalDamaged === 0) finalStatus = 'rejected_at_destination';
+        else if (totalReceived + totalDamaged >= totalApproved) finalStatus = 'completed';
+        else finalStatus = 'partially_received';
+
+        const updatedItems = (trData.items || []).map(origItem => {
+          const r = ciState.receiptItems.find(x => x.productId === origItem.productId);
+          return { ...origItem, receivedPieces: r?.receivedPieces || 0, damagedPieces: r?.damagedPieces || 0 };
+        });
+
+        t.update(trRef, {
+          status: finalStatus, items: updatedItems,
+          totalReceivedPieces: totalReceived, totalDamagedPieces: totalDamaged,
+          receivedBy: ciState.userId, receivedByName: ciState.userName,
+          receivedByRole: ciState.userRole, receivedAt: now,
+          receiptNotes: notes, updatedAt: now
+        });
+
+        if (trData.requestId) {
+          t.update(db.collection('transfer_requests').doc(trData.requestId), {
+            status: 'completed', completedAt: now,
+            completedBy: ciState.userId, completedByName: ciState.userName,
+            updatedAt: now
+          });
+        }
+
+        if (finalStatus === 'rejected_at_destination') {
+          for (const ps of productSnapshots) {
+            const p = ps.data; const ppu = p.piecesPerUnit || 1;
+            const curTotal = (p.warehouseStock || 0) * ppu + (p.warehousePieces || 0);
+            const newTotal = curTotal + (ps.item.approvedPieces || 0);
+            t.update(ps.ref, {
+              warehouseStock: Math.floor(newTotal / ppu),
+              warehousePieces: newTotal % ppu, updatedAt: now
+            });
+          }
+        }
+
+        t.set(db.collection('admin_notifications').doc(), {
+          userId: 'transfer_received',
+          title: `✅ استلام بضاعة — ${ciState.branchName}`,
+          body: `${ciState.userName} (${ciState.userRole}) استلم ${totalReceived} قطعة${totalDamaged > 0 ? ` +${totalDamaged} تالف` : ''}`,
+          type: 'transfer_received', transferId: tr.id,
+          receivedByRole: ciState.userRole, read: false, createdAt: now
+        });
+      });
+
+      const statusMsg = totalReceived === 0 ? 'تم رفض الشحنة' : 'تم تأكيد الاستلام';
+      window.showToast(`✅ ${statusMsg} بنجاح`, 'success');
+      closeModal('receiveModal');
+      ciState.receiptTarget = null;
+      ciState.receiptItems = [];
+
+      if (confirm('هل تريد طباعة إذن الاستلام الآن؟')) {
+        setTimeout(() => printTransferReceipt(tr.id), 500);
+      }
+    } catch (err) {
+      console.error('confirmReceipt:', err);
+      window.showToast('❌ ' + err.message, 'error');
+      btn.disabled = false; btn.innerHTML = '<i class="fas fa-check"></i> تأكيد الاستلام';
+    }
+  }
+
+  // ============================================================
+  // Transit Details
+  // ============================================================
+  function openTransitDetails(trId) {
+    const tr = ciState.inTransit.find(t => t.id === trId);
+    if (!tr) return;
+    const itemsHtml = (tr.items || []).map(i => `
+      <div style="display:flex;align-items:center;gap:12px;padding:10px;border:1px solid var(--gray-200);border-radius:8px;margin-bottom:8px;background:white;">
+        <img src="${i.productImage || '/gomla/assets/images/no-image.png'}" style="width:48px;height:48px;border-radius:6px;object-fit:cover;" onerror="this.src='/gomla/assets/images/no-image.png'">
+        <div style="flex:1;min-width:0;"><div style="font-size:0.88rem;font-weight:800;color:var(--navy);">${esc(i.productName || '')}</div><div style="font-size:0.72rem;color:var(--gray-500);">${esc(i.unit || 'قطعة')} · ${i.piecesPerUnit || 1} قطعة/وحدة</div></div>
+        <div style="text-align:center;"><div style="font-size:0.6rem;color:var(--gray-500);">معتمد</div><div style="font-weight:900;color:#d97706;font-size:1rem;">${i.approvedPieces || 0}</div></div>
+      </div>`).join('');
+
+    const html = `
+      <div class="modal-overlay show" id="transitDetailsModal" onclick="closeModal('transitDetailsModal')">
+        <div class="modal-content medium" onclick="event.stopPropagation()">
+          <div class="modal-header orange">
+            <h2><i class="fas fa-truck"></i> تفاصيل الشحنة #${tr.id.slice(-8).toUpperCase()}</h2>
+            <button class="modal-close" onclick="closeModal('transitDetailsModal')">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="info-box blue">
+              <i class="fas fa-route"></i>
+              <div>
+                <div style="font-weight:900;margin-bottom:4px;">المسار</div>
+                <div>من: <strong>${esc(tr.fromBranchName || tr.fromBranchId)}</strong></div>
+                <div>إلى: <strong>${esc(tr.toBranchName || tr.toBranchId)}</strong></div>
+                ${tr.isDirectTransfer ? `<div style="margin-top:6px;"><span style="background:#ede9fe;color:#6d28d9;padding:2px 8px;border-radius:12px;font-size:0.7rem;font-weight:900;">⚡ نقل مباشر</span></div>` : ''}
+              </div>
+            </div>
+            ${tr.approvedByName ? `<div class="info-box green"><i class="fas fa-user-check"></i><div><div style="font-weight:900;margin-bottom:4px;">اعتمد بواسطة</div><div>${esc(tr.approvedByName)}</div><div style="font-size:0.75rem;opacity:0.8;">${formatDateTime(tr.approvedAt)}</div></div></div>` : ''}
+            ${tr.notes ? `<div class="info-box yellow"><i class="fas fa-comment"></i><div><div style="font-weight:900;margin-bottom:4px;">ملاحظات</div><div>${esc(tr.notes)}</div></div></div>` : ''}
+            <h4 style="font-size:0.9rem;font-weight:900;color:var(--navy);margin-bottom:10px;"><i class="fas fa-boxes" style="color:var(--gold);"></i> المنتجات (${(tr.items || []).length})</h4>
+            ${itemsHtml}
+          </div>
+          <div class="modal-actions">
+            <button class="btn btn-outline" onclick="closeModal('transitDetailsModal')">إغلاق</button>
+            <button class="btn btn-gold" onclick="closeModal('transitDetailsModal'); printTransferReceipt('${tr.id}')"><i class="fas fa-print"></i> طباعة</button>
+            <button class="btn btn-success" onclick="closeModal('transitDetailsModal'); openReceiveModal('${tr.id}')"><i class="fas fa-check-double"></i> استلام</button>
+          </div>
+        </div>
+      </div>`;
+    document.getElementById('modalContainer').innerHTML = html;
+    document.body.style.overflow = 'hidden';
+  }
+
+  // ============================================================
+  // Print Receipt
+  // ============================================================
+  function printTransferReceipt(trId) {
+    const tr = ciState.inTransit.find(t => t.id === trId);
+    if (!tr) { window.showToast('لم يتم العثور على الشحنة', 'warning'); return; }
+    const itemsRows = (tr.items || []).map((i, idx) => `
+      <tr>
+        <td style="text-align:center;padding:10px 8px;border-bottom:1px solid #e5e7eb;">${idx + 1}</td>
+        <td style="padding:10px 8px;border-bottom:1px solid #e5e7eb;">${esc(i.productName || '')}</td>
+        <td style="text-align:center;padding:10px 8px;border-bottom:1px solid #e5e7eb;">${esc(i.unit || 'قطعة')}</td>
+        <td style="text-align:center;padding:10px 8px;border-bottom:1px solid #e5e7eb;font-weight:900;color:#c9a84c;">${i.approvedPieces || 0}</td>
+        <td style="text-align:center;padding:10px 8px;border-bottom:1px solid #e5e7eb;"></td>
+        <td style="text-align:center;padding:10px 8px;border-bottom:1px solid #e5e7eb;"></td>
+      </tr>`).join('');
+
+    const html = `
+      <div style="font-family:Tajawal,sans-serif;padding:24px;direction:rtl;max-width:800px;margin:0 auto;">
+        <div style="text-align:center;border-bottom:3px double #1a2a4a;padding-bottom:16px;margin-bottom:20px;">
+          <h1 style="margin:0;color:#1a2a4a;font-size:26px;">أولاد شعلان للمنظفات والورقيات</h1>
+          <p style="margin:6px 0 0;color:#6b7280;font-size:13px;">${window.PAYMENT_ACCOUNT} · ${window.SUPPORT_EMAIL}</p>
+          <h2 style="margin:14px 0 0;color:#c9a84c;font-size:20px;">إذن استلام بضاعة</h2>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:20px;font-size:14px;gap:20px;flex-wrap:wrap;">
+          <div>
+            <div style="margin-bottom:6px;"><strong>رقم الشحنة:</strong> <span style="font-family:monospace;">#${tr.id.slice(-8).toUpperCase()}</span></div>
+            <div style="margin-bottom:6px;"><strong>التاريخ:</strong> ${tr.createdAt ? formatDate(tr.createdAt) : '—'}</div>
+            ${tr.requestId ? `<div><strong>رقم الطلب:</strong> <span style="font-family:monospace;">#${tr.requestId.slice(-8).toUpperCase()}</span></div>` : ''}
+          </div>
+          <div style="text-align:left;">
+            <div style="margin-bottom:6px;"><strong>من:</strong> ${esc(tr.fromBranchName || '')}</div>
+            <div style="margin-bottom:6px;"><strong>إلى:</strong> ${esc(tr.toBranchName || '')}</div>
+            ${tr.approvedByName ? `<div><strong>اعتمد:</strong> ${esc(tr.approvedByName)}</div>` : ''}
+          </div>
+        </div>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin-bottom:20px;">
+          <thead><tr style="background:#f3f4f6;">
+            <th style="padding:10px 8px;border-bottom:2px solid #1a2a4a;text-align:center;width:40px;">#</th>
+            <th style="padding:10px 8px;border-bottom:2px solid #1a2a4a;text-align:right;">المنتج</th>
+            <th style="padding:10px 8px;border-bottom:2px solid #1a2a4a;text-align:center;">الوحدة</th>
+            <th style="padding:10px 8px;border-bottom:2px solid #1a2a4a;text-align:center;">الكمية</th>
+            <th style="padding:10px 8px;border-bottom:2px solid #1a2a4a;text-align:center;">الاستلام</th>
+            <th style="padding:10px 8px;border-bottom:2px solid #1a2a4a;text-align:center;">ملاحظات</th>
+          </tr></thead>
+          <tbody>${itemsRows}</tbody>
+          <tfoot><tr>
+            <td colspan="3" style="padding:12px 8px;text-align:left;font-weight:900;border-top:2px solid #1a2a4a;">إجمالي:</td>
+            <td style="padding:12px 8px;text-align:center;font-weight:900;font-size:16px;border-top:2px solid #1a2a4a;color:#c9a84c;">${tr.totalApprovedPieces || 0}</td>
+            <td style="border-top:2px solid #1a2a4a;"></td>
+            <td style="border-top:2px solid #1a2a4a;"></td>
+          </tr></tfoot>
+        </table>
+        ${tr.notes ? `<div style="background:#fef3c7;border:1px solid #fbbf24;padding:10px 14px;border-radius:8px;font-size:13px;color:#92400e;margin-bottom:20px;"><strong>ملاحظات:</strong> ${esc(tr.notes)}</div>` : ''}
+        <div style="margin-top:60px;display:grid;grid-template-columns:1fr 1fr;gap:40px;font-size:14px;">
+          <div style="text-align:center;"><div style="border-top:2px solid #1a2a4a;padding-top:12px;margin-top:60px;"><strong>توقيع المسلّم (المخزن)</strong><div style="margin-top:8px;font-size:12px;color:#6b7280;">التاريخ: ____/____/________</div></div></div>
+          <div style="text-align:center;"><div style="border-top:2px solid #1a2a4a;padding-top:12px;margin-top:60px;"><strong>توقيع المستلم</strong><div style="margin-top:8px;font-size:12px;color:#6b7280;">التاريخ: ____/____/________</div></div></div>
+        </div>
+        <div style="text-align:center;margin-top:30px;padding-top:16px;border-top:1px dashed #e5e7eb;font-size:11px;color:#9ca3af;">
+          هذا الإذن يُعد مستنداً رسمياً.<br>تمت الطباعة: ${new Date().toLocaleString('ar-EG')}
+        </div>
+      </div>`;
+    const w = window.open('', '_blank', 'width=900,height=700');
+    w.document.write(`<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="UTF-8"><title>إذن استلام — #${tr.id.slice(-8).toUpperCase()}</title><link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet"><style>body{font-family:Tajawal,sans-serif;margin:0;padding:20px}@media print{body{padding:0}@page{margin:15mm}}</style></head><body onload="window.print()">${html}</body></html>`);
+    w.document.close();
+    db.collection('transfers').doc(trId).update({
+      receiptPrintedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      receiptPrintedBy: ciState.userId
+    }).catch(() => {});
+  }
+
+  // ============================================================
+  // Smart Alert
+  // ============================================================
+  function renderSmartAlert() {
+    const container = document.getElementById('smartAlertContainer');
+    if (!container) return;
+    if (ciState.alertItems.length === 0) { container.innerHTML = ''; return; }
+    const items = ciState.alertItems;
+    const previewOpen = ciState.alertExpanded ? 'open' : '';
+    const listHtml = items.map(it => `
+      <div class="ci-alert-item">
+        <i class="fas fa-${it.reason === 'out' ? 'times-circle' : it.reason === 'low' ? 'exclamation-triangle' : 'question-circle'}" style="color:${it.reason === 'out' ? '#dc2626' : it.reason === 'low' ? '#d97706' : '#6b7280'};"></i>
+        <span style="flex:1;font-weight:800;">${esc(it.product.name || 'منتج')}</span>
+        <span style="font-size:0.72rem;color:var(--gray-600);">${it.reasonText} · متاح: <strong>${it.currentAtDest}</strong> · WH: <strong>${it.availableAtSource}</strong></span>
+      </div>`).join('');
+
+    container.innerHTML = `
+      <div class="ci-alert-banner">
+        <div class="ci-alert-head">
+          <div class="ci-alert-title">
+            <div class="alert-icon"><i class="fas fa-exclamation-triangle"></i></div>
+            <div>
+              <div><span class="ci-alert-count">${items.length}</span> منتج${items.length > 1 ? 'ات' : ''} محتاج${items.length > 1 ? 'ين' : ''} في ${esc(ciState.branchName)}</div>
+              <div style="font-size:0.72rem;opacity:0.8;font-weight:600;margin-top:2px;">موجودة في المخزن المركزي — اطلب نقلها</div>
+            </div>
+          </div>
+          <div class="ci-alert-actions">
+            <button class="btn-sm btn-show" onclick="toggleAlertPreview()">
+              <i class="fas fa-${ciState.alertExpanded ? 'chevron-up' : 'eye'}"></i> ${ciState.alertExpanded ? 'إخفاء' : 'اعرض الكل'}
+            </button>
+            <button class="btn-sm btn-request-all" onclick="openTransferRequest('all')"><i class="fas fa-paper-plane"></i> اطلب نقل للكل</button>
+          </div>
+        </div>
+        <div class="ci-alert-preview ${previewOpen}" id="alertPreview"><div class="ci-alert-list">${listHtml}</div></div>
+      </div>`;
+  }
+
+  function toggleAlertPreview() {
+    ciState.alertExpanded = !ciState.alertExpanded;
+    const p = document.getElementById('alertPreview');
+    if (p) p.classList.toggle('open', ciState.alertExpanded);
+    const btn = document.querySelector('.btn-show');
+    if (btn) btn.innerHTML = `<i class="fas fa-${ciState.alertExpanded ? 'chevron-up' : 'eye'}"></i> ${ciState.alertExpanded ? 'إخفاء' : 'اعرض الكل'}`;
+  }
+
+  // ============================================================
+  // Stats & Filters
+  // ============================================================
+  function updateStats() {
+    const all = ciState.merged;
+    setText('statTotal', all.length);
+    setText('statAvailable', all.filter(r => r.status === 'available').length);
+    setText('statLow', all.filter(r => r.status === 'low').length);
+    setText('statOut', all.filter(r => r.status === 'out').length);
+  }
+  function updateTabsCounts() {
+    const all = ciState.merged;
+    setText('tabCount-all', all.length);
+    setText('tabCount-available', all.filter(r => r.status === 'available').length);
+    setText('tabCount-low', all.filter(r => r.status === 'low').length);
+    setText('tabCount-out', all.filter(r => r.status === 'out').length);
+  }
+  function setText(id, val) { const el = document.getElementById(id); if (el) el.textContent = val; }
+
+  function switchTab(tab, event) {
+    if (event) event.preventDefault();
+    ciState.currentTab = tab;
+    document.querySelectorAll('.ci-tab').forEach(el => el.classList.toggle('active', el.dataset.tab === tab));
+    document.querySelectorAll('.ci-stat').forEach(el => el.classList.remove('active'));
+    applyFilters();
+  }
+
+  function populateCategoryFilter() {
+    const sel = document.getElementById('ciCategory'); if (!sel) return;
+    sel.innerHTML = '<option value="">كل التصنيفات</option>' + ciState.categories.map(c => `<option value="${c.id}">${esc(c.name || '')}</option>`).join('');
+  }
+  function populateBrandFilter() {
+    const sel = document.getElementById('ciBrand'); if (!sel) return;
+    sel.innerHTML = '<option value="">كل البراندات</option>' + ciState.brands.map(b => `<option value="${b.id}">${esc(b.name || '')}</option>`).join('');
+  }
+
+  function onSearchInput() {
+    if (ciState.searchDebounce) clearTimeout(ciState.searchDebounce);
+    ciState.searchDebounce = setTimeout(applyFilters, 300);
+  }
+
+  function applyFilters() {
+    let list = [...ciState.merged];
+    if (ciState.currentTab === 'available') list = list.filter(r => r.status === 'available');
+    else if (ciState.currentTab === 'low') list = list.filter(r => r.status === 'low');
+    else if (ciState.currentTab === 'out') list = list.filter(r => r.status === 'out');
+
+    const search = (document.getElementById('ciSearch')?.value || '').trim().toLowerCase();
+    if (search) {
+      list = list.filter(r => {
+        const p = r.product;
+        return (p.name || '').toLowerCase().includes(search) ||
+               (p.barcode || '').toLowerCase().includes(search) ||
+               (p.sku || '').toLowerCase().includes(search) ||
+               (p.keywords || '').toLowerCase().includes(search);
+      });
+    }
+    const cat = document.getElementById('ciCategory')?.value || '';
+    if (cat) list = list.filter(r => r.product.categoryId === cat);
+    const brand = document.getElementById('ciBrand')?.value || '';
+    if (brand) list = list.filter(r => r.product.brandId === brand);
+
+    ciState.filtered = list;
+    renderList();
+  }
+
+  function resetFilters() {
+    const s = document.getElementById('ciSearch'); if (s) s.value = '';
+    const c = document.getElementById('ciCategory'); if (c) c.value = '';
+    const b = document.getElementById('ciBrand'); if (b) b.value = '';
+    ciState.currentTab = 'all';
+    document.querySelectorAll('.ci-tab').forEach(el => el.classList.toggle('active', el.dataset.tab === 'all'));
+    applyFilters();
+  }
+
+  function renderList() {
+    const container = document.getElementById('ciList'); if (!container) return;
+    if (ciState.filtered.length === 0) {
+      container.innerHTML = `
+        <div class="ci-empty">
+          <div class="empty-icon"><i class="fas fa-box-open"></i></div>
+          <h3>لا توجد منتجات</h3>
+          <p>${ciState.merged.length === 0 ? 'الفرع لا يحتوي على منتجات بعد' : 'لا توجد نتائج مطابقة'}</p>
+        </div>`;
+      return;
+    }
+    container.innerHTML = ciState.filtered.map(r => renderCard(r)).join('');
+  }
+
+  function renderCard(r) {
+    const p = r.product;
+    const meta = STATUS_META[r.status];
+    let availCls = '';
+    if (r.available === 0) availCls = 'zero';
+    else if (r.available < r.minAlert) availCls = 'low';
+    const canRequest = r.whAvail > 0 && r.status !== 'available';
+
+    return `
+      <div class="ci-card ${meta.cls}">
+        <img class="ci-card-img" src="${p.imageUrl || '/gomla/assets/images/no-image.png'}" onerror="this.src='/gomla/assets/images/no-image.png'">
+        <div class="ci-card-info">
+          <div class="ci-card-name">${esc(p.name || 'منتج')}</div>
+          <div class="ci-card-meta">
+            ${p.barcode ? `<span><i class="fas fa-barcode"></i> ${esc(p.barcode)}</span>` : ''}
+            ${p.categoryName ? `<span><i class="fas fa-tag"></i> ${esc(p.categoryName)}</span>` : ''}
+            ${p.brandName ? `<span><i class="fas fa-copyright"></i> ${esc(p.brandName)}</span>` : ''}
+            <span><i class="fas fa-cubes"></i> ${p.piecesPerUnit || 1} / ${esc(p.unit || 'كرتونة')}</span>
+          </div>
+          <div class="ci-card-numbers">
+            <div class="ci-num-box"><div class="ci-num-lbl">الفعلي</div><div class="ci-num-val">${r.pieces}</div></div>
+            <div class="ci-num-box reserved"><div class="ci-num-lbl">محجوز</div><div class="ci-num-val">${r.reserved}</div></div>
+            <div class="ci-num-box available ${availCls}"><div class="ci-num-lbl">متاح</div><div class="ci-num-val">${r.available}</div></div>
+            <div class="ci-num-box wh"><div class="ci-num-lbl">WH متاح</div><div class="ci-num-val">${r.whAvail}</div></div>
+          </div>
+          <span class="ci-status-badge ${meta.cls}"><i class="fas fa-${meta.icon}"></i> ${meta.label}</span>
+        </div>
+        <div class="ci-card-actions">
+          <button class="ci-action-btn request" onclick="openTransferRequest('single', '${p.id}')" ${!canRequest ? 'disabled title="غير مطلوب أو لا يوجد مصدر"' : ''}><i class="fas fa-paper-plane"></i> طلب نقل</button>
+        </div>
+      </div>`;
+  }
+
+  // ============================================================
+  // Transfer Request
+  // ============================================================
+  function openTransferRequest(mode, productId) {
+    let sourceItems = [];
+    if (mode === 'all') {
+      sourceItems = ciState.alertItems.map(it => ({
+        product: it.product, reason: it.reason, reasonText: it.reasonText,
+        currentAtDest: it.currentAtDest, availableAtSource: it.availableAtSource,
+        suggestedQty: it.suggestedQty, checked: true
+      }));
+    } else {
+      const r = ciState.merged.find(x => x.product.id === productId);
+      if (!r) return;
+      if (r.whAvail <= 0) { window.showToast('لا يوجد مخزون في WH', 'warning'); return; }
+      const suggested = (r.status === 'out') ? Math.max(r.minAlert, 10) : Math.max(r.minAlert - r.available, 1);
+      sourceItems = [{
+        product: r.product, reason: r.status === 'low' ? 'low' : 'out',
+        reasonText: r.status === 'low' ? 'أقل من العتبة' : 'خلص من الفرع',
+        currentAtDest: r.available, availableAtSource: r.whAvail,
+        suggestedQty: suggested, checked: true
+      }];
+    }
+    if (sourceItems.length === 0) { window.showToast('لا توجد منتجات لطلب نقلها', 'warning'); return; }
+    ciState._transferReqItems = sourceItems;
+
+    const itemsHtml = sourceItems.map((it, idx) => `
+      <div class="tr-item-row" id="trq-item-${idx}" style="grid-template-columns:24px 48px 1fr 110px;">
+        <input type="checkbox" checked onchange="onTransferItemToggle(${idx}, this.checked)">
+        <img src="${it.product.imageUrl || '/gomla/assets/images/no-image.png'}" onerror="this.src='/gomla/assets/images/no-image.png'">
+        <div class="tr-item-info">
+          <div class="tr-item-name">${esc(it.product.name || '')}</div>
+          <div class="tr-item-meta">WH: <strong>${it.availableAtSource}</strong> · عندنا: <strong>${it.currentAtDest}</strong></div>
+        </div>
+        <div class="tr-item-qty">
+          <input type="number" min="1" max="${it.availableAtSource}" value="${it.suggestedQty}" onchange="onTransferQtyChange(${idx}, this.value)">
+        </div>
+      </div>`).join('');
+
+    const html = `
+      <div class="modal-overlay show" id="transferReqModal" onclick="closeModal('transferReqModal')">
+        <div class="modal-content medium" onclick="event.stopPropagation()">
+          <div class="modal-header blue">
+            <h2><i class="fas fa-paper-plane"></i> طلب نقل من المخزن المركزي</h2>
+            <button class="modal-close" onclick="closeModal('transferReqModal')">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="info-box blue">
+              <i class="fas fa-info-circle"></i>
+              <div>
+                <div><strong>من:</strong> ${esc(ciState.whBranch?.name || 'المخزن المركزي')}</div>
+                <div><strong>إلى:</strong> ${esc(ciState.branchName)}</div>
+              </div>
+            </div>
+            <h4 style="font-size:0.9rem;font-weight:900;color:var(--navy);margin-bottom:10px;"><i class="fas fa-boxes" style="color:var(--gold);"></i> المنتجات</h4>
+            <div id="trqItemsList">${itemsHtml}</div>
+            <div style="margin-top:12px;">
+              <label style="display:block;font-weight:800;font-size:0.85rem;margin-bottom:6px;">ملاحظات (اختياري)</label>
+              <textarea id="trqNotes" maxlength="300" placeholder="أي تفاصيل..." style="width:100%;padding:10px 12px;border:2px solid var(--gray-200);border-radius:6px;font-family:inherit;font-size:0.88rem;min-height:60px;resize:vertical;"></textarea>
+            </div>
+            <div style="background:#eff6ff;border:2px solid #93c5fd;border-radius:10px;padding:12px 16px;margin-top:12px;">
+              <div style="display:flex;justify-content:space-between;font-size:0.9rem;"><span><strong id="trqCount">${sourceItems.length}</strong> منتج</span><span>إجمالي: <strong id="trqTotal">${sourceItems.reduce((s, i) => s + i.suggestedQty, 0)}</strong> قطعة</span></div>
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button class="btn btn-outline" onclick="closeModal('transferReqModal')">إلغاء</button>
+            <button class="btn btn-primary" id="trqSubmitBtn" onclick="submitTransferRequest()"><i class="fas fa-paper-plane"></i> إرسال</button>
+          </div>
+        </div>
+      </div>`;
+    document.getElementById('modalContainer').innerHTML = html;
+    document.body.style.overflow = 'hidden';
+  }
+
+  function onTransferItemToggle(idx, checked) {
+    const row = document.getElementById(`trq-item-${idx}`);
+    if (row) row.style.opacity = checked ? '1' : '0.5';
+    updateTransferSummary();
+  }
+  function onTransferQtyChange(idx, val) {
+    const it = ciState._transferReqItems[idx]; if (!it) return;
+    it.suggestedQty = Math.max(1, Math.min(parseInt(val) || 0, it.availableAtSource));
+  }
+  function updateTransferSummary() {
+    const items = ciState._transferReqItems || [];
+    let sel = 0, tot = 0;
+    items.forEach((it, idx) => {
+      const row = document.getElementById(`trq-item-${idx}`);
+      const chk = row?.querySelector('input[type="checkbox"]');
+      if (!chk?.checked) return;
+      const q = parseInt(row?.querySelector('input[type="number"]')?.value) || it.suggestedQty;
+      sel++; tot += q;
+    });
+    const sc = document.getElementById('trqCount'); if (sc) sc.textContent = sel;
+    const st = document.getElementById('trqTotal'); if (st) st.textContent = tot;
+  }
+
+  async function submitTransferRequest() {
+    const items = ciState._transferReqItems || [];
+    const selectedItems = [];
+    items.forEach((it, idx) => {
+      const row = document.getElementById(`trq-item-${idx}`);
+      const chk = row?.querySelector('input[type="checkbox"]');
+      if (!chk?.checked) return;
+      const qty = Math.max(1, parseInt(row?.querySelector('input[type="number"]')?.value) || it.suggestedQty);
+      selectedItems.push({
+        productId: it.product.id, productName: it.product.name || '',
+        productImage: it.product.imageUrl || '', unit: it.product.unit || 'قطعة',
+        piecesPerUnit: it.product.piecesPerUnit || 1,
+        requestedPieces: qty, availableAtSource: it.availableAtSource,
+        currentAtDest: it.currentAtDest, reason: it.reason
+      });
+    });
+    if (selectedItems.length === 0) { window.showToast('اختر منتج واحد', 'warning'); return; }
+
+    const notes = (document.getElementById('trqNotes')?.value || '').trim();
+    const btn = document.getElementById('trqSubmitBtn');
+    btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>...';
+
+    try {
+      const now = firebase.firestore.FieldValue.serverTimestamp();
+      const reqRef = db.collection('transfer_requests').doc();
+      await reqRef.set({
+        id: reqRef.id,
+        fromBranchId: ciState.whBranch?.id || 'WH',
+        fromBranchName: ciState.whBranch?.name || 'المخزن المركزي',
+        toBranchId: ciState.branchId, toBranchName: ciState.branchName,
+        items: selectedItems, totalItems: selectedItems.length,
+        totalPieces: selectedItems.reduce((s, i) => s + i.requestedPieces, 0),
+        status: 'pending',
+        requestedBy: ciState.userId, requestedByName: ciState.userName,
+        requestedByRole: ciState.userRole, requestedAt: now,
+        approvedBy: '', approvedByName: '', approvedAt: null,
+        rejectedBy: '', rejectedByName: '', rejectedAt: null, rejectionReason: '',
+        completedAt: null, completedBy: '', transferId: '',
+        notes, createdAt: now, updatedAt: now
+      });
+
+      try {
+        await db.collection('admin_notifications').add({
+          userId: 'all_admins',
+          title: '📤 طلب نقل جديد',
+          body: `${ciState.userName} (${ciState.userRole}) طلب ${selectedItems.length} منتج إلى ${ciState.branchName}`,
+          type: 'transfer_request_created', transferRequestId: reqRef.id,
+          read: false, createdAt: now
+        });
+      } catch (e) { console.warn(e); }
+
+      window.showToast('✅ تم إرسال الطلب', 'success');
+      closeModal('transferReqModal');
+      ciState._transferReqItems = [];
+    } catch (err) {
+      console.error('submitTransferRequest:', err);
+      window.showToast('❌ ' + err.message, 'error');
+      btn.disabled = false; btn.innerHTML = '<i class="fas fa-paper-plane"></i> إرسال';
+    }
+  }
+
+  // ============================================================
+  // Helpers & Exports
+  // ============================================================
+  function closeAllModals() { document.querySelectorAll('.modal-overlay.show').forEach(m => m.classList.remove('show')); document.body.style.overflow = ''; }
+  function closeModal(id) { document.getElementById(id)?.classList.remove('show'); document.body.style.overflow = ''; }
+  function esc(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+  function toMs(t) { if (!t) return 0; if (t.toMillis) return t.toMillis(); if (t.toDate) return t.toDate().getTime(); if (t instanceof Date) return t.getTime(); return 0; }
+
+  window.loadAll = loadAll;
+  window.switchTab = switchTab;
+  window.onSearchInput = onSearchInput;
+  window.applyFilters = applyFilters;
+  window.resetFilters = resetFilters;
+  window.openReceiveModal = openReceiveModal;
+  window.onReceiptReceivedChange = onReceiptReceivedChange;
+  window.onReceiptDamagedChange = onReceiptDamagedChange;
+  window.confirmReceipt = confirmReceipt;
+  window.openTransitDetails = openTransitDetails;
+  window.printTransferReceipt = printTransferReceipt;
+  window.toggleAlertPreview = toggleAlertPreview;
+  window.openTransferRequest = openTransferRequest;
+  window.onTransferItemToggle = onTransferItemToggle;
+  window.onTransferQtyChange = onTransferQtyChange;
+  window.submitTransferRequest = submitTransferRequest;
+  window.selectBranch = selectBranch;
+  window.closeModal = closeModal;
+  window.closeAllModals = closeAllModals;
+  </script>
+
+</body>
+</html>
