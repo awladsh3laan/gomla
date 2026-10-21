@@ -13,9 +13,6 @@
   <style>
     html, body { overflow-x: hidden !important; max-width: 100vw; }
 
-    /* ============================================================ */
-    /* Page Header                                                   */
-    /* ============================================================ */
     .or-header {
       background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
       border-radius: var(--radius-lg); padding: 22px 24px; margin-bottom: 18px;
@@ -55,9 +52,6 @@
     }
     .or-header-actions .btn:hover { background: var(--gold); color: var(--navy); border-color: var(--gold); }
 
-    /* ============================================================ */
-    /* Stats                                                         */
-    /* ============================================================ */
     .or-stats {
       display: grid;
       grid-template-columns: repeat(6, 1fr);
@@ -94,9 +88,6 @@
     .or-stat-num.red    { color: #dc2626; }
     .or-stat-label { font-size: 0.65rem; color: var(--gray-500); font-weight: 700; line-height: 1.2; }
 
-    /* ============================================================ */
-    /* Tabs                                                          */
-    /* ============================================================ */
     .or-tabs {
       display: flex; gap: 6px; margin-bottom: 16px;
       background: var(--white); padding: 8px;
@@ -130,9 +121,6 @@
     }
     .or-tab.active .tab-count { background: var(--gold); color: var(--navy); }
 
-    /* ============================================================ */
-    /* Filters                                                       */
-    /* ============================================================ */
     .or-filters {
       background: var(--white);
       border-radius: var(--radius-md);
@@ -172,9 +160,6 @@
     }
     .or-date-range span { font-size: 0.7rem; color: var(--gray-500); }
 
-    /* ============================================================ */
-    /* Orders List                                                   */
-    /* ============================================================ */
     .or-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
 
     .or-card {
@@ -309,11 +294,8 @@
     .or-action-btn.whatsapp:hover { background: #16a34a; color: white; }
     .or-action-btn.install  { border-color: var(--gold); color: var(--gold-dark); background: #fcf9f0; }
     .or-action-btn.install:hover { background: var(--gold); color: var(--navy); }
-    .or-action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .or-action-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    /* ============================================================ */
-    /* Empty / Loading                                               */
-    /* ============================================================ */
     .or-empty, .or-loading {
       text-align: center; padding: 60px 20px;
       background: var(--white); border-radius: var(--radius-md);
@@ -329,9 +311,6 @@
     .or-empty p { font-size: 0.85rem; color: var(--gray-500); }
     .or-loading i { font-size: 2rem; color: var(--gold); margin-bottom: 10px; }
 
-    /* ============================================================ */
-    /* Modal                                                         */
-    /* ============================================================ */
     .modal-overlay {
       display: none; position: fixed; inset: 0;
       background: rgba(15,26,46,.75); backdrop-filter: blur(4px);
@@ -397,8 +376,38 @@
     .btn-orange:hover { background: #ea580c; }
 
     /* ============================================================ */
-    /* Responsive                                                    */
+    /* 🆕 Order Details Tabs (v2.1)                                  */
     /* ============================================================ */
+    .od-tab {
+      padding: 8px 14px;
+      border: none;
+      background: transparent;
+      border-radius: 6px;
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 0.78rem;
+      color: var(--gray-600);
+      cursor: pointer;
+      transition: all .2s ease;
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .od-tab:hover { background: rgba(255,255,255,.7); color: var(--navy); }
+    .od-tab.active {
+      background: var(--white);
+      color: var(--navy);
+      box-shadow: 0 2px 8px rgba(0,0,0,.08);
+    }
+    .od-tab.active i { color: var(--gold); }
+    .od-tab-content { display: none; }
+    .od-tab-content.active { display: block; animation: fadeInTab .25s ease; }
+    @keyframes fadeInTab {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     @media (max-width: 1200px) {
       .or-stats { grid-template-columns: repeat(3, 1fr); }
       .or-card-info { grid-template-columns: repeat(3, 1fr); }
@@ -426,13 +435,6 @@
     @media (max-width: 480px) {
       .or-stats { grid-template-columns: 1fr 1fr; }
       .or-action-btn { min-width: 100%; }
-    }
-
-    /* Print */
-    @media print {
-      body * { visibility: hidden; }
-      #printArea, #printArea * { visibility: visible; }
-      #printArea { position: absolute; left: 0; top: 0; width: 100%; }
     }
   </style>
 </head>
@@ -579,7 +581,6 @@
   <div id="sidebar-placeholder"></div>
   <div id="toast-container"></div>
 
-  <!-- Modal Container — يُبنى ديناميكياً -->
   <div id="modalContainer"></div>
 
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
@@ -590,10 +591,8 @@
 
   <script>
   // ============================================================
-  // admin/orders.html v2.0 — الجزء 1/2
-  // ⚠️ استراتيجية: مفيش تكرار من main.js
-  //    showToast, getCurrentUser, formatDate, formatDateTime,
-  //    releaseExpiredOrders, formatPaymentMethodLabel (من main.js)
+  // admin/orders.html v2.1 — الجزء 1/2
+  // ✅ تعديلات v2.1: 11 patch (راجع CONSTITUTION v17.4)
   // ============================================================
 
   const orState = {
@@ -615,6 +614,9 @@
     editPickerSearch: '',
     initialized: false
   };
+
+  // 🆕 v2.1 — تبويب تفاصيل الطلب الحالي
+  let _orderDetailTab = 'overview';
 
   const STATUS_LABELS = {
     pending: 'قيد الانتظار',
@@ -660,26 +662,21 @@
       orState.adminId = user.data?.id || user.data?.uid || '';
       orState.adminName = user.data?.name || '';
 
-      // تحميل الفروع (مرة واحدة)
       await loadBranchesCache();
       populateBranchFilter();
-
-      // تحميل الطلبات
       loadOrders();
 
-      // Auto-release expired orders (من main.js)
       if (typeof window.releaseExpiredOrders === 'function') {
         window.releaseExpiredOrders().catch(() => {});
       }
 
-      // ESC handlers
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
           closeAllModals();
         }
       });
 
-      console.log('✅ orders.html v2.0 ready — role:', orState.role);
+      console.log('✅ orders.html v2.1 ready — role:', orState.role);
 
     } catch (err) {
       console.error('Init error:', err);
@@ -715,7 +712,7 @@
   }
 
   // ============================================================
-  // Load Orders (realtime)
+  // Load Orders
   // ============================================================
   function loadOrders(forceRefresh) {
     if (orState.unsubscribe && !forceRefresh) return;
@@ -730,11 +727,9 @@
       .onSnapshot(snap => {
         orState.orders = [];
         snap.forEach(doc => orState.orders.push({ id: doc.id, ...doc.data() }));
-
         updateStats();
         updateTabCounts();
         applyFilters();
-
       }, err => {
         console.error('Load orders error:', err);
         if (list) list.innerHTML = `
@@ -746,24 +741,14 @@
       });
   }
 
-  // ============================================================
-  // Stats
-  // ============================================================
   function updateStats() {
     const all = orState.orders;
-    const pending = all.filter(o => o.status === 'pending').length;
-    const processing = all.filter(o => o.status === 'processing').length;
-    const shipped = all.filter(o => o.status === 'shipped').length;
-    const delivered = all.filter(o => o.status === 'delivered').length;
-    const paid = all.filter(o => o.paymentStatus === 'paid').length;
-    const cancelled = all.filter(o => ['cancelled', 'auto_cancelled', 'returned'].includes(o.status)).length;
-
-    _setText('statPending', pending);
-    _setText('statProcessing', processing);
-    _setText('statShipped', shipped);
-    _setText('statDelivered', delivered);
-    _setText('statPaid', paid);
-    _setText('statCancelled', cancelled);
+    _setText('statPending', all.filter(o => o.status === 'pending').length);
+    _setText('statProcessing', all.filter(o => o.status === 'processing').length);
+    _setText('statShipped', all.filter(o => o.status === 'shipped').length);
+    _setText('statDelivered', all.filter(o => o.status === 'delivered').length);
+    _setText('statPaid', all.filter(o => o.paymentStatus === 'paid').length);
+    _setText('statCancelled', all.filter(o => ['cancelled', 'auto_cancelled', 'returned'].includes(o.status)).length);
   }
 
   function updateTabCounts() {
@@ -782,9 +767,6 @@
     if (el) el.textContent = val;
   }
 
-  // ============================================================
-  // Tabs
-  // ============================================================
   function switchTab(tab) {
     orState.currentTab = tab;
     document.querySelectorAll('.or-tab').forEach(el => {
@@ -795,29 +777,17 @@
 
   function filterByStatus(status, event) {
     if (event) event.preventDefault();
-    if (status === 'paid') {
-      // Paid tab — نميّزها
-      orState.currentTab = 'paid';
-      document.querySelectorAll('.or-tab').forEach(el => {
-        el.classList.toggle('active', el.dataset.tab === 'paid');
-      });
-    } else if (status === 'cancelled') {
-      orState.currentTab = 'cancelled';
-      document.querySelectorAll('.or-tab').forEach(el => {
-        el.classList.toggle('active', el.dataset.tab === 'cancelled');
-      });
+    if (status === 'paid' || status === 'cancelled') {
+      orState.currentTab = status;
     } else {
       orState.currentTab = status;
-      document.querySelectorAll('.or-tab').forEach(el => {
-        el.classList.toggle('active', el.dataset.tab === status);
-      });
     }
+    document.querySelectorAll('.or-tab').forEach(el => {
+      el.classList.toggle('active', el.dataset.tab === orState.currentTab);
+    });
     applyFilters();
   }
 
-  // ============================================================
-  // Filters
-  // ============================================================
   function onSearchInput() {
     if (orState.searchDebounce) clearTimeout(orState.searchDebounce);
     orState.searchDebounce = setTimeout(applyFilters, 300);
@@ -834,7 +804,6 @@
 
     let list = [...orState.orders];
 
-    // Tab filter
     if (orState.currentTab === 'paid') {
       list = list.filter(o => o.paymentStatus === 'paid');
     } else if (orState.currentTab === 'cancelled') {
@@ -843,7 +812,6 @@
       list = list.filter(o => o.status === orState.currentTab);
     }
 
-    // Search
     if (search) {
       list = list.filter(o =>
         (o.customerName || '').toLowerCase().includes(search) ||
@@ -852,7 +820,6 @@
       );
     }
 
-    // Other filters
     if (payStatus) list = list.filter(o => o.paymentStatus === payStatus);
     if (branch) list = list.filter(o => o.branchId === branch);
     if (store) list = list.filter(o => o.storeType === store);
@@ -862,17 +829,11 @@
 
     if (dateFrom) {
       const fromTs = new Date(dateFrom).setHours(0, 0, 0, 0);
-      list = list.filter(o => {
-        const ts = _ts(o.createdAt);
-        return ts >= fromTs;
-      });
+      list = list.filter(o => _ts(o.createdAt) >= fromTs);
     }
     if (dateTo) {
       const toTs = new Date(dateTo).setHours(23, 59, 59, 999);
-      list = list.filter(o => {
-        const ts = _ts(o.createdAt);
-        return ts <= toTs;
-      });
+      list = list.filter(o => _ts(o.createdAt) <= toTs);
     }
 
     orState.filtered = list;
@@ -900,9 +861,6 @@
     return 0;
   }
 
-  // ============================================================
-  // Render
-  // ============================================================
   function renderOrders() {
     const list = document.getElementById('ordersList');
     if (!list) return;
@@ -1000,24 +958,53 @@
     `;
   }
 
+  // ============================================================
+  // 🆕 v2.1 — renderCardActions (edit policy + delivered-unpaid cancel)
+  // ============================================================
   function renderCardActions(o) {
     const status = o.status || 'pending';
     const payStatus = o.paymentStatus || 'unpaid';
     const isReserved = o.reserved === true && !o.released;
     const canConfirmPay = orState.isSuper || orState.isAdminPlus;
-    const canCancel = ['pending', 'processing', 'shipped'].includes(status) && payStatus !== 'paid';
+
+    // ✅ v2.1: إلغاء لـ delivered+unpaid كمان
+    const canCancel =
+      (['pending', 'processing', 'shipped'].includes(status) && payStatus !== 'paid' && payStatus !== 'refunded')
+      || (status === 'delivered' && payStatus !== 'paid' && payStatus !== 'refunded');
+
     const canReturn = ['delivered', 'shipped'].includes(status) && payStatus === 'paid';
+
+    // ✅ v2.1: سياسة التعديل الجديدة
+    const canEditByStatus = ['pending', 'processing', 'shipped'].includes(status);
+    const canEditByPayment = payStatus !== 'paid' && payStatus !== 'refunded';
+    const canEditByPlan = !o.installmentPlanId;
+    const isShippedEdit = status === 'shipped';
+    const canEditShipped = isShippedEdit ? (orState.isSuper || orState.isAdminPlus) : true;
+    const canEdit = canEditByStatus && canEditByPayment && canEditByPlan && canEditShipped;
+
+    let editDisabledReason = '';
+    if (!canEditByPlan) editDisabledReason = 'مرتبط بخطة أقساط';
+    else if (!canEditByPayment) editDisabledReason = payStatus === 'paid' ? 'الطلب مدفوع' : 'الطلب مرتجع';
+    else if (!canEditByStatus) editDisabledReason = 'الحالة لا تسمح بالتعديل';
+    else if (!canEditShipped) editDisabledReason = 'تعديل المشحونة لـ super/admin_plus فقط';
 
     let html = '';
 
     html += `<button class="or-action-btn view" onclick="openOrderDetails('${o.id}')">
       <i class="fas fa-eye"></i> تفاصيل
     </button>`;
-    if (['pending', 'processing'].includes(status) && payStatus !== 'paid' && payStatus !== 'refunded') {
-      html += `<button class="or-action-btn" onclick="openEditOrder('${o.id}')" style="border-color:#93c5fd;color:#1e40af;">
+
+    // ✅ v2.1: زر التعديل ظاهر دايماً (معطّل + tooltip لو مش مسموح)
+    if (canEdit) {
+      html += `<button class="or-action-btn" onclick="openEditOrder('${o.id}')" style="border-color:#93c5fd;color:#1e40af;background:#eff6ff;">
+        <i class="fas fa-edit"></i> تعديل
+      </button>`;
+    } else {
+      html += `<button class="or-action-btn" disabled title="${editDisabledReason}" style="border-color:#cbd5e1;color:#94a3b8;opacity:0.5;cursor:not-allowed;">
         <i class="fas fa-edit"></i> تعديل
       </button>`;
     }
+
     if (status === 'pending') {
       html += `<button class="or-action-btn process" onclick="startProcessing('${o.id}')">
         <i class="fas fa-play"></i> بدء المعالجة
@@ -1066,9 +1053,6 @@
     return html;
   }
 
-  // ============================================================
-  // Helpers
-  // ============================================================
   function closeAllModals() {
     document.querySelectorAll('.modal-overlay.show').forEach(m => m.classList.remove('show'));
     document.body.style.overflow = '';
@@ -1085,35 +1069,43 @@
     }[c]));
   }
 
+  function _escAttr(s) {
+    return String(s ?? '').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
   async function releaseExpiredManual() {
     if (typeof window.releaseExpiredOrders !== 'function') {
       window.showToast('releaseExpiredOrders غير متاحة', 'warning');
       return;
     }
     try {
-      await window.releaseExpiredOrders();
-      window.showToast('✅ تم تنظيف الطلبات المنتهية', 'success');
+      const result = await window.releaseExpiredOrders();
+      const count = result?.count || 0;
+      window.showToast(count > 0 ? `✅ تم تنظيف ${count} طلب منتهي` : '✅ لا توجد طلبات منتهية', 'success');
     } catch (e) {
       window.showToast('❌ ' + e.message, 'error');
     }
   }
+  </script>
+
+  <script>
   // ============================================================
-  // ============================================================
-  // 🆕 الجزء 2/2 — Actions + Modals
-  // ============================================================
+  // admin/orders.html v2.1 — الجزء 2/2
+  // Actions + Modals (with tabs)
   // ============================================================
 
   // ============================================================
-  // 1️⃣ فتح تفاصيل الطلب
+  // 1️⃣ فتح تفاصيل الطلب (v2.1 — reset tab)
   // ============================================================
   async function openOrderDetails(orderId) {
     const order = orState.orders.find(o => o.id === orderId);
     if (!order) return;
 
     orState.currentOrderId = orderId;
+    _orderDetailTab = 'overview';  // ✅ v2.1 — reset عند فتح طلب جديد
 
     const html = `
-      <div class="modal-overlay show" id="orderModal" onclick="closeModal('orderModal', event)">
+      <div class="modal-overlay show" id="orderModal" onclick="closeModal('orderModal')">
         <div class="modal-content" onclick="event.stopPropagation()">
           <div class="modal-header">
             <h2><i class="fas fa-receipt"></i> تفاصيل الطلب #${orderId.slice(-8).toUpperCase()}</h2>
@@ -1133,6 +1125,9 @@
     document.body.style.overflow = 'hidden';
   }
 
+  // ============================================================
+  // 🆕 v2.1 — renderOrderDetails (احترافي بـ 4 Tabs)
+  // ============================================================
   function renderOrderDetails(o) {
     const orderNum = o.id.slice(-8).toUpperCase();
     const status = o.status || 'pending';
@@ -1142,165 +1137,325 @@
     const payMethodLabel = (typeof formatPaymentMethodLabel === 'function')
       ? formatPaymentMethodLabel(o.paymentMethod) : (o.paymentMethod || '—');
 
-    // ===== Timeline =====
-    const timeline = [];
-    timeline.push({ title: 'إنشاء الطلب', date: o.createdAt, done: true });
-    if (o.processedAt) timeline.push({ title: 'بدء المعالجة', date: o.processedAt, done: true });
-    if (o.assignedAt) timeline.push({ title: 'تعيين مندوب', date: o.assignedAt, done: true, sub: o.deliveryAgentName });
-    if (o.shippedAt) timeline.push({ title: 'تم الشحن', date: o.shippedAt, done: true });
-    if (o.deliveredAt) timeline.push({ title: 'تم التسليم', date: o.deliveredAt, done: true });
-    if (o.confirmedAt) timeline.push({ title: 'تأكيد الدفع', date: o.confirmedAt, done: true, sub: o.confirmedByName });
-    if (o.cancelledAt) timeline.push({ title: 'الإلغاء', date: o.cancelledAt, done: true, sub: o.releaseReason });
-    if (o.returnedAt) timeline.push({ title: 'المرتجع', date: o.returnedAt, done: true });
+    // ألوان الـ Hero حسب الحالة
+    const headerColors = {
+      pending: 'linear-gradient(135deg, #b45309, #f59e0b)',
+      processing: 'linear-gradient(135deg, #1e40af, #3b82f6)',
+      shipped: 'linear-gradient(135deg, #6d28d9, #8b5cf6)',
+      delivered: 'linear-gradient(135deg, #15803d, #22c55e)',
+      cancelled: 'linear-gradient(135deg, #b91c1c, #ef4444)',
+      auto_cancelled: 'linear-gradient(135deg, #4b5563, #6b7280)',
+      returned: 'linear-gradient(135deg, #c2410c, #f97316)'
+    };
+    const headerBg = headerColors[status] || 'linear-gradient(135deg, var(--navy), var(--navy-light))';
 
-    const timelineHtml = timeline.map((t, i) => {
-      const isLast = i === timeline.length - 1;
-      return `
-        <div class="timeline-item ${isLast ? 'current' : 'done'}">
-          <div class="timeline-title">${t.title}${t.sub ? ` — ${_esc(t.sub)}` : ''}</div>
-          <div class="timeline-date">${t.date ? formatDateTime(t.date) : '—'}</div>
-        </div>
-      `;
-    }).join('');
-
-    // ===== Items =====
-    const itemsHtml = items.map(item => `
-      <div class="order-item">
-        <img src="${item.imageUrl || '/gomla/assets/images/no-image.png'}" onerror="this.src='/gomla/assets/images/no-image.png'">
-        <div class="order-item-info">
-          <div class="order-item-name">${_esc(item.productName || 'منتج')}</div>
-          <div class="order-item-meta">${item.quantity} ${_esc(item.unit || 'قطعة')} × ${(item.price || 0).toFixed(2)} ج</div>
-        </div>
-        <div class="order-item-total">${(item.total || 0).toFixed(2)} ج</div>
-      </div>
-    `).join('');
-
-    // ===== Installment Schedule =====
-    let installmentHtml = '';
-    if (o.installmentPlanId && o.installmentSchedule) {
-      const schedRows = o.installmentSchedule.map(s => `
-        <tr style="border-bottom:1px solid var(--gray-100);${s.paid ? 'background:#f0fdf4;' : ''}">
-          <td style="padding:6px 8px;text-align:center;">${s.n}</td>
-          <td style="padding:6px 8px;">${s.dueDate ? formatDate(s.dueDate) : '—'}</td>
-          <td style="padding:6px 8px;text-align:left;font-weight:800;">${(s.amount || 0).toFixed(2)} ج</td>
-          <td style="padding:6px 8px;text-align:center;">
-            ${s.paid ? '<span style="color:#16a34a;"><i class="fas fa-check-circle"></i> مدفوع</span>' : '<span style="color:#d97706;"><i class="fas fa-clock"></i> معلق</span>'}
-          </td>
-        </tr>
-      `).join('');
-
-      installmentHtml = `
-        <div class="detail-section" style="background:#f5f3ff;border-color:#c4b5fd;">
-          <h4 style="color:#5b21b6;"><i class="fas fa-calendar-check"></i> خطة الأقساط (${o.installmentSchedule.length} أقساط)</h4>
-          <table style="width:100%;font-size:0.82rem;">
-            <thead>
-              <tr style="background:#ede9fe;">
-                <th style="padding:6px 8px;text-align:center;">#</th>
-                <th style="padding:6px 8px;text-align:right;">تاريخ الاستحقاق</th>
-                <th style="padding:6px 8px;text-align:left;">المبلغ</th>
-                <th style="padding:6px 8px;text-align:center;">الحالة</th>
-              </tr>
-            </thead>
-            <tbody>${schedRows}</tbody>
-          </table>
-          <div style="margin-top:10px;font-size:0.8rem;color:#5b21b6;text-align:center;">
-            المدفوع: <strong>${(o.installmentPaidAmount || 0).toFixed(2)} ج</strong> ·
-            المتبقي: <strong>${(o.installmentRemaining || 0).toFixed(2)} ج</strong>
+    // ===== Hero Summary =====
+    const summaryHtml = `
+      <div style="background:${headerBg};border-radius:12px;padding:18px;color:white;margin-bottom:16px;box-shadow:0 8px 24px rgba(0,0,0,.15);">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+          <div>
+            <div style="font-size:0.75rem;opacity:0.85;margin-bottom:4px;">
+              <i class="fas fa-hashtag"></i> ${orderNum}
+            </div>
+            <div style="font-size:1.3rem;font-weight:900;margin-bottom:6px;">
+              ${_esc(o.customerName || 'عميل')}
+            </div>
+            <div style="font-size:0.82rem;opacity:0.9;">
+              <i class="fas fa-phone"></i> ${_esc(o.customerPhone || '—')}
+              ${o.region ? ` · <i class="fas fa-map-marker-alt"></i> ${_esc(o.region)}` : ''}
+            </div>
+          </div>
+          <div style="text-align:left;">
+            <div style="background:rgba(255,255,255,.15);padding:8px 16px;border-radius:20px;font-size:0.78rem;font-weight:900;margin-bottom:6px;">
+              <i class="fas fa-circle" style="font-size:0.5rem;"></i> ${STATUS_LABELS[status] || status}
+            </div>
+            <div style="font-size:1.4rem;font-weight:900;">
+              ${(o.total || 0).toFixed(0)} <span style="font-size:0.7rem;opacity:0.85;">ج.م</span>
+            </div>
           </div>
         </div>
-      `;
-    }
-
-    // ===== Invoice =====
-    let invoiceHtml = '';
-    if (o.invoiceGenerated && o.invoiceId) {
-      invoiceHtml = `
-        <div class="detail-section" style="background:#f0fdf4;border-color:#86efac;">
-          <h4 style="color:#166534;"><i class="fas fa-file-invoice"></i> الفاتورة</h4>
-          <div class="detail-line"><span class="lbl">رقم الفاتورة:</span><span class="val code">${o.invoiceId.slice(-8).toUpperCase()}</span></div>
-          <div class="detail-line"><span class="lbl">تاريخ الإنشاء:</span><span class="val">${o.confirmedAt ? formatDateTime(o.confirmedAt) : '—'}</span></div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;">
+          <span style="background:rgba(255,255,255,.15);padding:4px 12px;border-radius:20px;font-size:0.7rem;font-weight:800;">
+            <i class="fas fa-money-bill"></i> ${PAYMENT_STATUS_LABELS[payStatus] || payStatus}
+          </span>
+          ${isReserved ? `<span style="background:rgba(255,255,255,.15);padding:4px 12px;border-radius:20px;font-size:0.7rem;font-weight:800;"><i class="fas fa-lock"></i> محجوز</span>` : ''}
+          ${o.installmentPlanId ? `<span style="background:rgba(255,255,255,.15);padding:4px 12px;border-radius:20px;font-size:0.7rem;font-weight:800;"><i class="fas fa-calendar-check"></i> أقساط</span>` : ''}
         </div>
-      `;
-    }
-
-    return `
-      <!-- Badges -->
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
-        <span class="or-badge status-${status}"><i class="fas fa-circle"></i> ${STATUS_LABELS[status] || status}</span>
-        <span class="or-badge payment-${payStatus}"><i class="fas fa-money-bill"></i> ${PAYMENT_STATUS_LABELS[payStatus] || payStatus}</span>
-        ${isReserved ? `<span class="or-badge reserved"><i class="fas fa-lock"></i> محجوز</span>` : ''}
-        ${o.released ? `<span class="or-badge" style="background:var(--gray-200);color:var(--gray-700);"><i class="fas fa-unlock"></i> مُطلق</span>` : ''}
-      </div>
-
-      <!-- Customer -->
-      <div class="detail-section">
-        <h4><i class="fas fa-user"></i> بيانات العميل</h4>
-        <div class="detail-line"><span class="lbl">الاسم:</span><span class="val">${_esc(o.customerName || '—')}</span></div>
-        <div class="detail-line"><span class="lbl">الهاتف:</span><span class="val code">${_esc(o.customerPhone || '—')}</span></div>
-        ${o.customerPhone2 ? `<div class="detail-line"><span class="lbl">هاتف بديل:</span><span class="val code">${_esc(o.customerPhone2)}</span></div>` : ''}
-        <div class="detail-line"><span class="lbl">العنوان:</span><span class="val">${_esc(o.deliveryAddress || o.customerAddress || '—')}</span></div>
-        ${o.region ? `<div class="detail-line"><span class="lbl">المنطقة:</span><span class="val">${_esc(o.region)}</span></div>` : ''}
-      </div>
-
-      <!-- Order -->
-      <div class="detail-section">
-        <h4><i class="fas fa-receipt"></i> بيانات الطلب</h4>
-        <div class="detail-line"><span class="lbl">رقم الطلب:</span><span class="val code">#${orderNum}</span></div>
-        <div class="detail-line"><span class="lbl">المتجر:</span><span class="val">${STORE_TYPE_LABELS[o.storeType] || o.storeType || '—'}</span></div>
-        <div class="detail-line"><span class="lbl">الفرع:</span><span class="val">${_esc(getBranchName(o.branchId))}</span></div>
-        <div class="detail-line"><span class="lbl">المصدر:</span><span class="val">${o.source === 'cardoona' ? 'كرتونة' : o.source === 'cashier' ? 'كاشير' : o.source === 'manual' ? 'يدوي' : 'الموقع'}</span></div>
-        ${o.deliveryDate ? `<div class="detail-line"><span class="lbl">موعد التوصيل:</span><span class="val">${_esc(o.deliveryDate)}</span></div>` : ''}
-        ${o.deliveryAgentName ? `<div class="detail-line"><span class="lbl">المندوب:</span><span class="val">${_esc(o.deliveryAgentName)}</span></div>` : ''}
-        ${o.notes ? `<div class="detail-line"><span class="lbl">ملاحظات:</span><span class="val">${_esc(o.notes)}</span></div>` : ''}
-      </div>
-
-      <!-- Items -->
-      <div class="detail-section">
-        <h4><i class="fas fa-boxes"></i> المنتجات (${items.length})</h4>
-        <div class="order-items-list">${itemsHtml || '<p style="text-align:center;color:var(--gray-500);font-size:0.85rem;">لا توجد منتجات</p>'}</div>
-      </div>
-
-      <!-- Payment -->
-      <div class="detail-section">
-        <h4><i class="fas fa-credit-card"></i> الدفع</h4>
-        <div class="detail-line"><span class="lbl">الطريقة:</span><span class="val">${_esc(payMethodLabel)}</span></div>
-        <div class="detail-line"><span class="lbl">حالة الدفع:</span><span class="val ${payStatus === 'paid' ? 'green' : payStatus === 'refunded' ? 'red' : 'red'}">${PAYMENT_STATUS_LABELS[payStatus] || payStatus}</span></div>
-        <div class="detail-line"><span class="lbl">المجموع الفرعي:</span><span class="val">${(o.subtotal || 0).toFixed(2)} ج</span></div>
-        <div class="detail-line"><span class="lbl">الشحن:</span><span class="val">${(o.shippingCost || 0).toFixed(2)} ج</span></div>
-        ${(o.paymentFee || 0) > 0 ? `<div class="detail-line"><span class="lbl">رسوم دفع:</span><span class="val">${o.paymentFee.toFixed(2)} ج</span></div>` : ''}
-        <div class="detail-line"><span class="lbl">الإجمالي:</span><span class="val gold">${(o.total || 0).toFixed(2)} ج</span></div>
-        ${(o.paidAmount || 0) > 0 ? `<div class="detail-line"><span class="lbl">المدفوع:</span><span class="val green">${o.paidAmount.toFixed(2)} ج</span></div>` : ''}
-        ${(o.refundedAmount || 0) > 0 ? `<div class="detail-line"><span class="lbl">المرتجع:</span><span class="val red">${o.refundedAmount.toFixed(2)} ج</span></div>` : ''}
-        ${o.paymentProof ? `<div class="detail-line"><span class="lbl">إثبات الدفع:</span><span class="val"><a href="${o.paymentProof}" target="_blank" style="color:var(--gold-dark);">عرض الصورة</a></span></div>` : ''}
-      </div>
-
-      ${installmentHtml}
-      ${invoiceHtml}
-
-      <!-- Timeline -->
-      <div class="detail-section">
-        <h4><i class="fas fa-history"></i> سجل الطلب</h4>
-        <div class="timeline">${timelineHtml}</div>
       </div>
     `;
+
+    // ===== Tabs =====
+    const tabsHtml = `
+      <div style="display:flex;gap:4px;margin-bottom:16px;background:var(--gray-100);padding:4px;border-radius:8px;overflow-x:auto;">
+        <button class="od-tab ${_orderDetailTab === 'overview' ? 'active' : ''}" onclick="switchOrderDetailTab('overview')" data-tab="overview">
+          <i class="fas fa-info-circle"></i> نظرة عامة
+        </button>
+        <button class="od-tab ${_orderDetailTab === 'items' ? 'active' : ''}" onclick="switchOrderDetailTab('items')" data-tab="items">
+          <i class="fas fa-boxes"></i> المنتجات (${items.length})
+        </button>
+        <button class="od-tab ${_orderDetailTab === 'payment' ? 'active' : ''}" onclick="switchOrderDetailTab('payment')" data-tab="payment">
+          <i class="fas fa-credit-card"></i> الدفع
+        </button>
+        <button class="od-tab ${_orderDetailTab === 'timeline' ? 'active' : ''}" onclick="switchOrderDetailTab('timeline')" data-tab="timeline">
+          <i class="fas fa-history"></i> السجل
+        </button>
+      </div>
+    `;
+
+    // ===== Tab: Overview =====
+    const overviewHtml = `
+      <div class="od-tab-content ${_orderDetailTab === 'overview' ? 'active' : ''}" id="od-tab-overview">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+          <div style="background:#eff6ff;border:2px solid #93c5fd;border-radius:10px;padding:14px;">
+            <div style="font-size:0.75rem;font-weight:900;color:#1e40af;margin-bottom:10px;">
+              <i class="fas fa-user-circle"></i> بيانات العميل
+            </div>
+            <div style="font-size:0.82rem;line-height:1.9;">
+              <div><strong>الاسم:</strong> ${_esc(o.customerName || '—')}</div>
+              <div><strong>الهاتف:</strong> <span style="direction:ltr;display:inline-block;">${_esc(o.customerPhone || '—')}</span></div>
+              ${o.customerPhone2 ? `<div><strong>هاتف بديل:</strong> <span style="direction:ltr;display:inline-block;">${_esc(o.customerPhone2)}</span></div>` : ''}
+              <div style="margin-top:6px;"><strong>العنوان:</strong> ${_esc(o.deliveryAddress || o.customerAddress || '—')}</div>
+            </div>
+          </div>
+
+          <div style="background:#f0fdf4;border:2px solid #86efac;border-radius:10px;padding:14px;">
+            <div style="font-size:0.75rem;font-weight:900;color:#166534;margin-bottom:10px;">
+              <i class="fas fa-receipt"></i> بيانات الطلب
+            </div>
+            <div style="font-size:0.82rem;line-height:1.9;">
+              <div><strong>المتجر:</strong> ${STORE_TYPE_LABELS[o.storeType] || o.storeType || '—'}</div>
+              <div><strong>الفرع:</strong> ${_esc(getBranchName(o.branchId))}</div>
+              <div><strong>المصدر:</strong> ${o.source === 'cardoona' ? 'كرتونة' : o.source === 'cashier' ? 'كاشير' : o.source === 'manual' ? 'يدوي' : 'الموقع'}</div>
+              ${o.deliveryDate ? `<div><strong>موعد التوصيل:</strong> ${_esc(o.deliveryDate)}</div>` : ''}
+              ${o.deliveryAgentName ? `<div><strong>المندوب:</strong> ${_esc(o.deliveryAgentName)}</div>` : ''}
+            </div>
+          </div>
+        </div>
+
+        ${o.notes ? `
+          <div style="margin-top:12px;background:#fef3c7;border:2px solid #fbbf24;border-radius:10px;padding:12px;">
+            <div style="font-size:0.75rem;font-weight:900;color:#92400e;margin-bottom:6px;">
+              <i class="fas fa-comment-alt"></i> ملاحظات
+            </div>
+            <div style="font-size:0.85rem;color:#78350f;">${_esc(o.notes)}</div>
+          </div>
+        ` : ''}
+
+        ${o.installmentPlanId && o.installmentSchedule ? `
+          <div style="margin-top:12px;background:#f5f3ff;border:2px solid #c4b5fd;border-radius:10px;padding:14px;">
+            <div style="font-size:0.75rem;font-weight:900;color:#5b21b6;margin-bottom:10px;">
+              <i class="fas fa-calendar-check"></i> خطة الأقساط (${o.installmentSchedule.length} أقساط)
+            </div>
+            <div style="background:white;border-radius:8px;overflow:hidden;">
+              ${o.installmentSchedule.map(s => `
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px;border-bottom:1px solid var(--gray-100);${s.paid ? 'background:#f0fdf4;' : ''}font-size:0.82rem;">
+                  <div>
+                    <strong>قسط #${s.n}</strong>
+                    <div style="font-size:0.7rem;color:var(--gray-500);">${s.dueDate ? formatDate(s.dueDate) : '—'}</div>
+                  </div>
+                  <div style="font-weight:900;color:#5b21b6;">${(s.amount || 0).toFixed(2)} ج</div>
+                  <div>${s.paid ? '<span style="color:#16a34a;"><i class="fas fa-check-circle"></i> مدفوع</span>' : '<span style="color:#d97706;"><i class="fas fa-clock"></i> معلق</span>'}</div>
+                </div>
+              `).join('')}
+            </div>
+            <div style="margin-top:10px;font-size:0.8rem;color:#5b21b6;text-align:center;">
+              المدفوع: <strong>${(o.installmentPaidAmount || 0).toFixed(2)} ج</strong> · المتبقي: <strong>${(o.installmentRemaining || 0).toFixed(2)} ج</strong>
+            </div>
+          </div>
+        ` : ''}
+
+        ${o.invoiceGenerated && o.invoiceId ? `
+          <div style="margin-top:12px;background:#f0fdf4;border:2px solid #86efac;border-radius:10px;padding:12px;">
+            <div style="font-size:0.75rem;font-weight:900;color:#166534;margin-bottom:6px;">
+              <i class="fas fa-file-invoice"></i> الفاتورة
+            </div>
+            <div style="font-size:0.82rem;">
+              <div><strong>رقم الفاتورة:</strong> <span style="font-family:monospace;background:white;padding:2px 8px;border-radius:4px;">${o.invoiceId.slice(-8).toUpperCase()}</span></div>
+              <div style="margin-top:4px;"><strong>تاريخ الإنشاء:</strong> ${o.confirmedAt ? formatDateTime(o.confirmedAt) : '—'}</div>
+            </div>
+          </div>
+        ` : ''}
+      </div>
+    `;
+
+    // ===== Tab: Items =====
+    const itemsHtml = `
+      <div class="od-tab-content ${_orderDetailTab === 'items' ? 'active' : ''}" id="od-tab-items">
+        ${items.length === 0 ? `
+          <div style="text-align:center;padding:40px 20px;color:var(--gray-400);">
+            <i class="fas fa-box-open" style="font-size:2rem;display:block;margin-bottom:8px;"></i>
+            <p>لا توجد منتجات</p>
+          </div>
+        ` : items.map(item => `
+          <div style="display:flex;align-items:center;gap:12px;padding:12px;background:white;border:1px solid var(--gray-200);border-radius:8px;margin-bottom:8px;transition:all .2s;">
+            <img src="${item.imageUrl || '/gomla/assets/images/no-image.png'}" style="width:56px;height:56px;border-radius:8px;object-fit:cover;border:1px solid var(--gray-200);flex-shrink:0;" onerror="this.src='/gomla/assets/images/no-image.png'">
+            <div style="flex:1;min-width:0;">
+              <div style="font-size:0.88rem;font-weight:800;color:var(--navy);margin-bottom:4px;">${_esc(item.productName || 'منتج')}</div>
+              <div style="font-size:0.75rem;color:var(--gray-500);">
+                <i class="fas fa-cube" style="color:var(--gold);"></i> ${item.quantity} ${_esc(item.unit || 'قطعة')} × ${(item.price || 0).toFixed(2)} ج
+              </div>
+            </div>
+            <div style="font-size:1rem;font-weight:900;color:var(--gold-dark);">${(item.total || 0).toFixed(2)} ج</div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+
+    // ===== Tab: Payment =====
+    const paymentHtml = `
+      <div class="od-tab-content ${_orderDetailTab === 'payment' ? 'active' : ''}" id="od-tab-payment">
+        <div style="background:${payStatus === 'paid' ? '#f0fdf4' : payStatus === 'refunded' ? '#fef2f2' : '#fef3c7'};border:2px solid ${payStatus === 'paid' ? '#86efac' : payStatus === 'refunded' ? '#fca5a5' : '#fbbf24'};border-radius:10px;padding:16px;margin-bottom:14px;">
+          <div style="font-size:0.75rem;font-weight:900;color:${payStatus === 'paid' ? '#166534' : payStatus === 'refunded' ? '#991b1b' : '#92400e'};margin-bottom:10px;">
+            <i class="fas fa-money-check-alt"></i> حالة الدفع
+          </div>
+          <div style="font-size:1.2rem;font-weight:900;color:${payStatus === 'paid' ? '#16a34a' : payStatus === 'refunded' ? '#dc2626' : '#d97706'};margin-bottom:8px;">
+            ${PAYMENT_STATUS_LABELS[payStatus] || payStatus}
+          </div>
+          <div style="font-size:0.82rem;">
+            <strong>الطريقة:</strong> ${_esc(payMethodLabel)}
+          </div>
+        </div>
+
+        <div style="background:white;border:1px solid var(--gray-200);border-radius:10px;padding:14px;">
+          <div style="font-size:0.82rem;line-height:2.2;">
+            <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--gray-200);">
+              <span>المجموع الفرعي</span>
+              <strong>${(o.subtotal || 0).toFixed(2)} ج</strong>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--gray-200);">
+              <span>الشحن</span>
+              <strong>${(o.shippingCost || 0).toFixed(2)} ج</strong>
+            </div>
+            ${(o.paymentFee || 0) > 0 ? `
+              <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed var(--gray-200);">
+                <span>رسوم دفع</span>
+                <strong>${o.paymentFee.toFixed(2)} ج</strong>
+              </div>
+            ` : ''}
+            <div style="display:flex;justify-content:space-between;padding:10px 0;font-size:1.1rem;color:var(--gold-dark);border-top:2px solid var(--navy);margin-top:4px;">
+              <strong>الإجمالي</strong>
+              <strong>${(o.total || 0).toFixed(2)} ج</strong>
+            </div>
+            ${(o.paidAmount || 0) > 0 ? `
+              <div style="display:flex;justify-content:space-between;padding:6px 0;color:#16a34a;">
+                <span>المدفوع</span>
+                <strong>${o.paidAmount.toFixed(2)} ج</strong>
+              </div>
+            ` : ''}
+            ${(o.refundedAmount || 0) > 0 ? `
+              <div style="display:flex;justify-content:space-between;padding:6px 0;color:#dc2626;">
+                <span>المرتجع</span>
+                <strong>${o.refundedAmount.toFixed(2)} ج</strong>
+              </div>
+            ` : ''}
+          </div>
+        </div>
+
+        ${o.paymentProof ? `
+          <div style="margin-top:12px;background:#eff6ff;border:2px solid #93c5fd;border-radius:10px;padding:12px;">
+            <div style="font-size:0.75rem;font-weight:900;color:#1e40af;margin-bottom:8px;">
+              <i class="fas fa-image"></i> إثبات الدفع
+            </div>
+            <a href="${o.paymentProof}" target="_blank" style="display:inline-block;">
+              <img src="${o.paymentProof}" style="max-width:200px;max-height:200px;border-radius:8px;border:2px solid white;box-shadow:0 4px 12px rgba(0,0,0,.15);">
+            </a>
+          </div>
+        ` : ''}
+      </div>
+    `;
+
+    // ===== Tab: Timeline =====
+    const timelineEvents = [];
+    timelineEvents.push({ icon: 'shopping-cart', color: '#f59e0b', title: 'إنشاء الطلب', date: o.createdAt, by: o.customerName });
+    if (o.processedAt) timelineEvents.push({ icon: 'play', color: '#3b82f6', title: 'بدء المعالجة', date: o.processedAt, by: o.processedByName });
+    if (o.assignedAt) timelineEvents.push({ icon: 'user-tie', color: '#8b5cf6', title: 'تعيين مندوب', date: o.assignedAt, by: o.deliveryAgentName });
+    if (o.shippedAt) timelineEvents.push({ icon: 'truck', color: '#8b5cf6', title: 'تم الشحن', date: o.shippedAt, by: o.shippedByName });
+    if (o.deliveredAt) timelineEvents.push({ icon: 'check-circle', color: '#22c55e', title: 'تم التسليم', date: o.deliveredAt, by: o.deliveredByName });
+    if (o.confirmedAt) timelineEvents.push({ icon: 'money-check-alt', color: '#16a34a', title: 'تأكيد الدفع', date: o.confirmedAt, by: o.confirmedByName });
+    if (o.cancelledAt) timelineEvents.push({ icon: 'times-circle', color: '#dc2626', title: 'الإلغاء', date: o.cancelledAt, by: o.releaseReason });
+    if (o.returnedAt) timelineEvents.push({ icon: 'undo', color: '#f97316', title: 'المرتجع', date: o.returnedAt });
+
+    timelineEvents.reverse();
+
+    const timelineHtml = `
+      <div class="od-tab-content ${_orderDetailTab === 'timeline' ? 'active' : ''}" id="od-tab-timeline">
+        <div style="position:relative;padding-right:30px;">
+          ${timelineEvents.map((evt, idx) => `
+            <div style="position:relative;padding-bottom:20px;">
+              <div style="position:absolute;right:-30px;top:2px;width:28px;height:28px;border-radius:50%;background:${evt.color};color:white;display:flex;align-items:center;justify-content:center;font-size:0.7rem;box-shadow:0 0 0 4px white, 0 0 0 5px ${evt.color}30;">
+                <i class="fas fa-${evt.icon}"></i>
+              </div>
+              ${idx < timelineEvents.length - 1 ? `<div style="position:absolute;right:-17px;top:30px;bottom:0;width:2px;background:${evt.color}40;"></div>` : ''}
+              <div style="background:white;border:1px solid var(--gray-200);border-radius:8px;padding:10px 12px;">
+                <div style="font-size:0.85rem;font-weight:900;color:var(--navy);margin-bottom:4px;">${evt.title}</div>
+                ${evt.by ? `<div style="font-size:0.72rem;color:var(--gray-500);margin-bottom:4px;">بواسطة: ${_esc(evt.by)}</div>` : ''}
+                <div style="font-size:0.72rem;color:var(--gray-400);">
+                  <i class="fas fa-clock"></i> ${evt.date ? formatDateTime(evt.date) : '—'}
+                </div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    `;
+
+    return summaryHtml + tabsHtml + overviewHtml + itemsHtml + paymentHtml + timelineHtml;
   }
 
+  // ============================================================
+  // 🆕 v2.1 — switchOrderDetailTab
+  // ============================================================
+  function switchOrderDetailTab(tab) {
+    _orderDetailTab = tab;
+    document.querySelectorAll('.od-tab').forEach(el => {
+      el.classList.toggle('active', el.dataset.tab === tab);
+    });
+    document.querySelectorAll('.od-tab-content').forEach(el => {
+      el.classList.toggle('active', el.id === 'od-tab-' + tab);
+    });
+  }
+
+  // ============================================================
+  // renderOrderModalActions (v2.1 — نفس سياسة التعديل + إلغاء)
+  // ============================================================
   function renderOrderModalActions(o) {
     const status = o.status || 'pending';
     const payStatus = o.paymentStatus || 'unpaid';
     const isReserved = o.reserved === true && !o.released;
     const canConfirmPay = orState.isSuper || orState.isAdminPlus;
-    const canCancel = ['pending', 'processing', 'shipped'].includes(status) && payStatus !== 'paid';
+
+    const canCancel =
+      (['pending', 'processing', 'shipped'].includes(status) && payStatus !== 'paid' && payStatus !== 'refunded')
+      || (status === 'delivered' && payStatus !== 'paid' && payStatus !== 'refunded');
+
     const canReturn = ['delivered', 'shipped'].includes(status) && payStatus === 'paid' && (o.refundedAmount || 0) < (o.total || 0);
 
+    // سياسة التعديل الجديدة
+    const canEditByStatus = ['pending', 'processing', 'shipped'].includes(status);
+    const canEditByPayment = payStatus !== 'paid' && payStatus !== 'refunded';
+    const canEditByPlan = !o.installmentPlanId;
+    const isShippedEdit = status === 'shipped';
+    const canEditShipped = isShippedEdit ? (orState.isSuper || orState.isAdminPlus) : true;
+    const canEdit = canEditByStatus && canEditByPayment && canEditByPlan && canEditShipped;
+
+    let editDisabledReason = '';
+    if (!canEditByPlan) editDisabledReason = 'مرتبط بأقساط';
+    else if (!canEditByPayment) editDisabledReason = payStatus === 'paid' ? 'مدفوع' : 'مرتجع';
+    else if (!canEditByStatus) editDisabledReason = 'الحالة لا تسمح';
+    else if (!canEditShipped) editDisabledReason = 'المشحونة لـ super/admin_plus فقط';
+
     let html = `<button class="btn btn-outline" onclick="closeModal('orderModal')">إغلاق</button>`;
-     
-    if (['pending', 'processing'].includes(status) && payStatus !== 'paid' && payStatus !== 'refunded') {
-      html += `<button class="btn btn-outline" onclick="openEditOrder('${o.id}')">
+
+    if (canEdit) {
+      html += `<button class="btn btn-outline" onclick="openEditOrder('${o.id}')" style="border-color:#93c5fd;color:#1e40af;">
+        <i class="fas fa-edit"></i> تعديل
+      </button>`;
+    } else {
+      html += `<button class="btn btn-outline" disabled title="${editDisabledReason}" style="opacity:0.5;cursor:not-allowed;">
         <i class="fas fa-edit"></i> تعديل
       </button>`;
     }
-     
+
     if (status === 'pending') {
       html += `<button class="btn btn-gold" onclick="startProcessing('${o.id}')">
         <i class="fas fa-play"></i> بدء المعالجة
@@ -1380,7 +1535,6 @@
 
         const now = firebase.firestore.FieldValue.serverTimestamp();
 
-        // 1. إضافة المديونية (لو عميل مسجل)
         if (order.customerId && !order.balanceApplied) {
           const custRef = db.collection('customers').doc(order.customerId);
           const custDoc = await t.get(custRef);
@@ -1392,7 +1546,6 @@
           }
         }
 
-        // 2. تحديث الطلب
         t.update(orderRef, {
           status: 'processing',
           balanceApplied: true,
@@ -1403,7 +1556,6 @@
           updatedAt: now
         });
 
-        // 3. إشعار العميل
         if (order.customerId) {
           t.set(db.collection('customer_notifications').doc(), {
             userId: order.customerId,
@@ -1435,12 +1587,9 @@
     const order = orState.orders.find(o => o.id === orderId);
     if (!order) return;
 
-    // تحميل المندوبين النشطين
     let agents = [];
     try {
-      const snap = await db.collection('delivery_agents')
-        .where('active', '==', true)
-        .get();
+      const snap = await db.collection('delivery_agents').where('active', '==', true).get();
       snap.forEach(doc => agents.push({ id: doc.id, ...doc.data() }));
     } catch (err) {
       console.warn('Load agents:', err);
@@ -1451,7 +1600,7 @@
       : '<option value="">لا يوجد مندوبون نشطون</option>';
 
     const html = `
-      <div class="modal-overlay show" id="assignModal" onclick="closeModal('assignModal', event)">
+      <div class="modal-overlay show" id="assignModal" onclick="closeModal('assignModal')">
         <div class="modal-content medium" onclick="event.stopPropagation()">
           <div class="modal-header">
             <h2><i class="fas fa-user-tie"></i> تعيين مندوب</h2>
@@ -1527,7 +1676,6 @@
         updatedAt: now
       });
 
-      // إشعار للمندوب
       try {
         await db.collection('notifications').add({
           userId: agentId,
@@ -1554,7 +1702,7 @@
   }
 
   // ============================================================
-  // 4️⃣ تم الشحن (بدون commit مخزون)
+  // 4️⃣ تم الشحن
   // ============================================================
   async function markShipped(orderId) {
     if (!orState.isAdmin) { window.showToast('غير مصرح', 'warning'); return; }
@@ -1605,7 +1753,7 @@
   }
 
   // ============================================================
-  // 5️⃣ تم التسليم (commit المخزون — بدون تأكيد دفع)
+  // 5️⃣ تم التسليم (commit المخزون)
   // ============================================================
   async function markDelivered(orderId) {
     if (!orState.isAdmin) { window.showToast('غير مصرح', 'warning'); return; }
@@ -1633,7 +1781,6 @@
         const branchId = order.branchId || 'RGB';
         const now = firebase.firestore.FieldValue.serverTimestamp();
 
-        // ===== قراءة + خصم =====
         for (const item of items) {
           const qty = item.quantity || 0;
           if (qty <= 0) continue;
@@ -1703,8 +1850,7 @@
   }
 
   // ============================================================
-  // 6️⃣ تأكيد الدفع (invoice + cashbox + balance -=)
-  //    يدعم: (processing → paid) أو (delivered → paid)
+  // 6️⃣ تأكيد الدفع
   // ============================================================
   async function confirmPayment(orderId) {
     if (!orState.isSuper && !orState.isAdminPlus) {
@@ -1744,7 +1890,6 @@
         const now = firebase.firestore.FieldValue.serverTimestamp();
         const needsStockCommit = !order.stockCommitted;
 
-        // ===== 1. خصم المخزون (لو لسه ما اتعملش) =====
         if (needsStockCommit) {
           for (const item of items) {
             const qty = item.quantity || 0;
@@ -1782,7 +1927,6 @@
           }
         }
 
-        // ===== 2. خصم المديونية =====
         if (order.customerId && order.balanceApplied) {
           const custRef = db.collection('customers').doc(order.customerId);
           t.update(custRef, {
@@ -1790,7 +1934,6 @@
           });
         }
 
-        // ===== 3. إنشاء فاتورة =====
         invoiceRef = db.collection('invoices').doc();
         t.set(invoiceRef, {
           id: invoiceRef.id,
@@ -1818,7 +1961,6 @@
           createdByName: orState.adminName
         });
 
-        // ===== 4. إضافة للصندوق =====
         const cashboxRef = db.collection('cashbox').doc();
         t.set(cashboxRef, {
           id: cashboxRef.id,
@@ -1847,7 +1989,6 @@
           rejectionReason: ''
         });
 
-        // ===== 5. تحديث الطلب =====
         t.update(orderRef, {
           status: needsStockCommit ? 'delivered' : (order.status || 'delivered'),
           paymentStatus: 'paid',
@@ -1868,7 +2009,6 @@
           updatedAt: now
         });
 
-        // ===== 6. إشعار العميل =====
         if (order.customerId) {
           t.set(db.collection('customer_notifications').doc(), {
             userId: order.customerId,
@@ -1893,7 +2033,7 @@
   }
 
   // ============================================================
-  // 7️⃣ إلغاء الطلب
+  // 7️⃣ 🆕 v2.1 — إلغاء الطلب (يدعم delivered + unpaid)
   // ============================================================
   async function cancelOrder(orderId) {
     if (!orState.isAdmin) { window.showToast('غير مصرح', 'warning'); return; }
@@ -1901,7 +2041,7 @@
     const reason = prompt('سبب إلغاء الطلب:', '');
     if (reason === null) return;
 
-    if (!confirm('إلغاء الطلب؟ سيتم إرجاع الكميات المحجوزة وخصم المديونية.')) return;
+    if (!confirm('إلغاء الطلب؟ سيتم إرجاع المخزون وإزالة المديونية (إن وُجدت).')) return;
 
     try {
       const orderRef = db.collection('orders').doc(orderId);
@@ -1911,20 +2051,59 @@
         if (!orderDoc.exists) throw new Error('الطلب غير موجود');
         const order = orderDoc.data();
 
-        if (['delivered', 'cancelled', 'auto_cancelled', 'returned'].includes(order.status)) {
-          throw new Error('لا يمكن إلغاء طلب بهذه الحالة');
+        // منع الإلغاء للحالات النهائية
+        if (['cancelled', 'auto_cancelled', 'returned'].includes(order.status)) {
+          throw new Error('لا يمكن إلغاء طلب في هذه الحالة');
         }
         if (order.paymentStatus === 'paid') {
           throw new Error('لا يمكن إلغاء طلب مدفوع — استخدم مرتجع');
+        }
+        if (order.paymentStatus === 'refunded') {
+          throw new Error('الطلب مرتجع بالفعل');
         }
 
         const items = order.items || [];
         const isWholesale = order.storeType === 'wholesale';
         const branchId = order.branchId || 'RGB';
         const now = firebase.firestore.FieldValue.serverTimestamp();
+        const wasDelivered = order.status === 'delivered';
+        const wasCommitted = order.stockCommitted === true;
 
-        // ===== Release الحجز =====
-        if (order.reserved && !order.released && !order.stockCommitted) {
+        // ===== 1. إرجاع/تحرير المخزون =====
+        if (wasDelivered && wasCommitted) {
+          // ✅ الطلب مسلّم — المخزون كان مخصوم نهائياً → نرجعه
+          for (const item of items) {
+            const qty = item.quantity || 0;
+            if (qty <= 0) continue;
+
+            if (isWholesale) {
+              const pRef = db.collection('products').doc(item.productId);
+              const pDoc = await t.get(pRef);
+              if (pDoc.exists) {
+                const p = pDoc.data();
+                const ppu = p.piecesPerUnit || 1;
+                const currentTotal = (p.warehouseStock || 0) * ppu + (p.warehousePieces || 0);
+                const newTotal = currentTotal + qty;
+                t.update(pRef, {
+                  warehouseStock: Math.floor(newTotal / ppu),
+                  warehousePieces: newTotal % ppu,
+                  updatedAt: now
+                });
+              }
+            } else {
+              const invRef = db.collection('branch_inventory').doc(`${branchId}_${item.productId}`);
+              const invDoc = await t.get(invRef);
+              if (invDoc.exists) {
+                t.update(invRef, {
+                  piecesQty: firebase.firestore.FieldValue.increment(qty),
+                  availableQty: firebase.firestore.FieldValue.increment(qty),
+                  lastUpdated: now
+                });
+              }
+            }
+          }
+        } else if (order.reserved && !order.released && !order.stockCommitted) {
+          // ✅ الحجز لسه ما اتحولش لخصم → نحرره فقط
           for (const item of items) {
             const qty = item.quantity || 0;
             if (qty <= 0) continue;
@@ -1944,7 +2123,7 @@
           }
         }
 
-        // ===== إزالة المديونية =====
+        // ===== 2. إزالة المديونية (لو لسه ما اتعملتش فاتورة) =====
         if (order.customerId && order.balanceApplied && !order.invoiceGenerated) {
           const custRef = db.collection('customers').doc(order.customerId);
           t.update(custRef, {
@@ -1952,7 +2131,7 @@
           });
         }
 
-        // ===== تحديث الطلب =====
+        // ===== 3. تحديث الطلب =====
         t.update(orderRef, {
           status: 'cancelled',
           released: true,
@@ -1961,10 +2140,11 @@
           cancelledBy: orState.adminId,
           cancelledByName: orState.adminName,
           cancelledAt: now,
+          stockCommitted: false,
           updatedAt: now
         });
 
-        // ===== إشعار العميل =====
+        // ===== 4. إشعار العميل =====
         if (order.customerId) {
           t.set(db.collection('customer_notifications').doc(), {
             userId: order.customerId,
@@ -1999,6 +2179,7 @@
     const order = orState.orders.find(o => o.id === orderId);
     if (!order) return;
 
+    orState.currentOrderId = orderId;
     const maxRefund = (order.total || 0) - (order.refundedAmount || 0);
     const items = order.items || [];
 
@@ -2017,7 +2198,7 @@
     `).join('');
 
     const html = `
-      <div class="modal-overlay show" id="returnModal" onclick="closeModal('returnModal', event)">
+      <div class="modal-overlay show" id="returnModal" onclick="closeModal('returnModal')">
         <div class="modal-content" onclick="event.stopPropagation()">
           <div class="modal-header" style="background:linear-gradient(135deg,#c2410c,#f97316);">
             <h2><i class="fas fa-undo"></i> مرتجع الطلب #${orderId.slice(-8).toUpperCase()}</h2>
@@ -2083,7 +2264,6 @@
     document.getElementById('modalContainer').innerHTML = html;
     document.body.style.overflow = 'hidden';
 
-    // Live preview
     setTimeout(() => {
       document.querySelectorAll('.return-item-qty, .return-item-check').forEach(el => {
         el.addEventListener('input', updateReturnPreview);
@@ -2101,8 +2281,7 @@
     order.items.forEach((item, idx) => {
       const check = document.querySelector(`.return-item-check[data-idx="${idx}"]`);
       const qtyInput = document.querySelector(`.return-item-qty[data-idx="${idx}"]`);
-      if (!check || !qtyInput) return;
-      if (!check.checked) return;
+      if (!check || !qtyInput || !check.checked) return;
       const qty = parseInt(qtyInput.value) || 0;
       total += qty * (item.price || 0);
     });
@@ -2119,7 +2298,6 @@
     const refundMethod = document.getElementById('refundMethod').value;
     const notes = document.getElementById('returnNotes').value.trim();
 
-    // جمع المنتجات المرتجعة
     const returnItems = [];
     let refundTotal = 0;
 
@@ -2167,7 +2345,6 @@
         if (!orderDoc.exists) throw new Error('الطلب غير موجود');
         const o = orderDoc.data();
 
-        // ===== 1. إرجاع المخزون =====
         for (const ri of returnItems) {
           if (isWholesale) {
             const pRef = db.collection('products').doc(ri.productId);
@@ -2194,7 +2371,6 @@
           }
         }
 
-        // ===== 2. إنشاء سجل المرتجع =====
         const returnRef = db.collection('returns').doc();
         t.set(returnRef, {
           id: returnRef.id,
@@ -2220,7 +2396,6 @@
           approvedAt: now
         });
 
-        // ===== 3. cashbox expense (لو كاش/instapay/wallet) =====
         if (['cash', 'instapay', 'wallet'].includes(refundMethod)) {
           const cbRef = db.collection('cashbox').doc();
           t.set(cbRef, {
@@ -2252,7 +2427,6 @@
           t.update(returnRef, { cashboxEntryId: cbRef.id });
         }
 
-        // ===== 4. credit_note → خصم من رصيد العميل =====
         if (refundMethod === 'credit_note' && o.customerId) {
           const custRef = db.collection('customers').doc(o.customerId);
           t.update(custRef, {
@@ -2260,7 +2434,6 @@
           });
         }
 
-        // ===== 5. تحديث الطلب =====
         const newRefunded = (o.refundedAmount || 0) + refundTotal;
         const isFullyReturned = newRefunded >= (o.total || 0);
 
@@ -2273,7 +2446,6 @@
           updatedAt: now
         });
 
-        // ===== 6. إشعار العميل =====
         if (o.customerId) {
           t.set(db.collection('customer_notifications').doc(), {
             userId: o.customerId,
@@ -2310,6 +2482,8 @@
     const order = orState.orders.find(o => o.id === orderId);
     if (!order) return;
 
+    orState.currentOrderId = orderId;
+
     const total = order.total || 0;
     const cfg = window.CREDIT_CONFIG;
 
@@ -2324,7 +2498,7 @@
     }).join('');
 
     const html = `
-      <div class="modal-overlay show" id="installmentModal" onclick="closeModal('installmentModal', event)">
+      <div class="modal-overlay show" id="installmentModal" onclick="closeModal('installmentModal')">
         <div class="modal-content medium" onclick="event.stopPropagation()">
           <div class="modal-header" style="background:linear-gradient(135deg,#5b21b6,#7c3aed);">
             <h2><i class="fas fa-calendar-check"></i> إنشاء خطة أقساط</h2>
@@ -2544,6 +2718,8 @@
     const order = orState.orders.find(o => o.id === orderId);
     if (!order) return;
 
+    orState.currentOrderId = orderId;
+
     const templates = [
       { key: 'order_confirmed', label: 'تأكيد الطلب' },
       { key: 'order_shipped', label: 'تم الشحن' },
@@ -2553,7 +2729,7 @@
     ];
 
     const html = `
-      <div class="modal-overlay show" id="whatsappModal" onclick="closeModal('whatsappModal', event)">
+      <div class="modal-overlay show" id="whatsappModal" onclick="closeModal('whatsappModal')">
         <div class="modal-content small" onclick="event.stopPropagation()">
           <div class="modal-header" style="background:linear-gradient(135deg,#15803d,#22c55e);">
             <h2><i class="fab fa-whatsapp"></i> إرسال واتساب</h2>
@@ -2616,7 +2792,6 @@
     const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
     window.open(url, '_blank');
 
-    // تسجيل في whatsapp_outbox
     try {
       await db.collection('whatsapp_outbox').add({
         recipientPhone: order.customerPhone,
@@ -2663,7 +2838,6 @@
     }
 
     try {
-      // جلب الفاتورة
       const invoiceDoc = await db.collection('invoices').doc(order.invoiceId).get();
       if (!invoiceDoc.exists) throw new Error('الفاتورة غير موجودة');
       const invoice = invoiceDoc.data();
@@ -2766,15 +2940,19 @@
   }
 
   // ============================================================
-  // 1️⃣2️⃣ تعديل الطلب الكامل (بيانات + منتجات)
-  //     ⚠️ Transaction ذرّي: release/re-reserve + recalc + balance
+  // 1️⃣2️⃣ تعديل الطلب (v2.1 — shipped for super/plus)
   // ============================================================
   async function openEditOrder(orderId) {
     const order = orState.orders.find(o => o.id === orderId);
     if (!order) { window.showToast('الطلب غير موجود', 'error'); return; }
 
-    if (!['pending', 'processing'].includes(order.status)) {
-      window.showToast('لا يمكن تعديل طلب في هذه الحالة — استخدم الإلغاء وإعادة الإنشاء', 'warning');
+    // ✅ v2.1: سياسة التعديل الجديدة
+    if (!['pending', 'processing', 'shipped'].includes(order.status)) {
+      window.showToast('لا يمكن تعديل طلب في هذه الحالة', 'warning');
+      return;
+    }
+    if (order.status === 'shipped' && !orState.isSuper && !orState.isAdminPlus) {
+      window.showToast('تعديل الطلبات المشحونة متاح لـ super/admin_plus فقط', 'warning');
       return;
     }
     if (order.paymentStatus === 'paid' || order.paymentStatus === 'refunded') {
@@ -2802,7 +2980,7 @@
     }
 
     const html = `
-      <div class="modal-overlay show" id="editOrderModal" onclick="closeModal('editOrderModal', event)">
+      <div class="modal-overlay show" id="editOrderModal" onclick="closeModal('editOrderModal')">
         <div class="modal-content" onclick="event.stopPropagation()">
           <div class="modal-header" style="background:linear-gradient(135deg,#1e40af,#2563eb);">
             <h2><i class="fas fa-edit"></i> تعديل الطلب #${order.id.slice(-8).toUpperCase()}</h2>
@@ -2810,7 +2988,6 @@
           </div>
           <div class="modal-body">
 
-            <!-- بيانات العميل -->
             <div class="detail-section">
               <h4><i class="fas fa-user"></i> بيانات العميل</h4>
               <div style="margin-bottom:10px;">
@@ -2841,7 +3018,6 @@
               </div>
             </div>
 
-            <!-- المنتجات -->
             <div class="detail-section">
               <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
                 <h4 style="margin:0;"><i class="fas fa-boxes"></i> المنتجات</h4>
@@ -3039,7 +3215,7 @@
     orState.editPickerSearch = '';
 
     const html = `
-      <div class="modal-overlay show" id="editPickerModal" onclick="closeModal('editPickerModal', event)">
+      <div class="modal-overlay show" id="editPickerModal" onclick="closeModal('editPickerModal')">
         <div class="modal-content medium" onclick="event.stopPropagation()">
           <div class="modal-header" style="background:linear-gradient(135deg,#065f46,#10b981);">
             <h2><i class="fas fa-plus-circle"></i> إضافة منتج</h2>
@@ -3114,6 +3290,9 @@
     updateEditTotalsPreview();
   }
 
+  // ============================================================
+  // 🆕 v2.1 — saveEditedOrder (يقبل shipped لـ super/plus)
+  // ============================================================
   async function saveEditedOrder(orderId) {
     const name = (document.getElementById('editName')?.value || '').trim();
     const phone = (document.getElementById('editPhone')?.value || '').trim();
@@ -3153,8 +3332,16 @@
         if (!orderDoc.exists) throw new Error('الطلب غير موجود');
         const o = orderDoc.data();
 
-        if (!['pending', 'processing'].includes(o.status)) throw new Error('الطلب لم يعد قابلاً للتعديل');
-        if (o.paymentStatus === 'paid' || o.paymentStatus === 'refunded') throw new Error('الطلب مدفوع — لا يمكن تعديله');
+        // ✅ v2.1: قبول shipped لـ super/plus
+        if (!['pending', 'processing', 'shipped'].includes(o.status)) {
+          throw new Error('الطلب لم يعد قابلاً للتعديل');
+        }
+        if (o.status === 'shipped' && !orState.isSuper && !orState.isAdminPlus) {
+          throw new Error('تعديل الطلبات المشحونة متاح لـ super/admin_plus فقط');
+        }
+        if (o.paymentStatus === 'paid' || o.paymentStatus === 'refunded') {
+          throw new Error('الطلب مدفوع — لا يمكن تعديله');
+        }
 
         const isWholesale = o.storeType === 'wholesale';
         const branchId = o.branchId || 'RGB';
@@ -3307,10 +3494,6 @@
     }
   }
 
-  // Helper
-  function _escAttr(s) {
-    return String(s ?? '').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-  }
   // ============================================================
   // Exports
   // ============================================================
@@ -3323,7 +3506,7 @@
   window.closeModal = closeModal;
   window.closeAllModals = closeAllModals;
   window.releaseExpiredManual = releaseExpiredManual;
- window.openOrderDetails = openOrderDetails;
+  window.openOrderDetails = openOrderDetails;
   window.startProcessing = startProcessing;
   window.confirmPayment = confirmPayment;
   window.cancelOrder = cancelOrder;
@@ -3353,6 +3536,8 @@
   window.filterEditPicker = filterEditPicker;
   window.renderEditPickerList = renderEditPickerList;
   window.addProductToEditOrder = addProductToEditOrder;
+  // 🆕 v2.1
+  window.switchOrderDetailTab = switchOrderDetailTab;
   </script>
 
 </body>
