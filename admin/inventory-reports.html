@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>تقارير المخزون — أولاد شعلان</title>
+  <meta name="theme-color" content="#1a2a4a">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/gomla/assets/css/style.css">
+  <link rel="icon" href="/gomla/assets/images/favicon.ico">
+
+  <style>
+    html, body { overflow-x: hidden !important; max-width: 100vw; }
+
+    /* ============================================================ */
+    /* Header                                                        */
+    /* ============================================================ */
+    .inv-header {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+      border-radius: var(--radius-lg); padding: 22px 24px; margin-bottom: 18px;
+      color: var(--white); position: relative; overflow: hidden;
+      box-shadow: 0 12px 40px rgba(26,42,74,.25);
+      border-bottom: 4px solid var(--gold);
+    }
+    .inv-header::before {
+      content: ''; position: absolute; top: -50%; right: -15%;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(201,168,76,.18) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .inv-header-inner {
+      position: relative; z-index: 1;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .inv-header-left { display: flex; align-items: center; gap: 16px; flex: 1; min-width: 220px; }
+    .inv-header-icon {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy); display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+      box-shadow: 0 8px 24px rgba(201,168,76,.4);
+    }
+    .inv-header h1 { font-size: 1.35rem; font-weight: 900; margin: 0 0 3px; color: var(--white); }
+    .inv-header p { font-size: 0.83rem; opacity: 0.88; margin: 0; }
+    .inv-header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .inv-header-actions .btn {
+      background: rgba(255,255,255,.15); color: var(--white);
+      border: 1px solid rgba(255,255,255,.3);
+      padding: 8px 14px; border-radius: var(--radius-sm);
+      font-family: inherit; font-weight: 700; font-size: 0.82rem;
+      cursor: pointer; transition: var(--transition);
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .inv-header-actions .btn:hover { background: var(--gold); color: var(--navy); border-color: var(--gold); }
+    .inv-header-actions .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* ============================================================ */
+    /* Stats                                                         */
+    /* ============================================================ */
+    .inv-stats {
+      display: grid; grid-template-columns: repeat(6, 1fr);
+      gap: 10px; margin-bottom: 16px;
+    }
+    .inv-stat {
+      background: var(--white); border-radius: var(--radius-md);
+      padding: 14px 10px; box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      text-align: center; transition: var(--transition);
+      text-decoration: none; color: inherit;
+      position: relative; overflow: hidden;
+      cursor: pointer;
+    }
+    .inv-stat:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--gold-light); }
+    .inv-stat.active { border-color: var(--gold); background: linear-gradient(135deg, #fcf9f0, #f8f4e8); }
+    .inv-stat-icon {
+      width: 38px; height: 38px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1rem; margin: 0 auto 6px;
+    }
+    .inv-stat-icon.navy   { background: rgba(26,42,74,.12); color: var(--navy); }
+    .inv-stat-icon.blue   { background: rgba(59,130,246,.12); color: #2563eb; }
+    .inv-stat-icon.teal   { background: rgba(20,184,166,.12); color: #0d9488; }
+    .inv-stat-icon.orange { background: rgba(249,115,22,.12); color: #ea580c; }
+    .inv-stat-icon.gold   { background: rgba(201,168,76,.15); color: var(--gold-dark); }
+    .inv-stat-icon.red    { background: rgba(239,68,68,.12);  color: #dc2626; }
+    .inv-stat-num { font-size: 1.15rem; font-weight: 900; color: var(--navy); line-height: 1.2; margin-bottom: 2px; }
+    .inv-stat-num.navy   { color: var(--navy); }
+    .inv-stat-num.blue   { color: #2563eb; }
+    .inv-stat-num.teal   { color: #0d9488; }
+    .inv-stat-num.orange { color: #ea580c; }
+    .inv-stat-num.gold   { color: var(--gold-dark); }
+    .inv-stat-num.red    { color: #dc2626; }
+    .inv-stat-label { font-size: 0.65rem; color: var(--gray-500); font-weight: 700; line-height: 1.2; }
+
+    /* ============================================================ */
+    /* Tabs                                                          */
+    /* ============================================================ */
+    .inv-tabs {
+      display: flex; gap: 6px; margin-bottom: 16px;
+      background: var(--white); padding: 8px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      overflow-x: auto; scrollbar-width: thin;
+    }
+    .inv-tabs::-webkit-scrollbar { height: 4px; }
+    .inv-tabs::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
+    .inv-tab {
+      flex-shrink: 0; padding: 10px 16px;
+      border: 2px solid var(--gray-200); background: var(--white);
+      color: var(--gray-600); border-radius: var(--radius-sm);
+      font-family: inherit; font-weight: 800; font-size: 0.82rem;
+      cursor: pointer; transition: all 0.25s ease;
+      display: inline-flex; align-items: center; gap: 6px;
+      white-space: nowrap;
+    }
+    .inv-tab:hover { border-color: var(--gold-light); background: var(--gray-50); }
+    .inv-tab.active {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white); border-color: var(--navy);
+      box-shadow: 0 6px 16px rgba(26,42,74,.25);
+    }
+    .inv-tab.active i { color: var(--gold); }
+    .inv-tab .tab-count {
+      background: rgba(0,0,0,.08); padding: 1px 7px;
+      border-radius: 10px; font-size: 0.65rem; font-weight: 900;
+      min-width: 20px; text-align: center;
+    }
+    .inv-tab.active .tab-count { background: var(--gold); color: var(--navy); }
+
+    /* ============================================================ */
+    /* Filters                                                       */
+    /* ============================================================ */
+    .inv-filters {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      margin-bottom: 16px;
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+    }
+    .inv-search { position: relative; flex: 1; min-width: 200px; }
+    .inv-search input {
+      width: 100%; padding: 10px 40px 10px 14px;
+      border: 2px solid var(--gray-200); border-radius: var(--radius-sm);
+      font-family: inherit; font-size: 0.88rem;
+      background: var(--gray-50); outline: none; transition: var(--transition);
+    }
+    .inv-search input:focus { border-color: var(--gold); background: var(--white); box-shadow: 0 0 0 4px rgba(201,168,76,.15); }
+    .inv-search i { position: absolute; right: 13px; top: 50%; transform: translateY(-50%); color: var(--gray-400); }
+    .inv-filters select {
+      padding: 10px 12px;
+      border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm);
+      font-family: inherit; font-size: 0.82rem;
+      background: var(--gray-50); outline: none;
+      cursor: pointer; min-width: 120px;
+    }
+    .inv-filters select:focus { border-color: var(--gold); background: var(--white); }
+    .inv-filters .btn-icon-only {
+      padding: 10px 14px;
+      border: 2px solid var(--gray-200);
+      background: var(--white); border-radius: var(--radius-sm);
+      color: var(--gray-600); cursor: pointer; transition: var(--transition);
+    }
+    .inv-filters .btn-icon-only:hover { border-color: var(--gold); color: var(--gold-dark); }
+
+    /* ============================================================ */
+    /* List (Cards)                                                  */
+    /* ============================================================ */
+    .inv-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+
+    .inv-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      padding: 12px 16px;
+      transition: var(--transition);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 56px 1fr auto auto auto;
+      gap: 14px;
+      align-items: center;
+    }
+    .inv-card::before {
+      content: ''; position: absolute; top: 0; right: 0;
+      width: 4px; height: 100%; background: var(--gold);
+    }
+    .inv-card.status-available::before { background: #22c55e; }
+    .inv-card.status-low::before       { background: #f59e0b; }
+    .inv-card.status-out::before       { background: #ef4444; }
+    .inv-card:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+      border-color: var(--gold-light);
+    }
+    .inv-card-img {
+      width: 56px; height: 56px;
+      border-radius: 8px; object-fit: cover;
+      border: 1px solid var(--gray-200);
+      flex-shrink: 0;
+    }
+    .inv-card-info { min-width: 0; }
+    .inv-card-name {
+      font-size: 0.92rem; font-weight: 900;
+      color: var(--navy); margin-bottom: 4px;
+      overflow: hidden; text-overflow: ellipsis;
+      display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical;
+    }
+    .inv-card-meta {
+      display: flex; gap: 10px; flex-wrap: wrap;
+      font-size: 0.72rem; color: var(--gray-500);
+    }
+    .inv-card-meta span {
+      display: inline-flex; align-items: center; gap: 3px;
+    }
+    .inv-card-meta i { color: var(--gold); font-size: 0.65rem; }
+
+    .inv-card-branches {
+      display: flex; gap: 6px; flex-wrap: wrap;
+    }
+    .inv-branch-cell {
+      min-width: 62px;
+      text-align: center;
+      padding: 6px 8px;
+      border-radius: 6px;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+      transition: var(--transition);
+    }
+    .inv-branch-cell.wh { background: #eff6ff; border-color: #bfdbfe; }
+    .inv-branch-cell.wh .inv-branch-lbl { color: #1e40af; }
+    .inv-branch-cell.wh .inv-branch-val { color: #1e40af; }
+    .inv-branch-cell.low {
+      background: #fef3c7;
+      border-color: #fcd34d;
+    }
+    .inv-branch-cell.low .inv-branch-val { color: #d97706; }
+    .inv-branch-cell.zero {
+      background: #fef2f2;
+      border-color: #fca5a5;
+    }
+    .inv-branch-cell.zero .inv-branch-val { color: #dc2626; }
+    .inv-branch-lbl {
+      font-size: 0.62rem; font-weight: 900;
+      color: var(--gray-600); margin-bottom: 2px;
+      text-transform: uppercase; letter-spacing: 0.5px;
+    }
+    .inv-branch-val {
+      font-size: 1rem; font-weight: 900;
+      color: var(--navy); line-height: 1;
+    }
+
+    .inv-card-totals {
+      display: flex; gap: 8px;
+    }
+    .inv-total-cell {
+      text-align: center;
+      min-width: 68px;
+    }
+    .inv-total-lbl {
+      font-size: 0.65rem; font-weight: 800;
+      color: var(--gray-500); margin-bottom: 2px;
+    }
+    .inv-total-val {
+      font-size: 1.05rem; font-weight: 900;
+      color: var(--navy);
+    }
+    .inv-total-val.green  { color: #16a34a; }
+    .inv-total-val.orange { color: #d97706; }
+    .inv-total-val.red    { color: #dc2626; }
+
+    .inv-status-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 6px 12px; border-radius: var(--radius-full);
+      font-size: 0.72rem; font-weight: 900;
+      white-space: nowrap;
+    }
+    .inv-status-badge.status-available { background: #dcfce7; color: #15803d; }
+    .inv-status-badge.status-low       { background: #fef3c7; color: #a16207; }
+    .inv-status-badge.status-out       { background: #fef2f2; color: #991b1b; }
+
+    /* ============================================================ */
+    /* Empty / Loading                                               */
+    /* ============================================================ */
+    .inv-empty, .inv-loading {
+      text-align: center; padding: 60px 20px;
+      background: var(--white); border-radius: var(--radius-md);
+      border: 2px dashed var(--gray-300);
+    }
+    .inv-empty .empty-icon {
+      width: 90px; height: 90px; border-radius: 50%;
+      background: var(--gray-100); color: var(--gray-400);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.2rem; margin: 0 auto 16px;
+    }
+    .inv-empty h3 { font-size: 1.1rem; font-weight: 900; color: var(--navy); margin-bottom: 6px; }
+    .inv-empty p { font-size: 0.85rem; color: var(--gray-500); }
+    .inv-loading i { font-size: 2rem; color: var(--gold); margin-bottom: 10px; }
+
+    .inv-warning-banner {
+      background: #fef3c7;
+      border: 2px solid #fbbf24;
+      color: #92400e;
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      display: flex; align-items: center; gap: 10px;
+      font-size: 0.88rem; font-weight: 700;
+    }
+
+    /* ============================================================ */
+    /* Modal                                                         */
+    /* ============================================================ */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(15,26,46,.75); backdrop-filter: blur(4px);
+      z-index: 999; justify-content: center; align-items: center;
+      padding: 20px; overflow-y: auto;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal-content {
+      background: var(--white); border-radius: var(--radius-lg);
+      max-width: 820px; width: 100%;
+      max-height: 92vh; overflow-y: auto;
+      padding: 0; position: relative;
+      animation: modalSlide .3s ease;
+    }
+    @keyframes modalSlide { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .modal-header {
+      padding: 18px 22px;
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      display: flex; justify-content: space-between; align-items: center;
+      position: sticky; top: 0; z-index: 2;
+    }
+    .modal-header h2 {
+      font-size: 1.05rem; font-weight: 900; margin: 0;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .modal-header h2 i { color: var(--gold); }
+    .modal-close {
+      background: rgba(255,255,255,.15); border: none;
+      color: var(--white); width: 32px; height: 32px;
+      border-radius: 50%; cursor: pointer; font-size: 1.1rem;
+      transition: var(--transition);
+    }
+    .modal-close:hover { background: var(--danger); transform: rotate(90deg); }
+    .modal-body { padding: 20px 22px; }
+    .modal-actions {
+      padding: 16px 22px; border-top: 2px solid var(--gray-100);
+      display: flex; gap: 10px; justify-content: flex-end;
+      position: sticky; bottom: 0; background: var(--white);
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      padding: 9px 18px; border: none; border-radius: var(--radius-sm);
+      font-family: inherit; font-weight: 800; font-size: 0.85rem;
+      cursor: pointer; transition: var(--transition);
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .btn-outline { background: transparent; border: 2px solid var(--gray-300); color: var(--gray-700); }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold-dark); }
+    .btn-gold { background: var(--gold); color: var(--navy); }
+    .btn-gold:hover { background: var(--gold-dark); color: var(--white); }
+
+    /* Modal Details */
+    .inv-hero {
+      display: flex; gap: 16px; align-items: center;
+      padding: 16px;
+      background: linear-gradient(135deg, #f8fafc, #eef2f7);
+      border-radius: 12px;
+      margin-bottom: 16px;
+    }
+    .inv-hero img {
+      width: 96px; height: 96px;
+      border-radius: 10px; object-fit: cover;
+      border: 2px solid white;
+      box-shadow: 0 4px 12px rgba(0,0,0,.1);
+    }
+    .inv-hero-info { flex: 1; min-width: 0; }
+    .inv-hero-name {
+      font-size: 1.15rem; font-weight: 900;
+      color: var(--navy); margin-bottom: 6px;
+    }
+    .inv-hero-meta {
+      display: flex; gap: 12px; flex-wrap: wrap;
+      font-size: 0.78rem; color: var(--gray-600);
+    }
+    .inv-hero-meta span {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 3px 10px; background: white;
+      border-radius: 12px; border: 1px solid var(--gray-200);
+    }
+    .inv-hero-meta i { color: var(--gold); }
+
+    .inv-detail-section {
+      margin-bottom: 16px;
+    }
+    .inv-detail-section h4 {
+      font-size: 0.92rem; font-weight: 900;
+      color: var(--navy); margin-bottom: 10px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .inv-detail-section h4 i { color: var(--gold); }
+
+    .inv-detail-card {
+      background: white;
+      border: 2px solid var(--gray-200);
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 12px;
+      position: relative;
+      overflow: hidden;
+    }
+    .inv-detail-card.wh { border-color: #bfdbfe; background: linear-gradient(135deg, #eff6ff, #f0f9ff); }
+    .inv-detail-card.low { border-color: #fcd34d; background: linear-gradient(135deg, #fef3c7, #fffbeb); }
+    .inv-detail-card.zero { border-color: #fca5a5; background: linear-gradient(135deg, #fef2f2, #fff5f5); }
+
+    .inv-detail-head {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 12px;
+    }
+    .inv-detail-name {
+      font-size: 0.95rem; font-weight: 900;
+      color: var(--navy);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .inv-detail-name .code-badge {
+      font-size: 0.65rem;
+      padding: 2px 8px;
+      background: var(--gray-100);
+      color: var(--gray-600);
+      border-radius: 10px;
+      font-weight: 800;
+    }
+    .inv-detail-status {
+      font-size: 0.7rem; font-weight: 900;
+      padding: 4px 12px; border-radius: 12px;
+    }
+    .inv-detail-status.ok   { background: #dcfce7; color: #15803d; }
+    .inv-detail-status.low  { background: #fef3c7; color: #a16207; }
+    .inv-detail-status.zero { background: #fef2f2; color: #991b1b; }
+
+    .inv-detail-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    .inv-detail-cell {
+      text-align: center;
+      padding: 8px;
+      background: rgba(255,255,255,.7);
+      border-radius: 6px;
+    }
+    .inv-detail-lbl {
+      font-size: 0.68rem; font-weight: 800;
+      color: var(--gray-500); margin-bottom: 4px;
+    }
+    .inv-detail-val {
+      font-size: 1.1rem; font-weight: 900;
+      color: var(--navy);
+    }
+    .inv-detail-val.green  { color: #16a34a; }
+    .inv-detail-val.orange { color: #d97706; }
+    .inv-detail-val.red    { color: #dc2626; }
+
+    .inv-progress {
+      margin-top: 10px;
+      height: 8px;
+      background: var(--gray-200);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .inv-progress-fill {
+      height: 100%;
+      border-radius: 10px;
+      transition: width 0.5s ease;
+    }
+    .inv-progress-fill.green  { background: linear-gradient(90deg, #22c55e, #16a34a); }
+    .inv-progress-fill.orange { background: linear-gradient(90deg, #f59e0b, #d97706); }
+    .inv-progress-fill.red    { background: linear-gradient(90deg, #ef4444, #dc2626); }
+
+    .inv-last-update {
+      font-size: 0.7rem;
+      color: var(--gray-400);
+      margin-top: 8px;
+      text-align: right;
+    }
+
+    .inv-summary-box {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: white;
+      padding: 16px 20px;
+      border-radius: 12px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .inv-summary-cell { text-align: center; }
+    .inv-summary-lbl {
+      font-size: 0.7rem; opacity: 0.8; margin-bottom: 4px;
+      font-weight: 700;
+    }
+    .inv-summary-val {
+      font-size: 1.3rem; font-weight: 900;
+      color: var(--gold);
+    }
+
+    /* ============================================================ */
+    /* Responsive                                                    */
+    /* ============================================================ */
+    @media (max-width: 1200px) {
+      .inv-stats { grid-template-columns: repeat(3, 1fr); }
+      .inv-card { grid-template-columns: 56px 1fr auto auto; }
+      .inv-card-totals { grid-column: 1 / -1; justify-content: space-around; padding-top: 8px; border-top: 1px solid var(--gray-100); }
+      .inv-status-badge { grid-column: 1 / -1; justify-self: start; }
+    }
+    @media (max-width: 992px) {
+      .inv-card { grid-template-columns: 56px 1fr auto; gap: 10px; }
+      .inv-card-branches { grid-column: 1 / -1; justify-content: space-around; padding-top: 8px; border-top: 1px solid var(--gray-100); }
+      .inv-detail-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 768px) {
+      .inv-header { padding: 16px; }
+      .inv-header-icon { width: 46px; height: 46px; font-size: 1.2rem; }
+      .inv-header h1 { font-size: 1.05rem; }
+      .inv-stats { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .inv-stat { padding: 11px 8px; }
+      .inv-stat-icon { width: 32px; height: 32px; font-size: 0.85rem; }
+      .inv-stat-num { font-size: 0.95rem; }
+      .inv-stat-label { font-size: 0.6rem; }
+      .inv-tab { padding: 8px 12px; font-size: 0.75rem; }
+      .inv-filters { flex-direction: column; align-items: stretch; }
+      .inv-search, .inv-filters select { min-width: 100%; }
+      .inv-card { padding: 10px 12px; }
+      .inv-card-img { width: 48px; height: 48px; }
+      .inv-card-name { font-size: 0.85rem; }
+      .inv-branch-cell { min-width: 54px; padding: 5px 6px; }
+      .inv-branch-val { font-size: 0.9rem; }
+      .inv-total-cell { min-width: 60px; }
+      .inv-total-val { font-size: 0.95rem; }
+      .modal-content { margin: 10px; }
+      .modal-body { padding: 16px; }
+      .modal-actions { padding: 12px 16px; }
+      .modal-actions .btn { flex: 1; justify-content: center; }
+      .inv-hero { flex-direction: column; text-align: center; }
+      .inv-hero-meta { justify-content: center; }
+      .inv-summary-box { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="mobile-top-bar"></div>
+  <div id="mobile-top-tabs"></div>
+  <div id="header-placeholder"></div>
+
+  <main class="page-content">
+    <div class="container">
+
+      <div class="inv-header">
+        <div class="inv-header-inner">
+          <div class="inv-header-left">
+            <div class="inv-header-icon"><i class="fas fa-warehouse"></i></div>
+            <div>
+              <h1>تقارير المخزون — Total Inventory</h1>
+              <p>مخزون المخزن المركزي + كل الفروع (فعلي · محجوز · متاح)</p>
+            </div>
+          </div>
+          <div class="inv-header-actions">
+            <button class="btn" onclick="loadData()" id="refreshBtn">
+              <i class="fas fa-sync-alt"></i> تحديث
+            </button>
+            <button class="btn" onclick="exportCSV()">
+              <i class="fas fa-file-csv"></i> تصدير CSV
+            </button>
+            <a href="/gomla/admin/transfers.html" class="btn">
+              <i class="fas fa-exchange-alt"></i> نقل مخزون
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div id="invWarningBanner"></div>
+
+      <div class="inv-stats" id="invStats">
+        <div class="inv-stat active" onclick="filterByStatus('all', event)">
+          <div class="inv-stat-icon navy"><i class="fas fa-boxes"></i></div>
+          <div class="inv-stat-num navy" id="statTotal">0</div>
+          <div class="inv-stat-label">إجمالي المنتجات</div>
+        </div>
+        <div class="inv-stat" onclick="filterByStatus('WH', event)">
+          <div class="inv-stat-icon blue"><i class="fas fa-warehouse"></i></div>
+          <div class="inv-stat-num blue" id="statWH">0</div>
+          <div class="inv-stat-label">في المخزن (WH)</div>
+        </div>
+        <div class="inv-stat" id="statBranch1Card" onclick="filterByStatus('BRANCH1', event)">
+          <div class="inv-stat-icon teal"><i class="fas fa-building"></i></div>
+          <div class="inv-stat-num teal" id="statBranch1">0</div>
+          <div class="inv-stat-label" id="statBranch1Label">الفرع 1</div>
+        </div>
+        <div class="inv-stat" id="statBranch2Card" onclick="filterByStatus('BRANCH2', event)">
+          <div class="inv-stat-icon orange"><i class="fas fa-building"></i></div>
+          <div class="inv-stat-num orange" id="statBranch2">0</div>
+          <div class="inv-stat-label" id="statBranch2Label">الفرع 2</div>
+        </div>
+        <div class="inv-stat" onclick="filterByStatus('low', event)">
+          <div class="inv-stat-icon gold"><i class="fas fa-exclamation-triangle"></i></div>
+          <div class="inv-stat-num gold" id="statLow">0</div>
+          <div class="inv-stat-label">منخفض المخزون</div>
+        </div>
+        <div class="inv-stat" onclick="filterByStatus('out', event)">
+          <div class="inv-stat-icon red"><i class="fas fa-times-circle"></i></div>
+          <div class="inv-stat-num red" id="statOut">0</div>
+          <div class="inv-stat-label">نافد</div>
+        </div>
+      </div>
+
+      <div class="inv-tabs" id="invTabs">
+        <button class="inv-tab active" data-tab="all" onclick="switchTab('all')">
+          <i class="fas fa-list"></i> الكل <span class="tab-count">0</span>
+        </button>
+      </div>
+
+      <div class="inv-filters">
+        <div class="inv-search">
+          <input type="text" id="invSearch" placeholder="بحث بالاسم / الباركود / SKU..." oninput="onSearchInput()">
+          <i class="fas fa-search"></i>
+        </div>
+        <select id="invCategory" onchange="applyFilters()">
+          <option value="">كل التصنيفات</option>
+        </select>
+        <select id="invBrand" onchange="applyFilters()">
+          <option value="">كل البراندات</option>
+        </select>
+        <select id="invStatus" onchange="applyFilters()">
+          <option value="">كل الحالات</option>
+          <option value="available">متاح</option>
+          <option value="low">منخفض</option>
+          <option value="out">نافد</option>
+        </select>
+        <button class="btn-icon-only" onclick="resetFilters()" title="إعادة تعيين">
+          <i class="fas fa-undo"></i>
+        </button>
+      </div>
+
+      <div class="inv-list" id="invList">
+        <div class="inv-loading"><i class="fas fa-spinner fa-spin"></i><p>جاري تحميل المخزون...</p></div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="mobile-bottom-tabs"></div>
+  <div id="mobile-copyright"></div>
+  <div id="footer-placeholder"></div>
+  <div id="sidebar-placeholder"></div>
+  <div id="toast-container"></div>
+  <div id="modalContainer"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="/gomla/assets/js/firebase-config.js"></script>
+  <script src="/gomla/assets/js/main.js"></script>
+
+  <script>
+  // ============================================================
+  // admin/inventory-reports.html v1.0
+  // Read-only — يعرض Total Inventory (WH + Σ branches)
+  // ============================================================
+
+  const invState = {
+    role: 'guest',
+    isSuper: false,
+    isAdminPlus: false,
+    isAdmin: false,
+    adminId: '',
+    adminName: '',
+    products: [],
+    branches: [],
+    categories: [],
+    brands: [],
+    merged: [],       // مدمج في الذاكرة
+    filtered: [],
+    currentTab: 'all',
+    searchDebounce: null,
+    loading: false
+  };
+
+  const STATUS_META = {
+    available: { label: 'متاح', icon: 'check-circle', cls: 'status-available' },
+    low:       { label: 'منخفض', icon: 'exclamation-triangle', cls: 'status-low' },
+    out:       { label: 'نافد', icon: 'times-circle', cls: 'status-out' }
+  };
+
+  // ============================================================
+  // Init
+  // ============================================================
+  document.addEventListener('DOMContentLoaded', async () => {
+    if (!protectAnyAdminPage()) return;
+
+    try {
+      const user = getCurrentUser();
+      invState.role = user.data?.role || 'admin';
+      invState.isSuper = invState.role === 'super';
+      invState.isAdminPlus = invState.role === 'admin_plus';
+      invState.isAdmin = ['super', 'admin_plus', 'admin'].includes(invState.role);
+      invState.adminId = user.data?.id || user.data?.uid || '';
+      invState.adminName = user.data?.name || '';
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeAllModals();
+      });
+
+      await loadData();
+      console.log('✅ inventory-reports v1.0 ready — role:', invState.role);
+
+    } catch (err) {
+      console.error('Init error:', err);
+      window.showToast('خطأ في تحميل الصفحة', 'error');
+    }
+  });
+
+  // ============================================================
+  // Load Data (read-only — get فقط، مفيش transactions)
+  // ============================================================
+  async function loadData() {
+    if (invState.loading) return;
+    invState.loading = true;
+
+    const btn = document.getElementById('refreshBtn');
+    if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التحميل'; }
+
+    const list = document.getElementById('invList');
+    if (list) list.innerHTML = `<div class="inv-loading"><i class="fas fa-spinner fa-spin"></i><p>جاري تحميل المخزون...</p></div>`;
+
+    try {
+      const [brSnap, pSnap, iSnap, catSnap, brandSnap] = await Promise.all([
+        db.collection('branches').where('active', '==', true).get(),
+        db.collection('products').where('available', '==', true).limit(800).get(),
+        db.collection('branch_inventory').limit(2000).get(),
+        db.collection('categories').orderBy('name').get().catch(() => ({ forEach: () => {} })),
+        db.collection('brands').orderBy('name').get().catch(() => ({ forEach: () => {} }))
+      ]);
+
+      // Branches
+      invState.branches = [];
+      brSnap.forEach(doc => invState.branches.push({ id: doc.id, ...doc.data() }));
+      invState.branches.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ar'));
+
+      // Products
+      invState.products = [];
+      pSnap.forEach(doc => invState.products.push({ id: doc.id, ...doc.data() }));
+      invState.products.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ar'));
+
+      // Inventory Map (branchId_productId)
+      const invMap = {};
+      iSnap.forEach(doc => {
+        const d = doc.data();
+        if (!d.productId || !d.branchId) return;
+        if (!invMap[d.productId]) invMap[d.productId] = {};
+        invMap[d.productId][d.branchId] = d;
+      });
+
+      // Categories + Brands (للفلاتر)
+      invState.categories = [];
+      catSnap.forEach(doc => invState.categories.push({ id: doc.id, ...doc.data() }));
+      invState.categories.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ar'));
+
+      invState.brands = [];
+      brandSnap.forEach(doc => invState.brands.push({ id: doc.id, ...doc.data() }));
+      invState.brands.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ar'));
+
+      // Merge in memory
+      invState.merged = invState.products.map(p => mergeProduct(p, invMap[p.id] || {}));
+
+      // Populate filters
+      populateCategoryFilter();
+      populateBrandFilter();
+
+      // Render
+      renderTabs();
+      updateStats();
+      updateBranchStatCards();
+      applyFilters();
+
+      // Warning banner
+      checkBranchesWarning();
+
+      invState.loading = false;
+      if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-sync-alt"></i> تحديث'; }
+
+    } catch (err) {
+      invState.loading = false;
+      if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-sync-alt"></i> تحديث'; }
+      console.error('loadData error:', err);
+      if (list) list.innerHTML = `
+        <div class="inv-empty">
+          <div class="empty-icon"><i class="fas fa-exclamation-triangle"></i></div>
+          <h3>فشل التحميل</h3>
+          <p>${err.code === 'permission-denied' ? 'ليس لديك صلاحية' : 'خطأ: ' + err.message}</p>
+        </div>`;
+    }
+  }
+
+  // ============================================================
+  // Merge Product (WH + Branches)
+  // ============================================================
+  function getInventoryBranches() {
+    return invState.branches.filter(b => !b.isWarehouse && b.id !== 'WH');
+  }
+
+  function mergeProduct(p, invByBranch) {
+    const ppu = p.piecesPerUnit || 1;
+    const whPieces = (p.warehouseStock || 0) * ppu + (p.warehousePieces || 0);
+    const whReserved = p.reservedPieces || 0;
+    const whAvailable = Math.max(0, whPieces - whReserved);
+    const whMinAlert = p.warehouseMinAlert || 10;
+
+    const branches = {};
+    getInventoryBranches().forEach(b => {
+      const inv = invByBranch[b.id];
+      const pieces = inv?.piecesQty || 0;
+      const reserved = inv?.reservedQty || 0;
+      const available = inv?.availableQty != null ? inv.availableQty : Math.max(0, pieces - reserved);
+      const minAlert = inv?.minAlert || 10;
+      branches[b.id] = {
+        pieces, reserved, available, minAlert,
+        exists: !!inv,
+        lastUpdated: inv?.lastUpdated || null
+      };
+    });
+
+    const totalPieces = whPieces + Object.values(branches).reduce((s, b) => s + b.pieces, 0);
+    const totalReserved = whReserved + Object.values(branches).reduce((s, b) => s + b.reserved, 0);
+    const totalAvailable = Math.max(0, totalPieces - totalReserved);
+
+    // Status
+    let status = 'available';
+    if (totalAvailable <= 0) status = 'out';
+    else {
+      const whLow = whPieces > 0 && whAvailable < whMinAlert;
+      const branchLow = Object.values(branches).some(b => b.pieces > 0 && b.available < b.minAlert);
+      if (whLow || branchLow) status = 'low';
+    }
+
+    return {
+      product: p,
+      wh: { pieces: whPieces, reserved: whReserved, available: whAvailable, minAlert: whMinAlert, stock: p.warehouseStock || 0, extraPieces: p.warehousePieces || 0 },
+      branches,
+      totals: { pieces: totalPieces, reserved: totalReserved, available: totalAvailable },
+      status
+    };
+  }
+
+  // ============================================================
+  // Populate Filters
+  // ============================================================
+  function populateCategoryFilter() {
+    const sel = document.getElementById('invCategory');
+    if (!sel) return;
+    sel.innerHTML = '<option value="">كل التصنيفات</option>' +
+      invState.categories.map(c => `<option value="${c.id}">${esc(c.name || '')}</option>`).join('');
+  }
+  function populateBrandFilter() {
+    const sel = document.getElementById('invBrand');
+    if (!sel) return;
+    sel.innerHTML = '<option value="">كل البراندات</option>' +
+      invState.brands.map(b => `<option value="${b.id}">${esc(b.name || '')}</option>`).join('');
+  }
+
+  // ============================================================
+  // Tabs (dynamic)
+  // ============================================================
+  function renderTabs() {
+    const bar = document.getElementById('invTabs');
+    if (!bar) return;
+
+    const invBranches = getInventoryBranches();
+    const tabs = [
+      { key: 'all', label: 'الكل', icon: 'list', count: invState.merged.length },
+      { key: 'WH', label: 'المخزن (WH)', icon: 'warehouse', count: invState.merged.filter(m => m.wh.pieces > 0 || m.wh.reserved > 0).length }
+    ];
+
+    invBranches.forEach(b => {
+      tabs.push({
+        key: b.id,
+        label: b.name || b.id,
+        icon: 'building',
+        count: invState.merged.filter(m => {
+          const bd = m.branches[b.id];
+          return bd && (bd.pieces > 0 || bd.reserved > 0);
+        }).length
+      });
+    });
+
+    tabs.push({ key: 'low', label: 'منخفض', icon: 'exclamation-triangle', count: invState.merged.filter(m => m.status === 'low').length });
+    tabs.push({ key: 'out', label: 'نافد', icon: 'times-circle', count: invState.merged.filter(m => m.status === 'out').length });
+
+    bar.innerHTML = tabs.map(t => `
+      <button class="inv-tab ${invState.currentTab === t.key ? 'active' : ''}"
+              data-tab="${t.key}" onclick="switchTab('${t.key}')">
+        <i class="fas fa-${t.icon}"></i> ${esc(t.label)}
+        <span class="tab-count">${t.count}</span>
+      </button>
+    `).join('');
+  }
+
+  function switchTab(tab) {
+    invState.currentTab = tab;
+    document.querySelectorAll('.inv-tab').forEach(el => el.classList.toggle('active', el.dataset.tab === tab));
+    document.querySelectorAll('.inv-stat').forEach(el => el.classList.remove('active'));
+    applyFilters();
+  }
+
+  function filterByStatus(status, event) {
+    if (event) event.preventDefault();
+    if (status === 'all') invState.currentTab = 'all';
+    else if (status === 'BRANCH1' || status === 'BRANCH2') {
+      const invB = getInventoryBranches();
+      const idx = status === 'BRANCH1' ? 0 : 1;
+      if (invB[idx]) invState.currentTab = invB[idx].id;
+      else return;
+    } else {
+      invState.currentTab = status;
+    }
+    document.querySelectorAll('.inv-tab').forEach(el => el.classList.toggle('active', el.dataset.tab === invState.currentTab));
+    applyFilters();
+  }
+
+  // ============================================================
+  // Stats
+  // ============================================================
+  function updateStats() {
+    const all = invState.merged;
+    setText('statTotal', all.length);
+    setText('statWH', all.filter(m => (m.wh.pieces > 0 || m.wh.reserved > 0)).length);
+    setText('statLow', all.filter(m => m.status === 'low').length);
+    setText('statOut', all.filter(m => m.status === 'out').length);
+  }
+
+  function updateBranchStatCards() {
+    const invB = getInventoryBranches();
+    const card1 = document.getElementById('statBranch1Card');
+    const card2 = document.getElementById('statBranch2Card');
+    const lbl1 = document.getElementById('statBranch1Label');
+    const lbl2 = document.getElementById('statBranch2Label');
+    const num1 = document.getElementById('statBranch1');
+    const num2 = document.getElementById('statBranch2');
+
+    if (invB[0]) {
+      if (lbl1) lbl1.textContent = invB[0].name || invB[0].id;
+      if (num1) num1.textContent = invState.merged.filter(m => {
+        const bd = m.branches[invB[0].id];
+        return bd && (bd.pieces > 0 || bd.reserved > 0);
+      }).length;
+      if (card1) card1.style.display = '';
+    } else if (card1) card1.style.display = 'none';
+
+    if (invB[1]) {
+      if (lbl2) lbl2.textContent = invB[1].name || invB[1].id;
+      if (num2) num2.textContent = invState.merged.filter(m => {
+        const bd = m.branches[invB[1].id];
+        return bd && (bd.pieces > 0 || bd.reserved > 0);
+      }).length;
+      if (card2) card2.style.display = '';
+    } else if (card2) card2.style.display = 'none';
+  }
+
+  function setText(id, val) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val;
+  }
+
+  // ============================================================
+  // Filters
+  // ============================================================
+  function onSearchInput() {
+    if (invState.searchDebounce) clearTimeout(invState.searchDebounce);
+    invState.searchDebounce = setTimeout(applyFilters, 300);
+  }
+
+  function applyFilters() {
+    let list = [...invState.merged];
+
+    // Tab filter
+    const tab = invState.currentTab;
+    if (tab === 'low') {
+      list = list.filter(m => m.status === 'low');
+    } else if (tab === 'out') {
+      list = list.filter(m => m.status === 'out');
+    } else if (tab === 'WH') {
+      list = list.filter(m => m.wh.pieces > 0 || m.wh.reserved > 0);
+    } else if (tab !== 'all') {
+      list = list.filter(m => {
+        const bd = m.branches[tab];
+        return bd && (bd.pieces > 0 || bd.reserved > 0);
+      });
+    }
+
+    // Search
+    const search = (document.getElementById('invSearch')?.value || '').trim().toLowerCase();
+    if (search) {
+      list = list.filter(m => {
+        const p = m.product;
+        return (p.name || '').toLowerCase().includes(search) ||
+               (p.barcode || '').toLowerCase().includes(search) ||
+               (p.sku || '').toLowerCase().includes(search) ||
+               (p.keywords || '').toLowerCase().includes(search);
+      });
+    }
+
+    // Category
+    const cat = document.getElementById('invCategory')?.value || '';
+    if (cat) list = list.filter(m => m.product.categoryId === cat);
+
+    // Brand
+    const brand = document.getElementById('invBrand')?.value || '';
+    if (brand) list = list.filter(m => m.product.brandId === brand);
+
+    // Status
+    const status = document.getElementById('invStatus')?.value || '';
+    if (status) list = list.filter(m => m.status === status);
+
+    invState.filtered = list;
+    renderList();
+  }
+
+  function resetFilters() {
+    const s = document.getElementById('invSearch');
+    const c = document.getElementById('invCategory');
+    const b = document.getElementById('invBrand');
+    const st = document.getElementById('invStatus');
+    if (s) s.value = '';
+    if (c) c.value = '';
+    if (b) b.value = '';
+    if (st) st.value = '';
+    invState.currentTab = 'all';
+    document.querySelectorAll('.inv-tab').forEach(el => el.classList.toggle('active', el.dataset.tab === 'all'));
+    applyFilters();
+  }
+
+  // ============================================================
+  // Render List
+  // ============================================================
+  function renderList() {
+    const container = document.getElementById('invList');
+    if (!container) return;
+
+    if (invState.filtered.length === 0) {
+      container.innerHTML = `
+        <div class="inv-empty">
+          <div class="empty-icon"><i class="fas fa-box-open"></i></div>
+          <h3>لا توجد منتجات</h3>
+          <p>${invState.merged.length === 0 ? 'ابدأ بإضافة منتجات لتظهر هنا' : 'لا توجد نتائج مطابقة للفلاتر'}</p>
+        </div>`;
+      return;
+    }
+
+    container.innerHTML = invState.filtered.map(m => renderCard(m)).join('');
+  }
+
+  function renderCard(m) {
+    const p = m.product;
+    const meta = STATUS_META[m.status];
+
+    const whCls = m.wh.pieces > 0 && m.wh.available < m.wh.minAlert
+      ? 'low'
+      : (m.wh.pieces === 0 ? 'zero' : '');
+
+    const branchesHtml = getInventoryBranches().map(b => {
+      const bd = m.branches[b.id] || { pieces: 0, reserved: 0, available: 0, minAlert: 10, exists: false };
+      let cls = '';
+      if (bd.pieces > 0 && bd.available < bd.minAlert) cls = 'low';
+      else if (bd.pieces === 0) cls = 'zero';
+      return `
+        <div class="inv-branch-cell ${cls}">
+          <div class="inv-branch-lbl">${esc(b.code || b.id)}</div>
+          <div class="inv-branch-val">${bd.available}</div>
+        </div>`;
+    }).join('');
+
+    const availCls = m.totals.available <= 0
+      ? 'red'
+      : (m.status === 'low' ? 'orange' : 'green');
+
+    return `
+      <div class="inv-card ${meta.cls}" onclick="openDetails('${p.id}')">
+        <img class="inv-card-img" src="${p.imageUrl || '/gomla/assets/images/no-image.png'}"
+             alt="${esc(p.name || '')}"
+             onerror="this.src='/gomla/assets/images/no-image.png'">
+        <div class="inv-card-info">
+          <div class="inv-card-name">${esc(p.name || 'منتج')}</div>
+          <div class="inv-card-meta">
+            ${p.barcode ? `<span><i class="fas fa-barcode"></i> ${esc(p.barcode)}</span>` : ''}
+            ${p.categoryName ? `<span><i class="fas fa-tag"></i> ${esc(p.categoryName)}</span>` : ''}
+            ${p.brandName ? `<span><i class="fas fa-copyright"></i> ${esc(p.brandName)}</span>` : ''}
+            <span><i class="fas fa-cubes"></i> ${p.piecesPerUnit || 1} / ${esc(p.unit || 'كرتونة')}</span>
+          </div>
+        </div>
+        <div class="inv-card-branches">
+          <div class="inv-branch-cell wh ${whCls}">
+            <div class="inv-branch-lbl">WH</div>
+            <div class="inv-branch-val">${m.wh.available}</div>
+          </div>
+          ${branchesHtml}
+        </div>
+        <div class="inv-card-totals">
+          <div class="inv-total-cell">
+            <div class="inv-total-lbl">الإجمالي</div>
+            <div class="inv-total-val">${m.totals.pieces}</div>
+          </div>
+          <div class="inv-total-cell">
+            <div class="inv-total-lbl">المتاح</div>
+            <div class="inv-total-val ${availCls}">${m.totals.available}</div>
+          </div>
+        </div>
+        <div class="inv-status-badge ${meta.cls}">
+          <i class="fas fa-${meta.icon}"></i> ${meta.label}
+        </div>
+      </div>`;
+  }
+
+  // ============================================================
+  // Details Modal
+  // ============================================================
+  function openDetails(productId) {
+    const m = invState.merged.find(x => x.product.id === productId);
+    if (!m) return;
+
+    const p = m.product;
+    const meta = STATUS_META[m.status];
+
+    // WH card
+    const whCard = renderBranchDetailCard({
+      name: 'المخزن المركزي (WH)',
+      code: 'WH',
+      pieces: m.wh.pieces,
+      reserved: m.wh.reserved,
+      available: m.wh.available,
+      minAlert: m.wh.minAlert,
+      extraInfo: `(${m.wh.stock} كرتونة + ${m.wh.extraPieces} قطعة)`,
+      isWarehouse: true,
+      lastUpdated: null
+    });
+
+    // Branch cards
+    const branchCards = getInventoryBranches().map(b => {
+      const bd = m.branches[b.id] || { pieces: 0, reserved: 0, available: 0, minAlert: 10, exists: false };
+      return renderBranchDetailCard({
+        name: b.name || b.id,
+        code: b.code || b.id,
+        pieces: bd.pieces,
+        reserved: bd.reserved,
+        available: bd.available,
+        minAlert: bd.minAlert,
+        exists: bd.exists,
+        lastUpdated: bd.lastUpdated
+      });
+    }).join('');
+
+    const html = `
+      <div class="modal-overlay show" id="detailModal" onclick="closeModal('detailModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+          <div class="modal-header">
+            <h2><i class="fas fa-boxes"></i> تفاصيل المخزون</h2>
+            <button class="modal-close" onclick="closeModal('detailModal')">&times;</button>
+          </div>
+          <div class="modal-body">
+
+            <div class="inv-hero">
+              <img src="${p.imageUrl || '/gomla/assets/images/no-image.png'}"
+                   onerror="this.src='/gomla/assets/images/no-image.png'">
+              <div class="inv-hero-info">
+                <div class="inv-hero-name">${esc(p.name || 'منتج')}</div>
+                <div class="inv-hero-meta">
+                  ${p.barcode ? `<span><i class="fas fa-barcode"></i> ${esc(p.barcode)}</span>` : ''}
+                  ${p.categoryName ? `<span><i class="fas fa-tag"></i> ${esc(p.categoryName)}</span>` : ''}
+                  ${p.brandName ? `<span><i class="fas fa-copyright"></i> ${esc(p.brandName)}</span>` : ''}
+                  <span><i class="fas fa-cubes"></i> ${p.piecesPerUnit || 1} ${esc(p.retailUnit || 'قطعة')} / ${esc(p.unit || 'كرتونة')}</span>
+                  ${p.retailPrice ? `<span><i class="fas fa-tag"></i> تجزئة: ${p.retailPrice} ج</span>` : ''}
+                  ${p.wholesalePrice ? `<span><i class="fas fa-tag"></i> جملة: ${p.wholesalePrice} ج</span>` : ''}
+                </div>
+              </div>
+            </div>
+
+            <div class="inv-detail-section">
+              <h4><i class="fas fa-warehouse"></i> المخزن المركزي</h4>
+              ${whCard}
+            </div>
+
+            <div class="inv-detail-section">
+              <h4><i class="fas fa-building"></i> الفروع</h4>
+              ${branchCards || '<div class="inv-detail-card">لا توجد فروع نشطة</div>'}
+            </div>
+
+            <div class="inv-summary-box">
+              <div class="inv-summary-cell">
+                <div class="inv-summary-lbl">الإجمالي (قطعة)</div>
+                <div class="inv-summary-val">${m.totals.pieces}</div>
+              </div>
+              <div class="inv-summary-cell">
+                <div class="inv-summary-lbl">المحجوز</div>
+                <div class="inv-summary-val">${m.totals.reserved}</div>
+              </div>
+              <div class="inv-summary-cell">
+                <div class="inv-summary-lbl">المتاح</div>
+                <div class="inv-summary-val">${m.totals.available}</div>
+              </div>
+            </div>
+
+            <div style="text-align:center;margin-top:12px;">
+              <span class="inv-status-badge ${meta.cls}" style="font-size:0.82rem;padding:8px 16px;">
+                <i class="fas fa-${meta.icon}"></i> الحالة العامة: ${meta.label}
+              </span>
+            </div>
+
+          </div>
+          <div class="modal-actions">
+            <button class="btn btn-outline" onclick="copyBarcode('${escAttr(p.barcode || '')}')">
+              <i class="fas fa-copy"></i> نسخ الباركود
+            </button>
+            <a href="/gomla/admin/products.html" class="btn btn-gold">
+              <i class="fas fa-external-link-alt"></i> صفحة المنتجات
+            </a>
+            <a href="/gomla/admin/transfers.html" class="btn btn-gold">
+              <i class="fas fa-exchange-alt"></i> نقل مخزون
+            </a>
+            <button class="btn btn-outline" onclick="closeModal('detailModal')">إغلاق</button>
+          </div>
+        </div>
+      </div>`;
+
+    document.getElementById('modalContainer').innerHTML = html;
+    document.body.style.overflow = 'hidden';
+  }
+
+  function renderBranchDetailCard(b) {
+    let statusCls = 'ok';
+    let statusLabel = 'متاح';
+    if (b.pieces === 0) { statusCls = 'zero'; statusLabel = 'نافد'; }
+    else if (b.available < b.minAlert) { statusCls = 'low'; statusLabel = 'منخفض'; }
+
+    const cardCls = b.isWarehouse
+      ? 'wh'
+      : (statusCls === 'zero' ? 'zero' : statusCls === 'low' ? 'low' : '');
+
+    const percent = b.pieces > 0
+      ? Math.min(100, Math.round((b.available / b.pieces) * 100))
+      : 0;
+
+    const fillCls = statusCls === 'zero' ? 'red' : statusCls === 'low' ? 'orange' : 'green';
+
+    return `
+      <div class="inv-detail-card ${cardCls}">
+        <div class="inv-detail-head">
+          <div class="inv-detail-name">
+            <i class="fas fa-${b.isWarehouse ? 'warehouse' : 'building'}" style="color:var(--gold);"></i>
+            ${esc(b.name)}
+            <span class="code-badge">${esc(b.code)}</span>
+            ${!b.exists && !b.isWarehouse ? '<span style="font-size:0.65rem;color:#94a3b8;">(لم يُنشأ بعد)</span>' : ''}
+          </div>
+          <div class="inv-detail-status ${statusCls}">${statusLabel}</div>
+        </div>
+        <div class="inv-detail-grid">
+          <div class="inv-detail-cell">
+            <div class="inv-detail-lbl">الكمية الفعلية</div>
+            <div class="inv-detail-val">${b.pieces}</div>
+          </div>
+          <div class="inv-detail-cell">
+            <div class="inv-detail-lbl">محجوز</div>
+            <div class="inv-detail-val orange">${b.reserved}</div>
+          </div>
+          <div class="inv-detail-cell">
+            <div class="inv-detail-lbl">متاح</div>
+            <div class="inv-detail-val ${statusCls === 'zero' ? 'red' : statusCls === 'low' ? 'orange' : 'green'}">${b.available}</div>
+          </div>
+          <div class="inv-detail-cell">
+            <div class="inv-detail-lbl">عتبة التنبيه</div>
+            <div class="inv-detail-val">${b.minAlert}</div>
+          </div>
+        </div>
+        <div class="inv-progress">
+          <div class="inv-progress-fill ${fillCls}" style="width:${percent}%"></div>
+        </div>
+        ${b.extraInfo ? `<div style="text-align:center;font-size:0.75rem;color:var(--gray-500);margin-top:6px;">${esc(b.extraInfo)}</div>` : ''}
+        ${b.lastUpdated ? `<div class="inv-last-update"><i class="fas fa-clock"></i> آخر تحديث: ${formatDate(b.lastUpdated)}</div>` : ''}
+      </div>`;
+  }
+
+  function closeAllModals() {
+    document.querySelectorAll('.modal-overlay.show').forEach(m => m.classList.remove('show'));
+    document.body.style.overflow = '';
+  }
+  function closeModal(id) {
+    document.getElementById(id)?.classList.remove('show');
+    document.body.style.overflow = '';
+  }
+
+  // ============================================================
+  // Warning Banner
+  // ============================================================
+  function checkBranchesWarning() {
+    const banner = document.getElementById('invWarningBanner');
+    if (!banner) return;
+    const invB = getInventoryBranches();
+    if (invB.length === 0) {
+      banner.innerHTML = `
+        <div class="inv-warning-banner">
+          <i class="fas fa-exclamation-triangle" style="font-size:1.2rem;"></i>
+          <div>
+            <strong>لا توجد فروع نشطة بعد.</strong>
+            اذهب إلى <a href="/gomla/admin/branches.html" style="color:#92400e;text-decoration:underline;">إدارة الفروع</a>
+            لإنشاء فرع واحد على الأقل.
+          </div>
+        </div>`;
+    } else {
+      banner.innerHTML = '';
+    }
+  }
+
+  // ============================================================
+  // Export CSV
+  // ============================================================
+  function exportCSV() {
+    if (invState.filtered.length === 0) {
+      window.showToast('لا توجد بيانات للتصدير', 'warning');
+      return;
+    }
+
+    const invB = getInventoryBranches();
+    const headers = ['المنتج', 'الباركود', 'SKU', 'التصنيف', 'البراند', 'الوحدة', 'عدد القطع/وحدة'];
+    headers.push('WH - فعلي', 'WH - محجوز', 'WH - متاح');
+    invB.forEach(b => {
+      headers.push(`${b.code || b.id} - فعلي`, `${b.code || b.id} - محجوز`, `${b.code || b.id} - متاح`);
+    });
+    headers.push('الإجمالي (فعلي)', 'الإجمالي (محجوز)', 'الإجمالي (متاح)', 'الحالة');
+
+    const rows = [headers];
+
+    invState.filtered.forEach(m => {
+      const p = m.product;
+      const row = [
+        p.name || '',
+        p.barcode || '',
+        p.sku || '',
+        p.categoryName || '',
+        p.brandName || '',
+        p.unit || '',
+        p.piecesPerUnit || 1,
+        m.wh.pieces, m.wh.reserved, m.wh.available
+      ];
+      invB.forEach(b => {
+        const bd = m.branches[b.id] || { pieces: 0, reserved: 0, available: 0 };
+        row.push(bd.pieces, bd.reserved, bd.available);
+      });
+      row.push(m.totals.pieces, m.totals.reserved, m.totals.available);
+      row.push(STATUS_META[m.status].label);
+      rows.push(row);
+    });
+
+    const csv = rows.map(r => r.map(c => `"${String(c ?? '').replace(/"/g, '""')}"`).join(',')).join('\r\n');
+    const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `inventory-${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    window.showToast('✅ تم تصدير CSV', 'success');
+  }
+
+  // ============================================================
+  // Helpers
+  // ============================================================
+  function esc(s) {
+    return String(s ?? '').replace(/[&<>"']/g, c => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+  }
+  function escAttr(s) {
+    return String(s ?? '').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+  function copyBarcode(bc) {
+    if (!bc) { window.showToast('لا يوجد باركود', 'warning'); return; }
+    if (typeof copyToClipboard === 'function') copyToClipboard(bc);
+    else navigator.clipboard.writeText(bc).then(() => window.showToast('تم النسخ', 'success')).catch(() => window.showToast('فشل النسخ', 'error'));
+  }
+
+  // ============================================================
+  // Exports
+  // ============================================================
+  window.loadData = loadData;
+  window.switchTab = switchTab;
+  window.filterByStatus = filterByStatus;
+  window.onSearchInput = onSearchInput;
+  window.applyFilters = applyFilters;
+  window.resetFilters = resetFilters;
+  window.openDetails = openDetails;
+  window.closeModal = closeModal;
+  window.closeAllModals = closeAllModals;
+  window.exportCSV = exportCSV;
+  window.copyBarcode = copyBarcode;
+  </script>
+
+</body>
+</html>
