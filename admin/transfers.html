@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>نقل المخزون - أولاد شعلان</title>
-  <meta name="description" content="نقل المخزون بين الفروع">
+  <title>إدارة النقل — أولاد شعلان</title>
   <meta name="theme-color" content="#1a2a4a">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
@@ -14,7 +13,7 @@
   <style>
     html, body { overflow-x: hidden !important; max-width: 100vw; }
 
-    /* ===== Page Header ===== */
+    /* Header */
     .tr-header {
       background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
       border-radius: var(--radius-lg); padding: 22px 24px; margin-bottom: 18px;
@@ -28,11 +27,7 @@
       background: radial-gradient(circle, rgba(201,168,76,.18) 0%, transparent 70%);
       border-radius: 50%;
     }
-    .tr-header-inner {
-      position: relative; z-index: 1;
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 16px; flex-wrap: wrap;
-    }
+    .tr-header-inner { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
     .tr-header-left { display: flex; align-items: center; gap: 16px; flex: 1; min-width: 220px; }
     .tr-header-icon {
       width: 56px; height: 56px; border-radius: 50%;
@@ -43,22 +38,64 @@
     }
     .tr-header h1 { font-size: 1.35rem; font-weight: 900; margin: 0 0 3px; color: var(--white); }
     .tr-header p { font-size: 0.83rem; opacity: 0.88; margin: 0; }
+    .tr-header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .tr-header-actions .btn {
+      background: rgba(255,255,255,.15); color: var(--white);
+      border: 1px solid rgba(255,255,255,.3);
+      padding: 8px 14px; border-radius: var(--radius-sm);
+      font-family: inherit; font-weight: 700; font-size: 0.82rem;
+      cursor: pointer; transition: var(--transition);
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .tr-header-actions .btn:hover { background: var(--gold); color: var(--navy); border-color: var(--gold); }
+    .tr-header-actions .btn-primary {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy); border-color: var(--gold-dark);
+    }
+    .tr-header-actions .btn-primary:hover { background: var(--gold-dark); color: var(--white); }
 
-    /* ===== Tabs ===== */
+    /* Stats */
+    .tr-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 16px; }
+    .tr-stat {
+      background: var(--white); border-radius: var(--radius-md);
+      padding: 14px 10px; box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      text-align: center; transition: var(--transition);
+      cursor: pointer;
+    }
+    .tr-stat:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--gold-light); }
+    .tr-stat.active { border-color: var(--gold); background: linear-gradient(135deg, #fcf9f0, #f8f4e8); }
+    .tr-stat-icon { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; margin: 0 auto 6px; }
+    .tr-stat-icon.blue   { background: rgba(59,130,246,.12); color: #2563eb; }
+    .tr-stat-icon.orange { background: rgba(249,115,22,.12); color: #ea580c; }
+    .tr-stat-icon.green  { background: rgba(34,197,94,.12); color: #16a34a; }
+    .tr-stat-icon.red    { background: rgba(239,68,68,.12);  color: #dc2626; }
+    .tr-stat-num { font-size: 1.15rem; font-weight: 900; color: var(--navy); line-height: 1.2; margin-bottom: 2px; }
+    .tr-stat-num.blue { color: #2563eb; }
+    .tr-stat-num.orange { color: #ea580c; }
+    .tr-stat-num.green { color: #16a34a; }
+    .tr-stat-num.red { color: #dc2626; }
+    .tr-stat-label { font-size: 0.65rem; color: var(--gray-500); font-weight: 700; line-height: 1.2; }
+
+    /* Tabs */
     .tr-tabs {
       display: flex; gap: 6px; margin-bottom: 16px;
       background: var(--white); padding: 8px;
       border-radius: var(--radius-md);
       box-shadow: var(--shadow-sm);
       border: 1px solid var(--gray-200);
+      overflow-x: auto; scrollbar-width: thin;
     }
+    .tr-tabs::-webkit-scrollbar { height: 4px; }
+    .tr-tabs::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 10px; }
     .tr-tab {
-      flex: 1; padding: 12px 18px;
+      flex-shrink: 0; padding: 10px 16px;
       border: 2px solid var(--gray-200); background: var(--white);
       color: var(--gray-600); border-radius: var(--radius-sm);
-      font-family: inherit; font-weight: 800; font-size: 0.85rem;
-      cursor: pointer; transition: all .25s ease;
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      font-family: inherit; font-weight: 800; font-size: 0.82rem;
+      cursor: pointer; transition: all 0.25s ease;
+      display: inline-flex; align-items: center; gap: 6px;
+      white-space: nowrap;
     }
     .tr-tab:hover { border-color: var(--gold-light); background: var(--gray-50); }
     .tr-tab.active {
@@ -67,592 +104,339 @@
       box-shadow: 0 6px 16px rgba(26,42,74,.25);
     }
     .tr-tab.active i { color: var(--gold); }
+    .tr-tab .tab-count {
+      background: rgba(0,0,0,.08); padding: 1px 7px;
+      border-radius: 10px; font-size: 0.65rem; font-weight: 900;
+      min-width: 20px; text-align: center;
+    }
+    .tr-tab.active .tab-count { background: var(--gold); color: var(--navy); }
 
-    .tr-section { display: none; }
-    .tr-section.active { display: block; }
-
-    /* ===== Form Card ===== */
-    .tr-form-card {
-      background: var(--white);
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--gray-200);
-      overflow: hidden;
-      margin-bottom: 20px;
-    }
-    .tr-form-header {
-      padding: 14px 20px;
-      background: linear-gradient(135deg, #fcf9f0, #f8f4e8);
-      border-bottom: 2px solid var(--gray-100);
-    }
-    .tr-form-header h2 {
-      font-size: 0.95rem; font-weight: 900;
-      color: var(--navy); margin: 0;
-      display: flex; align-items: center; gap: 8px;
-    }
-    .tr-form-header h2 i { color: var(--gold); }
-    .tr-form-body { padding: 20px; }
-
-    /* ===== Branch Selectors ===== */
-    .tr-branches-row {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      gap: 12px;
-      align-items: end;
-      margin-bottom: 20px;
-    }
-    .tr-branch-selector {
-      background: var(--gray-50);
-      border: 2px solid var(--gray-200);
-      border-radius: var(--radius-md);
-      padding: 14px;
-      transition: var(--transition);
-    }
-    .tr-branch-selector.from { border-color: #fca5a5; background: #fef2f2; }
-    .tr-branch-selector.to   { border-color: #86efac; background: #f0fdf4; }
-    .tr-branch-selector label {
-      display: block; font-size: 0.75rem;
-      font-weight: 800; color: var(--gray-600);
-      margin-bottom: 6px;
-      display: flex; align-items: center; gap: 6px;
-    }
-    .tr-branch-selector.from label { color: #b91c1c; }
-    .tr-branch-selector.to   label { color: #166534; }
-    .tr-branch-selector select {
-      width: 100%; padding: 10px 12px;
-      border: 2px solid var(--gray-200);
-      border-radius: var(--radius-sm);
-      font-family: inherit; font-size: 0.9rem;
-      font-weight: 800; background: var(--white);
-      outline: none; cursor: pointer;
-    }
-    .tr-branch-selector select:focus { border-color: var(--gold); }
-    .tr-arrow-icon {
-      width: 48px; height: 48px; border-radius: 50%;
-      background: linear-gradient(135deg, var(--navy), var(--navy-light));
-      color: var(--gold);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.2rem; margin-bottom: 8px;
-      box-shadow: 0 4px 12px rgba(26,42,74,.2);
-    }
-    .tr-branch-info {
-      font-size: 0.7rem; color: var(--gray-500);
-      margin-top: 4px;
-    }
-
-    /* ===== Products Table ===== */
-    .tr-products-header {
-      display: flex; justify-content: space-between;
-      align-items: center; gap: 12px;
-      margin-bottom: 12px; flex-wrap: wrap;
-    }
-    .tr-products-header h3 {
-      font-size: 0.9rem; font-weight: 900;
-      color: var(--navy); margin: 0;
-      display: flex; align-items: center; gap: 8px;
-    }
-    .tr-products-header h3 i { color: var(--gold); }
-    .tr-products-header .count-badge {
-      background: var(--gold);
-      color: var(--navy);
-      padding: 2px 10px;
-      border-radius: 20px;
-      font-size: 0.72rem;
-      font-weight: 900;
-    }
-
-    .tr-table-wrap {
-      background: var(--white);
-      border: 1px solid var(--gray-200);
-      border-radius: var(--radius-sm);
-      overflow: hidden;
-      margin-bottom: 16px;
-    }
-    .tr-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-    .tr-table thead { background: var(--gray-50); }
-    .tr-table th {
-      padding: 10px 12px;
-      text-align: right;
-      font-weight: 800;
-      color: var(--gray-600);
-      border-bottom: 2px solid var(--gray-200);
-      white-space: nowrap;
-      font-size: 0.78rem;
-    }
-    .tr-table td {
-      padding: 10px 12px;
-      border-bottom: 1px solid var(--gray-100);
-      vertical-align: middle;
-    }
-    .tr-table tbody tr:hover { background: var(--gray-50); }
-    .tr-table tbody tr:last-child td { border-bottom: none; }
-
-    .tr-prod-cell {
-      display: flex; align-items: center; gap: 8px;
-      min-width: 0;
-    }
-    .tr-prod-img {
-      width: 40px; height: 40px; border-radius: 6px;
-      object-fit: cover; border: 1px solid var(--gray-200);
-      flex-shrink: 0;
-    }
-    .tr-prod-info { min-width: 0; flex: 1; }
-    .tr-prod-name {
-      font-size: 0.85rem; font-weight: 800;
-      color: var(--navy);
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-    .tr-prod-unit {
-      font-size: 0.68rem; color: var(--gray-500);
-    }
-
-    .tr-qty-input {
-      width: 70px; padding: 7px 8px;
-      border: 2px solid var(--gray-200);
-      border-radius: var(--radius-sm);
-      font-family: inherit; font-size: 0.85rem;
-      font-weight: 800; text-align: center;
-      outline: none;
-    }
-    .tr-qty-input:focus { border-color: var(--gold); }
-    .tr-qty-input:disabled {
-      background: var(--gray-100);
-      cursor: not-allowed;
-      color: var(--gray-400);
-    }
-
-    .tr-total-pieces {
-      font-size: 0.85rem;
-      font-weight: 900;
-      color: var(--gold-dark);
-      text-align: center;
-    }
-    .tr-available {
-      font-size: 0.72rem;
-      color: var(--gray-500);
-      text-align: center;
-    }
-    .tr-available.warn { color: #d97706; font-weight: 800; }
-    .tr-available.error { color: #dc2626; font-weight: 800; }
-
-    .tr-remove-btn {
-      background: #fee2e2;
-      color: #dc2626;
-      border: none;
-      width: 32px; height: 32px;
-      border-radius: 50%;
-      cursor: pointer;
-      transition: var(--transition);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .tr-remove-btn:hover { background: #dc2626; color: var(--white); }
-
-    /* ===== Summary ===== */
-    .tr-summary {
-      background: linear-gradient(135deg, #f0f9ff, #e0f2fe);
-      border: 2px dashed #0284c7;
-      border-radius: var(--radius-md);
-      padding: 14px 18px;
-      margin-bottom: 16px;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-    }
-    .tr-summary-item { text-align: center; }
-    .tr-summary-item .lbl {
-      font-size: 0.72rem;
-      color: #0369a1;
-      font-weight: 700;
-      margin-bottom: 2px;
-    }
-    .tr-summary-item .val {
-      font-size: 1.1rem;
-      font-weight: 900;
-      color: #0c4a6e;
-    }
-
-    /* ===== Notes ===== */
-    .tr-notes {
-      margin-bottom: 16px;
-    }
-    .tr-notes label {
-      display: block;
-      font-size: 0.82rem;
-      font-weight: 800;
-      color: var(--gray-700);
-      margin-bottom: 6px;
-    }
-    .tr-notes textarea {
-      width: 100%; padding: 10px 12px;
-      border: 2px solid var(--gray-200);
-      border-radius: var(--radius-sm);
-      font-family: inherit;
-      font-size: 0.88rem;
-      background: var(--gray-50);
-      outline: none;
-      min-height: 70px;
-      resize: vertical;
-    }
-    .tr-notes textarea:focus { border-color: var(--gold); background: var(--white); }
-
-    /* ===== Actions ===== */
-    .tr-form-actions {
-      display: flex;
-      gap: 10px;
-      justify-content: flex-end;
-      flex-wrap: wrap;
-      padding-top: 14px;
-      border-top: 2px solid var(--gray-100);
-    }
-
-    .btn {
-      padding: 10px 20px;
-      border: none;
-      border-radius: var(--radius-sm);
-      font-family: inherit;
-      font-weight: 800;
-      font-size: 0.88rem;
-      cursor: pointer;
-      transition: var(--transition);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
-    .btn-outline {
-      background: transparent;
-      border: 2px solid var(--gray-300);
-      color: var(--gray-700);
-    }
-    .btn-outline:hover { border-color: var(--gold); color: var(--gold-dark); }
-    .btn-gold {
-      background: var(--gold);
-      color: var(--navy);
-    }
-    .btn-gold:hover { background: var(--gold-dark); color: var(--white); transform: translateY(-1px); }
-    .btn-primary {
-      background: linear-gradient(135deg, #065f46, #10b981);
-      color: var(--white);
-    }
-    .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(16,185,129,.3); }
-
-    /* ===== Empty state ===== */
-    .tr-empty {
-      text-align: center;
-      padding: 40px 20px;
-      background: var(--white);
-      border: 2px dashed var(--gray-300);
-      border-radius: var(--radius-md);
-    }
-    .tr-empty i {
-      font-size: 2.5rem;
-      color: var(--gray-300);
-      margin-bottom: 12px;
-      display: block;
-    }
-    .tr-empty h3 {
-      font-size: 1rem;
-      font-weight: 900;
-      color: var(--navy);
-      margin-bottom: 6px;
-    }
-    .tr-empty p {
-      font-size: 0.85rem;
-      color: var(--gray-500);
-      margin-bottom: 14px;
-    }
-
-    /* ===== History ===== */
+    /* Filters */
     .tr-filters {
-      background: var(--white);
-      border-radius: var(--radius-md);
-      padding: 12px 14px;
-      margin-bottom: 16px;
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--gray-200);
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      align-items: center;
+      background: var(--white); border-radius: var(--radius-md);
+      padding: 12px 14px; margin-bottom: 16px;
+      box-shadow: var(--shadow-sm); border: 1px solid var(--gray-200);
+      display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
     }
-    .tr-filters select, .tr-filters input {
-      padding: 9px 12px;
-      border: 2px solid var(--gray-200);
-      border-radius: var(--radius-sm);
-      font-family: inherit;
-      font-size: 0.85rem;
-      background: var(--gray-50);
-      outline: none;
-      min-width: 130px;
+    .tr-search { position: relative; flex: 1; min-width: 200px; }
+    .tr-search input {
+      width: 100%; padding: 10px 40px 10px 14px;
+      border: 2px solid var(--gray-200); border-radius: var(--radius-sm);
+      font-family: inherit; font-size: 0.88rem;
+      background: var(--gray-50); outline: none; transition: var(--transition);
     }
-    .tr-filters select:focus, .tr-filters input:focus {
-      border-color: var(--gold);
-      background: var(--white);
+    .tr-search input:focus { border-color: var(--gold); background: var(--white); box-shadow: 0 0 0 4px rgba(201,168,76,.15); }
+    .tr-search i { position: absolute; right: 13px; top: 50%; transform: translateY(-50%); color: var(--gray-400); }
+    .tr-filters select {
+      padding: 10px 12px; border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm); font-family: inherit;
+      font-size: 0.82rem; background: var(--gray-50);
+      outline: none; cursor: pointer; min-width: 120px;
     }
+    .tr-filters select:focus { border-color: var(--gold); background: var(--white); }
+    .tr-filters .btn-icon-only {
+      padding: 10px 14px; border: 2px solid var(--gray-200);
+      background: var(--white); border-radius: var(--radius-sm);
+      color: var(--gray-600); cursor: pointer; transition: var(--transition);
+    }
+    .tr-filters .btn-icon-only:hover { border-color: var(--gold); color: var(--gold-dark); }
 
-    .tr-history-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
+    /* List */
+    .tr-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+
+    .tr-card {
+      background: var(--white); border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm); border: 1px solid var(--gray-200);
+      padding: 14px 16px; transition: var(--transition);
+      position: relative; overflow: hidden;
+      display: flex; flex-direction: column; gap: 10px;
     }
-    .tr-history-item {
-      background: var(--white);
-      border-radius: var(--radius-md);
-      border: 1px solid var(--gray-200);
-      padding: 14px 16px;
-      box-shadow: var(--shadow-sm);
-      transition: var(--transition);
-      cursor: pointer;
+    .tr-card::before {
+      content: ''; position: absolute; top: 0; right: 0;
+      width: 5px; height: 100%; background: var(--gold);
     }
-    .tr-history-item:hover {
-      border-color: var(--gold-light);
-      box-shadow: var(--shadow-md);
-      transform: translateY(-2px);
-    }
-    .tr-history-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 10px;
-      flex-wrap: wrap;
-    }
-    .tr-history-id {
+    .tr-card.pending::before { background: #3b82f6; }
+    .tr-card.in_transit::before { background: #f97316; }
+    .tr-card.completed::before { background: #22c55e; }
+    .tr-card.partially_received::before { background: #eab308; }
+    .tr-card.rejected_at_destination::before { background: #dc2626; }
+    .tr-card.cancelled::before { background: #6b7280; }
+    .tr-card:hover { box-shadow: var(--shadow-md); border-color: var(--gold-light); }
+
+    .tr-card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; flex-wrap: wrap; }
+    .tr-card-title { display: flex; align-items: center; gap: 8px; font-size: 0.95rem; font-weight: 900; color: var(--navy); flex-wrap: wrap; }
+    .tr-num {
       font-family: 'Courier New', monospace;
-      font-size: 0.78rem;
-      font-weight: 900;
-      color: var(--navy);
-      background: var(--gray-100);
-      padding: 2px 10px;
-      border-radius: 6px;
+      background: var(--gray-100); padding: 2px 10px;
+      border-radius: 6px; font-size: 0.75rem; direction: ltr;
     }
-    .tr-history-date {
-      font-size: 0.72rem;
-      color: var(--gray-500);
-      display: flex; align-items: center; gap: 4px;
+    .tr-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+    .tr-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 3px 10px; border-radius: var(--radius-full);
+      font-size: 0.68rem; font-weight: 800; white-space: nowrap;
     }
-    .tr-history-route {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 10px;
-      flex-wrap: wrap;
-    }
-    .tr-route-branch {
-      display: flex; align-items: center; gap: 6px;
-      padding: 6px 12px;
-      border-radius: var(--radius-full);
-      font-size: 0.8rem;
-      font-weight: 800;
-    }
-    .tr-route-branch.from { background: #fee2e2; color: #991b1b; }
-    .tr-route-branch.to   { background: #dcfce7; color: #166534; }
-    .tr-route-arrow {
-      color: var(--gold);
-      font-size: 0.9rem;
-    }
-    .tr-history-meta {
-      display: flex;
-      gap: 14px;
-      flex-wrap: wrap;
-      font-size: 0.75rem;
-      color: var(--gray-600);
-    }
-    .tr-history-meta span {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-    .tr-history-meta i {
-      color: var(--gold);
-      font-size: 0.7rem;
-    }
-    .tr-history-status {
-      padding: 3px 10px;
-      border-radius: 12px;
-      font-size: 0.7rem;
-      font-weight: 800;
-    }
-    .tr-history-status.completed {
-      background: rgba(34,197,94,.15);
-      color: #166534;
-    }
-    .tr-history-status.cancelled {
-      background: rgba(239,68,68,.15);
-      color: #991b1b;
-    }
+    .tr-badge.pending { background: rgba(59,130,246,.15); color: #1d4ed8; }
+    .tr-badge.in_transit { background: rgba(249,115,22,.15); color: #c2410c; }
+    .tr-badge.completed { background: rgba(34,197,94,.15); color: #15803d; }
+    .tr-badge.partially_received { background: rgba(234,179,8,.15); color: #a16207; }
+    .tr-badge.rejected_at_destination { background: rgba(239,68,68,.15); color: #b91c1c; }
+    .tr-badge.cancelled { background: rgba(107,114,128,.15); color: #4b5563; }
+    .tr-badge.late { background: rgba(220,38,38,.2); color: #991b1b; animation: pulseLate 1.5s infinite; }
+    @keyframes pulseLate { 0%,100% { opacity: 1; } 50% { opacity: 0.6; } }
 
-    /* ===== Product Picker Modal ===== */
-    .tr-picker-overlay {
-      display: none;
-      position: fixed; inset: 0;
-      background: rgba(15,26,46,.75);
-      backdrop-filter: blur(4px);
-      z-index: 999;
-      justify-content: center; align-items: center;
-      padding: 20px;
-      overflow-y: auto;
+    .tr-card-route {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 14px; background: var(--gray-50);
+      border-radius: 8px; border: 1px solid var(--gray-200);
+      font-size: 0.85rem;
     }
-    .tr-picker-overlay.show { display: flex; }
-    .tr-picker {
-      background: var(--white);
-      border-radius: var(--radius-lg);
-      max-width: 640px;
-      width: 100%;
-      max-height: 90vh;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      animation: pickerSlide .3s ease;
+    .tr-route-point {
+      display: flex; align-items: center; gap: 6px;
+      font-weight: 900; color: var(--navy);
     }
-    @keyframes pickerSlide {
-      from { transform: translateY(-30px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+    .tr-route-point i { color: var(--gold); }
+    .tr-route-arrow { color: var(--gray-400); font-size: 1.1rem; }
+    .tr-route-meta { margin-right: auto; font-size: 0.72rem; color: var(--gray-500); }
+
+    .tr-card-info {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 10px; font-size: 0.8rem;
     }
-    .tr-picker-head {
-      padding: 16px 20px;
+    .tr-info-item { display: flex; align-items: center; gap: 6px; color: var(--gray-600); }
+    .tr-info-item i { color: var(--gold); font-size: 0.72rem; width: 14px; text-align: center; flex-shrink: 0; }
+    .tr-info-item .val { font-weight: 700; color: var(--navy); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+    .tr-items-preview {
+      display: flex; gap: 6px; flex-wrap: wrap;
+    }
+    .tr-item-chip {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 4px 10px; background: var(--gray-100);
+      border-radius: 20px; font-size: 0.72rem; font-weight: 700;
+      color: var(--gray-700);
+    }
+    .tr-item-chip strong { color: var(--navy); }
+    .tr-item-chip i { color: var(--gold); font-size: 0.65rem; }
+
+    .tr-card-actions {
+      display: flex; gap: 6px; flex-wrap: wrap;
+      padding-top: 10px; border-top: 1px solid var(--gray-100);
+    }
+    .tr-action-btn {
+      padding: 7px 14px; border: 1.5px solid;
+      border-radius: var(--radius-sm);
+      font-family: inherit; font-weight: 800;
+      font-size: 0.75rem; cursor: pointer;
+      transition: all .2s ease;
+      display: inline-flex; align-items: center; gap: 4px;
+      background: var(--white); white-space: nowrap;
+    }
+    .tr-action-btn.view { border-color: var(--gray-300); color: var(--gray-700); }
+    .tr-action-btn.view:hover { background: var(--navy); color: white; border-color: var(--navy); }
+    .tr-action-btn.approve { border-color: #86efac; color: #15803d; background: #f0fdf4; }
+    .tr-action-btn.approve:hover { background: #16a34a; color: white; border-color: #15803d; }
+    .tr-action-btn.reject { border-color: #fca5a5; color: #b91c1c; background: #fef2f2; }
+    .tr-action-btn.reject:hover { background: #dc2626; color: white; }
+    .tr-action-btn.print { border-color: #c4b5fd; color: #6d28d9; background: #f5f3ff; }
+    .tr-action-btn.print:hover { background: #8b5cf6; color: white; }
+    .tr-action-btn.cancel { border-color: #fca5a5; color: #dc2626; }
+    .tr-action-btn.cancel:hover { background: #dc2626; color: white; }
+    .tr-action-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    /* Empty / Loading */
+    .tr-empty, .tr-loading {
+      text-align: center; padding: 60px 20px;
+      background: var(--white); border-radius: var(--radius-md);
+      border: 2px dashed var(--gray-300);
+    }
+    .tr-empty .empty-icon {
+      width: 90px; height: 90px; border-radius: 50%;
+      background: var(--gray-100); color: var(--gray-400);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.2rem; margin: 0 auto 16px;
+    }
+    .tr-empty h3 { font-size: 1.1rem; font-weight: 900; color: var(--navy); margin-bottom: 6px; }
+    .tr-empty p { font-size: 0.85rem; color: var(--gray-500); }
+    .tr-loading i { font-size: 2rem; color: var(--gold); margin-bottom: 10px; }
+
+    /* Modal */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(15,26,46,.75); backdrop-filter: blur(4px);
+      z-index: 999; justify-content: center; align-items: center;
+      padding: 20px; overflow-y: auto;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal-content {
+      background: var(--white); border-radius: var(--radius-lg);
+      max-width: 900px; width: 100%;
+      max-height: 92vh; overflow-y: auto;
+      padding: 0; position: relative;
+      animation: modalSlide .3s ease;
+    }
+    .modal-content.small { max-width: 500px; }
+    .modal-content.medium { max-width: 720px; }
+    @keyframes modalSlide { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .modal-header {
+      padding: 18px 22px;
       background: linear-gradient(135deg, var(--navy), var(--navy-light));
       color: var(--white);
       display: flex; justify-content: space-between; align-items: center;
+      position: sticky; top: 0; z-index: 2;
     }
-    .tr-picker-head h3 {
-      margin: 0; font-size: 1rem; font-weight: 900;
-      display: flex; align-items: center; gap: 8px;
+    .modal-header h2 { font-size: 1.05rem; font-weight: 900; margin: 0; display: flex; align-items: center; gap: 8px; }
+    .modal-header h2 i { color: var(--gold); }
+    .modal-header.green { background: linear-gradient(135deg, #15803d, #22c55e); }
+    .modal-header.red { background: linear-gradient(135deg, #991b1b, #dc2626); }
+    .modal-header.orange { background: linear-gradient(135deg, #c2410c, #f97316); }
+    .modal-close {
+      background: rgba(255,255,255,.15); border: none;
+      color: var(--white); width: 32px; height: 32px;
+      border-radius: 50%; cursor: pointer; font-size: 1.1rem;
+      transition: var(--transition);
     }
-    .tr-picker-head h3 i { color: var(--gold); }
-    .tr-picker-close {
-      background: rgba(255,255,255,.15);
-      border: none;
-      color: white;
-      width: 32px; height: 32px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 1.1rem;
+    .modal-close:hover { background: var(--danger); transform: rotate(90deg); }
+    .modal-body { padding: 20px 22px; }
+    .modal-actions {
+      padding: 16px 22px; border-top: 2px solid var(--gray-100);
+      display: flex; gap: 10px; justify-content: flex-end;
+      position: sticky; bottom: 0; background: var(--white);
+      flex-wrap: wrap;
     }
-    .tr-picker-close:hover { background: var(--danger); }
-    .tr-picker-search {
-      padding: 12px 16px;
-      border-bottom: 1px solid var(--gray-200);
-      position: relative;
+    .btn {
+      padding: 9px 18px; border: none; border-radius: var(--radius-sm);
+      font-family: inherit; font-weight: 800; font-size: 0.85rem;
+      cursor: pointer; transition: var(--transition);
+      display: inline-flex; align-items: center; gap: 6px;
     }
-    .tr-picker-search input {
-      width: 100%;
-      padding: 10px 40px 10px 14px;
-      border: 2px solid var(--gray-200);
-      border-radius: var(--radius-sm);
-      font-family: inherit;
-      font-size: 0.88rem;
-      outline: none;
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-outline { background: transparent; border: 2px solid var(--gray-300); color: var(--gray-700); }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold-dark); }
+    .btn-gold { background: var(--gold); color: var(--navy); }
+    .btn-gold:hover { background: var(--gold-dark); color: var(--white); }
+    .btn-success { background: #16a34a; color: white; }
+    .btn-success:hover { background: #15803d; }
+    .btn-danger { background: var(--danger); color: white; }
+    .btn-danger:hover { background: #b91c1c; }
+    .btn-primary { background: #2563eb; color: white; }
+    .btn-primary:hover { background: #1e40af; }
+
+    /* Item row in approve/direct modal */
+    .item-row {
+      display: grid;
+      grid-template-columns: 48px 1fr 110px 110px;
+      gap: 10px; align-items: center;
+      padding: 10px; border: 1px solid var(--gray-200);
+      border-radius: 8px; margin-bottom: 8px;
+      background: white;
     }
-    .tr-picker-search input:focus {
-      border-color: var(--gold);
-      box-shadow: 0 0 0 4px rgba(201,168,76,.15);
+    .item-row img {
+      width: 48px; height: 48px; border-radius: 6px;
+      object-fit: cover; border: 1px solid var(--gray-200);
     }
-    .tr-picker-search i {
-      position: absolute;
-      right: 28px; top: 50%;
-      transform: translateY(-50%);
-      color: var(--gray-400);
+    .item-info { min-width: 0; }
+    .item-name {
+      font-size: 0.85rem; font-weight: 800;
+      color: var(--navy); margin-bottom: 3px;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
     }
-    .tr-picker-list {
-      flex: 1;
-      overflow-y: auto;
-      padding: 8px;
+    .item-meta { font-size: 0.7rem; color: var(--gray-500); }
+    .item-qty-box {
+      display: flex; flex-direction: column; gap: 2px;
     }
-    .tr-picker-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 12px;
-      border-radius: var(--radius-sm);
-      border: 1.5px solid transparent;
-      cursor: pointer;
-      transition: all .2s ease;
+    .item-qty-box label {
+      font-size: 0.65rem; color: var(--gray-500); font-weight: 700;
     }
-    .tr-picker-item:hover {
-      background: #fcf9f0;
-      border-color: var(--gold-light);
+    .item-qty-box input {
+      padding: 7px; border: 2px solid var(--gray-200);
+      border-radius: 6px; text-align: center;
+      font-family: inherit; font-weight: 900;
+      font-size: 0.9rem; outline: none; width: 100%;
     }
-    .tr-picker-item.selected {
-      background: #f0fdf4;
-      border-color: #22c55e;
-      opacity: 0.6;
-      cursor: not-allowed;
+    .item-qty-box input:focus { border-color: var(--gold); }
+    .item-qty-box input.error { border-color: var(--danger); background: #fef2f2; }
+    .item-qty-box input:disabled { background: var(--gray-100); color: var(--gray-500); }
+
+    .summary-box {
+      background: #eff6ff; border: 2px solid #93c5fd;
+      border-radius: 10px; padding: 14px 16px;
+      margin-top: 12px;
     }
-    .tr-picker-item img {
-      width: 42px; height: 42px;
-      border-radius: 6px;
-      object-fit: cover;
-      border: 1px solid var(--gray-200);
-      flex-shrink: 0;
+    .summary-row {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 5px 0; font-size: 0.85rem;
     }
-    .tr-picker-item-info { flex: 1; min-width: 0; }
-    .tr-picker-item-name {
-      font-size: 0.85rem; font-weight: 800; color: var(--navy);
-      margin-bottom: 2px;
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-    .tr-picker-item-meta {
-      font-size: 0.7rem; color: var(--gray-500);
-      display: flex; gap: 8px; flex-wrap: wrap;
-    }
-    .tr-picker-item-meta .available {
-      color: #16a34a;
-      font-weight: 800;
-    }
-    .tr-picker-item-meta .available.low { color: #d97706; }
-    .tr-picker-item-meta .available.zero { color: #dc2626; }
-    .tr-picker-item .selected-badge {
-      color: #16a34a;
-      font-size: 1.2rem;
+    .summary-row.total {
+      border-top: 2px solid #bfdbfe; margin-top: 6px; padding-top: 10px;
+      font-size: 1rem; font-weight: 900; color: #1e40af;
     }
 
-    .tr-picker-empty {
-      padding: 40px 20px;
-      text-align: center;
-      color: var(--gray-400);
+    .info-box {
+      border-radius: 10px; padding: 12px 16px;
+      margin-bottom: 16px; font-size: 0.85rem;
+      display: flex; align-items: flex-start; gap: 10px;
     }
-    .tr-picker-empty i {
-      font-size: 2rem;
-      margin-bottom: 8px;
-      display: block;
-      color: var(--gray-300);
-    }
+    .info-box i { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+    .info-box.blue { background: #eff6ff; border: 1px solid #93c5fd; color: #1e40af; }
+    .info-box.yellow { background: #fef3c7; border: 1px solid #fbbf24; color: #92400e; }
+    .info-box.red { background: #fef2f2; border: 1px solid #fca5a5; color: #991b1b; }
+    .info-box.green { background: #f0fdf4; border: 1px solid #86efac; color: #166534; }
 
-    /* ===== Responsive ===== */
+    /* Product picker */
+    .picker-search {
+      width: 100%; padding: 10px 14px;
+      border: 2px solid var(--gray-200); border-radius: var(--radius-sm);
+      font-family: inherit; font-size: 0.9rem; outline: none;
+      margin-bottom: 10px;
+    }
+    .picker-search:focus { border-color: var(--gold); }
+    .picker-list {
+      max-height: 350px; overflow-y: auto;
+      border: 1px solid var(--gray-200); border-radius: 8px;
+      padding: 6px;
+    }
+    .picker-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px; border-radius: 6px; cursor: pointer;
+      transition: background 0.15s;
+    }
+    .picker-item:hover { background: #f0fdf4; }
+    .picker-item img {
+      width: 40px; height: 40px; border-radius: 6px;
+      object-fit: cover; border: 1px solid var(--gray-200);
+    }
+    .picker-item .info { flex: 1; min-width: 0; }
+    .picker-item .name { font-size: 0.85rem; font-weight: 800; color: var(--navy); }
+    .picker-item .meta { font-size: 0.7rem; color: var(--gray-500); }
+    .picker-item .stock { font-size: 0.75rem; font-weight: 900; color: #16a34a; }
+    .picker-item.disabled { opacity: 0.5; cursor: not-allowed; }
+    .picker-item.disabled .stock { color: #dc2626; }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .tr-stats { grid-template-columns: repeat(2, 1fr); }
+      .tr-card-info { grid-template-columns: repeat(2, 1fr); }
+    }
     @media (max-width: 768px) {
-      .tr-header { padding: 16px; border-radius: var(--radius-md); }
+      .tr-header { padding: 16px; }
       .tr-header-icon { width: 46px; height: 46px; font-size: 1.2rem; }
       .tr-header h1 { font-size: 1.05rem; }
-      .tr-header p { font-size: 0.72rem; }
-      .tr-tabs { flex-direction: column; }
-      .tr-tab { padding: 10px 14px; font-size: 0.78rem; }
-
-      .tr-branches-row {
-        grid-template-columns: 1fr;
-        gap: 8px;
-      }
-      .tr-arrow-icon {
-        width: 100%; height: 36px;
-        border-radius: var(--radius-sm);
-        margin: 0;
-      }
-      .tr-arrow-icon i { transform: rotate(90deg); }
-
-      .tr-form-body { padding: 14px; }
-      .tr-summary { grid-template-columns: 1fr 1fr; gap: 8px; }
-      .tr-table th, .tr-table td { padding: 8px 6px; font-size: 0.78rem; }
-      .tr-table th:nth-child(3), .tr-table td:nth-child(3),
-      .tr-table th:nth-child(6), .tr-table td:nth-child(6) { display: none; }
-      .tr-qty-input { width: 55px; padding: 5px 4px; font-size: 0.78rem; }
-      .tr-form-actions { flex-direction: column; }
-      .tr-form-actions .btn { justify-content: center; }
-    }
-    @media (max-width: 480px) {
-      .tr-summary { grid-template-columns: 1fr; }
-      .tr-prod-img { width: 32px; height: 32px; }
+      .tr-stats { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .tr-stat { padding: 11px 8px; }
+      .tr-tab { padding: 8px 12px; font-size: 0.75rem; }
+      .tr-filters { flex-direction: column; align-items: stretch; }
+      .tr-search, .tr-filters select { min-width: 100%; }
+      .tr-card-info { grid-template-columns: 1fr; }
+      .tr-card-actions { justify-content: flex-start; }
+      .tr-action-btn { font-size: 0.7rem; padding: 6px 10px; flex: 1; justify-content: center; min-width: calc(50% - 3px); }
+      .modal-content { margin: 10px; }
+      .modal-body { padding: 16px; }
+      .item-row { grid-template-columns: 40px 1fr; }
+      .item-qty-box { grid-column: 1 / -1; }
+      .tr-card-route { flex-direction: column; align-items: flex-start; }
+      .tr-route-arrow { transform: rotate(90deg); }
+      .tr-route-meta { margin-right: 0; margin-top: 4px; }
     }
   </style>
 </head>
@@ -665,139 +449,86 @@
   <main class="page-content">
     <div class="container">
 
-      <!-- Header -->
       <div class="tr-header">
         <div class="tr-header-inner">
           <div class="tr-header-left">
             <div class="tr-header-icon"><i class="fas fa-exchange-alt"></i></div>
             <div>
-              <h1>نقل المخزون</h1>
-              <p>تحويل بين المخزن المركزي والفروع</p>
+              <h1>إدارة النقل بين الفروع</h1>
+              <p>طلبات النقل · في الطريق · المكتملة</p>
             </div>
+          </div>
+          <div class="tr-header-actions">
+            <button class="btn" onclick="loadAll()" id="refreshBtn">
+              <i class="fas fa-sync-alt"></i> تحديث
+            </button>
+            <button class="btn btn-primary" onclick="openDirectTransferModal()">
+              <i class="fas fa-plus"></i> نقل مباشر
+            </button>
           </div>
         </div>
       </div>
 
-      <!-- Tabs -->
-      <div class="tr-tabs">
-        <button class="tr-tab active" data-tab="new" onclick="switchTrTab('new')">
-          <i class="fas fa-plus-circle"></i> نقلة جديدة
+      <div class="tr-stats">
+        <div class="tr-stat" onclick="switchTab('pending', event)">
+          <div class="tr-stat-icon blue"><i class="fas fa-clock"></i></div>
+          <div class="tr-stat-num blue" id="statPending">0</div>
+          <div class="tr-stat-label">طلبات معلقة</div>
+        </div>
+        <div class="tr-stat" onclick="switchTab('in_transit', event)">
+          <div class="tr-stat-icon orange"><i class="fas fa-truck"></i></div>
+          <div class="tr-stat-num orange" id="statInTransit">0</div>
+          <div class="tr-stat-label">في الطريق</div>
+        </div>
+        <div class="tr-stat" onclick="switchTab('completed', event)">
+          <div class="tr-stat-icon green"><i class="fas fa-check-circle"></i></div>
+          <div class="tr-stat-num green" id="statCompleted">0</div>
+          <div class="tr-stat-label">مكتملة</div>
+        </div>
+        <div class="tr-stat" onclick="switchTab('cancelled', event)">
+          <div class="tr-stat-icon red"><i class="fas fa-times-circle"></i></div>
+          <div class="tr-stat-num red" id="statCancelled">0</div>
+          <div class="tr-stat-label">ملغية / مرفوضة</div>
+        </div>
+      </div>
+
+      <div class="tr-tabs" id="trTabs">
+        <button class="tr-tab active" data-tab="pending" onclick="switchTab('pending')">
+          <i class="fas fa-clock"></i> طلبات معلقة
+          <span class="tab-count" id="tabCount-pending">0</span>
         </button>
-        <button class="tr-tab" data-tab="history" onclick="switchTrTab('history')">
-          <i class="fas fa-history"></i> سجل النقلات
+        <button class="tr-tab" data-tab="in_transit" onclick="switchTab('in_transit')">
+          <i class="fas fa-truck"></i> في الطريق
+          <span class="tab-count" id="tabCount-in_transit">0</span>
+        </button>
+        <button class="tr-tab" data-tab="completed" onclick="switchTab('completed')">
+          <i class="fas fa-check-circle"></i> مكتملة
+          <span class="tab-count" id="tabCount-completed">0</span>
+        </button>
+        <button class="tr-tab" data-tab="cancelled" onclick="switchTab('cancelled')">
+          <i class="fas fa-ban"></i> ملغية / مرفوضة
+          <span class="tab-count" id="tabCount-cancelled">0</span>
         </button>
       </div>
 
-      <!-- ============================================================ -->
-      <!-- Tab: New Transfer                                            -->
-      <!-- ============================================================ -->
-      <div class="tr-section active" id="tr-new">
-
-        <div class="tr-form-card">
-          <div class="tr-form-header">
-            <h2><i class="fas fa-route"></i> تفاصيل النقلة</h2>
-          </div>
-          <div class="tr-form-body">
-
-            <!-- Branch selectors -->
-            <div class="tr-branches-row">
-              <div class="tr-branch-selector from">
-                <label><i class="fas fa-sign-out-alt"></i> من فرع</label>
-                <select id="fromBranchSelect" onchange="onBranchChange()">
-                  <option value="">— اختر الفرع —</option>
-                </select>
-                <div class="tr-branch-info" id="fromBranchInfo"></div>
-              </div>
-              <div class="tr-arrow-icon"><i class="fas fa-arrow-left"></i></div>
-              <div class="tr-branch-selector to">
-                <label><i class="fas fa-sign-in-alt"></i> إلى فرع</label>
-                <select id="toBranchSelect" onchange="onBranchChange()">
-                  <option value="">— اختر الفرع —</option>
-                </select>
-                <div class="tr-branch-info" id="toBranchInfo"></div>
-              </div>
-            </div>
-
-            <!-- Products -->
-            <div class="tr-products-header">
-              <h3>
-                <i class="fas fa-boxes"></i> المنتجات
-                <span class="count-badge" id="itemsCount">0</span>
-              </h3>
-              <button class="btn btn-gold" onclick="openProductPicker()" id="addProductBtn" disabled>
-                <i class="fas fa-plus"></i> إضافة منتج
-              </button>
-            </div>
-
-            <div id="productsArea">
-              <div class="tr-empty">
-                <i class="fas fa-box-open"></i>
-                <h3>لم تتم إضافة منتجات</h3>
-                <p>اختر "من فرع" و "إلى فرع" أولاً ثم اضغط "إضافة منتج"</p>
-              </div>
-            </div>
-
-            <!-- Summary -->
-            <div class="tr-summary" id="summaryBox" style="display:none;">
-              <div class="tr-summary-item">
-                <div class="lbl">عدد المنتجات</div>
-                <div class="val" id="summaryItemsCount">0</div>
-              </div>
-              <div class="tr-summary-item">
-                <div class="lbl">إجمالي القطع</div>
-                <div class="val" id="summaryTotalPieces">0</div>
-              </div>
-              <div class="tr-summary-item">
-                <div class="lbl">إجمالي الوحدات</div>
-                <div class="val" id="summaryTotalUnits">0</div>
-              </div>
-            </div>
-
-            <!-- Notes -->
-            <div class="tr-notes">
-              <label><i class="fas fa-comment-alt" style="color:var(--gold);"></i> ملاحظات (اختياري)</label>
-              <textarea id="transferNotes" maxlength="300" placeholder="سبب النقل، ملاحظات التحميل، إلخ..."></textarea>
-            </div>
-
-            <!-- Actions -->
-            <div class="tr-form-actions">
-              <button type="button" class="btn btn-outline" onclick="resetTransferForm()">
-                <i class="fas fa-redo"></i> إعادة تعيين
-              </button>
-              <button type="button" class="btn btn-primary" onclick="submitTransfer()" id="submitTransferBtn" disabled>
-                <i class="fas fa-paper-plane"></i> تنفيذ النقل
-              </button>
-            </div>
-
-          </div>
+      <div class="tr-filters">
+        <div class="tr-search">
+          <input type="text" id="trSearch" placeholder="بحث برقم الطلب / الفرع / المنتج..." oninput="onSearchInput()">
+          <i class="fas fa-search"></i>
         </div>
-
+        <select id="trFromFilter" onchange="applyFilters()">
+          <option value="">من: كل الفروع</option>
+        </select>
+        <select id="trToFilter" onchange="applyFilters()">
+          <option value="">إلى: كل الفروع</option>
+        </select>
+        <button class="btn-icon-only" onclick="resetFilters()" title="إعادة تعيين">
+          <i class="fas fa-undo"></i>
+        </button>
       </div>
 
-      <!-- ============================================================ -->
-      <!-- Tab: History                                                 -->
-      <!-- ============================================================ -->
-      <div class="tr-section" id="tr-history">
-
-        <div class="tr-filters">
-          <select id="historyFromFilter" onchange="loadHistory()">
-            <option value="">من فرع (الكل)</option>
-          </select>
-          <select id="historyToFilter" onchange="loadHistory()">
-            <option value="">إلى فرع (الكل)</option>
-          </select>
-          <button class="btn btn-outline" onclick="resetHistoryFilters()" style="padding:9px 14px;">
-            <i class="fas fa-undo"></i> إعادة تعيين
-          </button>
-        </div>
-
-        <div class="tr-history-list" id="historyList">
-          <div class="tr-empty">
-            <i class="fas fa-spinner fa-spin"></i>
-            <h3>جاري التحميل...</h3>
-          </div>
-        </div>
-
+      <div class="tr-list" id="trList">
+        <div class="tr-loading"><i class="fas fa-spinner fa-spin"></i><p>جاري التحميل...</p></div>
       </div>
 
     </div>
@@ -808,21 +539,7 @@
   <div id="footer-placeholder"></div>
   <div id="sidebar-placeholder"></div>
   <div id="toast-container"></div>
-
-  <!-- ===== Product Picker Modal ===== -->
-  <div class="tr-picker-overlay" id="productPickerOverlay" onclick="closeProductPicker(event)">
-    <div class="tr-picker" onclick="event.stopPropagation()">
-      <div class="tr-picker-head">
-        <h3><i class="fas fa-boxes"></i> اختر منتج</h3>
-        <button class="tr-picker-close" onclick="closeProductPicker()">&times;</button>
-      </div>
-      <div class="tr-picker-search">
-        <input type="text" id="pickerSearch" placeholder="بحث بالاسم / الباركود..." oninput="filterPickerList()">
-        <i class="fas fa-search"></i>
-      </div>
-      <div class="tr-picker-list" id="pickerList"></div>
-    </div>
-  </div>
+  <div id="modalContainer"></div>
 
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
@@ -832,73 +549,75 @@
 
   <script>
   // ============================================================
-  // admin/transfers.html — v1.0
-  // ⚠️ استراتيجية: مفيش تكرار من main.js
+  // admin/transfers.html v2.0
+  // ✅ 3 تبويبات + موافقة/رفض + طباعة + نقل مباشر
   // ============================================================
 
   const trState = {
     role: 'guest',
     isSuper: false,
     isAdminPlus: false,
+    isAdmin: false,
     adminId: '',
     adminName: '',
     branches: [],
-    productsByBranch: {},    // cache: branchId → [{productId, product, stock}]
-    items: [],               // [{productId, product, units, pieces}]
-    pickerSearch: '',
-    historyUnsub: null
+    products: [],
+    pendingRequests: [],
+    inTransitTransfers: [],
+    completedTransfers: [],
+    cancelledTransfers: [],
+    filtered: [],
+    currentTab: 'pending',
+    searchDebounce: null,
+    approveTarget: null,
+    approveItems: [],
+    directItems: [],
+    directSourceId: '',
+    directDestId: '',
+    directPickerSearch: '',
+    loading: false
   };
 
-  const UNIT_PIECES_DEFAULT = 1;
+  const REQUEST_STATUS = {
+    pending: { label: 'معلق', icon: 'clock', cls: 'pending' },
+    approved: { label: 'موافق', icon: 'check', cls: 'completed' },
+    rejected: { label: 'مرفوض', icon: 'times', cls: 'cancelled' },
+    cancelled: { label: 'ملغي', icon: 'ban', cls: 'cancelled' },
+    completed: { label: 'مكتمل', icon: 'check-circle', cls: 'completed' }
+  };
+
+  const TRANSFER_STATUS = {
+    in_transit: { label: 'في الطريق', icon: 'truck', cls: 'in_transit' },
+    completed: { label: 'مكتمل', icon: 'check-circle', cls: 'completed' },
+    partially_received: { label: 'مستلم جزئياً', icon: 'exclamation', cls: 'partially_received' },
+    rejected_at_destination: { label: 'مرفوض بالفرع', icon: 'times-circle', cls: 'rejected_at_destination' },
+    cancelled: { label: 'ملغي', icon: 'ban', cls: 'cancelled' }
+  };
 
   // ============================================================
   // Init
   // ============================================================
   document.addEventListener('DOMContentLoaded', async () => {
-    try {
-      const user = getCurrentUser();
-      if (!user || user.type !== 'admin') {
-        window.location.href = '/gomla/admin/login.html';
-        return;
-      }
+    if (!protectAdminPage([ROLES.SUPER, ROLES.ADMIN_PLUS])) return;
 
-      trState.role = user.data?.role || 'admin';
-      trState.isSuper = trState.role === 'super';
-      trState.isAdminPlus = trState.role === 'admin_plus';
-      trState.adminId = user.data?.id || user.data?.uid || '';
-      trState.adminName = user.data?.name || '';
+    const user = getCurrentUser();
+    trState.role = user.data?.role || 'admin_plus';
+    trState.isSuper = trState.role === 'super';
+    trState.isAdminPlus = trState.role === 'admin_plus';
+    trState.isAdmin = true;
+    trState.adminId = user.data?.id || user.data?.uid || '';
+    trState.adminName = user.data?.name || '';
 
-      if (!trState.isSuper && !trState.isAdminPlus) {
-        document.body.innerHTML = `
-          <div style="padding:60px 20px;text-align:center;font-family:Tajawal,sans-serif;">
-            <i class="fas fa-lock" style="font-size:4rem;color:#dc2626;margin-bottom:20px;"></i>
-            <h1 style="color:#1e293b;">صلاحية super / admin_plus فقط</h1>
-            <p style="color:#64748b;">هذه الصفحة للسوبر أدمن والأدمن بلص فقط.</p>
-            <a href="/gomla/admin/dashboard.html" style="display:inline-block;margin-top:20px;padding:10px 24px;background:#7c3aed;color:white;text-decoration:none;border-radius:8px;font-weight:800;">
-              رجوع للوحة التحكم
-            </a>
-          </div>`;
-        return;
-      }
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeAllModals();
+    });
 
-      await loadBranches();
-      populateBranchSelects();
-      loadHistory();
+    await loadBranches();
+    await loadProducts();
+    populateFilters();
+    await loadAll();
 
-      // ESC
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-          if (document.getElementById('productPickerOverlay').classList.contains('show')) {
-            closeProductPicker();
-          }
-        }
-      });
-
-      console.log('✅ transfers.html v1.0 ready — role:', trState.role);
-
-    } catch (err) {
-      console.error('Init error:', err);
-    }
+    console.log('✅ transfers v2.0 ready — role:', trState.role);
   });
 
   // ============================================================
@@ -906,854 +625,1679 @@
   // ============================================================
   async function loadBranches() {
     try {
-      const snap = await db.collection('branches')
-        .where('active', '==', true)
-        .get();
+      const snap = await db.collection('branches').where('active', '==', true).get();
       trState.branches = [];
       snap.forEach(doc => trState.branches.push({ id: doc.id, ...doc.data() }));
-      trState.branches.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ar'));
+      trState.branches.sort((a, b) => {
+        if (a.isWarehouse) return -1;
+        if (b.isWarehouse) return 1;
+        return (a.name || '').localeCompare(b.name || '', 'ar');
+      });
     } catch (err) {
-      console.error('Load branches error:', err);
-      window.showToast('فشل تحميل الفروع', 'error');
+      console.error('loadBranches:', err);
     }
   }
 
-  function populateBranchSelects() {
-    const fromSel = document.getElementById('fromBranchSelect');
-    const toSel = document.getElementById('toBranchSelect');
-    const histFrom = document.getElementById('historyFromFilter');
-    const histTo = document.getElementById('historyToFilter');
-
-    const options = trState.branches.map(b => {
-      const label = b.name + (b.type === 'warehouse' ? ' (مخزن)' : '');
-      return `<option value="${b.id}">${_esc(label)}</option>`;
-    }).join('');
-
-    fromSel.innerHTML = '<option value="">— اختر الفرع —</option>' + options;
-    toSel.innerHTML = '<option value="">— اختر الفرع —</option>' + options;
-    histFrom.innerHTML = '<option value="">من فرع (الكل)</option>' + options;
-    histTo.innerHTML = '<option value="">إلى فرع (الكل)</option>' + options;
+  async function loadProducts() {
+    try {
+      const snap = await db.collection('products').where('available', '==', true).limit(800).get();
+      trState.products = [];
+      snap.forEach(doc => trState.products.push({ id: doc.id, ...doc.data() }));
+      trState.products.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ar'));
+    } catch (err) {
+      console.error('loadProducts:', err);
+    }
   }
 
-  function onBranchChange() {
-    const from = document.getElementById('fromBranchSelect').value;
-    const to = document.getElementById('toBranchSelect').value;
+  function populateFilters() {
+    const fromSel = document.getElementById('trFromFilter');
+    const toSel = document.getElementById('trToFilter');
+    const opts = trState.branches.map(b => `<option value="${b.id}">${esc(b.name || b.id)}</option>`).join('');
+    if (fromSel) fromSel.innerHTML = '<option value="">من: كل الفروع</option>' + opts;
+    if (toSel) toSel.innerHTML = '<option value="">إلى: كل الفروع</option>' + opts;
+  }
 
-    // Info display
-    const fromInfo = document.getElementById('fromBranchInfo');
-    const toInfo = document.getElementById('toBranchInfo');
-    const fromBranch = trState.branches.find(b => b.id === from);
-    const toBranch = trState.branches.find(b => b.id === to);
-
-    fromInfo.textContent = fromBranch ? `${fromBranch.type === 'warehouse' ? 'مخزن' : 'فرع'} · كود: ${fromBranch.code}` : '';
-    toInfo.textContent = toBranch ? `${toBranch.type === 'warehouse' ? 'مخزن' : 'فرع'} · كود: ${toBranch.code}` : '';
-
-    // Enable add product only if both set and different
-    const addBtn = document.getElementById('addProductBtn');
-    addBtn.disabled = !from || !to || from === to;
-
-    if (from && to && from === to) {
-      window.showToast('لا يمكن النقل من فرع إلى نفسه', 'warning');
-    }
-
-    // Clear items if from changed
-    if (trState.items.length > 0 && from !== trState.currentFrom) {
-      if (!confirm('تغيير الفرع المصدر سيمسح المنتجات المضافة. متابعة؟')) {
-        document.getElementById('fromBranchSelect').value = trState.currentFrom || '';
-        onBranchChange();
-        return;
-      }
-      trState.items = [];
-      renderItems();
-    }
-    trState.currentFrom = from;
-
-    updateSubmitBtn();
+  function getBranch(id) {
+    return trState.branches.find(b => b.id === id);
   }
 
   // ============================================================
-  // Products Picker
+  // Load All Data (realtime)
   // ============================================================
-  async function openProductPicker() {
-    const from = document.getElementById('fromBranchSelect').value;
-    if (!from) { window.showToast('اختر الفرع المصدر أولاً', 'warning'); return; }
+  let _unsubRequests = null;
+  let _unsubTransfers = null;
 
-    const overlay = document.getElementById('productPickerOverlay');
-    const list = document.getElementById('pickerList');
+  async function loadAll() {
+    if (trState.loading) return;
+    trState.loading = true;
 
-    list.innerHTML = '<div class="tr-picker-empty"><i class="fas fa-spinner fa-spin"></i><p>جاري التحميل...</p></div>';
-    overlay.classList.add('show');
-    document.body.style.overflow = 'hidden';
+    const btn = document.getElementById('refreshBtn');
+    if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> تحميل...'; }
 
     try {
-      await loadProductsForBranch(from);
-      renderPickerList();
-      document.getElementById('pickerSearch').value = '';
-      trState.pickerSearch = '';
-      setTimeout(() => document.getElementById('pickerSearch')?.focus(), 100);
+      // Load pending requests (realtime)
+      if (_unsubRequests) _unsubRequests();
+      _unsubRequests = db.collection('transfer_requests')
+        .where('status', '==', 'pending')
+        .orderBy('requestedAt', 'desc')
+        .limit(100)
+        .onSnapshot(snap => {
+          trState.pendingRequests = [];
+          snap.forEach(doc => trState.pendingRequests.push({ id: doc.id, ...doc.data() }));
+          updateStats();
+          if (trState.currentTab === 'pending') applyFilters();
+        }, err => console.warn('pending stream:', err));
+
+      // Load transfers (all statuses — for in_transit + completed + cancelled)
+      if (_unsubTransfers) _unsubTransfers();
+      _unsubTransfers = db.collection('transfers')
+        .orderBy('createdAt', 'desc')
+        .limit(200)
+        .onSnapshot(snap => {
+          trState.inTransitTransfers = [];
+          trState.completedTransfers = [];
+          trState.cancelledTransfers = [];
+          snap.forEach(doc => {
+            const t = { id: doc.id, ...doc.data() };
+            if (t.status === 'in_transit') trState.inTransitTransfers.push(t);
+            else if (['completed', 'partially_received', 'rejected_at_destination'].includes(t.status)) trState.completedTransfers.push(t);
+            else if (t.status === 'cancelled') trState.cancelledTransfers.push(t);
+          });
+          updateStats();
+          if (trState.currentTab !== 'pending') applyFilters();
+        }, err => console.warn('transfers stream:', err));
+
+      trState.loading = false;
+      if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-sync-alt"></i> تحديث'; }
+
     } catch (err) {
-      list.innerHTML = `<div class="tr-picker-empty"><i class="fas fa-exclamation-triangle"></i><p>فشل التحميل</p></div>`;
+      trState.loading = false;
+      if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-sync-alt"></i> تحديث'; }
+      console.error('loadAll:', err);
+      window.showToast('خطأ في التحميل: ' + err.message, 'error');
     }
   }
 
-  async function loadProductsForBranch(branchId) {
-    const branch = trState.branches.find(b => b.id === branchId);
-    if (!branch) throw new Error('الفرع غير موجود');
+  function updateStats() {
+    setText('statPending', trState.pendingRequests.length);
+    setText('statInTransit', trState.inTransitTransfers.length);
+    setText('statCompleted', trState.completedTransfers.length);
+    setText('statCancelled', trState.cancelledTransfers.length);
+    setText('tabCount-pending', trState.pendingRequests.length);
+    setText('tabCount-in_transit', trState.inTransitTransfers.length);
+    setText('tabCount-completed', trState.completedTransfers.length);
+    setText('tabCount-cancelled', trState.cancelledTransfers.length);
+  }
+  function setText(id, val) { const el = document.getElementById(id); if (el) el.textContent = val; }
 
-    const isWarehouse = branch.type === 'warehouse';
-    const list = [];
+  // ============================================================
+  // Tabs & Filters
+  // ============================================================
+  function switchTab(tab, event) {
+    if (event) event.preventDefault();
+    trState.currentTab = tab;
+    document.querySelectorAll('.tr-tab').forEach(el => el.classList.toggle('active', el.dataset.tab === tab));
+    applyFilters();
+  }
 
-    if (isWarehouse) {
-      // من products
-      const snap = await db.collection('products')
-        .where('available', '==', true)
-        .limit(500).get();
+  function onSearchInput() {
+    if (trState.searchDebounce) clearTimeout(trState.searchDebounce);
+    trState.searchDebounce = setTimeout(applyFilters, 300);
+  }
+
+  function applyFilters() {
+    let list = [];
+    if (trState.currentTab === 'pending') list = [...trState.pendingRequests];
+    else if (trState.currentTab === 'in_transit') list = [...trState.inTransitTransfers];
+    else if (trState.currentTab === 'completed') list = [...trState.completedTransfers];
+    else if (trState.currentTab === 'cancelled') list = [...trState.cancelledTransfers];
+
+    const search = (document.getElementById('trSearch')?.value || '').trim().toLowerCase();
+    if (search) {
+      list = list.filter(r => {
+        const fromName = (r.fromBranchName || getBranch(r.fromBranchId)?.name || '').toLowerCase();
+        const toName = (r.toBranchName || getBranch(r.toBranchId)?.name || '').toLowerCase();
+        const productMatch = (r.items || []).some(i => (i.productName || '').toLowerCase().includes(search));
+        return (r.id || '').toLowerCase().includes(search) ||
+               fromName.includes(search) ||
+               toName.includes(search) ||
+               productMatch;
+      });
+    }
+
+    const fromF = document.getElementById('trFromFilter')?.value || '';
+    if (fromF) list = list.filter(r => r.fromBranchId === fromF);
+
+    const toF = document.getElementById('trToFilter')?.value || '';
+    if (toF) list = list.filter(r => r.toBranchId === toF);
+
+    trState.filtered = list;
+    renderList();
+  }
+
+  function resetFilters() {
+    const s = document.getElementById('trSearch');
+    const f = document.getElementById('trFromFilter');
+    const t = document.getElementById('trToFilter');
+    if (s) s.value = '';
+    if (f) f.value = '';
+    if (t) t.value = '';
+    applyFilters();
+  }
+
+  // ============================================================
+  // Render List
+  // ============================================================
+  function renderList() {
+    const container = document.getElementById('trList');
+    if (!container) return;
+
+    if (trState.filtered.length === 0) {
+      const labels = {
+        pending: 'لا توجد طلبات معلقة',
+        in_transit: 'لا توجد شحنات في الطريق',
+        completed: 'لا توجد شحنات مكتملة',
+        cancelled: 'لا توجد شحنات ملغية'
+      };
+      container.innerHTML = `
+        <div class="tr-empty">
+          <div class="empty-icon"><i class="fas fa-truck"></i></div>
+          <h3>${labels[trState.currentTab] || 'لا توجد بيانات'}</h3>
+          <p>${trState.currentTab === 'pending' ? 'سيظهر هنا طلبات النقل الجديدة من الفروع' : 'ستظهر هنا الشحنات بمجرد توفرها'}</p>
+        </div>`;
+      return;
+    }
+
+    container.innerHTML = trState.filtered.map(r => {
+      if (trState.currentTab === 'pending') return renderPendingCard(r);
+      return renderTransferCard(r);
+    }).join('');
+  }
+
+  // ============================================================
+  // Render Pending Request Card
+  // ============================================================
+  function renderPendingCard(req) {
+    const fromBranch = getBranch(req.fromBranchId) || { name: req.fromBranchName || req.fromBranchId };
+    const toBranch = getBranch(req.toBranchId) || { name: req.toBranchName || req.toBranchId };
+    const st = REQUEST_STATUS[req.status] || REQUEST_STATUS.pending;
+
+    const reqDate = req.requestedAt ? formatDateTime(req.requestedAt) : '—';
+    const ageHours = req.requestedAt ? Math.round((Date.now() - toMs(req.requestedAt)) / (1000 * 60 * 60)) : 0;
+    const isLate = ageHours >= 24;
+
+    const itemsChips = (req.items || []).slice(0, 4).map(i => `
+      <span class="tr-item-chip">
+        <i class="fas fa-box"></i>
+        ${esc(i.productName || '')}
+        <strong>×${i.requestedPieces || 0}</strong>
+      </span>
+    `).join('');
+    const moreItems = (req.items || []).length > 4 ? `<span class="tr-item-chip"><i class="fas fa-plus"></i> ${(req.items || []).length - 4} آخر</span>` : '';
+
+    return `
+      <div class="tr-card pending">
+        <div class="tr-card-head">
+          <div class="tr-card-title">
+            <span class="tr-num">#${req.id.slice(-8).toUpperCase()}</span>
+            <span>طلب نقل — ${esc(req.requestedByName || req.requestedByRole || 'مستخدم')}</span>
+          </div>
+          <div class="tr-badges">
+            <span class="tr-badge pending"><i class="fas fa-${st.icon}"></i> ${st.label}</span>
+            ${isLate ? `<span class="tr-badge late"><i class="fas fa-exclamation-triangle"></i> متأخر ${ageHours} ساعة</span>` : ''}
+          </div>
+        </div>
+
+        <div class="tr-card-route">
+          <div class="tr-route-point">
+            <i class="fas fa-warehouse"></i>
+            ${esc(fromBranch.name || fromBranch.id)}
+          </div>
+          <i class="fas fa-arrow-left tr-route-arrow"></i>
+          <div class="tr-route-point">
+            <i class="fas fa-store-alt"></i>
+            ${esc(toBranch.name || toBranch.id)}
+          </div>
+          <div class="tr-route-meta">
+            <i class="fas fa-clock"></i> ${reqDate}
+          </div>
+        </div>
+
+        <div class="tr-card-info">
+          <div class="tr-info-item">
+            <i class="fas fa-boxes"></i>
+            <span class="val">${req.totalItems || (req.items || []).length} منتج</span>
+          </div>
+          <div class="tr-info-item">
+            <i class="fas fa-cubes"></i>
+            <span class="val">${req.totalPieces || 0} قطعة</span>
+          </div>
+          <div class="tr-info-item">
+            <i class="fas fa-user"></i>
+            <span class="val">${esc(req.requestedByName || '—')}</span>
+          </div>
+          <div class="tr-info-item">
+            <i class="fas fa-clock"></i>
+            <span class="val">منذ ${ageHours} ساعة</span>
+          </div>
+        </div>
+
+        <div class="tr-items-preview">${itemsChips}${moreItems}</div>
+
+        <div class="tr-card-actions">
+          <button class="tr-action-btn view" onclick="openRequestDetails('${req.id}')">
+            <i class="fas fa-eye"></i> تفاصيل
+          </button>
+          <button class="tr-action-btn approve" onclick="openApproveModal('${req.id}')">
+            <i class="fas fa-check"></i> موافقة
+          </button>
+          <button class="tr-action-btn reject" onclick="openRejectModal('${req.id}')">
+            <i class="fas fa-times"></i> رفض
+          </button>
+        </div>
+      </div>`;
+  }
+
+  // ============================================================
+  // Render Transfer Card (in_transit / completed / cancelled)
+  // ============================================================
+  function renderTransferCard(tr) {
+    const fromBranch = getBranch(tr.fromBranchId) || { name: tr.fromBranchName || tr.fromBranchId };
+    const toBranch = getBranch(tr.toBranchId) || { name: tr.toBranchName || tr.toBranchId };
+    const st = TRANSFER_STATUS[tr.status] || TRANSFER_STATUS.in_transit;
+
+    const trDate = tr.createdAt ? formatDateTime(tr.createdAt) : '—';
+    const ageHours = tr.createdAt ? Math.round((Date.now() - toMs(tr.createdAt)) / (1000 * 60 * 60)) : 0;
+    const isLate = tr.status === 'in_transit' && ageHours >= 24;
+
+    const itemsChips = (tr.items || []).slice(0, 4).map(i => {
+      const qty = tr.status === 'in_transit' ? (i.approvedPieces || i.requestedPieces || 0) : (i.receivedPieces || i.approvedPieces || i.requestedPieces || 0);
+      return `<span class="tr-item-chip"><i class="fas fa-box"></i> ${esc(i.productName || '')} <strong>×${qty}</strong></span>`;
+    }).join('');
+    const moreItems = (tr.items || []).length > 4 ? `<span class="tr-item-chip"><i class="fas fa-plus"></i> ${(tr.items || []).length - 4} آخر</span>` : '';
+
+    const isDirect = tr.isDirectTransfer === true;
+
+    return `
+      <div class="tr-card ${st.cls}">
+        <div class="tr-card-head">
+          <div class="tr-card-title">
+            <span class="tr-num">#${tr.id.slice(-8).toUpperCase()}</span>
+            <span>${isDirect ? 'نقل مباشر' : 'طلب نقل معتمد'}</span>
+          </div>
+          <div class="tr-badges">
+            <span class="tr-badge ${st.cls}"><i class="fas fa-${st.icon}"></i> ${st.label}</span>
+            ${isDirect ? `<span class="tr-badge" style="background:rgba(139,92,246,.15);color:#6d28d9;"><i class="fas fa-bolt"></i> مباشر</span>` : ''}
+            ${isLate ? `<span class="tr-badge late"><i class="fas fa-exclamation-triangle"></i> متأخر ${ageHours} ساعة</span>` : ''}
+          </div>
+        </div>
+
+        <div class="tr-card-route">
+          <div class="tr-route-point">
+            <i class="fas fa-warehouse"></i>
+            ${esc(fromBranch.name || fromBranch.id)}
+          </div>
+          <i class="fas fa-arrow-left tr-route-arrow"></i>
+          <div class="tr-route-point">
+            <i class="fas fa-store-alt"></i>
+            ${esc(toBranch.name || toBranch.id)}
+          </div>
+          <div class="tr-route-meta">
+            <i class="fas fa-clock"></i> ${trDate}
+          </div>
+        </div>
+
+        <div class="tr-card-info">
+          <div class="tr-info-item">
+            <i class="fas fa-boxes"></i>
+            <span class="val">${(tr.items || []).length} منتج</span>
+          </div>
+          <div class="tr-info-item">
+            <i class="fas fa-cubes"></i>
+            <span class="val">${tr.totalApprovedPieces || tr.totalRequestedPieces || 0} قطعة</span>
+          </div>
+          <div class="tr-info-item">
+            <i class="fas fa-user-check"></i>
+            <span class="val">${esc(tr.approvedByName || tr.createdByName || '—')}</span>
+          </div>
+          ${tr.receivedByName ? `
+            <div class="tr-info-item">
+              <i class="fas fa-hand-holding"></i>
+              <span class="val">استلمها: ${esc(tr.receivedByName)}</span>
+            </div>
+          ` : `
+            <div class="tr-info-item">
+              <i class="fas fa-hourglass-half"></i>
+              <span class="val">بانتظار الاستلام</span>
+            </div>
+          `}
+        </div>
+
+        <div class="tr-items-preview">${itemsChips}${moreItems}</div>
+
+        <div class="tr-card-actions">
+          <button class="tr-action-btn view" onclick="openTransferDetails('${tr.id}')">
+            <i class="fas fa-eye"></i> تفاصيل
+          </button>
+          <button class="tr-action-btn print" onclick="printReceipt('${tr.id}')">
+            <i class="fas fa-print"></i> طباعة إذن
+          </button>
+          ${tr.status === 'in_transit' ? `
+            <button class="tr-action-btn cancel" onclick="openCancelTransferModal('${tr.id}')">
+              <i class="fas fa-times"></i> إلغاء النقل
+            </button>
+          ` : ''}
+        </div>
+      </div>`;
+  }
+
+  // ============================================================
+  // Request Details Modal
+  // ============================================================
+  function openRequestDetails(reqId) {
+    const req = trState.pendingRequests.find(r => r.id === reqId);
+    if (!req) return;
+
+    const fromBranch = getBranch(req.fromBranchId) || { name: req.fromBranchName || req.fromBranchId };
+    const toBranch = getBranch(req.toBranchId) || { name: req.toBranchName || req.toBranchId };
+
+    const itemsHtml = (req.items || []).map(i => `
+      <div style="display:flex;align-items:center;gap:12px;padding:10px;border:1px solid var(--gray-200);border-radius:8px;margin-bottom:8px;background:white;">
+        <img src="${i.productImage || '/gomla/assets/images/no-image.png'}" style="width:48px;height:48px;border-radius:6px;object-fit:cover;border:1px solid var(--gray-200);" onerror="this.src='/gomla/assets/images/no-image.png'">
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:0.88rem;font-weight:800;color:var(--navy);">${esc(i.productName || 'منتج')}</div>
+          <div style="font-size:0.72rem;color:var(--gray-500);">${esc(i.unit || 'قطعة')} · عدد القطع/وحدة: ${i.piecesPerUnit || 1}</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:0.65rem;color:var(--gray-500);">مطلوب</div>
+          <div style="font-size:1.1rem;font-weight:900;color:var(--gold-dark);">${i.requestedPieces || 0}</div>
+        </div>
+      </div>
+    `).join('');
+
+    const html = `
+      <div class="modal-overlay show" id="reqDetailModal" onclick="closeModal('reqDetailModal')">
+        <div class="modal-content medium" onclick="event.stopPropagation()">
+          <div class="modal-header">
+            <h2><i class="fas fa-file-alt"></i> تفاصيل طلب النقل #${req.id.slice(-8).toUpperCase()}</h2>
+            <button class="modal-close" onclick="closeModal('reqDetailModal')">&times;</button>
+          </div>
+          <div class="modal-body">
+
+            <div class="info-box blue">
+              <i class="fas fa-route"></i>
+              <div>
+                <div style="font-weight:900;margin-bottom:4px;">المسار</div>
+                <div>من: <strong>${esc(fromBranch.name || fromBranch.id)}</strong></div>
+                <div>إلى: <strong>${esc(toBranch.name || toBranch.id)}</strong></div>
+              </div>
+            </div>
+
+            <div class="info-box yellow">
+              <i class="fas fa-user"></i>
+              <div>
+                <div style="font-weight:900;margin-bottom:4px;">مقدم الطلب</div>
+                <div>${esc(req.requestedByName || '—')} · ${esc(req.requestedByRole || '—')}</div>
+                <div style="font-size:0.75rem;opacity:0.8;margin-top:2px;">${formatDateTime(req.requestedAt)}</div>
+              </div>
+            </div>
+
+            ${req.notes ? `
+              <div class="info-box yellow">
+                <i class="fas fa-comment"></i>
+                <div>
+                  <div style="font-weight:900;margin-bottom:4px;">ملاحظات</div>
+                  <div>${esc(req.notes)}</div>
+                </div>
+              </div>
+            ` : ''}
+
+            <h4 style="font-size:0.9rem;font-weight:900;color:var(--navy);margin-bottom:10px;">
+              <i class="fas fa-boxes" style="color:var(--gold);"></i> المنتجات المطلوبة (${(req.items || []).length})
+            </h4>
+            ${itemsHtml}
+
+            <div class="summary-box">
+              <div class="summary-row">
+                <span>إجمالي المنتجات</span>
+                <strong>${req.totalItems || (req.items || []).length} منتج</strong>
+              </div>
+              <div class="summary-row total">
+                <span>إجمالي القطع</span>
+                <span>${req.totalPieces || 0} قطعة</span>
+              </div>
+            </div>
+
+          </div>
+          <div class="modal-actions">
+            <button class="btn btn-outline" onclick="closeModal('reqDetailModal')">إغلاق</button>
+            <button class="btn btn-danger" onclick="closeModal('reqDetailModal'); openRejectModal('${req.id}')">
+              <i class="fas fa-times"></i> رفض
+            </button>
+            <button class="btn btn-success" onclick="closeModal('reqDetailModal'); openApproveModal('${req.id}')">
+              <i class="fas fa-check"></i> موافقة
+            </button>
+          </div>
+        </div>
+      </div>`;
+
+    document.getElementById('modalContainer').innerHTML = html;
+    document.body.style.overflow = 'hidden';
+  }
+
+  // ============================================================
+  // Approve Modal
+  // ============================================================
+  async function openApproveModal(reqId) {
+    const req = trState.pendingRequests.find(r => r.id === reqId);
+    if (!req) return;
+
+    trState.approveTarget = req;
+    trState.approveItems = (req.items || []).map(i => ({
+      productId: i.productId,
+      productName: i.productName,
+      productImage: i.productImage,
+      unit: i.unit || 'قطعة',
+      piecesPerUnit: i.piecesPerUnit || 1,
+      requestedPieces: i.requestedPieces || 0,
+      approvedPieces: i.requestedPieces || 0,
+      availableInWH: 0,
+      availableInWH_afterReserved: 0
+    }));
+
+    // Load current WH availability for all items
+    await loadWHAvailabilityForApprove();
+
+    renderApproveModal();
+  }
+
+  async function loadWHAvailabilityForApprove() {
+    try {
+      const pids = trState.approveItems.map(i => i.productId);
+      for (let i = 0; i < pids.length; i += 30) {
+        const chunk = pids.slice(i, i + 30);
+        const snap = await db.collection('products')
+          .where(firebase.firestore.FieldPath.documentId(), 'in', chunk).get();
+        snap.forEach(doc => {
+          const p = doc.data();
+          const ppu = p.piecesPerUnit || 1;
+          const total = (p.warehouseStock || 0) * ppu + (p.warehousePieces || 0);
+          const reserved = p.reservedPieces || 0;
+          const available = Math.max(0, total - reserved);
+          const it = trState.approveItems.find(x => x.productId === doc.id);
+          if (it) {
+            it.availableInWH = total;
+            it.availableInWH_afterReserved = available;
+          }
+        });
+      }
+    } catch (err) {
+      console.error('loadWHAvailability:', err);
+    }
+  }
+
+  function renderApproveModal() {
+    const req = trState.approveTarget;
+    if (!req) return;
+
+    const fromBranch = getBranch(req.fromBranchId) || { name: req.fromBranchName || req.fromBranchId };
+    const toBranch = getBranch(req.toBranchId) || { name: req.toBranchName || req.toBranchId };
+
+    const itemsHtml = trState.approveItems.map((it, idx) => {
+      const isOver = it.approvedPieces > it.availableInWH_afterReserved;
+      return `
+        <div class="item-row">
+          <img src="${it.productImage || '/gomla/assets/images/no-image.png'}" onerror="this.src='/gomla/assets/images/no-image.png'">
+          <div class="item-info">
+            <div class="item-name">${esc(it.productName)}</div>
+            <div class="item-meta">
+              طلب: <strong>${it.requestedPieces}</strong> · متاح في WH: <strong>${it.availableInWH_afterReserved}</strong>
+            </div>
+          </div>
+          <div class="item-qty-box">
+            <label>الكمية المعتمدة</label>
+            <input type="number" min="0" max="${it.availableInWH_afterReserved}"
+              value="${it.approvedPieces}"
+              class="${isOver ? 'error' : ''}"
+              onchange="onApproveQtyChange(${idx}, this.value)">
+          </div>
+          <div class="item-qty-box">
+            <label>الحالة</label>
+            <div style="padding:8px;text-align:center;font-size:0.75rem;font-weight:900;color:${isOver ? '#dc2626' : it.approvedPieces === 0 ? '#94a3b8' : '#16a34a'};">
+              ${isOver ? '❌ يتجاوز المتاح' : it.approvedPieces === 0 ? 'رفض' : '✓'}
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+
+    const totalApproved = trState.approveItems.reduce((s, i) => s + (i.approvedPieces || 0), 0);
+    const approvedCount = trState.approveItems.filter(i => i.approvedPieces > 0).length;
+    const hasError = trState.approveItems.some(i => i.approvedPieces > i.availableInWH_afterReserved);
+    const hasSomeApproved = approvedCount > 0;
+
+    const html = `
+      <div class="modal-overlay show" id="approveModal" onclick="closeModal('approveModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+          <div class="modal-header green">
+            <h2><i class="fas fa-check-circle"></i> موافقة على طلب النقل</h2>
+            <button class="modal-close" onclick="closeModal('approveModal')">&times;</button>
+          </div>
+          <div class="modal-body">
+
+            <div class="info-box green">
+              <i class="fas fa-info-circle"></i>
+              <div>
+                <div style="font-weight:900;margin-bottom:4px;">ملخص الموافقة</div>
+                <div>من: <strong>${esc(fromBranch.name || fromBranch.id)}</strong> → إلى: <strong>${esc(toBranch.name || toBranch.id)}</strong></div>
+                <div style="font-size:0.75rem;opacity:0.85;margin-top:4px;">
+                  يمكنك تعديل الكميات المعتمدة. الكميات صفر = رفض لهذا المنتج.
+                </div>
+              </div>
+            </div>
+
+            ${hasError ? `
+              <div class="info-box red">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div><strong>تحذير:</strong> بعض الكميات تتجاوز المتاح في المخزن. عدّلها قبل الحفظ.</div>
+              </div>
+            ` : ''}
+
+            <h4 style="font-size:0.9rem;font-weight:900;color:var(--navy);margin-bottom:10px;">
+              <i class="fas fa-boxes" style="color:var(--gold);"></i> المنتجات
+            </h4>
+            <div id="approveItemsList">${itemsHtml}</div>
+
+            <div class="summary-box">
+              <div class="summary-row">
+                <span>المنتجات المعتمدة</span>
+                <strong>${approvedCount} / ${trState.approveItems.length}</strong>
+              </div>
+              <div class="summary-row total">
+                <span>إجمالي القطع المعتمدة</span>
+                <span>${totalApproved} قطعة</span>
+              </div>
+            </div>
+
+            <div style="margin-top:14px;">
+              <label style="display:block;font-weight:800;font-size:0.85rem;margin-bottom:6px;">
+                ملاحظات للكاشير (اختياري)
+              </label>
+              <textarea id="approveNotes" maxlength="300" placeholder="مثال: المنتج X غير متوفر حالياً، سيتم إرساله في نقل لاحق..."
+                style="width:100%;padding:10px 12px;border:2px solid var(--gray-200);border-radius:6px;font-family:inherit;font-size:0.88rem;min-height:60px;resize:vertical;"></textarea>
+            </div>
+
+          </div>
+          <div class="modal-actions">
+            <button class="btn btn-outline" onclick="closeModal('approveModal')">إلغاء</button>
+            <button class="btn btn-success" id="confirmApproveBtn" onclick="confirmApprove()"
+              ${hasError || !hasSomeApproved ? 'disabled' : ''}>
+              <i class="fas fa-check"></i> تأكيد الموافقة والشحن
+            </button>
+          </div>
+        </div>
+      </div>`;
+
+    document.getElementById('modalContainer').innerHTML = html;
+    document.body.style.overflow = 'hidden';
+  }
+
+  function onApproveQtyChange(idx, val) {
+    const it = trState.approveItems[idx];
+    if (!it) return;
+    let qty = parseInt(val) || 0;
+    if (qty < 0) qty = 0;
+    it.approvedPieces = qty;
+    renderApproveModal();
+  }
+
+  // ============================================================
+  // Confirm Approve — Transaction (reads first!)
+  // ============================================================
+  async function confirmApprove() {
+    const req = trState.approveTarget;
+    if (!req) return;
+
+    const notes = (document.getElementById('approveNotes')?.value || '').trim();
+    const items = trState.approveItems.filter(i => i.approvedPieces > 0);
+    if (items.length === 0) { window.showToast('اعتمد منتج واحد على الأقل', 'warning'); return; }
+
+    const btn = document.getElementById('confirmApproveBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري المعالجة...';
+
+    try {
+      const reqRef = db.collection('transfer_requests').doc(req.id);
+      let createdTransferId = null;
+
+      await db.runTransaction(async (t) => {
+        // ===== PHASE 1: ALL READS =====
+        const reqDoc = await t.get(reqRef);
+        if (!reqDoc.exists) throw new Error('الطلب غير موجود');
+        const reqData = reqDoc.data();
+        if (reqData.status !== 'pending') throw new Error('تم معالجة الطلب مسبقاً');
+
+        // Read all products (WH source) first
+        const productSnapshots = [];
+        for (const item of items) {
+          const pRef = db.collection('products').doc(item.productId);
+          const pDoc = await t.get(pRef);
+          if (!pDoc.exists) throw new Error(`منتج "${item.productName}" غير موجود`);
+          productSnapshots.push({ ref: pRef, data: pDoc.data(), item });
+        }
+
+        // ===== PHASE 2: ALL WRITES =====
+        const now = firebase.firestore.FieldValue.serverTimestamp();
+        const fromBranch = getBranch(reqData.fromBranchId);
+        const toBranch = getBranch(reqData.toBranchId);
+
+        // Update products — deduct from warehouse
+        for (const ps of productSnapshots) {
+          const p = ps.data;
+          const ppu = p.piecesPerUnit || 1;
+          const currentTotal = (p.warehouseStock || 0) * ppu + (p.warehousePieces || 0);
+          const currentReserved = p.reservedPieces || 0;
+          const currentAvailable = Math.max(0, currentTotal - currentReserved);
+          if (ps.item.approvedPieces > currentAvailable) {
+            throw new Error(`الكمية المطلوبة من "${ps.item.productName}" تتجاوز المتاح (${currentAvailable})`);
+          }
+          const newTotal = currentTotal - ps.item.approvedPieces;
+          t.update(ps.ref, {
+            warehouseStock: Math.floor(newTotal / ppu),
+            warehousePieces: newTotal % ppu,
+            updatedAt: now
+          });
+        }
+
+        // Create transfer (in_transit)
+        const transferRef = db.collection('transfers').doc();
+        createdTransferId = transferRef.id;
+
+        const transferItems = items.map(i => ({
+          productId: i.productId,
+          productName: i.productName,
+          productImage: i.productImage,
+          unit: i.unit,
+          piecesPerUnit: i.piecesPerUnit,
+          requestedPieces: i.requestedPieces,
+          approvedPieces: i.approvedPieces,
+          receivedPieces: 0,
+          damagedPieces: 0,
+          notes: ''
+        }));
+
+        const totalApprovedPieces = transferItems.reduce((s, i) => s + i.approvedPieces, 0);
+
+        t.set(transferRef, {
+          id: transferRef.id,
+          fromBranchId: reqData.fromBranchId,
+          fromBranchName: fromBranch?.name || reqData.fromBranchName || '',
+          fromBranchCode: fromBranch?.code || reqData.fromBranchId,
+          toBranchId: reqData.toBranchId,
+          toBranchName: toBranch?.name || reqData.toBranchName || '',
+          toBranchCode: toBranch?.code || reqData.toBranchId,
+          items: transferItems,
+          totalRequestedPieces: (reqData.items || []).reduce((s, i) => s + (i.requestedPieces || 0), 0),
+          totalApprovedPieces: totalApprovedPieces,
+          totalReceivedPieces: 0,
+          totalDamagedPieces: 0,
+          status: 'in_transit',
+          requestId: reqData.id,
+          isDirectTransfer: false,
+          notes: notes || reqData.notes || '',
+          approvedBy: trState.adminId,
+          approvedByName: trState.adminName,
+          approvedAt: now,
+          cancelledBy: '',
+          cancelledByName: '',
+          cancelledAt: null,
+          cancelReason: '',
+          receivedBy: '',
+          receivedByName: '',
+          receivedByRole: '',
+          receivedAt: null,
+          receiptPrintedAt: null,
+          createdAt: now,
+          updatedAt: now
+        });
+
+        // Update request
+        t.update(reqRef, {
+          status: 'approved',
+          transferId: createdTransferId,
+          approvedBy: trState.adminId,
+          approvedByName: trState.adminName,
+          approvedAt: now,
+          approvedItems: items.map(i => ({
+            productId: i.productId,
+            approvedPieces: i.approvedPieces,
+            requestedPieces: i.requestedPieces
+          })),
+          approvedNotes: notes || '',
+          updatedAt: now
+        });
+
+        // Notify cashier of destination branch
+        t.set(db.collection('admin_notifications').doc(), {
+          userId: 'branch_' + reqData.toBranchId,
+          branchId: reqData.toBranchId,
+          title: '📦 بضاعة في الطريق إليك',
+          body: `${items.length} منتج (${totalApprovedPieces} قطعة) في الطريق من ${fromBranch?.name || reqData.fromBranchId}`,
+          type: 'transfer_in_transit',
+          transferId: createdTransferId,
+          read: false,
+          createdAt: now
+        });
+      });
+
+      window.showToast('✅ تمت الموافقة — البضاعة في الطريق', 'success');
+      closeModal('approveModal');
+      trState.approveTarget = null;
+      trState.approveItems = [];
+
+    } catch (err) {
+      console.error('confirmApprove:', err);
+      window.showToast('❌ ' + err.message, 'error');
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-check"></i> تأكيد الموافقة والشحن';
+    }
+  }
+
+  // ============================================================
+  // Reject Modal
+  // ============================================================
+  function openRejectModal(reqId) {
+    const req = trState.pendingRequests.find(r => r.id === reqId);
+    if (!req) return;
+
+    trState.approveTarget = req;
+
+    const html = `
+      <div class="modal-overlay show" id="rejectModal" onclick="closeModal('rejectModal')">
+        <div class="modal-content small" onclick="event.stopPropagation()">
+          <div class="modal-header red">
+            <h2><i class="fas fa-times-circle"></i> رفض طلب النقل</h2>
+            <button class="modal-close" onclick="closeModal('rejectModal')">&times;</button>
+          </div>
+          <div class="modal-body">
+
+            <div class="info-box red">
+              <i class="fas fa-exclamation-triangle"></i>
+              <div>
+                <div style="font-weight:900;margin-bottom:4px;">تأكيد الرفض</div>
+                <div style="font-size:0.82rem;">سيتم رفض الطلب بالكامل وإخطار مقدم الطلب.</div>
+              </div>
+            </div>
+
+            <div style="margin-bottom:14px;">
+              <div style="background:var(--gray-50);padding:12px;border-radius:6px;margin-bottom:12px;font-size:0.82rem;">
+                <div><strong>الطلب:</strong> #${req.id.slice(-8).toUpperCase()}</div>
+                <div><strong>من:</strong> ${esc(req.requestedByName || '—')}</div>
+                <div><strong>المنتجات:</strong> ${(req.items || []).length}</div>
+              </div>
+
+              <label style="display:block;font-weight:800;font-size:0.85rem;margin-bottom:6px;">
+                سبب الرفض <span style="color:var(--danger);">*</span>
+              </label>
+              <textarea id="rejectReason" maxlength="400" placeholder="اشرح سبب رفض الطلب (إجباري)"
+                style="width:100%;padding:10px 12px;border:2px solid var(--gray-200);border-radius:6px;font-family:inherit;font-size:0.88rem;min-height:100px;resize:vertical;"></textarea>
+            </div>
+
+          </div>
+          <div class="modal-actions">
+            <button class="btn btn-outline" onclick="closeModal('rejectModal')">إلغاء</button>
+            <button class="btn btn-danger" id="confirmRejectBtn" onclick="confirmReject()">
+              <i class="fas fa-times"></i> تأكيد الرفض
+            </button>
+          </div>
+        </div>
+      </div>`;
+
+    document.getElementById('modalContainer').innerHTML = html;
+    document.body.style.overflow = 'hidden';
+  }
+
+  async function confirmReject() {
+    const req = trState.approveTarget;
+    if (!req) return;
+
+    const reason = (document.getElementById('rejectReason')?.value || '').trim();
+    if (!reason || reason.length < 5) {
+      window.showToast('سبب الرفض مطلوب (5 أحرف على الأقل)', 'warning');
+      return;
+    }
+
+    const btn = document.getElementById('confirmRejectBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الرفض...';
+
+    try {
+      const now = firebase.firestore.FieldValue.serverTimestamp();
+      await db.collection('transfer_requests').doc(req.id).update({
+        status: 'rejected',
+        rejectedBy: trState.adminId,
+        rejectedByName: trState.adminName,
+        rejectedAt: now,
+        rejectionReason: reason,
+        updatedAt: now
+      });
+
+      window.showToast('✅ تم رفض الطلب', 'success');
+      closeModal('rejectModal');
+      trState.approveTarget = null;
+
+    } catch (err) {
+      console.error('confirmReject:', err);
+      window.showToast('❌ ' + err.message, 'error');
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-times"></i> تأكيد الرفض';
+    }
+  }
+
+  // ============================================================
+  // Transfer Details Modal (in_transit / completed / cancelled)
+  // ============================================================
+  function openTransferDetails(trId) {
+    const all = [...trState.inTransitTransfers, ...trState.completedTransfers, ...trState.cancelledTransfers];
+    const tr = all.find(t => t.id === trId);
+    if (!tr) return;
+
+    const fromBranch = getBranch(tr.fromBranchId) || { name: tr.fromBranchName || tr.fromBranchId };
+    const toBranch = getBranch(tr.toBranchId) || { name: tr.toBranchName || tr.toBranchId };
+    const st = TRANSFER_STATUS[tr.status] || TRANSFER_STATUS.in_transit;
+
+    const itemsHtml = (tr.items || []).map(i => {
+      const isReceived = tr.status === 'completed' || tr.status === 'partially_received';
+      return `
+        <div style="display:flex;align-items:center;gap:12px;padding:10px;border:1px solid var(--gray-200);border-radius:8px;margin-bottom:8px;background:white;">
+          <img src="${i.productImage || '/gomla/assets/images/no-image.png'}" style="width:48px;height:48px;border-radius:6px;object-fit:cover;" onerror="this.src='/gomla/assets/images/no-image.png'">
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:0.88rem;font-weight:800;color:var(--navy);">${esc(i.productName)}</div>
+            <div style="font-size:0.72rem;color:var(--gray-500);">${esc(i.unit || 'قطعة')} × ${i.piecesPerUnit || 1}</div>
+          </div>
+          <div style="display:flex;gap:10px;">
+            <div style="text-align:center;">
+              <div style="font-size:0.6rem;color:var(--gray-500);">مطلوب</div>
+              <div style="font-weight:900;color:var(--gray-600);">${i.requestedPieces || 0}</div>
+            </div>
+            <div style="text-align:center;">
+              <div style="font-size:0.6rem;color:#a16207;">معتمد</div>
+              <div style="font-weight:900;color:#d97706;">${i.approvedPieces || 0}</div>
+            </div>
+            ${isReceived ? `
+              <div style="text-align:center;">
+                <div style="font-size:0.6rem;color:#15803d;">مستلم</div>
+                <div style="font-weight:900;color:#16a34a;">${i.receivedPieces || 0}</div>
+              </div>
+              ${i.damagedPieces > 0 ? `
+                <div style="text-align:center;">
+                  <div style="font-size:0.6rem;color:#dc2626;">تالف</div>
+                  <div style="font-weight:900;color:#dc2626;">${i.damagedPieces}</div>
+                </div>
+              ` : ''}
+            ` : ''}
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    const html = `
+      <div class="modal-overlay show" id="transferDetailModal" onclick="closeModal('transferDetailModal')">
+        <div class="modal-content medium" onclick="event.stopPropagation()">
+          <div class="modal-header">
+            <h2><i class="fas fa-truck"></i> تفاصيل الشحنة #${tr.id.slice(-8).toUpperCase()}</h2>
+            <button class="modal-close" onclick="closeModal('transferDetailModal')">&times;</button>
+          </div>
+          <div class="modal-body">
+
+            <div class="info-box blue">
+              <i class="fas fa-route"></i>
+              <div>
+                <div style="font-weight:900;margin-bottom:4px;">المسار</div>
+                <div>من: <strong>${esc(fromBranch.name || fromBranch.id)}</strong></div>
+                <div>إلى: <strong>${esc(toBranch.name || toBranch.id)}</strong></div>
+                <div style="margin-top:6px;">
+                  <span class="tr-badge ${st.cls}"><i class="fas fa-${st.icon}"></i> ${st.label}</span>
+                  ${tr.isDirectTransfer ? `<span class="tr-badge" style="background:rgba(139,92,246,.15);color:#6d28d9;margin-right:4px;"><i class="fas fa-bolt"></i> مباشر</span>` : ''}
+                </div>
+              </div>
+            </div>
+
+            ${tr.approvedByName ? `
+              <div class="info-box yellow">
+                <i class="fas fa-check"></i>
+                <div>
+                  <div style="font-weight:900;margin-bottom:4px;">اعتماد</div>
+                  <div>${esc(tr.approvedByName)}</div>
+                  <div style="font-size:0.75rem;opacity:0.8;">${formatDateTime(tr.approvedAt)}</div>
+                </div>
+              </div>
+            ` : ''}
+
+            ${tr.receivedByName ? `
+              <div class="info-box green">
+                <i class="fas fa-hand-holding"></i>
+                <div>
+                  <div style="font-weight:900;margin-bottom:4px;">تم الاستلام</div>
+                  <div>${esc(tr.receivedByName)} · ${esc(tr.receivedByRole || '')}</div>
+                  <div style="font-size:0.75rem;opacity:0.8;">${formatDateTime(tr.receivedAt)}</div>
+                </div>
+              </div>
+            ` : ''}
+
+            ${tr.cancelReason ? `
+              <div class="info-box red">
+                <i class="fas fa-ban"></i>
+                <div>
+                  <div style="font-weight:900;margin-bottom:4px;">سبب الإلغاء</div>
+                  <div>${esc(tr.cancelReason)}</div>
+                </div>
+              </div>
+            ` : ''}
+
+            <h4 style="font-size:0.9rem;font-weight:900;color:var(--navy);margin-bottom:10px;">
+              <i class="fas fa-boxes" style="color:var(--gold);"></i> المنتجات
+            </h4>
+            ${itemsHtml}
+
+            <div class="summary-box">
+              <div class="summary-row">
+                <span>إجمالي المعتمد</span>
+                <strong>${tr.totalApprovedPieces || 0} قطعة</strong>
+              </div>
+              ${tr.totalReceivedPieces > 0 ? `
+                <div class="summary-row">
+                  <span>إجمالي المستلم</span>
+                  <strong>${tr.totalReceivedPieces} قطعة</strong>
+                </div>
+              ` : ''}
+            </div>
+
+          </div>
+          <div class="modal-actions">
+            <button class="btn btn-outline" onclick="closeModal('transferDetailModal')">إغلاق</button>
+            <button class="btn btn-primary" onclick="closeModal('transferDetailModal'); printReceipt('${tr.id}')">
+              <i class="fas fa-print"></i> طباعة إذن
+            </button>
+          </div>
+        </div>
+      </div>`;
+
+    document.getElementById('modalContainer').innerHTML = html;
+    document.body.style.overflow = 'hidden';
+  }
+
+  // ============================================================
+  // Print Receipt
+  // ============================================================
+  function printReceipt(trId) {
+    const all = [...trState.inTransitTransfers, ...trState.completedTransfers, ...trState.cancelledTransfers];
+    const tr = all.find(t => t.id === trId);
+    if (!tr) return;
+
+    const fromBranch = getBranch(tr.fromBranchId) || { name: tr.fromBranchName || tr.fromBranchId };
+    const toBranch = getBranch(tr.toBranchId) || { name: tr.toBranchName || tr.toBranchId };
+
+    const itemsRows = (tr.items || []).map((i, idx) => `
+      <tr>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #e5e7eb;">${idx + 1}</td>
+        <td style="padding:8px;border-bottom:1px solid #e5e7eb;">${esc(i.productName || '')}</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #e5e7eb;">${esc(i.unit || 'قطعة')}</td>
+        <td style="text-align:center;padding:8px;border-bottom:1px solid #e5e7eb;font-weight:800;">${i.approvedPieces || i.requestedPieces || 0}</td>
+        <td style="padding:8px;border-bottom:1px solid #e5e7eb;"></td>
+      </tr>
+    `).join('');
+
+    const html = `
+      <div style="font-family:Tajawal,sans-serif;padding:24px;direction:rtl;max-width:800px;margin:0 auto;">
+        <div style="text-align:center;border-bottom:3px double #1a2a4a;padding-bottom:16px;margin-bottom:20px;">
+          <h1 style="margin:0;color:#1a2a4a;font-size:26px;">أولاد شعلان للمنظفات والورقيات</h1>
+          <p style="margin:6px 0 0;color:#6b7280;font-size:13px;">${window.PAYMENT_ACCOUNT} · ${window.SUPPORT_EMAIL}</p>
+          <h2 style="margin:14px 0 0;color:#c9a84c;font-size:20px;">إذن استلام بضاعة</h2>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;margin-bottom:20px;font-size:14px;gap:20px;flex-wrap:wrap;">
+          <div>
+            <div style="margin-bottom:6px;"><strong>رقم النقل:</strong> <span style="font-family:monospace;">#${tr.id.slice(-8).toUpperCase()}</span></div>
+            <div style="margin-bottom:6px;"><strong>التاريخ:</strong> ${tr.createdAt ? formatDate(tr.createdAt) : '—'}</div>
+            ${tr.requestId ? `<div><strong>رقم الطلب الأصلي:</strong> <span style="font-family:monospace;">#${tr.requestId.slice(-8).toUpperCase()}</span></div>` : ''}
+            ${tr.isDirectTransfer ? `<div style="margin-top:6px;"><span style="background:#ede9fe;color:#6d28d9;padding:2px 8px;border-radius:12px;font-size:12px;">نقل مباشر</span></div>` : ''}
+          </div>
+          <div style="text-align:left;">
+            <div style="margin-bottom:6px;"><strong>من:</strong> ${esc(fromBranch.name || '')}</div>
+            <div style="margin-bottom:6px;"><strong>إلى:</strong> ${esc(toBranch.name || '')}</div>
+            ${tr.approvedByName ? `<div><strong>اعتمد بواسطة:</strong> ${esc(tr.approvedByName)}</div>` : ''}
+          </div>
+        </div>
+
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin-bottom:20px;">
+          <thead>
+            <tr style="background:#f3f4f6;">
+              <th style="padding:10px;border-bottom:2px solid #1a2a4a;text-align:center;width:50px;">#</th>
+              <th style="padding:10px;border-bottom:2px solid #1a2a4a;text-align:right;">المنتج</th>
+              <th style="padding:10px;border-bottom:2px solid #1a2a4a;text-align:center;">الوحدة</th>
+              <th style="padding:10px;border-bottom:2px solid #1a2a4a;text-align:center;">الكمية</th>
+              <th style="padding:10px;border-bottom:2px solid #1a2a4a;text-align:right;">ملاحظات</th>
+            </tr>
+          </thead>
+          <tbody>${itemsRows}</tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3" style="padding:10px;text-align:left;font-weight:900;border-top:2px solid #1a2a4a;">إجمالي:</td>
+              <td style="padding:10px;text-align:center;font-weight:900;font-size:15px;border-top:2px solid #1a2a4a;color:#c9a84c;">${tr.totalApprovedPieces || tr.totalRequestedPieces || 0}</td>
+              <td style="border-top:2px solid #1a2a4a;"></td>
+            </tr>
+          </tfoot>
+        </table>
+
+        ${tr.notes ? `
+          <div style="background:#fef3c7;border:1px solid #fbbf24;padding:10px 14px;border-radius:8px;font-size:13px;color:#92400e;margin-bottom:20px;">
+            <strong>ملاحظات:</strong> ${esc(tr.notes)}
+          </div>
+        ` : ''}
+
+        <div style="margin-top:60px;display:grid;grid-template-columns:1fr 1fr;gap:40px;font-size:14px;">
+          <div style="text-align:center;">
+            <div style="border-top:2px solid #1a2a4a;padding-top:12px;margin-top:60px;">
+              <strong>توقيع المسلّم (المخزن)</strong>
+              <div style="margin-top:8px;font-size:12px;color:#6b7280;">التاريخ: ____/____/________</div>
+            </div>
+          </div>
+          <div style="text-align:center;">
+            <div style="border-top:2px solid #1a2a4a;padding-top:12px;margin-top:60px;">
+              <strong>توقيع المستلم (الكاشير)</strong>
+              <div style="margin-top:8px;font-size:12px;color:#6b7280;">التاريخ: ____/____/________</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align:center;margin-top:30px;padding-top:16px;border-top:1px dashed #e5e7eb;font-size:11px;color:#9ca3af;">
+          هذا الإذن يُعد مستنداً رسمياً لتسليم واستلام البضاعة بين الفروع. يُحفظ لدى الفرع المستلم.
+          <br>تمت الطباعة: ${new Date().toLocaleString('ar-EG')}
+        </div>
+      </div>`;
+
+    const w = window.open('', '_blank', 'width=900,height=700');
+    w.document.write(`
+      <!DOCTYPE html>
+      <html dir="rtl" lang="ar">
+      <head>
+        <meta charset="UTF-8">
+        <title>إذن استلام — #${tr.id.slice(-8).toUpperCase()}</title>
+        <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+        <style>
+          body { font-family: Tajawal, sans-serif; margin: 0; padding: 20px; }
+          @media print {
+            body { padding: 0; }
+            @page { margin: 15mm; }
+          }
+        </style>
+      </head>
+      <body onload="window.print()">
+        ${html}
+      </body>
+      </html>
+    `);
+    w.document.close();
+
+    // Update last printed time (non-blocking)
+    db.collection('transfers').doc(trId).update({
+      receiptPrintedAt: firebase.firestore.FieldValue.serverTimestamp()
+    }).catch(() => {});
+  }
+
+  // ============================================================
+  // Cancel in_transit Transfer
+  // ============================================================
+  function openCancelTransferModal(trId) {
+    const tr = trState.inTransitTransfers.find(t => t.id === trId);
+    if (!tr) return;
+
+    const html = `
+      <div class="modal-overlay show" id="cancelTransferModal" onclick="closeModal('cancelTransferModal')">
+        <div class="modal-content small" onclick="event.stopPropagation()">
+          <div class="modal-header red">
+            <h2><i class="fas fa-ban"></i> إلغاء النقل</h2>
+            <button class="modal-close" onclick="closeModal('cancelTransferModal')">&times;</button>
+          </div>
+          <div class="modal-body">
+
+            <div class="info-box red">
+              <i class="fas fa-exclamation-triangle"></i>
+              <div>
+                <div style="font-weight:900;margin-bottom:4px;">تأكيد الإلغاء</div>
+                <div style="font-size:0.82rem;">
+                  سيتم إرجاع كل الكميات إلى المخزن المصدر (${esc(tr.fromBranchName || tr.fromBranchId)}).
+                </div>
+              </div>
+            </div>
+
+            <div style="background:var(--gray-50);padding:12px;border-radius:6px;margin-bottom:12px;font-size:0.82rem;">
+              <div><strong>الشحنة:</strong> #${tr.id.slice(-8).toUpperCase()}</div>
+              <div><strong>المنتجات:</strong> ${(tr.items || []).length}</div>
+              <div><strong>الكمية:</strong> ${tr.totalApprovedPieces || 0} قطعة</div>
+            </div>
+
+            <label style="display:block;font-weight:800;font-size:0.85rem;margin-bottom:6px;">
+              سبب الإلغاء <span style="color:var(--danger);">*</span>
+            </label>
+            <textarea id="cancelReason" maxlength="400" placeholder="اشرح سبب الإلغاء (إجباري)"
+              style="width:100%;padding:10px 12px;border:2px solid var(--gray-200);border-radius:6px;font-family:inherit;font-size:0.88rem;min-height:80px;resize:vertical;"></textarea>
+
+          </div>
+          <div class="modal-actions">
+            <button class="btn btn-outline" onclick="closeModal('cancelTransferModal')">تراجع</button>
+            <button class="btn btn-danger" id="confirmCancelBtn" onclick="confirmCancelTransfer('${trId}')">
+              <i class="fas fa-ban"></i> تأكيد الإلغاء
+            </button>
+          </div>
+        </div>
+      </div>`;
+
+    document.getElementById('modalContainer').innerHTML = html;
+    document.body.style.overflow = 'hidden';
+  }
+
+  async function confirmCancelTransfer(trId) {
+    const reason = (document.getElementById('cancelReason')?.value || '').trim();
+    if (!reason || reason.length < 5) {
+      window.showToast('سبب الإلغاء مطلوب', 'warning');
+      return;
+    }
+
+    const btn = document.getElementById('confirmCancelBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإلغاء...';
+
+    try {
+      const trRef = db.collection('transfers').doc(trId);
+
+      await db.runTransaction(async (t) => {
+        // ===== PHASE 1: ALL READS =====
+        const trDoc = await t.get(trRef);
+        if (!trDoc.exists) throw new Error('الشحنة غير موجودة');
+        const tr = trDoc.data();
+        if (tr.status !== 'in_transit') throw new Error('لا يمكن إلغاء شحنة في هذه الحالة');
+
+        const productSnapshots = [];
+        for (const item of tr.items || []) {
+          const pRef = db.collection('products').doc(item.productId);
+          const pDoc = await t.get(pRef);
+          if (pDoc.exists) productSnapshots.push({ ref: pRef, data: pDoc.data(), item });
+        }
+
+        // ===== PHASE 2: ALL WRITES =====
+        const now = firebase.firestore.FieldValue.serverTimestamp();
+
+        // Return items to source WH
+        for (const ps of productSnapshots) {
+          const p = ps.data;
+          const ppu = p.piecesPerUnit || 1;
+          const currentTotal = (p.warehouseStock || 0) * ppu + (p.warehousePieces || 0);
+          const newTotal = currentTotal + (ps.item.approvedPieces || 0);
+          t.update(ps.ref, {
+            warehouseStock: Math.floor(newTotal / ppu),
+            warehousePieces: newTotal % ppu,
+            updatedAt: now
+          });
+        }
+
+        // Update transfer
+        t.update(trRef, {
+          status: 'cancelled',
+          cancelledBy: trState.adminId,
+          cancelledByName: trState.adminName,
+          cancelledAt: now,
+          cancelReason: reason,
+          updatedAt: now
+        });
+
+        // Update request if exists
+        if (tr.requestId) {
+          const reqRef = db.collection('transfer_requests').doc(tr.requestId);
+          const reqDoc = await t.get(reqRef);
+          if (reqDoc.exists) {
+            t.update(reqRef, {
+              status: 'cancelled',
+              cancelledAt: now,
+              cancelReason: reason,
+              updatedAt: now
+            });
+          }
+        }
+      });
+
+      window.showToast('✅ تم إلغاء النقل وإرجاع الكميات', 'success');
+      closeModal('cancelTransferModal');
+
+    } catch (err) {
+      console.error('confirmCancelTransfer:', err);
+      window.showToast('❌ ' + err.message, 'error');
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-ban"></i> تأكيد الإلغاء';
+    }
+  }
+
+  // ============================================================
+  // Direct Transfer Modal
+  // ============================================================
+  function openDirectTransferModal() {
+    trState.directItems = [];
+    trState.directSourceId = trState.branches.find(b => b.isWarehouse)?.id || '';
+    trState.directDestId = '';
+    trState.directPickerSearch = '';
+    renderDirectTransferModal();
+  }
+
+  function renderDirectTransferModal() {
+    const sourcesOptions = trState.branches.map(b =>
+      `<option value="${b.id}" ${trState.directSourceId === b.id ? 'selected' : ''}>${b.isWarehouse ? '🏭 ' : '🏪 '}${esc(b.name || b.id)}</option>`
+    ).join('');
+
+    const destOptions = trState.branches
+      .filter(b => b.id !== trState.directSourceId)
+      .map(b => `<option value="${b.id}" ${trState.directDestId === b.id ? 'selected' : ''}>${b.isWarehouse ? '🏭 ' : '🏪 '}${esc(b.name || b.id)}</option>`)
+      .join('');
+
+    const itemsHtml = trState.directItems.length === 0 ? `
+      <div style="text-align:center;padding:30px 20px;color:var(--gray-400);background:var(--gray-50);border-radius:8px;">
+        <i class="fas fa-box-open" style="font-size:2rem;display:block;margin-bottom:8px;"></i>
+        <p style="font-size:0.85rem;">لم تتم إضافة منتجات بعد. اضغط "إضافة منتج".</p>
+      </div>
+    ` : trState.directItems.map((it, idx) => `
+      <div class="item-row">
+        <img src="${it.productImage || '/gomla/assets/images/no-image.png'}" onerror="this.src='/gomla/assets/images/no-image.png'">
+        <div class="item-info">
+          <div class="item-name">${esc(it.productName)}</div>
+          <div class="item-meta">${esc(it.unit)} · ${it.piecesPerUnit} قطعة/وحدة · متاح: <strong>${it.availableAtSource}</strong></div>
+        </div>
+        <div class="item-qty-box">
+          <label>الكمية</label>
+          <input type="number" min="1" max="${it.availableAtSource}" value="${it.qty}"
+            onchange="onDirectQtyChange(${idx}, this.value)">
+        </div>
+        <button type="button" onclick="removeDirectItem(${idx})"
+          style="background:#fee2e2;color:#dc2626;border:none;padding:8px;border-radius:6px;cursor:pointer;font-size:0.85rem;">
+          <i class="fas fa-trash"></i>
+        </button>
+      </div>
+    `).join('');
+
+    const totalPieces = trState.directItems.reduce((s, i) => s + (i.qty || 0), 0);
+
+    const html = `
+      <div class="modal-overlay show" id="directModal" onclick="closeModal('directModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+          <div class="modal-header" style="background:linear-gradient(135deg,#6d28d9,#8b5cf6);">
+            <h2><i class="fas fa-bolt"></i> نقل مباشر (بدون طلب مسبق)</h2>
+            <button class="modal-close" onclick="closeModal('directModal')">&times;</button>
+          </div>
+          <div class="modal-body">
+
+            <div class="info-box yellow">
+              <i class="fas fa-bolt"></i>
+              <div>
+                <div style="font-weight:900;margin-bottom:4px;">نقل مباشر — يتخطى مرحلة الطلب</div>
+                <div style="font-size:0.8rem;">
+                  البضاعة تُخصم من المصدر فوراً وتدخل "في الطريق". تصل للفرع عند تأكيد الاستلام من الكاشير.
+                </div>
+              </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:end;margin-bottom:16px;">
+              <div>
+                <label style="display:block;font-weight:800;font-size:0.82rem;margin-bottom:4px;">من (المصدر)</label>
+                <select onchange="onDirectSourceChange(this.value)"
+                  style="width:100%;padding:10px;border:2px solid var(--gray-200);border-radius:6px;font-family:inherit;font-size:0.88rem;">
+                  <option value="">— اختر —</option>
+                  ${sourcesOptions}
+                </select>
+              </div>
+              <div style="font-size:1.5rem;color:var(--gold);padding-bottom:8px;">
+                <i class="fas fa-arrow-left"></i>
+              </div>
+              <div>
+                <label style="display:block;font-weight:800;font-size:0.82rem;margin-bottom:4px;">إلى (الوجهة)</label>
+                <select onchange="onDirectDestChange(this.value)"
+                  style="width:100%;padding:10px;border:2px solid var(--gray-200);border-radius:6px;font-family:inherit;font-size:0.88rem;">
+                  <option value="">— اختر —</option>
+                  ${destOptions}
+                </select>
+              </div>
+            </div>
+
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+              <h4 style="font-size:0.9rem;font-weight:900;color:var(--navy);margin:0;">
+                <i class="fas fa-boxes" style="color:var(--gold);"></i> المنتجات
+              </h4>
+              <button class="btn btn-gold" onclick="openDirectProductPicker()" style="padding:6px 12px;font-size:0.8rem;"
+                ${!trState.directSourceId ? 'disabled title="اختر المصدر أولاً"' : ''}>
+                <i class="fas fa-plus"></i> إضافة منتج
+              </button>
+            </div>
+
+            <div id="directItemsList">${itemsHtml}</div>
+
+            <div class="summary-box">
+              <div class="summary-row total">
+                <span>إجمالي القطع</span>
+                <span>${totalPieces} قطعة</span>
+              </div>
+            </div>
+
+            <div style="margin-top:14px;">
+              <label style="display:block;font-weight:800;font-size:0.85rem;margin-bottom:6px;">
+                ملاحظات (اختياري)
+              </label>
+              <textarea id="directNotes" maxlength="300"
+                placeholder="ملاحظات ستظهر في إذن الاستلام..."
+                style="width:100%;padding:10px 12px;border:2px solid var(--gray-200);border-radius:6px;font-family:inherit;font-size:0.88rem;min-height:60px;resize:vertical;"></textarea>
+            </div>
+
+          </div>
+          <div class="modal-actions">
+            <button class="btn btn-outline" onclick="closeModal('directModal')">إلغاء</button>
+            <button class="btn btn-primary" id="submitDirectBtn" onclick="submitDirectTransfer()"
+              ${!trState.directSourceId || !trState.directDestId || trState.directItems.length === 0 ? 'disabled' : ''}>
+              <i class="fas fa-bolt"></i> بدء النقل المباشر
+            </button>
+          </div>
+        </div>
+      </div>`;
+
+    document.getElementById('modalContainer').innerHTML = html;
+    document.body.style.overflow = 'hidden';
+  }
+
+  function onDirectSourceChange(val) {
+    trState.directSourceId = val;
+    if (trState.directDestId === val) trState.directDestId = '';
+    trState.directItems = [];
+    renderDirectTransferModal();
+  }
+
+  function onDirectDestChange(val) {
+    trState.directDestId = val;
+    renderDirectTransferModal();
+  }
+
+  function onDirectQtyChange(idx, val) {
+    const it = trState.directItems[idx];
+    if (!it) return;
+    let q = parseInt(val) || 1;
+    if (q < 1) q = 1;
+    if (q > it.availableAtSource) q = it.availableAtSource;
+    it.qty = q;
+    renderDirectTransferModal();
+  }
+
+  function removeDirectItem(idx) {
+    trState.directItems.splice(idx, 1);
+    renderDirectTransferModal();
+  }
+
+  async function openDirectProductPicker() {
+    if (!trState.directSourceId) { window.showToast('اختر المصدر أولاً', 'warning'); return; }
+
+    // Load current WH stock (or from selected source — must be WH for direct)
+    const sourceBranch = getBranch(trState.directSourceId);
+    if (!sourceBranch?.isWarehouse) {
+      window.showToast('حالياً النقل المباشر من المخزن المركزي فقط', 'warning');
+      return;
+    }
+
+    // Load all products with availability
+    try {
+      const existing = new Set(trState.directItems.map(i => i.productId));
+      const snap = await db.collection('products').where('available', '==', true).limit(800).get();
+      const list = [];
       snap.forEach(doc => {
         const p = doc.data();
         const ppu = p.piecesPerUnit || 1;
-        const units = p.warehouseStock || 0;
-        const pieces = p.warehousePieces || 0;
-        const totalPieces = units * ppu + pieces;
-        if (totalPieces > 0) {
-          list.push({
-            productId: doc.id,
-            product: { id: doc.id, ...p },
-            ppu,
-            units: units,
-            pieces: pieces,
-            totalPieces: totalPieces
-          });
+        const total = (p.warehouseStock || 0) * ppu + (p.warehousePieces || 0);
+        const reserved = p.reservedPieces || 0;
+        const available = Math.max(0, total - reserved);
+        if (available > 0 && !existing.has(doc.id)) {
+          list.push({ id: doc.id, ...p, availablePieces: available });
         }
       });
-    } else {
-      // من branch_inventory
-      const snap = await db.collection('branch_inventory')
-        .where('branchId', '==', branchId)
-        .where('piecesQty', '>', 0)
-        .limit(500).get();
+      list.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ar'));
 
-      const productIds = [];
-      const invMap = {};
-      snap.forEach(doc => {
-        const d = doc.data();
-        invMap[d.productId] = d;
-        productIds.push(d.productId);
-      });
-
-      // Load product details in batches
-      if (productIds.length > 0) {
-        const chunks = [];
-        for (let i = 0; i < productIds.length; i += 30) {
-          chunks.push(productIds.slice(i, i + 30));
-        }
-        for (const chunk of chunks) {
-          const pSnap = await db.collection('products')
-            .where(firebase.firestore.FieldPath.documentId(), 'in', chunk).get();
-          pSnap.forEach(pDoc => {
-            const p = pDoc.data();
-            const inv = invMap[pDoc.id];
-            if (!inv) return;
-            list.push({
-              productId: pDoc.id,
-              product: { id: pDoc.id, ...p },
-              ppu: p.piecesPerUnit || 1,
-              units: 0,
-              pieces: inv.piecesQty || 0,
-              totalPieces: inv.piecesQty || 0
-            });
-          });
-        }
-      }
+      renderDirectPicker(list);
+    } catch (err) {
+      console.error(err);
+      window.showToast('خطأ في تحميل المنتجات', 'error');
     }
-
-    list.sort((a, b) => (a.product.name || '').localeCompare(b.product.name || '', 'ar'));
-    trState.productsByBranch[branchId] = list;
   }
 
-  function renderPickerList() {
-    const list = document.getElementById('pickerList');
-    const from = document.getElementById('fromBranchSelect').value;
-    const available = trState.productsByBranch[from] || [];
-
-    if (available.length === 0) {
-      list.innerHTML = `
-        <div class="tr-picker-empty">
-          <i class="fas fa-box-open"></i>
-          <p>لا توجد منتجات متاحة في هذا الفرع</p>
-        </div>`;
-      return;
-    }
-
-    const filtered = available.filter(a => {
-      if (!trState.pickerSearch) return true;
-      const q = trState.pickerSearch.toLowerCase();
-      return (a.product.name || '').toLowerCase().includes(q) ||
-             (a.product.barcode || '').toLowerCase().includes(q);
-    });
-
-    if (filtered.length === 0) {
-      list.innerHTML = `
-        <div class="tr-picker-empty">
-          <i class="fas fa-search-minus"></i>
-          <p>لا توجد نتائج</p>
-        </div>`;
-      return;
-    }
-
-    const selectedIds = new Set(trState.items.map(i => i.productId));
-    const isWh = trState.branches.find(b => b.id === from)?.type === 'warehouse';
-
-    list.innerHTML = filtered.map(a => {
-      const p = a.product;
-      const isSelected = selectedIds.has(a.productId);
-      const img = p.imageUrl || '/gomla/assets/images/no-image.png';
-      const unit = p.unit || 'قطعة';
-      const ppu = a.ppu;
-
-      let availableText = '';
-      if (isWh) {
-        availableText = `${a.units} ${unit} + ${a.pieces} قطعة (${a.totalPieces} قطعة)`;
-      } else {
-        availableText = `${a.pieces} قطعة`;
-      }
-
-      return `
-        <div class="tr-picker-item ${isSelected ? 'selected' : ''}" onclick="${isSelected ? '' : `selectPickerProduct('${a.productId}')`}">
-          <img src="${img}" onerror="this.src='/gomla/assets/images/no-image.png'">
-          <div class="tr-picker-item-info">
-            <div class="tr-picker-item-name">${_esc(p.name || 'منتج')}</div>
-            <div class="tr-picker-item-meta">
-              <span class="available">متاح: ${availableText}</span>
-            </div>
+  function renderDirectPicker(list) {
+    const html = `
+      <div class="modal-overlay show" id="directPickerModal" onclick="closeModal('directPickerModal')">
+        <div class="modal-content medium" onclick="event.stopPropagation()">
+          <div class="modal-header" style="background:linear-gradient(135deg,#065f46,#10b981);">
+            <h2><i class="fas fa-plus-circle"></i> إضافة منتج</h2>
+            <button class="modal-close" onclick="closeModal('directPickerModal')">&times;</button>
           </div>
-          ${isSelected ? '<i class="fas fa-check-circle selected-badge"></i>' : '<i class="fas fa-plus-circle" style="color:var(--gold);font-size:1.1rem;"></i>'}
+          <div style="padding:12px 16px;border-bottom:1px solid var(--gray-200);">
+            <input type="text" class="picker-search" id="directPickerSearch"
+              placeholder="بحث بالاسم / الباركود..." oninput="filterDirectPicker(this.value)">
+          </div>
+          <div class="picker-list" id="directPickerList">
+            ${list.length === 0 ? '<div style="text-align:center;padding:20px;color:var(--gray-400);">لا توجد منتجات متاحة</div>' :
+              list.map(p => `
+                <div class="picker-item" data-name="${escAttr(p.name || '')}" data-barcode="${escAttr(p.barcode || '')}"
+                     onclick="addDirectItem('${p.id}', ${p.availablePieces})">
+                  <img src="${p.imageUrl || '/gomla/assets/images/no-image.png'}" onerror="this.src='/gomla/assets/images/no-image.png'">
+                  <div class="info">
+                    <div class="name">${esc(p.name || '')}</div>
+                    <div class="meta">${esc(p.unit || 'قطعة')} · ${p.piecesPerUnit || 1} قطعة/وحدة</div>
+                  </div>
+                  <div class="stock">${p.availablePieces} متاح</div>
+                </div>
+              `).join('')}
+          </div>
         </div>
-      `;
-    }).join('');
+      </div>`;
+    document.getElementById('modalContainer').insertAdjacentHTML('beforeend', html);
+    trState._directPickerList = list;
   }
 
-  function filterPickerList() {
-    trState.pickerSearch = document.getElementById('pickerSearch').value;
-    renderPickerList();
+  function filterDirectPicker(search) {
+    const q = (search || '').toLowerCase();
+    document.querySelectorAll('#directPickerList .picker-item').forEach(el => {
+      const name = (el.dataset.name || '').toLowerCase();
+      const bc = (el.dataset.barcode || '').toLowerCase();
+      el.style.display = (!q || name.includes(q) || bc.includes(q)) ? 'flex' : 'none';
+    });
   }
 
-  function selectPickerProduct(productId) {
-    const from = document.getElementById('fromBranchSelect').value;
-    const available = trState.productsByBranch[from] || [];
-    const item = available.find(a => a.productId === productId);
-    if (!item) return;
+  function addDirectItem(productId, availablePieces) {
+    const p = (trState._directPickerList || []).find(x => x.id === productId);
+    if (!p) return;
 
-    trState.items.push({
-      productId,
-      product: item.product,
-      available: item,
-      units: 0,
-      pieces: 0
+    trState.directItems.push({
+      productId: p.id,
+      productName: p.name || '',
+      productImage: p.imageUrl || '',
+      unit: p.unit || 'قطعة',
+      piecesPerUnit: p.piecesPerUnit || 1,
+      qty: Math.min(10, availablePieces),
+      availableAtSource: availablePieces
     });
 
-    closeProductPicker();
-    renderItems();
+    closeModal('directPickerModal');
+    renderDirectTransferModal();
   }
 
-  function closeProductPicker(event) {
-    if (event && event.target !== event.currentTarget) return;
-    document.getElementById('productPickerOverlay').classList.remove('show');
-    document.body.style.overflow = '';
-  }
+  async function submitDirectTransfer() {
+    if (!trState.directSourceId || !trState.directDestId) { window.showToast('اختر المصدر والوجهة', 'warning'); return; }
+    if (trState.directItems.length === 0) { window.showToast('أضف منتج واحد', 'warning'); return; }
 
-  // ============================================================
-  // Items Rendering
-  // ============================================================
-  function renderItems() {
-    const area = document.getElementById('productsArea');
-    const countEl = document.getElementById('itemsCount');
-    countEl.textContent = trState.items.length;
-
-    if (trState.items.length === 0) {
-      area.innerHTML = `
-        <div class="tr-empty">
-          <i class="fas fa-box-open"></i>
-          <h3>لم تتم إضافة منتجات</h3>
-          <p>اضغط "إضافة منتج" لاختيار المنتجات</p>
-        </div>`;
-      document.getElementById('summaryBox').style.display = 'none';
-      updateSubmitBtn();
-      return;
-    }
-
-    const from = document.getElementById('fromBranchSelect').value;
-    const fromBranch = trState.branches.find(b => b.id === from);
-    const isWh = fromBranch?.type === 'warehouse';
-
-    let html = `
-      <div class="tr-table-wrap">
-        <table class="tr-table">
-          <thead>
-            <tr>
-              <th style="width:40px;">#</th>
-              <th>المنتج</th>
-              ${isWh ? '<th style="text-align:center;">وحدات</th>' : ''}
-              <th style="text-align:center;">${isWh ? 'قطع إضافية' : 'قطع'}</th>
-              <th style="text-align:center;">إجمالي قطع</th>
-              <th style="width:50px;"></th>
-            </tr>
-          </thead>
-          <tbody>
-    `;
-
-    trState.items.forEach((item, idx) => {
-      const p = item.product;
-      const img = p.imageUrl || '/gomla/assets/images/no-image.png';
-      const unit = p.unit || 'قطعة';
-      const ppu = item.available.ppu;
-
-      let totalPieces = 0;
-      if (isWh) {
-        totalPieces = (item.units || 0) * ppu + (item.pieces || 0);
-      } else {
-        totalPieces = item.pieces || 0;
-      }
-
-      const available = item.available;
-      const isOver = totalPieces > available.totalPieces;
-
-      html += `
-        <tr>
-          <td style="text-align:center;color:var(--gray-500);font-weight:800;">${idx + 1}</td>
-          <td>
-            <div class="tr-prod-cell">
-              <img src="${img}" class="tr-prod-img" onerror="this.src='/gomla/assets/images/no-image.png'">
-              <div class="tr-prod-info">
-                <div class="tr-prod-name">${_esc(p.name)}</div>
-                <div class="tr-prod-unit">الوحدة: ${unit} · متاح: ${available.totalPieces} قطعة</div>
-              </div>
-            </div>
-          </td>
-          ${isWh ? `
-            <td style="text-align:center;">
-              <input type="number" class="tr-qty-input" min="0"
-                value="${item.units || 0}"
-                onchange="updateItemQty(${idx}, 'units', this.value)"
-                oninput="updateItemQty(${idx}, 'units', this.value)">
-            </td>
-          ` : ''}
-          <td style="text-align:center;">
-            <input type="number" class="tr-qty-input" min="0"
-              value="${item.pieces || 0}"
-              onchange="updateItemQty(${idx}, 'pieces', this.value)"
-              oninput="updateItemQty(${idx}, 'pieces', this.value)">
-          </td>
-          <td class="tr-total-pieces">
-            <span style="color:${isOver ? '#dc2626' : 'var(--gold-dark)'};">${totalPieces}</span>
-            ${isOver ? '<i class="fas fa-exclamation-triangle" style="color:#dc2626;margin-right:4px;"></i>' : ''}
-          </td>
-          <td style="text-align:center;">
-            <button class="tr-remove-btn" onclick="removeItem(${idx})" title="حذف">
-              <i class="fas fa-times"></i>
-            </button>
-          </td>
-        </tr>
-      `;
-    });
-
-    html += `
-          </tbody>
-        </table>
-      </div>
-    `;
-
-    area.innerHTML = html;
-    updateSummary();
-    updateSubmitBtn();
-  }
-
-  function updateItemQty(idx, field, value) {
-    const item = trState.items[idx];
-    if (!item) return;
-    const v = parseInt(value) || 0;
-    item[field] = Math.max(0, v);
-    renderItems();
-  }
-
-  function removeItem(idx) {
-    trState.items.splice(idx, 1);
-    renderItems();
-  }
-
-  function updateSummary() {
-    const summaryBox = document.getElementById('summaryBox');
-    if (trState.items.length === 0) {
-      summaryBox.style.display = 'none';
-      return;
-    }
-    summaryBox.style.display = 'grid';
-
-    const from = document.getElementById('fromBranchSelect').value;
-    const isWh = trState.branches.find(b => b.id === from)?.type === 'warehouse';
-
-    let totalPieces = 0;
-    let totalUnits = 0;
-
-    trState.items.forEach(item => {
-      const ppu = item.available.ppu;
-      if (isWh) {
-        totalPieces += (item.units || 0) * ppu + (item.pieces || 0);
-        totalUnits += (item.units || 0);
-      } else {
-        totalPieces += (item.pieces || 0);
-      }
-    });
-
-    document.getElementById('summaryItemsCount').textContent = trState.items.length;
-    document.getElementById('summaryTotalPieces').textContent = totalPieces;
-    document.getElementById('summaryTotalUnits').textContent = isWh ? totalUnits : '—';
-  }
-
-  function updateSubmitBtn() {
-    const btn = document.getElementById('submitTransferBtn');
-    const from = document.getElementById('fromBranchSelect').value;
-    const to = document.getElementById('toBranchSelect').value;
-
-    let valid = true;
-    if (!from || !to || from === to) valid = false;
-    if (trState.items.length === 0) valid = false;
-
-    // Check all items have qty > 0
-    const fromBranch = trState.branches.find(b => b.id === from);
-    const isWh = fromBranch?.type === 'warehouse';
-
-    for (const item of trState.items) {
-      const total = isWh
-        ? (item.units || 0) * item.available.ppu + (item.pieces || 0)
-        : (item.pieces || 0);
-      if (total <= 0) { valid = false; break; }
-      if (total > item.available.totalPieces) { valid = false; break; }
-    }
-
-    btn.disabled = !valid;
-  }
-
-  // ============================================================
-  // Submit Transfer (Transaction)
-  // ============================================================
-  async function submitTransfer() {
-    const from = document.getElementById('fromBranchSelect').value;
-    const to = document.getElementById('toBranchSelect').value;
-    const notes = document.getElementById('transferNotes').value.trim();
-
-    if (!from || !to || from === to) {
-      window.showToast('اختر فرعين مختلفين', 'warning');
-      return;
-    }
-    if (trState.items.length === 0) {
-      window.showToast('أضف منتجات أولاً', 'warning');
-      return;
-    }
-
-    const btn = document.getElementById('submitTransferBtn');
+    const notes = (document.getElementById('directNotes')?.value || '').trim();
+    const btn = document.getElementById('submitDirectBtn');
     btn.disabled = true;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التنفيذ...';
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري المعالجة...';
 
     try {
-      const fromBranch = trState.branches.find(b => b.id === from);
-      const toBranch = trState.branches.find(b => b.id === to);
-      const fromIsWh = fromBranch.type === 'warehouse';
-      const toIsWh = toBranch.type === 'warehouse';
-
-      const now = firebase.firestore.FieldValue.serverTimestamp();
-      const transferItems = [];
+      const sourceBranch = getBranch(trState.directSourceId);
+      const destBranch = getBranch(trState.directDestId);
+      let createdTransferId = null;
 
       await db.runTransaction(async (t) => {
-        // 1. Read all products (for warehouse operations)
-        const productReads = {};
-        if (fromIsWh || toIsWh) {
-          for (const item of trState.items) {
-            const pRef = db.collection('products').doc(item.productId);
-            const pDoc = await t.get(pRef);
-            if (!pDoc.exists) throw new Error(`المنتج ${item.productId} غير موجود`);
-            productReads[item.productId] = { ref: pRef, data: pDoc.data() };
-          }
+        // ===== PHASE 1: ALL READS =====
+        const productSnapshots = [];
+        for (const item of trState.directItems) {
+          const pRef = db.collection('products').doc(item.productId);
+          const pDoc = await t.get(pRef);
+          if (!pDoc.exists) throw new Error(`منتج "${item.productName}" غير موجود`);
+          productSnapshots.push({ ref: pRef, data: pDoc.data(), item });
         }
 
-        // 2. Read all branch_inventory (for non-warehouse operations)
-        const invReads = {};
-        for (const item of trState.items) {
-          // from branch inv
-          if (!fromIsWh) {
-            const ref = db.collection('branch_inventory').doc(`${from}_${item.productId}`);
-            const doc = await t.get(ref);
-            invReads[`from_${item.productId}`] = {
-              ref,
-              data: doc.exists ? doc.data() : null
-            };
+        // ===== PHASE 2: ALL WRITES =====
+        const now = firebase.firestore.FieldValue.serverTimestamp();
+
+        // Deduct from WH
+        for (const ps of productSnapshots) {
+          const p = ps.data;
+          const ppu = p.piecesPerUnit || 1;
+          const currentTotal = (p.warehouseStock || 0) * ppu + (p.warehousePieces || 0);
+          const currentReserved = p.reservedPieces || 0;
+          const currentAvailable = Math.max(0, currentTotal - currentReserved);
+          if (ps.item.qty > currentAvailable) {
+            throw new Error(`الكمية المطلوبة من "${ps.item.productName}" تتجاوز المتاح (${currentAvailable})`);
           }
-          // to branch inv
-          if (!toIsWh) {
-            const ref = db.collection('branch_inventory').doc(`${to}_${item.productId}`);
-            const doc = await t.get(ref);
-            invReads[`to_${item.productId}`] = {
-              ref,
-              data: doc.exists ? doc.data() : null
-            };
-          }
-        }
-
-        // 3. Compute & apply changes
-        for (const item of trState.items) {
-          const ppu = item.available.ppu;
-          const totalPieces = fromIsWh
-            ? (item.units || 0) * ppu + (item.pieces || 0)
-            : (item.pieces || 0);
-
-          if (totalPieces <= 0) throw new Error(`منتج بدون كمية: ${item.product.name}`);
-
-          // ===== DEDUCT from source =====
-          if (fromIsWh) {
-            const prod = productReads[item.productId];
-            if (!prod) throw new Error('منتج غير موجود في المخزن');
-            const curTotal = (prod.data.warehouseStock || 0) * ppu + (prod.data.warehousePieces || 0);
-            if (curTotal < totalPieces) {
-              throw new Error(`مخزون ${item.product.name} غير كافٍ (متاح ${curTotal}، مطلوب ${totalPieces})`);
-            }
-            const newTotal = curTotal - totalPieces;
-            const newUnits = Math.floor(newTotal / ppu);
-            const newPieces = newTotal % ppu;
-
-            t.update(prod.ref, {
-              warehouseStock: newUnits,
-              warehousePieces: newPieces,
-              updatedAt: now
-            });
-          } else {
-            const inv = invReads[`from_${item.productId}`];
-            if (!inv || !inv.data) throw new Error(`مخزون فرع ${fromBranch.name} غير موجود للمنتج`);
-            const curPieces = inv.data.piecesQty || 0;
-            if (curPieces < totalPieces) {
-              throw new Error(`مخزون ${item.product.name} في ${fromBranch.name} غير كافٍ`);
-            }
-            t.update(inv.ref, {
-              piecesQty: curPieces - totalPieces,
-              availableQty: Math.max(0, (inv.data.availableQty || curPieces) - totalPieces),
-              lastUpdated: now,
-              updatedBy: trState.adminId
-            });
-          }
-
-          // ===== ADD to destination =====
-          if (toIsWh) {
-            const prod = productReads[item.productId];
-            if (!prod) throw new Error('منتج غير موجود');
-            const curTotal = (prod.data.warehouseStock || 0) * ppu + (prod.data.warehousePieces || 0);
-            const newTotal = curTotal + totalPieces;
-            const newUnits = Math.floor(newTotal / ppu);
-            const newPieces = newTotal % ppu;
-
-            t.update(prod.ref, {
-              warehouseStock: newUnits,
-              warehousePieces: newPieces,
-              updatedAt: now
-            });
-          } else {
-            const inv = invReads[`to_${item.productId}`];
-            if (inv.data) {
-              // Update existing
-              t.update(inv.ref, {
-                piecesQty: (inv.data.piecesQty || 0) + totalPieces,
-                availableQty: (inv.data.availableQty || 0) + totalPieces,
-                lastUpdated: now,
-                updatedBy: trState.adminId
-              });
-            } else {
-              // Create new
-              const p = item.product;
-              t.set(inv.ref, {
-                branchId: to,
-                productId: item.productId,
-                piecesQty: totalPieces,
-                availableQty: totalPieces,
-                reservedQty: 0,
-                minAlert: 10,
-                productName: p.name || '',
-                productImage: p.imageUrl || '',
-                unit: p.unit || 'قطعة',
-                piecesPerUnit: ppu,
-                lastUpdated: now,
-                updatedBy: trState.adminId
-              });
-            }
-          }
-
-          transferItems.push({
-            productId: item.productId,
-            productName: item.product.name || '',
-            productImage: item.product.imageUrl || '',
-            unit: item.product.unit || 'قطعة',
-            piecesPerUnit: ppu,
-            units: fromIsWh ? (item.units || 0) : 0,
-            extraPieces: fromIsWh ? (item.pieces || 0) : 0,
-            totalPieces: totalPieces
+          const newTotal = currentTotal - ps.item.qty;
+          t.update(ps.ref, {
+            warehouseStock: Math.floor(newTotal / ppu),
+            warehousePieces: newTotal % ppu,
+            updatedAt: now
           });
         }
 
-        // 3. Create transfer record
-        const tRef = db.collection('transfers').doc();
-        t.set(tRef, {
-          id: tRef.id,
-          fromBranchId: from,
-          fromBranchName: fromBranch.name,
-          fromBranchCode: fromBranch.code,
-          toBranchId: to,
-          toBranchName: toBranch.name,
-          toBranchCode: toBranch.code,
-          items: transferItems,
-          totalItems: transferItems.length,
-          totalPieces: transferItems.reduce((s, i) => s + i.totalPieces, 0),
-          status: 'completed',
-          notes: notes || '',
-          requestedBy: trState.adminId,
-          requestedByName: trState.adminName,
-          requestedAt: now,
-          completedAt: now,
-          completedBy: trState.adminId,
-          completedByName: trState.adminName
+        // Create transfer
+        const transferRef = db.collection('transfers').doc();
+        createdTransferId = transferRef.id;
+
+        const items = trState.directItems.map(i => ({
+          productId: i.productId,
+          productName: i.productName,
+          productImage: i.productImage,
+          unit: i.unit,
+          piecesPerUnit: i.piecesPerUnit,
+          requestedPieces: i.qty,
+          approvedPieces: i.qty,
+          receivedPieces: 0,
+          damagedPieces: 0,
+          notes: ''
+        }));
+
+        t.set(transferRef, {
+          id: transferRef.id,
+          fromBranchId: trState.directSourceId,
+          fromBranchName: sourceBranch?.name || '',
+          fromBranchCode: sourceBranch?.code || trState.directSourceId,
+          toBranchId: trState.directDestId,
+          toBranchName: destBranch?.name || '',
+          toBranchCode: destBranch?.code || trState.directDestId,
+          items,
+          totalRequestedPieces: items.reduce((s, i) => s + i.requestedPieces, 0),
+          totalApprovedPieces: items.reduce((s, i) => s + i.approvedPieces, 0),
+          totalReceivedPieces: 0,
+          totalDamagedPieces: 0,
+          status: 'in_transit',
+          requestId: '',
+          isDirectTransfer: true,
+          notes,
+          approvedBy: trState.adminId,
+          approvedByName: trState.adminName,
+          approvedAt: now,
+          cancelledBy: '', cancelledByName: '', cancelledAt: null, cancelReason: '',
+          receivedBy: '', receivedByName: '', receivedByRole: '', receivedAt: null,
+          receiptPrintedAt: null,
+          createdAt: now,
+          updatedAt: now
+        });
+
+        // Notify destination
+        t.set(db.collection('admin_notifications').doc(), {
+          userId: 'branch_' + trState.directDestId,
+          branchId: trState.directDestId,
+          title: '📦 بضاعة في الطريق إليك',
+          body: `نقل مباشر: ${items.length} منتج (${items.reduce((s, i) => s + i.approvedPieces, 0)} قطعة)`,
+          type: 'transfer_in_transit',
+          transferId: createdTransferId,
+          read: false,
+          createdAt: now
         });
       });
 
-      window.showToast('✅ تم تنفيذ النقلة بنجاح', 'success');
-      resetTransferForm();
-      loadHistory();
+      window.showToast('✅ تم بدء النقل المباشر', 'success');
+      closeModal('directModal');
+      trState.directItems = [];
 
     } catch (err) {
-      console.error('Submit transfer error:', err);
-      window.showToast('❌ ' + (err.message || 'فشل التنفيذ'), 'error');
-    } finally {
+      console.error('submitDirectTransfer:', err);
+      window.showToast('❌ ' + err.message, 'error');
       btn.disabled = false;
-      btn.innerHTML = '<i class="fas fa-paper-plane"></i> تنفيذ النقل';
-      updateSubmitBtn();
+      btn.innerHTML = '<i class="fas fa-bolt"></i> بدء النقل المباشر';
     }
-  }
-
-  function resetTransferForm() {
-    document.getElementById('fromBranchSelect').value = '';
-    document.getElementById('toBranchSelect').value = '';
-    document.getElementById('transferNotes').value = '';
-    document.getElementById('fromBranchInfo').textContent = '';
-    document.getElementById('toBranchInfo').textContent = '';
-    trState.items = [];
-    trState.currentFrom = '';
-    renderItems();
-    document.getElementById('addProductBtn').disabled = true;
-  }
-
-  // ============================================================
-  // History
-  // ============================================================
-  function loadHistory() {
-    if (trState.historyUnsub) trState.historyUnsub();
-
-    const fromFilter = document.getElementById('historyFromFilter')?.value || '';
-    const toFilter = document.getElementById('historyToFilter')?.value || '';
-
-    trState.historyUnsub = db.collection('transfers')
-      .orderBy('requestedAt', 'desc')
-      .limit(100)
-      .onSnapshot(snap => {
-        const list = [];
-        snap.forEach(doc => {
-          const d = doc.data();
-          if (fromFilter && d.fromBranchId !== fromFilter) return;
-          if (toFilter && d.toBranchId !== toFilter) return;
-          list.push({ id: doc.id, ...d });
-        });
-        renderHistory(list);
-      }, err => {
-        console.error('History error:', err);
-        document.getElementById('historyList').innerHTML = `
-          <div class="tr-empty">
-            <i class="fas fa-exclamation-triangle"></i>
-            <h3>فشل تحميل السجل</h3>
-          </div>`;
-      });
-  }
-
-  function renderHistory(list) {
-    const container = document.getElementById('historyList');
-    if (list.length === 0) {
-      container.innerHTML = `
-        <div class="tr-empty">
-          <i class="fas fa-inbox"></i>
-          <h3>لا توجد نقلات</h3>
-          <p>لم يتم تسجيل أي عمليات نقل بعد</p>
-        </div>`;
-      return;
-    }
-
-    container.innerHTML = list.map(tr => {
-      const dateStr = tr.requestedAt ? formatDateTime(tr.requestedAt) : '—';
-      const statusText = tr.status === 'completed' ? 'مكتملة' : 'ملغاة';
-      return `
-        <div class="tr-history-item" onclick="viewTransferDetails('${tr.id}')">
-          <div class="tr-history-head">
-            <span class="tr-history-id">#${tr.id.slice(-8).toUpperCase()}</span>
-            <span class="tr-history-date"><i class="fas fa-calendar"></i> ${dateStr}</span>
-            <span class="tr-history-status ${tr.status}">${statusText}</span>
-          </div>
-          <div class="tr-history-route">
-            <span class="tr-route-branch from">
-              <i class="fas fa-sign-out-alt"></i>
-              ${_esc(tr.fromBranchName || '—')}
-            </span>
-            <i class="fas fa-arrow-left tr-route-arrow"></i>
-            <span class="tr-route-branch to">
-              <i class="fas fa-sign-in-alt"></i>
-              ${_esc(tr.toBranchName || '—')}
-            </span>
-          </div>
-          <div class="tr-history-meta">
-            <span><i class="fas fa-box"></i> ${tr.totalItems || 0} منتج</span>
-            <span><i class="fas fa-cubes"></i> ${tr.totalPieces || 0} قطعة</span>
-            <span><i class="fas fa-user"></i> ${_esc(tr.requestedByName || '—')}</span>
-          </div>
-        </div>
-      `;
-    }).join('');
-  }
-
-  function resetHistoryFilters() {
-    document.getElementById('historyFromFilter').value = '';
-    document.getElementById('historyToFilter').value = '';
-    loadHistory();
-  }
-
-  async function viewTransferDetails(id) {
-    try {
-      const doc = await db.collection('transfers').doc(id).get();
-      if (!doc.exists) return;
-      const tr = doc.data();
-
-      let itemsHtml = tr.items.map((item, i) => `
-        <tr>
-          <td style="text-align:center;">${i + 1}</td>
-          <td>
-            <div class="tr-prod-cell">
-              <img src="${item.productImage || '/gomla/assets/images/no-image.png'}" class="tr-prod-img">
-              <div class="tr-prod-info">
-                <div class="tr-prod-name">${_esc(item.productName)}</div>
-                <div class="tr-prod-unit">${_esc(item.unit)}</div>
-              </div>
-            </div>
-          </td>
-          <td style="text-align:center;font-weight:800;">${item.units || 0}</td>
-          <td style="text-align:center;font-weight:800;">${item.extraPieces || 0}</td>
-          <td style="text-align:center;font-weight:900;color:var(--gold-dark);">${item.totalPieces}</td>
-        </tr>
-      `).join('');
-
-      const html = `
-        <div class="tr-picker-overlay show" id="detailsOverlay" onclick="closeDetailsOverlay(event)" style="display:flex;">
-          <div class="tr-picker" style="max-width:720px;" onclick="event.stopPropagation()">
-            <div class="tr-picker-head">
-              <h3><i class="fas fa-info-circle"></i> تفاصيل النقلة #${id.slice(-8).toUpperCase()}</h3>
-              <button class="tr-picker-close" onclick="closeDetailsOverlay()">&times;</button>
-            </div>
-            <div style="padding:16px 20px;overflow-y:auto;">
-              <div class="tr-history-route" style="margin-bottom:14px;">
-                <span class="tr-route-branch from">
-                  <i class="fas fa-sign-out-alt"></i> ${_esc(tr.fromBranchName)}
-                </span>
-                <i class="fas fa-arrow-left tr-route-arrow"></i>
-                <span class="tr-route-branch to">
-                  <i class="fas fa-sign-in-alt"></i> ${_esc(tr.toBranchName)}
-                </span>
-              </div>
-
-              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:14px;font-size:0.82rem;">
-                <div><strong>التاريخ:</strong> ${formatDateTime(tr.requestedAt)}</div>
-                <div><strong>المنفذ:</strong> ${_esc(tr.requestedByName || '—')}</div>
-                <div><strong>الحالة:</strong> مكتملة</div>
-                <div><strong>المنتجات:</strong> ${tr.totalItems}</div>
-                <div><strong>القطع:</strong> ${tr.totalPieces}</div>
-              </div>
-
-              <div class="tr-table-wrap">
-                <table class="tr-table">
-                  <thead>
-                    <tr>
-                      <th style="width:40px;">#</th>
-                      <th>المنتج</th>
-                      <th style="text-align:center;">وحدات</th>
-                      <th style="text-align:center;">قطع إضافية</th>
-                      <th style="text-align:center;">إجمالي</th>
-                    </tr>
-                  </thead>
-                  <tbody>${itemsHtml}</tbody>
-                </table>
-              </div>
-
-              ${tr.notes ? `
-                <div style="margin-top:14px;padding:10px 12px;background:var(--gray-50);border-radius:8px;font-size:0.82rem;">
-                  <strong>ملاحظات:</strong> ${_esc(tr.notes)}
-                </div>
-              ` : ''}
-
-              <div style="margin-top:16px;text-align:center;">
-                <button class="btn btn-outline" onclick="closeDetailsOverlay()">إغلاق</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-
-      document.body.insertAdjacentHTML('beforeend', html);
-      document.body.style.overflow = 'hidden';
-
-    } catch (err) {
-      console.error('View details error:', err);
-    }
-  }
-
-  function closeDetailsOverlay(event) {
-    if (event && event.target !== event.currentTarget) return;
-    const el = document.getElementById('detailsOverlay');
-    if (el) el.remove();
-    document.body.style.overflow = '';
-  }
-
-  // ============================================================
-  // Tabs
-  // ============================================================
-  function switchTrTab(tab) {
-    document.querySelectorAll('.tr-tab').forEach(el => el.classList.toggle('active', el.dataset.tab === tab));
-    document.querySelectorAll('.tr-section').forEach(el => el.classList.remove('active'));
-    document.getElementById('tr-' + tab).classList.add('active');
   }
 
   // ============================================================
   // Helpers
   // ============================================================
-  function _esc(s) {
+  function closeAllModals() {
+    document.querySelectorAll('.modal-overlay.show').forEach(m => m.classList.remove('show'));
+    document.body.style.overflow = '';
+  }
+  function closeModal(id) {
+    document.getElementById(id)?.classList.remove('show');
+    document.body.style.overflow = '';
+  }
+  function esc(s) {
     return String(s ?? '').replace(/[&<>"']/g, c => ({
-      '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
     }[c]));
+  }
+  function escAttr(s) {
+    return String(s ?? '').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+  function toMs(t) {
+    if (!t) return 0;
+    if (t.toMillis) return t.toMillis();
+    if (t.toDate) return t.toDate().getTime();
+    if (t instanceof Date) return t.getTime();
+    return 0;
   }
 
   // ============================================================
   // Exports
   // ============================================================
-  window.switchTrTab = switchTrTab;
-  window.onBranchChange = onBranchChange;
-  window.openProductPicker = openProductPicker;
-  window.closeProductPicker = closeProductPicker;
-  window.filterPickerList = filterPickerList;
-  window.selectPickerProduct = selectPickerProduct;
-  window.updateItemQty = updateItemQty;
-  window.removeItem = removeItem;
-  window.submitTransfer = submitTransfer;
-  window.resetTransferForm = resetTransferForm;
-  window.loadHistory = loadHistory;
-  window.resetHistoryFilters = resetHistoryFilters;
-  window.viewTransferDetails = viewTransferDetails;
-  window.closeDetailsOverlay = closeDetailsOverlay;
+  window.loadAll = loadAll;
+  window.switchTab = switchTab;
+  window.onSearchInput = onSearchInput;
+  window.applyFilters = applyFilters;
+  window.resetFilters = resetFilters;
+  window.openRequestDetails = openRequestDetails;
+  window.openApproveModal = openApproveModal;
+  window.onApproveQtyChange = onApproveQtyChange;
+  window.confirmApprove = confirmApprove;
+  window.openRejectModal = openRejectModal;
+  window.confirmReject = confirmReject;
+  window.openTransferDetails = openTransferDetails;
+  window.printReceipt = printReceipt;
+  window.openCancelTransferModal = openCancelTransferModal;
+  window.confirmCancelTransfer = confirmCancelTransfer;
+  window.openDirectTransferModal = openDirectTransferModal;
+  window.onDirectSourceChange = onDirectSourceChange;
+  window.onDirectDestChange = onDirectDestChange;
+  window.onDirectQtyChange = onDirectQtyChange;
+  window.removeDirectItem = removeDirectItem;
+  window.openDirectProductPicker = openDirectProductPicker;
+  window.filterDirectPicker = filterDirectPicker;
+  window.addDirectItem = addDirectItem;
+  window.submitDirectTransfer = submitDirectTransfer;
+  window.closeModal = closeModal;
+  window.closeAllModals = closeAllModals;
   </script>
 
 </body>
