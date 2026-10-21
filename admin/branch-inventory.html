@@ -27,11 +27,7 @@
       background: radial-gradient(circle, rgba(201,168,76,.18) 0%, transparent 70%);
       border-radius: 50%;
     }
-    .bi-header-inner {
-      position: relative; z-index: 1;
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 16px; flex-wrap: wrap;
-    }
+    .bi-header-inner { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
     .bi-header-left { display: flex; align-items: center; gap: 16px; flex: 1; min-width: 220px; }
     .bi-header-icon {
       width: 56px; height: 56px; border-radius: 50%;
@@ -50,9 +46,15 @@
       font-family: inherit; font-weight: 700; font-size: 0.82rem;
       cursor: pointer; transition: var(--transition);
       display: inline-flex; align-items: center; gap: 6px;
+      text-decoration: none;
     }
     .bi-header-actions .btn:hover { background: var(--gold); color: var(--navy); border-color: var(--gold); }
     .bi-header-actions .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .bi-header-actions .btn.gold {
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy); border-color: var(--gold-dark);
+    }
+    .bi-header-actions .btn.gold:hover { background: var(--gold-dark); color: var(--white); }
 
     /* Branch Selector */
     .bi-branch-panel {
@@ -60,10 +62,7 @@
       padding: 16px 20px; margin-bottom: 16px;
       box-shadow: var(--shadow-sm); border: 1px solid var(--gray-200);
     }
-    .bi-branch-row {
-      display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
-      margin-bottom: 10px;
-    }
+    .bi-branch-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 10px; }
     .bi-branch-row select {
       flex: 1; min-width: 200px; max-width: 400px;
       padding: 11px 14px;
@@ -80,40 +79,107 @@
       display: inline-flex; align-items: center; gap: 6px;
     }
     .bi-branch-row .branch-name-badge i { color: var(--gold); }
-    .bi-branch-info {
-      display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;
-      padding-top: 12px; border-top: 1px dashed var(--gray-200);
-      font-size: 0.8rem;
-    }
+    .bi-branch-info { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; padding-top: 12px; border-top: 1px dashed var(--gray-200); font-size: 0.8rem; }
     .bi-branch-info-item { text-align: center; }
     .bi-branch-info-lbl { font-size: 0.68rem; color: var(--gray-500); font-weight: 700; margin-bottom: 3px; }
     .bi-branch-info-val { font-size: 0.9rem; color: var(--navy); font-weight: 900; }
 
-    /* Smart Alert Banner */
+    /* 🆕 In-Transit Section */
+    .bi-transit-section {
+      background: linear-gradient(135deg, #fff7ed, #ffedd5);
+      border: 2px solid #fdba74;
+      border-radius: var(--radius-lg);
+      padding: 18px 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 8px 24px rgba(249,115,22,.15);
+      animation: slideInBounce 0.5s ease;
+    }
+    @keyframes slideInBounce { 0% { opacity: 0; transform: translateY(-20px); } 60% { transform: translateY(4px); } 100% { opacity: 1; transform: translateY(0); } }
+    .bi-transit-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+    .bi-transit-title { display: flex; align-items: center; gap: 12px; font-size: 1.05rem; font-weight: 900; color: #c2410c; }
+    .bi-transit-title .icon-badge {
+      width: 46px; height: 46px; border-radius: 50%;
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: white; display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      box-shadow: 0 6px 18px rgba(249,115,22,.4);
+      animation: pulseIcon 2s ease-in-out infinite;
+    }
+    @keyframes pulseIcon { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
+    .bi-transit-count {
+      background: #c2410c; color: white;
+      min-width: 28px; height: 28px; padding: 0 10px;
+      border-radius: 20px; display: inline-flex; align-items: center; justify-content: center;
+      font-size: 0.9rem; font-weight: 900;
+    }
+    .bi-transit-subtitle { font-size: 0.78rem; color: #7c2d12; font-weight: 600; margin-top: 2px; }
+    .bi-transit-list { display: flex; flex-direction: column; gap: 12px; }
+    .bi-transit-card {
+      background: white; border: 2px solid #fed7aa;
+      border-radius: 12px; padding: 14px 16px;
+      transition: var(--transition);
+    }
+    .bi-transit-card:hover { border-color: #fb923c; box-shadow: 0 6px 20px rgba(249,115,22,.15); }
+    .bi-transit-card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+    .bi-transit-num {
+      font-family: 'Courier New', monospace;
+      background: #fff7ed; padding: 3px 10px; border-radius: 6px;
+      font-size: 0.75rem; color: #c2410c; direction: ltr; font-weight: 900;
+    }
+    .bi-transit-route {
+      display: flex; align-items: center; gap: 10px;
+      padding: 8px 12px; background: #fffbeb;
+      border-radius: 8px; font-size: 0.82rem; margin-bottom: 10px;
+    }
+    .bi-transit-route i { color: #f97316; }
+    .bi-transit-route strong { color: #7c2d12; }
+    .bi-transit-items { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .bi-transit-item-chip {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 5px 10px; background: #fed7aa; border-radius: 20px;
+      font-size: 0.72rem; font-weight: 700; color: #7c2d12;
+    }
+    .bi-transit-item-chip i { font-size: 0.65rem; }
+    .bi-transit-item-chip strong { color: #c2410c; }
+    .bi-transit-actions { display: flex; gap: 8px; flex-wrap: wrap; padding-top: 10px; border-top: 1px solid #fed7aa; }
+    .bi-transit-btn {
+      padding: 10px 18px; border: 2px solid; border-radius: var(--radius-sm);
+      font-family: inherit; font-weight: 900; font-size: 0.85rem; cursor: pointer;
+      transition: all .2s ease;
+      display: inline-flex; align-items: center; gap: 6px;
+      background: white;
+    }
+    .bi-transit-btn.receive {
+      background: linear-gradient(135deg, #16a34a, #15803d);
+      color: white; border-color: #15803d;
+      box-shadow: 0 4px 12px rgba(22,163,74,.3);
+    }
+    .bi-transit-btn.receive:hover { background: #15803d; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(22,163,74,.4); }
+    .bi-transit-btn.print { background: white; color: #6d28d9; border-color: #c4b5fd; }
+    .bi-transit-btn.print:hover { background: #8b5cf6; color: white; }
+    .bi-transit-btn.details { background: white; color: #475569; border-color: #cbd5e1; }
+    .bi-transit-btn.details:hover { background: #f1f5f9; }
+    .bi-late-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 3px 10px; border-radius: 20px;
+      font-size: 0.7rem; font-weight: 900;
+      background: #fee2e2; color: #991b1b;
+      animation: pulseLate 1.5s infinite;
+    }
+    @keyframes pulseLate { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+    /* Smart Alert */
     .bi-alert-banner {
       background: linear-gradient(135deg, #fef3c7, #fde68a);
-      border: 2px solid #fbbf24;
-      border-radius: var(--radius-md);
-      padding: 14px 18px;
-      margin-bottom: 16px;
+      border: 2px solid #fbbf24; border-radius: var(--radius-md);
+      padding: 14px 18px; margin-bottom: 16px;
       box-shadow: 0 4px 12px rgba(251,191,36,.2);
       animation: slideIn 0.3s ease;
     }
     @keyframes slideIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
-    .bi-alert-banner.info {
-      background: linear-gradient(135deg, #dbeafe, #bfdbfe);
-      border-color: #60a5fa;
-      box-shadow: 0 4px 12px rgba(96,165,250,.2);
-    }
-    .bi-alert-head {
-      display: flex; justify-content: space-between; align-items: center;
-      gap: 10px; flex-wrap: wrap; margin-bottom: 10px;
-    }
-    .bi-alert-title {
-      display: flex; align-items: center; gap: 10px;
-      font-size: 0.95rem; font-weight: 900;
-      color: #92400e;
-    }
+    .bi-alert-banner.info { background: linear-gradient(135deg, #dbeafe, #bfdbfe); border-color: #60a5fa; box-shadow: 0 4px 12px rgba(96,165,250,.2); }
+    .bi-alert-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 10px; }
+    .bi-alert-title { display: flex; align-items: center; gap: 10px; font-size: 0.95rem; font-weight: 900; color: #92400e; }
     .bi-alert-banner.info .bi-alert-title { color: #1e40af; }
     .bi-alert-title .alert-icon {
       width: 38px; height: 38px; border-radius: 50%;
@@ -129,60 +195,30 @@
       border-radius: 20px; font-size: 0.85rem; font-weight: 900;
     }
     .bi-alert-banner.info .bi-alert-count { background: #1e40af; }
-    .bi-alert-actions {
-      display: flex; gap: 8px; flex-wrap: wrap;
-    }
+    .bi-alert-actions { display: flex; gap: 8px; flex-wrap: wrap; }
     .bi-alert-actions .btn-sm {
       padding: 8px 14px; border-radius: var(--radius-sm);
       font-family: inherit; font-weight: 800; font-size: 0.8rem;
       cursor: pointer; transition: var(--transition);
-      display: inline-flex; align-items: center; gap: 6px;
-      border: 2px solid;
+      display: inline-flex; align-items: center; gap: 6px; border: 2px solid;
     }
-    .bi-alert-actions .btn-show {
-      background: white; color: #92400e; border-color: #fbbf24;
-    }
+    .bi-alert-actions .btn-show { background: white; color: #92400e; border-color: #fbbf24; }
     .bi-alert-actions .btn-show:hover { background: #fbbf24; color: white; }
-    .bi-alert-actions .btn-request-all {
-      background: #92400e; color: white; border-color: #92400e;
-    }
+    .bi-alert-actions .btn-request-all { background: #92400e; color: white; border-color: #92400e; }
     .bi-alert-actions .btn-request-all:hover { background: #b45309; }
     .bi-alert-actions .btn-request-all:disabled { opacity: 0.5; cursor: not-allowed; }
-
-    .bi-alert-preview {
-      max-height: 0; overflow: hidden;
-      transition: max-height 0.35s ease;
-    }
+    .bi-alert-preview { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
     .bi-alert-preview.open { max-height: 400px; overflow-y: auto; }
-    .bi-alert-list {
-      background: white; border-radius: 6px;
-      padding: 8px 12px; margin-top: 8px;
-    }
-    .bi-alert-item {
-      display: flex; align-items: center; gap: 8px;
-      padding: 6px 0; font-size: 0.82rem;
-      border-bottom: 1px solid var(--gray-100);
-    }
+    .bi-alert-list { background: white; border-radius: 6px; padding: 8px 12px; margin-top: 8px; }
+    .bi-alert-item { display: flex; align-items: center; gap: 8px; padding: 6px 0; font-size: 0.82rem; border-bottom: 1px solid var(--gray-100); }
     .bi-alert-item:last-child { border-bottom: none; }
-    .bi-alert-item i.reason-out { color: #dc2626; }
-    .bi-alert-item i.reason-low { color: #d97706; }
-    .bi-alert-item i.reason-missing { color: #6b7280; }
-    .bi-alert-item .reason-text {
-      font-size: 0.7rem; color: var(--gray-500);
-      margin-right: 4px;
-    }
 
     /* Stats */
-    .bi-stats {
-      display: grid; grid-template-columns: repeat(4, 1fr);
-      gap: 10px; margin-bottom: 16px;
-    }
+    .bi-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 16px; }
     .bi-stat {
       background: var(--white); border-radius: var(--radius-md);
       padding: 14px 10px; box-shadow: var(--shadow-sm);
-      border: 1px solid var(--gray-200);
-      text-align: center; transition: var(--transition);
-      cursor: pointer;
+      border: 1px solid var(--gray-200); text-align: center; transition: var(--transition); cursor: pointer;
     }
     .bi-stat:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--gold-light); }
     .bi-stat.active { border-color: var(--gold); background: linear-gradient(135deg, #fcf9f0, #f8f4e8); }
@@ -198,35 +234,19 @@
     .bi-stat-label { font-size: 0.65rem; color: var(--gray-500); font-weight: 700; line-height: 1.2; }
 
     /* Tabs */
-    .bi-tabs {
-      display: flex; gap: 6px; margin-bottom: 16px;
-      background: var(--white); padding: 8px;
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--gray-200);
-      overflow-x: auto;
-    }
+    .bi-tabs { display: flex; gap: 6px; margin-bottom: 16px; background: var(--white); padding: 8px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); border: 1px solid var(--gray-200); overflow-x: auto; }
     .bi-tab {
       flex-shrink: 0; padding: 10px 16px;
       border: 2px solid var(--gray-200); background: var(--white);
       color: var(--gray-600); border-radius: var(--radius-sm);
       font-family: inherit; font-weight: 800; font-size: 0.82rem;
       cursor: pointer; transition: all 0.25s ease;
-      display: inline-flex; align-items: center; gap: 6px;
-      white-space: nowrap;
+      display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
     }
     .bi-tab:hover { border-color: var(--gold-light); background: var(--gray-50); }
-    .bi-tab.active {
-      background: linear-gradient(135deg, var(--navy), var(--navy-light));
-      color: var(--white); border-color: var(--navy);
-      box-shadow: 0 6px 16px rgba(26,42,74,.25);
-    }
+    .bi-tab.active { background: linear-gradient(135deg, var(--navy), var(--navy-light)); color: var(--white); border-color: var(--navy); box-shadow: 0 6px 16px rgba(26,42,74,.25); }
     .bi-tab.active i { color: var(--gold); }
-    .bi-tab .tab-count {
-      background: rgba(0,0,0,.08); padding: 1px 7px;
-      border-radius: 10px; font-size: 0.65rem; font-weight: 900;
-      min-width: 20px; text-align: center;
-    }
+    .bi-tab .tab-count { background: rgba(0,0,0,.08); padding: 1px 7px; border-radius: 10px; font-size: 0.65rem; font-weight: 900; min-width: 20px; text-align: center; }
     .bi-tab.active .tab-count { background: var(--gold); color: var(--navy); }
 
     /* Filters */
@@ -259,72 +279,31 @@
     }
     .bi-filters .btn-icon-only:hover { border-color: var(--gold); color: var(--gold-dark); }
 
-    /* List */
+    /* Product Cards */
     .bi-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
-
     .bi-card {
-      background: var(--white);
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-sm);
-      border: 1px solid var(--gray-200);
-      padding: 14px 16px;
-      transition: var(--transition);
-      position: relative;
-      overflow: hidden;
-      display: grid;
-      grid-template-columns: 64px 1fr auto;
-      gap: 14px;
-      align-items: center;
+      background: var(--white); border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm); border: 1px solid var(--gray-200);
+      padding: 14px 16px; transition: var(--transition);
+      position: relative; overflow: hidden;
+      display: grid; grid-template-columns: 64px 1fr auto;
+      gap: 14px; align-items: center;
     }
-    .bi-card::before {
-      content: ''; position: absolute; top: 0; right: 0;
-      width: 4px; height: 100%; background: var(--gold);
-    }
+    .bi-card::before { content: ''; position: absolute; top: 0; right: 0; width: 4px; height: 100%; background: var(--gold); }
     .bi-card.status-available::before { background: #22c55e; }
     .bi-card.status-low::before       { background: #f59e0b; }
     .bi-card.status-out::before       { background: #ef4444; }
     .bi-card.status-missing::before   { background: #6b7280; }
-    .bi-card:hover {
-      box-shadow: var(--shadow-md);
-      border-color: var(--gold-light);
-    }
-    .bi-card-img {
-      width: 64px; height: 64px;
-      border-radius: 8px; object-fit: cover;
-      border: 1px solid var(--gray-200);
-    }
+    .bi-card-img { width: 64px; height: 64px; border-radius: 8px; object-fit: cover; border: 1px solid var(--gray-200); }
     .bi-card-info { min-width: 0; }
-    .bi-card-name {
-      font-size: 0.95rem; font-weight: 900;
-      color: var(--navy); margin-bottom: 5px;
-      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-    }
-    .bi-card-meta {
-      display: flex; gap: 10px; flex-wrap: wrap;
-      font-size: 0.72rem; color: var(--gray-500);
-      margin-bottom: 8px;
-    }
+    .bi-card-name { font-size: 0.95rem; font-weight: 900; color: var(--navy); margin-bottom: 5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .bi-card-meta { display: flex; gap: 10px; flex-wrap: wrap; font-size: 0.72rem; color: var(--gray-500); margin-bottom: 8px; }
     .bi-card-meta span { display: inline-flex; align-items: center; gap: 3px; }
     .bi-card-meta i { color: var(--gold); font-size: 0.65rem; }
-
-    .bi-card-numbers {
-      display: flex; gap: 8px;
-    }
-    .bi-number-box {
-      min-width: 68px; text-align: center;
-      padding: 8px;
-      border-radius: 6px;
-      background: var(--gray-50);
-      border: 1px solid var(--gray-200);
-    }
-    .bi-number-lbl {
-      font-size: 0.62rem; font-weight: 800;
-      color: var(--gray-500); margin-bottom: 2px;
-    }
-    .bi-number-val {
-      font-size: 1rem; font-weight: 900;
-      color: var(--navy); line-height: 1;
-    }
+    .bi-card-numbers { display: flex; gap: 8px; }
+    .bi-number-box { min-width: 68px; text-align: center; padding: 8px; border-radius: 6px; background: var(--gray-50); border: 1px solid var(--gray-200); }
+    .bi-number-lbl { font-size: 0.62rem; font-weight: 800; color: var(--gray-500); margin-bottom: 2px; }
+    .bi-number-val { font-size: 1rem; font-weight: 900; color: var(--navy); line-height: 1; }
     .bi-number-box.pieces .bi-number-val { color: var(--navy); }
     .bi-number-box.reserved { background: #fef3c7; border-color: #fcd34d; }
     .bi-number-box.reserved .bi-number-val { color: #d97706; }
@@ -334,18 +313,12 @@
     .bi-number-box.available.low .bi-number-val { color: #d97706; }
     .bi-number-box.available.zero { background: #fef2f2; border-color: #fca5a5; }
     .bi-number-box.available.zero .bi-number-val { color: #dc2626; }
-
-    .bi-card-actions {
-      display: flex; flex-direction: column; gap: 6px;
-      align-items: stretch;
-    }
+    .bi-card-actions { display: flex; flex-direction: column; gap: 6px; align-items: stretch; }
     .bi-action-btn {
-      padding: 8px 12px;
-      border: 1.5px solid;
+      padding: 8px 12px; border: 1.5px solid;
       border-radius: var(--radius-sm);
-      font-family: inherit; font-weight: 800;
-      font-size: 0.72rem; cursor: pointer;
-      transition: all .2s ease;
+      font-family: inherit; font-weight: 800; font-size: 0.72rem;
+      cursor: pointer; transition: all .2s ease;
       display: inline-flex; align-items: center; justify-content: center; gap: 5px;
       background: var(--white); white-space: nowrap;
     }
@@ -354,13 +327,10 @@
     .bi-action-btn.request { border-color: #93c5fd; color: #1e40af; background: #eff6ff; }
     .bi-action-btn.request:hover { background: #3b82f6; color: white; border-color: #2563eb; }
     .bi-action-btn.request:disabled { opacity: 0.4; cursor: not-allowed; }
-
     .bi-status-badge {
       display: inline-flex; align-items: center; gap: 4px;
       padding: 4px 10px; border-radius: var(--radius-full);
-      font-size: 0.7rem; font-weight: 900;
-      white-space: nowrap;
-      margin-top: 6px;
+      font-size: 0.7rem; font-weight: 900; white-space: nowrap; margin-top: 6px;
     }
     .bi-status-badge.status-available { background: #dcfce7; color: #15803d; }
     .bi-status-badge.status-low       { background: #fef3c7; color: #a16207; }
@@ -368,70 +338,30 @@
     .bi-status-badge.status-missing   { background: #f1f5f9; color: #475569; }
 
     /* Empty / Loading */
-    .bi-empty, .bi-loading {
-      text-align: center; padding: 60px 20px;
-      background: var(--white); border-radius: var(--radius-md);
-      border: 2px dashed var(--gray-300);
-    }
-    .bi-empty .empty-icon {
-      width: 90px; height: 90px; border-radius: 50%;
-      background: var(--gray-100); color: var(--gray-400);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 2.2rem; margin: 0 auto 16px;
-    }
+    .bi-empty, .bi-loading { text-align: center; padding: 60px 20px; background: var(--white); border-radius: var(--radius-md); border: 2px dashed var(--gray-300); }
+    .bi-empty .empty-icon { width: 90px; height: 90px; border-radius: 50%; background: var(--gray-100); color: var(--gray-400); display: flex; align-items: center; justify-content: center; font-size: 2.2rem; margin: 0 auto 16px; }
     .bi-empty h3 { font-size: 1.1rem; font-weight: 900; color: var(--navy); margin-bottom: 6px; }
     .bi-empty p { font-size: 0.85rem; color: var(--gray-500); }
     .bi-loading i { font-size: 2rem; color: var(--gold); margin-bottom: 10px; }
 
     /* Modal */
-    .modal-overlay {
-      display: none; position: fixed; inset: 0;
-      background: rgba(15,26,46,.75); backdrop-filter: blur(4px);
-      z-index: 999; justify-content: center; align-items: center;
-      padding: 20px; overflow-y: auto;
-    }
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15,26,46,.75); backdrop-filter: blur(4px); z-index: 999; justify-content: center; align-items: center; padding: 20px; overflow-y: auto; }
     .modal-overlay.show { display: flex; }
-    .modal-content {
-      background: var(--white); border-radius: var(--radius-lg);
-      max-width: 820px; width: 100%;
-      max-height: 92vh; overflow-y: auto;
-      padding: 0; position: relative;
-      animation: modalSlide .3s ease;
-    }
+    .modal-content { background: var(--white); border-radius: var(--radius-lg); max-width: 860px; width: 100%; max-height: 92vh; overflow-y: auto; padding: 0; position: relative; animation: modalSlide .3s ease; }
     .modal-content.medium { max-width: 720px; }
+    .modal-content.small { max-width: 500px; }
     @keyframes modalSlide { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-    .modal-header {
-      padding: 18px 22px;
-      background: linear-gradient(135deg, var(--navy), var(--navy-light));
-      color: var(--white);
-      display: flex; justify-content: space-between; align-items: center;
-      position: sticky; top: 0; z-index: 2;
-    }
-    .modal-header h2 {
-      font-size: 1.05rem; font-weight: 900; margin: 0;
-      display: flex; align-items: center; gap: 8px;
-    }
+    .modal-header { padding: 18px 22px; background: linear-gradient(135deg, var(--navy), var(--navy-light)); color: var(--white); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 2; }
+    .modal-header h2 { font-size: 1.05rem; font-weight: 900; margin: 0; display: flex; align-items: center; gap: 8px; }
     .modal-header h2 i { color: var(--gold); }
-    .modal-close {
-      background: rgba(255,255,255,.15); border: none;
-      color: var(--white); width: 32px; height: 32px;
-      border-radius: 50%; cursor: pointer; font-size: 1.1rem;
-      transition: var(--transition);
-    }
+    .modal-header.green { background: linear-gradient(135deg, #15803d, #22c55e); }
+    .modal-header.orange { background: linear-gradient(135deg, #c2410c, #f97316); }
+    .modal-header.blue { background: linear-gradient(135deg, #1e40af, #3b82f6); }
+    .modal-close { background: rgba(255,255,255,.15); border: none; color: var(--white); width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 1.1rem; transition: var(--transition); }
     .modal-close:hover { background: var(--danger); transform: rotate(90deg); }
     .modal-body { padding: 20px 22px; }
-    .modal-actions {
-      padding: 16px 22px; border-top: 2px solid var(--gray-100);
-      display: flex; gap: 10px; justify-content: flex-end;
-      position: sticky; bottom: 0; background: var(--white);
-      flex-wrap: wrap;
-    }
-    .btn {
-      padding: 9px 18px; border: none; border-radius: var(--radius-sm);
-      font-family: inherit; font-weight: 800; font-size: 0.85rem;
-      cursor: pointer; transition: var(--transition);
-      display: inline-flex; align-items: center; gap: 6px;
-    }
+    .modal-actions { padding: 16px 22px; border-top: 2px solid var(--gray-100); display: flex; gap: 10px; justify-content: flex-end; position: sticky; bottom: 0; background: var(--white); flex-wrap: wrap; }
+    .btn { padding: 9px 18px; border: none; border-radius: var(--radius-sm); font-family: inherit; font-weight: 800; font-size: 0.85rem; cursor: pointer; transition: var(--transition); display: inline-flex; align-items: center; gap: 6px; }
     .btn:disabled { opacity: 0.5; cursor: not-allowed; }
     .btn-outline { background: transparent; border: 2px solid var(--gray-300); color: var(--gray-700); }
     .btn-outline:hover { border-color: var(--gold); color: var(--gold-dark); }
@@ -441,84 +371,73 @@
     .btn-primary:hover { background: #1e40af; }
     .btn-success { background: #16a34a; color: white; }
     .btn-success:hover { background: #15803d; }
+    .btn-danger { background: var(--danger); color: white; }
+    .btn-danger:hover { background: #b91c1c; }
 
-    /* Detail Modal */
-    .bi-hero {
-      display: flex; gap: 16px; align-items: center;
-      padding: 16px;
-      background: linear-gradient(135deg, #f8fafc, #eef2f7);
-      border-radius: 12px; margin-bottom: 16px;
+    /* Receipt Items (for receive modal) */
+    .receipt-item-row {
+      display: grid; grid-template-columns: 48px 1fr 100px 100px;
+      gap: 10px; align-items: center; padding: 12px;
+      border: 1px solid var(--gray-200); border-radius: 8px;
+      margin-bottom: 8px; background: white;
+      transition: var(--transition);
     }
-    .bi-hero img { width: 96px; height: 96px; border-radius: 10px; object-fit: cover; border: 2px solid white; box-shadow: 0 4px 12px rgba(0,0,0,.1); }
-    .bi-hero-info { flex: 1; min-width: 0; }
-    .bi-hero-name { font-size: 1.15rem; font-weight: 900; color: var(--navy); margin-bottom: 6px; }
-    .bi-hero-meta { display: flex; gap: 12px; flex-wrap: wrap; font-size: 0.78rem; color: var(--gray-600); }
-    .bi-hero-meta span { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; background: white; border-radius: 12px; border: 1px solid var(--gray-200); }
-    .bi-hero-meta i { color: var(--gold); }
-
-    .bi-detail-box {
-      background: white;
-      border: 2px solid var(--gray-200);
-      border-radius: 10px; padding: 16px;
-      margin-bottom: 12px;
+    .receipt-item-row.changed { background: #fef9e7; border-color: #fbbf24; }
+    .receipt-item-row img { width: 48px; height: 48px; border-radius: 6px; object-fit: cover; border: 1px solid var(--gray-200); }
+    .receipt-item-info { min-width: 0; }
+    .receipt-item-name { font-size: 0.85rem; font-weight: 800; color: var(--navy); margin-bottom: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .receipt-item-meta { font-size: 0.72rem; color: var(--gray-500); }
+    .receipt-item-meta strong { color: var(--gold-dark); }
+    .receipt-qty-box { display: flex; flex-direction: column; gap: 2px; }
+    .receipt-qty-box label { font-size: 0.65rem; font-weight: 800; color: var(--gray-500); }
+    .receipt-qty-box input { padding: 8px; border: 2px solid var(--gray-200); border-radius: 6px; text-align: center; font-family: inherit; font-weight: 900; font-size: 0.9rem; outline: none; width: 100%; }
+    .receipt-qty-box input:focus { border-color: var(--gold); }
+    .receipt-qty-box input.error { border-color: #dc2626; background: #fef2f2; }
+    .receipt-summary-box {
+      background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+      border: 2px solid #86efac; border-radius: 12px;
+      padding: 14px 18px; margin-top: 14px;
     }
-    .bi-detail-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-    .bi-detail-cell { text-align: center; padding: 10px; background: var(--gray-50); border-radius: 6px; }
-    .bi-detail-lbl { font-size: 0.68rem; font-weight: 800; color: var(--gray-500); margin-bottom: 4px; }
-    .bi-detail-val { font-size: 1.15rem; font-weight: 900; color: var(--navy); }
+    .receipt-summary-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 0.9rem; }
+    .receipt-summary-row.total { border-top: 2px solid #86efac; margin-top: 6px; padding-top: 10px; font-size: 1rem; font-weight: 900; color: #166534; }
+    .receipt-summary-row .val.green { color: #16a34a; font-weight: 900; }
+    .receipt-summary-row .val.orange { color: #d97706; font-weight: 900; }
+    .receipt-summary-row .val.red { color: #dc2626; font-weight: 900; }
 
-    /* Transfer Request Modal */
+    /* Info boxes */
+    .info-box { border-radius: 10px; padding: 12px 16px; margin-bottom: 14px; font-size: 0.85rem; display: flex; align-items: flex-start; gap: 10px; }
+    .info-box i { font-size: 1.1rem; flex-shrink: 0; margin-top: 2px; }
+    .info-box.blue { background: #eff6ff; border: 1px solid #93c5fd; color: #1e40af; }
+    .info-box.yellow { background: #fef3c7; border: 1px solid #fbbf24; color: #92400e; }
+    .info-box.red { background: #fef2f2; border: 1px solid #fca5a5; color: #991b1b; }
+    .info-box.green { background: #f0fdf4; border: 1px solid #86efac; color: #166534; }
+
+    /* Transfer Request Item Rows */
     .tr-item-row {
-      display: grid;
-      grid-template-columns: 24px 48px 1fr 90px 90px;
-      gap: 10px; align-items: center;
-      padding: 10px; border: 1px solid var(--gray-200);
-      border-radius: 8px; margin-bottom: 8px;
-      background: white;
+      display: grid; grid-template-columns: 24px 48px 1fr 110px;
+      gap: 10px; align-items: center; padding: 10px;
+      border: 1px solid var(--gray-200); border-radius: 8px;
+      margin-bottom: 8px; background: white;
     }
     .tr-item-row.checked { background: #f0fdf4; border-color: #86efac; }
-    .tr-item-row input[type="checkbox"] {
-      width: 20px; height: 20px;
-      accent-color: var(--gold); cursor: pointer;
-    }
-    .tr-item-row img {
-      width: 48px; height: 48px; border-radius: 6px;
-      object-fit: cover; border: 1px solid var(--gray-200);
-    }
+    .tr-item-row input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--gold); cursor: pointer; }
+    .tr-item-row img { width: 48px; height: 48px; border-radius: 6px; object-fit: cover; border: 1px solid var(--gray-200); }
     .tr-item-info { min-width: 0; }
-    .tr-item-name {
-      font-size: 0.85rem; font-weight: 800;
-      color: var(--navy); margin-bottom: 3px;
-      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-    }
+    .tr-item-name { font-size: 0.85rem; font-weight: 800; color: var(--navy); margin-bottom: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .tr-item-meta { font-size: 0.7rem; color: var(--gray-500); }
-    .tr-item-qty input {
-      width: 100%; padding: 7px;
-      border: 2px solid var(--gray-200);
-      border-radius: 6px; text-align: center;
-      font-family: inherit; font-weight: 900;
-      font-size: 0.9rem; outline: none;
-    }
+    .tr-item-qty input { width: 100%; padding: 7px; border: 2px solid var(--gray-200); border-radius: 6px; text-align: center; font-family: inherit; font-weight: 900; font-size: 0.9rem; outline: none; }
     .tr-item-qty input:focus { border-color: var(--gold); }
     .tr-item-qty small { display: block; text-align: center; font-size: 0.6rem; color: var(--gray-500); margin-top: 2px; }
 
-    .tr-summary {
-      background: #eff6ff;
-      border: 2px solid #93c5fd;
-      border-radius: 10px;
-      padding: 12px 16px;
-      margin-top: 12px;
-      display: flex; justify-content: space-between; align-items: center;
-      font-size: 0.9rem;
-    }
-    .tr-summary strong { color: #1e40af; font-size: 1.1rem; }
-
+    /* Responsive */
     @media (max-width: 1200px) {
       .bi-stats { grid-template-columns: repeat(2, 1fr); }
       .bi-branch-info { grid-template-columns: repeat(3, 1fr); }
       .bi-card { grid-template-columns: 64px 1fr; }
       .bi-card-actions { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; }
       .bi-card-numbers { grid-column: 1 / -1; justify-content: space-around; padding-top: 8px; border-top: 1px solid var(--gray-100); }
+      .receipt-item-row { grid-template-columns: 48px 1fr; }
+      .receipt-qty-box { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
     }
     @media (max-width: 768px) {
       .bi-header { padding: 16px; }
@@ -535,12 +454,13 @@
       .bi-card-img { width: 48px; height: 48px; }
       .bi-number-box { min-width: 54px; padding: 6px; }
       .bi-number-val { font-size: 0.9rem; }
-      .bi-action-btn { font-size: 0.7rem; padding: 6px 10px; }
+      .bi-transit-section { padding: 14px; }
+      .bi-transit-title { font-size: 0.92rem; }
+      .bi-transit-actions .bi-transit-btn { flex: 1; justify-content: center; font-size: 0.78rem; padding: 9px 12px; }
       .modal-content { margin: 10px; }
       .tr-item-row { grid-template-columns: 20px 40px 1fr; }
       .tr-item-qty { grid-column: 1 / -1; display: flex; align-items: center; gap: 8px; }
       .tr-item-qty input { width: 100px; }
-      .tr-summary { flex-direction: column; gap: 8px; text-align: center; }
     }
   </style>
 </head>
@@ -559,7 +479,7 @@
             <div class="bi-header-icon"><i class="fas fa-store-alt"></i></div>
             <div>
               <h1>مخزون الفرع</h1>
-              <p>تفاصيل دقيقة لفرع واحد · الفعلي / المحجوز / المتاح</p>
+              <p>تفاصيل دقيقة لفرع واحد · استلام + طلب نقل + متابعة</p>
             </div>
           </div>
           <div class="bi-header-actions">
@@ -567,16 +487,15 @@
               <i class="fas fa-sync-alt"></i> تحديث
             </button>
             <button class="btn" onclick="exportCSV()">
-              <i class="fas fa-file-csv"></i> تصدير CSV
+              <i class="fas fa-file-csv"></i> CSV
             </button>
-            <a href="/gomla/admin/transfers.html" class="btn">
-              <i class="fas fa-exchange-alt"></i> صفحة النقل
-            </a>
+            <button class="btn gold" id="cashierModeBtn" onclick="switchToCashierMode()">
+              <i class="fas fa-cash-register"></i> دخول كوضع الكاشير
+            </button>
           </div>
         </div>
       </div>
 
-      <!-- Branch Selector -->
       <div class="bi-branch-panel">
         <div class="bi-branch-row">
           <select id="branchSelect" onchange="onBranchChange()">
@@ -587,33 +506,18 @@
           </div>
         </div>
         <div class="bi-branch-info" id="branchInfo" style="display:none;">
-          <div class="bi-branch-info-item">
-            <div class="bi-branch-info-lbl">النوع</div>
-            <div class="bi-branch-info-val" id="branchInfoType">—</div>
-          </div>
-          <div class="bi-branch-info-item">
-            <div class="bi-branch-info-lbl">المدير</div>
-            <div class="bi-branch-info-val" id="branchInfoManager">—</div>
-          </div>
-          <div class="bi-branch-info-item">
-            <div class="bi-branch-info-lbl">المنتجات</div>
-            <div class="bi-branch-info-val" id="branchInfoProducts">—</div>
-          </div>
-          <div class="bi-branch-info-item">
-            <div class="bi-branch-info-lbl">إجمالي القطع</div>
-            <div class="bi-branch-info-val" id="branchInfoPieces">—</div>
-          </div>
-          <div class="bi-branch-info-item">
-            <div class="bi-branch-info-lbl">العنوان</div>
-            <div class="bi-branch-info-val" id="branchInfoAddress" style="font-size:0.75rem;">—</div>
-          </div>
+          <div class="bi-branch-info-item"><div class="bi-branch-info-lbl">النوع</div><div class="bi-branch-info-val" id="branchInfoType">—</div></div>
+          <div class="bi-branch-info-item"><div class="bi-branch-info-lbl">المدير</div><div class="bi-branch-info-val" id="branchInfoManager">—</div></div>
+          <div class="bi-branch-info-item"><div class="bi-branch-info-lbl">المنتجات</div><div class="bi-branch-info-val" id="branchInfoProducts">—</div></div>
+          <div class="bi-branch-info-item"><div class="bi-branch-info-lbl">إجمالي القطع</div><div class="bi-branch-info-val" id="branchInfoPieces">—</div></div>
+          <div class="bi-branch-info-item"><div class="bi-branch-info-lbl">العنوان</div><div class="bi-branch-info-val" id="branchInfoAddress" style="font-size:0.75rem;">—</div></div>
         </div>
       </div>
 
-      <!-- Smart Alert Banner -->
+      <div id="inTransitContainer"></div>
+
       <div id="smartAlertContainer"></div>
 
-      <!-- Stats -->
       <div class="bi-stats" id="biStats">
         <div class="bi-stat active" onclick="filterByStatus('all', event)">
           <div class="bi-stat-icon navy"><i class="fas fa-boxes"></i></div>
@@ -637,40 +541,23 @@
         </div>
       </div>
 
-      <!-- Tabs -->
       <div class="bi-tabs" id="biTabs">
-        <button class="bi-tab active" data-tab="all" onclick="switchTab('all')">
-          <i class="fas fa-list"></i> الكل <span class="tab-count">0</span>
-        </button>
-        <button class="bi-tab" data-tab="available" onclick="switchTab('available')">
-          <i class="fas fa-check-circle"></i> متاح <span class="tab-count">0</span>
-        </button>
-        <button class="bi-tab" data-tab="low" onclick="switchTab('low')">
-          <i class="fas fa-exclamation-triangle"></i> منخفض <span class="tab-count">0</span>
-        </button>
-        <button class="bi-tab" data-tab="out" onclick="switchTab('out')">
-          <i class="fas fa-times-circle"></i> نافد <span class="tab-count">0</span>
-        </button>
+        <button class="bi-tab active" data-tab="all" onclick="switchTab('all')"><i class="fas fa-list"></i> الكل <span class="tab-count">0</span></button>
+        <button class="bi-tab" data-tab="available" onclick="switchTab('available')"><i class="fas fa-check-circle"></i> متاح <span class="tab-count">0</span></button>
+        <button class="bi-tab" data-tab="low" onclick="switchTab('low')"><i class="fas fa-exclamation-triangle"></i> منخفض <span class="tab-count">0</span></button>
+        <button class="bi-tab" data-tab="out" onclick="switchTab('out')"><i class="fas fa-times-circle"></i> نافد <span class="tab-count">0</span></button>
       </div>
 
-      <!-- Filters -->
       <div class="bi-filters">
         <div class="bi-search">
           <input type="text" id="biSearch" placeholder="بحث بالاسم / الباركود / SKU..." oninput="onSearchInput()">
           <i class="fas fa-search"></i>
         </div>
-        <select id="biCategory" onchange="applyFilters()">
-          <option value="">كل التصنيفات</option>
-        </select>
-        <select id="biBrand" onchange="applyFilters()">
-          <option value="">كل البراندات</option>
-        </select>
-        <button class="btn-icon-only" onclick="resetFilters()" title="إعادة تعيين">
-          <i class="fas fa-undo"></i>
-        </button>
+        <select id="biCategory" onchange="applyFilters()"><option value="">كل التصنيفات</option></select>
+        <select id="biBrand" onchange="applyFilters()"><option value="">كل البراندات</option></select>
+        <button class="btn-icon-only" onclick="resetFilters()" title="إعادة تعيين"><i class="fas fa-undo"></i></button>
       </div>
 
-      <!-- List -->
       <div class="bi-list" id="biList">
         <div class="bi-loading"><i class="fas fa-spinner fa-spin"></i><p>جاري تحميل المخزون...</p></div>
       </div>
@@ -693,32 +580,24 @@
 
   <script>
   // ============================================================
-  // admin/branch-inventory.html v1.0
-  // ✅ Read-only + Smart Alert + Transfer Request
+  // admin/branch-inventory.html v1.1
+  // ✅ في الطريق + استلام + دخول كوضع الكاشير
   // ============================================================
 
   const biState = {
-    role: 'guest',
-    isSuper: false,
-    isAdminPlus: false,
-    isAdmin: false,
-    adminId: '',
-    adminName: '',
-    adminRole: '',
+    role: 'guest', isSuper: false, isAdminPlus: false, isAdmin: false,
+    adminId: '', adminName: '', adminRole: '',
     branches: [],
     currentBranchId: 'WH',
     currentBranch: null,
-    products: [],
-    categories: [],
-    brands: [],
-    invMap: {},         // productId -> { branchId -> inv }
-    merged: [],         // list of { product, wh, branch, totals, status }
-    filtered: [],
-    alertItems: [],     // smart alert list
+    products: [], categories: [], brands: [],
+    invMap: {}, merged: [], filtered: [],
+    alertItems: [], inTransit: [],
     currentTab: 'all',
     searchDebounce: null,
-    loading: false,
-    alertExpanded: false
+    loading: false, alertExpanded: false,
+    receiptTarget: null, receiptItems: [],
+    _transferItems: [], _directPickerList: []
   };
 
   const STATUS_META = {
@@ -728,34 +607,26 @@
     missing:   { label: 'لم يصل', icon: 'question-circle', cls: 'status-missing' }
   };
 
-  // ============================================================
-  // Init
-  // ============================================================
   document.addEventListener('DOMContentLoaded', async () => {
     if (!protectAnyAdminPage()) return;
 
-    try {
-      const user = getCurrentUser();
-      biState.role = user.data?.role || 'admin';
-      biState.isSuper = biState.role === 'super';
-      biState.isAdminPlus = biState.role === 'admin_plus';
-      biState.isAdmin = ['super', 'admin_plus', 'admin'].includes(biState.role);
-      biState.adminId = user.data?.id || user.data?.uid || '';
-      biState.adminName = user.data?.name || '';
-      biState.adminRole = biState.role;
+    const user = getCurrentUser();
+    biState.role = user.data?.role || 'admin';
+    biState.isSuper = biState.role === 'super';
+    biState.isAdminPlus = biState.role === 'admin_plus';
+    biState.isAdmin = ['super', 'admin_plus', 'admin'].includes(biState.role);
+    biState.adminId = user.data?.id || user.data?.uid || '';
+    biState.adminName = user.data?.name || '';
+    biState.adminRole = biState.role;
 
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeAllModals();
-      });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeAllModals();
+    });
 
-      await loadBranches();
-      await loadData();
-      console.log('✅ branch-inventory v1.0 ready — role:', biState.role);
+    await loadBranches();
+    await loadData();
 
-    } catch (err) {
-      console.error('Init error:', err);
-      window.showToast('خطأ في تحميل الصفحة', 'error');
-    }
+    console.log('✅ branch-inventory v1.1 ready — role:', biState.role);
   });
 
   // ============================================================
@@ -774,12 +645,9 @@
 
       const sel = document.getElementById('branchSelect');
       if (sel) {
-        sel.innerHTML = biState.branches.map(b => `
-          <option value="${b.id}">
-            ${b.isWarehouse ? '🏭' : '🏪'} ${esc(b.name || b.id)}
-          </option>
-        `).join('');
-        // Default: WH
+        sel.innerHTML = biState.branches.map(b =>
+          `<option value="${b.id}">${b.isWarehouse ? '🏭' : '🏪'} ${esc(b.name || b.id)}</option>`
+        ).join('');
         const wh = biState.branches.find(b => b.isWarehouse);
         if (wh) sel.value = wh.id;
         biState.currentBranchId = sel.value;
@@ -801,10 +669,12 @@
     updateStats();
     updateTabsCounts();
     applyFilters();
+    // Reload in-transit for new branch
+    loadInTransit();
   }
 
   // ============================================================
-  // Load Data
+  // Load All Data
   // ============================================================
   async function loadData() {
     if (biState.loading) return;
@@ -814,7 +684,7 @@
     if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> تحميل...'; }
 
     const list = document.getElementById('biList');
-    if (list) list.innerHTML = `<div class="bi-loading"><i class="fas fa-spinner fa-spin"></i><p>جاري تحميل المخزون...</p></div>`;
+    if (list) list.innerHTML = `<div class="bi-loading"><i class="fas fa-spinner fa-spin"></i><p>جاري التحميل...</p></div>`;
 
     try {
       const [pSnap, iSnap, catSnap, brandSnap] = await Promise.all([
@@ -824,12 +694,10 @@
         db.collection('brands').orderBy('name').get().catch(() => ({ forEach: () => {} }))
       ]);
 
-      // Products
       biState.products = [];
       pSnap.forEach(doc => biState.products.push({ id: doc.id, ...doc.data() }));
       biState.products.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ar'));
 
-      // Inventory Map
       biState.invMap = {};
       iSnap.forEach(doc => {
         const d = doc.data();
@@ -838,7 +706,6 @@
         biState.invMap[d.productId][d.branchId] = d;
       });
 
-      // Categories + Brands
       biState.categories = [];
       catSnap.forEach(doc => biState.categories.push({ id: doc.id, ...doc.data() }));
       biState.categories.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ar'));
@@ -849,13 +716,13 @@
 
       populateCategoryFilter();
       populateBrandFilter();
-
       rebuildMerged();
       renderBranchInfo();
       renderSmartAlert();
       updateStats();
       updateTabsCounts();
       applyFilters();
+      loadInTransit();
 
       biState.loading = false;
       if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-sync-alt"></i> تحديث'; }
@@ -863,7 +730,7 @@
     } catch (err) {
       biState.loading = false;
       if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-sync-alt"></i> تحديث'; }
-      console.error('loadData error:', err);
+      console.error('loadData:', err);
       if (list) list.innerHTML = `
         <div class="bi-empty">
           <div class="empty-icon"><i class="fas fa-exclamation-triangle"></i></div>
@@ -874,7 +741,632 @@
   }
 
   // ============================================================
-  // Rebuild Merged (for current branch)
+  // 🆕 Load In-Transit for current branch
+  // ============================================================
+  let _unsubTransit = null;
+  function loadInTransit() {
+    if (_unsubTransit) _unsubTransit();
+
+    const bid = biState.currentBranchId;
+    if (!bid) { biState.inTransit = []; renderInTransitSection(); return; }
+
+    // WH لا يستقبل شحنات (هو المصدر)
+    const isWH = biState.branches.find(b => b.id === bid)?.isWarehouse;
+    if (isWH) { biState.inTransit = []; renderInTransitSection(); return; }
+
+    _unsubTransit = db.collection('transfers')
+      .where('toBranchId', '==', bid)
+      .where('status', '==', 'in_transit')
+      .onSnapshot(snap => {
+        biState.inTransit = [];
+        snap.forEach(doc => biState.inTransit.push({ id: doc.id, ...doc.data() }));
+        biState.inTransit.sort((a, b) => {
+          const aT = a.createdAt?.toMillis?.() || 0;
+          const bT = b.createdAt?.toMillis?.() || 0;
+          return bT - aT;
+        });
+        renderInTransitSection();
+      }, err => console.warn('in_transit:', err));
+  }
+
+  // ============================================================
+  // 🆕 Render In-Transit Section
+  // ============================================================
+  function renderInTransitSection() {
+    const container = document.getElementById('inTransitContainer');
+    if (!container) return;
+
+    if (biState.inTransit.length === 0) {
+      container.innerHTML = '';
+      return;
+    }
+
+    const cardsHtml = biState.inTransit.map(tr => {
+      const ageMs = tr.createdAt ? (Date.now() - toMs(tr.createdAt)) : 0;
+      const ageHours = Math.round(ageMs / (1000 * 60 * 60));
+      const isLate = ageHours >= 24;
+
+      const itemsChips = (tr.items || []).slice(0, 5).map(i =>
+        `<span class="bi-transit-item-chip"><i class="fas fa-box"></i> ${esc(i.productName || '')} <strong>×${i.approvedPieces || 0}</strong></span>`
+      ).join('');
+      const moreChips = (tr.items || []).length > 5 ? `<span class="bi-transit-item-chip"><i class="fas fa-plus"></i> ${(tr.items || []).length - 5} أكثر</span>` : '';
+
+      return `
+        <div class="bi-transit-card">
+          <div class="bi-transit-card-head">
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+              <span class="bi-transit-num">#${tr.id.slice(-8).toUpperCase()}</span>
+              ${tr.isDirectTransfer ? `<span style="background:#ede9fe;color:#6d28d9;padding:2px 8px;border-radius:12px;font-size:0.65rem;font-weight:900;">مباشر</span>` : ''}
+              ${isLate ? `<span class="bi-late-badge"><i class="fas fa-exclamation-triangle"></i> متأخرة ${ageHours} ساعة</span>` : ''}
+            </div>
+          </div>
+
+          <div class="bi-transit-route">
+            <i class="fas fa-warehouse"></i>
+            <span>من: <strong>${esc(tr.fromBranchName || tr.fromBranchId)}</strong></span>
+            <i class="fas fa-arrow-left" style="margin-right:auto;"></i>
+            <span>إلى: <strong>${esc(tr.toBranchName || tr.toBranchId)}</strong></span>
+          </div>
+
+          <div class="bi-transit-items">${itemsChips}${moreChips}</div>
+
+          <div style="font-size:0.78rem;color:#7c2d12;margin-bottom:10px;">
+            <i class="fas fa-cubes"></i> إجمالي: <strong>${tr.totalApprovedPieces || 0} قطعة</strong>
+            <span style="margin-right:12px;"><i class="fas fa-clock"></i> ${tr.createdAt ? formatDateTime(tr.createdAt) : '—'}</span>
+          </div>
+
+          <div class="bi-transit-actions">
+            <button class="bi-transit-btn receive" onclick="openReceiveModal('${tr.id}')">
+              <i class="fas fa-check-double"></i> تأكيد الاستلام
+            </button>
+            <button class="bi-transit-btn print" onclick="printTransferReceipt('${tr.id}')">
+              <i class="fas fa-print"></i> طباعة إذن
+            </button>
+            <button class="bi-transit-btn details" onclick="openTransitDetails('${tr.id}')">
+              <i class="fas fa-eye"></i> تفاصيل
+            </button>
+          </div>
+        </div>`;
+    }).join('');
+
+    container.innerHTML = `
+      <div class="bi-transit-section">
+        <div class="bi-transit-head">
+          <div class="bi-transit-title">
+            <div class="icon-badge"><i class="fas fa-truck"></i></div>
+            <div>
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span>بضاعة في الطريق إلى ${esc(biState.currentBranch?.name || 'الفرع')}</span>
+                <span class="bi-transit-count">${biState.inTransit.length}</span>
+              </div>
+              <div class="bi-transit-subtitle">يمكنك استلامها مباشرة الآن — أو انتظار الكاشير</div>
+            </div>
+          </div>
+        </div>
+        <div class="bi-transit-list">${cardsHtml}</div>
+      </div>`;
+  }
+
+  // ============================================================
+  // 🆕 Receive Modal
+  // ============================================================
+  function openReceiveModal(trId) {
+    const tr = biState.inTransit.find(t => t.id === trId);
+    if (!tr) return;
+
+    biState.receiptTarget = tr;
+    biState.receiptItems = (tr.items || []).map(i => ({
+      productId: i.productId,
+      productName: i.productName,
+      productImage: i.productImage,
+      unit: i.unit || 'قطعة',
+      piecesPerUnit: i.piecesPerUnit || 1,
+      approvedPieces: i.approvedPieces || 0,
+      receivedPieces: i.approvedPieces || 0,
+      damagedPieces: 0,
+      notes: ''
+    }));
+
+    renderReceiveModal();
+  }
+
+  function renderReceiveModal() {
+    const tr = biState.receiptTarget;
+    if (!tr) return;
+
+    const itemsHtml = biState.receiptItems.map((it, idx) => {
+      const accounted = (it.receivedPieces || 0) + (it.damagedPieces || 0);
+      const over = accounted > it.approvedPieces;
+      const changed = it.receivedPieces !== it.approvedPieces || it.damagedPieces > 0;
+      return `
+        <div class="receipt-item-row ${changed ? 'changed' : ''}">
+          <img src="${it.productImage || '/gomla/assets/images/no-image.png'}" onerror="this.src='/gomla/assets/images/no-image.png'">
+          <div class="receipt-item-info">
+            <div class="receipt-item-name">${esc(it.productName)}</div>
+            <div class="receipt-item-meta">معتمد: <strong>${it.approvedPieces}</strong> ${esc(it.unit)} · ${it.piecesPerUnit} قطعة/وحدة</div>
+          </div>
+          <div class="receipt-qty-box">
+            <label>✅ مستلم</label>
+            <input type="number" min="0" max="${it.approvedPieces}" value="${it.receivedPieces}"
+              class="${over ? 'error' : ''}"
+              onchange="onReceiptReceivedChange(${idx}, this.value)">
+          </div>
+          <div class="receipt-qty-box">
+            <label>⚠️ تالف</label>
+            <input type="number" min="0" max="${it.approvedPieces}" value="${it.damagedPieces}"
+              class="${over ? 'error' : ''}"
+              onchange="onReceiptDamagedChange(${idx}, this.value)">
+          </div>
+        </div>`;
+    }).join('');
+
+    const totalApproved = biState.receiptItems.reduce((s, i) => s + i.approvedPieces, 0);
+    const totalReceived = biState.receiptItems.reduce((s, i) => s + (i.receivedPieces || 0), 0);
+    const totalDamaged = biState.receiptItems.reduce((s, i) => s + (i.damagedPieces || 0), 0);
+    const totalMissing = Math.max(0, totalApproved - totalReceived - totalDamaged);
+    const hasError = biState.receiptItems.some(i => (i.receivedPieces + i.damagedPieces) > i.approvedPieces);
+
+    let statusLabel, statusCls;
+    if (totalReceived === 0 && totalDamaged === 0) {
+      statusLabel = '⚠️ رفض كامل — سيتم رفض الشحنة';
+      statusCls = 'red';
+    } else if (totalMissing === 0) {
+      statusLabel = '✅ استلام كامل' + (totalDamaged > 0 ? ` (مع ${totalDamaged} تالف)` : '');
+      statusCls = 'green';
+    } else {
+      statusLabel = `⚠️ استلام جزئي — ناقص ${totalMissing} قطعة`;
+      statusCls = 'orange';
+    }
+
+    const html = `
+      <div class="modal-overlay show" id="receiveModal" onclick="closeModal('receiveModal')">
+        <div class="modal-content" onclick="event.stopPropagation()">
+          <div class="modal-header green">
+            <h2><i class="fas fa-check-double"></i> تأكيد استلام الشحنة</h2>
+            <button class="modal-close" onclick="closeModal('receiveModal')">&times;</button>
+          </div>
+          <div class="modal-body">
+
+            <div class="info-box blue">
+              <i class="fas fa-info-circle"></i>
+              <div>
+                <div style="font-weight:900;margin-bottom:4px;">الشحنة #${tr.id.slice(-8).toUpperCase()}</div>
+                <div>من: <strong>${esc(tr.fromBranchName || tr.fromBranchId)}</strong> → إلى: <strong>${esc(tr.toBranchName || tr.toBranchId)}</strong></div>
+                <div style="font-size:0.75rem;opacity:0.85;margin-top:4px;">
+                  عدّل الكميات المستلمة والتالفة (إن وجدت) قبل التأكيد النهائي.
+                </div>
+              </div>
+            </div>
+
+            <div class="info-box yellow">
+              <i class="fas fa-user-shield"></i>
+              <div>
+                <strong>أنت تستلم بصفتك:</strong> ${esc(biState.adminRole === 'super' ? 'سوبر أدمن' : 'أدمن بلص')}
+                <div style="font-size:0.72rem;opacity:0.85;margin-top:2px;">سيُسجّل اسمك ودورك في سجل الشحنة.</div>
+              </div>
+            </div>
+
+            ${hasError ? `
+              <div class="info-box red">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div><strong>خطأ:</strong> مجموع (مستلم + تالف) لبعض المنتجات يتجاوز الكمية المعتمدة.</div>
+              </div>
+            ` : ''}
+
+            <h4 style="font-size:0.9rem;font-weight:900;color:var(--navy);margin-bottom:10px;">
+              <i class="fas fa-boxes" style="color:var(--gold);"></i> المنتجات
+            </h4>
+            <div id="receiptItemsList">${itemsHtml}</div>
+
+            <div class="receipt-summary-box">
+              <div class="receipt-summary-row"><span>إجمالي معتمد</span><strong>${totalApproved} قطعة</strong></div>
+              <div class="receipt-summary-row"><span>✅ مستلم (سيُضاف للمخزون)</span><span class="val green">${totalReceived} قطعة</span></div>
+              ${totalDamaged > 0 ? `<div class="receipt-summary-row"><span>⚠️ تالف (سيُسجل في damages)</span><span class="val orange">${totalDamaged} قطعة</span></div>` : ''}
+              ${totalMissing > 0 ? `<div class="receipt-summary-row"><span>❌ ناقص</span><span class="val red">${totalMissing} قطعة</span></div>` : ''}
+              <div class="receipt-summary-row total">
+                <span>الحالة</span>
+                <span style="color:${statusCls === 'green' ? '#16a34a' : statusCls === 'orange' ? '#d97706' : '#dc2626'};">${statusLabel}</span>
+              </div>
+            </div>
+
+            <div style="margin-top:14px;">
+              <label style="display:block;font-weight:800;font-size:0.85rem;margin-bottom:6px;">ملاحظات الاستلام (اختياري)</label>
+              <textarea id="receiptNotes" maxlength="400" placeholder="أي ملاحظات عن حالة البضاعة..."
+                style="width:100%;padding:10px 12px;border:2px solid var(--gray-200);border-radius:6px;font-family:inherit;font-size:0.88rem;min-height:60px;resize:vertical;"></textarea>
+            </div>
+
+          </div>
+          <div class="modal-actions">
+            <button class="btn btn-outline" onclick="closeModal('receiveModal')">إلغاء</button>
+            <button class="btn btn-success" id="confirmReceiveBtn" onclick="confirmReceipt()"
+              ${hasError ? 'disabled' : ''}>
+              <i class="fas fa-check"></i> تأكيد الاستلام
+            </button>
+          </div>
+        </div>
+      </div>`;
+
+    document.getElementById('modalContainer').innerHTML = html;
+    document.body.style.overflow = 'hidden';
+  }
+
+  function onReceiptReceivedChange(idx, val) {
+    const it = biState.receiptItems[idx];
+    if (!it) return;
+    let q = parseInt(val) || 0;
+    if (q < 0) q = 0;
+    if (q > it.approvedPieces) q = it.approvedPieces;
+    it.receivedPieces = q;
+    if (it.receivedPieces + it.damagedPieces > it.approvedPieces) {
+      it.damagedPieces = Math.max(0, it.approvedPieces - it.receivedPieces);
+    }
+    renderReceiveModal();
+  }
+
+  function onReceiptDamagedChange(idx, val) {
+    const it = biState.receiptItems[idx];
+    if (!it) return;
+    let q = parseInt(val) || 0;
+    if (q < 0) q = 0;
+    if (q > it.approvedPieces) q = it.approvedPieces;
+    it.damagedPieces = q;
+    if (it.receivedPieces + it.damagedPieces > it.approvedPieces) {
+      it.receivedPieces = Math.max(0, it.approvedPieces - it.damagedPieces);
+    }
+    renderReceiveModal();
+  }
+
+  // ============================================================
+  // 🆕 Confirm Receipt — Transaction (reads first!)
+  // ============================================================
+  async function confirmReceipt() {
+    const tr = biState.receiptTarget;
+    if (!tr) return;
+
+    const notes = (document.getElementById('receiptNotes')?.value || '').trim();
+    const totalReceived = biState.receiptItems.reduce((s, i) => s + (i.receivedPieces || 0), 0);
+    const totalDamaged = biState.receiptItems.reduce((s, i) => s + (i.damagedPieces || 0), 0);
+    const totalApproved = biState.receiptItems.reduce((s, i) => s + i.approvedPieces, 0);
+
+    if (totalReceived === 0 && totalDamaged === 0) {
+      if (!confirm('⚠️ أنت ترفض الشحنة بالكامل. سيتم إرجاع الكميات للمصدر. تأكيد؟')) return;
+    } else if (totalReceived + totalDamaged < totalApproved) {
+      if (!confirm(`⚠️ استلام جزئي: ناقص ${totalApproved - totalReceived - totalDamaged} قطعة. تأكيد؟`)) return;
+    }
+
+    const btn = document.getElementById('confirmReceiveBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري المعالجة...';
+
+    try {
+      const trRef = db.collection('transfers').doc(tr.id);
+      const destBranchId = tr.toBranchId;
+      const now = firebase.firestore.FieldValue.serverTimestamp();
+
+      await db.runTransaction(async (t) => {
+        // ===== PHASE 1: ALL READS =====
+        const trDoc = await t.get(trRef);
+        if (!trDoc.exists) throw new Error('الشحنة غير موجودة');
+        const trData = trDoc.data();
+        if (trData.status !== 'in_transit') throw new Error('الشحنة لم تعد في حالة "في الطريق"');
+
+        const invDocs = {};
+        for (const item of biState.receiptItems) {
+          if (item.receivedPieces > 0) {
+            const invRef = db.collection('branch_inventory').doc(`${destBranchId}_${item.productId}`);
+            const invDoc = await t.get(invRef);
+            invDocs[item.productId] = { ref: invRef, exists: invDoc.exists, data: invDoc.data() };
+          }
+        }
+
+        // If rejected, need product reads
+        let productSnapshots = [];
+        if (totalReceived === 0 && totalDamaged === 0) {
+          for (const item of trData.items || []) {
+            const pRef = db.collection('products').doc(item.productId);
+            const pDoc = await t.get(pRef);
+            if (pDoc.exists) productSnapshots.push({ ref: pRef, data: pDoc.data(), item });
+          }
+        }
+
+        // ===== PHASE 2: ALL WRITES =====
+        for (const item of biState.receiptItems) {
+          if (item.receivedPieces <= 0) continue;
+          const inv = invDocs[item.productId];
+          if (!inv) continue;
+
+          if (inv.exists) {
+            t.update(inv.ref, {
+              piecesQty: firebase.firestore.FieldValue.increment(item.receivedPieces),
+              availableQty: firebase.firestore.FieldValue.increment(item.receivedPieces),
+              lastUpdated: now,
+              updatedBy: biState.adminId
+            });
+          } else {
+            t.set(inv.ref, {
+              branchId: destBranchId,
+              productId: item.productId,
+              piecesQty: item.receivedPieces,
+              reservedQty: 0,
+              availableQty: item.receivedPieces,
+              minAlert: 10,
+              productName: item.productName,
+              productImage: item.productImage,
+              unit: item.unit,
+              piecesPerUnit: item.piecesPerUnit,
+              lastUpdated: now,
+              updatedBy: biState.adminId
+            });
+          }
+        }
+
+        for (const item of biState.receiptItems) {
+          if (item.damagedPieces <= 0) continue;
+          const dmgRef = db.collection('damages').doc();
+          t.set(dmgRef, {
+            id: dmgRef.id,
+            productId: item.productId,
+            productName: item.productName,
+            productImage: item.productImage,
+            branchId: destBranchId,
+            branchName: tr.toBranchName || '',
+            piecesQty: item.damagedPieces,
+            unit: item.unit,
+            piecesPerUnit: item.piecesPerUnit,
+            source: 'transfer',
+            sourceId: tr.id,
+            reason: 'damaged_during_transfer',
+            status: 'pending_review',
+            reportedBy: biState.adminId,
+            reportedByName: biState.adminName,
+            reportedByRole: biState.adminRole,
+            reportedAt: now,
+            createdAt: now
+          });
+        }
+
+        let finalStatus;
+        if (totalReceived === 0 && totalDamaged === 0) finalStatus = 'rejected_at_destination';
+        else if (totalReceived + totalDamaged >= totalApproved) finalStatus = 'completed';
+        else finalStatus = 'partially_received';
+
+        const updatedItems = (trData.items || []).map(origItem => {
+          const r = biState.receiptItems.find(x => x.productId === origItem.productId);
+          return { ...origItem, receivedPieces: r?.receivedPieces || 0, damagedPieces: r?.damagedPieces || 0 };
+        });
+
+        t.update(trRef, {
+          status: finalStatus,
+          items: updatedItems,
+          totalReceivedPieces: totalReceived,
+          totalDamagedPieces: totalDamaged,
+          receivedBy: biState.adminId,
+          receivedByName: biState.adminName,
+          receivedByRole: biState.adminRole,
+          receivedAt: now,
+          receiptNotes: notes,
+          updatedAt: now
+        });
+
+        if (trData.requestId) {
+          t.update(db.collection('transfer_requests').doc(trData.requestId), {
+            status: 'completed',
+            completedAt: now,
+            completedBy: biState.adminId,
+            completedByName: biState.adminName,
+            updatedAt: now
+          });
+        }
+
+        if (finalStatus === 'rejected_at_destination') {
+          for (const ps of productSnapshots) {
+            const p = ps.data;
+            const ppu = p.piecesPerUnit || 1;
+            const curTotal = (p.warehouseStock || 0) * ppu + (p.warehousePieces || 0);
+            const newTotal = curTotal + (ps.item.approvedPieces || 0);
+            t.update(ps.ref, {
+              warehouseStock: Math.floor(newTotal / ppu),
+              warehousePieces: newTotal % ppu,
+              updatedAt: now
+            });
+          }
+        }
+
+        t.set(db.collection('admin_notifications').doc(), {
+          userId: 'transfer_received',
+          title: `✅ استلام بضاعة — ${tr.toBranchName || ''}`,
+          body: `${biState.adminName} (${biState.adminRole}) استلم ${totalReceived} قطعة${totalDamaged > 0 ? ` +${totalDamaged} تالف` : ''}`,
+          type: 'transfer_received',
+          transferId: tr.id,
+          receivedByRole: biState.adminRole,
+          read: false,
+          createdAt: now
+        });
+      });
+
+      const statusMsg = totalReceived === 0 ? 'تم رفض الشحنة' : 'تم تأكيد الاستلام';
+      window.showToast(`✅ ${statusMsg} بنجاح`, 'success');
+
+      closeModal('receiveModal');
+      biState.receiptTarget = null;
+      biState.receiptItems = [];
+
+      // Reload inventory
+      loadData();
+
+      if (confirm('هل تريد طباعة إذن الاستلام الآن؟')) {
+        setTimeout(() => printTransferReceipt(tr.id), 500);
+      }
+
+    } catch (err) {
+      console.error('confirmReceipt:', err);
+      window.showToast('❌ ' + err.message, 'error');
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-check"></i> تأكيد الاستلام';
+    }
+  }
+
+  // ============================================================
+  // 🆕 Transit Details
+  // ============================================================
+  function openTransitDetails(trId) {
+    const tr = biState.inTransit.find(t => t.id === trId);
+    if (!tr) return;
+
+    const itemsHtml = (tr.items || []).map(i => `
+      <div style="display:flex;align-items:center;gap:12px;padding:10px;border:1px solid var(--gray-200);border-radius:8px;margin-bottom:8px;background:white;">
+        <img src="${i.productImage || '/gomla/assets/images/no-image.png'}" style="width:48px;height:48px;border-radius:6px;object-fit:cover;" onerror="this.src='/gomla/assets/images/no-image.png'">
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:0.88rem;font-weight:800;color:var(--navy);">${esc(i.productName || '')}</div>
+          <div style="font-size:0.72rem;color:var(--gray-500);">${esc(i.unit || 'قطعة')} · ${i.piecesPerUnit || 1} قطعة/وحدة</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="font-size:0.6rem;color:var(--gray-500);">معتمد</div>
+          <div style="font-weight:900;color:#d97706;font-size:1rem;">${i.approvedPieces || 0}</div>
+        </div>
+      </div>
+    `).join('');
+
+    const html = `
+      <div class="modal-overlay show" id="transitDetailsModal" onclick="closeModal('transitDetailsModal')">
+        <div class="modal-content medium" onclick="event.stopPropagation()">
+          <div class="modal-header orange">
+            <h2><i class="fas fa-truck"></i> تفاصيل الشحنة #${tr.id.slice(-8).toUpperCase()}</h2>
+            <button class="modal-close" onclick="closeModal('transitDetailsModal')">&times;</button>
+          </div>
+          <div class="modal-body">
+            <div class="info-box blue">
+              <i class="fas fa-route"></i>
+              <div>
+                <div style="font-weight:900;margin-bottom:4px;">المسار</div>
+                <div>من: <strong>${esc(tr.fromBranchName || tr.fromBranchId)}</strong></div>
+                <div>إلى: <strong>${esc(tr.toBranchName || tr.toBranchId)}</strong></div>
+                ${tr.isDirectTransfer ? `<div style="margin-top:6px;"><span style="background:#ede9fe;color:#6d28d9;padding:2px 8px;border-radius:12px;font-size:0.7rem;font-weight:900;">⚡ نقل مباشر</span></div>` : ''}
+              </div>
+            </div>
+            ${tr.approvedByName ? `
+              <div class="info-box green">
+                <i class="fas fa-user-check"></i>
+                <div>
+                  <div style="font-weight:900;margin-bottom:4px;">اعتمد بواسطة</div>
+                  <div>${esc(tr.approvedByName)}</div>
+                  <div style="font-size:0.75rem;opacity:0.8;">${formatDateTime(tr.approvedAt)}</div>
+                </div>
+              </div>
+            ` : ''}
+            ${tr.notes ? `<div class="info-box yellow"><i class="fas fa-comment"></i><div><div style="font-weight:900;margin-bottom:4px;">ملاحظات</div><div>${esc(tr.notes)}</div></div></div>` : ''}
+            <h4 style="font-size:0.9rem;font-weight:900;color:var(--navy);margin-bottom:10px;">
+              <i class="fas fa-boxes" style="color:var(--gold);"></i> المنتجات (${(tr.items || []).length})
+            </h4>
+            ${itemsHtml}
+          </div>
+          <div class="modal-actions">
+            <button class="btn btn-outline" onclick="closeModal('transitDetailsModal')">إغلاق</button>
+            <button class="btn btn-gold" onclick="closeModal('transitDetailsModal'); printTransferReceipt('${tr.id}')">
+              <i class="fas fa-print"></i> طباعة
+            </button>
+            <button class="btn btn-success" onclick="closeModal('transitDetailsModal'); openReceiveModal('${tr.id}')">
+              <i class="fas fa-check-double"></i> استلام
+            </button>
+          </div>
+        </div>
+      </div>`;
+
+    document.getElementById('modalContainer').innerHTML = html;
+    document.body.style.overflow = 'hidden';
+  }
+
+  // ============================================================
+  // 🆕 Print Receipt
+  // ============================================================
+  function printTransferReceipt(trId) {
+    const tr = biState.inTransit.find(t => t.id === trId);
+    if (!tr) { window.showToast('لم يتم العثور على الشحنة', 'warning'); return; }
+
+    const itemsRows = (tr.items || []).map((i, idx) => `
+      <tr>
+        <td style="text-align:center;padding:10px 8px;border-bottom:1px solid #e5e7eb;">${idx + 1}</td>
+        <td style="padding:10px 8px;border-bottom:1px solid #e5e7eb;">${esc(i.productName || '')}</td>
+        <td style="text-align:center;padding:10px 8px;border-bottom:1px solid #e5e7eb;">${esc(i.unit || 'قطعة')}</td>
+        <td style="text-align:center;padding:10px 8px;border-bottom:1px solid #e5e7eb;font-weight:900;color:#c9a84c;">${i.approvedPieces || 0}</td>
+        <td style="text-align:center;padding:10px 8px;border-bottom:1px solid #e5e7eb;"></td>
+        <td style="text-align:center;padding:10px 8px;border-bottom:1px solid #e5e7eb;"></td>
+      </tr>
+    `).join('');
+
+    const html = `
+      <div style="font-family:Tajawal,sans-serif;padding:24px;direction:rtl;max-width:800px;margin:0 auto;">
+        <div style="text-align:center;border-bottom:3px double #1a2a4a;padding-bottom:16px;margin-bottom:20px;">
+          <h1 style="margin:0;color:#1a2a4a;font-size:26px;">أولاد شعلان للمنظفات والورقيات</h1>
+          <p style="margin:6px 0 0;color:#6b7280;font-size:13px;">${window.PAYMENT_ACCOUNT} · ${window.SUPPORT_EMAIL}</p>
+          <h2 style="margin:14px 0 0;color:#c9a84c;font-size:20px;">إذن استلام بضاعة</h2>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:20px;font-size:14px;gap:20px;flex-wrap:wrap;">
+          <div>
+            <div style="margin-bottom:6px;"><strong>رقم الشحنة:</strong> <span style="font-family:monospace;">#${tr.id.slice(-8).toUpperCase()}</span></div>
+            <div style="margin-bottom:6px;"><strong>التاريخ:</strong> ${tr.createdAt ? formatDate(tr.createdAt) : '—'}</div>
+            ${tr.requestId ? `<div><strong>رقم الطلب:</strong> <span style="font-family:monospace;">#${tr.requestId.slice(-8).toUpperCase()}</span></div>` : ''}
+          </div>
+          <div style="text-align:left;">
+            <div style="margin-bottom:6px;"><strong>من:</strong> ${esc(tr.fromBranchName || '')}</div>
+            <div style="margin-bottom:6px;"><strong>إلى:</strong> ${esc(tr.toBranchName || '')}</div>
+            ${tr.approvedByName ? `<div><strong>اعتمد بواسطة:</strong> ${esc(tr.approvedByName)}</div>` : ''}
+          </div>
+        </div>
+        <table style="width:100%;border-collapse:collapse;font-size:13px;margin-bottom:20px;">
+          <thead>
+            <tr style="background:#f3f4f6;">
+              <th style="padding:10px 8px;border-bottom:2px solid #1a2a4a;text-align:center;width:40px;">#</th>
+              <th style="padding:10px 8px;border-bottom:2px solid #1a2a4a;text-align:right;">المنتج</th>
+              <th style="padding:10px 8px;border-bottom:2px solid #1a2a4a;text-align:center;">الوحدة</th>
+              <th style="padding:10px 8px;border-bottom:2px solid #1a2a4a;text-align:center;">الكمية</th>
+              <th style="padding:10px 8px;border-bottom:2px solid #1a2a4a;text-align:center;">الاستلام</th>
+              <th style="padding:10px 8px;border-bottom:2px solid #1a2a4a;text-align:center;">ملاحظات</th>
+            </tr>
+          </thead>
+          <tbody>${itemsRows}</tbody>
+          <tfoot>
+            <tr>
+              <td colspan="3" style="padding:12px 8px;text-align:left;font-weight:900;border-top:2px solid #1a2a4a;">إجمالي:</td>
+              <td style="padding:12px 8px;text-align:center;font-weight:900;font-size:16px;border-top:2px solid #1a2a4a;color:#c9a84c;">${tr.totalApprovedPieces || 0}</td>
+              <td style="border-top:2px solid #1a2a4a;"></td>
+              <td style="border-top:2px solid #1a2a4a;"></td>
+            </tr>
+          </tfoot>
+        </table>
+        ${tr.notes ? `<div style="background:#fef3c7;border:1px solid #fbbf24;padding:10px 14px;border-radius:8px;font-size:13px;color:#92400e;margin-bottom:20px;"><strong>ملاحظات:</strong> ${esc(tr.notes)}</div>` : ''}
+        <div style="margin-top:60px;display:grid;grid-template-columns:1fr 1fr;gap:40px;font-size:14px;">
+          <div style="text-align:center;"><div style="border-top:2px solid #1a2a4a;padding-top:12px;margin-top:60px;"><strong>توقيع المسلّم (المخزن)</strong><div style="margin-top:8px;font-size:12px;color:#6b7280;">التاريخ: ____/____/________</div></div></div>
+          <div style="text-align:center;"><div style="border-top:2px solid #1a2a4a;padding-top:12px;margin-top:60px;"><strong>توقيع المستلم (المسؤول)</strong><div style="margin-top:8px;font-size:12px;color:#6b7280;">التاريخ: ____/____/________</div></div></div>
+        </div>
+        <div style="text-align:center;margin-top:30px;padding-top:16px;border-top:1px dashed #e5e7eb;font-size:11px;color:#9ca3af;">
+          هذا الإذن يُعد مستنداً رسمياً لتسليم واستلام البضاعة بين الفروع.<br>تمت الطباعة: ${new Date().toLocaleString('ar-EG')}
+        </div>
+      </div>`;
+
+    const w = window.open('', '_blank', 'width=900,height=700');
+    w.document.write(`<!DOCTYPE html><html dir="rtl" lang="ar"><head><meta charset="UTF-8"><title>إذن استلام — #${tr.id.slice(-8).toUpperCase()}</title><link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet"><style>body{font-family:Tajawal,sans-serif;margin:0;padding:20px}@media print{body{padding:0}@page{margin:15mm}}</style></head><body onload="window.print()">${html}</body></html>`);
+    w.document.close();
+
+    db.collection('transfers').doc(trId).update({
+      receiptPrintedAt: firebase.firestore.FieldValue.serverTimestamp(),
+      receiptPrintedBy: biState.adminId
+    }).catch(() => {});
+  }
+
+  // ============================================================
+  // 🆕 Switch to Cashier Mode
+  // ============================================================
+  function switchToCashierMode() {
+    const bid = biState.currentBranchId;
+    if (!bid) { window.showToast('اختر فرع أولاً', 'warning'); return; }
+    const branch = biState.branches.find(b => b.id === bid);
+    if (branch?.isWarehouse) { window.showToast('وضع الكاشير للفروع فقط (ليس المخزن)', 'warning'); return; }
+    window.location.href = `/gomla/cashier/inventory.html?branchId=${bid}`;
+  }
+
+  // ============================================================
+  // Rebuild Merged (unchanged from v1.0)
   // ============================================================
   function rebuildMerged() {
     const bid = biState.currentBranchId;
@@ -892,14 +1384,9 @@
       const whMinAlert = p.warehouseMinAlert || 10;
 
       let pieces, reserved, available, minAlert, exists, lastUpdated;
-
       if (isWH) {
-        pieces = whPieces;
-        reserved = whReserved;
-        available = whAvailable;
-        minAlert = whMinAlert;
-        exists = true;
-        lastUpdated = p.updatedAt || null;
+        pieces = whPieces; reserved = whReserved; available = whAvailable;
+        minAlert = whMinAlert; exists = true; lastUpdated = p.updatedAt || null;
       } else {
         const inv = biState.invMap[p.id]?.[bid];
         exists = !!inv;
@@ -910,15 +1397,12 @@
         lastUpdated = inv?.lastUpdated || null;
       }
 
-      // Status
       let status;
       if (!exists && !isWH) status = 'missing';
       else if (available <= 0) status = 'out';
       else if (available < minAlert) status = 'low';
       else status = 'available';
 
-      // Skip non-WH products that don't exist yet UNLESS they trigger alert
-      // (نعرض المنتجات اللي ليها سجل في الفرع، أو اللي محتاجة في الفرع ومصدرها WH متاح)
       if (!isWH && !exists && whAvailable <= 0) return;
 
       const row = {
@@ -929,7 +1413,6 @@
       };
       biState.merged.push(row);
 
-      // Smart Alert (only for non-WH)
       if (!isWH && whAvailable > 0) {
         if (!exists || pieces === 0) {
           biState.alertItems.push({
@@ -963,12 +1446,7 @@
     const badgeText = document.getElementById('branchNameText');
     const info = document.getElementById('branchInfo');
 
-    if (!b) {
-      if (badge) badge.style.display = 'none';
-      if (info) info.style.display = 'none';
-      return;
-    }
-
+    if (!b) { if (badge) badge.style.display = 'none'; if (info) info.style.display = 'none'; return; }
     if (badge) badge.style.display = 'inline-flex';
     if (badgeText) badgeText.textContent = b.name || b.id;
     if (info) info.style.display = 'grid';
@@ -976,8 +1454,7 @@
     const productsCount = biState.merged.length;
     const totalPieces = biState.merged.reduce((s, r) => s + r.branch.pieces, 0);
 
-    document.getElementById('branchInfoType').textContent =
-      b.isWarehouse ? 'مخزن مركزي' : (b.type === 'retail' ? 'قطاعي' : b.type === 'wholesale' ? 'جملة' : 'فرع');
+    document.getElementById('branchInfoType').textContent = b.isWarehouse ? 'مخزن مركزي' : (b.type === 'retail' ? 'قطاعي' : b.type === 'wholesale' ? 'جملة' : 'فرع');
     document.getElementById('branchInfoManager').textContent = b.managerName || b.manager || '—';
     document.getElementById('branchInfoProducts').textContent = productsCount;
     document.getElementById('branchInfoPieces').textContent = totalPieces;
@@ -985,19 +1462,14 @@
   }
 
   // ============================================================
-  // Smart Alert Banner
+  // Smart Alert
   // ============================================================
   function renderSmartAlert() {
     const container = document.getElementById('smartAlertContainer');
     if (!container) return;
-
     const isWH = biState.currentBranch?.isWarehouse === true;
     const items = biState.alertItems;
-
-    if (isWH) {
-      container.innerHTML = '';
-      return;
-    }
+    if (isWH) { container.innerHTML = ''; return; }
 
     if (items.length === 0) {
       container.innerHTML = `
@@ -1016,15 +1488,13 @@
     }
 
     const previewOpen = biState.alertExpanded ? 'open' : '';
-
     const listHtml = items.map(it => `
       <div class="bi-alert-item">
-        <i class="fas fa-${it.reason === 'out' ? 'times-circle reason-out' : it.reason === 'low' ? 'exclamation-triangle reason-low' : 'question-circle reason-missing'}"></i>
+        <i class="fas fa-${it.reason === 'out' ? 'times-circle reason-out' : it.reason === 'low' ? 'exclamation-triangle reason-low' : 'question-circle reason-missing'}" style="color:${it.reason === 'out' ? '#dc2626' : it.reason === 'low' ? '#d97706' : '#6b7280'};"></i>
         <span style="flex:1;font-weight:800;">${esc(it.product.name || 'منتج')}</span>
-        <span class="reason-text">${it.reasonText}</span>
-        <span style="font-size:0.72rem;color:var(--gray-600);">متاح بالفرع: <strong>${it.currentAtDest}</strong> · WH: <strong>${it.availableAtSource}</strong></span>
-      </div>
-    `).join('');
+        <span style="font-size:0.72rem;color:var(--gray-500);">${it.reasonText}</span>
+        <span style="font-size:0.72rem;color:var(--gray-600);">متاح: <strong>${it.currentAtDest}</strong> · WH: <strong>${it.availableAtSource}</strong></span>
+      </div>`).join('');
 
     container.innerHTML = `
       <div class="bi-alert-banner">
@@ -1032,10 +1502,7 @@
           <div class="bi-alert-title">
             <div class="alert-icon"><i class="fas fa-exclamation-triangle"></i></div>
             <div>
-              <div>
-                <span class="bi-alert-count">${items.length}</span>
-                منتج${items.length > 1 ? 'ات' : ''} محتاج${items.length > 1 ? 'ين' : ''} في ${esc(biState.currentBranch?.name || 'الفرع')} من المخزن المركزي
-              </div>
+              <div><span class="bi-alert-count">${items.length}</span> منتج${items.length > 1 ? 'ات' : ''} محتاج${items.length > 1 ? 'ين' : ''} في ${esc(biState.currentBranch?.name || 'الفرع')} من المخزن المركزي</div>
               <div style="font-size:0.72rem;opacity:0.8;font-weight:600;margin-top:2px;">
                 ${items.filter(i => i.reason === 'out' || i.reason === 'missing').length} نفذ/لم يصل · ${items.filter(i => i.reason === 'low').length} أقل من العتبة
               </div>
@@ -1061,7 +1528,6 @@
     biState.alertExpanded = !biState.alertExpanded;
     const preview = document.getElementById('alertPreview');
     if (preview) preview.classList.toggle('open', biState.alertExpanded);
-    // Update button text
     const btn = document.querySelector('.btn-show');
     if (btn) btn.innerHTML = `<i class="fas fa-${biState.alertExpanded ? 'chevron-up' : 'eye'}"></i> ${biState.alertExpanded ? 'إخفاء' : 'اعرض الكل'}`;
   }
@@ -1091,9 +1557,6 @@
     });
   }
 
-  // ============================================================
-  // Filters
-  // ============================================================
   function populateCategoryFilter() {
     const sel = document.getElementById('biCategory');
     if (!sel) return;
@@ -1115,7 +1578,6 @@
   function switchTab(tab) {
     biState.currentTab = tab;
     document.querySelectorAll('.bi-tab').forEach(el => el.classList.toggle('active', el.dataset.tab === tab));
-    document.querySelectorAll('.bi-stat').forEach(el => el.classList.remove('active'));
     applyFilters();
   }
 
@@ -1128,7 +1590,6 @@
 
   function applyFilters() {
     let list = [...biState.merged];
-
     const tab = biState.currentTab;
     if (tab === 'available') list = list.filter(r => r.status === 'available');
     else if (tab === 'low') list = list.filter(r => r.status === 'low');
@@ -1144,7 +1605,6 @@
                (p.keywords || '').toLowerCase().includes(search);
       });
     }
-
     const cat = document.getElementById('biCategory')?.value || '';
     if (cat) list = list.filter(r => r.product.categoryId === cat);
 
@@ -1167,13 +1627,9 @@
     applyFilters();
   }
 
-  // ============================================================
-  // Render List
-  // ============================================================
   function renderList() {
     const container = document.getElementById('biList');
     if (!container) return;
-
     if (biState.filtered.length === 0) {
       container.innerHTML = `
         <div class="bi-empty">
@@ -1183,7 +1639,6 @@
         </div>`;
       return;
     }
-
     container.innerHTML = biState.filtered.map(r => renderCard(r)).join('');
   }
 
@@ -1191,19 +1646,15 @@
     const p = r.product;
     const meta = STATUS_META[r.status];
     const isWH = biState.currentBranch?.isWarehouse === true;
-
-    // Disable request button if this is WH or product is fully available
     const canRequest = !isWH && r.wh.available > 0 && r.status !== 'available';
 
-    // Available box class
     let availCls = '';
     if (r.branch.available === 0) availCls = 'zero';
     else if (r.branch.available < r.branch.minAlert) availCls = 'low';
 
     return `
       <div class="bi-card ${meta.cls}">
-        <img class="bi-card-img" src="${p.imageUrl || '/gomla/assets/images/no-image.png'}"
-             onerror="this.src='/gomla/assets/images/no-image.png'">
+        <img class="bi-card-img" src="${p.imageUrl || '/gomla/assets/images/no-image.png'}" onerror="this.src='/gomla/assets/images/no-image.png'">
         <div class="bi-card-info">
           <div class="bi-card-name">${esc(p.name || 'منتج')}</div>
           <div class="bi-card-meta">
@@ -1213,38 +1664,16 @@
             <span><i class="fas fa-cubes"></i> ${p.piecesPerUnit || 1} / ${esc(p.unit || 'كرتونة')}</span>
           </div>
           <div class="bi-card-numbers">
-            <div class="bi-number-box pieces">
-              <div class="bi-number-lbl">الفعلي</div>
-              <div class="bi-number-val">${r.branch.pieces}</div>
-            </div>
-            <div class="bi-number-box reserved">
-              <div class="bi-number-lbl">محجوز</div>
-              <div class="bi-number-val">${r.branch.reserved}</div>
-            </div>
-            <div class="bi-number-box available ${availCls}">
-              <div class="bi-number-lbl">متاح</div>
-              <div class="bi-number-val">${r.branch.available}</div>
-            </div>
-            ${!isWH ? `
-              <div class="bi-number-box" style="background:#eff6ff;border-color:#bfdbfe;">
-                <div class="bi-number-lbl" style="color:#1e40af;">WH متاح</div>
-                <div class="bi-number-val" style="color:#1e40af;">${r.wh.available}</div>
-              </div>
-            ` : ''}
+            <div class="bi-number-box pieces"><div class="bi-number-lbl">الفعلي</div><div class="bi-number-val">${r.branch.pieces}</div></div>
+            <div class="bi-number-box reserved"><div class="bi-number-lbl">محجوز</div><div class="bi-number-val">${r.branch.reserved}</div></div>
+            <div class="bi-number-box available ${availCls}"><div class="bi-number-lbl">متاح</div><div class="bi-number-val">${r.branch.available}</div></div>
+            ${!isWH ? `<div class="bi-number-box" style="background:#eff6ff;border-color:#bfdbfe;"><div class="bi-number-lbl" style="color:#1e40af;">WH</div><div class="bi-number-val" style="color:#1e40af;">${r.wh.available}</div></div>` : ''}
           </div>
-          <span class="bi-status-badge ${meta.cls}">
-            <i class="fas fa-${meta.icon}"></i> ${meta.label}
-          </span>
+          <span class="bi-status-badge ${meta.cls}"><i class="fas fa-${meta.icon}"></i> ${meta.label}</span>
         </div>
         <div class="bi-card-actions">
-          <button class="bi-action-btn view" onclick="openDetails('${p.id}')">
-            <i class="fas fa-eye"></i> تفاصيل
-          </button>
-          ${!isWH ? `
-            <button class="bi-action-btn request" onclick="openTransferRequest('single', '${p.id}')" ${!canRequest ? 'disabled title="متاح بالكامل في الفرع أو لا يوجد مصدر"' : ''}>
-              <i class="fas fa-paper-plane"></i> طلب نقل
-            </button>
-          ` : ''}
+          <button class="bi-action-btn view" onclick="openDetails('${p.id}')"><i class="fas fa-eye"></i> تفاصيل</button>
+          ${!isWH ? `<button class="bi-action-btn request" onclick="openTransferRequest('single', '${p.id}')" ${!canRequest ? 'disabled title="غير مطلوب أو لا يوجد مصدر"' : ''}><i class="fas fa-paper-plane"></i> طلب نقل</button>` : ''}
         </div>
       </div>`;
   }
@@ -1255,13 +1684,11 @@
   function openDetails(productId) {
     const r = biState.merged.find(x => x.product.id === productId);
     if (!r) return;
-
     const p = r.product;
     const meta = STATUS_META[r.status];
     const isWH = biState.currentBranch?.isWarehouse === true;
     const branchName = biState.currentBranch?.name || 'الفرع';
 
-    // progress
     const denom = Math.max(r.branch.minAlert * 2, 1);
     const percent = Math.min(100, Math.round((r.branch.available / denom) * 100));
     const fillCls = r.branch.available === 0 ? 'red' : (r.branch.available < r.branch.minAlert ? 'orange' : 'green');
@@ -1274,94 +1701,51 @@
             <button class="modal-close" onclick="closeModal('detailModal')">&times;</button>
           </div>
           <div class="modal-body">
-
-            <div class="bi-hero">
-              <img src="${p.imageUrl || '/gomla/assets/images/no-image.png'}"
-                   onerror="this.src='/gomla/assets/images/no-image.png'">
-              <div class="bi-hero-info">
-                <div class="bi-hero-name">${esc(p.name || 'منتج')}</div>
-                <div class="bi-hero-meta">
-                  ${p.barcode ? `<span><i class="fas fa-barcode"></i> ${esc(p.barcode)}</span>` : ''}
-                  ${p.categoryName ? `<span><i class="fas fa-tag"></i> ${esc(p.categoryName)}</span>` : ''}
-                  ${p.brandName ? `<span><i class="fas fa-copyright"></i> ${esc(p.brandName)}</span>` : ''}
-                  <span><i class="fas fa-cubes"></i> ${p.piecesPerUnit || 1} ${esc(p.retailUnit || 'قطعة')} / ${esc(p.unit || 'كرتونة')}</span>
+            <div style="display:flex;gap:16px;align-items:center;padding:16px;background:linear-gradient(135deg,#f8fafc,#eef2f7);border-radius:12px;margin-bottom:16px;">
+              <img src="${p.imageUrl || '/gomla/assets/images/no-image.png'}" style="width:96px;height:96px;border-radius:10px;object-fit:cover;border:2px solid white;box-shadow:0 4px 12px rgba(0,0,0,.1);" onerror="this.src='/gomla/assets/images/no-image.png'">
+              <div style="flex:1;min-width:0;">
+                <div style="font-size:1.15rem;font-weight:900;color:var(--navy);margin-bottom:6px;">${esc(p.name || 'منتج')}</div>
+                <div style="display:flex;gap:12px;flex-wrap:wrap;font-size:0.78rem;color:var(--gray-600);">
+                  ${p.barcode ? `<span style="display:inline-flex;align-items:center;gap:4px;padding:3px 10px;background:white;border-radius:12px;border:1px solid var(--gray-200);"><i class="fas fa-barcode" style="color:var(--gold);"></i> ${esc(p.barcode)}</span>` : ''}
+                  ${p.categoryName ? `<span style="display:inline-flex;align-items:center;gap:4px;padding:3px 10px;background:white;border-radius:12px;border:1px solid var(--gray-200);"><i class="fas fa-tag" style="color:var(--gold);"></i> ${esc(p.categoryName)}</span>` : ''}
+                  <span style="display:inline-flex;align-items:center;gap:4px;padding:3px 10px;background:white;border-radius:12px;border:1px solid var(--gray-200);"><i class="fas fa-cubes" style="color:var(--gold);"></i> ${p.piecesPerUnit || 1} / ${esc(p.unit || 'كرتونة')}</span>
                 </div>
               </div>
             </div>
 
-            <div class="bi-detail-box">
-              <div style="font-size:0.85rem;font-weight:900;color:var(--navy);margin-bottom:12px;">
-                <i class="fas fa-${isWH ? 'warehouse' : 'building'}" style="color:var(--gold);"></i>
-                مخزون ${esc(branchName)}
+            <div style="background:white;border:2px solid var(--gray-200);border-radius:10px;padding:16px;margin-bottom:12px;">
+              <div style="font-size:0.85rem;font-weight:900;color:var(--navy);margin-bottom:12px;"><i class="fas fa-${isWH ? 'warehouse' : 'building'}" style="color:var(--gold);"></i> مخزون ${esc(branchName)}</div>
+              <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
+                <div style="text-align:center;padding:10px;background:var(--gray-50);border-radius:6px;"><div style="font-size:0.68rem;font-weight:800;color:var(--gray-500);margin-bottom:4px;">الفعلي</div><div style="font-size:1.15rem;font-weight:900;color:var(--navy);">${r.branch.pieces}</div></div>
+                <div style="text-align:center;padding:10px;background:#fef3c7;border-radius:6px;"><div style="font-size:0.68rem;font-weight:800;color:#92400e;margin-bottom:4px;">محجوز</div><div style="font-size:1.15rem;font-weight:900;color:#d97706;">${r.branch.reserved}</div></div>
+                <div style="text-align:center;padding:10px;background:#dcfce7;border-radius:6px;"><div style="font-size:0.68rem;font-weight:800;color:#15803d;margin-bottom:4px;">متاح</div><div style="font-size:1.15rem;font-weight:900;color:#16a34a;">${r.branch.available}</div></div>
+                <div style="text-align:center;padding:10px;background:var(--gray-50);border-radius:6px;"><div style="font-size:0.68rem;font-weight:800;color:var(--gray-500);margin-bottom:4px;">العتبة</div><div style="font-size:1.15rem;font-weight:900;color:var(--navy);">${r.branch.minAlert}</div></div>
               </div>
-              <div class="bi-detail-grid">
-                <div class="bi-detail-cell">
-                  <div class="bi-detail-lbl">الكمية الفعلية</div>
-                  <div class="bi-detail-val">${r.branch.pieces}</div>
-                </div>
-                <div class="bi-detail-cell" style="background:#fef3c7;">
-                  <div class="bi-detail-lbl" style="color:#92400e;">المحجوز</div>
-                  <div class="bi-detail-val" style="color:#d97706;">${r.branch.reserved}</div>
-                </div>
-                <div class="bi-detail-cell" style="background:#dcfce7;">
-                  <div class="bi-detail-lbl" style="color:#15803d;">المتاح</div>
-                  <div class="bi-detail-val" style="color:#16a34a;">${r.branch.available}</div>
-                </div>
-                <div class="bi-detail-cell">
-                  <div class="bi-detail-lbl">عتبة التنبيه</div>
-                  <div class="bi-detail-val">${r.branch.minAlert}</div>
-                </div>
-              </div>
-              <div class="bi-progress">
-                <div class="bi-progress-fill ${fillCls}" style="width:${percent}%"></div>
-              </div>
-              ${r.branch.lastUpdated ? `<div style="text-align:right;font-size:0.72rem;color:var(--gray-400);margin-top:8px;"><i class="fas fa-clock"></i> آخر تحديث: ${formatDate(r.branch.lastUpdated)}</div>` : ''}
+              <div style="margin-top:12px;height:8px;background:var(--gray-200);border-radius:10px;overflow:hidden;"><div style="height:100%;width:${percent}%;background:${fillCls === 'red' ? 'linear-gradient(90deg,#ef4444,#dc2626)' : fillCls === 'orange' ? 'linear-gradient(90deg,#f59e0b,#d97706)' : 'linear-gradient(90deg,#22c55e,#16a34a)'};border-radius:10px;transition:width 0.5s;"></div></div>
             </div>
 
             ${!isWH ? `
-              <div class="bi-detail-box" style="background:#eff6ff;border-color:#bfdbfe;">
-                <div style="font-size:0.85rem;font-weight:900;color:#1e40af;margin-bottom:12px;">
-                  <i class="fas fa-warehouse"></i> المخزن المركزي
-                </div>
-                <div class="bi-detail-grid">
-                  <div class="bi-detail-cell">
-                    <div class="bi-detail-lbl">الفعلي</div>
-                    <div class="bi-detail-val" style="color:#1e40af;">${r.wh.pieces}</div>
-                  </div>
-                  <div class="bi-detail-cell">
-                    <div class="bi-detail-lbl">المحجوز</div>
-                    <div class="bi-detail-val" style="color:#d97706;">${r.wh.reserved}</div>
-                  </div>
-                  <div class="bi-detail-cell">
-                    <div class="bi-detail-lbl">المتاح</div>
-                    <div class="bi-detail-val" style="color:#16a34a;">${r.wh.available}</div>
-                  </div>
-                  <div class="bi-detail-cell">
-                    <div class="bi-detail-lbl">العتبة</div>
-                    <div class="bi-detail-val" style="color:#1e40af;">${r.wh.minAlert}</div>
-                  </div>
+              <div style="background:#eff6ff;border:2px solid #bfdbfe;border-radius:10px;padding:16px;">
+                <div style="font-size:0.85rem;font-weight:900;color:#1e40af;margin-bottom:12px;"><i class="fas fa-warehouse"></i> المخزن المركزي</div>
+                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;">
+                  <div style="text-align:center;padding:10px;background:white;border-radius:6px;"><div style="font-size:0.68rem;font-weight:800;color:#1e40af;margin-bottom:4px;">الفعلي</div><div style="font-size:1.15rem;font-weight:900;color:#1e40af;">${r.wh.pieces}</div></div>
+                  <div style="text-align:center;padding:10px;background:#fef3c7;border-radius:6px;"><div style="font-size:0.68rem;font-weight:800;color:#92400e;margin-bottom:4px;">محجوز</div><div style="font-size:1.15rem;font-weight:900;color:#d97706;">${r.wh.reserved}</div></div>
+                  <div style="text-align:center;padding:10px;background:#dcfce7;border-radius:6px;"><div style="font-size:0.68rem;font-weight:800;color:#15803d;margin-bottom:4px;">متاح</div><div style="font-size:1.15rem;font-weight:900;color:#16a34a;">${r.wh.available}</div></div>
+                  <div style="text-align:center;padding:10px;background:white;border-radius:6px;"><div style="font-size:0.68rem;font-weight:800;color:#1e40af;margin-bottom:4px;">العتبة</div><div style="font-size:1.15rem;font-weight:900;color:#1e40af;">${r.wh.minAlert}</div></div>
                 </div>
               </div>
             ` : ''}
 
             <div style="text-align:center;margin-top:12px;">
-              <span class="bi-status-badge ${meta.cls}" style="font-size:0.82rem;padding:8px 16px;">
-                <i class="fas fa-${meta.icon}"></i> الحالة: ${meta.label}
-              </span>
+              <span class="bi-status-badge ${meta.cls}" style="font-size:0.82rem;padding:8px 16px;"><i class="fas fa-${meta.icon}"></i> ${meta.label}</span>
             </div>
-
           </div>
           <div class="modal-actions">
-            ${!isWH && r.wh.available > 0 && r.status !== 'available' ? `
-              <button class="btn btn-primary" onclick="closeModal('detailModal'); openTransferRequest('single', '${p.id}')">
-                <i class="fas fa-paper-plane"></i> طلب نقل من WH
-              </button>
-            ` : ''}
+            ${!isWH && r.wh.available > 0 && r.status !== 'available' ? `<button class="btn btn-primary" onclick="closeModal('detailModal'); openTransferRequest('single', '${p.id}')"><i class="fas fa-paper-plane"></i> طلب نقل</button>` : ''}
             <button class="btn btn-outline" onclick="closeModal('detailModal')">إغلاق</button>
           </div>
         </div>
       </div>`;
-
     document.getElementById('modalContainer').innerHTML = html;
     document.body.style.overflow = 'hidden';
   }
@@ -1371,63 +1755,45 @@
   // ============================================================
   function openTransferRequest(mode, productId) {
     if (!biState.isAdmin) { window.showToast('غير مصرح', 'warning'); return; }
-
     const isWH = biState.currentBranch?.isWarehouse === true;
     if (isWH) { window.showToast('لا يمكن طلب نقل إلى المخزن المركزي', 'warning'); return; }
 
     let sourceItems = [];
     if (mode === 'all') {
       sourceItems = biState.alertItems.map(it => ({
-        product: it.product,
-        reason: it.reason,
-        reasonText: it.reasonText,
-        currentAtDest: it.currentAtDest,
-        availableAtSource: it.availableAtSource,
-        suggestedQty: it.suggestedQty,
-        checked: true
+        product: it.product, reason: it.reason, reasonText: it.reasonText,
+        currentAtDest: it.currentAtDest, availableAtSource: it.availableAtSource,
+        suggestedQty: it.suggestedQty, checked: true
       }));
     } else {
       const r = biState.merged.find(x => x.product.id === productId);
       if (!r) return;
       if (r.wh.available <= 0) { window.showToast('لا يوجد مخزون في WH', 'warning'); return; }
-      const suggested = r.status === 'out' || r.status === 'missing'
-        ? Math.max(r.branch.minAlert, 10)
-        : Math.max(r.branch.minAlert - r.branch.available, 1);
+      const suggested = (r.status === 'out' || r.status === 'missing') ? Math.max(r.branch.minAlert, 10) : Math.max(r.branch.minAlert - r.branch.available, 1);
       sourceItems = [{
-        product: r.product,
-        reason: r.status === 'low' ? 'low' : (r.branch.exists ? 'out' : 'missing'),
-        reasonText: r.status === 'low' ? 'أقل من العتبة' : (r.branch.exists ? 'خلص من الفرع' : 'لم يصل للفرع بعد'),
-        currentAtDest: r.branch.available,
-        availableAtSource: r.wh.available,
-        suggestedQty: suggested,
-        checked: true
+        product: r.product, reason: r.status === 'low' ? 'low' : 'out',
+        reasonText: r.status === 'low' ? 'أقل من العتبة' : 'خلص من الفرع',
+        currentAtDest: r.branch.available, availableAtSource: r.wh.available,
+        suggestedQty: suggested, checked: true
       }];
     }
 
     if (sourceItems.length === 0) { window.showToast('لا توجد منتجات لطلب نقلها', 'warning'); return; }
-
-    // Store in state for later use
     biState._transferItems = sourceItems;
 
     const itemsHtml = sourceItems.map((it, idx) => `
-      <div class="tr-item-row checked" id="tr-item-${idx}" data-idx="${idx}">
+      <div class="tr-item-row checked" id="tr-item-${idx}">
         <input type="checkbox" class="tr-check" data-idx="${idx}" checked onchange="onTransferItemToggle(${idx}, this.checked)">
-        <img src="${it.product.imageUrl || '/gomla/assets/images/no-image.png'}"
-             onerror="this.src='/gomla/assets/images/no-image.png'">
+        <img src="${it.product.imageUrl || '/gomla/assets/images/no-image.png'}" onerror="this.src='/gomla/assets/images/no-image.png'">
         <div class="tr-item-info">
           <div class="tr-item-name">${esc(it.product.name || 'منتج')}</div>
           <div class="tr-item-meta">
-            <span style="color:var(--gray-500);">WH متاح: </span><strong>${it.availableAtSource}</strong>
-            <span style="color:var(--gray-400);"> · </span>
-            <span style="color:var(--gray-500);">في الفرع: </span><strong>${it.currentAtDest}</strong>
-            <span style="color:var(--gray-400);"> · </span>
-            <span style="color:${it.reason === 'out' ? '#dc2626' : it.reason === 'missing' ? '#6b7280' : '#d97706'};font-weight:800;">${it.reasonText}</span>
+            WH: <strong>${it.availableAtSource}</strong> · في الفرع: <strong>${it.currentAtDest}</strong> · ${it.reasonText}
           </div>
         </div>
         <div class="tr-item-qty">
-          <input type="number" min="1" max="${it.availableAtSource}" value="${it.suggestedQty}"
-                 data-idx="${idx}" class="tr-qty-input" onchange="onTransferQtyChange(${idx}, this.value)">
-          <small>كمية مقترحة</small>
+          <input type="number" min="1" max="${it.availableAtSource}" value="${it.suggestedQty}" data-idx="${idx}" class="tr-qty-input" onchange="onTransferQtyChange(${idx}, this.value)">
+          <small>مقترحة</small>
         </div>
       </div>
     `).join('');
@@ -1435,47 +1801,35 @@
     const html = `
       <div class="modal-overlay show" id="transferReqModal" onclick="closeModal('transferReqModal')">
         <div class="modal-content medium" onclick="event.stopPropagation()">
-          <div class="modal-header" style="background:linear-gradient(135deg,#1e40af,#3b82f6);">
+          <div class="modal-header blue">
             <h2><i class="fas fa-paper-plane"></i> طلب نقل من المخزن المركزي</h2>
             <button class="modal-close" onclick="closeModal('transferReqModal')">&times;</button>
           </div>
           <div class="modal-body">
-
-            <div style="background:#eff6ff;border:2px solid #93c5fd;border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:0.85rem;color:#1e40af;">
-              <div><strong>من:</strong> المخزن المركزي (WH)</div>
-              <div><strong>إلى:</strong> ${esc(biState.currentBranch?.name || 'الفرع')}</div>
-              <div style="font-size:0.75rem;margin-top:4px;opacity:0.85;">
-                سيتم إرسال الطلب للمسؤول للموافقة. عند الموافقة يتم النقل تلقائياً.
+            <div class="info-box blue">
+              <i class="fas fa-info-circle"></i>
+              <div>
+                <div><strong>من:</strong> المخزن المركزي (WH)</div>
+                <div><strong>إلى:</strong> ${esc(biState.currentBranch?.name || 'الفرع')}</div>
+                <div style="font-size:0.75rem;margin-top:4px;opacity:0.85;">سيُرسل الطلب للمسؤول للموافقة.</div>
               </div>
             </div>
-
-            <div style="font-size:0.85rem;font-weight:900;color:var(--navy);margin-bottom:10px;">
-              <i class="fas fa-boxes" style="color:var(--gold);"></i> المنتجات المطلوبة
-            </div>
-
+            <h4 style="font-size:0.9rem;font-weight:900;color:var(--navy);margin-bottom:10px;"><i class="fas fa-boxes" style="color:var(--gold);"></i> المنتجات</h4>
             <div id="trItemsList">${itemsHtml}</div>
-
             <div style="margin-top:12px;">
               <label style="display:block;font-weight:800;font-size:0.82rem;margin-bottom:6px;">ملاحظات (اختياري)</label>
-              <textarea id="trNotes" maxlength="300" placeholder="أي تفاصيل إضافية للمسؤول..."
-                style="width:100%;padding:10px 12px;border:2px solid var(--gray-200);border-radius:6px;font-family:inherit;font-size:0.88rem;min-height:60px;resize:vertical;"></textarea>
+              <textarea id="trNotes" maxlength="300" placeholder="أي تفاصيل إضافية..." style="width:100%;padding:10px 12px;border:2px solid var(--gray-200);border-radius:6px;font-family:inherit;font-size:0.88rem;min-height:60px;resize:vertical;"></textarea>
             </div>
-
-            <div class="tr-summary">
-              <span><strong id="trSelectedCount">${sourceItems.length}</strong> منتج محدد</span>
-              <span>إجمالي: <strong id="trTotalPieces">${sourceItems.reduce((s, i) => s + i.suggestedQty, 0)}</strong> قطعة</span>
+            <div style="background:#eff6ff;border:2px solid #93c5fd;border-radius:10px;padding:12px 16px;margin-top:12px;">
+              <div style="display:flex;justify-content:space-between;font-size:0.9rem;"><span><strong id="trSelectedCount">${sourceItems.length}</strong> منتج</span><span>إجمالي: <strong id="trTotalPieces">${sourceItems.reduce((s, i) => s + i.suggestedQty, 0)}</strong> قطعة</span></div>
             </div>
-
           </div>
           <div class="modal-actions">
             <button class="btn btn-outline" onclick="closeModal('transferReqModal')">إلغاء</button>
-            <button class="btn btn-primary" id="trSubmitBtn" onclick="submitTransferRequest()">
-              <i class="fas fa-paper-plane"></i> إرسال الطلب
-            </button>
+            <button class="btn btn-primary" id="trSubmitBtn" onclick="submitTransferRequest()"><i class="fas fa-paper-plane"></i> إرسال</button>
           </div>
         </div>
       </div>`;
-
     document.getElementById('modalContainer').innerHTML = html;
     document.body.style.overflow = 'hidden';
   }
@@ -1487,8 +1841,9 @@
   }
 
   function onTransferQtyChange(idx, val) {
-    const v = parseInt(val) || 0;
-    biState._transferItems[idx].suggestedQty = Math.max(1, v);
+    const it = biState._transferItems[idx];
+    if (!it) return;
+    it.suggestedQty = Math.max(1, parseInt(val) || 0);
     updateTransferSummary();
   }
 
@@ -1499,14 +1854,11 @@
       const chk = document.querySelector(`.tr-check[data-idx="${idx}"]`);
       if (!chk?.checked) return;
       const qtyInput = document.querySelector(`.tr-qty-input[data-idx="${idx}"]`);
-      const q = parseInt(qtyInput?.value) || it.suggestedQty;
       selected++;
-      total += q;
+      total += parseInt(qtyInput?.value) || it.suggestedQty;
     });
-    const sc = document.getElementById('trSelectedCount');
-    const st = document.getElementById('trTotalPieces');
-    if (sc) sc.textContent = selected;
-    if (st) st.textContent = total;
+    document.getElementById('trSelectedCount').textContent = selected;
+    document.getElementById('trTotalPieces').textContent = total;
   }
 
   async function submitTransferRequest() {
@@ -1518,148 +1870,95 @@
       const qtyInput = document.querySelector(`.tr-qty-input[data-idx="${idx}"]`);
       const qty = Math.max(1, parseInt(qtyInput?.value) || it.suggestedQty);
       selectedItems.push({
-        productId: it.product.id,
-        productName: it.product.name || '',
-        productImage: it.product.imageUrl || '',
-        unit: it.product.unit || 'قطعة',
+        productId: it.product.id, productName: it.product.name || '',
+        productImage: it.product.imageUrl || '', unit: it.product.unit || 'قطعة',
         piecesPerUnit: it.product.piecesPerUnit || 1,
-        requestedPieces: qty,
-        availableAtSource: it.availableAtSource,
-        currentAtDest: it.currentAtDest,
-        reason: it.reason
+        requestedPieces: qty, availableAtSource: it.availableAtSource,
+        currentAtDest: it.currentAtDest, reason: it.reason
       });
     });
 
-    if (selectedItems.length === 0) { window.showToast('اختر منتج واحد على الأقل', 'warning'); return; }
+    if (selectedItems.length === 0) { window.showToast('اختر منتج واحد', 'warning'); return; }
 
     const notes = (document.getElementById('trNotes')?.value || '').trim();
     const btn = document.getElementById('trSubmitBtn');
-    btn.disabled = true;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
+    btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>...';
 
     try {
       const whBranch = biState.branches.find(b => b.isWarehouse);
       const destBranch = biState.currentBranch;
       const now = firebase.firestore.FieldValue.serverTimestamp();
-
       const reqRef = db.collection('transfer_requests').doc();
       await reqRef.set({
         id: reqRef.id,
-        fromBranchId: whBranch?.id || 'WH',
-        fromBranchName: whBranch?.name || 'المخزن المركزي',
-        toBranchId: destBranch.id,
-        toBranchName: destBranch.name || destBranch.id,
-        items: selectedItems,
-        totalItems: selectedItems.length,
+        fromBranchId: whBranch?.id || 'WH', fromBranchName: whBranch?.name || 'المخزن المركزي',
+        toBranchId: destBranch.id, toBranchName: destBranch.name || destBranch.id,
+        items: selectedItems, totalItems: selectedItems.length,
         totalPieces: selectedItems.reduce((s, i) => s + i.requestedPieces, 0),
         status: 'pending',
-        requestedBy: biState.adminId,
-        requestedByName: biState.adminName,
-        requestedByRole: biState.adminRole,
-        requestedAt: now,
-        approvedBy: '',
-        approvedByName: '',
-        approvedAt: null,
-        rejectedBy: '',
-        rejectedByName: '',
-        rejectedAt: null,
-        rejectionReason: '',
-        completedAt: null,
-        completedBy: '',
-        transferId: '',
-        notes: notes,
-        createdAt: now,
-        updatedAt: now
+        requestedBy: biState.adminId, requestedByName: biState.adminName,
+        requestedByRole: biState.adminRole, requestedAt: now,
+        approvedBy: '', approvedByName: '', approvedAt: null,
+        rejectedBy: '', rejectedByName: '', rejectedAt: null, rejectionReason: '',
+        completedAt: null, completedBy: '', transferId: '',
+        notes, createdAt: now, updatedAt: now
       });
 
-      // Notify admins
       try {
         await db.collection('admin_notifications').add({
           userId: 'all_admins',
           title: '📤 طلب نقل جديد',
-          body: `${biState.adminName} طلب نقل ${selectedItems.length} منتج إلى ${destBranch.name || destBranch.id}`,
-          type: 'transfer_request_created',
-          transferRequestId: reqRef.id,
-          read: false,
-          createdAt: now
+          body: `${biState.adminName} طلب ${selectedItems.length} منتج إلى ${destBranch.name}`,
+          type: 'transfer_request_created', transferRequestId: reqRef.id,
+          read: false, createdAt: now
         });
       } catch (e) { console.warn(e); }
 
-      window.showToast('✅ تم إرسال طلب النقل للمسؤول', 'success');
+      window.showToast('✅ تم إرسال الطلب', 'success');
       closeModal('transferReqModal');
-      biState._transferItems = null;
-
+      biState._transferItems = [];
     } catch (err) {
       console.error('submitTransferRequest:', err);
       window.showToast('❌ ' + err.message, 'error');
-      btn.disabled = false;
-      btn.innerHTML = '<i class="fas fa-paper-plane"></i> إرسال الطلب';
+      btn.disabled = false; btn.innerHTML = '<i class="fas fa-paper-plane"></i> إرسال';
     }
   }
 
   // ============================================================
-  // Export CSV
+  // CSV Export
   // ============================================================
   function exportCSV() {
     if (biState.filtered.length === 0) { window.showToast('لا توجد بيانات', 'warning'); return; }
-
     const branchName = biState.currentBranch?.name || 'branch';
     const headers = ['المنتج', 'الباركود', 'SKU', 'التصنيف', 'البراند', 'الوحدة', 'عدد القطع/وحدة', 'الفعلي', 'المحجوز', 'المتاح', 'العتبة', 'الحالة', 'آخر تحديث'];
     const rows = [headers];
-
     biState.filtered.forEach(r => {
       const p = r.product;
       rows.push([
-        p.name || '',
-        p.barcode || '',
-        p.sku || '',
-        p.categoryName || '',
-        p.brandName || '',
-        p.unit || '',
-        p.piecesPerUnit || 1,
-        r.branch.pieces,
-        r.branch.reserved,
-        r.branch.available,
-        r.branch.minAlert,
-        STATUS_META[r.status].label,
-        r.branch.lastUpdated ? formatDate(r.branch.lastUpdated) : ''
+        p.name || '', p.barcode || '', p.sku || '', p.categoryName || '', p.brandName || '',
+        p.unit || '', p.piecesPerUnit || 1,
+        r.branch.pieces, r.branch.reserved, r.branch.available, r.branch.minAlert,
+        STATUS_META[r.status].label, r.branch.lastUpdated ? formatDate(r.branch.lastUpdated) : ''
       ]);
     });
-
     const csv = rows.map(row => row.map(c => `"${String(c ?? '').replace(/"/g, '""')}"`).join(',')).join('\r\n');
     const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
-    a.href = url;
-    a.download = `branch-inventory-${branchName}-${new Date().toISOString().slice(0, 10)}.csv`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    a.href = url; a.download = `branch-inventory-${branchName}-${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
     URL.revokeObjectURL(url);
-
     window.showToast('✅ تم تصدير CSV', 'success');
   }
 
   // ============================================================
-  // Helpers
+  // Helpers & Exports
   // ============================================================
-  function closeAllModals() {
-    document.querySelectorAll('.modal-overlay.show').forEach(m => m.classList.remove('show'));
-    document.body.style.overflow = '';
-  }
-  function closeModal(id) {
-    document.getElementById(id)?.classList.remove('show');
-    document.body.style.overflow = '';
-  }
-  function esc(s) {
-    return String(s ?? '').replace(/[&<>"']/g, c => ({
-      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-    }[c]));
-  }
+  function closeAllModals() { document.querySelectorAll('.modal-overlay.show').forEach(m => m.classList.remove('show')); document.body.style.overflow = ''; }
+  function closeModal(id) { document.getElementById(id)?.classList.remove('show'); document.body.style.overflow = ''; }
+  function esc(s) { return String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
+  function toMs(t) { if (!t) return 0; if (t.toMillis) return t.toMillis(); if (t.toDate) return t.toDate().getTime(); if (t instanceof Date) return t.getTime(); return 0; }
 
-  // ============================================================
-  // Exports
-  // ============================================================
   window.loadData = loadData;
   window.onBranchChange = onBranchChange;
   window.switchTab = switchTab;
@@ -1676,6 +1975,14 @@
   window.closeModal = closeModal;
   window.closeAllModals = closeAllModals;
   window.exportCSV = exportCSV;
+  // 🆕 v1.1
+  window.openReceiveModal = openReceiveModal;
+  window.onReceiptReceivedChange = onReceiptReceivedChange;
+  window.onReceiptDamagedChange = onReceiptDamagedChange;
+  window.confirmReceipt = confirmReceipt;
+  window.openTransitDetails = openTransitDetails;
+  window.printTransferReceipt = printTransferReceipt;
+  window.switchToCashierMode = switchToCashierMode;
   </script>
 
 </body>
