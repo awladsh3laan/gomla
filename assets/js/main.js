@@ -2128,7 +2128,104 @@ document.addEventListener('DOMContentLoaded', async function() {
   
   console.log('✅ main.js v8.2 loaded successfully');
 });
+// ============================================================
+// 💳 formatPaymentMethodLabel — اسم عربي لطريقة الدفع
+// ============================================================
+function formatPaymentMethodLabel(method) {
+  const labels = {
+    cash: 'الدفع عند الاستلام',
+    instapay: 'إنستا باي',
+    wallet: 'محفظة إلكترونية',
+    card: 'بطاقة بنكية',
+    credit: 'آجل (تقسيط)',
+    cod: 'الدفع عند الاستلام',
+    online: 'دفع إلكتروني'
+  };
+  return labels[method] || method || '—';
+}
 
+// ============================================================
+// 🕒 releaseExpiredOrders — تحرير الطلبات المحجوزة المنتهية (>3 ساعة)
+// ✅ يشتغل لكل من: wholesale (products.reservedPieces) + retail (branch_inventory)
+// ============================================================
+// ⏱️ مدة حجز الطلب قبل التحرير التلقائي (بالساعات)
+const ORDER_RESERVATION_HOURS = 3;
+
+async function releaseExpiredOrders() {
+  if (!window.db) {
+    console.warn('releaseExpiredOrders: db not ready');
+    return { count: 0 };
+  }
+
+  try {
+    const cutoff = new Date(Date.now() - ORDER_RESERVATION_HOURS * 60 * 60 * 1000);
+
+    const snap = await db.collection('orders')
+      .where('reserved', '==', true)
+      .where('released', '==', false)
+      .where('createdAt', '<', cutoff)
+      .limit(20)
+      .get();
+
+    if (snap.empty) return { count: 0 };
+
+    console.log(`🕒 Auto-release: ${snap.size} expired orders`);
+
+    let releasedCount = 0;
+
+    for (const doc of snap.docs) {
+      const order = doc.data();
+      if (!order.items || !Array.isArray(order.items)) continue;
+
+      try {
+        await db.runTransaction(async (t) => {
+          const oDoc = await t.get(doc.ref);
+          const o = oDoc.data();
+          if (!o.reserved || o.released) return;
+
+          const isWholesale = o.storeType === 'wholesale';
+          const branchId = o.branchId || 'RGB';
+
+          for (const item of o.items) {
+            const qty = item.quantity || 0;
+            if (qty <= 0) continue;
+
+            if (isWholesale) {
+              const pRef = db.collection('products').doc(item.productId);
+              t.update(pRef, {
+                reservedPieces: firebase.firestore.FieldValue.increment(-qty)
+              });
+            } else {
+              const invRef = db.collection('branch_inventory').doc(`${branchId}_${item.productId}`);
+              const invDoc = await t.get(invRef);
+              if (invDoc.exists) {
+                t.update(invRef, {
+                  reservedQty: firebase.firestore.FieldValue.increment(-qty),
+                  availableQty: firebase.firestore.FieldValue.increment(qty)
+                });
+              }
+            }
+          }
+
+          t.update(doc.ref, {
+            released: true,
+            releasedAt: firebase.firestore.FieldValue.serverTimestamp(),
+            releaseReason: 'auto_timeout_3h',
+            status: 'auto_cancelled'
+          });
+        });
+        releasedCount++;
+      } catch (e) {
+        console.warn(`Auto-release failed for ${doc.id}:`, e);
+      }
+    }
+
+    return { count: releasedCount };
+  } catch (err) {
+    console.warn('releaseExpiredOrders error:', err);
+    return { count: 0, error: err.message };
+  }
+}
 // ============================================================
 // 🌐 تصدير الدوال عالمياً
 // ============================================================
