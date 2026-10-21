@@ -1,0 +1,1682 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مخزون الفرع — أولاد شعلان</title>
+  <meta name="theme-color" content="#1a2a4a">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/gomla/assets/css/style.css">
+  <link rel="icon" href="/gomla/assets/images/favicon.ico">
+
+  <style>
+    html, body { overflow-x: hidden !important; max-width: 100vw; }
+
+    /* Header */
+    .bi-header {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+      border-radius: var(--radius-lg); padding: 22px 24px; margin-bottom: 18px;
+      color: var(--white); position: relative; overflow: hidden;
+      box-shadow: 0 12px 40px rgba(26,42,74,.25);
+      border-bottom: 4px solid var(--gold);
+    }
+    .bi-header::before {
+      content: ''; position: absolute; top: -50%; right: -15%;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(201,168,76,.18) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+    .bi-header-inner {
+      position: relative; z-index: 1;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap;
+    }
+    .bi-header-left { display: flex; align-items: center; gap: 16px; flex: 1; min-width: 220px; }
+    .bi-header-icon {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: var(--navy); display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; flex-shrink: 0;
+      box-shadow: 0 8px 24px rgba(201,168,76,.4);
+    }
+    .bi-header h1 { font-size: 1.35rem; font-weight: 900; margin: 0 0 3px; color: var(--white); }
+    .bi-header p { font-size: 0.83rem; opacity: 0.88; margin: 0; }
+    .bi-header-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .bi-header-actions .btn {
+      background: rgba(255,255,255,.15); color: var(--white);
+      border: 1px solid rgba(255,255,255,.3);
+      padding: 8px 14px; border-radius: var(--radius-sm);
+      font-family: inherit; font-weight: 700; font-size: 0.82rem;
+      cursor: pointer; transition: var(--transition);
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .bi-header-actions .btn:hover { background: var(--gold); color: var(--navy); border-color: var(--gold); }
+    .bi-header-actions .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* Branch Selector */
+    .bi-branch-panel {
+      background: var(--white); border-radius: var(--radius-md);
+      padding: 16px 20px; margin-bottom: 16px;
+      box-shadow: var(--shadow-sm); border: 1px solid var(--gray-200);
+    }
+    .bi-branch-row {
+      display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .bi-branch-row select {
+      flex: 1; min-width: 200px; max-width: 400px;
+      padding: 11px 14px;
+      border: 2px solid var(--gray-200); border-radius: var(--radius-sm);
+      font-family: inherit; font-size: 0.95rem; font-weight: 800;
+      color: var(--navy); background: var(--gray-50);
+      cursor: pointer; outline: none; transition: var(--transition);
+    }
+    .bi-branch-row select:focus { border-color: var(--gold); background: var(--white); box-shadow: 0 0 0 4px rgba(201,168,76,.15); }
+    .bi-branch-row .branch-name-badge {
+      padding: 10px 16px; border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: white; font-weight: 900; font-size: 0.9rem;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .bi-branch-row .branch-name-badge i { color: var(--gold); }
+    .bi-branch-info {
+      display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;
+      padding-top: 12px; border-top: 1px dashed var(--gray-200);
+      font-size: 0.8rem;
+    }
+    .bi-branch-info-item { text-align: center; }
+    .bi-branch-info-lbl { font-size: 0.68rem; color: var(--gray-500); font-weight: 700; margin-bottom: 3px; }
+    .bi-branch-info-val { font-size: 0.9rem; color: var(--navy); font-weight: 900; }
+
+    /* Smart Alert Banner */
+    .bi-alert-banner {
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      border: 2px solid #fbbf24;
+      border-radius: var(--radius-md);
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 12px rgba(251,191,36,.2);
+      animation: slideIn 0.3s ease;
+    }
+    @keyframes slideIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    .bi-alert-banner.info {
+      background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+      border-color: #60a5fa;
+      box-shadow: 0 4px 12px rgba(96,165,250,.2);
+    }
+    .bi-alert-head {
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 10px; flex-wrap: wrap; margin-bottom: 10px;
+    }
+    .bi-alert-title {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 0.95rem; font-weight: 900;
+      color: #92400e;
+    }
+    .bi-alert-banner.info .bi-alert-title { color: #1e40af; }
+    .bi-alert-title .alert-icon {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: rgba(251,191,36,.3); color: #92400e;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; flex-shrink: 0;
+    }
+    .bi-alert-banner.info .alert-icon { background: rgba(96,165,250,.3); color: #1e40af; }
+    .bi-alert-count {
+      display: inline-flex; align-items: center; justify-content: center;
+      background: #92400e; color: white;
+      min-width: 26px; height: 26px; padding: 0 8px;
+      border-radius: 20px; font-size: 0.85rem; font-weight: 900;
+    }
+    .bi-alert-banner.info .bi-alert-count { background: #1e40af; }
+    .bi-alert-actions {
+      display: flex; gap: 8px; flex-wrap: wrap;
+    }
+    .bi-alert-actions .btn-sm {
+      padding: 8px 14px; border-radius: var(--radius-sm);
+      font-family: inherit; font-weight: 800; font-size: 0.8rem;
+      cursor: pointer; transition: var(--transition);
+      display: inline-flex; align-items: center; gap: 6px;
+      border: 2px solid;
+    }
+    .bi-alert-actions .btn-show {
+      background: white; color: #92400e; border-color: #fbbf24;
+    }
+    .bi-alert-actions .btn-show:hover { background: #fbbf24; color: white; }
+    .bi-alert-actions .btn-request-all {
+      background: #92400e; color: white; border-color: #92400e;
+    }
+    .bi-alert-actions .btn-request-all:hover { background: #b45309; }
+    .bi-alert-actions .btn-request-all:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .bi-alert-preview {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.35s ease;
+    }
+    .bi-alert-preview.open { max-height: 400px; overflow-y: auto; }
+    .bi-alert-list {
+      background: white; border-radius: 6px;
+      padding: 8px 12px; margin-top: 8px;
+    }
+    .bi-alert-item {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 0; font-size: 0.82rem;
+      border-bottom: 1px solid var(--gray-100);
+    }
+    .bi-alert-item:last-child { border-bottom: none; }
+    .bi-alert-item i.reason-out { color: #dc2626; }
+    .bi-alert-item i.reason-low { color: #d97706; }
+    .bi-alert-item i.reason-missing { color: #6b7280; }
+    .bi-alert-item .reason-text {
+      font-size: 0.7rem; color: var(--gray-500);
+      margin-right: 4px;
+    }
+
+    /* Stats */
+    .bi-stats {
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 10px; margin-bottom: 16px;
+    }
+    .bi-stat {
+      background: var(--white); border-radius: var(--radius-md);
+      padding: 14px 10px; box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      text-align: center; transition: var(--transition);
+      cursor: pointer;
+    }
+    .bi-stat:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--gold-light); }
+    .bi-stat.active { border-color: var(--gold); background: linear-gradient(135deg, #fcf9f0, #f8f4e8); }
+    .bi-stat-icon { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; margin: 0 auto 6px; }
+    .bi-stat-icon.navy   { background: rgba(26,42,74,.12); color: var(--navy); }
+    .bi-stat-icon.green  { background: rgba(34,197,94,.12); color: #16a34a; }
+    .bi-stat-icon.gold   { background: rgba(201,168,76,.15); color: var(--gold-dark); }
+    .bi-stat-icon.red    { background: rgba(239,68,68,.12);  color: #dc2626; }
+    .bi-stat-num { font-size: 1.15rem; font-weight: 900; color: var(--navy); line-height: 1.2; margin-bottom: 2px; }
+    .bi-stat-num.green  { color: #16a34a; }
+    .bi-stat-num.gold   { color: var(--gold-dark); }
+    .bi-stat-num.red    { color: #dc2626; }
+    .bi-stat-label { font-size: 0.65rem; color: var(--gray-500); font-weight: 700; line-height: 1.2; }
+
+    /* Tabs */
+    .bi-tabs {
+      display: flex; gap: 6px; margin-bottom: 16px;
+      background: var(--white); padding: 8px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      overflow-x: auto;
+    }
+    .bi-tab {
+      flex-shrink: 0; padding: 10px 16px;
+      border: 2px solid var(--gray-200); background: var(--white);
+      color: var(--gray-600); border-radius: var(--radius-sm);
+      font-family: inherit; font-weight: 800; font-size: 0.82rem;
+      cursor: pointer; transition: all 0.25s ease;
+      display: inline-flex; align-items: center; gap: 6px;
+      white-space: nowrap;
+    }
+    .bi-tab:hover { border-color: var(--gold-light); background: var(--gray-50); }
+    .bi-tab.active {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white); border-color: var(--navy);
+      box-shadow: 0 6px 16px rgba(26,42,74,.25);
+    }
+    .bi-tab.active i { color: var(--gold); }
+    .bi-tab .tab-count {
+      background: rgba(0,0,0,.08); padding: 1px 7px;
+      border-radius: 10px; font-size: 0.65rem; font-weight: 900;
+      min-width: 20px; text-align: center;
+    }
+    .bi-tab.active .tab-count { background: var(--gold); color: var(--navy); }
+
+    /* Filters */
+    .bi-filters {
+      background: var(--white); border-radius: var(--radius-md);
+      padding: 12px 14px; margin-bottom: 16px;
+      box-shadow: var(--shadow-sm); border: 1px solid var(--gray-200);
+      display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+    }
+    .bi-search { position: relative; flex: 1; min-width: 200px; }
+    .bi-search input {
+      width: 100%; padding: 10px 40px 10px 14px;
+      border: 2px solid var(--gray-200); border-radius: var(--radius-sm);
+      font-family: inherit; font-size: 0.88rem;
+      background: var(--gray-50); outline: none; transition: var(--transition);
+    }
+    .bi-search input:focus { border-color: var(--gold); background: var(--white); box-shadow: 0 0 0 4px rgba(201,168,76,.15); }
+    .bi-search i { position: absolute; right: 13px; top: 50%; transform: translateY(-50%); color: var(--gray-400); }
+    .bi-filters select {
+      padding: 10px 12px; border: 2px solid var(--gray-200);
+      border-radius: var(--radius-sm); font-family: inherit;
+      font-size: 0.82rem; background: var(--gray-50);
+      outline: none; cursor: pointer; min-width: 120px;
+    }
+    .bi-filters select:focus { border-color: var(--gold); background: var(--white); }
+    .bi-filters .btn-icon-only {
+      padding: 10px 14px; border: 2px solid var(--gray-200);
+      background: var(--white); border-radius: var(--radius-sm);
+      color: var(--gray-600); cursor: pointer; transition: var(--transition);
+    }
+    .bi-filters .btn-icon-only:hover { border-color: var(--gold); color: var(--gold-dark); }
+
+    /* List */
+    .bi-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+
+    .bi-card {
+      background: var(--white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-sm);
+      border: 1px solid var(--gray-200);
+      padding: 14px 16px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 64px 1fr auto;
+      gap: 14px;
+      align-items: center;
+    }
+    .bi-card::before {
+      content: ''; position: absolute; top: 0; right: 0;
+      width: 4px; height: 100%; background: var(--gold);
+    }
+    .bi-card.status-available::before { background: #22c55e; }
+    .bi-card.status-low::before       { background: #f59e0b; }
+    .bi-card.status-out::before       { background: #ef4444; }
+    .bi-card.status-missing::before   { background: #6b7280; }
+    .bi-card:hover {
+      box-shadow: var(--shadow-md);
+      border-color: var(--gold-light);
+    }
+    .bi-card-img {
+      width: 64px; height: 64px;
+      border-radius: 8px; object-fit: cover;
+      border: 1px solid var(--gray-200);
+    }
+    .bi-card-info { min-width: 0; }
+    .bi-card-name {
+      font-size: 0.95rem; font-weight: 900;
+      color: var(--navy); margin-bottom: 5px;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .bi-card-meta {
+      display: flex; gap: 10px; flex-wrap: wrap;
+      font-size: 0.72rem; color: var(--gray-500);
+      margin-bottom: 8px;
+    }
+    .bi-card-meta span { display: inline-flex; align-items: center; gap: 3px; }
+    .bi-card-meta i { color: var(--gold); font-size: 0.65rem; }
+
+    .bi-card-numbers {
+      display: flex; gap: 8px;
+    }
+    .bi-number-box {
+      min-width: 68px; text-align: center;
+      padding: 8px;
+      border-radius: 6px;
+      background: var(--gray-50);
+      border: 1px solid var(--gray-200);
+    }
+    .bi-number-lbl {
+      font-size: 0.62rem; font-weight: 800;
+      color: var(--gray-500); margin-bottom: 2px;
+    }
+    .bi-number-val {
+      font-size: 1rem; font-weight: 900;
+      color: var(--navy); line-height: 1;
+    }
+    .bi-number-box.pieces .bi-number-val { color: var(--navy); }
+    .bi-number-box.reserved { background: #fef3c7; border-color: #fcd34d; }
+    .bi-number-box.reserved .bi-number-val { color: #d97706; }
+    .bi-number-box.available { background: #dcfce7; border-color: #86efac; }
+    .bi-number-box.available .bi-number-val { color: #16a34a; }
+    .bi-number-box.available.low { background: #fef3c7; border-color: #fcd34d; }
+    .bi-number-box.available.low .bi-number-val { color: #d97706; }
+    .bi-number-box.available.zero { background: #fef2f2; border-color: #fca5a5; }
+    .bi-number-box.available.zero .bi-number-val { color: #dc2626; }
+
+    .bi-card-actions {
+      display: flex; flex-direction: column; gap: 6px;
+      align-items: stretch;
+    }
+    .bi-action-btn {
+      padding: 8px 12px;
+      border: 1.5px solid;
+      border-radius: var(--radius-sm);
+      font-family: inherit; font-weight: 800;
+      font-size: 0.72rem; cursor: pointer;
+      transition: all .2s ease;
+      display: inline-flex; align-items: center; justify-content: center; gap: 5px;
+      background: var(--white); white-space: nowrap;
+    }
+    .bi-action-btn.view { border-color: var(--gray-300); color: var(--gray-700); }
+    .bi-action-btn.view:hover { background: var(--navy); color: white; border-color: var(--navy); }
+    .bi-action-btn.request { border-color: #93c5fd; color: #1e40af; background: #eff6ff; }
+    .bi-action-btn.request:hover { background: #3b82f6; color: white; border-color: #2563eb; }
+    .bi-action-btn.request:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .bi-status-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 4px 10px; border-radius: var(--radius-full);
+      font-size: 0.7rem; font-weight: 900;
+      white-space: nowrap;
+      margin-top: 6px;
+    }
+    .bi-status-badge.status-available { background: #dcfce7; color: #15803d; }
+    .bi-status-badge.status-low       { background: #fef3c7; color: #a16207; }
+    .bi-status-badge.status-out       { background: #fef2f2; color: #991b1b; }
+    .bi-status-badge.status-missing   { background: #f1f5f9; color: #475569; }
+
+    /* Empty / Loading */
+    .bi-empty, .bi-loading {
+      text-align: center; padding: 60px 20px;
+      background: var(--white); border-radius: var(--radius-md);
+      border: 2px dashed var(--gray-300);
+    }
+    .bi-empty .empty-icon {
+      width: 90px; height: 90px; border-radius: 50%;
+      background: var(--gray-100); color: var(--gray-400);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.2rem; margin: 0 auto 16px;
+    }
+    .bi-empty h3 { font-size: 1.1rem; font-weight: 900; color: var(--navy); margin-bottom: 6px; }
+    .bi-empty p { font-size: 0.85rem; color: var(--gray-500); }
+    .bi-loading i { font-size: 2rem; color: var(--gold); margin-bottom: 10px; }
+
+    /* Modal */
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(15,26,46,.75); backdrop-filter: blur(4px);
+      z-index: 999; justify-content: center; align-items: center;
+      padding: 20px; overflow-y: auto;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal-content {
+      background: var(--white); border-radius: var(--radius-lg);
+      max-width: 820px; width: 100%;
+      max-height: 92vh; overflow-y: auto;
+      padding: 0; position: relative;
+      animation: modalSlide .3s ease;
+    }
+    .modal-content.medium { max-width: 720px; }
+    @keyframes modalSlide { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    .modal-header {
+      padding: 18px 22px;
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
+      color: var(--white);
+      display: flex; justify-content: space-between; align-items: center;
+      position: sticky; top: 0; z-index: 2;
+    }
+    .modal-header h2 {
+      font-size: 1.05rem; font-weight: 900; margin: 0;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .modal-header h2 i { color: var(--gold); }
+    .modal-close {
+      background: rgba(255,255,255,.15); border: none;
+      color: var(--white); width: 32px; height: 32px;
+      border-radius: 50%; cursor: pointer; font-size: 1.1rem;
+      transition: var(--transition);
+    }
+    .modal-close:hover { background: var(--danger); transform: rotate(90deg); }
+    .modal-body { padding: 20px 22px; }
+    .modal-actions {
+      padding: 16px 22px; border-top: 2px solid var(--gray-100);
+      display: flex; gap: 10px; justify-content: flex-end;
+      position: sticky; bottom: 0; background: var(--white);
+      flex-wrap: wrap;
+    }
+    .btn {
+      padding: 9px 18px; border: none; border-radius: var(--radius-sm);
+      font-family: inherit; font-weight: 800; font-size: 0.85rem;
+      cursor: pointer; transition: var(--transition);
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-outline { background: transparent; border: 2px solid var(--gray-300); color: var(--gray-700); }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold-dark); }
+    .btn-gold { background: var(--gold); color: var(--navy); }
+    .btn-gold:hover { background: var(--gold-dark); color: var(--white); }
+    .btn-primary { background: #2563eb; color: white; }
+    .btn-primary:hover { background: #1e40af; }
+    .btn-success { background: #16a34a; color: white; }
+    .btn-success:hover { background: #15803d; }
+
+    /* Detail Modal */
+    .bi-hero {
+      display: flex; gap: 16px; align-items: center;
+      padding: 16px;
+      background: linear-gradient(135deg, #f8fafc, #eef2f7);
+      border-radius: 12px; margin-bottom: 16px;
+    }
+    .bi-hero img { width: 96px; height: 96px; border-radius: 10px; object-fit: cover; border: 2px solid white; box-shadow: 0 4px 12px rgba(0,0,0,.1); }
+    .bi-hero-info { flex: 1; min-width: 0; }
+    .bi-hero-name { font-size: 1.15rem; font-weight: 900; color: var(--navy); margin-bottom: 6px; }
+    .bi-hero-meta { display: flex; gap: 12px; flex-wrap: wrap; font-size: 0.78rem; color: var(--gray-600); }
+    .bi-hero-meta span { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; background: white; border-radius: 12px; border: 1px solid var(--gray-200); }
+    .bi-hero-meta i { color: var(--gold); }
+
+    .bi-detail-box {
+      background: white;
+      border: 2px solid var(--gray-200);
+      border-radius: 10px; padding: 16px;
+      margin-bottom: 12px;
+    }
+    .bi-detail-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .bi-detail-cell { text-align: center; padding: 10px; background: var(--gray-50); border-radius: 6px; }
+    .bi-detail-lbl { font-size: 0.68rem; font-weight: 800; color: var(--gray-500); margin-bottom: 4px; }
+    .bi-detail-val { font-size: 1.15rem; font-weight: 900; color: var(--navy); }
+
+    /* Transfer Request Modal */
+    .tr-item-row {
+      display: grid;
+      grid-template-columns: 24px 48px 1fr 90px 90px;
+      gap: 10px; align-items: center;
+      padding: 10px; border: 1px solid var(--gray-200);
+      border-radius: 8px; margin-bottom: 8px;
+      background: white;
+    }
+    .tr-item-row.checked { background: #f0fdf4; border-color: #86efac; }
+    .tr-item-row input[type="checkbox"] {
+      width: 20px; height: 20px;
+      accent-color: var(--gold); cursor: pointer;
+    }
+    .tr-item-row img {
+      width: 48px; height: 48px; border-radius: 6px;
+      object-fit: cover; border: 1px solid var(--gray-200);
+    }
+    .tr-item-info { min-width: 0; }
+    .tr-item-name {
+      font-size: 0.85rem; font-weight: 800;
+      color: var(--navy); margin-bottom: 3px;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .tr-item-meta { font-size: 0.7rem; color: var(--gray-500); }
+    .tr-item-qty input {
+      width: 100%; padding: 7px;
+      border: 2px solid var(--gray-200);
+      border-radius: 6px; text-align: center;
+      font-family: inherit; font-weight: 900;
+      font-size: 0.9rem; outline: none;
+    }
+    .tr-item-qty input:focus { border-color: var(--gold); }
+    .tr-item-qty small { display: block; text-align: center; font-size: 0.6rem; color: var(--gray-500); margin-top: 2px; }
+
+    .tr-summary {
+      background: #eff6ff;
+      border: 2px solid #93c5fd;
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin-top: 12px;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.9rem;
+    }
+    .tr-summary strong { color: #1e40af; font-size: 1.1rem; }
+
+    @media (max-width: 1200px) {
+      .bi-stats { grid-template-columns: repeat(2, 1fr); }
+      .bi-branch-info { grid-template-columns: repeat(3, 1fr); }
+      .bi-card { grid-template-columns: 64px 1fr; }
+      .bi-card-actions { grid-column: 1 / -1; flex-direction: row; flex-wrap: wrap; }
+      .bi-card-numbers { grid-column: 1 / -1; justify-content: space-around; padding-top: 8px; border-top: 1px solid var(--gray-100); }
+    }
+    @media (max-width: 768px) {
+      .bi-header { padding: 16px; }
+      .bi-header-icon { width: 46px; height: 46px; font-size: 1.2rem; }
+      .bi-header h1 { font-size: 1.05rem; }
+      .bi-branch-info { grid-template-columns: 1fr 1fr; }
+      .bi-branch-row select { min-width: 100%; }
+      .bi-stats { grid-template-columns: 1fr 1fr; gap: 8px; }
+      .bi-stat { padding: 11px 8px; }
+      .bi-tab { padding: 8px 12px; font-size: 0.75rem; }
+      .bi-filters { flex-direction: column; align-items: stretch; }
+      .bi-search, .bi-filters select { min-width: 100%; }
+      .bi-card { padding: 10px 12px; grid-template-columns: 48px 1fr; }
+      .bi-card-img { width: 48px; height: 48px; }
+      .bi-number-box { min-width: 54px; padding: 6px; }
+      .bi-number-val { font-size: 0.9rem; }
+      .bi-action-btn { font-size: 0.7rem; padding: 6px 10px; }
+      .modal-content { margin: 10px; }
+      .tr-item-row { grid-template-columns: 20px 40px 1fr; }
+      .tr-item-qty { grid-column: 1 / -1; display: flex; align-items: center; gap: 8px; }
+      .tr-item-qty input { width: 100px; }
+      .tr-summary { flex-direction: column; gap: 8px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="mobile-top-bar"></div>
+  <div id="mobile-top-tabs"></div>
+  <div id="header-placeholder"></div>
+
+  <main class="page-content">
+    <div class="container">
+
+      <div class="bi-header">
+        <div class="bi-header-inner">
+          <div class="bi-header-left">
+            <div class="bi-header-icon"><i class="fas fa-store-alt"></i></div>
+            <div>
+              <h1>مخزون الفرع</h1>
+              <p>تفاصيل دقيقة لفرع واحد · الفعلي / المحجوز / المتاح</p>
+            </div>
+          </div>
+          <div class="bi-header-actions">
+            <button class="btn" onclick="loadData()" id="refreshBtn">
+              <i class="fas fa-sync-alt"></i> تحديث
+            </button>
+            <button class="btn" onclick="exportCSV()">
+              <i class="fas fa-file-csv"></i> تصدير CSV
+            </button>
+            <a href="/gomla/admin/transfers.html" class="btn">
+              <i class="fas fa-exchange-alt"></i> صفحة النقل
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Branch Selector -->
+      <div class="bi-branch-panel">
+        <div class="bi-branch-row">
+          <select id="branchSelect" onchange="onBranchChange()">
+            <option value="">— جاري التحميل... —</option>
+          </select>
+          <div class="branch-name-badge" id="branchNameBadge" style="display:none;">
+            <i class="fas fa-building"></i> <span id="branchNameText">—</span>
+          </div>
+        </div>
+        <div class="bi-branch-info" id="branchInfo" style="display:none;">
+          <div class="bi-branch-info-item">
+            <div class="bi-branch-info-lbl">النوع</div>
+            <div class="bi-branch-info-val" id="branchInfoType">—</div>
+          </div>
+          <div class="bi-branch-info-item">
+            <div class="bi-branch-info-lbl">المدير</div>
+            <div class="bi-branch-info-val" id="branchInfoManager">—</div>
+          </div>
+          <div class="bi-branch-info-item">
+            <div class="bi-branch-info-lbl">المنتجات</div>
+            <div class="bi-branch-info-val" id="branchInfoProducts">—</div>
+          </div>
+          <div class="bi-branch-info-item">
+            <div class="bi-branch-info-lbl">إجمالي القطع</div>
+            <div class="bi-branch-info-val" id="branchInfoPieces">—</div>
+          </div>
+          <div class="bi-branch-info-item">
+            <div class="bi-branch-info-lbl">العنوان</div>
+            <div class="bi-branch-info-val" id="branchInfoAddress" style="font-size:0.75rem;">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Smart Alert Banner -->
+      <div id="smartAlertContainer"></div>
+
+      <!-- Stats -->
+      <div class="bi-stats" id="biStats">
+        <div class="bi-stat active" onclick="filterByStatus('all', event)">
+          <div class="bi-stat-icon navy"><i class="fas fa-boxes"></i></div>
+          <div class="bi-stat-num navy" id="statTotal">0</div>
+          <div class="bi-stat-label">إجمالي المنتجات</div>
+        </div>
+        <div class="bi-stat" onclick="filterByStatus('available', event)">
+          <div class="bi-stat-icon green"><i class="fas fa-check-circle"></i></div>
+          <div class="bi-stat-num green" id="statAvailable">0</div>
+          <div class="bi-stat-label">متاح</div>
+        </div>
+        <div class="bi-stat" onclick="filterByStatus('low', event)">
+          <div class="bi-stat-icon gold"><i class="fas fa-exclamation-triangle"></i></div>
+          <div class="bi-stat-num gold" id="statLow">0</div>
+          <div class="bi-stat-label">منخفض</div>
+        </div>
+        <div class="bi-stat" onclick="filterByStatus('out', event)">
+          <div class="bi-stat-icon red"><i class="fas fa-times-circle"></i></div>
+          <div class="bi-stat-num red" id="statOut">0</div>
+          <div class="bi-stat-label">نافد</div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="bi-tabs" id="biTabs">
+        <button class="bi-tab active" data-tab="all" onclick="switchTab('all')">
+          <i class="fas fa-list"></i> الكل <span class="tab-count">0</span>
+        </button>
+        <button class="bi-tab" data-tab="available" onclick="switchTab('available')">
+          <i class="fas fa-check-circle"></i> متاح <span class="tab-count">0</span>
+        </button>
+        <button class="bi-tab" data-tab="low" onclick="switchTab('low')">
+          <i class="fas fa-exclamation-triangle"></i> منخفض <span class="tab-count">0</span>
+        </button>
+        <button class="bi-tab" data-tab="out" onclick="switchTab('out')">
+          <i class="fas fa-times-circle"></i> نافد <span class="tab-count">0</span>
+        </button>
+      </div>
+
+      <!-- Filters -->
+      <div class="bi-filters">
+        <div class="bi-search">
+          <input type="text" id="biSearch" placeholder="بحث بالاسم / الباركود / SKU..." oninput="onSearchInput()">
+          <i class="fas fa-search"></i>
+        </div>
+        <select id="biCategory" onchange="applyFilters()">
+          <option value="">كل التصنيفات</option>
+        </select>
+        <select id="biBrand" onchange="applyFilters()">
+          <option value="">كل البراندات</option>
+        </select>
+        <button class="btn-icon-only" onclick="resetFilters()" title="إعادة تعيين">
+          <i class="fas fa-undo"></i>
+        </button>
+      </div>
+
+      <!-- List -->
+      <div class="bi-list" id="biList">
+        <div class="bi-loading"><i class="fas fa-spinner fa-spin"></i><p>جاري تحميل المخزون...</p></div>
+      </div>
+
+    </div>
+  </main>
+
+  <div id="mobile-bottom-tabs"></div>
+  <div id="mobile-copyright"></div>
+  <div id="footer-placeholder"></div>
+  <div id="sidebar-placeholder"></div>
+  <div id="toast-container"></div>
+  <div id="modalContainer"></div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="/gomla/assets/js/firebase-config.js"></script>
+  <script src="/gomla/assets/js/main.js"></script>
+
+  <script>
+  // ============================================================
+  // admin/branch-inventory.html v1.0
+  // ✅ Read-only + Smart Alert + Transfer Request
+  // ============================================================
+
+  const biState = {
+    role: 'guest',
+    isSuper: false,
+    isAdminPlus: false,
+    isAdmin: false,
+    adminId: '',
+    adminName: '',
+    adminRole: '',
+    branches: [],
+    currentBranchId: 'WH',
+    currentBranch: null,
+    products: [],
+    categories: [],
+    brands: [],
+    invMap: {},         // productId -> { branchId -> inv }
+    merged: [],         // list of { product, wh, branch, totals, status }
+    filtered: [],
+    alertItems: [],     // smart alert list
+    currentTab: 'all',
+    searchDebounce: null,
+    loading: false,
+    alertExpanded: false
+  };
+
+  const STATUS_META = {
+    available: { label: 'متاح', icon: 'check-circle', cls: 'status-available' },
+    low:       { label: 'منخفض', icon: 'exclamation-triangle', cls: 'status-low' },
+    out:       { label: 'نافد', icon: 'times-circle', cls: 'status-out' },
+    missing:   { label: 'لم يصل', icon: 'question-circle', cls: 'status-missing' }
+  };
+
+  // ============================================================
+  // Init
+  // ============================================================
+  document.addEventListener('DOMContentLoaded', async () => {
+    if (!protectAnyAdminPage()) return;
+
+    try {
+      const user = getCurrentUser();
+      biState.role = user.data?.role || 'admin';
+      biState.isSuper = biState.role === 'super';
+      biState.isAdminPlus = biState.role === 'admin_plus';
+      biState.isAdmin = ['super', 'admin_plus', 'admin'].includes(biState.role);
+      biState.adminId = user.data?.id || user.data?.uid || '';
+      biState.adminName = user.data?.name || '';
+      biState.adminRole = biState.role;
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeAllModals();
+      });
+
+      await loadBranches();
+      await loadData();
+      console.log('✅ branch-inventory v1.0 ready — role:', biState.role);
+
+    } catch (err) {
+      console.error('Init error:', err);
+      window.showToast('خطأ في تحميل الصفحة', 'error');
+    }
+  });
+
+  // ============================================================
+  // Load Branches
+  // ============================================================
+  async function loadBranches() {
+    try {
+      const snap = await db.collection('branches').where('active', '==', true).get();
+      biState.branches = [];
+      snap.forEach(doc => biState.branches.push({ id: doc.id, ...doc.data() }));
+      biState.branches.sort((a, b) => {
+        if (a.isWarehouse) return -1;
+        if (b.isWarehouse) return 1;
+        return (a.name || '').localeCompare(b.name || '', 'ar');
+      });
+
+      const sel = document.getElementById('branchSelect');
+      if (sel) {
+        sel.innerHTML = biState.branches.map(b => `
+          <option value="${b.id}">
+            ${b.isWarehouse ? '🏭' : '🏪'} ${esc(b.name || b.id)}
+          </option>
+        `).join('');
+        // Default: WH
+        const wh = biState.branches.find(b => b.isWarehouse);
+        if (wh) sel.value = wh.id;
+        biState.currentBranchId = sel.value;
+      }
+    } catch (err) {
+      console.error('loadBranches:', err);
+      window.showToast('خطأ في تحميل الفروع', 'error');
+    }
+  }
+
+  function onBranchChange() {
+    const sel = document.getElementById('branchSelect');
+    if (!sel) return;
+    biState.currentBranchId = sel.value;
+    biState.alertExpanded = false;
+    rebuildMerged();
+    renderBranchInfo();
+    renderSmartAlert();
+    updateStats();
+    updateTabsCounts();
+    applyFilters();
+  }
+
+  // ============================================================
+  // Load Data
+  // ============================================================
+  async function loadData() {
+    if (biState.loading) return;
+    biState.loading = true;
+
+    const btn = document.getElementById('refreshBtn');
+    if (btn) { btn.disabled = true; btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> تحميل...'; }
+
+    const list = document.getElementById('biList');
+    if (list) list.innerHTML = `<div class="bi-loading"><i class="fas fa-spinner fa-spin"></i><p>جاري تحميل المخزون...</p></div>`;
+
+    try {
+      const [pSnap, iSnap, catSnap, brandSnap] = await Promise.all([
+        db.collection('products').where('available', '==', true).limit(800).get(),
+        db.collection('branch_inventory').limit(2000).get(),
+        db.collection('categories').orderBy('name').get().catch(() => ({ forEach: () => {} })),
+        db.collection('brands').orderBy('name').get().catch(() => ({ forEach: () => {} }))
+      ]);
+
+      // Products
+      biState.products = [];
+      pSnap.forEach(doc => biState.products.push({ id: doc.id, ...doc.data() }));
+      biState.products.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ar'));
+
+      // Inventory Map
+      biState.invMap = {};
+      iSnap.forEach(doc => {
+        const d = doc.data();
+        if (!d.productId || !d.branchId) return;
+        if (!biState.invMap[d.productId]) biState.invMap[d.productId] = {};
+        biState.invMap[d.productId][d.branchId] = d;
+      });
+
+      // Categories + Brands
+      biState.categories = [];
+      catSnap.forEach(doc => biState.categories.push({ id: doc.id, ...doc.data() }));
+      biState.categories.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ar'));
+
+      biState.brands = [];
+      brandSnap.forEach(doc => biState.brands.push({ id: doc.id, ...doc.data() }));
+      biState.brands.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ar'));
+
+      populateCategoryFilter();
+      populateBrandFilter();
+
+      rebuildMerged();
+      renderBranchInfo();
+      renderSmartAlert();
+      updateStats();
+      updateTabsCounts();
+      applyFilters();
+
+      biState.loading = false;
+      if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-sync-alt"></i> تحديث'; }
+
+    } catch (err) {
+      biState.loading = false;
+      if (btn) { btn.disabled = false; btn.innerHTML = '<i class="fas fa-sync-alt"></i> تحديث'; }
+      console.error('loadData error:', err);
+      if (list) list.innerHTML = `
+        <div class="bi-empty">
+          <div class="empty-icon"><i class="fas fa-exclamation-triangle"></i></div>
+          <h3>فشل التحميل</h3>
+          <p>${err.code === 'permission-denied' ? 'ليس لديك صلاحية' : 'خطأ: ' + err.message}</p>
+        </div>`;
+    }
+  }
+
+  // ============================================================
+  // Rebuild Merged (for current branch)
+  // ============================================================
+  function rebuildMerged() {
+    const bid = biState.currentBranchId;
+    biState.currentBranch = biState.branches.find(b => b.id === bid) || null;
+    const isWH = biState.currentBranch?.isWarehouse === true;
+
+    biState.merged = [];
+    biState.alertItems = [];
+
+    biState.products.forEach(p => {
+      const ppu = p.piecesPerUnit || 1;
+      const whPieces = (p.warehouseStock || 0) * ppu + (p.warehousePieces || 0);
+      const whReserved = p.reservedPieces || 0;
+      const whAvailable = Math.max(0, whPieces - whReserved);
+      const whMinAlert = p.warehouseMinAlert || 10;
+
+      let pieces, reserved, available, minAlert, exists, lastUpdated;
+
+      if (isWH) {
+        pieces = whPieces;
+        reserved = whReserved;
+        available = whAvailable;
+        minAlert = whMinAlert;
+        exists = true;
+        lastUpdated = p.updatedAt || null;
+      } else {
+        const inv = biState.invMap[p.id]?.[bid];
+        exists = !!inv;
+        pieces = inv?.piecesQty || 0;
+        reserved = inv?.reservedQty || 0;
+        available = inv?.availableQty != null ? inv.availableQty : Math.max(0, pieces - reserved);
+        minAlert = inv?.minAlert || 10;
+        lastUpdated = inv?.lastUpdated || null;
+      }
+
+      // Status
+      let status;
+      if (!exists && !isWH) status = 'missing';
+      else if (available <= 0) status = 'out';
+      else if (available < minAlert) status = 'low';
+      else status = 'available';
+
+      // Skip non-WH products that don't exist yet UNLESS they trigger alert
+      // (نعرض المنتجات اللي ليها سجل في الفرع، أو اللي محتاجة في الفرع ومصدرها WH متاح)
+      if (!isWH && !exists && whAvailable <= 0) return;
+
+      const row = {
+        product: p,
+        wh: { pieces: whPieces, reserved: whReserved, available: whAvailable, minAlert: whMinAlert },
+        branch: { pieces, reserved, available, minAlert, exists, lastUpdated },
+        status
+      };
+      biState.merged.push(row);
+
+      // Smart Alert (only for non-WH)
+      if (!isWH && whAvailable > 0) {
+        if (!exists || pieces === 0) {
+          biState.alertItems.push({
+            product: p,
+            reason: exists ? 'out' : 'missing',
+            reasonText: exists ? 'خلص من الفرع' : 'لم يصل للفرع بعد',
+            currentAtDest: available,
+            availableAtSource: whAvailable,
+            suggestedQty: Math.max(minAlert, 10)
+          });
+        } else if (available < minAlert) {
+          biState.alertItems.push({
+            product: p,
+            reason: 'low',
+            reasonText: 'أقل من العتبة',
+            currentAtDest: available,
+            availableAtSource: whAvailable,
+            suggestedQty: Math.max(minAlert - available, 1)
+          });
+        }
+      }
+    });
+  }
+
+  // ============================================================
+  // Branch Info Panel
+  // ============================================================
+  function renderBranchInfo() {
+    const b = biState.currentBranch;
+    const badge = document.getElementById('branchNameBadge');
+    const badgeText = document.getElementById('branchNameText');
+    const info = document.getElementById('branchInfo');
+
+    if (!b) {
+      if (badge) badge.style.display = 'none';
+      if (info) info.style.display = 'none';
+      return;
+    }
+
+    if (badge) badge.style.display = 'inline-flex';
+    if (badgeText) badgeText.textContent = b.name || b.id;
+    if (info) info.style.display = 'grid';
+
+    const productsCount = biState.merged.length;
+    const totalPieces = biState.merged.reduce((s, r) => s + r.branch.pieces, 0);
+
+    document.getElementById('branchInfoType').textContent =
+      b.isWarehouse ? 'مخزن مركزي' : (b.type === 'retail' ? 'قطاعي' : b.type === 'wholesale' ? 'جملة' : 'فرع');
+    document.getElementById('branchInfoManager').textContent = b.managerName || b.manager || '—';
+    document.getElementById('branchInfoProducts').textContent = productsCount;
+    document.getElementById('branchInfoPieces').textContent = totalPieces;
+    document.getElementById('branchInfoAddress').textContent = b.address || '—';
+  }
+
+  // ============================================================
+  // Smart Alert Banner
+  // ============================================================
+  function renderSmartAlert() {
+    const container = document.getElementById('smartAlertContainer');
+    if (!container) return;
+
+    const isWH = biState.currentBranch?.isWarehouse === true;
+    const items = biState.alertItems;
+
+    if (isWH) {
+      container.innerHTML = '';
+      return;
+    }
+
+    if (items.length === 0) {
+      container.innerHTML = `
+        <div class="bi-alert-banner info">
+          <div class="bi-alert-head">
+            <div class="bi-alert-title">
+              <div class="alert-icon"><i class="fas fa-check-circle"></i></div>
+              <div>
+                <div style="font-size:0.95rem;">كل المنتجات المطلوبة متوفرة في الفرع</div>
+                <div style="font-size:0.72rem;opacity:0.8;font-weight:600;">لا توجد احتياجات نقل حالياً</div>
+              </div>
+            </div>
+          </div>
+        </div>`;
+      return;
+    }
+
+    const previewOpen = biState.alertExpanded ? 'open' : '';
+
+    const listHtml = items.map(it => `
+      <div class="bi-alert-item">
+        <i class="fas fa-${it.reason === 'out' ? 'times-circle reason-out' : it.reason === 'low' ? 'exclamation-triangle reason-low' : 'question-circle reason-missing'}"></i>
+        <span style="flex:1;font-weight:800;">${esc(it.product.name || 'منتج')}</span>
+        <span class="reason-text">${it.reasonText}</span>
+        <span style="font-size:0.72rem;color:var(--gray-600);">متاح بالفرع: <strong>${it.currentAtDest}</strong> · WH: <strong>${it.availableAtSource}</strong></span>
+      </div>
+    `).join('');
+
+    container.innerHTML = `
+      <div class="bi-alert-banner">
+        <div class="bi-alert-head">
+          <div class="bi-alert-title">
+            <div class="alert-icon"><i class="fas fa-exclamation-triangle"></i></div>
+            <div>
+              <div>
+                <span class="bi-alert-count">${items.length}</span>
+                منتج${items.length > 1 ? 'ات' : ''} محتاج${items.length > 1 ? 'ين' : ''} في ${esc(biState.currentBranch?.name || 'الفرع')} من المخزن المركزي
+              </div>
+              <div style="font-size:0.72rem;opacity:0.8;font-weight:600;margin-top:2px;">
+                ${items.filter(i => i.reason === 'out' || i.reason === 'missing').length} نفذ/لم يصل · ${items.filter(i => i.reason === 'low').length} أقل من العتبة
+              </div>
+            </div>
+          </div>
+          <div class="bi-alert-actions">
+            <button class="btn-sm btn-show" onclick="toggleAlertPreview()">
+              <i class="fas fa-${biState.alertExpanded ? 'chevron-up' : 'eye'}"></i>
+              ${biState.alertExpanded ? 'إخفاء' : 'اعرض الكل'}
+            </button>
+            <button class="btn-sm btn-request-all" onclick="openTransferRequest('all')">
+              <i class="fas fa-paper-plane"></i> اطلب نقل للكل
+            </button>
+          </div>
+        </div>
+        <div class="bi-alert-preview ${previewOpen}" id="alertPreview">
+          <div class="bi-alert-list">${listHtml}</div>
+        </div>
+      </div>`;
+  }
+
+  function toggleAlertPreview() {
+    biState.alertExpanded = !biState.alertExpanded;
+    const preview = document.getElementById('alertPreview');
+    if (preview) preview.classList.toggle('open', biState.alertExpanded);
+    // Update button text
+    const btn = document.querySelector('.btn-show');
+    if (btn) btn.innerHTML = `<i class="fas fa-${biState.alertExpanded ? 'chevron-up' : 'eye'}"></i> ${biState.alertExpanded ? 'إخفاء' : 'اعرض الكل'}`;
+  }
+
+  // ============================================================
+  // Stats
+  // ============================================================
+  function updateStats() {
+    const all = biState.merged;
+    setText('statTotal', all.length);
+    setText('statAvailable', all.filter(r => r.status === 'available').length);
+    setText('statLow', all.filter(r => r.status === 'low').length);
+    setText('statOut', all.filter(r => r.status === 'out' || r.status === 'missing').length);
+  }
+  function setText(id, val) { const el = document.getElementById(id); if (el) el.textContent = val; }
+
+  function updateTabsCounts() {
+    const counts = {
+      all: biState.merged.length,
+      available: biState.merged.filter(r => r.status === 'available').length,
+      low: biState.merged.filter(r => r.status === 'low').length,
+      out: biState.merged.filter(r => r.status === 'out' || r.status === 'missing').length
+    };
+    document.querySelectorAll('.bi-tab').forEach(tab => {
+      const c = tab.querySelector('.tab-count');
+      if (c) c.textContent = counts[tab.dataset.tab] ?? 0;
+    });
+  }
+
+  // ============================================================
+  // Filters
+  // ============================================================
+  function populateCategoryFilter() {
+    const sel = document.getElementById('biCategory');
+    if (!sel) return;
+    sel.innerHTML = '<option value="">كل التصنيفات</option>' +
+      biState.categories.map(c => `<option value="${c.id}">${esc(c.name || '')}</option>`).join('');
+  }
+  function populateBrandFilter() {
+    const sel = document.getElementById('biBrand');
+    if (!sel) return;
+    sel.innerHTML = '<option value="">كل البراندات</option>' +
+      biState.brands.map(b => `<option value="${b.id}">${esc(b.name || '')}</option>`).join('');
+  }
+
+  function onSearchInput() {
+    if (biState.searchDebounce) clearTimeout(biState.searchDebounce);
+    biState.searchDebounce = setTimeout(applyFilters, 300);
+  }
+
+  function switchTab(tab) {
+    biState.currentTab = tab;
+    document.querySelectorAll('.bi-tab').forEach(el => el.classList.toggle('active', el.dataset.tab === tab));
+    document.querySelectorAll('.bi-stat').forEach(el => el.classList.remove('active'));
+    applyFilters();
+  }
+
+  function filterByStatus(status, event) {
+    if (event) event.preventDefault();
+    biState.currentTab = status;
+    document.querySelectorAll('.bi-tab').forEach(el => el.classList.toggle('active', el.dataset.tab === status));
+    applyFilters();
+  }
+
+  function applyFilters() {
+    let list = [...biState.merged];
+
+    const tab = biState.currentTab;
+    if (tab === 'available') list = list.filter(r => r.status === 'available');
+    else if (tab === 'low') list = list.filter(r => r.status === 'low');
+    else if (tab === 'out') list = list.filter(r => r.status === 'out' || r.status === 'missing');
+
+    const search = (document.getElementById('biSearch')?.value || '').trim().toLowerCase();
+    if (search) {
+      list = list.filter(r => {
+        const p = r.product;
+        return (p.name || '').toLowerCase().includes(search) ||
+               (p.barcode || '').toLowerCase().includes(search) ||
+               (p.sku || '').toLowerCase().includes(search) ||
+               (p.keywords || '').toLowerCase().includes(search);
+      });
+    }
+
+    const cat = document.getElementById('biCategory')?.value || '';
+    if (cat) list = list.filter(r => r.product.categoryId === cat);
+
+    const brand = document.getElementById('biBrand')?.value || '';
+    if (brand) list = list.filter(r => r.product.brandId === brand);
+
+    biState.filtered = list;
+    renderList();
+  }
+
+  function resetFilters() {
+    const s = document.getElementById('biSearch');
+    const c = document.getElementById('biCategory');
+    const b = document.getElementById('biBrand');
+    if (s) s.value = '';
+    if (c) c.value = '';
+    if (b) b.value = '';
+    biState.currentTab = 'all';
+    document.querySelectorAll('.bi-tab').forEach(el => el.classList.toggle('active', el.dataset.tab === 'all'));
+    applyFilters();
+  }
+
+  // ============================================================
+  // Render List
+  // ============================================================
+  function renderList() {
+    const container = document.getElementById('biList');
+    if (!container) return;
+
+    if (biState.filtered.length === 0) {
+      container.innerHTML = `
+        <div class="bi-empty">
+          <div class="empty-icon"><i class="fas fa-box-open"></i></div>
+          <h3>لا توجد منتجات</h3>
+          <p>${biState.merged.length === 0 ? 'الفرع لا يحتوي على منتجات بعد' : 'لا توجد نتائج مطابقة'}</p>
+        </div>`;
+      return;
+    }
+
+    container.innerHTML = biState.filtered.map(r => renderCard(r)).join('');
+  }
+
+  function renderCard(r) {
+    const p = r.product;
+    const meta = STATUS_META[r.status];
+    const isWH = biState.currentBranch?.isWarehouse === true;
+
+    // Disable request button if this is WH or product is fully available
+    const canRequest = !isWH && r.wh.available > 0 && r.status !== 'available';
+
+    // Available box class
+    let availCls = '';
+    if (r.branch.available === 0) availCls = 'zero';
+    else if (r.branch.available < r.branch.minAlert) availCls = 'low';
+
+    return `
+      <div class="bi-card ${meta.cls}">
+        <img class="bi-card-img" src="${p.imageUrl || '/gomla/assets/images/no-image.png'}"
+             onerror="this.src='/gomla/assets/images/no-image.png'">
+        <div class="bi-card-info">
+          <div class="bi-card-name">${esc(p.name || 'منتج')}</div>
+          <div class="bi-card-meta">
+            ${p.barcode ? `<span><i class="fas fa-barcode"></i> ${esc(p.barcode)}</span>` : ''}
+            ${p.categoryName ? `<span><i class="fas fa-tag"></i> ${esc(p.categoryName)}</span>` : ''}
+            ${p.brandName ? `<span><i class="fas fa-copyright"></i> ${esc(p.brandName)}</span>` : ''}
+            <span><i class="fas fa-cubes"></i> ${p.piecesPerUnit || 1} / ${esc(p.unit || 'كرتونة')}</span>
+          </div>
+          <div class="bi-card-numbers">
+            <div class="bi-number-box pieces">
+              <div class="bi-number-lbl">الفعلي</div>
+              <div class="bi-number-val">${r.branch.pieces}</div>
+            </div>
+            <div class="bi-number-box reserved">
+              <div class="bi-number-lbl">محجوز</div>
+              <div class="bi-number-val">${r.branch.reserved}</div>
+            </div>
+            <div class="bi-number-box available ${availCls}">
+              <div class="bi-number-lbl">متاح</div>
+              <div class="bi-number-val">${r.branch.available}</div>
+            </div>
+            ${!isWH ? `
+              <div class="bi-number-box" style="background:#eff6ff;border-color:#bfdbfe;">
+                <div class="bi-number-lbl" style="color:#1e40af;">WH متاح</div>
+                <div class="bi-number-val" style="color:#1e40af;">${r.wh.available}</div>
+              </div>
+            ` : ''}
+          </div>
+          <span class="bi-status-badge ${meta.cls}">
+            <i class="fas fa-${meta.icon}"></i> ${meta.label}
+          </span>
+        </div>
+        <div class="bi-card-actions">
+          <button class="bi-action-btn view" onclick="openDetails('${p.id}')">
+            <i class="fas fa-eye"></i> تفاصيل
+          </button>
+          ${!isWH ? `
+            <button class="bi-action-btn request" onclick="openTransferRequest('single', '${p.id}')" ${!canRequest ? 'disabled title="متاح بالكامل في الفرع أو لا يوجد مصدر"' : ''}>
+              <i class="fas fa-paper-plane"></i> طلب نقل
+            </button>
+          ` : ''}
+        </div>
+      </div>`;
+  }
+
+  // ============================================================
+  // Details Modal
+  // ============================================================
+  function openDetails(productId) {
+    const r = biState.merged.find(x => x.product.id === productId);
+    if (!r) return;
+
+    const p = r.product;
+    const meta = STATUS_META[r.status];
+    const isWH = biState.currentBranch?.isWarehouse === true;
+    const branchName = biState.currentBranch?.name || 'الفرع';
+
+    // progress
+    const denom = Math.max(r.branch.minAlert * 2, 1);
+    const percent = Math.min(100, Math.round((r.branch.available / denom) * 100));
+    const fillCls = r.branch.available === 0 ? 'red' : (r.branch.available < r.branch.minAlert ? 'orange' : 'green');
+
+    const html = `
+      <div class="modal-overlay show" id="detailModal" onclick="closeModal('detailModal')">
+        <div class="modal-content medium" onclick="event.stopPropagation()">
+          <div class="modal-header">
+            <h2><i class="fas fa-boxes"></i> تفاصيل المخزون — ${esc(branchName)}</h2>
+            <button class="modal-close" onclick="closeModal('detailModal')">&times;</button>
+          </div>
+          <div class="modal-body">
+
+            <div class="bi-hero">
+              <img src="${p.imageUrl || '/gomla/assets/images/no-image.png'}"
+                   onerror="this.src='/gomla/assets/images/no-image.png'">
+              <div class="bi-hero-info">
+                <div class="bi-hero-name">${esc(p.name || 'منتج')}</div>
+                <div class="bi-hero-meta">
+                  ${p.barcode ? `<span><i class="fas fa-barcode"></i> ${esc(p.barcode)}</span>` : ''}
+                  ${p.categoryName ? `<span><i class="fas fa-tag"></i> ${esc(p.categoryName)}</span>` : ''}
+                  ${p.brandName ? `<span><i class="fas fa-copyright"></i> ${esc(p.brandName)}</span>` : ''}
+                  <span><i class="fas fa-cubes"></i> ${p.piecesPerUnit || 1} ${esc(p.retailUnit || 'قطعة')} / ${esc(p.unit || 'كرتونة')}</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="bi-detail-box">
+              <div style="font-size:0.85rem;font-weight:900;color:var(--navy);margin-bottom:12px;">
+                <i class="fas fa-${isWH ? 'warehouse' : 'building'}" style="color:var(--gold);"></i>
+                مخزون ${esc(branchName)}
+              </div>
+              <div class="bi-detail-grid">
+                <div class="bi-detail-cell">
+                  <div class="bi-detail-lbl">الكمية الفعلية</div>
+                  <div class="bi-detail-val">${r.branch.pieces}</div>
+                </div>
+                <div class="bi-detail-cell" style="background:#fef3c7;">
+                  <div class="bi-detail-lbl" style="color:#92400e;">المحجوز</div>
+                  <div class="bi-detail-val" style="color:#d97706;">${r.branch.reserved}</div>
+                </div>
+                <div class="bi-detail-cell" style="background:#dcfce7;">
+                  <div class="bi-detail-lbl" style="color:#15803d;">المتاح</div>
+                  <div class="bi-detail-val" style="color:#16a34a;">${r.branch.available}</div>
+                </div>
+                <div class="bi-detail-cell">
+                  <div class="bi-detail-lbl">عتبة التنبيه</div>
+                  <div class="bi-detail-val">${r.branch.minAlert}</div>
+                </div>
+              </div>
+              <div class="bi-progress">
+                <div class="bi-progress-fill ${fillCls}" style="width:${percent}%"></div>
+              </div>
+              ${r.branch.lastUpdated ? `<div style="text-align:right;font-size:0.72rem;color:var(--gray-400);margin-top:8px;"><i class="fas fa-clock"></i> آخر تحديث: ${formatDate(r.branch.lastUpdated)}</div>` : ''}
+            </div>
+
+            ${!isWH ? `
+              <div class="bi-detail-box" style="background:#eff6ff;border-color:#bfdbfe;">
+                <div style="font-size:0.85rem;font-weight:900;color:#1e40af;margin-bottom:12px;">
+                  <i class="fas fa-warehouse"></i> المخزن المركزي
+                </div>
+                <div class="bi-detail-grid">
+                  <div class="bi-detail-cell">
+                    <div class="bi-detail-lbl">الفعلي</div>
+                    <div class="bi-detail-val" style="color:#1e40af;">${r.wh.pieces}</div>
+                  </div>
+                  <div class="bi-detail-cell">
+                    <div class="bi-detail-lbl">المحجوز</div>
+                    <div class="bi-detail-val" style="color:#d97706;">${r.wh.reserved}</div>
+                  </div>
+                  <div class="bi-detail-cell">
+                    <div class="bi-detail-lbl">المتاح</div>
+                    <div class="bi-detail-val" style="color:#16a34a;">${r.wh.available}</div>
+                  </div>
+                  <div class="bi-detail-cell">
+                    <div class="bi-detail-lbl">العتبة</div>
+                    <div class="bi-detail-val" style="color:#1e40af;">${r.wh.minAlert}</div>
+                  </div>
+                </div>
+              </div>
+            ` : ''}
+
+            <div style="text-align:center;margin-top:12px;">
+              <span class="bi-status-badge ${meta.cls}" style="font-size:0.82rem;padding:8px 16px;">
+                <i class="fas fa-${meta.icon}"></i> الحالة: ${meta.label}
+              </span>
+            </div>
+
+          </div>
+          <div class="modal-actions">
+            ${!isWH && r.wh.available > 0 && r.status !== 'available' ? `
+              <button class="btn btn-primary" onclick="closeModal('detailModal'); openTransferRequest('single', '${p.id}')">
+                <i class="fas fa-paper-plane"></i> طلب نقل من WH
+              </button>
+            ` : ''}
+            <button class="btn btn-outline" onclick="closeModal('detailModal')">إغلاق</button>
+          </div>
+        </div>
+      </div>`;
+
+    document.getElementById('modalContainer').innerHTML = html;
+    document.body.style.overflow = 'hidden';
+  }
+
+  // ============================================================
+  // Transfer Request Modal
+  // ============================================================
+  function openTransferRequest(mode, productId) {
+    if (!biState.isAdmin) { window.showToast('غير مصرح', 'warning'); return; }
+
+    const isWH = biState.currentBranch?.isWarehouse === true;
+    if (isWH) { window.showToast('لا يمكن طلب نقل إلى المخزن المركزي', 'warning'); return; }
+
+    let sourceItems = [];
+    if (mode === 'all') {
+      sourceItems = biState.alertItems.map(it => ({
+        product: it.product,
+        reason: it.reason,
+        reasonText: it.reasonText,
+        currentAtDest: it.currentAtDest,
+        availableAtSource: it.availableAtSource,
+        suggestedQty: it.suggestedQty,
+        checked: true
+      }));
+    } else {
+      const r = biState.merged.find(x => x.product.id === productId);
+      if (!r) return;
+      if (r.wh.available <= 0) { window.showToast('لا يوجد مخزون في WH', 'warning'); return; }
+      const suggested = r.status === 'out' || r.status === 'missing'
+        ? Math.max(r.branch.minAlert, 10)
+        : Math.max(r.branch.minAlert - r.branch.available, 1);
+      sourceItems = [{
+        product: r.product,
+        reason: r.status === 'low' ? 'low' : (r.branch.exists ? 'out' : 'missing'),
+        reasonText: r.status === 'low' ? 'أقل من العتبة' : (r.branch.exists ? 'خلص من الفرع' : 'لم يصل للفرع بعد'),
+        currentAtDest: r.branch.available,
+        availableAtSource: r.wh.available,
+        suggestedQty: suggested,
+        checked: true
+      }];
+    }
+
+    if (sourceItems.length === 0) { window.showToast('لا توجد منتجات لطلب نقلها', 'warning'); return; }
+
+    // Store in state for later use
+    biState._transferItems = sourceItems;
+
+    const itemsHtml = sourceItems.map((it, idx) => `
+      <div class="tr-item-row checked" id="tr-item-${idx}" data-idx="${idx}">
+        <input type="checkbox" class="tr-check" data-idx="${idx}" checked onchange="onTransferItemToggle(${idx}, this.checked)">
+        <img src="${it.product.imageUrl || '/gomla/assets/images/no-image.png'}"
+             onerror="this.src='/gomla/assets/images/no-image.png'">
+        <div class="tr-item-info">
+          <div class="tr-item-name">${esc(it.product.name || 'منتج')}</div>
+          <div class="tr-item-meta">
+            <span style="color:var(--gray-500);">WH متاح: </span><strong>${it.availableAtSource}</strong>
+            <span style="color:var(--gray-400);"> · </span>
+            <span style="color:var(--gray-500);">في الفرع: </span><strong>${it.currentAtDest}</strong>
+            <span style="color:var(--gray-400);"> · </span>
+            <span style="color:${it.reason === 'out' ? '#dc2626' : it.reason === 'missing' ? '#6b7280' : '#d97706'};font-weight:800;">${it.reasonText}</span>
+          </div>
+        </div>
+        <div class="tr-item-qty">
+          <input type="number" min="1" max="${it.availableAtSource}" value="${it.suggestedQty}"
+                 data-idx="${idx}" class="tr-qty-input" onchange="onTransferQtyChange(${idx}, this.value)">
+          <small>كمية مقترحة</small>
+        </div>
+      </div>
+    `).join('');
+
+    const html = `
+      <div class="modal-overlay show" id="transferReqModal" onclick="closeModal('transferReqModal')">
+        <div class="modal-content medium" onclick="event.stopPropagation()">
+          <div class="modal-header" style="background:linear-gradient(135deg,#1e40af,#3b82f6);">
+            <h2><i class="fas fa-paper-plane"></i> طلب نقل من المخزن المركزي</h2>
+            <button class="modal-close" onclick="closeModal('transferReqModal')">&times;</button>
+          </div>
+          <div class="modal-body">
+
+            <div style="background:#eff6ff;border:2px solid #93c5fd;border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:0.85rem;color:#1e40af;">
+              <div><strong>من:</strong> المخزن المركزي (WH)</div>
+              <div><strong>إلى:</strong> ${esc(biState.currentBranch?.name || 'الفرع')}</div>
+              <div style="font-size:0.75rem;margin-top:4px;opacity:0.85;">
+                سيتم إرسال الطلب للمسؤول للموافقة. عند الموافقة يتم النقل تلقائياً.
+              </div>
+            </div>
+
+            <div style="font-size:0.85rem;font-weight:900;color:var(--navy);margin-bottom:10px;">
+              <i class="fas fa-boxes" style="color:var(--gold);"></i> المنتجات المطلوبة
+            </div>
+
+            <div id="trItemsList">${itemsHtml}</div>
+
+            <div style="margin-top:12px;">
+              <label style="display:block;font-weight:800;font-size:0.82rem;margin-bottom:6px;">ملاحظات (اختياري)</label>
+              <textarea id="trNotes" maxlength="300" placeholder="أي تفاصيل إضافية للمسؤول..."
+                style="width:100%;padding:10px 12px;border:2px solid var(--gray-200);border-radius:6px;font-family:inherit;font-size:0.88rem;min-height:60px;resize:vertical;"></textarea>
+            </div>
+
+            <div class="tr-summary">
+              <span><strong id="trSelectedCount">${sourceItems.length}</strong> منتج محدد</span>
+              <span>إجمالي: <strong id="trTotalPieces">${sourceItems.reduce((s, i) => s + i.suggestedQty, 0)}</strong> قطعة</span>
+            </div>
+
+          </div>
+          <div class="modal-actions">
+            <button class="btn btn-outline" onclick="closeModal('transferReqModal')">إلغاء</button>
+            <button class="btn btn-primary" id="trSubmitBtn" onclick="submitTransferRequest()">
+              <i class="fas fa-paper-plane"></i> إرسال الطلب
+            </button>
+          </div>
+        </div>
+      </div>`;
+
+    document.getElementById('modalContainer').innerHTML = html;
+    document.body.style.overflow = 'hidden';
+  }
+
+  function onTransferItemToggle(idx, checked) {
+    const row = document.getElementById(`tr-item-${idx}`);
+    if (row) row.classList.toggle('checked', checked);
+    updateTransferSummary();
+  }
+
+  function onTransferQtyChange(idx, val) {
+    const v = parseInt(val) || 0;
+    biState._transferItems[idx].suggestedQty = Math.max(1, v);
+    updateTransferSummary();
+  }
+
+  function updateTransferSummary() {
+    const items = biState._transferItems || [];
+    let selected = 0, total = 0;
+    items.forEach((it, idx) => {
+      const chk = document.querySelector(`.tr-check[data-idx="${idx}"]`);
+      if (!chk?.checked) return;
+      const qtyInput = document.querySelector(`.tr-qty-input[data-idx="${idx}"]`);
+      const q = parseInt(qtyInput?.value) || it.suggestedQty;
+      selected++;
+      total += q;
+    });
+    const sc = document.getElementById('trSelectedCount');
+    const st = document.getElementById('trTotalPieces');
+    if (sc) sc.textContent = selected;
+    if (st) st.textContent = total;
+  }
+
+  async function submitTransferRequest() {
+    const items = biState._transferItems || [];
+    const selectedItems = [];
+    items.forEach((it, idx) => {
+      const chk = document.querySelector(`.tr-check[data-idx="${idx}"]`);
+      if (!chk?.checked) return;
+      const qtyInput = document.querySelector(`.tr-qty-input[data-idx="${idx}"]`);
+      const qty = Math.max(1, parseInt(qtyInput?.value) || it.suggestedQty);
+      selectedItems.push({
+        productId: it.product.id,
+        productName: it.product.name || '',
+        productImage: it.product.imageUrl || '',
+        unit: it.product.unit || 'قطعة',
+        piecesPerUnit: it.product.piecesPerUnit || 1,
+        requestedPieces: qty,
+        availableAtSource: it.availableAtSource,
+        currentAtDest: it.currentAtDest,
+        reason: it.reason
+      });
+    });
+
+    if (selectedItems.length === 0) { window.showToast('اختر منتج واحد على الأقل', 'warning'); return; }
+
+    const notes = (document.getElementById('trNotes')?.value || '').trim();
+    const btn = document.getElementById('trSubmitBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الإرسال...';
+
+    try {
+      const whBranch = biState.branches.find(b => b.isWarehouse);
+      const destBranch = biState.currentBranch;
+      const now = firebase.firestore.FieldValue.serverTimestamp();
+
+      const reqRef = db.collection('transfer_requests').doc();
+      await reqRef.set({
+        id: reqRef.id,
+        fromBranchId: whBranch?.id || 'WH',
+        fromBranchName: whBranch?.name || 'المخزن المركزي',
+        toBranchId: destBranch.id,
+        toBranchName: destBranch.name || destBranch.id,
+        items: selectedItems,
+        totalItems: selectedItems.length,
+        totalPieces: selectedItems.reduce((s, i) => s + i.requestedPieces, 0),
+        status: 'pending',
+        requestedBy: biState.adminId,
+        requestedByName: biState.adminName,
+        requestedByRole: biState.adminRole,
+        requestedAt: now,
+        approvedBy: '',
+        approvedByName: '',
+        approvedAt: null,
+        rejectedBy: '',
+        rejectedByName: '',
+        rejectedAt: null,
+        rejectionReason: '',
+        completedAt: null,
+        completedBy: '',
+        transferId: '',
+        notes: notes,
+        createdAt: now,
+        updatedAt: now
+      });
+
+      // Notify admins
+      try {
+        await db.collection('admin_notifications').add({
+          userId: 'all_admins',
+          title: '📤 طلب نقل جديد',
+          body: `${biState.adminName} طلب نقل ${selectedItems.length} منتج إلى ${destBranch.name || destBranch.id}`,
+          type: 'transfer_request_created',
+          transferRequestId: reqRef.id,
+          read: false,
+          createdAt: now
+        });
+      } catch (e) { console.warn(e); }
+
+      window.showToast('✅ تم إرسال طلب النقل للمسؤول', 'success');
+      closeModal('transferReqModal');
+      biState._transferItems = null;
+
+    } catch (err) {
+      console.error('submitTransferRequest:', err);
+      window.showToast('❌ ' + err.message, 'error');
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-paper-plane"></i> إرسال الطلب';
+    }
+  }
+
+  // ============================================================
+  // Export CSV
+  // ============================================================
+  function exportCSV() {
+    if (biState.filtered.length === 0) { window.showToast('لا توجد بيانات', 'warning'); return; }
+
+    const branchName = biState.currentBranch?.name || 'branch';
+    const headers = ['المنتج', 'الباركود', 'SKU', 'التصنيف', 'البراند', 'الوحدة', 'عدد القطع/وحدة', 'الفعلي', 'المحجوز', 'المتاح', 'العتبة', 'الحالة', 'آخر تحديث'];
+    const rows = [headers];
+
+    biState.filtered.forEach(r => {
+      const p = r.product;
+      rows.push([
+        p.name || '',
+        p.barcode || '',
+        p.sku || '',
+        p.categoryName || '',
+        p.brandName || '',
+        p.unit || '',
+        p.piecesPerUnit || 1,
+        r.branch.pieces,
+        r.branch.reserved,
+        r.branch.available,
+        r.branch.minAlert,
+        STATUS_META[r.status].label,
+        r.branch.lastUpdated ? formatDate(r.branch.lastUpdated) : ''
+      ]);
+    });
+
+    const csv = rows.map(row => row.map(c => `"${String(c ?? '').replace(/"/g, '""')}"`).join(',')).join('\r\n');
+    const blob = new Blob(['\ufeff' + csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `branch-inventory-${branchName}-${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    window.showToast('✅ تم تصدير CSV', 'success');
+  }
+
+  // ============================================================
+  // Helpers
+  // ============================================================
+  function closeAllModals() {
+    document.querySelectorAll('.modal-overlay.show').forEach(m => m.classList.remove('show'));
+    document.body.style.overflow = '';
+  }
+  function closeModal(id) {
+    document.getElementById(id)?.classList.remove('show');
+    document.body.style.overflow = '';
+  }
+  function esc(s) {
+    return String(s ?? '').replace(/[&<>"']/g, c => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[c]));
+  }
+
+  // ============================================================
+  // Exports
+  // ============================================================
+  window.loadData = loadData;
+  window.onBranchChange = onBranchChange;
+  window.switchTab = switchTab;
+  window.filterByStatus = filterByStatus;
+  window.onSearchInput = onSearchInput;
+  window.applyFilters = applyFilters;
+  window.resetFilters = resetFilters;
+  window.openDetails = openDetails;
+  window.openTransferRequest = openTransferRequest;
+  window.onTransferItemToggle = onTransferItemToggle;
+  window.onTransferQtyChange = onTransferQtyChange;
+  window.submitTransferRequest = submitTransferRequest;
+  window.toggleAlertPreview = toggleAlertPreview;
+  window.closeModal = closeModal;
+  window.closeAllModals = closeAllModals;
+  window.exportCSV = exportCSV;
+  </script>
+
+</body>
+</html>
