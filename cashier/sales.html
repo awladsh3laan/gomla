@@ -2612,42 +2612,124 @@ window.addEventListener('load', function(){
 // CAMERA
 // ============================================================
 async function openCamera() {
-  if (!('BarcodeDetector' in window)) { window.showToast('الكاميرا غير مدعومة','warning'); return; }
+  // 🔍 كشف نوع الجهاز
+  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(navigator.userAgent)
+                   || (navigator.maxTouchPoints && navigator.maxTouchPoints > 0 && /Mac|Win|Linux/i.test(navigator.userAgent) === false);
+
+  // 🖥️ على الكمبيوتر: استخدم قارئ خارجي
+  if (!isMobile) {
+    window.showToast(
+      '💡 على الكمبيوتر، الأفضل استخدام قارئ باركود خارجي (USB أو Bluetooth). اكتب الباركود في الحقل مباشرة.',
+      'info',
+      6000
+    );
+    setTimeout(() => document.getElementById('barcodeInput')?.focus(), 100);
+    return;
+  }
+
+  // 📱 على الموبايل: فحص دعم BarcodeDetector
+  if (!('BarcodeDetector' in window)) {
+    window.showToast('❌ المتصفح لا يدعم الكاميرا لمسح الباركود — جرّب Chrome', 'error');
+    return;
+  }
+
+  // 📱 طلب الكاميرا
+  let stream;
   try {
-    const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
-    posState._cameraStream = stream;
-    const html = `
-      <div class="modal-overlay show" id="cameraModal" onclick="closeCamera()">
-        <div class="modal-content small" onclick="event.stopPropagation()">
-          <div class="modal-header green"><h2><i class="fas fa-camera"></i> مسح الباركود</h2><button class="modal-close" onclick="closeCamera()">&times;</button></div>
-          <div class="modal-body">
-            <div class="camera-preview"><video id="cameraVideo" autoplay playsinline></video><div class="scan-line"></div></div>
-            <p style="text-align:center;color:var(--gray-600);font-size:0.85rem;">وجّه الكاميرا نحو الباركود</p>
-          </div>
+    stream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: { ideal: 'environment' }, width: { ideal: 1280 }, height: { ideal: 720 } },
+      audio: false
+    });
+  } catch (err) {
+    let msg = '❌ خطأ في الكاميرا';
+    if (err.name === 'NotAllowedError') msg = '❌ رفضت الوصول للكاميرا — افتح إعدادات المتصفح وامنح الصلاحية';
+    else if (err.name === 'NotFoundError') msg = '❌ لا توجد كاميرا على الجهاز';
+    else if (err.name === 'NotReadableError') msg = '❌ الكاميرا مستخدمة من تطبيق آخر';
+    window.showToast(msg, 'error');
+    return;
+  }
+
+  posState._cameraStream = stream;
+
+  const html = `
+    <div class="modal-overlay show" id="cameraModal" onclick="closeCamera()">
+      <div class="modal-content small" onclick="event.stopPropagation()">
+        <div class="modal-header green">
+          <h2><i class="fas fa-camera"></i> مسح الباركود</h2>
+          <button class="modal-close" onclick="closeCamera()">&times;</button>
         </div>
-      </div>`;
-    document.getElementById('modalContainer').innerHTML = html;
-    document.body.style.overflow = 'hidden';
-    const video = document.getElementById('cameraVideo');
-    video.srcObject = stream;
-    const detector = new BarcodeDetector({ formats: ['ean_13','ean_8','code_128','code_39','upc_a','upc_e'] });
-    posState._cameraInterval = setInterval(async () => {
-      try {
-        const codes = await detector.detect(video);
-        if (codes.length > 0 && codes[0].rawValue) {
-          playBeep(900, 80); closeCamera();
-          handleBarcodeEnter(codes[0].rawValue);
-        }
-      } catch(e){}
-    }, 500);
-  } catch(e) { window.showToast('لا يمكن الوصول للكاميرا','error'); }
-}
-function closeCamera() {
-  if (posState._cameraInterval) { clearInterval(posState._cameraInterval); posState._cameraInterval=null; }
-  if (posState._cameraStream) { posState._cameraStream.getTracks().forEach(t=>t.stop()); posState._cameraStream=null; }
-  closeModal('cameraModal');
+        <div class="modal-body">
+          <div class="camera-preview">
+            <video id="cameraVideo" autoplay playsinline muted webkit-playsinline></video>
+            <div class="scan-line"></div>
+          </div>
+          <p id="cameraStatus" style="text-align:center;color:var(--gray-600);font-size:0.85rem;padding:8px;">
+            <i class="fas fa-spinner fa-spin"></i> جاري تشغيل الكاميرا...
+          </p>
+        </div>
+      </div>
+    </div>`;
+
+  document.getElementById('modalContainer').innerHTML = html;
+  document.body.style.overflow = 'hidden';
+
+  const video = document.getElementById('cameraVideo');
+  const statusEl = document.getElementById('cameraStatus');
+
+  video.muted = true;
+  video.playsInline = true;
+  video.setAttribute('playsinline', 'true');
+  video.setAttribute('webkit-playsinline', 'true');
+  video.srcObject = stream;
+
+  video.onloadedmetadata = async () => {
+    try {
+      await video.play();
+      if (statusEl) statusEl.innerHTML = 'وجّه الكاميرا نحو الباركود';
+      startBarcodeDetection(video, statusEl);
+    } catch (playErr) {
+      if (statusEl) statusEl.innerHTML = '<span style="color:#dc2626;">تعذر تشغيل الفيديو — أعد تحميل الصفحة</span>';
+    }
+  };
+
+  if (video.readyState >= 1) video.onloadedmetadata();
 }
 
+function startBarcodeDetection(video, statusEl) {
+  try {
+    const detector = new BarcodeDetector({
+      formats: ['ean_13', 'ean_8', 'code_128', 'code_39', 'upc_a', 'upc_e', 'qr_code', 'code_93', 'itf']
+    });
+
+    posState._cameraInterval = setInterval(async () => {
+      if (!video.videoWidth || video.videoWidth === 0) return;
+      if (video.readyState < 2) return;
+
+      try {
+        const codes = await detector.detect(video);
+        if (codes && codes.length > 0 && codes[0].rawValue) {
+          const detectedCode = codes[0].rawValue.trim();
+          if (!detectedCode) return;
+
+          playBeep(900, 80);
+          if (statusEl) statusEl.innerHTML = `<span style="color:#16a34a;font-weight:900;">✅ تم المسح: ${detectedCode}</span>`;
+
+          if (posState._cameraInterval) {
+            clearInterval(posState._cameraInterval);
+            posState._cameraInterval = null;
+          }
+
+          setTimeout(() => {
+            closeCamera();
+            handleBarcodeEnter(detectedCode);
+          }, 400);
+        }
+      } catch (e) {}
+    }, 400);
+  } catch (e) {
+    if (statusEl) statusEl.innerHTML = '<span style="color:#dc2626;">تعذر تشغيل ماسح الباركود</span>';
+  }
+}
 // ============================================================
 // DRAFT
 // ============================================================
