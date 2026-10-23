@@ -827,57 +827,31 @@
     /* ========================================================
        🎯 Floating Cart FAB — Mobile Only
     ======================================================== */
-    .cart-fab {
-      display: none;
-      position: fixed;
-      bottom: calc(16px + env(safe-area-inset-bottom, 0));
-      left: 16px;
-      right: 16px;
-      background: linear-gradient(135deg, #16a34a, #15803d);
-      color: #fff;
-      border: none;
-      padding: 16px 20px;
-      border-radius: 16px;
-      font-family: inherit;
-      font-weight: 900;
-      font-size: 1rem;
-      box-shadow: 0 8px 24px rgba(22, 163, 74, 0.45);
-      z-index: 988;
-      cursor: pointer;
-      transition: 0.2s;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      min-height: 60px;
-    }
+   .cart-fab {
+  background: linear-gradient(135deg, var(--navy, #1a2a4a), var(--navy-light, #2d3f63));
+  color: #fff;
+  border: none;
+  padding: 16px 20px;
+  border-radius: 16px;
+  font-family: inherit;
+  font-weight: 900;
+  font-size: 1rem;
+  box-shadow: 0 8px 24px rgba(26, 42, 74, 0.45);
+  z-index: 988;
+  cursor: pointer;
+  transition: 0.2s;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 60px;
+}
 
-    .cart-fab:active { transform: scale(0.98); }
-    .cart-fab.show { display: flex; }
-    .cart-fab-left { display: flex; align-items: center; gap: 10px; }
-
-    .cart-fab-count {
-      background: rgba(255, 255, 255, 0.25);
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 900;
-    }
-
-    .cart-fab-total { font-size: 1.15rem; font-weight: 900; }
-
-    .cart-backdrop {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 996;
-      backdrop-filter: blur(2px);
-      -webkit-backdrop-filter: blur(2px);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .cart-backdrop.show { display: block; opacity: 1; }
+/* لون الإجمالي ذهبي زي التصميم */
+.cart-fab-total {
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: var(--gold, #c9a84c);
+}
 
     /* ========================================================
        📦 Products Tab Grid
@@ -2596,6 +2570,131 @@
         display: none !important;
       }
     }
+    /* ========================================================
+   🛒 Quick Add Bar (inside Cart Sheet)
+======================================================== */
+.cart-quick-add {
+  padding: 10px 12px;
+  background: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.cart-quick-add .input-wrap {
+  flex: 1;
+  position: relative;
+}
+
+.cart-quick-add input {
+  width: 100%;
+  padding: 12px 42px 12px 12px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 15px;
+  background: #fff;
+  min-height: 46px;
+  outline: none;
+  transition: 0.2s;
+}
+
+.cart-quick-add input:focus {
+  border-color: var(--gold, #c9a84c);
+  box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.15);
+}
+
+.cart-quick-add .input-wrap i {
+  position: absolute;
+  right: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gold-dark, #b8942a);
+  pointer-events: none;
+  font-size: 1rem;
+}
+
+.cart-quick-add .cart-cam-btn {
+  width: 46px;
+  height: 46px;
+  border: 2px solid var(--gold, #c9a84c);
+  background: #fff;
+  border-radius: 8px;
+  color: var(--gold-dark, #b8942a);
+  cursor: pointer;
+  font-size: 1.05rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: 0.2s;
+}
+
+.cart-quick-add .cart-cam-btn:hover {
+  background: var(--gold, #c9a84c);
+  color: var(--navy, #1a2a4a);
+}
+
+/* Dropdown نتائج البحث السريع */
+.cart-quick-results {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 12px;
+  left: 12px;
+  background: #fff;
+  border: 2px solid var(--gold, #c9a84c);
+  border-radius: 10px;
+  max-height: 260px;
+  overflow-y: auto;
+  z-index: 30;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  display: none;
+}
+
+.cart-quick-results.show { display: block; }
+
+.cart-quick-results .cart-quick-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #f3f4f6;
+  transition: 0.15s;
+  min-height: 52px;
+}
+
+.cart-quick-results .cart-quick-item:last-child { border-bottom: none; }
+.cart-quick-results .cart-quick-item:hover { background: #fcf9f0; }
+
+.cart-quick-results img {
+  width: 38px;
+  height: 38px;
+  border-radius: 6px;
+  object-fit: contain;
+  background: #f9fafb;
+  border: 1px solid #e5e7eb;
+  flex-shrink: 0;
+}
+
+.cart-quick-results .name {
+  flex: 1;
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: var(--navy, #1a2a4a);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cart-quick-results .price {
+  font-size: 0.82rem;
+  font-weight: 900;
+  color: var(--gold-dark, #b8942a);
+}
   </style>
 </head>
 <body>
@@ -2770,6 +2869,23 @@
               <h3><i class="fas fa-shopping-cart"></i> السلة <span class="cart-count" id="cartCount">0</span></h3>
               <button class="cart-clear" onclick="clearCart()" title="مسح"><i class="fas fa-trash"></i></button>
             </div>
+            <!-- 🆕 Quick Add Bar (Search + Barcode + Camera inside cart) -->
+<div class="cart-quick-add">
+  <div class="input-wrap">
+    <input type="text"
+           id="cartQuickAdd"
+           placeholder="أضف منتج... (باركود أو اسم)"
+           autocomplete="off"
+           oninput="onCartQuickInput()"
+           onkeydown="onCartQuickKeydown(event)">
+    <i class="fas fa-barcode"></i>
+  </div>
+  <button class="cart-cam-btn" onclick="openCartCamera()" title="كاميرا">
+    <i class="fas fa-camera"></i>
+  </button>
+</div>
+<div class="cart-quick-results" id="cartQuickResults">
+</div>
             <div class="cart-items" id="cartItems">
               <div class="cart-empty">
                 <i class="fas fa-shopping-basket"></i>
@@ -2884,36 +3000,10 @@
   <!-- ============================================================ -->
   <button class="calc-fab" onclick="openCalc()" title="الحاسبة"><i class="fas fa-calculator"></i></button>
 
-  <!-- ============================================================ -->
-  <!-- Bottom Navigation (Mobile)                                   -->
-  <!-- ============================================================ -->
-  <nav class="bottom-nav" id="bottomNav">
-    <button class="nav-item active" data-tab="invoice" onclick="switchPosTab('invoice')">
-      <i class="fas fa-cash-register"></i>
-      <span>الفاتورة</span>
-    </button>
-    <button class="nav-item" data-tab="products" onclick="switchPosTab('products')">
-      <i class="fas fa-boxes"></i>
-      <span>المنتجات</span>
-    </button>
-    <button class="nav-item" data-tab="customers" onclick="switchPosTab('customers')">
-      <i class="fas fa-users"></i>
-      <span>العملاء</span>
-    </button>
-    <button class="nav-item" data-tab="returns" onclick="switchPosTab('returns')">
-      <i class="fas fa-undo"></i>
-      <span>مرتجع</span>
-    </button>
-    <button class="nav-item" data-tab="damages" onclick="switchPosTab('damages')">
-      <i class="fas fa-exclamation-triangle"></i>
-      <span>التالف</span>
-    </button>
-    <button class="nav-item" data-tab="ops" onclick="switchPosTab('ops')">
-      <i class="fas fa-chart-bar"></i>
-      <span>اليوم</span>
-    </button>
-  </nav>
-
+<!-- ============================================================ -->
+<!-- Bottom Navigation (Mobile) — يُبنى ديناميكياً من main.js      -->
+<!-- ============================================================ -->
+<nav class="bottom-nav" id="mobile-bottom-tabs"></nav>
   <!-- ============================================================ -->
   <!-- Type Selector Bottom Sheet                                   -->
   <!-- ============================================================ -->
@@ -3039,6 +3129,7 @@
     _paidAmountUserEdited: false,
     _reverseSearchDebounce: null,
     _custSearchDebounce: null,
+    _cartQuickDebounce: null,
     _prodSearchDebounce: null
   };
 
@@ -3305,13 +3396,20 @@
     document.body.style.overflow = 'hidden';
   }
 
-  function closeCartSheet() {
-    document.getElementById('cartPanel')?.classList.remove('sheet-open');
-    document.getElementById('cartBackdrop')?.classList.remove('show');
-    if (!document.querySelector('.modal-overlay.show')) {
-      document.body.style.overflow = '';
-    }
+function closeCartSheet() {
+  document.getElementById('cartPanel')?.classList.remove('sheet-open');
+  document.getElementById('cartBackdrop')?.classList.remove('show');
+  
+  // 🆕 امسح نتائج البحث السريع لما تتقفل السلة
+  const res = document.getElementById('cartQuickResults');
+  if (res) res.classList.remove('show');
+  const inp = document.getElementById('cartQuickAdd');
+  if (inp) inp.value = '';
+  
+  if (!document.querySelector('.modal-overlay.show')) {
+    document.body.style.overflow = '';
   }
+}
 
   function updateCartFab() {
     const fab = document.getElementById('cartFab');
@@ -3699,7 +3797,11 @@
     const searchRes = document.getElementById('prodSearchResults');
     if (searchInput) searchInput.value = '';
     if (searchRes) searchRes.classList.remove('show');
-    setTimeout(() => document.getElementById('barcodeInput')?.focus(), 100);
+setTimeout(() => {
+  const cartOpen = document.getElementById('cartPanel')?.classList.contains('sheet-open');
+  if (cartOpen) document.getElementById('cartQuickAdd')?.focus();
+  else document.getElementById('barcodeInput')?.focus();
+}, 100);
   }
 
   function updateQty(pid, delta) {
@@ -5323,14 +5425,25 @@
     }
   }
 
-  async function closeCamera() {
-    if (_html5Scanner) {
-      try { await _html5Scanner.stop(); await _html5Scanner.clear(); } catch (e) {}
-      _html5Scanner = null;
-    }
-    closeModal('cameraModal');
+async function closeCamera() {
+  if (_html5Scanner) {
+    try { await _html5Scanner.stop(); await _html5Scanner.clear(); } catch (e) {}
+    _html5Scanner = null;
+  }
+  closeModal('cameraModal');
+
+  // لو السلة مفتوحة، احتفظ بـ overflow=hidden
+  const cartOpen = document.getElementById('cartPanel')?.classList.contains('sheet-open');
+  if (!cartOpen) {
     document.body.style.overflow = '';
   }
+
+  // رجّع الفوكس لمكانه الصح
+  setTimeout(() => {
+    if (cartOpen) document.getElementById('cartQuickAdd')?.focus();
+    else document.getElementById('barcodeInput')?.focus();
+  }, 100);
+}
 
   // ============================================================
   // DRAFT
@@ -5471,7 +5584,94 @@
   function escAttr(s) {
     return String(s ?? '').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
+// ============================================================
+// 🛒 CART QUICK-ADD (Search + Barcode + Camera inside Cart)
+// ============================================================
+const _cartQuickDebounce = debounce(() => doCartQuickSearch(), 250);
 
+function onCartQuickInput() {
+  _cartQuickDebounce();
+}
+
+function doCartQuickSearch() {
+  const q = (document.getElementById('cartQuickAdd')?.value || '').trim().toLowerCase();
+  const res = document.getElementById('cartQuickResults');
+  if (!res) return;
+
+  if (q.length < 2) { res.classList.remove('show'); return; }
+
+  const matches = posState.products.filter(p =>
+    (p.name || '').toLowerCase().includes(q) ||
+    (p.shortName || '').toLowerCase().includes(q) ||
+    (p.barcode || '').toLowerCase() === q
+  ).slice(0, 12);
+
+  if (matches.length === 0) { res.classList.remove('show'); return; }
+
+  res.innerHTML = matches.map(p => {
+    const stock = getAvailableStock(p.id);
+    const price = getProductPrice(p);
+    return `
+      <div class="cart-quick-item" onclick="quickAddFromCart('${p.id}')">
+        <img src="${p.imageUrl || '/gomla/assets/images/no-image.png'}"
+             onerror="this.src='/gomla/assets/images/no-image.png'">
+        <div class="name">${esc(getProductShortName(p))}</div>
+        <div style="font-size:0.7rem;color:#6b7280;">متاح: ${stock}</div>
+        <div class="price">${price.toFixed(2)} ج</div>
+      </div>`;
+  }).join('');
+  res.classList.add('show');
+}
+
+function onCartQuickKeydown(e) {
+  if (e.key !== 'Enter') return;
+  e.preventDefault();
+  const val = e.target.value.trim();
+  if (!val) return;
+
+  // 1) جرّب باركود مطابق
+  let p = posState.products.find(x => (x.barcode || '').toLowerCase() === val.toLowerCase());
+
+  // 2) جرّب اسم مطابق
+  if (!p) {
+    const matches = posState.products.filter(x =>
+      (x.name || '').toLowerCase().includes(val.toLowerCase()) ||
+      (x.shortName || '').toLowerCase().includes(val.toLowerCase())
+    );
+    if (matches.length === 1) p = matches[0];
+    else if (matches.length > 1) {
+      // اعرض النتائج للمستخدم
+      doCartQuickSearch();
+      return;
+    }
+  }
+
+  if (p) {
+    quickAddFromCart(p.id);
+    e.target.value = '';
+    document.getElementById('cartQuickResults')?.classList.remove('show');
+  } else {
+    playBeep(400, 200);
+    window.showToast('❌ منتج غير موجود: ' + val, 'error');
+  }
+}
+
+function quickAddFromCart(pid) {
+  addProductToCart(pid);
+  const input = document.getElementById('cartQuickAdd');
+  const res = document.getElementById('cartQuickResults');
+  if (input) input.value = '';
+  if (res) res.classList.remove('show');
+  // رجّع الفوكس على حقل البحث السريع (لأننا في السلة)
+  setTimeout(() => input?.focus(), 80);
+}
+
+// فتح الكاميرا من داخل السلة (بعد المسح، تفضل السلة مفتوحة)
+function openCartCamera() {
+  posState._cameraOpenedFromCart = true;
+  openCamera();
+}
+    
   // ============================================================
   // EXPORTS
   // ============================================================
