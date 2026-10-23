@@ -3021,4 +3021,221 @@ window.createDraft = createDraft;
 window.bindDraftInputs = bindDraftInputs;
 window.playBeep = playBeep;
 
-console.log('✅ main.js v8.6 DraftManager exports set');
+// ============================================================
+// 🆕 v8.7 — POS helpers (Business Date + Counter + Wallet Fee)
+// ============================================================
+
+// ===== Business Date (11 PM Cairo cutoff) =====
+function getBusinessDate(date) {
+  const d = date ? new Date(date) : new Date();
+  // Cairo هو UTC+2 (أو +3 في الصيف)
+  const cairo = new Date(d.toLocaleString('en-US', { timeZone: 'Africa/Cairo' }));
+  // لو بعد 11 مساءً → نحسبها اليوم التالي
+  if (cairo.getHours() >= 23) {
+    cairo.setDate(cairo.getDate() + 1);
+  }
+  const y = cairo.getFullYear();
+  const m = String(cairo.getMonth() + 1).padStart(2, '0');
+  const day = String(cairo.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
+}
+
+function getBusinessDateLabel(dateStr) {
+  if (!dateStr) return '';
+  const d = new Date(dateStr + 'T00:00:00');
+  const days = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+  const months = ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'];
+  return `${days[d.getDay()]} ${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+function getBusinessDateRange(dateStr) {
+  // businessDate يبدأ من 11 مساءً اليوم السابق → 10:59 مساءً اليوم الحالي
+  const d = new Date((dateStr || getBusinessDate()) + 'T00:00:00');
+  const start = new Date(d); start.setDate(start.getDate() - 1); start.setHours(23, 0, 0, 0);
+  const end = new Date(d); end.setHours(22, 59, 59, 999);
+  return {
+    start: firebase.firestore.Timestamp.fromDate(start),
+    end: firebase.firestore.Timestamp.fromDate(end)
+  };
+}
+
+function isAfterCutoff() {
+  const now = new Date();
+  const cairo = new Date(now.toLocaleString('en-US', { timeZone: 'Africa/Cairo' }));
+  return cairo.getHours() >= 23;
+}
+
+// ===== Sale Counter (رقم تسلسلي يومي) =====
+async function getNextSaleSequence(branchId, prefix) {
+  const businessDate = getBusinessDate();
+  const docId = `sales_${branchId}_${businessDate}_${prefix}`;
+  const counterRef = window.db.collection('counters').doc(docId);
+  let nextSeq = 1;
+
+  try {
+    await window.db.runTransaction(async (t) => {
+      const snap = await t.get(counterRef);
+      if (snap.exists) {
+        nextSeq = (snap.data().count || 0) + 1;
+        t.update(counterRef, {
+          count: nextSeq,
+          lastUpdatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      } else {
+        t.set(counterRef, {
+          branchId, businessDate, prefix,
+          count: 1,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          lastUpdatedAt: firebase.firestore.FieldValue.serverTimestamp()
+        });
+      }
+    });
+  } catch (e) {
+    console.warn('getNextSaleSequence:', e);
+    // Fallback: timestamp-based
+    return Date.now() % 10000;
+  }
+  return nextSeq;
+}
+
+function buildSaleTrackCode(prefix, seq) {
+  const bd = getBusinessDate().replace(/-/g, '');
+  const seqStr = String(seq).padStart(3, '0');
+  return `${prefix}-${bd}-${seqStr}`;
+}
+
+// ===== Wallet Fee (1% لو >= 1000) =====
+function calcWalletFee(amount) {
+  const n = Number(amount) || 0;
+  if (n < 1000) return 0;
+  return Math.round(n * 0.01 * 100) / 100; // 2 decimal
+}
+
+function calcTotalWithWalletFee(subtotal, method) {
+  const fee = method === 'wallet' ? calcWalletFee(subtotal) : 0;
+  return { fee, total: Math.round((subtotal + fee) * 100) / 100 };
+}
+
+// ===== Return Window (48 hours) =====
+// (already defined in v8.5 — RETURN_WINDOW_HOURS = 48)
+
+// ===== Find Sales Containing Product (للمرتجعات) =====
+async function findSalesContainingProduct(branchId, productId, opts) {
+  opts = opts || {};
+  const daysBack = opts.daysBack || 7;
+  const cutoff = new Date();
+  cutoff.setDate(cutoff.getDate() - daysBack);
+
+  try {
+    const snap = await window.db.collection('cashier_sales')
+      .where('branchId', '==', branchId)
+      .where('createdAt', '>=', firebase.firestore.Timestamp.fromDate(cutoff))
+      .orderBy('createdAt', 'desc')
+      .limit(100)
+      .get();
+
+    const results = [];
+    snap.forEach(doc => {
+      const d = doc.data();
+      const item = (d.items || []).find(i => i.productId === productId);
+      if (item) {
+        results.push({
+          id: doc.id,
+          trackCode: d.trackCode,
+          saleType: d.saleType,
+          customerName: d.customerName,
+          createdAt: d.createdAt,
+          productQty: item.qty,
+          productPrice: item.price,
+          total: d.total,
+          status: d.status
+        });
+      }
+    });
+    return results;
+  } catch (e) {
+    console.warn('findSalesContainingProduct:', e);
+    return [];
+  }
+}
+
+// ===== Daily Close helpers =====
+async function ensureDailyCloseOpen(branchId) {
+  const businessDate = getBusinessDate();
+  const docId = `${businessDate}_${branchId}`;
+  const ref = window.db.collection('daily_closes').doc(docId);
+  try {
+    const doc = await ref.get();
+    if (!doc.exists) {
+      await ref.set({
+        id: docId,
+        branchId,
+        businessDate,
+        status: 'open',
+        openedAt: firebase.firestore.FieldValue.serverTimestamp(),
+        totalSales: 0, totalReturns: 0, netTotal: 0,
+        cashSales: 0, walletSales: 0, cardSales: 0, creditSales: 0,
+        invoiceCount: 0, dailyOpsCount: 0, returnCount: 0,
+        closedAt: null, closedBy: null, closedByName: null
+      });
+    }
+    return docId;
+  } catch (e) {
+    console.warn('ensureDailyCloseOpen:', e);
+    return null;
+  }
+}
+
+async function getDailyCloseStatus(branchId) {
+  const businessDate = getBusinessDate();
+  const docId = `${businessDate}_${branchId}`;
+  try {
+    const doc = await window.db.collection('daily_closes').doc(docId).get();
+    return { docId, businessDate, exists: doc.exists, data: doc.data() || null };
+  } catch { return { docId, businessDate, exists: false, data: null }; }
+}
+
+// ===== Customer autocomplete =====
+async function searchCustomersForAutocomplete(branchId, term) {
+  if (!term || term.length < 2) return { online: [], branch: [] };
+  const t = term.toLowerCase();
+  try {
+    const [onlineSnap, branchSnap] = await Promise.all([
+      window.db.collection('customers').limit(50).get(),
+      window.db.collection('branch_customers').where('branchId', '==', branchId).limit(50).get()
+    ]);
+    const online = [], branchList = [];
+    onlineSnap.forEach(doc => {
+      const d = doc.data();
+      if ((d.name || '').toLowerCase().includes(t) || (d.phone || '').includes(term)) {
+        online.push({ id: doc.id, ...d, source: 'online' });
+      }
+    });
+    branchSnap.forEach(doc => {
+      const d = doc.data();
+      if ((d.name || '').toLowerCase().includes(t) || (d.phone || '').includes(term)) {
+        branchList.push({ id: doc.id, ...d, source: 'branch' });
+      }
+    });
+    return { online, branch: branchList };
+  } catch (e) {
+    console.warn('searchCustomers:', e);
+    return { online: [], branch: [] };
+  }
+}
+
+// ===== Exports v8.7 =====
+window.getBusinessDate = getBusinessDate;
+window.getBusinessDateLabel = getBusinessDateLabel;
+window.getBusinessDateRange = getBusinessDateRange;
+window.isAfterCutoff = isAfterCutoff;
+window.getNextSaleSequence = getNextSaleSequence;
+window.buildSaleTrackCode = buildSaleTrackCode;
+window.calcWalletFee = calcWalletFee;
+window.calcTotalWithWalletFee = calcTotalWithWalletFee;
+window.findSalesContainingProduct = findSalesContainingProduct;
+window.ensureDailyCloseOpen = ensureDailyCloseOpen;
+window.getDailyCloseStatus = getDailyCloseStatus;
+window.searchCustomersForAutocomplete = searchCustomersForAutocomplete;
+
+console.log('✅ main.js v8.7 exports set');
