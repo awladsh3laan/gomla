@@ -3239,3 +3239,38 @@ window.getDailyCloseStatus = getDailyCloseStatus;
 window.searchCustomersForAutocomplete = searchCustomersForAutocomplete;
 
 console.log('✅ main.js v8.7 exports set');
+/* ============================================================
+   🧭 Bottom Navigation — Cashier Pages
+   يبني شريط التنقل السفلي لصفحات الكاشير (6 تبويبات)
+   ============================================================ */
+function loadCashierBottomTabs() {
+  const p = document.getElementById('mobile-bottom-tabs');
+  if (!p) return;
+
+  // لو مش صفحة كاشير، اخرج
+  if (!window.location.pathname.includes('cashier/sales')) return;
+
+  const tabs = [
+    { tab: 'invoice',   text: 'الفاتورة',  icon: 'fa-cash-register' },
+    { tab: 'products',  text: 'المنتجات',  icon: 'fa-boxes' },
+    { tab: 'customers', text: 'العملاء',   icon: 'fa-users' },
+    { tab: 'returns',   text: 'مرتجع',     icon: 'fa-undo' },
+    { tab: 'damages',   text: 'التالف',    icon: 'fa-exclamation-triangle' },
+    { tab: 'ops',       text: 'اليوم',     icon: 'fa-chart-bar' }
+  ];
+
+  p.className = 'bottom-nav';
+  p.innerHTML = tabs.map((t, i) => `
+    <button class="nav-item ${i === 0 ? 'active' : ''}"
+            data-tab="${t.tab}"
+            onclick="switchPosTab('${t.tab}')">
+      <i class="fas ${t.icon}"></i>
+      <span>${t.text}</span>
+    </button>
+  `).join('');
+}
+
+/* استدعاء تلقائي بعد تحميل الصفحة */
+document.addEventListener('DOMContentLoaded', () => {
+  loadCashierBottomTabs();
+});
