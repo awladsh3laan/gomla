@@ -891,8 +891,8 @@
   <!-- ============================================================ -->
   <!-- Main Content                                                 -->
   <!-- ============================================================ -->
-  <main class="page-content">
-    <div class="container">
+<main class="page-content">
+  <div class="container" id="cashierSalesContainer">
 
       <!-- Header -->
       <div class="pos-header">
@@ -1550,47 +1550,95 @@
   });
 
   // ============================================================
-  // No Branch / Branch Picker
+  // No Branch / Branch Picker — v2 (fix: use specific container)
   // ============================================================
   function renderNoBranchError() {
-    const container = document.querySelector('.container');
-    if (!container) return;
+    const container = document.getElementById('cashierSalesContainer');
+    if (!container) {
+      console.warn('cashierSalesContainer not found');
+      return;
+    }
     container.innerHTML = `
-      <div style="padding:60px 20px;text-align:center;background:#fff;border-radius:16px;margin-top:40px;">
+      <div style="padding:80px 20px;text-align:center;background:#fff;border-radius:16px;margin:20px 0;border:2px dashed #dc2626;">
         <i class="fas fa-exclamation-triangle" style="font-size:3rem;color:#dc2626;margin-bottom:16px;display:block;"></i>
-        <h2 style="color:#1a2a4a;font-weight:900;">لم يتم تعيينك لفرع</h2>
-        <p style="color:#6b7280;margin:12px 0 20px;">تواصل مع المسؤول لتعيينك.</p>
-        <a href="/gomla/cashier/home.html" style="display:inline-block;padding:10px 20px;background:#c9a84c;color:#fff;border-radius:8px;font-weight:800;text-decoration:none;">العودة</a>
+        <h2 style="color:#1a2a4a;font-weight:900;font-size:1.4rem;margin-bottom:8px;">لم يتم تعيينك لفرع</h2>
+        <p style="color:#6b7280;margin-bottom:20px;font-size:0.9rem;">تواصل مع المسؤول لتعيينك لفرع قبل البدء.</p>
+        <a href="/gomla/cashier/home.html" style="display:inline-block;padding:12px 24px;background:linear-gradient(135deg,#c9a84c,#b8942a);color:#fff;border-radius:10px;font-weight:800;text-decoration:none;font-size:0.9rem;box-shadow:0 4px 12px rgba(201,168,76,0.35);">
+          <i class="fas fa-arrow-right"></i> العودة للوحة الكاشير
+        </a>
       </div>`;
   }
 
   async function renderBranchPicker() {
-    const snap = await db.collection('branches').where('active', '==', true).get();
-    const branches = [];
-    snap.forEach(doc => {
-      const d = { id: doc.id, ...doc.data() };
-      if (!d.isWarehouse) branches.push(d);
-    });
-    branches.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ar'));
+    const container = document.getElementById('cashierSalesContainer');
+    if (!container) {
+      console.warn('cashierSalesContainer not found');
+      return;
+    }
 
-    const cards = branches.map(b => `
-      <div onclick="window.location.href='/gomla/cashier/sales.html?branchId=${b.id}'"
-        style="background:#fff;border:2px solid #e5e7eb;border-radius:12px;padding:20px;cursor:pointer;text-align:center;transition:.2s;"
-        onmouseover="this.style.borderColor='#c9a84c';this.style.transform='translateY(-3px)'"
-        onmouseout="this.style.borderColor='#e5e7eb';this.style.transform='none'">
-        <div style="font-size:2rem;color:#c9a84c;margin-bottom:8px;"><i class="fas fa-store"></i></div>
-        <div style="font-size:1rem;font-weight:900;color:#1a2a4a;">${esc(b.name || b.id)}</div>
-        <div style="font-size:0.75rem;color:#6b7280;margin-top:4px;">${b.type === 'retail' ? 'قطاعي' : b.type === 'wholesale' ? 'جملة' : 'فرع'}</div>
-      </div>`).join('');
-
-    const container = document.querySelector('.container');
-    if (!container) return;
+    // Loading state
     container.innerHTML = `
-      <div style="padding:30px 20px;margin-top:20px;">
-        <h2 style="text-align:center;color:#1a2a4a;font-size:1.4rem;margin-bottom:8px;">اختر الفرع</h2>
-        <p style="text-align:center;color:#6b7280;margin-bottom:24px;">أنت داخل بوضع الكاشير</p>
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;max-width:900px;margin:0 auto;">${cards}</div>
+      <div style="padding:80px 20px;text-align:center;">
+        <i class="fas fa-spinner fa-spin" style="font-size:2.5rem;color:#c9a84c;margin-bottom:16px;display:block;"></i>
+        <p style="color:#6b7280;font-weight:700;">جاري تحميل الفروع...</p>
       </div>`;
+
+    try {
+      const snap = await db.collection('branches').where('active', '==', true).get();
+      const branches = [];
+      snap.forEach(doc => {
+        const d = { id: doc.id, ...doc.data() };
+        if (!d.isWarehouse) branches.push(d);
+      });
+      branches.sort((a, b) => (a.name || '').localeCompare(b.name || '', 'ar'));
+
+      if (!branches.length) {
+        container.innerHTML = `
+          <div style="padding:80px 20px;text-align:center;background:#fff;border-radius:16px;margin:20px 0;border:2px dashed #d97706;">
+            <i class="fas fa-store-slash" style="font-size:3rem;color:#d97706;margin-bottom:16px;display:block;"></i>
+            <h2 style="color:#1a2a4a;font-weight:900;font-size:1.3rem;margin-bottom:8px;">لا توجد فروع نشطة</h2>
+            <p style="color:#6b7280;font-size:0.9rem;">لم يتم العثور على أي فرع نشط في النظام.</p>
+          </div>`;
+        return;
+      }
+
+      const cards = branches.map(b => `
+        <div onclick="window.location.href='/gomla/cashier/sales.html?branchId=${b.id}'"
+          style="background:#fff;border:2px solid #e5e7eb;border-radius:16px;padding:24px 18px;cursor:pointer;text-align:center;transition:all .25s ease;box-shadow:0 2px 8px rgba(0,0,0,0.04);"
+          onmouseover="this.style.borderColor='#c9a84c';this.style.transform='translateY(-4px)';this.style.boxShadow='0 8px 24px rgba(201,168,76,0.25)'"
+          onmouseout="this.style.borderColor='#e5e7eb';this.style.transform='none';this.style.boxShadow='0 2px 8px rgba(0,0,0,0.04)'">
+          <div style="width:56px;height:56px;margin:0 auto 12px;background:linear-gradient(135deg,#1a2a4a,#2d3f63);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(26,42,74,0.3);">
+            <i class="fas fa-store" style="font-size:1.4rem;color:#c9a84c;"></i>
+          </div>
+          <div style="font-size:1.05rem;font-weight:900;color:#1a2a4a;margin-bottom:4px;">${esc(b.name || b.id)}</div>
+          <div style="font-size:0.78rem;color:#6b7280;font-weight:700;">${b.type === 'retail' ? 'قطاعي' : b.type === 'wholesale' ? 'جملة' : 'فرع'}</div>
+        </div>`).join('');
+
+      container.innerHTML = `
+        <div style="padding:32px 16px;margin:16px 0;">
+          <div style="text-align:center;margin-bottom:28px;">
+            <div style="width:64px;height:64px;margin:0 auto 12px;background:linear-gradient(135deg,#c9a84c,#b8942a);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(201,168,76,0.4);">
+              <i class="fas fa-cash-register" style="font-size:1.6rem;color:#fff;"></i>
+            </div>
+            <h2 style="color:#1a2a4a;font-size:1.5rem;font-weight:900;margin-bottom:6px;">اختر الفرع</h2>
+            <p style="color:#6b7280;font-size:0.9rem;font-weight:700;">أنت داخل بوضع الكاشير — اختر الفرع للبدء</p>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;max-width:800px;margin:0 auto;">
+            ${cards}
+          </div>
+        </div>`;
+    } catch (e) {
+      console.error('renderBranchPicker:', e);
+      container.innerHTML = `
+        <div style="padding:80px 20px;text-align:center;background:#fff;border-radius:16px;margin:20px 0;border:2px dashed #dc2626;">
+          <i class="fas fa-times-circle" style="font-size:3rem;color:#dc2626;margin-bottom:16px;display:block;"></i>
+          <h2 style="color:#1a2a4a;font-weight:900;font-size:1.3rem;margin-bottom:8px;">تعذر تحميل الفروع</h2>
+          <p style="color:#6b7280;font-size:0.9rem;">${esc(e.message || '')}</p>
+          <button onclick="location.reload()" style="margin-top:16px;padding:10px 20px;background:#c9a84c;color:#fff;border:none;border-radius:8px;font-weight:800;cursor:pointer;font-family:inherit;">
+            <i class="fas fa-sync-alt"></i> إعادة المحاولة
+          </button>
+        </div>`;
+    }
   }
 
   // ============================================================
