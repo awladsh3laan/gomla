@@ -2936,6 +2936,19 @@
   // Draft Save/Restore
   // ============================================================
   let _draftTimer = null;
+
+  function setupDraft() {
+    if (posState._draftSetup) return;
+    posState._draftSetup = true;
+
+    // Attach input listeners for auto-save
+    const inputIds = ['custNameInput', 'custPhoneInput', 'custAddressInput'];
+    inputIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('input', () => scheduleDraftSave());
+    });
+  }    
+      
   function scheduleDraftSave() {
     clearTimeout(_draftTimer);
     _draftTimer = setTimeout(saveDraft, 1500);
