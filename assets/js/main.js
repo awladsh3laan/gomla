@@ -2111,37 +2111,6 @@ function loadMobileBottomTabs() {
 
   const path = window.location.pathname;
 
-  // 🆕 Cashier POS Bottom Tabs — (الرئيسية · الحاسبة · الفواتير · عرض سعر · القائمة)
-  if (path.includes('cashier/sales.html')) {
-    const currentTab = (window.posState && window.posState.currentTab) || 'invoice';
-    const isInvoiceActive = currentTab === 'invoice';
-
-    p.innerHTML = `
-      <a href="/gomla/cashier/home.html" class="mobile-bottom-tab pos-bottom-tab-link">
-        <i class="fas fa-home"></i>
-        <span>الرئيسية</span>
-      </a>
-      <button class="mobile-bottom-tab pos-bottom-tab-btn" onclick="openCalc()">
-        <i class="fas fa-calculator"></i>
-        <span>الحاسبة</span>
-      </button>
-      <button class="mobile-bottom-tab pos-bottom-tab-btn${isInvoiceActive ? ' active' : ''}" onclick="switchPosTab('invoice')">
-        <i class="fas fa-file-invoice"></i>
-        <span>الفواتير</span>
-      </button>
-      <button class="mobile-bottom-tab pos-bottom-tab-btn" onclick="openPriceCheck()">
-        <i class="fas fa-barcode"></i>
-        <span>عرض سعر</span>
-      </button>
-      <button class="mobile-bottom-tab pos-bottom-tab-btn" onclick="openSidebar()">
-        <i class="fas fa-bars"></i>
-        <span>القائمة</span>
-      </button>
-    `;
-    return;
-  }
-
-  // ============ باقي المنطق القديم ============
   let tabs = [];
 
   if (path.includes('delivery/')) {
@@ -2177,6 +2146,25 @@ function loadMobileBottomTabs() {
       { text: 'القائمة', url: '#', icon: 'fa-bars', onclick: 'openSidebar()' }
     ];
   }
+   else if (path.includes('cashier/sales.html')) {
+    tabs = [
+      { text: 'الرئيسية', url: '/gomla/', icon: 'fa-home' },
+      { text: 'الحاسبة', url: '#', icon: 'fa-calculator', onclick: 'openCalc()' },
+      { text: 'مبيعات', url: '#', icon: 'fa-file-invoice', onclick: 'switchPosTab('invoice')' },
+      { text: 'عرض سعر', url: '#', icon: 'fa-barcode', onclick: 'openPriceCheck()' },
+      { text: 'القائمة', url: '#', icon: 'fa-bars', onclick: 'openSidebar()' }
+      
+    ];
+  } else {
+    tabs = [
+      { text: 'الرئيسية', url: '/gomla/', icon: 'fa-home' },
+      { text: 'المتجر', url: '/gomla/store-retail.html', icon: 'fa-store' },
+      { text: 'السلة', url: '/gomla/cart.html', icon: 'fa-shopping-cart' },
+      { text: 'المفضلة', url: '/gomla/wishlist.html', icon: 'fa-heart' },
+      { text: 'القائمة', url: '#', icon: 'fa-bars', onclick: 'openSidebar()' }
+    ];
+  }
+
 
   p.innerHTML = tabs.map(t => {
     if (t.onclick) {
@@ -3330,36 +3318,6 @@ window.searchCustomersForAutocomplete = searchCustomersForAutocomplete;
 
 console.log('✅ main.js v8.7 exports set');
 
-/* ============================================================
-   🧭 Bottom Navigation — Cashier Pages
-   يبني شريط التنقل السفلي لصفحات الكاشير (6 تبويبات)
-   ============================================================ */
-function loadCashierBottomTabs() {
-  const p = document.getElementById('mobile-bottom-tabs');
-  if (!p) return;
-
-  // لو مش صفحة كاشير، اخرج
-  if (!window.location.pathname.includes('cashier/sales')) return;
-
-  const tabs = [
-    { tab: 'invoice',   text: 'الفاتورة',  icon: 'fa-cash-register' },
-    { tab: 'products',  text: 'المنتجات',  icon: 'fa-boxes' },
-    { tab: 'customers', text: 'العملاء',   icon: 'fa-users' },
-    { tab: 'returns',   text: 'مرتجع',     icon: 'fa-undo' },
-    { tab: 'damages',   text: 'التالف',    icon: 'fa-exclamation-triangle' },
-    { tab: 'ops',       text: 'اليوم',     icon: 'fa-chart-bar' }
-  ];
-
-  p.className = 'bottom-nav';
-  p.innerHTML = tabs.map((t, i) => `
-    <button class="nav-item ${i === 0 ? 'active' : ''}"
-            data-tab="${t.tab}"
-            onclick="switchPosTab('${t.tab}')">
-      <i class="fas ${t.icon}"></i>
-      <span>${t.text}</span>
-    </button>
-  `).join('');
-}
 // ============================================================
 // 🆕 v8.9 — Cashier POS Tabs Styles (injected once)
 // ============================================================
