@@ -3360,6 +3360,48 @@ function loadCashierBottomTabs() {
     </button>
   `).join('');
 }
+// ============================================================
+// 🆕 v8.9 — Cashier POS Tabs Styles (injected once)
+// ============================================================
+(function injectPosTabStyles() {
+  if (document.getElementById('posTabStyles')) return;
+  const style = document.createElement('style');
+  style.id = 'posTabStyles';
+  style.textContent = `
+    /* Cashier POS — Top Tabs */
+    .pos-top-tab-btn {
+      border: none !important;
+      background: transparent !important;
+      font-family: inherit !important;
+      cursor: pointer !important;
+      -webkit-appearance: none !important;
+      appearance: none !important;
+    }
+    .pos-top-tab-btn.active {
+      background: linear-gradient(135deg, #1a2a4a, #2d3f63) !important;
+      color: #fff !important;
+      box-shadow: 0 4px 12px rgba(26,42,74,0.3) !important;
+    }
+    .pos-top-tab-btn.active i { color: #c9a84c !important; }
+
+    /* Cashier POS — Bottom Tabs */
+    .pos-bottom-tab-btn,
+    .pos-bottom-tab-link {
+      border: none !important;
+      background: transparent !important;
+      font-family: inherit !important;
+      cursor: pointer !important;
+      -webkit-appearance: none !important;
+      appearance: none !important;
+      text-decoration: none !important;
+    }
+    .pos-bottom-tab-btn.active {
+      color: #1a2a4a !important;
+    }
+    .pos-bottom-tab-btn.active i { color: #b8942a !important; }
+  `;
+  document.head.appendChild(style);
+})();
 
 /* استدعاء تلقائي بعد تحميل الصفحة */
 document.addEventListener('DOMContentLoaded', () => {
