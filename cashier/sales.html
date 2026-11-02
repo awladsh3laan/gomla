@@ -877,6 +877,77 @@
     .modal-body { padding: 18px 20px; overflow-y: auto; flex: 1; -webkit-overflow-scrolling: touch; }
     .modal-actions { padding: 14px 20px; border-top: 2px solid #f3f4f6; display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; position: sticky; bottom: 0; background: var(--surface); flex-shrink: 0; border-radius: 0 0 var(--radius-lg) var(--radius-lg); }
 
+    /* ═══════════════════════════════════════════════════════════
+   🔍 Price Check Autocomplete Suggestions
+   ═══════════════════════════════════════════════════════════ */
+.price-check-suggestions {
+  background: #fff;
+  border: 2px solid var(--gold);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  max-height: 320px;
+  overflow-y: auto;
+  margin-bottom: 12px;
+  -webkit-overflow-scrolling: touch;
+}
+.price-check-suggestion {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-bottom: 1px solid #f3f4f6;
+  cursor: pointer;
+  transition: background 0.15s;
+  min-height: 62px;
+}
+.price-check-suggestion:last-child { border-bottom: none; }
+.price-check-suggestion:hover,
+.price-check-suggestion.active { background: #fcf9f0; }
+.price-check-suggestion.active {
+  box-shadow: inset 3px 0 0 var(--gold);
+}
+.price-check-suggestion img {
+  width: 42px;
+  height: 42px;
+  border-radius: 6px;
+  object-fit: contain;
+  background: #f9fafb;
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.price-check-suggestion-info { flex: 1; min-width: 0; }
+.price-check-suggestion-name {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 2px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.price-check-suggestion-meta {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+.price-check-suggestion-price {
+  font-size: 0.9rem;
+  font-weight: 900;
+  color: var(--gold-dark);
+  flex-shrink: 0;
+}
+.price-check-no-results {
+  padding: 18px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+.price-check-no-results i {
+  display: block;
+  font-size: 1.5rem;
+  margin-bottom: 6px;
+  color: var(--text-light);
+}
   </style>
 </head>
 <body>
@@ -1346,28 +1417,33 @@
         <h2><i class="fas fa-tag"></i> عرض سعر المنتج</h2>
         <button class="modal-close" onclick="closePriceCheck()"><i class="fas fa-times"></i></button>
       </div>
-      <div class="modal-body">
-        <div style="display:flex;gap:8px;margin-bottom:12px;">
-          <div style="position:relative;flex:1;">
-            <input type="text" id="priceCheckBarcode"
-                   placeholder="امسح الباركود أو اكتب اسم المنتج..."
-                   autocomplete="off"
-                   style="width:100%;padding:14px 44px 14px 12px;border:3px solid #c9a84c;border-radius:8px;font-size:16px;font-weight:800;background:#fcf9f0;outline:none;min-height:52px;">
-            <i class="fas fa-barcode" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);color:#b8942a;font-size:1.1rem;"></i>
-          </div>
-          <button onclick="openCamera('price')" title="مسح بالكاميرا"
-                  style="min-width:52px;min-height:52px;padding:0;border:2px solid #c9a84c;background:#fff;border-radius:8px;color:#b8942a;cursor:pointer;font-size:1.1rem;">
-            <i class="fas fa-camera"></i>
-          </button>
-          <button onclick="handlePriceCheckEnter(document.getElementById('priceCheckBarcode')?.value.trim())" title="بحث"
-                  style="min-width:52px;min-height:52px;padding:0;border:none;background:#c9a84c;color:#1a2a4a;border-radius:8px;font-weight:900;cursor:pointer;font-family:inherit;font-size:1rem;">
-            <i class="fas fa-search"></i>
-          </button>
-        </div>
-        <div id="priceCheckResult"></div>
-      </div>
+<div class="modal-body">
+  <div style="display:flex;gap:8px;margin-bottom:8px;">
+    <div style="position:relative;flex:1;">
+      <input type="text" id="priceCheckBarcode"
+             placeholder="اكتب اسم المنتج (حرفين+) أو الباركود..."
+             autocomplete="off"
+             oninput="onPriceCheckInput()"
+             onkeydown="onPriceCheckKeydown(event)"
+             style="width:100%;padding:14px 44px 14px 12px;border:3px solid #c9a84c;border-radius:8px;font-size:16px;font-weight:800;background:#fcf9f0;outline:none;min-height:52px;">
+      <i class="fas fa-barcode" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);color:#b8942a;font-size:1.1rem;"></i>
     </div>
+    <button onclick="openCamera('price')" title="مسح بالكاميرا"
+            style="min-width:52px;min-height:52px;padding:0;border:2px solid #c9a84c;background:#fff;border-radius:8px;color:#b8942a;cursor:pointer;font-size:1.1rem;">
+      <i class="fas fa-camera"></i>
+    </button>
+    <button onclick="handlePriceCheckEnter(document.getElementById('priceCheckBarcode')?.value.trim())" title="بحث"
+            style="min-width:52px;min-height:52px;padding:0;border:none;background:#c9a84c;color:#1a2a4a;border-radius:8px;font-weight:900;cursor:pointer;font-family:inherit;font-size:1rem;">
+      <i class="fas fa-search"></i>
+    </button>
   </div>
+
+  <!-- 🆕 اقتراحات فورية -->
+  <div id="priceCheckSuggestions" class="price-check-suggestions" style="display:none;"></div>
+
+  <!-- نتيجة البحث -->
+  <div id="priceCheckResult"></div>
+</div>
 
   <!-- Placeholders -->
   <div id="mobile-bottom-tabs"></div>
@@ -1470,10 +1546,7 @@
       if (e.key === 'Enter') { e.preventDefault(); handleBarcodeEnter(bc.value.trim()); bc.value = ''; }
     });
 
-    const pcBc = document.getElementById('priceCheckBarcode');
-    if (pcBc) pcBc.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') { e.preventDefault(); handlePriceCheckEnter(pcBc.value.trim()); pcBc.value = ''; }
-    });
+
 
     document.addEventListener('keydown', (e) => {
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
@@ -2267,7 +2340,155 @@
       document.body.style.overflow = '';
     }
   }
+  // ============================================================
+  // 🆕 Price Check Autocomplete (v2)
+  // ============================================================
+  let _priceCheckTimer = null;
+  let _priceCheckActiveIndex = -1;
+  let _priceCheckCurrentMatches = [];
 
+  function onPriceCheckInput() {
+    clearTimeout(_priceCheckTimer);
+    _priceCheckTimer = setTimeout(() => {
+      const input = document.getElementById('priceCheckBarcode');
+      const sugg = document.getElementById('priceCheckSuggestions');
+      if (!input || !sugg) return;
+
+      const q = input.value.trim().toLowerCase();
+      if (q.length < 2) {
+        hidePriceCheckSuggestions();
+        return;
+      }
+
+      // 🔍 بحث فوري في المنتجات المحملة مسبقاً
+      const matches = posState.products.filter(p => {
+        const name = (p.name || '').toLowerCase();
+        const shortName = (p.shortName || '').toLowerCase();
+        const barcode = (p.barcode || '').toLowerCase();
+        return name.includes(q) || shortName.includes(q) || barcode.includes(q);
+      }).slice(0, 12);
+
+      _priceCheckCurrentMatches = matches;
+      _priceCheckActiveIndex = -1;
+
+      if (!matches.length) {
+        sugg.innerHTML = `<div class="price-check-no-results">
+          <i class="fas fa-search-minus"></i>
+          لا توجد نتائج لـ "${esc(input.value.trim())}"
+        </div>`;
+        sugg.style.display = 'block';
+        return;
+      }
+
+      sugg.innerHTML = matches.map((p, i) => {
+        const stock = getAvailableStock(p.id);
+        const price = getProductPrice(p);
+        const stockLabel = stock > 0 ? `${stock} متوفر` : 'غير متوفر';
+        const stockColor = stock > 0 ? '#16a34a' : '#dc2626';
+        return `
+          <div class="price-check-suggestion" data-pid="${p.id}" data-index="${i}" onclick="selectPriceCheckProduct('${p.id}')">
+            <img src="${p.imageUrl || '/gomla/assets/images/placeholder.png'}" alt="" onerror="this.src='/gomla/assets/images/placeholder.png'">
+            <div class="price-check-suggestion-info">
+              <div class="price-check-suggestion-name">${esc(p.name || p.shortName || '')}</div>
+              <div class="price-check-suggestion-meta">${esc(p.barcode || '—')} · <span style="color:${stockColor};font-weight:800;">${stockLabel}</span></div>
+            </div>
+            <div class="price-check-suggestion-price">${price.toFixed(2)} ج</div>
+          </div>`;
+      }).join('');
+      sugg.style.display = 'block';
+    }, 200);
+  }
+
+  function onPriceCheckKeydown(e) {
+    const sugg = document.getElementById('priceCheckSuggestions');
+    const visible = sugg && sugg.style.display !== 'none';
+
+    if (e.key === 'Escape') {
+      if (visible) {
+        e.preventDefault();
+        hidePriceCheckSuggestions();
+      }
+      return;
+    }
+
+    if (!visible || !_priceCheckCurrentMatches.length) return;
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      _priceCheckActiveIndex = Math.min(_priceCheckActiveIndex + 1, _priceCheckCurrentMatches.length - 1);
+      _highlightPriceCheckSuggestion();
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      _priceCheckActiveIndex = Math.max(_priceCheckActiveIndex - 1, -1);
+      _highlightPriceCheckSuggestion();
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      e.stopPropagation();
+      const idx = _priceCheckActiveIndex >= 0 ? _priceCheckActiveIndex : 0;
+      if (_priceCheckCurrentMatches[idx]) {
+        selectPriceCheckProduct(_priceCheckCurrentMatches[idx].id);
+      }
+    }
+  }
+
+  function _highlightPriceCheckSuggestion() {
+    const items = document.querySelectorAll('.price-check-suggestion');
+    items.forEach((el, i) => {
+      el.classList.toggle('active', i === _priceCheckActiveIndex);
+      if (i === _priceCheckActiveIndex) {
+        el.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      }
+    });
+  }
+
+  function selectPriceCheckProduct(productId) {
+    const p = posState.products.find(x => x.id === productId);
+    if (!p) return;
+
+    const input = document.getElementById('priceCheckBarcode');
+    if (input) input.value = p.barcode || p.name || '';
+
+    hidePriceCheckSuggestions();
+    renderPriceCheckResult(p);
+  }
+
+  function renderPriceCheckResult(p) {
+    const resultEl = document.getElementById('priceCheckResult');
+    if (!resultEl) return;
+
+    const stock = getAvailableStock(p.id);
+    const retail = (p.retailPrice || 0).toFixed(2);
+    const wholesale = (p.wholesalePrice || 0).toFixed(2);
+
+    resultEl.innerHTML = `
+      <div class="price-check-result">
+        <img class="price-check-img" src="${p.imageUrl || '/gomla/assets/images/placeholder.png'}" alt="" onerror="this.src='/gomla/assets/images/placeholder.png'">
+        <div class="price-check-name">${esc(p.name || '')}</div>
+        <div class="price-check-cat">${esc(p.categoryName || p.category || '—')} · ${esc(p.barcode || '')}</div>
+
+        <div class="price-check-price-box">
+          <div class="price-check-price-lbl">سعر قطاعي</div>
+          <div class="price-check-price-val">${retail} ج</div>
+        </div>
+
+        ${wholesale > 0 ? `
+        <div class="price-check-price-box" style="margin-top:8px;background:#f0f9ff;border-color:#93c5fd;">
+          <div class="price-check-price-lbl" style="color:#1e40af;">سعر جملة</div>
+          <div class="price-check-price-val" style="color:#1e40af;">${wholesale} ج</div>
+        </div>` : ''}
+
+        <div class="price-check-stock ${stock > 0 ? 'available' : 'out'}">
+          ${stock > 0 ? `✅ متوفر: ${stock} قطعة` : '❌ غير متوفر'}
+        </div>
+      </div>`;
+  }
+
+  function hidePriceCheckSuggestions() {
+    const sugg = document.getElementById('priceCheckSuggestions');
+    if (sugg) { sugg.style.display = 'none'; sugg.innerHTML = ''; }
+    _priceCheckCurrentMatches = [];
+    _priceCheckActiveIndex = -1;
+  }
   // ============================================================
   // Price Check
   // ============================================================
@@ -2278,6 +2499,7 @@
     if (resultEl) resultEl.innerHTML = '';
     const input = document.getElementById('priceCheckBarcode');
     if (input) input.value = '';
+    hidePriceCheckSuggestions();   // ✅ جديد
     modal.classList.add('show');
     document.body.style.overflow = 'hidden';
     setTimeout(() => input?.focus(), 200);
@@ -2285,6 +2507,7 @@
 
   function closePriceCheck() {
     closeCamera().catch(() => {});
+    hidePriceCheckSuggestions();   // ✅ جديد
     document.getElementById('priceCheckModal')?.classList.remove('show');
     if (!document.querySelector('.modal-overlay.show')) {
       document.body.style.overflow = '';
@@ -2298,21 +2521,29 @@
 
     let p = posState.products.find(x => (x.barcode || '').trim().toLowerCase() === q);
     if (!p) {
-      p = posState.products.find(x => (x.name || '').toLowerCase().includes(q));
+      p = posState.products.find(x =>
+        (x.name || '').toLowerCase().includes(q) ||
+        (x.shortName || '').toLowerCase().includes(q)
+      );
     }
 
-    const resultEl = document.getElementById('priceCheckResult');
-    if (!resultEl) return;
+    hidePriceCheckSuggestions();
 
     if (!p) {
-      resultEl.innerHTML = `
-        <div style="text-align:center;padding:24px;color:#dc2626;">
-          <i class="fas fa-times-circle" style="font-size:2rem;margin-bottom:8px;display:block;"></i>
-          <p style="font-weight:800;">المنتج غير موجود</p>
-          <p style="font-size:.8rem;color:#6b7280;">${esc(query)}</p>
-        </div>`;
+      const resultEl = document.getElementById('priceCheckResult');
+      if (resultEl) {
+        resultEl.innerHTML = `
+          <div style="text-align:center;padding:24px;color:#dc2626;">
+            <i class="fas fa-times-circle" style="font-size:2rem;margin-bottom:8px;display:block;"></i>
+            <p style="font-weight:800;">المنتج غير موجود</p>
+            <p style="font-size:.8rem;color:#6b7280;">${esc(query)}</p>
+          </div>`;
+      }
       return;
     }
+
+    renderPriceCheckResult(p);
+  }
 
     const stock = getAvailableStock(p.id);
     const retail = (p.retailPrice || 0).toFixed(2);
@@ -3142,6 +3373,10 @@
   window.clearDraft = clearDraft;
   window.closeModal = closeModal;
   window.closeAllModals = closeAllModals;
+  window.onPriceCheckInput = onPriceCheckInput;
+  window.onPriceCheckKeydown = onPriceCheckKeydown;
+  window.selectPriceCheckProduct = selectPriceCheckProduct;
+  window.hidePriceCheckSuggestions = hidePriceCheckSuggestions;
 
   console.log('✅ cashier/sales.html v5.0 — Script loaded successfully');
   </script>
