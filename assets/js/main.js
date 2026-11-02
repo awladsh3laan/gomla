@@ -2110,7 +2110,6 @@ function loadMobileBottomTabs() {
   if (!p) return;
 
   const path = window.location.pathname;
-
   let tabs = [];
 
   if (path.includes('delivery/')) {
@@ -2119,6 +2118,15 @@ function loadMobileBottomTabs() {
       { text: 'أوردراتي', url: '/gomla/delivery/orders.html', icon: 'fa-box' },
       { text: 'منطقتي', url: '/gomla/delivery/available.html', icon: 'fa-map-marked-alt' },
       { text: 'تحصيلاتي', url: '/gomla/delivery/collections.html', icon: 'fa-money-bill-wave' },
+      { text: 'القائمة', url: '#', icon: 'fa-bars', onclick: 'openSidebar()' }
+    ];
+  } else if (path.includes('cashier/sales.html')) {
+    // ✅ Cashier POS Bottom Tabs — يجب أن تكون قبل else الأخير
+    tabs = [
+      { text: 'الرئيسية', url: '/gomla/', icon: 'fa-home' },
+      { text: 'الحاسبة', url: '#', icon: 'fa-calculator', onclick: 'openCalc()' },
+      { text: 'مبيعات', url: '#', icon: 'fa-file-invoice', onclick: "switchPosTab('invoice')" },
+      { text: 'عرض سعر', url: '#', icon: 'fa-barcode', onclick: 'openPriceCheck()' },
       { text: 'القائمة', url: '#', icon: 'fa-bars', onclick: 'openSidebar()' }
     ];
   } else if (path === '/' || path.includes('index.html') || path.includes('store-')) {
@@ -2146,34 +2154,15 @@ function loadMobileBottomTabs() {
       { text: 'القائمة', url: '#', icon: 'fa-bars', onclick: 'openSidebar()' }
     ];
   }
-   else if (path.includes('cashier/sales.html')) {
-    tabs = [
-      { text: 'الرئيسية', url: '/gomla/', icon: 'fa-home' },
-      { text: 'الحاسبة', url: '#', icon: 'fa-calculator', onclick: 'openCalc()' },
-      { text: 'مبيعات', url: '#', icon: 'fa-file-invoice', onclick: 'switchPosTab('invoice')' },
-      { text: 'عرض سعر', url: '#', icon: 'fa-barcode', onclick: 'openPriceCheck()' },
-      { text: 'القائمة', url: '#', icon: 'fa-bars', onclick: 'openSidebar()' }
-      
-    ];
-  } else {
-    tabs = [
-      { text: 'الرئيسية', url: '/gomla/', icon: 'fa-home' },
-      { text: 'المتجر', url: '/gomla/store-retail.html', icon: 'fa-store' },
-      { text: 'السلة', url: '/gomla/cart.html', icon: 'fa-shopping-cart' },
-      { text: 'المفضلة', url: '/gomla/wishlist.html', icon: 'fa-heart' },
-      { text: 'القائمة', url: '#', icon: 'fa-bars', onclick: 'openSidebar()' }
-    ];
-  }
-
 
   p.innerHTML = tabs.map(t => {
     if (t.onclick) {
-      return `<button class="mobile-bottom-tab" onclick="${t.onclick}">
+      return `<button class="mobile-bottom-tab pos-bottom-tab-btn" onclick="${t.onclick}">
         <i class="fas ${t.icon}"></i>
         <span>${t.text}</span>
       </button>`;
     }
-    return `<a href="${t.url}" class="mobile-bottom-tab">
+    return `<a href="${t.url}" class="mobile-bottom-tab pos-bottom-tab-link">
       <i class="fas ${t.icon}"></i>
       <span>${t.text}</span>
     </a>`;
@@ -3273,50 +3262,6 @@ window.ensureDailyCloseOpen = ensureDailyCloseOpen;
 window.getDailyCloseStatus = getDailyCloseStatus;
 window.searchCustomersForAutocomplete = searchCustomersForAutocomplete;
 
-// ============================================================
-// 🆕 v8.9 — Cashier POS Tabs Styles (injected once)
-// ============================================================
-(function injectPosTabStyles() {
-  if (document.getElementById('posTabStyles')) return;
-  const style = document.createElement('style');
-  style.id = 'posTabStyles';
-  style.textContent = `
-    /* Cashier POS — Top Tabs */
-    .pos-top-tab-btn {
-      border: none !important;
-      background: transparent !important;
-      font-family: inherit !important;
-      cursor: pointer !important;
-      -webkit-appearance: none !important;
-      appearance: none !important;
-    }
-    .pos-top-tab-btn.active {
-      background: linear-gradient(135deg, #1a2a4a, #2d3f63) !important;
-      color: #fff !important;
-      box-shadow: 0 4px 12px rgba(26,42,74,0.3) !important;
-    }
-    .pos-top-tab-btn.active i { color: #c9a84c !important; }
-
-    /* Cashier POS — Bottom Tabs */
-    .pos-bottom-tab-btn,
-    .pos-bottom-tab-link {
-      border: none !important;
-      background: transparent !important;
-      font-family: inherit !important;
-      cursor: pointer !important;
-      -webkit-appearance: none !important;
-      appearance: none !important;
-      text-decoration: none !important;
-    }
-    .pos-bottom-tab-btn.active {
-      color: #1a2a4a !important;
-    }
-    .pos-bottom-tab-btn.active i { color: #b8942a !important; }
-  `;
-  document.head.appendChild(style);
-})();
-
-console.log('✅ main.js v8.7 exports set');
 
 // ============================================================
 // 🆕 v8.9 — Cashier POS Tabs Styles (injected once)
@@ -3361,7 +3306,3 @@ console.log('✅ main.js v8.7 exports set');
   document.head.appendChild(style);
 })();
 
-/* استدعاء تلقائي بعد تحميل الصفحة */
-document.addEventListener('DOMContentLoaded', () => {
-  loadCashierBottomTabs();
-});
