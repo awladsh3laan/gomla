@@ -2545,33 +2545,6 @@
     renderPriceCheckResult(p);
   }
 
-    const stock = getAvailableStock(p.id);
-    const retail = (p.retailPrice || 0).toFixed(2);
-    const wholesale = (p.wholesalePrice || 0).toFixed(2);
-
-    resultEl.innerHTML = `
-      <div class="price-check-result">
-        <img class="price-check-img" src="${p.imageUrl || '/gomla/assets/images/placeholder.png'}" alt="" onerror="this.src='/gomla/assets/images/placeholder.png'">
-        <div class="price-check-name">${esc(p.name || '')}</div>
-        <div class="price-check-cat">${esc(p.categoryName || p.category || '—')} · ${esc(p.barcode || '')}</div>
-
-        <div class="price-check-price-box">
-          <div class="price-check-price-lbl">سعر قطاعي</div>
-          <div class="price-check-price-val">${retail} ج</div>
-        </div>
-
-        ${wholesale > 0 ? `
-        <div class="price-check-price-box" style="margin-top:8px;background:#f0f9ff;border-color:#93c5fd;">
-          <div class="price-check-price-lbl" style="color:#1e40af;">سعر جملة</div>
-          <div class="price-check-price-val" style="color:#1e40af;">${wholesale} ج</div>
-        </div>` : ''}
-
-        <div class="price-check-stock ${stock > 0 ? 'available' : 'out'}">
-          ${stock > 0 ? `✅ متوفر: ${stock} قطعة` : '❌ غير متوفر'}
-        </div>
-      </div>`;
-  }
-
   // ============================================================
   // Calculator Functions
   // ============================================================
