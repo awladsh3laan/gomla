@@ -2983,12 +2983,32 @@
     calcUpdateDisplay();
   }
 
-  function calcPercent() {
+   function calcPercent() {
     const cur = parseFloat(_calcState.current) || 0;
-    _calcState.current = String(cur / 100);
+    const prev = _calcState.prevValue;
+    const op = _calcState.pendingOp;
+
+    let newValue;
+    let exprDisplay;
+
+    if (prev !== null && (op === '+' || op === '-')) {
+      // ✅ مع + و − : النسبة من الرقم الأول
+      // مثال: 1000 + 1% → 1000 × (1/100) = 10 → النتيجة النهائية 1010
+      newValue = prev * cur / 100;
+      exprDisplay = `${prev} ${op === '+' ? '+' : '−'} ${cur}%`;
+    } else {
+      // ✅ مع × و ÷ أو بدون سياق : القسمة على 100
+      // مثال: 50% = 0.5  |  1000 × 1% → 1/100 = 0.01
+      newValue = cur / 100;
+      exprDisplay = `${cur}%`;
+    }
+
+    _calcState.current = String(parseFloat(newValue.toFixed(8)));
+    _calcState.expression = exprDisplay;
+    _calcState.justEvaluated = false;
     calcUpdateDisplay();
   }
-
+      
   function calcUseResult() {
     const val = parseFloat(_calcState.current) || 0;
     const paidInput = document.getElementById('paidAmount');
